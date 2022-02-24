@@ -1,0 +1,50 @@
+Scene: Untitled
+Camera:
+  Position: [53.835453, 32.3772659, 102.711029]
+  Yaw: 239.46347
+  Pitch: -20.2850266
+  Movement Speed: 55
+Entities:
+  - Entity: Root
+    ID: 0
+    Transform:
+      Position: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+  - Entity: Ground
+    ID: 941475294
+    Parent: 0
+    Transform:
+      Position: [0, 0, 14.6971836]
+      Rotation: [0, 0, 0]
+      Scale: [63.1425209, 1, 59.5664062]
+    Model:
+      Mesh: ../../../Assets/Models/defaults/default_cube.obj
+      Materials:
+        - Material: 0
+          Path: ../../../Assets/Materials/Default.mat
+  - Entity: Directional Light
+    ID: 643321389
+    Parent: 0
+    Transform:
+      Position: [0, 100, 0]
+      Rotation: [0, -1, 0]
+      Scale: [1, 1, 1]
+    Directional Light:
+      Color: [50, 50, 50]
+  - Entity: Cube Instanced
+    ID: 850874805
+    Parent: 0
+    Transform:
+      Position: [0, -2.46850777, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Instance Rendered Mesh:
+      Mesh: ../../../Assets/Models/defaults/default_cube.obj
+      Materials:
+        - Material: 0
+          Path: ../../../Assets/Materials/DefaultInstanced.mat
+      Radius: 200
+      Instances Count: 2500
+      Min Mesh Scale: 0.200000003
+      Max Mesh Scale: 0.300000012

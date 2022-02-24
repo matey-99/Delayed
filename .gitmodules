@@ -1,0 +1,18 @@
+[submodule "Engine/thirdparty/glfw"]
+	path = Engine/thirdparty/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "Engine/thirdparty/assimp"]
+	path = Engine/thirdparty/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "Engine/thirdparty/glm"]
+	path = Engine/thirdparty/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "Engine/thirdparty/yaml-cpp"]
+	path = Engine/thirdparty/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "Engine/thirdparty/imgui"]
+	path = Engine/thirdparty/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "Engine/thirdparty/ImGuizmo"]
+	path = Engine/thirdparty/ImGuizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo.git
