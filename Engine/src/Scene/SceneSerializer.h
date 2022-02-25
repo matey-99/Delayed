@@ -7,7 +7,7 @@
 class SceneSerializer
 {
 public:
-	static void Serialize(Ref<Scene> scene);
+	static void Serialize(Ref<Scene> scene, std::string destinationPath);
 	static Ref<Scene> Deserialize(std::string path);
 
 private:

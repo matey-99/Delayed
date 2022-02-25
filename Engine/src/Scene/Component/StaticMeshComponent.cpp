@@ -12,7 +12,7 @@
 #include <glad/glad.h>
 
 StaticMeshComponent::StaticMeshComponent(Entity* owner)
-	: StaticMeshComponent(owner, "../../res/models/defaults/default_cube.obj")
+	: StaticMeshComponent(owner, "../../../Assets/Models/defaults/default_cube.obj")
 {
 }
 
@@ -22,7 +22,7 @@ StaticMeshComponent::StaticMeshComponent(Entity* owner, std::string path)
 	LoadMesh(path);
 
 	for (int i = 0; i < m_Meshes.size(); i++)
-		LoadMaterial("../../res/materials/Default.mat");
+		LoadMaterial("../../../Assets/Materials/Default.mat");
 }
 
 StaticMeshComponent::StaticMeshComponent(Entity* owner, std::string path, std::vector<std::string> materialsPaths)

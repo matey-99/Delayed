@@ -316,7 +316,7 @@ void EntityDetailsPanel::Render()
     if (spotLight)
         m_Entity->AddComponent<SpotLight>(m_Entity->m_Scene->m_LightsVertexUniformBuffer, m_Entity->m_Scene->m_LightsFragmentUniformBuffer);
     if (skyLight)
-        m_Entity->AddComponent<SkyLight>("res/textures/sky/default.exr");
+        m_Entity->AddComponent<SkyLight>("Assets/Textures/Sky/default.hdr");
     if (particleSystem)
         m_Entity->AddComponent<ParticleSystemComponent>();
     if (player)
@@ -333,7 +333,7 @@ void EntityDetailsPanel::Render()
 
 void EntityDetailsPanel::DisplayResources(std::vector<std::string> extensions, int index)
 {
-    for (auto& p : std::filesystem::recursive_directory_iterator("../../res"))
+    for (auto& p : std::filesystem::recursive_directory_iterator("../../../Assets"))
     {
         std::stringstream ss;
         ss << p.path();

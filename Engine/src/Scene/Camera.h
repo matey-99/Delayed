@@ -26,7 +26,6 @@ public:
 	float Yaw;
 	float Pitch;
 
-	float MovementSpeed;
 
 	Camera(Scene* scene, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f),
 		   glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f, float movementSpeed = 10.0f);
@@ -51,7 +50,10 @@ private:
 	glm::vec3 CalculateRightVector();
 
 private:
-	float m_RotateSpeed = 10.0f;
+	float m_MovementSpeed;
+	float m_RotateSpeed;
 	Scene* m_Scene;
+
+	friend class ImGuiRenderer;
 };
 

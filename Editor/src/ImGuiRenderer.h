@@ -21,6 +21,9 @@ private:
 
 	glm::vec2 m_ViewportSize;
 
+	bool m_IsCreateSceneWindowVisible;
+	std::string m_CreateSceneName;
+
 public:
 	ImGuiRenderer();
 

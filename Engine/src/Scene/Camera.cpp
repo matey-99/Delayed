@@ -7,7 +7,7 @@
 #include "Component/PlayerComponent.h"
 
 Camera::Camera(Scene* scene, glm::vec3 position, glm::vec3 front, glm::vec3 up, float yaw, float pitch, float movementSpeed)
-	: m_Scene(scene), Position(position), Front(front), Up(up), Yaw(yaw), Pitch(pitch), MovementSpeed(movementSpeed)
+	: m_Scene(scene), Position(position), Front(front), Up(up), Yaw(yaw), Pitch(pitch), m_MovementSpeed(movementSpeed)
 {
 	Right = CalculateRightVector();
 
@@ -15,6 +15,9 @@ Camera::Camera(Scene* scene, glm::vec3 position, glm::vec3 front, glm::vec3 up, 
 	AspectRactio = glm::vec2(16.0f, 9.0f);
 	Near = 0.1f;
 	Far = 1000.0f;
+
+	m_MovementSpeed = 200.0f;
+	m_RotateSpeed = 200.0f;
 }
 
 void Camera::Update()
@@ -45,29 +48,29 @@ void Camera::Move(CameraMovement movementDirection, float deltaTime)
 	switch (movementDirection)
 	{
 	case CameraMovement::Forward:
-		Position += Front * MovementSpeed * deltaTime;
+		Position += Front * m_MovementSpeed * deltaTime;
 		break;
 	case CameraMovement::Backward:
-		Position -= Front * MovementSpeed * deltaTime;
+		Position -= Front * m_MovementSpeed * deltaTime;
 		break;
 	case CameraMovement::Left:
-		Position -= Right * MovementSpeed * deltaTime;
+		Position -= Right * m_MovementSpeed * deltaTime;
 		break;
 	case CameraMovement::Right:
-		Position += Right * MovementSpeed * deltaTime;
+		Position += Right * m_MovementSpeed * deltaTime;
 		break;
 	}
 }
 
 void Camera::Move(float xoffset, float yoffset, float deltaTime)
 {
-	Position += xoffset * MovementSpeed * Right * deltaTime;
-	Position += yoffset * MovementSpeed * Up * deltaTime;
+	Position += xoffset * m_MovementSpeed * Right * deltaTime;
+	Position += yoffset * m_MovementSpeed * Up * deltaTime;
 }
 
 void Camera::Move(float yoffset, float deltaTime)
 {
-	Position += (float)yoffset * 3 * MovementSpeed * Front * deltaTime;
+	Position += (float)yoffset * 3 * m_MovementSpeed * Front * deltaTime;
 }
 
 void Camera::Rotate(float yaw, float pitch, float deltaTime)

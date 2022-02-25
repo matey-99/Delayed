@@ -25,6 +25,8 @@ Scene::Scene()
 		+ GLSL_DIRECTIONAL_LIGHT_SIZE
 		+ (GLSL_POINT_LIGHT_SIZE * MAX_POINT_LIGHTS)
 		+ (GLSL_SPOT_LIGHT_SIZE * MAX_SPOT_LIGHTS), 3);
+
+	AddRoot();
 }
 
 void Scene::Begin()
@@ -135,6 +137,9 @@ void Scene::RenderEntity(Ref<Entity> entity)
 
 Ref<Entity> Scene::AddRoot()
 {
+	if (m_Root)
+		return m_Root;
+
 	Ref<Entity> root = Entity::Create(this, "Root");
 	m_Root = root;
 	m_Entities.push_back(root);

@@ -13,7 +13,7 @@
 #include <GLFW/glfw3.h>
 
 InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Entity* owner)
-	: InstanceRenderedMeshComponent(owner, "../../res/models/defaults/default_cube.obj")
+	: InstanceRenderedMeshComponent(owner, "../../../Assets/Models/defaults/default_cube.obj")
 {
 }
 
@@ -23,7 +23,7 @@ InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Entity* owner, std:
 	LoadMesh(path);
 
 	for (int i = 0; i < m_Meshes.size(); i++)
-		LoadMaterial("../../res/materials/DefaultInstanced.mat");
+		LoadMaterial("../../../Assets/Materials/DefaultInstanced.mat");
 
 	m_Radius = 1.0f;
 	m_InstancesCount = 1;

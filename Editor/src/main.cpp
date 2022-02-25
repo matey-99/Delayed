@@ -25,6 +25,7 @@
 #include "Scene/Component/Light/Light.h"
 #include "Renderer/Framebuffer.h"
 #include "Input/Input.h"
+#include "Scene/SceneManager.h"
 
 #define FPS 60.0f
 #define MS_PER_UPDATE 1 / FPS
@@ -181,7 +182,7 @@ int main(int, char**)
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1440, 900, "Mist Engine", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1440, 900, "PBL", NULL, NULL);
     if (window == NULL)
         return 1;
 
@@ -208,8 +209,10 @@ int main(int, char**)
 
     Renderer::GetInstance()->InitializePostProcessing();
 
-    if (!(scene = SceneSerializer::Deserialize("../../../Assets/Scenes/Untitled.scene")))
-        scene = CreateRef<Scene>();
+    auto sceneManager = SceneManager::GetInstance();
+    sceneManager->LoadScene("../../../Assets/Scenes/Untitled2.scene");
+
+    scene = sceneManager->GetCurrentScene();
 
     ImGuiRenderer imGuiRenderer = ImGuiRenderer();
     imGuiRenderer.Setup(window, glsl_version, scene);
@@ -231,37 +234,20 @@ int main(int, char**)
         lastFrame = currentFrame;
         lag += deltaTime;
 
-        if (imGuiRenderer.GetEditor()->IsPlayMode() && !isPlayMode)
-        {
-            isPlayMode = true;
-
-            scene->BeginPlay();
-        }
-        else if (!imGuiRenderer.GetEditor()->IsPlayMode() && isPlayMode)
-        {
-            isPlayMode = false;
-
-            scene->EndPlay();
-        }
+        scene = sceneManager->GetCurrentScene();
 
         isViewportHovered = imGuiRenderer.GetEditor()->GetViewport()->IsHovered();
 
-        if (isViewportHovered && !isPlayMode)
+        if (isViewportHovered)
             ProcessKeyboardInput(window);
 
-        if (!isPlayMode)
-            ProcessMouseInput(window);
-        else
-            input->ProcessKeyboardInput(window);
+        ProcessMouseInput(window);
 
         glfwPollEvents();
 
         while (lag >= MS_PER_UPDATE)
         {
             scene->Update();
-
-            if (isPlayMode)
-                scene->Tick(deltaTime);
 
             shouldRender = true;
             lag -= MS_PER_UPDATE;

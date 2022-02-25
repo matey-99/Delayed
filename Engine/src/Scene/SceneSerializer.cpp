@@ -10,17 +10,16 @@
 #include "Scene/Component/ParticleSystemComponent.h"
 #include "Scene/Component/PlayerComponent.h"
 
-void SceneSerializer::Serialize(Ref<Scene> scene)
+void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
 	YAML::Emitter out;
 	out << YAML::BeginMap;
-	out << YAML::Key << "Scene" << YAML::Value << "Untitled";
+	out << YAML::Key << "Scene" << YAML::Value << scene->m_Name;
 	out << YAML::Key << "Camera";
 	out << YAML::BeginMap;
 	out << YAML::Key << "Position" << YAML::Value << scene->m_Camera->Position;
 	out << YAML::Key << "Yaw" << YAML::Value << scene->m_Camera->Yaw;
 	out << YAML::Key << "Pitch" << YAML::Value << scene->m_Camera->Pitch;
-	out << YAML::Key << "Movement Speed" << YAML::Value << scene->m_Camera->MovementSpeed;
 	out << YAML::EndMap;
 	out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
 	for (auto entity : scene->GetEntities())
@@ -30,7 +29,7 @@ void SceneSerializer::Serialize(Ref<Scene> scene)
 	out << YAML::EndSeq;
 	out << YAML::EndMap;
 
-	std::ofstream file("../../res/scenes/Showcase.scene");
+	std::ofstream file(destinationPath);
 	file << out.c_str();
 	file.close();
 }
@@ -57,12 +56,10 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 		glm::vec3 cameraPosition = camera["Position"].as<glm::vec3>();
 		float cameraYaw = camera["Yaw"].as<float>();
 		float cameraPitch = camera["Pitch"].as<float>();
-		float cameraSpeed = camera["Movement Speed"].as<float>();
 
 		scene->m_Camera->Position = cameraPosition;
 		scene->m_Camera->Yaw = cameraYaw;
 		scene->m_Camera->Pitch = cameraPitch;
-		scene->m_Camera->MovementSpeed = cameraSpeed;
 	}
 
 	YAML::Node entities = data["Entities"];

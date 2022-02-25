@@ -18,6 +18,8 @@ public:
 	unsigned int m_BRDFLUT;
 
 private:
+	std::string m_Name;
+
 	Ref<Camera> m_Camera;
 	Ref<Entity> m_Root;
 	std::vector<Ref<Entity>> m_Entities;
@@ -101,6 +103,7 @@ public:
 	inline glm::vec4* GetBackgroundColor() { return &m_BackgroundColor; }
 	inline bool IsChangedSinceLastFrame() const { return m_ChangedSinceLastFrame; }
 
+	inline void SetName(std::string name) { m_Name = name; }
 	inline void SetChangedSinceLastFrame(bool changed) { m_ChangedSinceLastFrame = changed; }
 
 	friend class SceneSerializer;

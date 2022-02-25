@@ -13,6 +13,7 @@
 #include "typedefs.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneSerializer.h"
+#include "Scene/SceneManager.h"
 #include "Material/Material.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Light/Light.h"
@@ -159,8 +160,10 @@ int main(int, char**)
 
     Renderer::GetInstance()->InitializePostProcessing();
 
-    if (!(scene = SceneSerializer::Deserialize("../../../Assets/Scenes/Untitled.scene")))
-        scene = CreateRef<Scene>();
+    auto sceneManager = SceneManager::GetInstance();
+    sceneManager->LoadScene("../../../Assets/Scenes/Untitled2.scene");
+
+    scene = sceneManager->GetCurrentScene();
 
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
@@ -172,7 +175,6 @@ int main(int, char**)
 
     bool shouldRender = false;
     lastFrame = glfwGetTime();
-
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
@@ -185,6 +187,8 @@ int main(int, char**)
         ProcessMouseInput(window);
 
         glfwPollEvents();
+
+        scene = sceneManager->GetCurrentScene();
 
         while (lag >= MS_PER_UPDATE)
         {
@@ -214,6 +218,7 @@ int main(int, char**)
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
             glBindVertexArray(0);
+            glEnable(GL_DEPTH_TEST);
 
             glfwSwapBuffers(window);
 

@@ -2,6 +2,7 @@
 
 #include "imgui.h"
 #include "Editor.h"
+#include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
 #include "Material/Material.h"
 #include "Material/MaterialSerializer.h"
@@ -110,6 +111,11 @@ void ContentBrowserPanel::MakeAction(std::string path, std::string extension)
 		}
 
 		m_Scene->AddEntity(path, entityName, m_Scene->FindEntity(0));
+	}
+	else if (extension == "scene")
+	{
+		SceneManager::GetInstance()->LoadScene(path);
+		m_Editor->Initialize(SceneManager::GetInstance()->GetCurrentScene());
 	}
 }
 

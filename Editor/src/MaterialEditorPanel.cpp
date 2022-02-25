@@ -53,9 +53,6 @@ void MaterialEditorPanel::Render()
     for (auto& param : m_Material->m_Texture2DParameters)
     {
         std::string name = param.first.substr(param.first.find_first_of('.') + 1);
-
-        ImGui::Text(name.c_str());
-        ImGui::SameLine();
         std::string filename = "NULL" + std::to_string(index);
         index++;
         if (param.second)
@@ -63,7 +60,7 @@ void MaterialEditorPanel::Render()
             filename = param.second->GetPath().substr(param.second->GetPath().find_last_of('/'));
         }
         ImGui::PushID(index - 1);
-        if (ImGui::BeginMenu(filename.c_str()))
+        if (ImGui::BeginCombo(name.c_str(), filename.c_str()))
         {
             DisplayTextures(param.first);
 
@@ -100,7 +97,7 @@ void MaterialEditorPanel::Render()
 
 void MaterialEditorPanel::DisplayTextures(std::string name)
 {
-    for (auto& p : std::filesystem::recursive_directory_iterator("../../res"))
+    for (auto& p : std::filesystem::recursive_directory_iterator("../../../Assets"))
     {
         std::stringstream ss;
         ss << p.path();
@@ -116,7 +113,8 @@ void MaterialEditorPanel::DisplayTextures(std::string name)
         {
             if (extension == ext)
             {
-                if (ImGui::MenuItem(shaderName.c_str()))
+                const bool isSelected = false;
+                if (ImGui::Selectable(shaderName.c_str(), &isSelected))
                 {
                     auto texture = Texture::Create(path);
                     m_Material->m_Texture2DParameters.find(name)->second = texture;
