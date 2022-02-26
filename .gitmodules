@@ -10,9 +10,3 @@
 [submodule "Engine/thirdparty/yaml-cpp"]
 	path = Engine/thirdparty/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp.git
-[submodule "Engine/thirdparty/imgui"]
-	path = Engine/thirdparty/imgui
-	url = https://github.com/ocornut/imgui.git
-[submodule "Engine/thirdparty/ImGuizmo"]
-	path = Engine/thirdparty/ImGuizmo
-	url = https://github.com/CedricGuillemet/ImGuizmo.git
