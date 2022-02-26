@@ -16,25 +16,9 @@ set_property(TARGET ${EDITOR_PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 # Define the include DIRs
 target_include_directories(${EDITOR_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${ASSIMP_INCLUDE_DIR}")
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${GLFW_INCLUDE_DIR}")
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${GLAD_INCLUDE_DIR}")
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${GLM_INCLUDE_DIR}")
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${IMGUI_INCLUDE_DIR}")
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${STB_IMAGE_INCLUDE_DIR}")
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${YAML_CPP_INCLUDE_DIR}")
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${IMGUIZMO_INCLUDE_DIR}")
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/Engine/src")
+target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/Engine/Source")
 
 target_link_libraries(${EDITOR_PROJECT_NAME} "${PROJECT_NAME}_Library")
-target_link_libraries(${EDITOR_PROJECT_NAME} "${OPENGL_LIBRARY}")
-target_link_libraries(${EDITOR_PROJECT_NAME} "${ASSIMP_LIBRARY}")
-target_link_libraries(${EDITOR_PROJECT_NAME} "${GLFW_LIBRARY}")
-target_link_libraries(${EDITOR_PROJECT_NAME} "${YAML_CPP_LIBRARY}")
-target_link_libraries(${EDITOR_PROJECT_NAME} "${GLAD_LIBRARY}"      "${CMAKE_DL_LIBS}")
-target_link_libraries(${EDITOR_PROJECT_NAME} "${IMGUI_LIBRARY}"     "${CMAKE_DL_LIBS}")
-target_link_libraries(${EDITOR_PROJECT_NAME} "${IMGUIZMO_LIBRARY}"  "${CMAKE_DL_LIBS}")
-target_link_libraries(${EDITOR_PROJECT_NAME} "${STB_IMAGE_LIBRARY}" "${CMAKE_DL_LIBS}")
 
 target_precompile_headers(${EDITOR_PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
