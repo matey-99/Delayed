@@ -42,12 +42,11 @@ if(MSVC_IDE)
 				GroupSources(${curdir}/${child})
 			else()
 				string(REPLACE "/" "\\" groupname ${curdir})
-				string(REPLACE "src" "sources" groupname ${groupname})
 				source_group(${groupname} FILES ${CMAKE_SOURCE_DIR}/${curdir}/${child})
 			endif()
 		endforeach()
 	endmacro()
 	
 	# Run macro
-	GroupSources(src)
+	GroupSources(Editor/Source)
 endif()
