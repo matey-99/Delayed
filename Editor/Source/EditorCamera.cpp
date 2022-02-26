@@ -1,12 +1,11 @@
-#include "Camera.h"
+#include "EditorCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Scene.h"
-#include "Entity.h"
-#include "Component/PlayerComponent.h"
+#include "Scene/Scene.h"
+#include "Scene/Entity.h"
 
-Camera::Camera(Scene* scene, glm::vec3 position, glm::vec3 front, glm::vec3 up, float yaw, float pitch, float movementSpeed)
+EditorCamera::EditorCamera(Scene* scene, glm::vec3 position, glm::vec3 front, glm::vec3 up, float yaw, float pitch, float movementSpeed)
 	: m_Scene(scene), Position(position), Front(front), Up(up), Yaw(yaw), Pitch(pitch), m_MovementSpeed(movementSpeed)
 {
 	Right = CalculateRightVector();
@@ -20,30 +19,13 @@ Camera::Camera(Scene* scene, glm::vec3 position, glm::vec3 front, glm::vec3 up, 
 	m_RotateSpeed = 200.0f;
 }
 
-void Camera::Update()
+void EditorCamera::Update()
 {
 	Front = CalculateFrontVector();
 	Right = CalculateRightVector();
 }
 
-void Camera::BeginPlay()
-{
-
-}
-
-void Camera::Tick(float deltaTime)
-{
-	auto players = m_Scene->GetEntitiesWithComponent<PlayerComponent>();
-	if (players.size() > 0)
-	{
-		glm::vec3 targetPosition = players[0]->GetWorldPosition();
-
-		Position = targetPosition + glm::vec3(0.0f, 5.0f, 20.0f);
-		Front = targetPosition - Position;
-	}
-}
-
-void Camera::Move(CameraMovement movementDirection, float deltaTime)
+void EditorCamera::Move(CameraMovement movementDirection, float deltaTime)
 {
 	switch (movementDirection)
 	{
@@ -62,18 +44,18 @@ void Camera::Move(CameraMovement movementDirection, float deltaTime)
 	}
 }
 
-void Camera::Move(float xoffset, float yoffset, float deltaTime)
+void EditorCamera::Move(float xoffset, float yoffset, float deltaTime)
 {
 	Position += xoffset * m_MovementSpeed * Right * deltaTime;
 	Position += yoffset * m_MovementSpeed * Up * deltaTime;
 }
 
-void Camera::Move(float yoffset, float deltaTime)
+void EditorCamera::Move(float yoffset, float deltaTime)
 {
 	Position += (float)yoffset * 3 * m_MovementSpeed * Front * deltaTime;
 }
 
-void Camera::Rotate(float yaw, float pitch, float deltaTime)
+void EditorCamera::Rotate(float yaw, float pitch, float deltaTime)
 {
 	Yaw += yaw * 3 * m_RotateSpeed * deltaTime;
 	Pitch += pitch * 3 * m_RotateSpeed * deltaTime;
@@ -82,22 +64,22 @@ void Camera::Rotate(float yaw, float pitch, float deltaTime)
 	Pitch = glm::clamp(Pitch, -89.0f, 89.0f);
 }
 
-glm::mat4 Camera::GetViewMatrix()
+glm::mat4 EditorCamera::GetViewMatrix()
 {
 	return glm::lookAt(Position, Position + Front, Up);
 }
 
-glm::mat4 Camera::GetProjectionMatrix()
+glm::mat4 EditorCamera::GetProjectionMatrix()
 {
 	return glm::perspective(glm::radians(FieldOfView), AspectRactio.x / AspectRactio.y, Near, Far);
 }
 
-glm::mat4 Camera::GetViewProjectionMatrix()
+glm::mat4 EditorCamera::GetViewProjectionMatrix()
 {
 	return GetProjectionMatrix() * GetViewMatrix();
 }
 
-glm::vec3 Camera::CalculateFrontVector()
+glm::vec3 EditorCamera::CalculateFrontVector()
 {
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
@@ -106,7 +88,7 @@ glm::vec3 Camera::CalculateFrontVector()
 	return glm::normalize(direction);
 }
 
-glm::vec3 Camera::CalculateRightVector()
+glm::vec3 EditorCamera::CalculateRightVector()
 {
 	return glm::normalize(glm::cross(Front, Up));
 }

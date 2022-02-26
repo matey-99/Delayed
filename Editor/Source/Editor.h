@@ -10,6 +10,8 @@
 #include "WorldSettingsPanel.h"
 #include "DebugPanel.h"
 #include "Viewport.h"
+#include "EditorCamera.h"
+#include "CameraComponentViewport.h"
 
 #include <ImGuizmo.h>
 #include <mutex>
@@ -21,6 +23,7 @@ private:
 	static std::mutex s_Mutex;
 
 	Ref<Scene> m_Scene;
+	Ref<EditorCamera> m_Camera;
 
 	Ref<SceneHierarchyPanel> m_SceneHierarchyPanel;
 	Ref<EntityDetailsPanel> m_EntityDetailsPanel;
@@ -30,10 +33,16 @@ private:
 	Ref<WorldSettingsPanel> m_WorldSettingsPanel;
 	Ref<DebugPanel> m_DebugPanel;
 	Ref<Viewport> m_Viewport;
+	Ref<CameraComponentViewport> m_CameraComponentViewport;
 
 	bool m_PlayMode;
 
 	bool m_DetailsPanel;
+	
+	bool m_IsCameraComponentViewport;
+	glm::vec2 m_CameraComponentViewportSize;
+	Ref<CameraComponent> m_SelectedCameraComponent;
+
 	bool m_MaterialEditor;
 	ImGuizmo::OPERATION m_Operation = ImGuizmo::OPERATION::TRANSLATE;
 
@@ -47,7 +56,10 @@ public:
 	static Ref<Editor> GetInstance();
 
 	void Initialize(Ref<Scene> scene);
+	void Tick(float deltaTime);
 	void Render();
+
+	void RenderScene();
 
 	void ShowDetails(Ref<Entity> entity);
 	void HideDetails();
@@ -61,6 +73,7 @@ public:
 	inline void SetGizmoOperation(ImGuizmo::OPERATION operation) { m_Operation = operation; }
 
 	inline Ref<Scene> GetScene() const { return m_Scene; }
+	inline Ref<EditorCamera> GetCamera() const { return m_Camera; }
 	inline Ref<SceneHierarchyPanel> GetSceneHierarchyPanel() const { return m_SceneHierarchyPanel; }
 	inline Ref<Viewport> GetViewport() const { return m_Viewport; }
 	inline bool IsPlayMode() const { return m_PlayMode; }

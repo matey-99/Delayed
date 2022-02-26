@@ -31,6 +31,7 @@
 #define MS_PER_UPDATE 1 / FPS
 
 Ref<Scene> scene = Ref<Scene>();
+Ref<Editor> editor = Ref<Editor>();
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
@@ -55,13 +56,13 @@ void ProcessKeyboardInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)// || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        scene->GetCamera()->Move(CameraMovement::Forward, deltaTime);
+        editor->GetCamera()->Move(CameraMovement::Forward, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)// || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        scene->GetCamera()->Move(CameraMovement::Backward, deltaTime);
+        editor->GetCamera()->Move(CameraMovement::Backward, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)// || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        scene->GetCamera()->Move(CameraMovement::Left, deltaTime);
+        editor->GetCamera()->Move(CameraMovement::Left, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)// || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        scene->GetCamera()->Move(CameraMovement::Right, deltaTime);
+        editor->GetCamera()->Move(CameraMovement::Right, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         Editor::GetInstance()->SetGizmoOperation(ImGuizmo::OPERATION::TRANSLATE);
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
@@ -142,19 +143,19 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
     if (rotateCamera)
     {
-        scene->GetCamera()->Rotate(xoffset, yoffset, deltaTime);
+        editor->GetCamera()->Rotate(xoffset, yoffset, deltaTime);
     }
 
     if (moveCamera)
     {
-        scene->GetCamera()->Move(xoffset, yoffset, deltaTime);
+        editor->GetCamera()->Move(xoffset, yoffset, deltaTime);
     }
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     if (isViewportHovered && !isPlayMode)
-        scene->GetCamera()->Move(yoffset, deltaTime);
+        editor->GetCamera()->Move(yoffset, deltaTime);
 
     ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset);
 }
@@ -221,6 +222,7 @@ int main(int, char**)
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetKeyCallback(window, key_callback);
 
+    editor = Editor::GetInstance();
     auto input = Input::GetInstance();
 
     bool shouldRender = false;
@@ -247,6 +249,8 @@ int main(int, char**)
 
         while (lag >= MS_PER_UPDATE)
         {
+            editor->GetCamera()->Update();
+            editor->Tick(deltaTime);
             scene->Update();
 
             shouldRender = true;
@@ -255,7 +259,7 @@ int main(int, char**)
 
         if (shouldRender)
         {
-            Renderer::GetInstance()->RenderScene(scene);
+            editor->RenderScene();
 
             if (Renderer::GetInstance()->IsPostProcessing())
                 Renderer::GetInstance()->AddPostProcessingEffects();

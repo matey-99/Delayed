@@ -11,6 +11,7 @@
 #include "Scene/Component/Light/SkyLight.h"
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 Ref<Renderer> Renderer::s_Instance{};
 std::mutex Renderer::s_Mutex;
@@ -51,6 +52,9 @@ void Renderer::Initialize()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+	m_CameraVertexUniformBuffer = CreateRef<UniformBuffer>(sizeof(glm::mat4) * 3, 0);
+	m_CameraFragmentUniformBuffer = CreateRef<UniformBuffer>(GLSL_VEC3_SIZE, 2);
 }
 
 void Renderer::InitializeMainSceneFramebuffer()
@@ -222,6 +226,16 @@ void Renderer::RenderScene(Ref<Scene> scene)
 
 	glClearColor(scene->GetBackgroundColor()->x, scene->GetBackgroundColor()->y, scene->GetBackgroundColor()->z, scene->GetBackgroundColor()->w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	m_CameraVertexUniformBuffer->Bind();
+	m_CameraVertexUniformBuffer->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(scene->GetCurrentCamera()->GetViewProjectionMatrix()));
+	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE, sizeof(glm::mat4), glm::value_ptr(scene->GetCurrentCamera()->GetViewMatrix()));
+	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 2, sizeof(glm::mat4), glm::value_ptr(scene->GetCurrentCamera()->GetProjectionMatrix()));
+	m_CameraVertexUniformBuffer->Unbind();
+
+	m_CameraFragmentUniformBuffer->Bind();
+	m_CameraFragmentUniformBuffer->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(scene->GetCurrentCamera()->GetOwner()->GetWorldPosition()));
+	m_CameraFragmentUniformBuffer->Unbind();
 
 	scene->Render();
 	

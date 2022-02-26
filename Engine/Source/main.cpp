@@ -40,74 +40,20 @@ void ProcessKeyboardInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)// || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        scene->GetCamera()->Move(CameraMovement::Forward, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)// || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        scene->GetCamera()->Move(CameraMovement::Backward, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)// || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        scene->GetCamera()->Move(CameraMovement::Left, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)// || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        scene->GetCamera()->Move(CameraMovement::Right, deltaTime);
 }
 
 void ProcessMouseInput(GLFWwindow* window)
 {
-    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_3) == GLFW_PRESS)
-    {
-        double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        glfwSetCursorPos(window, xpos, ypos);
-        moveCamera = true;
-    }
-    else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
-    {
-        double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        glfwSetCursorPos(window, xpos, ypos);
-
-        rotateCamera = true;
-        moveCamera = false;
-    }
-
-    if (moveCamera && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_3) == GLFW_RELEASE)
-    {
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-        moveCamera = false;
-    }
-    else if (rotateCamera && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_RELEASE)
-    {
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-        rotateCamera = false;
-    }
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    float xoffset = xpos - lastMouseX;
-    float yoffset = lastMouseY - ypos;
-    lastMouseX = xpos;
-    lastMouseY = ypos;
 
-    xoffset *= mouseSensitivity;
-    yoffset *= mouseSensitivity;
-
-    if (rotateCamera)
-    {
-        scene->GetCamera()->Rotate(xoffset, yoffset, deltaTime);
-    }
-
-    if (moveCamera)
-    {
-        scene->GetCamera()->Move(xoffset, yoffset, deltaTime);
-    }
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    scene->GetCamera()->Move(yoffset, deltaTime);
+
 }
 
 static void glfw_error_callback(int error, const char* description)
@@ -193,6 +139,7 @@ int main(int, char**)
         while (lag >= MS_PER_UPDATE)
         {
             scene->Update();
+            scene->Tick(deltaTime);
 
             shouldRender = true;
             lag -= MS_PER_UPDATE;

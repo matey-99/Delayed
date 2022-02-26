@@ -10,6 +10,7 @@
 									
 
 class Framebuffer;
+class UniformBuffer;
 class Scene;
 class DirectionalLight;
 class PointLight;
@@ -33,6 +34,9 @@ private:
 	Ref<Framebuffer> m_DirectionalLightShadowMapFramebuffer;
 	Ref<Framebuffer> m_PointLightShadowMapFramebuffer;
 	Ref<Framebuffer> m_SpotLightShadowMapFramebuffer;
+
+	Ref<UniformBuffer> m_CameraVertexUniformBuffer;
+	Ref<UniformBuffer> m_CameraFragmentUniformBuffer;
 
 	uint32_t m_PointLightShadowMapFramebufferObject;
 	uint32_t m_SpotLightShadowMapFramebufferObject;
@@ -84,6 +88,9 @@ public:
 	inline Ref<Framebuffer> GetDirectionalLightShadowMapFramebuffer() const { return m_DirectionalLightShadowMapFramebuffer; }
 	inline Ref<Framebuffer> GetPointLightShadowMapFramebuffer() const { return m_PointLightShadowMapFramebuffer; }
 	inline Ref<Framebuffer> GetSpotLightShadowMapFramebuffer() const { return m_SpotLightShadowMapFramebuffer; }
+
+	inline Ref<UniformBuffer> GetCameraVertexUniformBuffer() const { return m_CameraVertexUniformBuffer; }
+	inline Ref<UniformBuffer> GetCameraFragmentUniformBuffer() const { return m_CameraFragmentUniformBuffer; }
 
 	inline uint32_t GetPostProcessingVAO() const { return m_PostProcessingVAO; }
 

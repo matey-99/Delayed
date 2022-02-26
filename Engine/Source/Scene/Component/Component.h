@@ -16,6 +16,8 @@ public:
 	virtual void Update() = 0;
 	virtual void Destroy() = 0;
 
+	inline Entity* GetOwner() const { return m_Owner; }
+
 protected:
 	Entity* m_Owner;
 };

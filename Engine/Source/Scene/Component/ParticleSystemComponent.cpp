@@ -72,8 +72,8 @@ void ParticleSystemComponent::Render()
 	auto particleShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PARTICLE, "StandardParticle");
 	particleShader->Use();
 	particleShader->SetMat4("u_Model", m_Owner->GetTransform().ModelMatrix);
-	particleShader->SetMat4("u_View", m_Owner->GetScene()->GetCamera()->GetViewMatrix());
-	particleShader->SetMat4("u_Projection", m_Owner->GetScene()->GetCamera()->GetProjectionMatrix());
+	particleShader->SetMat4("u_View", m_Owner->GetScene()->GetCurrentCamera()->GetViewMatrix());
+	particleShader->SetMat4("u_Projection", m_Owner->GetScene()->GetCurrentCamera()->GetProjectionMatrix());
 	particleShader->SetVec2("u_SpriteSize", glm::vec2(0.03f, 0.03f));
 	particleShader->SetBool("u_IsSprite", false);
 	particleShader->SetInt("u_Sprite", 0);

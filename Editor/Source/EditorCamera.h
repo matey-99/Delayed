@@ -9,7 +9,7 @@ enum class CameraMovement
 	Forward, Backward, Left, Right
 };
 
-class Camera
+class EditorCamera
 {
 public:
 	glm::vec3 Position;
@@ -27,13 +27,10 @@ public:
 	float Pitch;
 
 
-	Camera(Scene* scene, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f),
+	EditorCamera(Scene* scene, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f),
 		   glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f, float movementSpeed = 10.0f);
 
 	void Update();
-
-	void BeginPlay();
-	void Tick(float deltaTime);
 
 	void Move(CameraMovement movementDirection, float deltaTime);
 	void Move(float xoffset, float yoffset, float deltaTime);

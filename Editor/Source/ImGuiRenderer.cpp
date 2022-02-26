@@ -82,9 +82,9 @@ void ImGuiRenderer::Render()
     }
 
     ImGui::Begin("Camera");
-    ImGui::Text("Position: x = %f, y = %f, z = %f", m_Scene->GetCamera()->Position.x, m_Scene->GetCamera()->Position.y, m_Scene->GetCamera()->Position.z);
-    ImGui::Text("Rotation: yaw = %f, pitch = %f", m_Scene->GetCamera()->Yaw, m_Scene->GetCamera()->Pitch);
-    ImGui::DragFloat("Movement speed", &m_Scene->GetCamera()->m_MovementSpeed);
+    ImGui::Text("Position: x = %f, y = %f, z = %f", m_Editor->GetCamera()->Position.x, m_Editor->GetCamera()->Position.y, m_Editor->GetCamera()->Position.z);
+    ImGui::Text("Rotation: yaw = %f, pitch = %f", m_Editor->GetCamera()->Yaw, m_Editor->GetCamera()->Pitch);
+    ImGui::DragFloat("Movement speed", &m_Editor->GetCamera()->m_MovementSpeed);
     ImGui::End();
 
     ImGui::Begin("Toolbar");

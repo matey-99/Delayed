@@ -6,7 +6,6 @@
 #include "Scene/Component/RenderComponent.h"
 #include "Scene/Entity.h"
 #include "Renderer/Shader.h"
-#include "Scene/Camera.h"
 #include "Renderer/UniformBuffer.h"
 
 #define MAX_POINT_LIGHTS 16

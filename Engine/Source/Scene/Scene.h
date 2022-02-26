@@ -1,8 +1,8 @@
 #pragma once
 
 #include "typedefs.h"
-#include "Camera.h"
 #include "Entity.h"
+#include "Component/CameraComponent.h"
 #include "Material/ShaderLibrary.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/UniformBuffer.h"
@@ -20,14 +20,13 @@ public:
 private:
 	std::string m_Name;
 
-	Ref<Camera> m_Camera;
 	Ref<Entity> m_Root;
 	std::vector<Ref<Entity>> m_Entities;
+	Ref<CameraComponent> m_CurrentCamera;
+
 	glm::vec4 m_BackgroundColor;
 
-	Ref<UniformBuffer> m_CameraVertexUniformBuffer;
 	Ref<UniformBuffer> m_LightsVertexUniformBuffer;
-	Ref<UniformBuffer> m_CameraFragmentUniformBuffer;
 	Ref<UniformBuffer> m_LightsFragmentUniformBuffer;
 
 	bool m_ChangedSinceLastFrame = false;
@@ -97,7 +96,7 @@ public:
 		return count;
 	}
 
-	inline Ref<Camera> GetCamera() const { return m_Camera; }
+	inline Ref<CameraComponent> GetCurrentCamera() const { return m_CurrentCamera; }
 	inline Ref<Entity> GetRoot() const { return m_Root; }
 	inline std::vector<Ref<Entity>> GetEntities() const { return m_Entities; }
 	inline glm::vec4* GetBackgroundColor() { return &m_BackgroundColor; }

@@ -11,16 +11,12 @@
 
 Scene::Scene()
 {
-	m_Camera = CreateRef<Camera>(this, glm::vec3(0.0f, 0.0f, 5.0f));
-
 	m_Root = Ref<Entity>();
 	m_Entities = std::vector<Ref<Entity>>();
 
 	m_BackgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
-	m_CameraVertexUniformBuffer = CreateRef<UniformBuffer>(sizeof(glm::mat4) * 3, 0);
 	m_LightsVertexUniformBuffer = CreateRef<UniformBuffer>(GLSL_MAT4_SIZE + (MAX_SPOT_LIGHTS * GLSL_MAT4_SIZE), 1);
-	m_CameraFragmentUniformBuffer = CreateRef<UniformBuffer>(GLSL_VEC3_SIZE, 2);
 	m_LightsFragmentUniformBuffer = CreateRef<UniformBuffer>(GLSL_SCALAR_SIZE * 2
 		+ GLSL_DIRECTIONAL_LIGHT_SIZE
 		+ (GLSL_POINT_LIGHT_SIZE * MAX_POINT_LIGHTS)
@@ -41,8 +37,6 @@ void Scene::Begin()
 
 void Scene::Update()
 {
-	m_Camera->Update();
-
 	for (auto entity : m_Entities)
 	{
 		entity->Update();
@@ -61,16 +55,6 @@ void Scene::Render()
 {
 	m_ChangedSinceLastFrame = false;
 
-	m_CameraVertexUniformBuffer->Bind();
-	m_CameraVertexUniformBuffer->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(m_Camera->GetViewProjectionMatrix()));
-	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE, sizeof(glm::mat4), glm::value_ptr(m_Camera->GetViewMatrix()));
-	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 2, sizeof(glm::mat4), glm::value_ptr(m_Camera->GetProjectionMatrix()));
-	m_CameraVertexUniformBuffer->Unbind();
-
-	m_CameraFragmentUniformBuffer->Bind();
-	m_CameraFragmentUniformBuffer->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(m_Camera->Position));
-	m_CameraFragmentUniformBuffer->Unbind();
-	
 	int pointLightsCount = GetComponentsCount<PointLight>();
 	int spotLightsCount = GetComponentsCount<SpotLight>();
 
@@ -88,8 +72,6 @@ void Scene::Destroy()
 
 void Scene::BeginPlay()
 {
-	m_Camera->BeginPlay();
-
 	for (auto entity : m_Entities)
 	{
 		entity->BeginPlay();
@@ -98,8 +80,6 @@ void Scene::BeginPlay()
 
 void Scene::Tick(float deltaTime)
 {
-	m_Camera->Tick(deltaTime);
-
 	for (auto entity : m_Entities)
 	{
 		entity->Tick(deltaTime);

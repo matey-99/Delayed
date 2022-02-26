@@ -1,8 +1,5 @@
-Scene: ""
-Camera:
-  Position: [10.1705074, 14.2173834, 10.2493582]
-  Yaw: 234.126785
-  Pitch: -40.0392838
+Scene: Untitled2
+Current Camera: 1
 Entities:
   - Entity: Root
     ID: 0
@@ -10,6 +7,18 @@ Entities:
       Position: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
+  - Entity: Camera
+    ID: 1
+    Parent: 0
+    Transform:
+      Position: [0.186209172, 3.66258717, -3.39760017]
+      Rotation: [0, 90, 0]
+      Scale: [1, 1, 1]
+    Camera:
+      Aspect Ratio: [16, 9]
+      Field Of View: 60
+      Near Clip Plane: 0.100000001
+      Far Clip Plane: 1000
   - Entity: Point Light
     ID: 643321389
     Parent: 0
@@ -42,6 +51,18 @@ Entities:
       Position: [4.32834721, 0.724073887, 0]
       Rotation: [0, 0, 0]
       Scale: [57.1341515, 1, 55.8362999]
+    Model:
+      Mesh: ../../../Assets/Models/defaults/default_cube.obj
+      Materials:
+        - Material: 0
+          Path: ../../../Assets/Materials/Default.mat
+  - Entity: New Entity
+    ID: 206093007
+    Parent: 0
+    Transform:
+      Position: [0, 3.20381308, 7.59105492]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
     Model:
       Mesh: ../../../Assets/Models/defaults/default_cube.obj
       Materials:

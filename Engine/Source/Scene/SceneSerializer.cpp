@@ -15,12 +15,7 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	YAML::Emitter out;
 	out << YAML::BeginMap;
 	out << YAML::Key << "Scene" << YAML::Value << scene->m_Name;
-	out << YAML::Key << "Camera";
-	out << YAML::BeginMap;
-	out << YAML::Key << "Position" << YAML::Value << scene->m_Camera->Position;
-	out << YAML::Key << "Yaw" << YAML::Value << scene->m_Camera->Yaw;
-	out << YAML::Key << "Pitch" << YAML::Value << scene->m_Camera->Pitch;
-	out << YAML::EndMap;
+	out << YAML::Key << "Current Camera" << YAML::Value << scene->m_CurrentCamera->GetOwner()->GetID();
 	out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
 	for (auto entity : scene->GetEntities())
 	{
@@ -50,17 +45,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	}
 	
 	std::string sceneName = data["Scene"].as<std::string>();
-	
-	if (YAML::Node camera = data["Camera"])
-	{
-		glm::vec3 cameraPosition = camera["Position"].as<glm::vec3>();
-		float cameraYaw = camera["Yaw"].as<float>();
-		float cameraPitch = camera["Pitch"].as<float>();
-
-		scene->m_Camera->Position = cameraPosition;
-		scene->m_Camera->Yaw = cameraYaw;
-		scene->m_Camera->Pitch = cameraPitch;
-	}
+	scene->m_Name = sceneName;
 
 	YAML::Node entities = data["Entities"];
 	if (entities)
@@ -187,6 +172,20 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 				p->Reset();
 			}
 
+			if (auto camera = entity["Camera"])
+			{
+				glm::vec2 aspectRatio = camera["Aspect Ratio"].as<glm::vec2>();
+				float fieldOfView = camera["Field Of View"].as<float>();
+				float nearClipPlane = camera["Near Clip Plane"].as<float>();
+				float farClipPlane = camera["Far Clip Plane"].as<float>();
+
+				auto c = e->AddComponent<CameraComponent>();
+				c->m_AspectRatio = aspectRatio;
+				c->m_FieldOfView = fieldOfView;
+				c->m_NearClipPlane = nearClipPlane;
+				c->m_FarClipPlane = farClipPlane;
+			}
+
 			if (auto player = entity["Player"])
 			{
 				e->AddComponent<PlayerComponent>();
@@ -201,6 +200,9 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 			scene->GetEntities()[i]->SetParent(scene->FindEntity(parentsIDs[i]).get());
 		}
 	}
+
+	uint64_t currentCameraID = data["Current Camera"].as<uint64_t>();
+	scene->m_CurrentCamera = scene->FindEntity(currentCameraID)->GetComponent<CameraComponent>();
 
 	file.close();
 	return scene;
@@ -300,6 +302,17 @@ void SceneSerializer::SerializeEntity(YAML::Emitter& out, Ref<Entity> entity)
 		out << YAML::Key << "Sphere Radius" << YAML::Value << particleSystem->m_Radius;
 		out << YAML::Key << "Min Velocity" << YAML::Value << particleSystem->m_MinVelocity;
 		out << YAML::Key << "Max Velocity" << YAML::Value << particleSystem->m_MaxVelocity;
+		out << YAML::EndMap;
+	}
+
+	if (auto camera = entity->GetComponent<CameraComponent>())
+	{
+		out << YAML::Key << "Camera";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Aspect Ratio" << YAML::Value << camera->m_AspectRatio;
+		out << YAML::Key << "Field Of View" << YAML::Value << camera->m_FieldOfView;
+		out << YAML::Key << "Near Clip Plane" << YAML::Value << camera->m_NearClipPlane;
+		out << YAML::Key << "Far Clip Plane" << YAML::Value << camera->m_FarClipPlane;
 		out << YAML::EndMap;
 	}
 
