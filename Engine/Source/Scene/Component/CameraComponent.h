@@ -38,4 +38,5 @@ private:
 	glm::vec3 m_Right;
 
 	friend class SceneSerializer;
+	friend class EntityDetailsPanel;
 };

@@ -63,6 +63,16 @@ void EntityDetailsPanel::Render()
 
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
+    if (auto camera = m_Entity->GetComponent<CameraComponent>())
+    {
+        ImGui::Text("Camera");
+
+        ImGui::DragFloat2("Aspect Ratio", (float*)&camera->m_AspectRatio, 1.0f, 1.0f, 30.0f);
+        ImGui::DragFloat("Field Of View", &camera->m_FieldOfView, 1.0f, 1.0f, 180.0f);
+        ImGui::DragFloat("Near Clip Plane", &camera->m_NearClipPlane, 0.1f, 0.1f, 1000.0f);
+        ImGui::DragFloat("Far Clip Plane", &camera->m_FarClipPlane, 0.1f, 0.1f, 1000.0f);
+    }
+
     if (auto mesh = m_Entity->GetComponent<StaticMeshComponent>())
     {
         ImGui::Text("Static Mesh");
@@ -281,6 +291,7 @@ void EntityDetailsPanel::Render()
     bool skyLight = false;
     bool particleSystem = false;
     bool player = false;
+    bool camera = false;
     if (ImGui::BeginPopupContextWindow())
     {
         if (ImGui::BeginMenu("Add Component"))
@@ -298,6 +309,7 @@ void EntityDetailsPanel::Render()
             }
             ImGui::MenuItem("Particle System", "", &particleSystem);
             ImGui::MenuItem("Player", "", &player);
+            ImGui::MenuItem("Camera", "", &camera);
 
             ImGui::EndMenu();
         }
@@ -321,6 +333,8 @@ void EntityDetailsPanel::Render()
         m_Entity->AddComponent<ParticleSystemComponent>();
     if (player)
         m_Entity->AddComponent<PlayerComponent>();
+    if (camera)
+        m_Entity->AddComponent<CameraComponent>();
 
     if (ImGui::Button("Close"))
     {
