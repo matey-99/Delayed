@@ -14,7 +14,7 @@ private:
 	float m_FarPlane;
 
 public:
-	SpotLight(Entity* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer);
+	SpotLight(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer);
 	~SpotLight();
 
 	virtual void Use() override;
@@ -32,5 +32,5 @@ public:
 	void SetInnerCutOff(float innerCutOff);
 	void SetOuterCutOff(float outerCutOff);
 
-	friend class EntityDetailsPanel;
+	friend class ActorDetailsPanel;
 };

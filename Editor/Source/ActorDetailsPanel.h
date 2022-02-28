@@ -1,21 +1,20 @@
 #pragma once
 
-#include "Scene/Entity.h"
+#include "Scene/Actor.h"
 
 class Editor;
 
-
-class EntityDetailsPanel
+class ActorDetailsPanel
 {
 private:
 	Ref<Editor> m_Editor;
-	Ref<Entity> m_Entity;
+	Ref<Actor> m_Actor;
 
 public:
-	EntityDetailsPanel(Ref<Editor> editor);
+	ActorDetailsPanel(Ref<Editor> editor);
 	void Render();
 
-	inline void SetEntity(Ref<Entity> entity) { m_Entity = entity; }
+	inline void SetActor(Ref<Actor> actor) { m_Actor = actor; }
 
 private:
 	void DisplayResources(std::vector<std::string> extensions, int index = -1);

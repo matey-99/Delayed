@@ -5,7 +5,7 @@
 #include "Material/ShaderLibrary.h"
 #include "Scene/Scene.h"
 
-DirectionalLight::DirectionalLight(Entity* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer)
+DirectionalLight::DirectionalLight(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer)
 	: Light(owner, vertexUniformBuffer, fragmentUniformBuffer)
 {
 }

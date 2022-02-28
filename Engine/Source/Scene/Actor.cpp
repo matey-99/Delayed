@@ -1,18 +1,18 @@
-#include "Entity.h"
+#include "Actor.h"
 
 #include "Scene.h"
 
-Ref<Entity> Entity::Create(Scene* scene, std::string name)
+Ref<Actor> Actor::Create(Scene* scene, std::string name)
 {
-	return CreateRef<Entity>(scene, name);
+	return CreateRef<Actor>(scene, name);
 }
 
-Ref<Entity> Entity::Create(Scene* scene, uint64_t id, std::string name)
+Ref<Actor> Actor::Create(Scene* scene, uint64_t id, std::string name)
 {
-	return CreateRef<Entity>(scene, id, name);
+	return CreateRef<Actor>(scene, id, name);
 }
 
-Entity::Entity(Scene* scene, std::string name)
+Actor::Actor(Scene* scene, std::string name)
 	: m_Scene(scene), m_Name(name), m_Transform(Transform(this))
 {
 	std::random_device rd;
@@ -24,29 +24,29 @@ Entity::Entity(Scene* scene, std::string name)
 	m_Parent = nullptr;
 }
 
-Entity::Entity(Scene* scene, uint64_t id, std::string name)
+Actor::Actor(Scene* scene, uint64_t id, std::string name)
 	: m_Scene(scene), m_ID(id), m_Name(name), m_Transform(Transform(this))
 {
 	m_Parent = nullptr;
 }
 
-void Entity::Begin()
+void Actor::Start()
 {
 	for (auto component : m_Components)
 	{
-		component->Begin();
+		component->Start();
 	}
 }
 
-void Entity::Update()
+void Actor::Update(float deltaTime)
 {
 	for (auto component : m_Components)
 	{
-		component->Update();
+		component->Update(deltaTime);
 	}
 }
 
-void Entity::PreRender()
+void Actor::PreRender()
 {
 	for (auto component : m_Components)
 	{
@@ -55,7 +55,7 @@ void Entity::PreRender()
 	}
 }
 
-void Entity::Render()
+void Actor::Render()
 {
 	for (auto component : m_Components)
 	{
@@ -64,7 +64,7 @@ void Entity::Render()
 	}
 }
 
-void Entity::Destroy()
+void Actor::Destroy()
 {
 	for (auto component : m_Components)
 	{
@@ -72,39 +72,12 @@ void Entity::Destroy()
 	}
 }
 
-void Entity::BeginPlay()
-{
-	for (auto component : m_Components)
-	{
-		if (auto igc = Cast<InGameComponent>(component))
-			igc->BeginPlay();
-	}
-}
-
-void Entity::Tick(float deltaTime)
-{
-	for (auto component : m_Components)
-	{
-		if (auto igc = Cast<InGameComponent>(component))
-			igc->Tick(deltaTime);
-	}
-}
-
-void Entity::EndPlay()
-{
-	for (auto component : m_Components)
-	{
-		if (auto igc = Cast<InGameComponent>(component))
-			igc->EndPlay();
-	}
-}
-
-void Entity::SetEnable(bool enable)
+void Actor::SetEnable(bool enable)
 {
 	m_Enable = enable;
 }
 
-void Entity::SetParent(Entity* parent)
+void Actor::SetParent(Actor* parent)
 {
 	if (m_Parent)
 		m_Parent->m_Children.erase(std::remove(m_Parent->m_Children.begin(), m_Parent->m_Children.end(), this));
@@ -115,7 +88,7 @@ void Entity::SetParent(Entity* parent)
 	CalculateModelMatrix();
 }
 
-void Entity::SetLocalPosition(glm::vec3 position)
+void Actor::SetLocalPosition(glm::vec3 position)
 {
 	m_Transform.LocalPosition = position;
 	CalculateModelMatrix();
@@ -123,7 +96,7 @@ void Entity::SetLocalPosition(glm::vec3 position)
 	m_Scene->SetChangedSinceLastFrame(true);
 }
 
-void Entity::SetLocalRotation(glm::vec3 rotation)
+void Actor::SetLocalRotation(glm::vec3 rotation)
 {
 	m_Transform.LocalRotation = rotation;
 	CalculateModelMatrix();
@@ -131,7 +104,7 @@ void Entity::SetLocalRotation(glm::vec3 rotation)
 	m_Scene->SetChangedSinceLastFrame(true);
 }
 
-void Entity::SetLocalScale(glm::vec3 scale)
+void Actor::SetLocalScale(glm::vec3 scale)
 {
 	m_Transform.LocalScale = scale;
 	CalculateModelMatrix();
@@ -139,27 +112,27 @@ void Entity::SetLocalScale(glm::vec3 scale)
 	m_Scene->SetChangedSinceLastFrame(true);
 }
 
-void Entity::SetID(uint64_t id)
+void Actor::SetID(uint64_t id)
 {
 	m_ID = id;
 }
 
-glm::vec3 Entity::GetWorldPosition()
+glm::vec3 Actor::GetWorldPosition()
 {
 	return m_Transform.LocalPosition + (m_Parent ? m_Parent->GetWorldPosition() : glm::vec3(0.0f));
 }
 
-glm::vec3 Entity::GetWorldRotation()
+glm::vec3 Actor::GetWorldRotation()
 {
 	return m_Transform.LocalRotation + (m_Parent ? m_Parent->GetWorldRotation() : glm::vec3(0.0f));
 }
 
-void Entity::SetWorldPosition(glm::vec3 position)
+void Actor::SetWorldPosition(glm::vec3 position)
 {
 	SetLocalPosition(position - (m_Parent ? m_Parent->GetWorldPosition() : glm::vec3(0.0f)));
 }
 
-void Entity::CalculateModelMatrix()
+void Actor::CalculateModelMatrix()
 {
 	if (m_Parent)
 		m_Transform.CalculateModelMatrix(m_Parent->GetTransform().ModelMatrix);

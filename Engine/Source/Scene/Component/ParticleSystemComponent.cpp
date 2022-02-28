@@ -1,10 +1,13 @@
 #include "ParticleSystemComponent.h"
-#include <GLFW/glfw3.h>
-#include "Material/ShaderLibrary.h"
-#include "Scene/Entity.h"
-#include "Scene/Scene.h"
 
-ParticleSystemComponent::ParticleSystemComponent(Entity* owner)
+#include <GLFW/glfw3.h>
+
+#include "Material/ShaderLibrary.h"
+#include "Scene/Actor.h"
+#include "Scene/Scene.h"
+#include "Content/ContentHelper.h"
+
+ParticleSystemComponent::ParticleSystemComponent(Actor* owner)
 	: RenderComponent(owner)
 {
 	m_ParticlesCount = 10000;
@@ -17,11 +20,11 @@ ParticleSystemComponent::ParticleSystemComponent(Entity* owner)
 	Reset();
 }
 
-void ParticleSystemComponent::Begin()
+void ParticleSystemComponent::Start()
 {
 }
 
-void ParticleSystemComponent::Update()
+void ParticleSystemComponent::Update(float deltaTime)
 {
 	m_ParticlesLifeTimeCounter += 0.016f;
 	if (m_ParticlesLifeTimeCounter > m_ParticleLifeTime)
@@ -160,7 +163,7 @@ void ParticleSystemComponent::Reset()
 	m_IndexBuffer->Unmap();
 	m_IndexBuffer->Unbind();
 
-	m_ComputeShader = CreateRef<ComputeShader>("res/shaders/Particle/StandardParticle.comp");
+	m_ComputeShader = CreateRef<ComputeShader>(ContentHelper::GetAssetPath("Shaders/Particle/StandardParticle.comp"));
 	m_ComputeShader->Use();
 	m_ComputeShader->SetUint("u_ParticlesCount", m_ParticlesCount);
 

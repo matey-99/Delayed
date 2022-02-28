@@ -10,9 +10,6 @@ Input::Input()
 	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Player0_MoveForward", GLFW_KEY_W));
 	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Player0_MoveBackward", GLFW_KEY_S));
 
-	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Player0_RotateHeadLeft", GLFW_KEY_Q));
-	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Player0_RotateHeadRight", GLFW_KEY_E));
-
 	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Exit", GLFW_KEY_ESCAPE));
 
 }

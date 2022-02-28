@@ -10,7 +10,6 @@ private:
 	Ref<Editor> m_Editor;
 	Ref<Scene> m_Scene;
 	std::vector<std::string> m_SupportedFileFormats;
-	std::string m_ResourcesDirectory;
 	std::string m_DisplayedDirectory;
 
 public:

@@ -3,43 +3,12 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
-#include "Scene/Entity.h"
+#include "Scene/Actor.h"
 
-Transform::Transform(Entity* owner, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+Transform::Transform(Actor* owner, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
 	: Owner(owner), LocalPosition(position), LocalRotation(rotation), LocalScale(scale)
 {
 }
-
-//glm::vec3 Transform::GetWorldPosition()
-//{
-//	return LocalPosition + (Parent ? Parent->GetWorldPosition() : glm::vec3(0.0f));
-//}
-//
-//glm::vec3 Transform::GetWorldRotation()
-//{
-//	return LocalRotation + (Parent ? Parent->GetWorldRotation() : glm::vec3(0.0f));
-//}
-//
-//glm::vec3 Transform::GetWorldScale()
-//{
-//	return LocalScale * (Parent ? Parent->GetWorldScale() : glm::vec3(1.0f));
-//
-//}
-//
-//void Transform::SetWorldPosition(glm::vec3 position)
-//{
-//	LocalPosition = position - (Parent ? Parent->GetWorldPosition() : glm::vec3(0.0f));
-//}
-//
-//void Transform::SetWorldRotation(glm::vec3 rotation)
-//{
-//	LocalRotation = rotation - (Parent ? Parent->GetWorldRotation() : glm::vec3(0.0f));
-//}
-//
-//void Transform::SetWorldScale(glm::vec3 scale)
-//{
-//	LocalScale = (Parent ? scale / Parent->GetWorldScale() : scale);
-//}
 
 void Transform::CalculateModelMatrix()
 {

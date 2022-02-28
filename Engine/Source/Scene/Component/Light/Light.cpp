@@ -2,7 +2,7 @@
 
 #include "Scene/Scene.h"
 
-Light::Light(Entity* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer)
+Light::Light(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer)
 	: RenderComponent(owner), m_VertexUniformBuffer(vertexUniformBuffer), m_FragmentUniformBuffer(fragmentUniformBuffer)
 {
 	m_Color = glm::vec3(1.0f);
@@ -11,11 +11,11 @@ Light::Light(Entity* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformB
 	owner->GetScene()->SetChangedSinceLastFrame(true);
 }
 
-void Light::Begin()
+void Light::Start()
 {
 }
 
-void Light::Update()
+void Light::Update(float deltaTime)
 {
 	
 }

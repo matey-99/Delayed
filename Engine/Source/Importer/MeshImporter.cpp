@@ -1,5 +1,7 @@
 #include "MeshImporter.h"
 
+#include "Content/ContentHelper.h"
+
 Ref<MeshImporter> MeshImporter::s_Instance{};
 std::mutex MeshImporter::s_Mutex;
 
@@ -23,7 +25,7 @@ std::vector<Mesh> MeshImporter::ImportMesh(std::string path)
 		return m_ImportedMeshes.at(path);
 
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	const aiScene* scene = importer.ReadFile(ContentHelper::GetAssetPath(path), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{

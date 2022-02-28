@@ -29,9 +29,9 @@ private:
 	uint32_t m_ModelMatricesBuffer;
 
 public:
-	InstanceRenderedMeshComponent(Entity* owner);
-	InstanceRenderedMeshComponent(Entity* owner, std::string path);
-	InstanceRenderedMeshComponent(Entity* owner, std::string path, std::vector<std::string> materialsPath);
+	InstanceRenderedMeshComponent(Actor* owner);
+	InstanceRenderedMeshComponent(Actor* owner, std::string path);
+	InstanceRenderedMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPath);
 
 	void LoadMesh(std::string path);
 	void LoadMaterial(std::string path);
@@ -40,8 +40,8 @@ public:
 
 	void Generate();
 
-	virtual void Begin() override;
-	virtual void Update() override;
+	virtual void Start() override;
+	virtual void Update(float deltaTime) override;
 	virtual void PreRender() override;
 	virtual void Render() override;
 	virtual void Destroy() override;
@@ -64,6 +64,6 @@ public:
 	inline void SetMinMeshScale(float minMeshScale) { m_MinMeshScale = minMeshScale; }
 	inline void SetMaxMeshScale(float maxMeshScale) { m_MaxMeshScale = maxMeshScale; }
 
-	friend class EntityDetailsPanel;
+	friend class ActorDetailsPanel;
 	friend class SceneSerializer;
 };

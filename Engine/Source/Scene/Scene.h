@@ -1,7 +1,7 @@
 #pragma once
 
 #include "typedefs.h"
-#include "Entity.h"
+#include "Actor.h"
 #include "Component/CameraComponent.h"
 #include "Material/ShaderLibrary.h"
 #include "Renderer/Renderer.h"
@@ -20,8 +20,8 @@ public:
 private:
 	std::string m_Name;
 
-	Ref<Entity> m_Root;
-	std::vector<Ref<Entity>> m_Entities;
+	Ref<Actor> m_Root;
+	std::vector<Ref<Actor>> m_Actors;
 	Ref<CameraComponent> m_CurrentCamera;
 
 	glm::vec4 m_BackgroundColor;
@@ -34,36 +34,31 @@ private:
 public:
 	Scene();
 
-	void Begin();
-	void Update();
+	void Start();
+	void Update(float deltaTime);
 	void PreRender();
 	void Render();
 	void Destroy();
 
-	// In Game
-	void BeginPlay();
-	void Tick(float deltaTime);
-	void EndPlay();
+	void RenderActor(Ref<Actor> actor);
 
-	void RenderEntity(Ref<Entity> entity);
+	Ref<Actor> AddRoot();
+	Ref<Actor> AddActor(std::string name);
+	Ref<Actor> AddActor(uint64_t id, std::string name);
+	Ref<Actor> AddActor(std::string path, std::string name);
+	Ref<Actor> AddActor(std::string path, std::string name, Ref<Actor> parent);
 
-	Ref<Entity> AddRoot();
-	Ref<Entity> AddEntity(std::string name);
-	Ref<Entity> AddEntity(uint64_t id, std::string name);
-	Ref<Entity> AddEntity(std::string path, std::string name);
-	Ref<Entity> AddEntity(std::string path, std::string name, Ref<Entity> parent);
-
-	void RemoveEntity(Ref<Entity> entity);
-	Ref<Entity> FindEntity(std::string name);
-	Ref<Entity> FindEntity(uint64_t id);
+	void RemoveActor(Ref<Actor> actor);
+	Ref<Actor> FindActor(std::string name);
+	Ref<Actor> FindActor(uint64_t id);
 
 	template<typename T>
 	std::vector<Ref<Component>> GetComponents()
 	{
 		std::vector<Ref<Component>> components;
-		for (auto entity : m_Entities)
+		for (auto actor : m_Actors)
 		{
-			if (auto c = entity->GetComponent<T>())
+			if (auto c = actor->GetComponent<T>())
 				components.push_back(c);
 		}
 
@@ -71,25 +66,25 @@ public:
 	}
 
 	template<typename T>
-	std::vector<Ref<Entity>> GetEntitiesWithComponent()
+	std::vector<Ref<Actor>> GetActorsWithComponent()
 	{
-		std::vector<Ref<Entity>> entities;
-		for (auto entity : m_Entities)
+		std::vector<Ref<Actor>> actors;
+		for (auto actor : m_Actors)
 		{
-			if (entity->GetComponent<T>())
-				entities.push_back(entity);
+			if (actor->GetComponent<T>())
+				actors.push_back(actor);
 		}
 
-		return entities;
+		return actors;
 	}
 
 	template<typename T>
 	int GetComponentsCount()
 	{
 		int count = 0;
-		for (auto entity : m_Entities)
+		for (auto actor : m_Actors)
 		{
-			if (entity->GetComponent<T>())
+			if (actor->GetComponent<T>())
 				count++;
 		}
 
@@ -97,8 +92,8 @@ public:
 	}
 
 	inline Ref<CameraComponent> GetCurrentCamera() const { return m_CurrentCamera; }
-	inline Ref<Entity> GetRoot() const { return m_Root; }
-	inline std::vector<Ref<Entity>> GetEntities() const { return m_Entities; }
+	inline Ref<Actor> GetRoot() const { return m_Root; }
+	inline std::vector<Ref<Actor>> GetActors() const { return m_Actors; }
 	inline glm::vec4* GetBackgroundColor() { return &m_BackgroundColor; }
 	inline bool IsChangedSinceLastFrame() const { return m_ChangedSinceLastFrame; }
 
@@ -107,5 +102,5 @@ public:
 
 	friend class SceneSerializer;
 	friend class WorldSettingsPanel;
-	friend class EntityDetailsPanel;
+	friend class ActorDetailsPanel;
 };

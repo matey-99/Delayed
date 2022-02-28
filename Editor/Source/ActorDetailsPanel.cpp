@@ -1,7 +1,8 @@
-#include "EntityDetailsPanel.h"
+#include "ActorDetailsPanel.h"
 
 #include "imgui.h"
 #include "Editor.h"
+#include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
@@ -20,50 +21,50 @@ bool Equals(float arr[3], glm::vec3 vec)
            arr[2] == vec.z;
 }
 
-EntityDetailsPanel::EntityDetailsPanel(Ref<Editor> editor) : m_Editor(editor)
+ActorDetailsPanel::ActorDetailsPanel(Ref<Editor> editor) : m_Editor(editor)
 {
-	m_Entity = Ref<Entity>();
+	m_Actor = Ref<Actor>();
 }
 
-void EntityDetailsPanel::Render()
+void ActorDetailsPanel::Render()
 {
 	ImGui::Begin("Details");
 
     size_t maxSize = 128;
-    char* name = (char*)m_Entity->m_Name.c_str();
+    char* name = (char*)m_Actor->m_Name.c_str();
     ImGui::InputText("##Name", name, maxSize);
-    m_Entity->m_Name = name;
+    m_Actor->m_Name = name;
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("Transform");
     float arr[3];
-    arr[0] = m_Entity->GetTransform().LocalPosition.x;
-    arr[1] = m_Entity->GetTransform().LocalPosition.y;
-    arr[2] = m_Entity->GetTransform().LocalPosition.z;
+    arr[0] = m_Actor->GetTransform().LocalPosition.x;
+    arr[1] = m_Actor->GetTransform().LocalPosition.y;
+    arr[2] = m_Actor->GetTransform().LocalPosition.z;
     ImGui::DragFloat3("Position", arr, 0.5f);
 
-    if (!Equals(arr, m_Entity->GetTransform().LocalPosition))
-        m_Entity->SetLocalPosition({ arr[0], arr[1], arr[2] });
+    if (!Equals(arr, m_Actor->GetTransform().LocalPosition))
+        m_Actor->SetLocalPosition({ arr[0], arr[1], arr[2] });
 
-    arr[0] = m_Entity->GetTransform().LocalRotation.x;
-    arr[1] = m_Entity->GetTransform().LocalRotation.y;
-    arr[2] = m_Entity->GetTransform().LocalRotation.z;
+    arr[0] = m_Actor->GetTransform().LocalRotation.x;
+    arr[1] = m_Actor->GetTransform().LocalRotation.y;
+    arr[2] = m_Actor->GetTransform().LocalRotation.z;
     ImGui::DragFloat3("Rotation", arr, 1.0f);
 
-    if (!Equals(arr, m_Entity->GetTransform().LocalRotation))
-        m_Entity->SetLocalRotation({ arr[0], arr[1], arr[2] });
+    if (!Equals(arr, m_Actor->GetTransform().LocalRotation))
+        m_Actor->SetLocalRotation({ arr[0], arr[1], arr[2] });
 
-    arr[0] = m_Entity->GetTransform().LocalScale.x;
-    arr[1] = m_Entity->GetTransform().LocalScale.y;
-    arr[2] = m_Entity->GetTransform().LocalScale.z;
+    arr[0] = m_Actor->GetTransform().LocalScale.x;
+    arr[1] = m_Actor->GetTransform().LocalScale.y;
+    arr[2] = m_Actor->GetTransform().LocalScale.z;
     ImGui::DragFloat3("Scale", arr, 0.1f);
 
-    if (!Equals(arr, m_Entity->GetTransform().LocalScale))
-        m_Entity->SetLocalScale({ arr[0], arr[1], arr[2] });
+    if (!Equals(arr, m_Actor->GetTransform().LocalScale))
+        m_Actor->SetLocalScale({ arr[0], arr[1], arr[2] });
 
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-    if (auto camera = m_Entity->GetComponent<CameraComponent>())
+    if (auto camera = m_Actor->GetComponent<CameraComponent>())
     {
         ImGui::Text("Camera");
 
@@ -73,7 +74,7 @@ void EntityDetailsPanel::Render()
         ImGui::DragFloat("Far Clip Plane", &camera->m_FarClipPlane, 0.1f, 0.1f, 1000.0f);
     }
 
-    if (auto mesh = m_Entity->GetComponent<StaticMeshComponent>())
+    if (auto mesh = m_Actor->GetComponent<StaticMeshComponent>())
     {
         ImGui::Text("Static Mesh");
 
@@ -109,7 +110,7 @@ void EntityDetailsPanel::Render()
             ImGui::PopID();
         }
     }
-    if (auto mesh = m_Entity->GetComponent<InstanceRenderedMeshComponent>())
+    if (auto mesh = m_Actor->GetComponent<InstanceRenderedMeshComponent>())
     {
         ImGui::Text("Instance Rendered Mesh");
 
@@ -155,7 +156,7 @@ void EntityDetailsPanel::Render()
         if (ImGui::Button("Generate"))
             mesh->Generate();
     }
-    if (auto light = m_Entity->GetComponent<Light>())
+    if (auto light = m_Actor->GetComponent<Light>())
     {
         ImGui::Text("Light");
 
@@ -176,24 +177,24 @@ void EntityDetailsPanel::Render()
             {
                 if (!Cast<DirectionalLight>(light))
                 {
-                    m_Entity->RemoveComponent<Light>();
-                    m_Entity->AddComponent<DirectionalLight>(m_Entity->m_Scene->m_LightsVertexUniformBuffer, m_Entity->m_Scene->m_LightsFragmentUniformBuffer);
+                    m_Actor->RemoveComponent<Light>();
+                    m_Actor->AddComponent<DirectionalLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
                 }
             }
             if (ImGui::MenuItem("Point"))
             {
                 if (!Cast<PointLight>(light))
                 {
-                    m_Entity->RemoveComponent<Light>();
-                    m_Entity->AddComponent<PointLight>(m_Entity->m_Scene->m_LightsVertexUniformBuffer, m_Entity->m_Scene->m_LightsFragmentUniformBuffer);
+                    m_Actor->RemoveComponent<Light>();
+                    m_Actor->AddComponent<PointLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
                 }
             }
             if (ImGui::MenuItem("Spot"))
             {
                 if (!Cast<SpotLight>(light))
                 {
-                    m_Entity->RemoveComponent<Light>();
-                    m_Entity->AddComponent<SpotLight>(m_Entity->m_Scene->m_LightsVertexUniformBuffer, m_Entity->m_Scene->m_LightsFragmentUniformBuffer);
+                    m_Actor->RemoveComponent<Light>();
+                    m_Actor->AddComponent<SpotLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
                 }
             }
 
@@ -203,7 +204,7 @@ void EntityDetailsPanel::Render()
         ImGui::DragFloat3("Color", (float*)&light->m_Color, 0.1f, 0.0f, 100.0f);
         ImGui::Checkbox("Cast Shadows", &light->m_ShadowsEnabled);
 
-        if (auto spotLight = m_Entity->GetComponent<SpotLight>())
+        if (auto spotLight = m_Actor->GetComponent<SpotLight>())
         {
             float temp = spotLight->m_InnerCutOff;
             ImGui::DragFloat("Inner Cut Off", &temp, 0.01f, 0.0f, 1.0f);
@@ -218,7 +219,7 @@ void EntityDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
-    if (auto skyLight = m_Entity->GetComponent<SkyLight>())
+    if (auto skyLight = m_Actor->GetComponent<SkyLight>())
     {
         ImGui::Text("Sky Light");
 
@@ -239,7 +240,7 @@ void EntityDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
-    if (auto particles = m_Entity->GetComponent<ParticleSystemComponent>())
+    if (auto particles = m_Actor->GetComponent<ParticleSystemComponent>())
     {
         ImGui::Text("Particle System");
         int count = particles->m_ParticlesCount;
@@ -276,7 +277,7 @@ void EntityDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
-    if (auto player = m_Entity->GetComponent<PlayerComponent>())
+    if (auto player = m_Actor->GetComponent<PlayerComponent>())
     {
         ImGui::Text("Player");
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -318,36 +319,36 @@ void EntityDetailsPanel::Render()
     }
 
     if (staticMesh)
-        m_Entity->AddComponent<StaticMeshComponent>();
+        m_Actor->AddComponent<StaticMeshComponent>();
     if (instanceRenderedMesh)
-        m_Entity->AddComponent<InstanceRenderedMeshComponent>();
+        m_Actor->AddComponent<InstanceRenderedMeshComponent>();
     if (dirLight)
-        m_Entity->AddComponent<DirectionalLight>(m_Entity->m_Scene->m_LightsVertexUniformBuffer, m_Entity->m_Scene->m_LightsFragmentUniformBuffer);
+        m_Actor->AddComponent<DirectionalLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
     if (pointLight)
-        m_Entity->AddComponent<PointLight>(m_Entity->m_Scene->m_LightsVertexUniformBuffer, m_Entity->m_Scene->m_LightsFragmentUniformBuffer);
+        m_Actor->AddComponent<PointLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
     if (spotLight)
-        m_Entity->AddComponent<SpotLight>(m_Entity->m_Scene->m_LightsVertexUniformBuffer, m_Entity->m_Scene->m_LightsFragmentUniformBuffer);
+        m_Actor->AddComponent<SpotLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
     if (skyLight)
-        m_Entity->AddComponent<SkyLight>("Assets/Textures/Sky/default.hdr");
+        m_Actor->AddComponent<SkyLight>(ContentHelper::GetAssetPath("Textures/Sky/default.hdr"));
     if (particleSystem)
-        m_Entity->AddComponent<ParticleSystemComponent>();
+        m_Actor->AddComponent<ParticleSystemComponent>();
     if (player)
-        m_Entity->AddComponent<PlayerComponent>();
+        m_Actor->AddComponent<PlayerComponent>();
     if (camera)
-        m_Entity->AddComponent<CameraComponent>();
+        m_Actor->AddComponent<CameraComponent>();
 
     if (ImGui::Button("Close"))
     {
         m_Editor->HideDetails();
-        m_Editor->GetSceneHierarchyPanel()->UnselectEntity();
+        m_Editor->GetSceneHierarchyPanel()->UnselectActor();
     }
 
 	ImGui::End();
 }
 
-void EntityDetailsPanel::DisplayResources(std::vector<std::string> extensions, int index)
+void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, int index)
 {
-    for (auto& p : std::filesystem::recursive_directory_iterator("../../../Assets"))
+    for (auto& p : std::filesystem::recursive_directory_iterator(ContentHelper::GetAssetPath("")))
     {
         std::stringstream ss;
         ss << p.path();
@@ -365,21 +366,21 @@ void EntityDetailsPanel::DisplayResources(std::vector<std::string> extensions, i
                 {
                     if (ext == "obj" || ext == "fbx" || ext == "3ds" || ext == "dae")
                     {
-                        if (auto mesh = m_Entity->GetComponent<StaticMeshComponent>())
+                        if (auto mesh = m_Actor->GetComponent<StaticMeshComponent>())
                             mesh->ChangeMesh(path);
-                        else if (auto mesh = m_Entity->GetComponent<InstanceRenderedMeshComponent>())
+                        else if (auto mesh = m_Actor->GetComponent<InstanceRenderedMeshComponent>())
                             mesh->ChangeMesh(path);
                     }
                     else if (ext == "mat")
                     {
-                        if (auto mesh = m_Entity->GetComponent<StaticMeshComponent>())
+                        if (auto mesh = m_Actor->GetComponent<StaticMeshComponent>())
                             mesh->ChangeMaterial(index, path);
-                        else if (auto mesh = m_Entity->GetComponent<InstanceRenderedMeshComponent>())
+                        else if (auto mesh = m_Actor->GetComponent<InstanceRenderedMeshComponent>())
                             mesh->ChangeMaterial(index, path);
                     }
                     else if (ext == "hdr")
                     {
-                        if (auto skyLight = m_Entity->GetComponent<SkyLight>())
+                        if (auto skyLight = m_Actor->GetComponent<SkyLight>())
                             skyLight->Load(path);
                     }
                 }
@@ -389,7 +390,7 @@ void EntityDetailsPanel::DisplayResources(std::vector<std::string> extensions, i
 
 }
 
-void EntityDetailsPanel::CorrectPath(std::string& path)
+void ActorDetailsPanel::CorrectPath(std::string& path)
 {
     path = path.substr(path.find_first_of('"') + 1, path.length() - 2);
 
@@ -402,4 +403,6 @@ void EntityDetailsPanel::CorrectPath(std::string& path)
 
         path.replace(index, 2, "/");
     }
+
+    path = path.substr(ContentHelper::GetAssetPath("").size());
 }

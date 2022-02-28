@@ -1,27 +1,21 @@
 #pragma once
 
-#include "InGameComponent.h"
+#include "Component.h"
 
-class PlayerComponent : public InGameComponent
+class PlayerComponent : public Component
 {
 private:
 
 public:
-	PlayerComponent(Entity* owner);
+	PlayerComponent(Actor* owner);
 
-	virtual void Begin() override;
-	virtual void Update() override;
+	virtual void Start() override;
+	virtual void Update(float deltaTime) override;
 	virtual void Destroy() override;
-
-	virtual void BeginPlay() override;
-	virtual void Tick(float deltaTime) override;
-	virtual void EndPlay() override;
 
 private:
 	void MoveLeft();
 	void MoveRight();
 	void MoveForward();
 	void MoveBackward();
-	void RotateHeadLeft();
-	void RotateHeadRight();
 };

@@ -30,8 +30,8 @@ void Viewport::Render(Ref<Framebuffer> framebuffer)
     uint32_t viewportTexture = framebuffer->GetColorAttachment();
     ImGui::Image((void*)viewportTexture, ImVec2(m_Size.x, m_Size.y), ImVec2(0, 1), ImVec2(1, 0));
 
-    Ref<Entity> selectedEntity = m_Editor->GetSceneHierarchyPanel()->GetSelectedEntity();
-    if (selectedEntity)
+    Ref<Actor> selectedActor = m_Editor->GetSceneHierarchyPanel()->GetSelectedActor();
+    if (selectedActor)
     {
         ImGuizmo::SetOrthographic(false);
         ImGuizmo::SetDrawlist();
@@ -39,7 +39,7 @@ void Viewport::Render(Ref<Framebuffer> framebuffer)
 
         Ref<EditorCamera> camera = m_Editor->GetCamera();
 
-        Transform transform = selectedEntity->GetTransform();
+        Transform transform = selectedActor->GetTransform();
 
         glm::mat4 view = camera->GetViewMatrix();
         glm::mat4 projection = camera->GetProjectionMatrix();
@@ -56,13 +56,13 @@ void Viewport::Render(Ref<Framebuffer> framebuffer)
             switch (m_Editor->GetGizmoOperation())
             {
             case ImGuizmo::OPERATION::TRANSLATE:
-                selectedEntity->SetWorldPosition(position);
+                selectedActor->SetWorldPosition(position);
                 break;
             case ImGuizmo::OPERATION::ROTATE:
-                selectedEntity->SetLocalRotation(glm::degrees(rotation));
+                selectedActor->SetLocalRotation(glm::degrees(rotation));
                 break;
             case ImGuizmo::OPERATION::SCALE:
-                selectedEntity->SetLocalScale(scale);
+                selectedActor->SetLocalScale(scale);
                 break;
             }
         }

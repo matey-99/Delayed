@@ -6,7 +6,7 @@
 class ComputeShader
 {
 public:
-	ComputeShader(const char* path);
+	ComputeShader(std::string path);
 	~ComputeShader();
 
 	void Use() const;

@@ -1,26 +1,14 @@
 #include "PlayerComponent.h"
 
-#include "Scene/Entity.h"
+#include "Scene/Actor.h"
 #include "Input/Input.h"
 
-PlayerComponent::PlayerComponent(Entity* owner)
-	: InGameComponent(owner)
+PlayerComponent::PlayerComponent(Actor* owner)
+	: Component(owner)
 {
 }
 
-void PlayerComponent::Begin()
-{
-}
-
-void PlayerComponent::Update()
-{
-}
-
-void PlayerComponent::Destroy()
-{
-}
-
-void PlayerComponent::BeginPlay()
+void PlayerComponent::Start()
 {
 	auto input = Input::GetInstance();
 
@@ -28,24 +16,14 @@ void PlayerComponent::BeginPlay()
 	input->BindInput("Player0_MoveRight", std::bind(&PlayerComponent::MoveRight, this));
 	input->BindInput("Player0_MoveForward", std::bind(&PlayerComponent::MoveForward, this));
 	input->BindInput("Player0_MoveBackward", std::bind(&PlayerComponent::MoveBackward, this));
-	input->BindInput("Player0_RotateHeadLeft", std::bind(&PlayerComponent::RotateHeadLeft, this));
-	input->BindInput("Player0_RotateHeadRight", std::bind(&PlayerComponent::RotateHeadRight, this));
-
-
 }
 
-void PlayerComponent::Tick(float deltaTime)
+void PlayerComponent::Update(float deltaTime)
 {
 }
 
-void PlayerComponent::EndPlay()
+void PlayerComponent::Destroy()
 {
-	auto input = Input::GetInstance();
-
-	input->ClearBinding("Player0_MoveLeft");
-	input->ClearBinding("Player0_MoveRight");
-	input->ClearBinding("Player0_MoveForward");
-	input->ClearBinding("Player0_MoveBackward");
 }
 
 void PlayerComponent::MoveLeft()
@@ -78,36 +56,4 @@ void PlayerComponent::MoveBackward()
 	newPosition.z += 0.3f;
 
 	m_Owner->SetLocalPosition(newPosition);
-}
-
-void PlayerComponent::RotateHeadLeft()
-{
-	auto children = m_Owner->GetChildren();
-	for (auto child : children)
-	{
-		if (child->GetName() == "Head")
-		{
-			glm::vec3 newRotation = child->GetTransform().LocalRotation;
-			newRotation.y += 1.0f;
-
-			child->SetLocalRotation(newRotation);
-			break;
-		}
-	}
-}
-
-void PlayerComponent::RotateHeadRight()
-{
-	auto children = m_Owner->GetChildren();
-	for (auto child : children)
-	{
-		if (child->GetName() == "Head")
-		{
-			glm::vec3 newRotation = child->GetTransform().LocalRotation;
-			newRotation.y -= 1.0f;
-
-			child->SetLocalRotation(newRotation);
-			break;
-		}
-	}
 }

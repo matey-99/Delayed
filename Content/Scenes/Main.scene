@@ -1,13 +1,13 @@
-Scene: Untitled2
+Scene: Main
 Current Camera: 1
-Entities:
-  - Entity: Root
+Actors:
+  - Actor: Root
     ID: 0
     Transform:
       Position: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-  - Entity: Camera
+  - Actor: Camera
     ID: 1
     Parent: 0
     Transform:
@@ -19,7 +19,7 @@ Entities:
       Field Of View: 60
       Near Clip Plane: 0.100000001
       Far Clip Plane: 1000
-  - Entity: Point Light
+  - Actor: Point Light
     ID: 643321389
     Parent: 0
     Transform:
@@ -28,7 +28,7 @@ Entities:
       Scale: [1, 1, 1]
     Point Light:
       Color: [50, 50, 50]
-  - Entity: Cube Instanced
+  - Actor: Cube Instanced
     ID: 850874805
     Parent: 0
     Transform:
@@ -36,15 +36,15 @@ Entities:
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Instance Rendered Mesh:
-      Mesh: ../../../Assets/Models/defaults/default_cube.obj
+      Mesh: Models/defaults/default_cube.obj
       Materials:
         - Material: 0
-          Path: ../../../Assets/Materials/DefaultInstanced.mat
+          Path: Materials/DefaultInstanced.mat
       Radius: 200
       Instances Count: 2500
       Min Mesh Scale: 0.200000003
       Max Mesh Scale: 0.300000012
-  - Entity: New Entity (1)
+  - Actor: New Actor (1)
     ID: 792564103
     Parent: 0
     Transform:
@@ -52,11 +52,11 @@ Entities:
       Rotation: [0, 0, 0]
       Scale: [57.1341515, 1, 55.8362999]
     Model:
-      Mesh: ../../../Assets/Models/defaults/default_cube.obj
+      Mesh: Models/defaults/default_cube.obj
       Materials:
         - Material: 0
-          Path: ../../../Assets/Materials/Default.mat
-  - Entity: New Entity
+          Path: Materials/Default.mat
+  - Actor: New Actor
     ID: 206093007
     Parent: 0
     Transform:
@@ -64,7 +64,7 @@ Entities:
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Model:
-      Mesh: ../../../Assets/Models/defaults/default_cube.obj
+      Mesh: Models/defaults/default_cube.obj
       Materials:
         - Material: 0
-          Path: ../../../Assets/Materials/Default.mat
+          Path: Materials/Default.mat

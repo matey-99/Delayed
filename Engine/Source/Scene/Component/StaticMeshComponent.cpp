@@ -2,8 +2,9 @@
 
 #include "Importer/MeshImporter.h"
 #include "Importer/MaterialImporter.h"
+#include "Content/ContentHelper.h"
 
-#include "Scene/Entity.h"
+#include "Scene/Actor.h"
 #include "Scene/Scene.h"
 #include "Light/PointLight.h"
 #include "Light/SpotLight.h"
@@ -11,21 +12,21 @@
 
 #include <glad/glad.h>
 
-StaticMeshComponent::StaticMeshComponent(Entity* owner)
-	: StaticMeshComponent(owner, "../../../Assets/Models/defaults/default_cube.obj")
+StaticMeshComponent::StaticMeshComponent(Actor* owner)
+	: StaticMeshComponent(owner, "Models/defaults/default_cube.obj")
 {
 }
 
-StaticMeshComponent::StaticMeshComponent(Entity* owner, std::string path)
+StaticMeshComponent::StaticMeshComponent(Actor* owner, std::string path)
 	: RenderComponent(owner), m_Path(path)
 {
 	LoadMesh(path);
 
 	for (int i = 0; i < m_Meshes.size(); i++)
-		LoadMaterial("../../../Assets/Materials/Default.mat");
+		LoadMaterial("Materials/Default.mat");
 }
 
-StaticMeshComponent::StaticMeshComponent(Entity* owner, std::string path, std::vector<std::string> materialsPaths)
+StaticMeshComponent::StaticMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPaths)
 	: RenderComponent(owner), m_Path(path), m_MaterialsPaths(materialsPaths)
 {
 	LoadMesh(path);
@@ -35,12 +36,12 @@ StaticMeshComponent::StaticMeshComponent(Entity* owner, std::string path, std::v
 
 }
 
-void StaticMeshComponent::Begin()
+void StaticMeshComponent::Start()
 {
 
 }
 
-void StaticMeshComponent::Update()
+void StaticMeshComponent::Update(float deltaTime)
 {
 
 }
@@ -207,7 +208,7 @@ void StaticMeshComponent::ChangeMesh(std::string path)
 	m_MaterialsPaths.clear();
 
 	for (int i = 0; i < m_Meshes.size(); i++)
-		LoadMaterial("../../res/materials/Default.mat");
+		LoadMaterial("Materials/Default.mat");
 }
 
 void StaticMeshComponent::ChangeMaterial(int index, std::string path)

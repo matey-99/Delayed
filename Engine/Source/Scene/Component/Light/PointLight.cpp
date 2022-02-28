@@ -5,7 +5,7 @@
 #include "Scene/Scene.h"
 #include "Renderer/UniformBuffer.h"
 
-PointLight::PointLight(Entity* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer)
+PointLight::PointLight(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer)
 	: Light(owner, vertexUniformBuffer, fragmentUniformBuffer)
 {
 	m_Index = owner->GetScene()->GetComponentsCount<PointLight>();

@@ -14,15 +14,15 @@ void DebugPanel::Render()
 
 	ImGui::Text("Framerate: %.1f FPS (%.3f ms/frame)", ImGui::GetIO().Framerate, 1000 / ImGui::GetIO().Framerate);
 
-	auto selectedEntity = m_Editor->GetSceneHierarchyPanel()->GetSelectedEntity();
-	if (selectedEntity)
+	auto selectedActor = m_Editor->GetSceneHierarchyPanel()->GetSelectedActor();
+	if (selectedActor)
 	{
-		ImGui::Text("Selected entity: ");
+		ImGui::Text("Selected actor: ");
 		ImGui::SameLine();
-		ImGui::Text(selectedEntity->GetName().c_str());
+		ImGui::Text(selectedActor->GetName().c_str());
 
-		if (selectedEntity->GetComponent<StaticMeshComponent>())
-			ImGui::Text("Vertices: %i", selectedEntity->GetComponent<StaticMeshComponent>()->GetRenderedVerticesCount());
+		if (selectedActor->GetComponent<StaticMeshComponent>())
+			ImGui::Text("Vertices: %i", selectedActor->GetComponent<StaticMeshComponent>()->GetRenderedVerticesCount());
 	}
 
 	ImGui::End();

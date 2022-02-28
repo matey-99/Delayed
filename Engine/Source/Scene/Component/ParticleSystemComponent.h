@@ -7,10 +7,10 @@
 class ParticleSystemComponent : public RenderComponent
 {
 public:
-	ParticleSystemComponent(Entity* owner);
+	ParticleSystemComponent(Actor* owner);
 
-	virtual void Begin() override;
-	virtual void Update() override;
+	virtual void Start() override;
+	virtual void Update(float deltaTime) override;
 	virtual void PreRender() override;
 	virtual void Render() override;
 	virtual void Destroy() override;
@@ -43,5 +43,5 @@ private:
 	float m_ParticlesLifeTimeCounter;
 
 	friend class SceneSerializer;
-	friend class EntityDetailsPanel;
+	friend class ActorDetailsPanel;
 };

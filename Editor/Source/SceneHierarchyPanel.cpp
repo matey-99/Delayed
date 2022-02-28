@@ -9,7 +9,7 @@
 
 SceneHierarchyPanel::SceneHierarchyPanel(Ref<Editor> editor, Ref<Scene> scene) : m_Editor(editor), m_Scene(scene)
 {
-	m_SelectedEntity = Ref<Entity>();
+	m_SelectedActor = Ref<Actor>();
 }
 
 void SceneHierarchyPanel::Render()
@@ -25,62 +25,62 @@ void SceneHierarchyPanel::Render()
 		ImGui::TreePop();
 	}
 
-	bool addEntity = false;
+	bool addActor = false;
 	if (ImGui::BeginPopupContextWindow())
 	{
-		ImGui::MenuItem("Add Entity", "", &addEntity);
+		ImGui::MenuItem("Add Actor", "", &addActor);
 
 		ImGui::EndPopup();
 	}
 
-	if (addEntity)
+	if (addActor)
 	{
-		std::string entityName = "New Entity";
+		std::string actorName = "New Actor";
 		bool unique = false;
 		int nr = 1;
 		while (!unique)
 		{
 			unique = true;
-			for (auto entity : m_Scene->GetEntities())
+			for (auto actor : m_Scene->GetActors())
 			{
-				if (entity->GetName() == entityName)
+				if (actor->GetName() == actorName)
 				{
-					entityName = "New Entity (" + std::to_string(nr) + ")";
+					actorName = "New Actor (" + std::to_string(nr) + ")";
 					nr++;
 					unique = false;
 				}
 			}
 		}
 
-		m_Scene->AddEntity(entityName);
+		m_Scene->AddActor(actorName);
 	}
 
 	ImGui::End();
 }
 
-void SceneHierarchyPanel::DuplicateSelectedEntity()
+void SceneHierarchyPanel::DuplicateSelectedActor()
 {
-	std::string name = m_SelectedEntity->GetName();
-	Entity* parent = m_SelectedEntity->GetParent();
+	std::string name = m_SelectedActor->GetName();
+	Actor* parent = m_SelectedActor->GetParent();
 
-	auto newEntity = m_Scene->AddEntity(name);
-	newEntity->SetParent(parent);
+	auto newActor = m_Scene->AddActor(name);
+	newActor->SetParent(parent);
 
-	newEntity->SetLocalPosition(m_SelectedEntity->GetTransform().LocalPosition);
-	newEntity->SetLocalRotation(m_SelectedEntity->GetTransform().LocalRotation);
-	newEntity->SetLocalScale(m_SelectedEntity->GetTransform().LocalScale);
+	newActor->SetLocalPosition(m_SelectedActor->GetTransform().LocalPosition);
+	newActor->SetLocalRotation(m_SelectedActor->GetTransform().LocalRotation);
+	newActor->SetLocalScale(m_SelectedActor->GetTransform().LocalScale);
 
-	if (auto smc = m_SelectedEntity->GetComponent<StaticMeshComponent>())
+	if (auto smc = m_SelectedActor->GetComponent<StaticMeshComponent>())
 	{
-		auto newSMC = newEntity->AddComponent<StaticMeshComponent>();
+		auto newSMC = newActor->AddComponent<StaticMeshComponent>();
 		newSMC->ChangeMesh(smc->GetPath());
 		for (int i = 0; i < smc->GetMaterialsPaths().size(); i++)
 			newSMC->ChangeMaterial(i, smc->GetMaterialsPaths()[i]);
 	}
 
-	if (auto irmc = m_SelectedEntity->GetComponent<InstanceRenderedMeshComponent>())
+	if (auto irmc = m_SelectedActor->GetComponent<InstanceRenderedMeshComponent>())
 	{
-		auto newIRMC = newEntity->AddComponent<InstanceRenderedMeshComponent>();
+		auto newIRMC = newActor->AddComponent<InstanceRenderedMeshComponent>();
 		newIRMC->ChangeMesh(irmc->GetPath());
 		for (int i = 0; i < irmc->GetMaterialsPaths().size(); i++)
 			newIRMC->ChangeMaterial(i, irmc->GetMaterialsPaths()[i]);
@@ -91,23 +91,23 @@ void SceneHierarchyPanel::DuplicateSelectedEntity()
 		newIRMC->SetMaxMeshScale(irmc->GetMaxMeshScale());
 	}
 
-	SelectEntity(newEntity);
+	SelectActor(newActor);
 }
 
-void SceneHierarchyPanel::SelectEntity(Ref<Entity> entity)
+void SceneHierarchyPanel::SelectActor(Ref<Actor> actor)
 {
-	m_SelectedEntity = entity;
-	m_Editor->ShowDetails(m_SelectedEntity);
+	m_SelectedActor = actor;
+	m_Editor->ShowDetails(m_SelectedActor);
 }
 
-void SceneHierarchyPanel::UnselectEntity()
+void SceneHierarchyPanel::UnselectActor()
 {
-	m_SelectedEntity = Ref<Entity>();
+	m_SelectedActor = Ref<Actor>();
 }
 
-void SceneHierarchyPanel::TreeChildren(Ref<Entity> entity)
+void SceneHierarchyPanel::TreeChildren(Ref<Actor> actor)
 {
-	auto children = entity->m_Children;
+	auto children = actor->m_Children;
 	for (int i = 0; i < children.size(); i++)
 	{
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_None;
@@ -117,7 +117,7 @@ void SceneHierarchyPanel::TreeChildren(Ref<Entity> entity)
 			flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
 		bool open = false;
-		auto e = m_Scene->FindEntity(children[i]->m_ID);
+		auto e = m_Scene->FindActor(children[i]->m_ID);
 
 		ImGui::PushID(i);
 		bool enable = e->IsEnable();
@@ -131,22 +131,22 @@ void SceneHierarchyPanel::TreeChildren(Ref<Entity> entity)
 
 		if (ImGui::IsItemClicked())
 		{
-			SelectEntity(e);
+			SelectActor(e);
 		}
 
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("entity"))
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("actor"))
 			{
-				Ref<Entity>* childEntity = static_cast<Ref<Entity>*>(payload->Data);
-				childEntity->get()->SetParent(children[i]);
+				Ref<Actor>* childActor = static_cast<Ref<Actor>*>(payload->Data);
+				childActor->get()->SetParent(children[i]);
 			}
 			ImGui::EndDragDropTarget();
 		}
 
 		if (ImGui::BeginDragDropSource())
 		{
-			ImGui::SetDragDropPayload("entity", &e, sizeof(Entity));
+			ImGui::SetDragDropPayload("actor", &e, sizeof(Actor));
 			ImGui::Text(e->GetName().c_str());
 			ImGui::EndDragDropSource();
 		}

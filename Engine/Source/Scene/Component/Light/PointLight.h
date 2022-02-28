@@ -12,7 +12,7 @@ private:
 	float m_FarPlane;
 
 public:
-	PointLight(Entity* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer);
+	PointLight(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer);
 	~PointLight();
 
 	virtual void Use() override;
@@ -26,5 +26,5 @@ public:
 	inline std::vector<glm::mat4> GetLightViews() const { return m_LightViews; }
 	inline float GetFarPlane() const { return m_FarPlane; }
 
-	friend class EntityDetailsPanel;
+	friend class ActorDetailsPanel;
 };

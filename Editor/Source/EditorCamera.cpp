@@ -3,7 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Scene/Scene.h"
-#include "Scene/Entity.h"
+#include "Scene/Actor.h"
 
 EditorCamera::EditorCamera(Scene* scene, glm::vec3 position, glm::vec3 front, glm::vec3 up, float yaw, float pitch, float movementSpeed)
 	: m_Scene(scene), Position(position), Front(front), Up(up), Yaw(yaw), Pitch(pitch), m_MovementSpeed(movementSpeed)

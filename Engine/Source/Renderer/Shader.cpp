@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-Shader::Shader(std::string name, const char* vertexPath, const char* fragmentPath, const char* geometryPath)
+Shader::Shader(std::string name, std::string vertexPath, std::string fragmentPath, std::string geometryPath)
     : m_Name(name), m_Uniforms(std::vector<ShaderUniform>())
 {
     std::string vertexSource, fragmentSource, geometrySource;
@@ -25,7 +25,7 @@ Shader::Shader(std::string name, const char* vertexPath, const char* fragmentPat
         fragmentSource = buffer.str();
         filestream.close();
 
-        if (geometryPath)
+        if (geometryPath != "")
         {
             buffer.str(std::string());
 
@@ -37,20 +37,20 @@ Shader::Shader(std::string name, const char* vertexPath, const char* fragmentPat
     }
     catch (std::ifstream::failure e)
     {
-        std::cout << "Reading shader failed." << std::endl;
+        std::cout << "Reading shader failed: " << m_Name << std::endl;
     }
 
     unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, vertexSource.c_str());
     unsigned int fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentSource.c_str());
 
     uint32_t geometryShader;
-    if (geometryPath)
+    if (geometryPath != "")
         geometryShader = CompileShader(GL_GEOMETRY_SHADER, geometrySource.c_str());
 
     unsigned int shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
-    if (geometryPath)
+    if (geometryPath != "")
         glAttachShader(shaderProgram, geometryShader);
 
     glLinkProgram(shaderProgram);
@@ -66,7 +66,7 @@ Shader::Shader(std::string name, const char* vertexPath, const char* fragmentPat
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-    if (geometryPath)
+    if (geometryPath != "")
         glDeleteShader(geometryShader);
 
     id = shaderProgram;

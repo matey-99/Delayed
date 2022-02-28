@@ -3,7 +3,7 @@
 #include "typedefs.h"
 #include "Renderer/Renderer.h"
 #include "SceneHierarchyPanel.h"
-#include "EntityDetailsPanel.h"
+#include "ActorDetailsPanel.h"
 #include "ContentBrowserPanel.h"
 #include "MaterialEditorPanel.h"
 #include "RendererSettingsPanel.h"
@@ -26,7 +26,7 @@ private:
 	Ref<EditorCamera> m_Camera;
 
 	Ref<SceneHierarchyPanel> m_SceneHierarchyPanel;
-	Ref<EntityDetailsPanel> m_EntityDetailsPanel;
+	Ref<ActorDetailsPanel> m_ActorDetailsPanel;
 	Ref<ContentBrowserPanel> m_ContentBrowserPanel;
 	Ref<MaterialEditorPanel> m_MaterialEditorPanel;
 	Ref<RendererSettingsPanel> m_RendererSettingsPanel;
@@ -56,12 +56,12 @@ public:
 	static Ref<Editor> GetInstance();
 
 	void Initialize(Ref<Scene> scene);
-	void Tick(float deltaTime);
+	void Update(float deltaTime);
 	void Render();
 
 	void RenderScene();
 
-	void ShowDetails(Ref<Entity> entity);
+	void ShowDetails(Ref<Actor> actor);
 	void HideDetails();
 
 	void ShowMaterialEditor(Ref<Material> material);

@@ -26,11 +26,6 @@ target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
 target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE YAML_CPP_STATIC_DEFINE)
 target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE LIBRARY_SUFFIX="")
 
-add_custom_command(TARGET  ${EDITOR_PROJECT_NAME} POST_BUILD
-				   COMMAND ${CMAKE_COMMAND} -E copy_directory
-						   ${CMAKE_SOURCE_DIR}/Assets
-						   ${CMAKE_CURRENT_BINARY_DIR}/Assets)
-
 # Create virtual folders to make it look nicer in VS
 if(MSVC_IDE)
 	# Macro to preserve source files hierarchy in the IDE

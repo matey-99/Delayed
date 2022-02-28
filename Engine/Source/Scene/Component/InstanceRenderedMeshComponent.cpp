@@ -3,27 +3,28 @@
 #include "Importer/MeshImporter.h"
 #include "Importer/MaterialImporter.h"
 
-#include "Scene/Entity.h"
+#include "Scene/Actor.h"
 #include "Scene/Scene.h"
 #include "Light/PointLight.h"
 #include "Light/SpotLight.h"
 #include "Light/SkyLight.h"
+#include "Content/ContentHelper.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Entity* owner)
-	: InstanceRenderedMeshComponent(owner, "../../../Assets/Models/defaults/default_cube.obj")
+InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Actor* owner)
+	: InstanceRenderedMeshComponent(owner, "Models/defaults/default_cube.obj")
 {
 }
 
-InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Entity* owner, std::string path)
+InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Actor* owner, std::string path)
 	: RenderComponent(owner), m_Path(path)
 {
 	LoadMesh(path);
 
 	for (int i = 0; i < m_Meshes.size(); i++)
-		LoadMaterial("../../../Assets/Materials/DefaultInstanced.mat");
+		LoadMaterial("Materials/DefaultInstanced.mat");
 
 	m_Radius = 1.0f;
 	m_InstancesCount = 1;
@@ -33,7 +34,7 @@ InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Entity* owner, std:
 	Generate();
 }
 
-InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Entity* owner, std::string path, std::vector<std::string> materialsPaths)
+InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPaths)
 	: RenderComponent(owner), m_Path(path), m_MaterialsPaths(materialsPaths)
 {
 	LoadMesh(path);
@@ -49,12 +50,12 @@ InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Entity* owner, std:
 	Generate();
 }
 
-void InstanceRenderedMeshComponent::Begin()
+void InstanceRenderedMeshComponent::Start()
 {
 	
 }
 
-void InstanceRenderedMeshComponent::Update()
+void InstanceRenderedMeshComponent::Update(float deltaTime)
 {
 	
 }
@@ -216,7 +217,7 @@ void InstanceRenderedMeshComponent::ChangeMesh(std::string path)
 	m_MaterialsPaths.clear();
 
 	for (int i = 0; i < m_Meshes.size(); i++)
-		LoadMaterial("../../res/materials/DefaultInstanced.mat");
+		LoadMaterial("Materials/DefaultInstanced.mat");
 }
 
 void InstanceRenderedMeshComponent::ChangeMaterial(int index, std::string path)

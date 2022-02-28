@@ -13,7 +13,7 @@ Editor::Editor()
 	m_Camera = Ref<EditorCamera>();
 
 	m_SceneHierarchyPanel = Ref<SceneHierarchyPanel>();
-	m_EntityDetailsPanel = Ref<EntityDetailsPanel>();
+	m_ActorDetailsPanel = Ref<ActorDetailsPanel>();
 	m_ContentBrowserPanel = Ref<ContentBrowserPanel>();
 	m_MaterialEditorPanel = Ref<MaterialEditorPanel>();
 	m_WorldSettingsPanel = Ref<WorldSettingsPanel>();
@@ -48,7 +48,7 @@ void Editor::Initialize(Ref<Scene> scene)
 	m_Camera = CreateRef<EditorCamera>(m_Scene.get());
 
 	m_SceneHierarchyPanel = CreateRef<SceneHierarchyPanel>(GetReference(), scene);
-	m_EntityDetailsPanel = CreateRef<EntityDetailsPanel>(GetReference());
+	m_ActorDetailsPanel = CreateRef<ActorDetailsPanel>(GetReference());
 	m_ContentBrowserPanel = CreateRef<ContentBrowserPanel>(GetReference(), scene);
 	m_MaterialEditorPanel = CreateRef<MaterialEditorPanel>(GetReference());
 	m_RendererSettingsPanel = CreateRef<RendererSettingsPanel>(GetReference(), Renderer::GetInstance());
@@ -58,12 +58,14 @@ void Editor::Initialize(Ref<Scene> scene)
 	m_CameraComponentViewport = CreateRef<CameraComponentViewport>(GetReference(), scene);
 }
 
-void Editor::Tick(float deltaTime)
+void Editor::Update(float deltaTime)
 {
+	m_Camera->Update();
+
 	if (m_IsCameraComponentViewport)
 	{
 		if (m_SelectedCameraComponent)
-			m_SelectedCameraComponent->Tick(deltaTime);
+			m_SelectedCameraComponent->Update(deltaTime);
 	}
 }
 
@@ -76,7 +78,7 @@ void Editor::Render()
 
 	if (m_DetailsPanel)
 	{
-		m_EntityDetailsPanel->Render();
+		m_ActorDetailsPanel->Render();
 	}
 	if (m_MaterialEditor)
 	{
@@ -124,12 +126,12 @@ void Editor::RenderScene()
 	renderer->GetMainSceneFramebuffer()->Unbind();
 }
 
-void Editor::ShowDetails(Ref<Entity> entity)
+void Editor::ShowDetails(Ref<Actor> actor)
 {
-	m_EntityDetailsPanel->SetEntity(entity);
+	m_ActorDetailsPanel->SetActor(actor);
 	m_DetailsPanel = true;
 
-	if (m_SelectedCameraComponent = entity->GetComponent<CameraComponent>())
+	if (m_SelectedCameraComponent = actor->GetComponent<CameraComponent>())
 		m_IsCameraComponentViewport = true;
 	else
 		m_IsCameraComponentViewport = false;

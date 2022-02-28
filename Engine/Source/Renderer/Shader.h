@@ -24,7 +24,7 @@ private:
 	std::vector<ShaderUniform> m_Uniforms;
 
 public:
-	Shader(std::string name, const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+	Shader(std::string name, std::string vertexPath, std::string fragmentPath, std::string geometryPath = "");
 	~Shader();
 	void Use() const;
 

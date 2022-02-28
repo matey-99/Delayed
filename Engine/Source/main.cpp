@@ -16,6 +16,7 @@
 #include "Scene/Scene.h"
 #include "Scene/SceneSerializer.h"
 #include "Scene/SceneManager.h"
+#include "Content/ContentHelper.h"
 #include "Material/Material.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Light/Light.h"
@@ -24,39 +25,6 @@
 
 #define FPS 60.0f
 #define MS_PER_UPDATE 1 / FPS
-
-Ref<Scene> scene = Ref<Scene>();
-
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
-float lag = 0.0f;
-
-bool rotateCamera = false;
-bool moveCamera = false;
-
-const float mouseSensitivity = 0.1f;
-const float scrollSensitivity = 0.1f;
-float lastMouseX = 400, lastMouseY = 300;
-
-void ProcessKeyboardInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
-
-void ProcessMouseInput(GLFWwindow* window)
-{
-}
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-
-}
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-
-}
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -81,11 +49,11 @@ int main(int, char**)
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1440, 900, "PBL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1920, 1080, "PBL", NULL, NULL);
     if (window == NULL)
         return 1;
 
-    //glfwMaximizeWindow(window);
+    glfwMaximizeWindow(window);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
 
@@ -100,10 +68,8 @@ int main(int, char**)
         return 1;
     }
 
-    FMOD_RESULT result;
     FMOD::System* system = nullptr;
-
-    result = FMOD::System_Create(&system);
+    FMOD_RESULT result = FMOD::System_Create(&system);
     if (result != FMOD_OK)
     {
         printf("FMOD error! (%d) $s\n", result, FMOD_ErrorString(result));
@@ -117,30 +83,31 @@ int main(int, char**)
         return 1;
     }
 
-    Renderer::GetInstance()->Initialize();
-
-    Renderer::GetInstance()->InitializeMainSceneFramebuffer();
-    Renderer::GetInstance()->InitializePostProcessingFramebuffer();
-    Renderer::GetInstance()->InitializeShadowMapFramebuffers();
-
-    Renderer::GetInstance()->InitializePostProcessing();
-
-    auto sceneManager = SceneManager::GetInstance();
-    sceneManager->LoadScene("../../../Assets/Scenes/Untitled2.scene");
-
-    scene = sceneManager->GetCurrentScene();
-
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetScrollCallback(window, scroll_callback);
-
+    // RENDERER
     auto renderer = Renderer::GetInstance();
+    renderer->Initialize();
+
+    // SCENE
+    auto sceneManager = SceneManager::GetInstance();
+    auto scene = sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/Main.scene"));
+
+    // INPUT
     auto input = Input::GetInstance();
+
+    // SHADER
     auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::POST_PROCESSING, "Screen");
 
+    // TIME
+    float deltaTime = 0.0f;
+    float lastFrame = 0.0f;
+    float lag = 0.0f;
+
+    // START
+    scene->Start();
 
     bool shouldRender = false;
     lastFrame = glfwGetTime();
-    // Main loop
+
     while (!glfwWindowShouldClose(window))
     {
         float currentFrame = glfwGetTime();
@@ -148,17 +115,15 @@ int main(int, char**)
         lastFrame = currentFrame;
         lag += deltaTime;
 
-        ProcessKeyboardInput(window);
-        ProcessMouseInput(window);
-
+        // INPUTS
         glfwPollEvents();
-
-        scene = sceneManager->GetCurrentScene();
+        input->ProcessKeyboardInput(window);
 
         while (lag >= MS_PER_UPDATE)
         {
-            scene->Update();
-            scene->Tick(deltaTime);
+            // UPDATE
+            scene = sceneManager->GetCurrentScene();
+            scene->Update(deltaTime);
 
             shouldRender = true;
             lag -= MS_PER_UPDATE;

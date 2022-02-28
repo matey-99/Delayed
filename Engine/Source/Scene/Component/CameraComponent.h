@@ -1,21 +1,17 @@
 #pragma once
 
-#include "InGameComponent.h"
+#include "Component.h"
 
-class CameraComponent : public InGameComponent
+class CameraComponent : public Component
 {
 private:
 
 public:
-	CameraComponent(Entity* owner);
+	CameraComponent(Actor* owner);
 
-	virtual void Begin() override;
-	virtual void Update() override;
+	virtual void Start() override;
+	virtual void Update(float deltaTime) override;
 	virtual void Destroy() override;
-
-	virtual void BeginPlay() override;
-	virtual void Tick(float deltaTime) override;
-	virtual void EndPlay() override;
 
 	glm::mat4 GetViewMatrix();
 	glm::mat4 GetProjectionMatrix();
@@ -38,5 +34,5 @@ private:
 	glm::vec3 m_Right;
 
 	friend class SceneSerializer;
-	friend class EntityDetailsPanel;
+	friend class ActorDetailsPanel;
 };

@@ -3,6 +3,7 @@
 #include "imgui.h"
 #include "Editor.h"
 #include "Material/MaterialSerializer.h"
+#include "Content/ContentHelper.h"
 
 MaterialEditorPanel::MaterialEditorPanel(Ref<Editor> editor) : m_Editor(editor)
 {
@@ -97,7 +98,7 @@ void MaterialEditorPanel::Render()
 
 void MaterialEditorPanel::DisplayTextures(std::string name)
 {
-    for (auto& p : std::filesystem::recursive_directory_iterator("../../../Assets"))
+    for (auto& p : std::filesystem::recursive_directory_iterator(ContentHelper::GetAssetPath("")))
     {
         std::stringstream ss;
         ss << p.path();

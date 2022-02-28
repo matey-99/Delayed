@@ -55,6 +55,12 @@ void Renderer::Initialize()
 
 	m_CameraVertexUniformBuffer = CreateRef<UniformBuffer>(sizeof(glm::mat4) * 3, 0);
 	m_CameraFragmentUniformBuffer = CreateRef<UniformBuffer>(GLSL_VEC3_SIZE, 2);
+
+	InitializeMainSceneFramebuffer();
+	InitializePostProcessingFramebuffer();
+	InitializeShadowMapFramebuffers();
+
+	InitializePostProcessing();
 }
 
 void Renderer::InitializeMainSceneFramebuffer()
@@ -356,7 +362,7 @@ void Renderer::RenderShadowMap(Scene* scene, DirectionalLight* source)
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glCullFace(GL_FRONT);
 
-	for (auto e : scene->GetEntities())
+	for (auto e : scene->GetActors())
 	{
 		if (auto smc = e->GetComponent<StaticMeshComponent>())
 		{
@@ -401,7 +407,7 @@ void Renderer::RenderShadowMap(Scene* scene, PointLight* source)
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glCullFace(GL_FRONT);
 
-	for (auto e : scene->GetEntities())
+	for (auto e : scene->GetActors())
 	{
 		if (auto smc = e->GetComponent<StaticMeshComponent>())
 		{
@@ -445,7 +451,7 @@ void Renderer::RenderShadowMap(Scene* scene, SpotLight* source)
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glCullFace(GL_FRONT);
 
-	for (auto e : scene->GetEntities())
+	for (auto e : scene->GetActors())
 	{
 		if (auto smc = e->GetComponent<StaticMeshComponent>())
 		{

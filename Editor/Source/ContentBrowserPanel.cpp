@@ -7,6 +7,7 @@
 #include "Material/Material.h"
 #include "Material/MaterialSerializer.h"
 #include "Importer/MaterialImporter.h"
+#include "Content/ContentHelper.h"
 
 ContentBrowserPanel::ContentBrowserPanel(Ref<Editor> editor, Ref<Scene> scene) : m_Editor(editor), m_Scene(scene)
 {
@@ -15,15 +16,14 @@ ContentBrowserPanel::ContentBrowserPanel(Ref<Editor> editor, Ref<Scene> scene) :
 	m_SupportedFileFormats.push_back("fbx");
 	m_SupportedFileFormats.push_back("mat");
 
-	m_ResourcesDirectory = "../../../Assets";
-	m_DisplayedDirectory = m_ResourcesDirectory;
+	m_DisplayedDirectory = ContentHelper::GetAssetPath("");
 }
 
 void ContentBrowserPanel::Render()
 {
 	ImGui::Begin("Content Browser");
 
-	if (m_DisplayedDirectory != m_ResourcesDirectory)
+	if (m_DisplayedDirectory != ContentHelper::GetAssetPath(""))
 	{
 		bool selected = false;
 		ImGui::Selectable("..", &selected);
@@ -97,20 +97,20 @@ void ContentBrowserPanel::MakeAction(std::string path, std::string extension)
 	}
 	else if (extension == "obj" || extension == "fbx" || extension == "3ds" || extension == "dae")
 	{
-		std::string entityName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - (path.find_last_of('/') + 1));
+		std::string actorName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - (path.find_last_of('/') + 1));
 
 		unsigned int countSameName = 0;
-		for (auto entity : m_Scene->GetEntities())
+		for (auto actor : m_Scene->GetActors())
 		{
-			if (entity->GetName().substr(0, entity->GetName().find_last_of(" ")) == entityName)
+			if (actor->GetName().substr(0, actor->GetName().find_last_of(" ")) == actorName)
 				countSameName++;
 		}
 		if (countSameName > 0)
 		{
-			entityName += " (" + std::to_string(countSameName) + ")";
+			actorName += " (" + std::to_string(countSameName) + ")";
 		}
 
-		m_Scene->AddEntity(path, entityName, m_Scene->FindEntity(0));
+		m_Scene->AddActor(path, actorName, m_Scene->FindActor(0));
 	}
 	else if (extension == "scene")
 	{
@@ -132,4 +132,6 @@ void ContentBrowserPanel::CorrectPath(std::string& path)
 
 		path.replace(index, 2, "/");
 	}
+
+	path = path.substr(ContentHelper::GetAssetPath("").size());
 }

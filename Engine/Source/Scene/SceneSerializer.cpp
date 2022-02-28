@@ -16,10 +16,10 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::BeginMap;
 	out << YAML::Key << "Scene" << YAML::Value << scene->m_Name;
 	out << YAML::Key << "Current Camera" << YAML::Value << scene->m_CurrentCamera->GetOwner()->GetID();
-	out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
-	for (auto entity : scene->GetEntities())
+	out << YAML::Key << "Actors" << YAML::Value << YAML::BeginSeq;
+	for (auto actor : scene->GetActors())
 	{
-		SerializeEntity(out, entity);
+		SerializeActor(out, actor);
 	}
 	out << YAML::EndSeq;
 	out << YAML::EndMap;
@@ -47,31 +47,31 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	std::string sceneName = data["Scene"].as<std::string>();
 	scene->m_Name = sceneName;
 
-	YAML::Node entities = data["Entities"];
-	if (entities)
+	YAML::Node actors = data["Actors"];
+	if (actors)
 	{
 		auto parentsIDs = std::vector<uint64_t>();
 
-		for (auto entity : entities)
+		for (auto actor : actors)
 		{
-			Ref<Entity> e = Ref<Entity>();
-			if (entity["ID"].as<uint64_t>() == 0)
+			Ref<Actor> a = Ref<Actor>();
+			if (actor["ID"].as<uint64_t>() == 0)
 			{
-				e = scene->AddRoot();
+				a = scene->AddRoot();
 			}
 			else
 			{
 				if (!scene->GetRoot())
 				{
-					std::cout << "Loaded scene doesn't contain root entity!" << std::endl;
+					std::cout << "Loaded scene doesn't contain root actor!" << std::endl;
 				}
 
-				e = scene->AddEntity(entity["ID"].as<uint64_t>(), entity["Entity"].as<std::string>());
+				a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Actor"].as<std::string>());
 			}
 			
-			e->SetID(entity["ID"].as<uint64_t>());
+			a->SetID(actor["ID"].as<uint64_t>());
 			
-			if (auto parent = entity["Parent"])
+			if (auto parent = actor["Parent"])
 			{
 				parentsIDs.push_back(parent.as<uint64_t>());
 			}
@@ -80,12 +80,12 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 				parentsIDs.push_back(-1);
 			}
 
-			auto transform = entity["Transform"];
-			e->SetLocalPosition(transform["Position"].as<glm::vec3>());
-			e->SetLocalRotation(transform["Rotation"].as<glm::vec3>());
-			e->SetLocalScale(transform["Scale"].as<glm::vec3>());
+			auto transform = actor["Transform"];
+			a->SetLocalPosition(transform["Position"].as<glm::vec3>());
+			a->SetLocalRotation(transform["Rotation"].as<glm::vec3>());
+			a->SetLocalScale(transform["Scale"].as<glm::vec3>());
 
-			if (auto mesh = entity["Model"])
+			if (auto mesh = actor["Model"])
 			{
 				std::string path = mesh["Mesh"].as<std::string>();
 				std::vector<std::string> materialsPaths;
@@ -95,10 +95,10 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					materialsPaths.push_back(material["Path"].as<std::string>());
 
 				}
-				e->AddComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
+				a->AddComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
 			}
 
-			if (auto mesh = entity["Instance Rendered Mesh"])
+			if (auto mesh = actor["Instance Rendered Mesh"])
 			{
 				std::string path = mesh["Mesh"].as<std::string>();
 				std::vector<std::string> materialsPaths;
@@ -113,7 +113,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 				float minScale = mesh["Min Mesh Scale"].as<float>();
 				float maxScale = mesh["Max Mesh Scale"].as<float>();
 
-				auto m = e->AddComponent<InstanceRenderedMeshComponent>(path.c_str(), materialsPaths);
+				auto m = a->AddComponent<InstanceRenderedMeshComponent>(path.c_str(), materialsPaths);
 				m->m_Radius = radius;
 				m->m_InstancesCount = count;
 				m->m_MinMeshScale = minScale;
@@ -121,49 +121,49 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 				m->Generate();
 			}
 
-			if (auto dirLight = entity["Directional Light"])
+			if (auto dirLight = actor["Directional Light"])
 			{
 				glm::vec3 color = dirLight["Color"].as<glm::vec3>();
 
-				auto l = e->AddComponent<DirectionalLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
+				auto l = a->AddComponent<DirectionalLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
 				l->SetColor(color);
 			}
 
-			if (auto pointLight = entity["Point Light"])
+			if (auto pointLight = actor["Point Light"])
 			{
 				glm::vec3 color = pointLight["Color"].as<glm::vec3>();
 
-				auto l = e->AddComponent<PointLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
+				auto l = a->AddComponent<PointLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
 				l->SetColor(color);
 			}
 
-			if (auto spotLight = entity["Spot Light"])
+			if (auto spotLight = actor["Spot Light"])
 			{
 				float innerCutOff = spotLight["Inner Cut Off"].as<float>();
 				float outerCutOff = spotLight["Outer Cut Off"].as<float>();
 				glm::vec3 color = spotLight["Color"].as<glm::vec3>();
 
-				auto l = e->AddComponent<SpotLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
+				auto l = a->AddComponent<SpotLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
 				l->SetInnerCutOff(innerCutOff);
 				l->SetOuterCutOff(outerCutOff);
 				l->SetColor(color);
 			}
 
-			if (auto skyLight = entity["Sky Light"])
+			if (auto skyLight = actor["Sky Light"])
 			{
 				std::string path = skyLight["Path"].as<std::string>();
 
-				auto l = e->AddComponent<SkyLight>(path);
+				auto l = a->AddComponent<SkyLight>(path);
 			}
 
-			if (auto particle = entity["Particle System"])
+			if (auto particle = actor["Particle System"])
 			{
 				int count = particle["Particles Count"].as<int>();
 				float radius = particle["Sphere Radius"].as<float>();
 				glm::vec3 minVelocity = particle["Min Velocity"].as<glm::vec3>();
 				glm::vec3 maxVelocity = particle["Max Velocity"].as<glm::vec3>();
 
-				auto p = e->AddComponent<ParticleSystemComponent>();
+				auto p = a->AddComponent<ParticleSystemComponent>();
 				p->m_ParticlesCount = count;
 				p->m_Radius = radius;
 				p->m_MinVelocity = minVelocity;
@@ -172,23 +172,23 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 				p->Reset();
 			}
 
-			if (auto camera = entity["Camera"])
+			if (auto camera = actor["Camera"])
 			{
 				glm::vec2 aspectRatio = camera["Aspect Ratio"].as<glm::vec2>();
 				float fieldOfView = camera["Field Of View"].as<float>();
 				float nearClipPlane = camera["Near Clip Plane"].as<float>();
 				float farClipPlane = camera["Far Clip Plane"].as<float>();
 
-				auto c = e->AddComponent<CameraComponent>();
+				auto c = a->AddComponent<CameraComponent>();
 				c->m_AspectRatio = aspectRatio;
 				c->m_FieldOfView = fieldOfView;
 				c->m_NearClipPlane = nearClipPlane;
 				c->m_FarClipPlane = farClipPlane;
 			}
 
-			if (auto player = entity["Player"])
+			if (auto player = actor["Player"])
 			{
-				e->AddComponent<PlayerComponent>();
+				a->AddComponent<PlayerComponent>();
 			}
 		}
 
@@ -197,26 +197,26 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 			if (parentsIDs[i] == -1)
 				continue;
 
-			scene->GetEntities()[i]->SetParent(scene->FindEntity(parentsIDs[i]).get());
+			scene->GetActors()[i]->SetParent(scene->FindActor(parentsIDs[i]).get());
 		}
 	}
 
 	uint64_t currentCameraID = data["Current Camera"].as<uint64_t>();
-	scene->m_CurrentCamera = scene->FindEntity(currentCameraID)->GetComponent<CameraComponent>();
+	scene->m_CurrentCamera = scene->FindActor(currentCameraID)->GetComponent<CameraComponent>();
 
 	file.close();
 	return scene;
 }
 
-void SceneSerializer::SerializeEntity(YAML::Emitter& out, Ref<Entity> entity)
+void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 {
 	out << YAML::BeginMap;
-	out << YAML::Key << "Entity" << YAML::Value << entity->GetName();
-	out << YAML::Key << "ID" << YAML::Value << entity->GetID();
-	if (entity->GetParent())
-		out << YAML::Key << "Parent" << YAML::Value << entity->GetParent()->GetID();
+	out << YAML::Key << "Actor" << YAML::Value << actor->GetName();
+	out << YAML::Key << "ID" << YAML::Value << actor->GetID();
+	if (actor->GetParent())
+		out << YAML::Key << "Parent" << YAML::Value << actor->GetParent()->GetID();
 
-	Transform transform = entity->GetTransform();
+	Transform transform = actor->GetTransform();
 	out << YAML::Key << "Transform";
 	out << YAML::BeginMap;
 	out << YAML::Key << "Position" << YAML::Value << transform.LocalPosition;
@@ -224,7 +224,7 @@ void SceneSerializer::SerializeEntity(YAML::Emitter& out, Ref<Entity> entity)
 	out << YAML::Key << "Scale" << YAML::Value << transform.LocalScale;
 	out << YAML::EndMap;
 
-	if (auto mesh = entity->GetComponent<StaticMeshComponent>())
+	if (auto mesh = actor->GetComponent<StaticMeshComponent>())
 	{
 		out << YAML::Key << "Model";
 		out << YAML::BeginMap;
@@ -240,7 +240,7 @@ void SceneSerializer::SerializeEntity(YAML::Emitter& out, Ref<Entity> entity)
 		out << YAML::EndSeq;
 		out << YAML::EndMap;
 	}
-	if (auto mesh = entity->GetComponent<InstanceRenderedMeshComponent>())
+	if (auto mesh = actor->GetComponent<InstanceRenderedMeshComponent>())
 	{
 		out << YAML::Key << "Instance Rendered Mesh";
 		out << YAML::BeginMap;
@@ -263,21 +263,21 @@ void SceneSerializer::SerializeEntity(YAML::Emitter& out, Ref<Entity> entity)
 
 		out << YAML::EndMap;
 	}
-	if (auto dirLight = entity->GetComponent<DirectionalLight>())
+	if (auto dirLight = actor->GetComponent<DirectionalLight>())
 	{
 		out << YAML::Key << "Directional Light";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Color" << YAML::Value << dirLight->GetColor();
 		out << YAML::EndMap;
 	}
-	if (auto pointLight = entity->GetComponent<PointLight>())
+	if (auto pointLight = actor->GetComponent<PointLight>())
 	{
 		out << YAML::Key << "Point Light";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Color" << YAML::Value << pointLight->GetColor();
 		out << YAML::EndMap;
 	}
-	if (auto spotLight = entity->GetComponent<SpotLight>())
+	if (auto spotLight = actor->GetComponent<SpotLight>())
 	{
 		out << YAML::Key << "Spot Light";
 		out << YAML::BeginMap;
@@ -286,7 +286,7 @@ void SceneSerializer::SerializeEntity(YAML::Emitter& out, Ref<Entity> entity)
 		out << YAML::Key << "Color" << YAML::Value << spotLight->GetColor();
 		out << YAML::EndMap;
 	}
-	if (auto skyLight = entity->GetComponent<SkyLight>())
+	if (auto skyLight = actor->GetComponent<SkyLight>())
 	{
 		out << YAML::Key << "Sky Light";
 		out << YAML::BeginMap;
@@ -294,7 +294,7 @@ void SceneSerializer::SerializeEntity(YAML::Emitter& out, Ref<Entity> entity)
 		out << YAML::EndMap;
 	}
 
-	if (auto particleSystem = entity->GetComponent<ParticleSystemComponent>())
+	if (auto particleSystem = actor->GetComponent<ParticleSystemComponent>())
 	{
 		out << YAML::Key << "Particle System";
 		out << YAML::BeginMap;
@@ -305,7 +305,7 @@ void SceneSerializer::SerializeEntity(YAML::Emitter& out, Ref<Entity> entity)
 		out << YAML::EndMap;
 	}
 
-	if (auto camera = entity->GetComponent<CameraComponent>())
+	if (auto camera = actor->GetComponent<CameraComponent>())
 	{
 		out << YAML::Key << "Camera";
 		out << YAML::BeginMap;
@@ -316,7 +316,7 @@ void SceneSerializer::SerializeEntity(YAML::Emitter& out, Ref<Entity> entity)
 		out << YAML::EndMap;
 	}
 
-	if (auto player = entity->GetComponent<PlayerComponent>())
+	if (auto player = actor->GetComponent<PlayerComponent>())
 	{
 		out << YAML::Key << "Player";
 		out << YAML::BeginMap;

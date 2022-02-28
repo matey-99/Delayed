@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 
 #include "Scene/Component/RenderComponent.h"
-#include "Scene/Entity.h"
+#include "Scene/Actor.h"
 #include "Renderer/Shader.h"
 #include "Renderer/UniformBuffer.h"
 
@@ -28,10 +28,10 @@ class UniformBuffer;
 class Light : public RenderComponent
 {
 public:
-	Light(Entity* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer);
+	Light(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer);
 
-	virtual void Begin() override;
-	virtual void Update() override;
+	virtual void Start() override;
+	virtual void Update(float deltaTime) override;
 	virtual void PreRender() override;
 	virtual void Render() override;
 	virtual void Destroy() override;
@@ -41,13 +41,13 @@ public:
 
 	virtual void RenderShadowMap() = 0;
 
-	inline Entity* GetOwner() const { return m_Owner; }
+	inline Actor* GetOwner() const { return m_Owner; }
 	inline glm::vec3 GetColor() const { return m_Color; }
 	inline glm::mat4 GetLightSpace() const { return m_LightSpace; }
 
 	void SetColor(glm::vec3 color);
 
-	friend class EntityDetailsPanel;
+	friend class ActorDetailsPanel;
 
 protected:
 	Ref<UniformBuffer> m_VertexUniformBuffer;

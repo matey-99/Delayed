@@ -21,7 +21,7 @@ Ref<SceneManager> SceneManager::GetInstance()
 	return s_Instance;
 }
 
-void SceneManager::CreateScene(std::string name)
+Ref<Scene> SceneManager::CreateScene(std::string name)
 {
 	m_CurrentScene = CreateRef<Scene>();
 	m_CurrentScene->SetName(name);
@@ -29,10 +29,14 @@ void SceneManager::CreateScene(std::string name)
 	m_CurrentScenePath = "../../../Assets/Scenes/" + name + ".scene";
 
 	SceneSerializer::Serialize(m_CurrentScene, m_CurrentScenePath);
+
+	return m_CurrentScene;
 }
 
-void SceneManager::LoadScene(std::string path)
+Ref<Scene> SceneManager::LoadScene(std::string path)
 {
 	m_CurrentScene = SceneSerializer::Deserialize(path);
 	m_CurrentScenePath = path;
+
+	return m_CurrentScene;
 }

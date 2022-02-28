@@ -11,5 +11,5 @@ public:
 	static Ref<Scene> Deserialize(std::string path);
 
 private:
-	static void SerializeEntity(YAML::Emitter& out, Ref<Entity> entity);
+	static void SerializeActor(YAML::Emitter& out, Ref<Actor> actor);
 };

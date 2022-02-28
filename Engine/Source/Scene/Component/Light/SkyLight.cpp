@@ -8,7 +8,7 @@
 #include "Renderer/Texture.h"
 #include "Renderer/Renderer.h"
 
-SkyLight::SkyLight(Entity* owner, std::string path)
+SkyLight::SkyLight(Actor* owner, std::string path)
     : RenderComponent(owner), m_Path(path)
 {
 	m_Shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::SKYBOX, "Skybox");
@@ -30,11 +30,11 @@ SkyLight::~SkyLight()
     glDeleteRenderbuffers(1, &m_CaptureRBO);
 }
 
-void SkyLight::Begin()
+void SkyLight::Start()
 {
 }
 
-void SkyLight::Update()
+void SkyLight::Update(float deltaTime)
 {
 }
 

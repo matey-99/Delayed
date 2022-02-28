@@ -2,10 +2,10 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Scene/Entity.h"
+#include "Scene/Actor.h"
 
-CameraComponent::CameraComponent(Entity* owner)
-	: InGameComponent(owner)
+CameraComponent::CameraComponent(Actor* owner)
+	: Component(owner)
 {
 	m_FieldOfView = 45.0f;
 	m_AspectRatio = glm::vec2(16.0f, 9.0f);
@@ -16,33 +16,18 @@ CameraComponent::CameraComponent(Entity* owner)
 	m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
-void CameraComponent::Begin()
+void CameraComponent::Start()
 {
 }
 
-void CameraComponent::Update()
-{
-}
-
-void CameraComponent::Destroy()
-{
-}
-
-void CameraComponent::BeginPlay()
-{
-
-
-}
-
-void CameraComponent::Tick(float deltaTime)
+void CameraComponent::Update(float deltaTime)
 {
 	m_Front = CalculateFrontVector();
 	m_Right = CalculateRightVector();
 }
 
-void CameraComponent::EndPlay()
+void CameraComponent::Destroy()
 {
-
 }
 
 glm::mat4 CameraComponent::GetViewMatrix()

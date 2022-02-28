@@ -20,17 +20,17 @@ private:
 	bool m_MultipleMaterials;
 
 public:
-	StaticMeshComponent(Entity* owner);
-	StaticMeshComponent(Entity* owner, std::string path);
-	StaticMeshComponent(Entity* owner, std::string path, std::vector<std::string> materialsPath);
+	StaticMeshComponent(Actor* owner);
+	StaticMeshComponent(Actor* owner, std::string path);
+	StaticMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPath);
 
 	void LoadMesh(std::string path);
 	void LoadMaterial(std::string path);
 	void ChangeMesh(std::string path);
 	void ChangeMaterial(int index, std::string path);
 
-	virtual void Begin() override;
-	virtual void Update() override;
+	virtual void Start() override;
+	virtual void Update(float deltaTime) override;
 	virtual void PreRender() override;
 	virtual void Render() override;
 	virtual void Destroy() override;

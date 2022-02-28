@@ -11,8 +11,8 @@
 
 Scene::Scene()
 {
-	m_Root = Ref<Entity>();
-	m_Entities = std::vector<Ref<Entity>>();
+	m_Root = Ref<Actor>();
+	m_Actors = std::vector<Ref<Actor>>();
 
 	m_BackgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -25,29 +25,29 @@ Scene::Scene()
 	AddRoot();
 }
 
-void Scene::Begin()
+void Scene::Start()
 {
 	m_Root->CalculateModelMatrix();
 
-	for (auto entity : m_Entities)
+	for (auto actor : m_Actors)
 	{
-		entity->Begin();
+		actor->Start();
 	}
 }
 
-void Scene::Update()
+void Scene::Update(float deltaTime)
 {
-	for (auto entity : m_Entities)
+	for (auto actor : m_Actors)
 	{
-		entity->Update();
+		actor->Update(deltaTime);
 	}
 }
 
 void Scene::PreRender()
 {
-	for (auto e : m_Entities)
+	for (auto actor : m_Actors)
 	{
-		e->PreRender();
+		actor->PreRender();
 	}
 }
 
@@ -63,131 +63,107 @@ void Scene::Render()
 	m_LightsFragmentUniformBuffer->SetUniform(GLSL_SCALAR_SIZE, GLSL_SCALAR_SIZE, &spotLightsCount);
 	m_LightsFragmentUniformBuffer->Unbind();
 
-	RenderEntity(GetRoot());
+	RenderActor(GetRoot());
 }
 
 void Scene::Destroy()
 {
 }
 
-void Scene::BeginPlay()
+void Scene::RenderActor(Ref<Actor> actor)
 {
-	for (auto entity : m_Entities)
+	if (!actor->IsEnable())
 	{
-		entity->BeginPlay();
-	}
-}
-
-void Scene::Tick(float deltaTime)
-{
-	for (auto entity : m_Entities)
-	{
-		entity->Tick(deltaTime);
-	}
-}
-
-void Scene::EndPlay()
-{
-	for (auto entity : m_Entities)
-	{
-		entity->EndPlay();
-	}
-}
-
-void Scene::RenderEntity(Ref<Entity> entity)
-{
-	if (!entity->IsEnable())
-	{
-		if (auto light = entity->GetComponent<Light>())
+		if (auto light = actor->GetComponent<Light>())
 			light->SwitchOff();
 
 		return;
 	}
 
-	entity->Render();
+	actor->Render();
 
-	if (!entity->GetChildren().empty())
+	if (!actor->GetChildren().empty())
 	{
-		for (auto child : entity->GetChildren())
+		for (auto child : actor->GetChildren())
 		{
-			RenderEntity(CreateRef<Entity>(*child));
+			RenderActor(CreateRef<Actor>(*child));
 		}
 	}
 }
 
-Ref<Entity> Scene::AddRoot()
+Ref<Actor> Scene::AddRoot()
 {
 	if (m_Root)
 		return m_Root;
 
-	Ref<Entity> root = Entity::Create(this, "Root");
+	Ref<Actor> root = Actor::Create(this, "Root");
 	m_Root = root;
-	m_Entities.push_back(root);
+	m_Actors.push_back(root);
 
 	return root;
 }
 
-Ref<Entity> Scene::AddEntity(std::string name)
+Ref<Actor> Scene::AddActor(std::string name)
 {
-	Ref<Entity> entity = Entity::Create(this, name);
-	entity->SetParent(m_Root.get());
-	m_Entities.push_back(entity);
+	Ref<Actor> actor = Actor::Create(this, name);
+	actor->SetParent(m_Root.get());
+	m_Actors.push_back(actor);
 
-	return entity;
+	return actor;
 }
 
-Ref<Entity> Scene::AddEntity(uint64_t id, std::string name)
+Ref<Actor> Scene::AddActor(uint64_t id, std::string name)
 {
-	Ref<Entity> entity = Entity::Create(this, id, name);
-	Entity* root = m_Root.get();
-	entity->SetParent(root);
-	m_Entities.push_back(entity);
+	Ref<Actor> actor = Actor::Create(this, id, name);
+	Actor* root = m_Root.get();
+	actor->SetParent(root);
+	m_Actors.push_back(actor);
 
-	return entity;
+	return actor;
 }
 
-Ref<Entity> Scene::AddEntity(std::string path, std::string name)
+Ref<Actor> Scene::AddActor(std::string path, std::string name)
 {
-	Ref<Entity> entity = Entity::Create(this, name);
-	entity->SetParent(m_Root.get());
-	entity->AddComponent<StaticMeshComponent>(path.c_str());
-	m_Entities.push_back(entity);
+	Ref<Actor> actor = Actor::Create(this, name);
+	actor->SetParent(m_Root.get());
+	actor->AddComponent<StaticMeshComponent>(path.c_str());
+	m_Actors.push_back(actor);
 
-	return entity;
+	return actor;
 }
 
-Ref<Entity> Scene::AddEntity(std::string path, std::string name, Ref<Entity> parent)
+Ref<Actor> Scene::AddActor(std::string path, std::string name, Ref<Actor> parent)
 {
-	Ref<Entity> entity = Entity::Create(this, name);
-	entity->SetParent(parent.get());
-	entity->AddComponent<StaticMeshComponent>(path.c_str());
-	m_Entities.push_back(entity);
+	Ref<Actor> actor = Actor::Create(this, name);
+	actor->SetParent(parent.get());
+	actor->AddComponent<StaticMeshComponent>(path.c_str());
+	m_Actors.push_back(actor);
 
-	return entity;
+	return actor;
 }
 
-void Scene::RemoveEntity(Ref<Entity> entity)
+void Scene::RemoveActor(Ref<Actor> actor)
 {
 }
 
-Ref<Entity> Scene::FindEntity(std::string name)
+Ref<Actor> Scene::FindActor(std::string name)
 {
-	for (auto entity : m_Entities)
+	for (auto actor : m_Actors)
 	{
-		if (entity->GetName() == name)
-			return entity;
+		if (actor->GetName() == name)
+			return actor;
 	}
 
-	return Ref<Entity>();
+	return Ref<Actor>();
 }
 
-Ref<Entity> Scene::FindEntity(uint64_t id)
+Ref<Actor> Scene::FindActor(uint64_t id)
 {
-	for (auto entity : m_Entities)
+	for (auto actor : m_Actors)
 	{
-		if (entity->GetID() == id)
-			return entity;
+		if (actor->GetID() == id)
+			return actor;
 	}
 
-	return Ref<Entity>();
+	return Ref<Actor>();
 }

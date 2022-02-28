@@ -14,8 +14,8 @@ public:
 
 	static Ref<SceneManager> GetInstance();
 
-	void CreateScene(std::string name);
-	void LoadScene(std::string path);
+	Ref<Scene> CreateScene(std::string name);
+	Ref<Scene> LoadScene(std::string path);
 
 	inline Ref<Scene> GetCurrentScene() const { return m_CurrentScene; }
 	inline std::string GetCurrentScenePath() const { return m_CurrentScenePath; }

@@ -26,6 +26,7 @@
 #include "Renderer/Framebuffer.h"
 #include "Input/Input.h"
 #include "Scene/SceneManager.h"
+#include "Content/ContentHelper.h"
 
 #define FPS 60.0f
 #define MS_PER_UPDATE 1 / FPS
@@ -126,7 +127,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
 
     if (leftCtrlClicked && keyDClicked)
-        Editor::GetInstance()->GetSceneHierarchyPanel()->DuplicateSelectedEntity();
+        Editor::GetInstance()->GetSceneHierarchyPanel()->DuplicateSelectedActor();
 
     ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
 }
@@ -211,7 +212,7 @@ int main(int, char**)
     Renderer::GetInstance()->InitializePostProcessing();
 
     auto sceneManager = SceneManager::GetInstance();
-    sceneManager->LoadScene("../../../Assets/Scenes/Untitled2.scene");
+    sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/Main.scene"));
 
     scene = sceneManager->GetCurrentScene();
 
@@ -249,9 +250,7 @@ int main(int, char**)
 
         while (lag >= MS_PER_UPDATE)
         {
-            editor->GetCamera()->Update();
-            editor->Tick(deltaTime);
-            scene->Update();
+            editor->Update(deltaTime);
 
             shouldRender = true;
             lag -= MS_PER_UPDATE;

@@ -3,29 +3,24 @@
 #include "glm/glm.hpp"
 #include "Scene/Component/Component.h"
 #include "Scene/Component/RenderComponent.h"
-#include "Scene/Component/InGameComponent.h"
 #include "Scene/Component/Transform.h"
 
 class Scene;
 
-class Entity : public std::enable_shared_from_this<Entity>
+class Actor
 {
 public:
-	static Ref<Entity> Create(Scene* scene, std::string name);
-	static Ref<Entity> Create(Scene* scene, uint64_t id, std::string name);
+	static Ref<Actor> Create(Scene* scene, std::string name);
+	static Ref<Actor> Create(Scene* scene, uint64_t id, std::string name);
 
-	Entity(Scene* scene, std::string name);
-	Entity(Scene* scene, uint64_t id, std::string name);
+	Actor(Scene* scene, std::string name);
+	Actor(Scene* scene, uint64_t id, std::string name);
 
-	void Begin();
-	void Update();
+	void Start();
+	void Update(float deltaTime);
 	void PreRender();
 	void Render();
 	void Destroy();
-
-	void BeginPlay();
-	void Tick(float deltaTime);
-	void EndPlay();
 
 	template<typename T, typename ... Args>
 	Ref<T> AddComponent(Args&& ... args)
@@ -64,12 +59,12 @@ public:
 	inline std::string GetName() const { return m_Name; }
 	inline Transform GetTransform() const { return m_Transform; }
 	inline bool IsEnable() const { return m_Enable; }
-	inline Entity* GetParent() const { return m_Parent; }
-	inline std::vector<Entity*> GetChildren() const { return m_Children; }
+	inline Actor* GetParent() const { return m_Parent; }
+	inline std::vector<Actor*> GetChildren() const { return m_Children; }
 	inline uint64_t GetID() const { return m_ID; }
 
 	void SetEnable(bool enable);
-	void SetParent(Entity* parent);
+	void SetParent(Actor* parent);
 	void SetLocalPosition(glm::vec3 position);
 	void SetLocalRotation(glm::vec3 rotation);
 	void SetLocalScale(glm::vec3 scale);
@@ -90,11 +85,11 @@ private:
 	std::vector<Ref<Component>> m_Components;
 
 	Transform m_Transform;
-	Entity* m_Parent;
-	std::vector<Entity*> m_Children;
+	Actor* m_Parent;
+	std::vector<Actor*> m_Children;
 
 	bool m_Enable = true;
 
 	friend class SceneHierarchyPanel;
-	friend class EntityDetailsPanel;
+	friend class ActorDetailsPanel;
 };

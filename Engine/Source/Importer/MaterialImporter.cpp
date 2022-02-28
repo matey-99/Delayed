@@ -1,6 +1,7 @@
 #include "MaterialImporter.h"
 
 #include "Material/MaterialSerializer.h"
+#include "Content/ContentHelper.h"
 
 Ref<MaterialImporter> MaterialImporter::s_Instance{};
 std::mutex MaterialImporter::s_Mutex;
@@ -24,7 +25,7 @@ Ref<Material> MaterialImporter::ImportMaterial(std::string path)
 	if (m_ImportedMaterials.find(path) != m_ImportedMaterials.end())
 		return m_ImportedMaterials.at(path);
 
-	Ref<Material> material = MaterialSerializer::Deserialize(path);
+	Ref<Material> material = MaterialSerializer::Deserialize(ContentHelper::GetAssetPath(path));
 	if (!material)
 		return Ref<Material>();
 

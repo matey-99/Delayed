@@ -10,19 +10,19 @@ class SceneHierarchyPanel
 private:
 	Ref<Editor> m_Editor;
 	Ref<Scene> m_Scene;
-	Ref<Entity> m_SelectedEntity;
+	Ref<Actor> m_SelectedActor;
 
 public:
 	SceneHierarchyPanel(Ref<Editor> editor, Ref<Scene> scene);
 	void Render();
 
-	void DuplicateSelectedEntity();
+	void DuplicateSelectedActor();
 
-	void SelectEntity(Ref<Entity> entity);
-	void UnselectEntity();
+	void SelectActor(Ref<Actor> actor);
+	void UnselectActor();
 
-	inline Ref<Entity> GetSelectedEntity() const { return m_SelectedEntity; }
+	inline Ref<Actor> GetSelectedActor() const { return m_SelectedActor; }
 
 private:
-	void TreeChildren(Ref<Entity> entity);
+	void TreeChildren(Ref<Actor> actor);
 };

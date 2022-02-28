@@ -4,7 +4,7 @@
 
 #include "Scene/Scene.h"
 
-SpotLight::SpotLight(Entity* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer)
+SpotLight::SpotLight(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer)
 	: Light(owner, vertexUniformBuffer, fragmentUniformBuffer)
 {
 	m_Index = owner->GetScene()->GetComponentsCount<SpotLight>();

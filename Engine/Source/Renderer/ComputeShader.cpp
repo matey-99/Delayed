@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-ComputeShader::ComputeShader(const char* path)
+ComputeShader::ComputeShader(std::string path)
     : m_Uniforms(std::vector<ShaderUniform>())
 {
     std::string source;

@@ -5,7 +5,7 @@
 class DirectionalLight : public Light
 {
 public:
-	DirectionalLight(Entity* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer);
+	DirectionalLight(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBuffer> fragmentUniformBuffer);
 	~DirectionalLight();
 
 	virtual void Use() override;
@@ -13,5 +13,5 @@ public:
 	
 	virtual void RenderShadowMap() override;
 
-	friend class EntityDetailsPanel;
+	friend class ActorDetailsPanel;
 };
