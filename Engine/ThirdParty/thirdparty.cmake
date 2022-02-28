@@ -91,3 +91,12 @@ if((NOT YAML_CPP_LIBRARY) OR (NOT YAML_CPP_INCLUDE_DIR))
 	set(YAML_CPP_LIBRARY "yaml-cpp" "${YAML_CPP_LIBRARIES}")
 	set(YAML_CPP_INCLUDE_DIR "${YAML_CPP_DIR}/include")
 endif()
+
+#fmod
+set(FMOD_DIR "${THIRDPARTY_DIR}/fmod")
+set(FMOD_INCLUDE_DIR "${FMOD_DIR}/inc")
+
+set(FMOD_LIBRARY "${FMOD_DIR}/lib/x64/fmod_vc.lib;${FMOD_DIR}/lib/x64/fmodL_vc.lib;")
+
+set(FMOD_DLL "${FMOD_DIR}/lib/x64/fmod.dll"
+			 "${FMOD_DIR}/lib/x64/fmodL.dll")
