@@ -4,7 +4,7 @@ Game Engine with editor, created as part of PBL
 ## INSTRUCTION
 1. Clone the repository
 ```
-https://github.com/matey-99/PBL.git
+git clone https://github.com/matey-99/PBL.git
 ```
 2. Download FMOD Engine from https://www.fmod.com/download (FMOD Engine 2.02 for Windows) and install.
 3. Find FMOD SoundSystem which was installed on your computer and go to api/core/lib/x64/ and copy all dlls and libs to Engine/ThirdParty/fmod/lib/x64/.
