@@ -191,7 +191,7 @@ uint32_t InstanceRenderedMeshComponent::GetRenderedVerticesCount()
 	uint32_t vertices = 0;
 	for (auto mesh : m_Meshes)
 	{
-		vertices += mesh.vertices.size();
+		vertices += mesh.GetVertices().size();
 	}
 
 	return vertices;

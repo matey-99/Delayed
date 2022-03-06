@@ -9,6 +9,7 @@
 #include "Scene/Component/Light/SkyLight.h"
 #include "Scene/Component/ParticleSystemComponent.h"
 #include "Scene/Component/PlayerComponent.h"
+#include "Scene/Component/Collider/BoxColliderComponent.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -190,6 +191,16 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 			{
 				a->AddComponent<PlayerComponent>();
 			}
+
+			if (auto boxCollider = actor["Box Collider"])
+			{
+				glm::vec3 center = boxCollider["Center"].as<glm::vec3>();
+				glm::vec3 size = boxCollider["Size"].as<glm::vec3>();
+
+				auto b = a->AddComponent<BoxColliderComponent>();
+				b->m_Center = center;
+				b->m_Size = size;
+			}
 		}
 
 		for (int i = 0; i < parentsIDs.size(); i++)
@@ -320,6 +331,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	{
 		out << YAML::Key << "Player";
 		out << YAML::BeginMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto boxCollider = actor->GetComponent<BoxColliderComponent>())
+	{
+		out << YAML::Key << "Box Collider";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Center" << YAML::Value << boxCollider->m_Center;
+		out << YAML::Key << "Size" << YAML::Value << boxCollider->m_Size;
 		out << YAML::EndMap;
 	}
 

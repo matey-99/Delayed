@@ -9,10 +9,10 @@ Actors:
       Scale: [1, 1, 1]
   - Actor: Camera
     ID: 1
-    Parent: 0
+    Parent: 202093007
     Transform:
-      Position: [0.186209172, 3.66258717, -3.39760017]
-      Rotation: [0, 90, 0]
+      Position: [0, 4, 5.76602364]
+      Rotation: [-29, -90, 0]
       Scale: [1, 1, 1]
     Camera:
       Aspect Ratio: [16, 9]
@@ -28,23 +28,7 @@ Actors:
       Scale: [1, 1, 1]
     Point Light:
       Color: [50, 50, 50]
-  - Actor: Cube Instanced
-    ID: 850874805
-    Parent: 0
-    Transform:
-      Position: [0, -2.46850777, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Instance Rendered Mesh:
-      Mesh: Models/defaults/default_cube.obj
-      Materials:
-        - Material: 0
-          Path: Materials/DefaultInstanced.mat
-      Radius: 200
-      Instances Count: 2500
-      Min Mesh Scale: 0.200000003
-      Max Mesh Scale: 0.300000012
-  - Actor: New Actor (1)
+  - Actor: Ground
     ID: 792564103
     Parent: 0
     Transform:
@@ -56,11 +40,26 @@ Actors:
       Materials:
         - Material: 0
           Path: Materials/Default.mat
-  - Actor: New Actor
+  - Actor: Cube
     ID: 206093007
     Parent: 0
     Transform:
-      Position: [0, 3.20381308, 7.59105492]
+      Position: [16.2759285, 5.87056541, 19.3561459]
+      Rotation: [0, 0, 0]
+      Scale: [4.33983946, 4.20781851, 3.65005636]
+    Model:
+      Mesh: Models/defaults/default_cube.obj
+      Materials:
+        - Material: 0
+          Path: Materials/Default.mat
+    Box Collider:
+      Center: [0, 0, 0]
+      Size: [1, 1, 1]
+  - Actor: Player
+    ID: 202093007
+    Parent: 0
+    Transform:
+      Position: [0, 2.7542274, 11.4265003]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Model:
@@ -68,3 +67,8 @@ Actors:
       Materials:
         - Material: 0
           Path: Materials/Default.mat
+    Player:
+      {}
+    Box Collider:
+      Center: [0, 0, 0]
+      Size: [1, 1, 1]

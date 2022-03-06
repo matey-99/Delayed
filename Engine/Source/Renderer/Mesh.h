@@ -3,6 +3,7 @@
 #include "glm/glm.hpp"
 #include "Shader.h"
 #include "Texture.h"
+#include "Math/BoundingBox.h"
 
 struct Vertex
 {
@@ -15,18 +16,26 @@ struct Vertex
 class Mesh
 {
 public:
-	std::vector<Vertex> vertices;
-	std::vector<unsigned int> indices;
-
-	Mesh(std::vector<Vertex> inVertices, std::vector<unsigned int> inIndices, bool instanced = false);
+	Mesh(std::vector<Vertex> inVertices, std::vector<uint32_t> inIndices, bool instanced = false);
 	void Render();
 	void RenderInstanced(uint32_t count);
 
-	inline unsigned int GetVAO() const { return VAO; }
+	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
+	inline std::vector<Vertex> GetVertices() const { return m_Vertices; }
+	inline std::vector<uint32_t> GetIndices() const { return m_Indices; }
+	inline uint32_t GetVAO() const { return m_VAO; }
 
 private:
-	unsigned int VAO, VBO, EBO;
-
 	void SetupMesh();
 	void SetupMeshInstanced();
+
+private:
+	BoundingBox m_BoundingBox;
+
+	std::vector<Vertex> m_Vertices;
+	std::vector<uint32_t> m_Indices;
+
+	uint32_t m_VAO;
+	uint32_t m_VBO;
+	uint32_t m_EBO;
 };

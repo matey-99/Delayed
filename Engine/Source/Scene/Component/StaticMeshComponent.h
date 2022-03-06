@@ -17,6 +17,8 @@ private:
 	std::vector<Ref<Material>> m_Materials;
 	std::vector<std::string> m_MaterialsPaths;
 
+	BoundingBox m_BoundingBox;
+
 	bool m_MultipleMaterials;
 
 public:
@@ -39,6 +41,7 @@ public:
 	inline std::vector<Mesh> GetMeshes() const { return m_Meshes; }
 	inline std::vector<Ref<Material>> GetMaterials() const { return m_Materials; }
 	inline std::vector<std::string> GetMaterialsPaths() const { return m_MaterialsPaths; }
+	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
 	uint32_t GetRenderedVerticesCount();
 
 	inline void SetMaterial(int index, Ref<Material> material) { m_Materials.at(index) = material; }
