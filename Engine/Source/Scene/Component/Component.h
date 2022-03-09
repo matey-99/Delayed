@@ -1,10 +1,5 @@
 #pragma once
 
-#include <string>
-#include <glm/glm.hpp>
-
-#include "typedefs.h"
-
 class Actor;
 
 class Component

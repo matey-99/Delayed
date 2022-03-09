@@ -61,14 +61,14 @@ void SceneHierarchyPanel::Render()
 void SceneHierarchyPanel::DuplicateSelectedActor()
 {
 	std::string name = m_SelectedActor->GetName();
-	Actor* parent = m_SelectedActor->GetParent();
+	auto parent = m_SelectedActor->GetTransform()->GetParent();
 
 	auto newActor = m_Scene->AddActor(name);
-	newActor->SetParent(parent);
+	newActor->GetTransform()->SetParent(parent);
 
-	newActor->SetLocalPosition(m_SelectedActor->GetTransform().LocalPosition);
-	newActor->SetLocalRotation(m_SelectedActor->GetTransform().LocalRotation);
-	newActor->SetLocalScale(m_SelectedActor->GetTransform().LocalScale);
+	newActor->GetTransform()->SetLocalPosition(m_SelectedActor->GetTransform()->GetLocalPosition());
+	newActor->GetTransform()->SetLocalRotation(m_SelectedActor->GetTransform()->GetLocalRotation());
+	newActor->GetTransform()->SetLocalScale(m_SelectedActor->GetTransform()->GetLocalScale());
 
 	if (auto smc = m_SelectedActor->GetComponent<StaticMeshComponent>())
 	{
@@ -107,17 +107,17 @@ void SceneHierarchyPanel::UnselectActor()
 
 void SceneHierarchyPanel::TreeChildren(Ref<Actor> actor)
 {
-	auto children = actor->m_Children;
+	auto children = actor->GetTransform()->GetChildren();
 	for (int i = 0; i < children.size(); i++)
 	{
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_None;
-		if (children[i]->m_Children.empty())
+		if (children[i]->GetChildren().empty())
 			flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 		else
 			flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
 		bool open = false;
-		auto e = m_Scene->FindActor(children[i]->m_ID);
+		auto e = m_Scene->FindActor(children[i]->GetOwner()->GetID());
 
 		ImGui::PushID(i);
 		bool enable = e->IsEnable();
@@ -139,7 +139,7 @@ void SceneHierarchyPanel::TreeChildren(Ref<Actor> actor)
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("actor"))
 			{
 				Ref<Actor>* childActor = static_cast<Ref<Actor>*>(payload->Data);
-				childActor->get()->SetParent(children[i]);
+				childActor->get()->GetTransform()->SetParent(children[i]);
 			}
 			ImGui::EndDragDropTarget();
 		}

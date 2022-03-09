@@ -8,6 +8,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 #include "Renderer/Renderer.h"
+#include "Component/TransformComponent.h"
+#include "Component/PlayerComponent.h"
 
 Scene::Scene()
 {
@@ -27,7 +29,7 @@ Scene::Scene()
 
 void Scene::Start()
 {
-	m_Root->CalculateModelMatrix();
+	m_Root->GetComponent<TransformComponent>()->CalculateWorldModelMatrix();
 
 	for (auto actor : m_Actors)
 	{
@@ -63,14 +65,14 @@ void Scene::Render()
 	m_LightsFragmentUniformBuffer->SetUniform(GLSL_SCALAR_SIZE, GLSL_SCALAR_SIZE, &spotLightsCount);
 	m_LightsFragmentUniformBuffer->Unbind();
 
-	RenderActor(GetRoot());
+	RenderActor(GetRoot().get());
 }
 
 void Scene::Destroy()
 {
 }
 
-void Scene::RenderActor(Ref<Actor> actor)
+void Scene::RenderActor(Actor* actor)
 {
 	if (!actor->IsEnable())
 	{
@@ -82,13 +84,14 @@ void Scene::RenderActor(Ref<Actor> actor)
 
 	actor->Render();
 
-	if (!actor->GetChildren().empty())
+	if (!actor->GetTransform()->GetChildren().empty())
 	{
-		for (auto child : actor->GetChildren())
+		for (auto child : actor->GetTransform()->GetChildren())
 		{
-			RenderActor(CreateRef<Actor>(*child));
+			RenderActor(child->GetOwner());
 		}
 	}
+
 }
 
 Ref<Actor> Scene::AddRoot()
@@ -106,7 +109,7 @@ Ref<Actor> Scene::AddRoot()
 Ref<Actor> Scene::AddActor(std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
-	actor->SetParent(m_Root.get());
+	actor->GetComponent<TransformComponent>()->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	m_Actors.push_back(actor);
 
 	return actor;
@@ -115,8 +118,7 @@ Ref<Actor> Scene::AddActor(std::string name)
 Ref<Actor> Scene::AddActor(uint64_t id, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, id, name);
-	Actor* root = m_Root.get();
-	actor->SetParent(root);
+	actor->GetComponent<TransformComponent>()->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	m_Actors.push_back(actor);
 
 	return actor;
@@ -125,7 +127,7 @@ Ref<Actor> Scene::AddActor(uint64_t id, std::string name)
 Ref<Actor> Scene::AddActor(std::string path, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
-	actor->SetParent(m_Root.get());
+	actor->GetComponent<TransformComponent>()->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->AddComponent<StaticMeshComponent>(path.c_str());
 	m_Actors.push_back(actor);
 
@@ -135,7 +137,7 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name)
 Ref<Actor> Scene::AddActor(std::string path, std::string name, Ref<Actor> parent)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
-	actor->SetParent(parent.get());
+	actor->GetComponent<TransformComponent>()->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->AddComponent<StaticMeshComponent>(path.c_str());
 	m_Actors.push_back(actor);
 

@@ -33,11 +33,11 @@ SpotLight::~SpotLight()
 
 void SpotLight::Use()
 {
-	glm::vec3 direction = glm::normalize(m_Owner->GetWorldRotation());
+	glm::vec3 direction = glm::normalize(m_Owner->GetTransform()->GetWorldRotation());
 
 	uint32_t offset = GLSL_SPOT_LIGHTS_OFFSET + (GLSL_SPOT_LIGHT_SIZE * m_Index);
 	m_FragmentUniformBuffer->Bind();
-	m_FragmentUniformBuffer->SetUniform(offset, sizeof(glm::vec3), glm::value_ptr(m_Owner->GetWorldPosition()));
+	m_FragmentUniformBuffer->SetUniform(offset, sizeof(glm::vec3), glm::value_ptr(m_Owner->GetTransform()->GetWorldPosition()));
 	m_FragmentUniformBuffer->SetUniform(offset + GLSL_VEC3_SIZE, sizeof(glm::vec3), glm::value_ptr(direction));
 	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 2), sizeof(glm::vec3), glm::value_ptr(m_Color));
 	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) - GLSL_SCALAR_SIZE, sizeof(float), &m_InnerCutOff);
@@ -45,7 +45,7 @@ void SpotLight::Use()
 	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) + GLSL_SCALAR_SIZE, sizeof(bool), &m_ShadowsEnabled);
 	m_FragmentUniformBuffer->Unbind();
 
-	glm::vec3 position = m_Owner->GetWorldPosition();
+	glm::vec3 position = m_Owner->GetTransform()->GetWorldPosition();
 	glm::mat4 lightProjection = glm::perspective(glm::radians(90.0f), 1.0f, 1.0f, m_FarPlane);
 	glm::mat4 lightView = glm::lookAt(position, position + direction, glm::vec3(0.0f, 1.0f, 0.0f));
 

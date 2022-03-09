@@ -8,4 +8,7 @@
 #include <vector>
 #include <random>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
+
 #include "typedefs.h"
