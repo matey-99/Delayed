@@ -1,6 +1,7 @@
 #include "SceneSerializer.h"
 
 #include "yaml/yaml.h"
+#include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
@@ -145,7 +146,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						std::string path = skyLight["Path"].as<std::string>();
 
-						auto l = a->AddComponent<SkyLight>(path);
+						auto l = a->AddComponent<SkyLight>(ContentHelper::GetAssetPath(path));
 					}
 
 					if (auto particle = component["ParticleSystem"])

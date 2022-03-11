@@ -131,6 +131,7 @@ void ContentBrowserPanel::CorrectPath(std::string& path)
 			break;
 
 		path.replace(index, 2, "/");
+		path = path.substr(1);
 	}
 
 	path = path.substr(ContentHelper::GetAssetPath("").size());

@@ -43,8 +43,8 @@ Actors:
     Name: Main Camera
     Components:
       - Transform:
-          LocalPosition: [0, 1, -10]
-          LocalRotation: [0, 0, 0]
+          LocalPosition: [-5.828403, -0.491944313, 6.4459281]
+          LocalRotation: [0, -48.6337395, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
       - Camera:
@@ -61,17 +61,6 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
-  - Actor: 1581855361
-    ID: 1581855361
-    Name: Directional Light
-    Components:
-      - Transform:
-          LocalPosition: [0, 3, 0]
-          LocalRotation: [0.408217877, -0.234569684, 0.109381631]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - DirectionalLight:
-          Color: [1, 0.956862748, 0.839215696]
   - Actor: 925465284
     ID: 925465284
     Name: Sky Light
@@ -82,4 +71,43 @@ Actors:
           LocalScale: [1, 1, 1]
           Parent: 0
       - SkyLight:
-          Path: ../../../Content/Textures/Sky/default.hdr
+          Path: Textures/Sky/default.hdr
+  - Actor: 667076417
+    ID: 667076417
+    Name: New Actor
+    Components:
+      - Transform:
+          LocalPosition: [0, -1.76572347, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [16.1000004, 1, 15.1000004]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 768280824
+    ID: 768280824
+    Name: New Actor (1)
+    Components:
+      - Transform:
+          LocalPosition: [-3.16189432, -0.747716188, 2.11705184]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_sphere.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 430300327
+    ID: 430300327
+    Name: New Actor (2)
+    Components:
+      - Transform:
+          LocalPosition: [0.0843043327, -0.203465939, 6.07887983]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - PointLight:
+          Color: [20, 20, 20]

@@ -1,5 +1,7 @@
 #include "MaterialSerializer.h"
 
+#include "Content/ContentHelper.h"
+
 #include "yaml/yaml.h"
 
 void MaterialSerializer::Serialize(Ref<Material> material)
@@ -51,7 +53,7 @@ void MaterialSerializer::Serialize(Ref<Material> material)
 	out << YAML::EndSeq;
 	out << YAML::EndMap;
 
-	std::ofstream file("../../res/materials/" + material->GetName() + ".mat");
+	std::ofstream file(ContentHelper::GetAssetPath("Materials/") + material->GetName() + ".mat");
 	file << out.c_str();
 	file.close();
 }
@@ -128,9 +130,9 @@ Ref<Material> MaterialSerializer::Deserialize(std::string path)
 				Ref<Texture> texture;
 				std::string extension = path.substr(path.find_last_of('.') + 1);
 				if (extension == "hdr")
-					texture = Texture::Create(path, TextureRange::HDR);
+					texture = Texture::Create(ContentHelper::GetAssetPath(path), TextureRange::HDR);
 				else
-					texture = Texture::Create(path);
+					texture = Texture::Create(ContentHelper::GetAssetPath(path));
 
 				if (material->m_Texture2DParameters.find(name) != material->m_Texture2DParameters.end())
 					material->m_Texture2DParameters.find(name)->second = texture;
