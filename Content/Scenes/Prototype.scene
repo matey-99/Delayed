@@ -1,0 +1,1356 @@
+Scene: Main
+CurrentCamera: 1541634381
+Actors:
+  - Actor: 14968050
+    ID: 14968050
+    Name: platform (5)
+    Components:
+      - Transform:
+          LocalPosition: [41.170002, 20.2399998, -169.839996]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.68077636, 0.676852465, 3.82105923]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 37042750
+    ID: 37042750
+    Name: Cube (54)
+    Components:
+      - Transform:
+          LocalPosition: [-3.55999994, 31.9400005, -172.470001]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.529583931, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 39217163
+    ID: 39217163
+    Name: Cube (58)
+    Components:
+      - Transform:
+          LocalPosition: [-19.6800003, 34.4199982, -182.690002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [11.843956, 11.843956, 11.843956]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 69931302
+    ID: 69931302
+    Name: Cube (52)
+    Components:
+      - Transform:
+          LocalPosition: [-3.55999994, 26.8799992, -145.710007]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.529583931, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 86253644
+    ID: 86253644
+    Name: GameObject (4)
+    Components:
+      - Transform:
+          LocalPosition: [38.0500031, 12.8100004, -95.4199982]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 87182143
+    ID: 87182143
+    Name: GameObject (9)
+    Components:
+      - Transform:
+          LocalPosition: [39.2799988, 12.3299999, -146.199997]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 96575779
+    ID: 96575779
+    Name: Cube (16)
+    Components:
+      - Transform:
+          LocalPosition: [-3.26999998, 9.59000015, 6.36999989]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.746260762, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 101983686
+    ID: 101983686
+    Name: Cube (49)
+    Components:
+      - Transform:
+          LocalPosition: [-0.5, 22.1900005, -127.660004]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.529583931, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 122405029
+    ID: 122405029
+    Name: Cube (59)
+    Components:
+      - Transform:
+          LocalPosition: [-19.6800003, 30.2999992, -172.509995]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.3445625, 11.899622, 11.899622]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 148458053
+    ID: 148458053
+    Name: GameObject (5)
+    Components:
+      - Transform:
+          LocalPosition: [38.0699997, 8.31999969, -95.4899979]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 153746403
+    ID: 153746403
+    Name: Terrain
+    Components:
+      - Transform:
+          LocalPosition: [-223.899994, 0, -241]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 170675663
+    ID: 170675663
+    Name: button_frame (2)
+    Components:
+      - Transform:
+          LocalPosition: [38.1599998, 9.35000038, -81.8999939]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.74392128, 0.443498313, 4.74392128]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 190363458
+    ID: 190363458
+    Name: Cube (14)
+    Components:
+      - Transform:
+          LocalPosition: [-9.86595535, 13.2225037, 46.2000008]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [20.8411102, 20.8411102, 20.8411102]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 258264437
+    ID: 258264437
+    Name: Directional Light
+    Components:
+      - Transform:
+          LocalPosition: [0, 3, 0]
+          LocalRotation: [0.408217877, -0.234569684, 0.109381631]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - DirectionalLight:
+          Color: [1, 0.956862748, 0.839215696]
+  - Actor: 261522060
+    ID: 261522060
+    Name: Cube
+    Components:
+      - Transform:
+          LocalPosition: [17.1036224, 7.46250343, 23.2150002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15, 15, 26.2860012]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 282062013
+    ID: 282062013
+    Name: blue_tint
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 291072279
+    ID: 291072279
+    Name: Cube (31)
+    Components:
+      - Transform:
+          LocalPosition: [13.5, 16, -102.900002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [18.0774326, 18.0774326, 18.0774326]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 316119856
+    ID: 316119856
+    Name: Cube (35)
+    Components:
+      - Transform:
+          LocalPosition: [-28.2999992, 20.2000008, -65.5999985]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [18.0894794, 18.0894794, 18.0894794]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 375961630
+    ID: 375961630
+    Name: Cube (53)
+    Components:
+      - Transform:
+          LocalPosition: [-3.55999994, 30.7999992, -165.779999]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.529583931, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 433372139
+    ID: 433372139
+    Name: Cube (9)
+    Components:
+      - Transform:
+          LocalPosition: [-25.0059547, 12.8000002, 2.7284956]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [13.7756033, 13.7756033, 13.7756033]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 457313891
+    ID: 457313891
+    Name: Text
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 457495028
+    ID: 457495028
+    Name: platform
+    Components:
+      - Transform:
+          LocalPosition: [42.5699997, 7.67000008, -40.0299988]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [5.48970604, 0.676852465, 7.19542599]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 500255629
+    ID: 500255629
+    Name: text1
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 519652268
+    ID: 519652268
+    Name: button_frame (4)
+    Components:
+      - Transform:
+          LocalPosition: [32.25, 12.04, -139.449997]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.74392128, 0.443498313, 4.74392128]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 530211519
+    ID: 530211519
+    Name: button_frame (6)
+    Components:
+      - Transform:
+          LocalPosition: [45.7000008, 23.039999, -163.559998]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.74392128, 0.443498313, 4.74392128]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 546951716
+    ID: 546951716
+    Name: Canvas
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 547610863
+    ID: 547610863
+    Name: Cube (26)
+    Components:
+      - Transform:
+          LocalPosition: [5.25000095, 11.6499996, -26.8299999]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.634741306, 4.05197001]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 587751981
+    ID: 587751981
+    Name: Cube (7)
+    Components:
+      - Transform:
+          LocalPosition: [-20.0100002, 14.6499996, -16.9099998]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [16.5230675, 16.5230675, 16.5230675]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 619157082
+    ID: 619157082
+    Name: Cube (30)
+    Components:
+      - Transform:
+          LocalPosition: [11, 16, -88.5]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.6068649, 15.6068649, 15.6068649]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 647339684
+    ID: 647339684
+    Name: Cube (29)
+    Components:
+      - Transform:
+          LocalPosition: [19.1700001, 12.8299999, -31.8199997]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.2991352, 15.2991352, 15.2991352]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 673687159
+    ID: 673687159
+    Name: Cube (45)
+    Components:
+      - Transform:
+          LocalPosition: [-18.5, 31.3999996, -147.830002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.7421207, 15.7421207, 15.7421207]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 695206496
+    ID: 695206496
+    Name: Cube (44)
+    Components:
+      - Transform:
+          LocalPosition: [11.1800003, 27.0100002, -147.830002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.7421207, 15.7421207, 15.7421207]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 696296241
+    ID: 696296241
+    Name: Cube (40)
+    Components:
+      - Transform:
+          LocalPosition: [-6.65999985, 22.3799992, -104.919998]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.529583931, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 726429534
+    ID: 726429534
+    Name: Cube (8)
+    Components:
+      - Transform:
+          LocalPosition: [-19.5799999, 11.7399998, -4.88150406]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [10.2041502, 22.9399509, 10.2041502]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 751319967
+    ID: 751319967
+    Name: GameObject
+    Components:
+      - Transform:
+          LocalPosition: [42.6500015, 7.63250399, -40.0200005]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 769724264
+    ID: 769724264
+    Name: Cube (2)
+    Components:
+      - Transform:
+          LocalPosition: [20.4140434, 12.7399998, -3.79999995]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [19.7369995, 19.7369995, 24.1225624]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 787021457
+    ID: 787021457
+    Name: Cube (33)
+    Components:
+      - Transform:
+          LocalPosition: [-34, 13.0100002, -87.7099991]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [18.0894794, 18.0894794, 11.6749496]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 811748983
+    ID: 811748983
+    Name: trail
+    Components:
+      - Transform:
+          LocalPosition: [0, 1, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1503310902
+  - Actor: 818501444
+    ID: 818501444
+    Name: Cube (12)
+    Components:
+      - Transform:
+          LocalPosition: [-20.7000008, 7.39250374, 30]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [13.7756033, 13.7756033, 20.9086094]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 844519343
+    ID: 844519343
+    Name: button (6)
+    Components:
+      - Transform:
+          LocalPosition: [45.7000008, 23.3099995, -163.559998]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.111803748, 4.05197001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 855707744
+    ID: 855707744
+    Name: Cube (50)
+    Components:
+      - Transform:
+          LocalPosition: [-6.42000008, 19.8999996, -127.660004]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.529583931, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 890136024
+    ID: 890136024
+    Name: Cube (41)
+    Components:
+      - Transform:
+          LocalPosition: [-37.3100014, 13.0100002, -76.9100037]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [18.0894794, 24.4696388, 11.6749496]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 906644891
+    ID: 906644891
+    Name: button (3)
+    Components:
+      - Transform:
+          LocalPosition: [37.4199982, 15.5900002, -109.010002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.111803748, 4.05197001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 911918084
+    ID: 911918084
+    Name: button_frame (3)
+    Components:
+      - Transform:
+          LocalPosition: [37.4199982, 15.3199997, -109.010002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.74392128, 0.443498313, 4.74392128]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 917287103
+    ID: 917287103
+    Name: GameObject (7)
+    Components:
+      - Transform:
+          LocalPosition: [38.0699997, 8.31999969, -122]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 928121183
+    ID: 928121183
+    Name: platform (1)
+    Components:
+      - Transform:
+          LocalPosition: [41.4900017, 7.67000008, -65.4999924]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.68077636, 0.676852465, 3.82105923]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 932610990
+    ID: 932610990
+    Name: GameObject (10)
+    Components:
+      - Transform:
+          LocalPosition: [41.2500038, 24.8099995, -170.170013]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 947606847
+    ID: 947606847
+    Name: Text (2)
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 952929909
+    ID: 952929909
+    Name: Text (1)
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 966895571
+    ID: 966895571
+    Name: Cube (22)
+    Components:
+      - Transform:
+          LocalPosition: [-15.29, 12.1000004, -55.8600006]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [11.3749065, 11.3749065, 16.3082027]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1030391396
+    ID: 1030391396
+    Name: EventSystem
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1036990350
+    ID: 1036990350
+    Name: GameObject (1)
+    Components:
+      - Transform:
+          LocalPosition: [42.6699982, 3.40250397, -40.0900002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1037621198
+    ID: 1037621198
+    Name: platform (4)
+    Components:
+      - Transform:
+          LocalPosition: [39.1800003, 12.5100002, -146.139999]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.68077636, 0.676852465, 3.82105923]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1055560003
+    ID: 1055560003
+    Name: platform (2)
+    Components:
+      - Transform:
+          LocalPosition: [37.9700012, 8.5, -95.4299927]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.68077636, 0.676852465, 3.82105923]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1055889800
+    ID: 1055889800
+    Name: text2
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1070178822
+    ID: 1070178822
+    Name: GameObject (3)
+    Components:
+      - Transform:
+          LocalPosition: [41.5900002, 3.40250397, -65.5599976]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1073638746
+    ID: 1073638746
+    Name: Cube (32)
+    Components:
+      - Transform:
+          LocalPosition: [22.1000004, 23.3999996, -119.269997]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [26.5412865, 26.5412865, 26.5412865]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1077386612
+    ID: 1077386612
+    Name: Cube (6)
+    Components:
+      - Transform:
+          LocalPosition: [19.3999996, 20.6000004, -47.0999985]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.2991352, 15.2991352, 15.2991352]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1081158606
+    ID: 1081158606
+    Name: Cube (37)
+    Components:
+      - Transform:
+          LocalPosition: [-27.2999992, 21.5799999, -110.800003]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [20.0862522, 20.0862522, 14.1294308]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1127685859
+    ID: 1127685859
+    Name: Cube (46)
+    Components:
+      - Transform:
+          LocalPosition: [-18.5, 31.3999996, -160.5]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.7421207, 15.7421207, 15.7421207]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1138522746
+    ID: 1138522746
+    Name: Cube (5)
+    Components:
+      - Transform:
+          LocalPosition: [-17.8859558, 11.3000002, -30.8199997]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.2991352, 15.2991352, 15.2991352]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1167755876
+    ID: 1167755876
+    Name: Text (3)
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1203926577
+    ID: 1203926577
+    Name: Cube (55)
+    Components:
+      - Transform:
+          LocalPosition: [11.1800003, 27.0100002, -158.759995]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [10.2282848, 10.2282848, 10.2282848]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1219625787
+    ID: 1219625787
+    Name: button
+    Components:
+      - Transform:
+          LocalPosition: [54.9959564, 8.13749695, -30.6384964]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.111803748, 4.05197001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1258998062
+    ID: 1258998062
+    Name: Cube (25)
+    Components:
+      - Transform:
+          LocalPosition: [10.6199999, 12.4399996, -54.1100006]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [11.9415359, 11.9415359, 11.9415359]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1324299105
+    ID: 1324299105
+    Name: button_frame
+    Components:
+      - Transform:
+          LocalPosition: [54.9959564, 7.67749643, -30.6384964]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.74392128, 0.918869257, 4.74392128]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1345027004
+    ID: 1345027004
+    Name: button (5)
+    Components:
+      - Transform:
+          LocalPosition: [36.3600006, 23.3099995, -163.559998]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.111803748, 4.05197001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1361689765
+    ID: 1361689765
+    Name: Cube (56)
+    Components:
+      - Transform:
+          LocalPosition: [11.9499998, 29.75, -171.190002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.3250389, 15.3250389, 15.3250389]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1382438554
+    ID: 1382438554
+    Name: Cube (43)
+    Components:
+      - Transform:
+          LocalPosition: [-22.2999992, 24.2700005, -131.75]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.2134323, 19.3453999, 17.3539619]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1392741762
+    ID: 1392741762
+    Name: Cube (21)
+    Components:
+      - Transform:
+          LocalPosition: [-26.6800003, 15.5299997, -41.6100006]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.2991352, 15.2991352, 15.2991352]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1409202447
+    ID: 1409202447
+    Name: Cube (48)
+    Components:
+      - Transform:
+          LocalPosition: [2.99000001, 9.93000031, -55.6300011]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.784842432, 4.05197001]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1418435213
+    ID: 1418435213
+    Name: Cube (34)
+    Components:
+      - Transform:
+          LocalPosition: [-28.5, 16, -96.5999985]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.144577, 15.144577, 15.144577]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1421482495
+    ID: 1421482495
+    Name: Cube (11)
+    Components:
+      - Transform:
+          LocalPosition: [23.9899998, 15.9499998, -21.9915047]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [19.2509003, 19.2509003, 19.2509003]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1425361865
+    ID: 1425361865
+    Name: Cube (19)
+    Components:
+      - Transform:
+          LocalPosition: [16.8199997, 11.4300003, -41.6699982]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.2991352, 15.2991352, 15.2991352]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1439847002
+    ID: 1439847002
+    Name: Cube (57)
+    Components:
+      - Transform:
+          LocalPosition: [13.6400003, 34.4199982, -182.690002]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.3250389, 15.3250389, 15.3250389]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1454534586
+    ID: 1454534586
+    Name: Cube (3)
+    Components:
+      - Transform:
+          LocalPosition: [9.51404572, 7.49250364, -10.2815046]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [8.19381523, 8.19381523, 8.19381523]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1503310902
+    ID: 1503310902
+    Name: Player
+    Components:
+      - Transform:
+          LocalPosition: [41.5699997, 1.07000005, 18.0499992]
+          LocalRotation: [0, -0.998971045, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1523985972
+    ID: 1523985972
+    Name: Cube (51)
+    Components:
+      - Transform:
+          LocalPosition: [6.30000019, 23.8999996, -127.660004]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [5.97065496, 0.529583931, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1541634381
+    ID: 1541634381
+    Name: Camera
+    Components:
+      - Transform:
+          LocalPosition: [0, 1.63999999, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1503310902
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 60
+          NearClipPlane: 0.300000012
+          FarClipPlane: 1000
+  - Actor: 1545929933
+    ID: 1545929933
+    Name: button (1)
+    Components:
+      - Transform:
+          LocalPosition: [31.1000004, 8.13749695, -53.7099991]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.111803748, 4.05197001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1579695555
+    ID: 1579695555
+    Name: Cube (47)
+    Components:
+      - Transform:
+          LocalPosition: [3.08999991, 11.6499996, -49.9599991]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.634741306, 4.05197001]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1600571009
+    ID: 1600571009
+    Name: Cube (23)
+    Components:
+      - Transform:
+          LocalPosition: [-20, 16, -61.7000008]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.3561239, 15.3561239, 15.3561239]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1638100052
+    ID: 1638100052
+    Name: Cube (20)
+    Components:
+      - Transform:
+          LocalPosition: [15.25, 12.8400002, -41.6699982]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.2991352, 15.2991352, 15.2991352]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1715982923
+    ID: 1715982923
+    Name: Cube (24)
+    Components:
+      - Transform:
+          LocalPosition: [12.1700001, 16, -61.7000008]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.3561239, 15.3561239, 15.3561239]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1719646919
+    ID: 1719646919
+    Name: Cube (28)
+    Components:
+      - Transform:
+          LocalPosition: [17.2000008, 16, -73]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [20.9772511, 20.9772511, 20.9772511]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1752528977
+    ID: 1752528977
+    Name: Cube (13)
+    Components:
+      - Transform:
+          LocalPosition: [10.1000004, 13.2225037, 42.5200005]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [18.4593086, 18.4593086, 18.4593086]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1814395459
+    ID: 1814395459
+    Name: button (2)
+    Components:
+      - Transform:
+          LocalPosition: [38.1599998, 9.62000084, -81.8999939]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.111803748, 4.05197001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1839089215
+    ID: 1839089215
+    Name: GameObject (6)
+    Components:
+      - Transform:
+          LocalPosition: [38.0500031, 18.7199993, -122.270004]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1863290909
+    ID: 1863290909
+    Name: GameObject (2)
+    Components:
+      - Transform:
+          LocalPosition: [41.5700035, 7.63250399, -65.4899979]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1872416054
+    ID: 1872416054
+    Name: button (4)
+    Components:
+      - Transform:
+          LocalPosition: [32.25, 12.3100004, -139.449997]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.111803748, 4.05197001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1880114162
+    ID: 1880114162
+    Name: Cube (17)
+    Components:
+      - Transform:
+          LocalPosition: [-3.45000005, 11.3900003, 0.5]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.746260762, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1883986124
+    ID: 1883986124
+    Name: Cube (1)
+    Components:
+      - Transform:
+          LocalPosition: [20.4140434, 7.46250343, 10.2584953]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [11.25, 11.25, 11.25]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1887690212
+    ID: 1887690212
+    Name: Cube (38)
+    Components:
+      - Transform:
+          LocalPosition: [-6.65999985, 16.8799992, -77.6699905]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.529583931, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1891813556
+    ID: 1891813556
+    Name: GameObject (8)
+    Components:
+      - Transform:
+          LocalPosition: [39.2600021, 19.8299999, -146.470016]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1925190633
+    ID: 1925190633
+    Name: button_frame (5)
+    Components:
+      - Transform:
+          LocalPosition: [36.3600006, 23.039999, -163.559998]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.74392128, 0.443498313, 4.74392128]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1953531805
+    ID: 1953531805
+    Name: Cube (36)
+    Components:
+      - Transform:
+          LocalPosition: [-28.2999992, 27.0100002, -122]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [18.0894794, 18.0894794, 18.0894794]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1958722577
+    ID: 1958722577
+    Name: button_frame (1)
+    Components:
+      - Transform:
+          LocalPosition: [31.1000004, 7.67749643, -53.7099991]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.74392128, 0.918869257, 4.74392128]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 1974649622
+    ID: 1974649622
+    Name: GameObject (11)
+    Components:
+      - Transform:
+          LocalPosition: [41.2700005, 20.0599995, -169.899994]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 1994573034
+    ID: 1994573034
+    Name: platform (3)
+    Components:
+      - Transform:
+          LocalPosition: [37.9700012, 8.5, -121.939995]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.68077636, 0.676852465, 3.82105923]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 2006787468
+    ID: 2006787468
+    Name: Cube (42)
+    Components:
+      - Transform:
+          LocalPosition: [11.1800003, 24, -134.589996]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [12.0260658, 19.6890755, 12.0260658]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 2028694559
+    ID: 2028694559
+    Name: Cube (10)
+    Components:
+      - Transform:
+          LocalPosition: [-26.8159542, 13.2225037, 15.1684952]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [13.7756033, 13.7756033, 13.7756033]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 2100755531
+    ID: 2100755531
+    Name: Cube (27)
+    Components:
+      - Transform:
+          LocalPosition: [9.88000011, 10.0900002, -33.1300011]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.784842432, 4.05197001]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 2104677190
+    ID: 2104677190
+    Name: Cube (39)
+    Components:
+      - Transform:
+          LocalPosition: [-6.65999985, 19.5, -90.6399918]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3.85278106, 0.529583931, 3.85278106]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 2119803502
+    ID: 2119803502
+    Name: Cube (4)
+    Components:
+      - Transform:
+          LocalPosition: [20.8400002, 19.8199997, -28.0815048]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [15.2991352, 15.2991352, 15.2991352]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 2141099751
+    ID: 2141099751
+    Name: walls
+    Components:
+      - Transform:
+          LocalPosition: [44.685955, -5.57250357, -10.8184958]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 174979756
+    ID: 174979756
+    Name: New Actor
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SkyLight:
+          Path: Textures/Sky/default.hdr

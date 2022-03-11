@@ -2,10 +2,10 @@
 
 #include "Component.h"
 
+#include <glm/glm.hpp>
+
 class CameraComponent : public Component
 {
-private:
-
 public:
 	CameraComponent(Actor* owner);
 

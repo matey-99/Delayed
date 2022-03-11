@@ -40,7 +40,7 @@ public:
 	void Render();
 	void Destroy();
 
-	void RenderActor(Ref<Actor> actor);
+	void RenderActor(Actor* actor);
 
 	Ref<Actor> AddRoot();
 	Ref<Actor> AddActor(std::string name);

@@ -1,6 +1,7 @@
 #include "SceneSerializer.h"
 
 #include "yaml/yaml.h"
+#include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
@@ -16,7 +17,7 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	YAML::Emitter out;
 	out << YAML::BeginMap;
 	out << YAML::Key << "Scene" << YAML::Value << scene->m_Name;
-	out << YAML::Key << "Current Camera" << YAML::Value << scene->m_CurrentCamera->GetOwner()->GetID();
+	out << YAML::Key << "CurrentCamera" << YAML::Value << scene->m_CurrentCamera->GetOwner()->GetID();
 	out << YAML::Key << "Actors" << YAML::Value << YAML::BeginSeq;
 	for (auto actor : scene->GetActors())
 	{
@@ -51,145 +52,139 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	YAML::Node actors = data["Actors"];
 	if (actors)
 	{
-		auto parentsIDs = std::vector<uint64_t>();
+		auto parentsIDs = std::vector<int64_t>();
 
 		for (auto actor : actors)
 		{
-			Ref<Actor> a = Ref<Actor>();
 			if (actor["ID"].as<uint64_t>() == 0)
+				continue;
+
+			Ref<Actor> a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
+
+			YAML::Node components = actor["Components"];
+			if (components)
 			{
-				a = scene->AddRoot();
-			}
-			else
-			{
-				if (!scene->GetRoot())
+				for (auto component : components)
 				{
-					std::cout << "Loaded scene doesn't contain root actor!" << std::endl;
+					if (auto transform = component["Transform"])
+					{
+						a->GetTransform()->SetLocalPosition(transform["LocalPosition"].as<glm::vec3>());
+						a->GetTransform()->SetLocalRotation(transform["LocalRotation"].as<glm::vec3>());
+						a->GetTransform()->SetLocalScale(transform["LocalScale"].as<glm::vec3>());
+
+						if (auto parent = transform["Parent"])
+						{
+							parentsIDs.push_back(parent.as<uint64_t>());
+						}
+					}
+
+
+					if (auto mesh = component["StaticMesh"])
+					{
+						std::string path = mesh["Mesh"].as<std::string>();
+						std::vector<std::string> materialsPaths;
+						YAML::Node materials = mesh["Materials"];
+						for (auto material : materials)
+						{
+							materialsPaths.push_back(material["Path"].as<std::string>());
+
+						}
+						a->AddComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
+					}
+
+					if (auto mesh = component["InstanceRenderedMesh"])
+					{
+						std::string path = mesh["Mesh"].as<std::string>();
+						std::vector<std::string> materialsPaths;
+						YAML::Node materials = mesh["Materials"];
+						for (auto material : materials)
+						{
+							materialsPaths.push_back(material["Path"].as<std::string>());
+						}
+
+						float radius = mesh["Radius"].as<float>();
+						int count = mesh["InstancesCount"].as<int>();
+						float minScale = mesh["MinMeshScale"].as<float>();
+						float maxScale = mesh["MaxMeshScale"].as<float>();
+
+						auto m = a->AddComponent<InstanceRenderedMeshComponent>(path.c_str(), materialsPaths);
+						m->m_Radius = radius;
+						m->m_InstancesCount = count;
+						m->m_MinMeshScale = minScale;
+						m->m_MaxMeshScale = maxScale;
+						m->Generate();
+					}
+
+					if (auto dirLight = component["DirectionalLight"])
+					{
+						glm::vec3 color = dirLight["Color"].as<glm::vec3>();
+
+						auto l = a->AddComponent<DirectionalLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
+						l->SetColor(color);
+					}
+
+					if (auto pointLight = component["PointLight"])
+					{
+						glm::vec3 color = pointLight["Color"].as<glm::vec3>();
+
+						auto l = a->AddComponent<PointLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
+						l->SetColor(color);
+					}
+
+					if (auto spotLight = component["SpotLight"])
+					{
+						float innerCutOff = spotLight["InnerCutOff"].as<float>();
+						float outerCutOff = spotLight["OuterCutOff"].as<float>();
+						glm::vec3 color = spotLight["Color"].as<glm::vec3>();
+
+						auto l = a->AddComponent<SpotLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
+						l->SetInnerCutOff(innerCutOff);
+						l->SetOuterCutOff(outerCutOff);
+						l->SetColor(color);
+					}
+
+					if (auto skyLight = component["SkyLight"])
+					{
+						std::string path = skyLight["Path"].as<std::string>();
+
+						auto l = a->AddComponent<SkyLight>(ContentHelper::GetAssetPath(path));
+					}
+
+					if (auto particle = component["ParticleSystem"])
+					{
+						int count = particle["ParticlesCount"].as<int>();
+						float radius = particle["SphereRadius"].as<float>();
+						glm::vec3 minVelocity = particle["MinVelocity"].as<glm::vec3>();
+						glm::vec3 maxVelocity = particle["MaxVelocity"].as<glm::vec3>();
+
+						auto p = a->AddComponent<ParticleSystemComponent>();
+						p->m_ParticlesCount = count;
+						p->m_Radius = radius;
+						p->m_MinVelocity = minVelocity;
+						p->m_MaxVelocity = maxVelocity;
+
+						p->Reset();
+					}
+
+					if (auto camera = component["Camera"])
+					{
+						glm::vec2 aspectRatio = camera["AspectRatio"].as<glm::vec2>();
+						float fieldOfView = camera["FieldOfView"].as<float>();
+						float nearClipPlane = camera["NearClipPlane"].as<float>();
+						float farClipPlane = camera["FarClipPlane"].as<float>();
+
+						auto c = a->AddComponent<CameraComponent>();
+						c->m_AspectRatio = aspectRatio;
+						c->m_FieldOfView = fieldOfView;
+						c->m_NearClipPlane = nearClipPlane;
+						c->m_FarClipPlane = farClipPlane;
+					}
+
+					if (auto player = component["Player"])
+					{
+						a->AddComponent<PlayerComponent>();
+					}
 				}
-
-				a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Actor"].as<std::string>());
-			}
-			
-			a->SetID(actor["ID"].as<uint64_t>());
-			
-			if (auto parent = actor["Parent"])
-			{
-				parentsIDs.push_back(parent.as<uint64_t>());
-			}
-			else
-			{
-				parentsIDs.push_back(-1);
-			}
-
-			auto transform = actor["Transform"];
-			a->SetLocalPosition(transform["Position"].as<glm::vec3>());
-			a->SetLocalRotation(transform["Rotation"].as<glm::vec3>());
-			a->SetLocalScale(transform["Scale"].as<glm::vec3>());
-
-			if (auto mesh = actor["Model"])
-			{
-				std::string path = mesh["Mesh"].as<std::string>();
-				std::vector<std::string> materialsPaths;
-				YAML::Node materials = mesh["Materials"];
-				for (auto material : materials)
-				{
-					materialsPaths.push_back(material["Path"].as<std::string>());
-
-				}
-				a->AddComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
-			}
-
-			if (auto mesh = actor["Instance Rendered Mesh"])
-			{
-				std::string path = mesh["Mesh"].as<std::string>();
-				std::vector<std::string> materialsPaths;
-				YAML::Node materials = mesh["Materials"];
-				for (auto material : materials)
-				{
-					materialsPaths.push_back(material["Path"].as<std::string>());
-				}
-
-				float radius = mesh["Radius"].as<float>();
-				int count = mesh["Instances Count"].as<int>();
-				float minScale = mesh["Min Mesh Scale"].as<float>();
-				float maxScale = mesh["Max Mesh Scale"].as<float>();
-
-				auto m = a->AddComponent<InstanceRenderedMeshComponent>(path.c_str(), materialsPaths);
-				m->m_Radius = radius;
-				m->m_InstancesCount = count;
-				m->m_MinMeshScale = minScale;
-				m->m_MaxMeshScale = maxScale;
-				m->Generate();
-			}
-
-			if (auto dirLight = actor["Directional Light"])
-			{
-				glm::vec3 color = dirLight["Color"].as<glm::vec3>();
-
-				auto l = a->AddComponent<DirectionalLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
-				l->SetColor(color);
-			}
-
-			if (auto pointLight = actor["Point Light"])
-			{
-				glm::vec3 color = pointLight["Color"].as<glm::vec3>();
-
-				auto l = a->AddComponent<PointLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
-				l->SetColor(color);
-			}
-
-			if (auto spotLight = actor["Spot Light"])
-			{
-				float innerCutOff = spotLight["Inner Cut Off"].as<float>();
-				float outerCutOff = spotLight["Outer Cut Off"].as<float>();
-				glm::vec3 color = spotLight["Color"].as<glm::vec3>();
-
-				auto l = a->AddComponent<SpotLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
-				l->SetInnerCutOff(innerCutOff);
-				l->SetOuterCutOff(outerCutOff);
-				l->SetColor(color);
-			}
-
-			if (auto skyLight = actor["Sky Light"])
-			{
-				std::string path = skyLight["Path"].as<std::string>();
-
-				auto l = a->AddComponent<SkyLight>(path);
-			}
-
-			if (auto particle = actor["Particle System"])
-			{
-				int count = particle["Particles Count"].as<int>();
-				float radius = particle["Sphere Radius"].as<float>();
-				glm::vec3 minVelocity = particle["Min Velocity"].as<glm::vec3>();
-				glm::vec3 maxVelocity = particle["Max Velocity"].as<glm::vec3>();
-
-				auto p = a->AddComponent<ParticleSystemComponent>();
-				p->m_ParticlesCount = count;
-				p->m_Radius = radius;
-				p->m_MinVelocity = minVelocity;
-				p->m_MaxVelocity = maxVelocity;
-
-				p->Reset();
-			}
-
-			if (auto camera = actor["Camera"])
-			{
-				glm::vec2 aspectRatio = camera["Aspect Ratio"].as<glm::vec2>();
-				float fieldOfView = camera["Field Of View"].as<float>();
-				float nearClipPlane = camera["Near Clip Plane"].as<float>();
-				float farClipPlane = camera["Far Clip Plane"].as<float>();
-
-				auto c = a->AddComponent<CameraComponent>();
-				c->m_AspectRatio = aspectRatio;
-				c->m_FieldOfView = fieldOfView;
-				c->m_NearClipPlane = nearClipPlane;
-				c->m_FarClipPlane = farClipPlane;
-			}
-
-			if (auto player = actor["Player"])
-			{
-				a->AddComponent<PlayerComponent>();
 			}
 
 			if (auto boxCollider = actor["Box Collider"])
@@ -203,16 +198,13 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 			}
 		}
 
-		for (int i = 0; i < parentsIDs.size(); i++)
+		for (int i = 1; i < scene->GetActors().size(); i++)
 		{
-			if (parentsIDs[i] == -1)
-				continue;
-
-			scene->GetActors()[i]->SetParent(scene->FindActor(parentsIDs[i]).get());
+			scene->GetActors().at(i)->GetTransform()->SetParent(scene->FindActor(parentsIDs[i - 1])->GetTransform().get());
 		}
 	}
 
-	uint64_t currentCameraID = data["Current Camera"].as<uint64_t>();
+	uint64_t currentCameraID = data["CurrentCamera"].as<uint64_t>();
 	scene->m_CurrentCamera = scene->FindActor(currentCameraID)->GetComponent<CameraComponent>();
 
 	file.close();
@@ -221,23 +213,37 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 {
+	if (actor->GetID() == 0)
+		return;
+
 	out << YAML::BeginMap;
-	out << YAML::Key << "Actor" << YAML::Value << actor->GetName();
+	out << YAML::Key << "Actor" << YAML::Value << actor->GetID();
 	out << YAML::Key << "ID" << YAML::Value << actor->GetID();
-	if (actor->GetParent())
-		out << YAML::Key << "Parent" << YAML::Value << actor->GetParent()->GetID();
+	out << YAML::Key << "Name" << YAML::Value << actor->GetName();
 
-	Transform transform = actor->GetTransform();
-	out << YAML::Key << "Transform";
-	out << YAML::BeginMap;
-	out << YAML::Key << "Position" << YAML::Value << transform.LocalPosition;
-	out << YAML::Key << "Rotation" << YAML::Value << transform.LocalRotation;
-	out << YAML::Key << "Scale" << YAML::Value << transform.LocalScale;
-	out << YAML::EndMap;
+	out << YAML::Key << "Components" << YAML::Value << YAML::BeginSeq;
 
+	if (auto transform = actor->GetTransform())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Transform";
+
+		out << YAML::BeginMap;
+		out << YAML::Key << "LocalPosition" << YAML::Value << transform->m_LocalPosition;
+		out << YAML::Key << "LocalRotation" << YAML::Value << transform->m_LocalRotation;
+		out << YAML::Key << "LocalScale" << YAML::Value << transform->m_LocalScale;
+
+		if (transform->GetParent())
+			out << YAML::Key << "Parent" << YAML::Value << transform->GetParent()->GetOwner()->GetID();
+
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
 	if (auto mesh = actor->GetComponent<StaticMeshComponent>())
 	{
-		out << YAML::Key << "Model";
+		out << YAML::BeginMap;
+		out << YAML::Key << "StaticMesh";
+
 		out << YAML::BeginMap;
 		out << YAML::Key << "Mesh" << YAML::Value << mesh->GetPath();
 		out << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
@@ -250,10 +256,12 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		}
 		out << YAML::EndSeq;
 		out << YAML::EndMap;
+		out << YAML::EndMap;
 	}
 	if (auto mesh = actor->GetComponent<InstanceRenderedMeshComponent>())
 	{
-		out << YAML::Key << "Instance Rendered Mesh";
+		out << YAML::BeginMap;
+		out << YAML::Key << "InstanceRenderedMesh";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Mesh" << YAML::Value << mesh->GetPath();
 		out << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
@@ -267,81 +275,99 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndSeq;
 
 		out << YAML::Key << "Radius" << YAML::Value << mesh->m_Radius;
-		out << YAML::Key << "Instances Count" << YAML::Value << mesh->m_InstancesCount;
-		out << YAML::Key << "Min Mesh Scale" << YAML::Value << mesh->m_MinMeshScale;
-		out << YAML::Key << "Max Mesh Scale" << YAML::Value << mesh->m_MaxMeshScale;
+		out << YAML::Key << "InstancesCount" << YAML::Value << mesh->m_InstancesCount;
+		out << YAML::Key << "MinMeshScale" << YAML::Value << mesh->m_MinMeshScale;
+		out << YAML::Key << "MaxMeshScale" << YAML::Value << mesh->m_MaxMeshScale;
 
 
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 	if (auto dirLight = actor->GetComponent<DirectionalLight>())
 	{
-		out << YAML::Key << "Directional Light";
+		out << YAML::BeginMap;
+		out << YAML::Key << "DirectionalLight";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Color" << YAML::Value << dirLight->GetColor();
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 	if (auto pointLight = actor->GetComponent<PointLight>())
 	{
-		out << YAML::Key << "Point Light";
+		out << YAML::BeginMap;
+		out << YAML::Key << "PointLight";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Color" << YAML::Value << pointLight->GetColor();
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 	if (auto spotLight = actor->GetComponent<SpotLight>())
 	{
-		out << YAML::Key << "Spot Light";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Inner Cut Off" << YAML::Value << spotLight->GetInnerCutOff();
-		out << YAML::Key << "Outer Cut Off" << YAML::Value << spotLight->GetOuterCutOff();
+		out << YAML::Key << "SpotLight";
+		out << YAML::BeginMap;
+		out << YAML::Key << "InnerCutOff" << YAML::Value << spotLight->GetInnerCutOff();
+		out << YAML::Key << "OuterCutOff" << YAML::Value << spotLight->GetOuterCutOff();
 		out << YAML::Key << "Color" << YAML::Value << spotLight->GetColor();
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 	if (auto skyLight = actor->GetComponent<SkyLight>())
 	{
-		out << YAML::Key << "Sky Light";
+		out << YAML::BeginMap;
+		out << YAML::Key << "SkyLight";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Path" << YAML::Value << skyLight->GetPath();
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 
 	if (auto particleSystem = actor->GetComponent<ParticleSystemComponent>())
 	{
-		out << YAML::Key << "Particle System";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Particles Count" << YAML::Value << particleSystem->m_ParticlesCount;
-		out << YAML::Key << "Sphere Radius" << YAML::Value << particleSystem->m_Radius;
-		out << YAML::Key << "Min Velocity" << YAML::Value << particleSystem->m_MinVelocity;
-		out << YAML::Key << "Max Velocity" << YAML::Value << particleSystem->m_MaxVelocity;
+		out << YAML::Key << "ParticleSystem";
+		out << YAML::BeginMap;
+		out << YAML::Key << "ParticlesCount" << YAML::Value << particleSystem->m_ParticlesCount;
+		out << YAML::Key << "SphereRadius" << YAML::Value << particleSystem->m_Radius;
+		out << YAML::Key << "MinVelocity" << YAML::Value << particleSystem->m_MinVelocity;
+		out << YAML::Key << "MaxVelocity" << YAML::Value << particleSystem->m_MaxVelocity;
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 
 	if (auto camera = actor->GetComponent<CameraComponent>())
 	{
+		out << YAML::BeginMap;
 		out << YAML::Key << "Camera";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Aspect Ratio" << YAML::Value << camera->m_AspectRatio;
-		out << YAML::Key << "Field Of View" << YAML::Value << camera->m_FieldOfView;
-		out << YAML::Key << "Near Clip Plane" << YAML::Value << camera->m_NearClipPlane;
-		out << YAML::Key << "Far Clip Plane" << YAML::Value << camera->m_FarClipPlane;
+		out << YAML::Key << "AspectRatio" << YAML::Value << camera->m_AspectRatio;
+		out << YAML::Key << "FieldOfView" << YAML::Value << camera->m_FieldOfView;
+		out << YAML::Key << "NearClipPlane" << YAML::Value << camera->m_NearClipPlane;
+		out << YAML::Key << "FarClipPlane" << YAML::Value << camera->m_FarClipPlane;
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 
 	if (auto player = actor->GetComponent<PlayerComponent>())
 	{
+		out << YAML::BeginMap;
 		out << YAML::Key << "Player";
 		out << YAML::BeginMap;
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 
 	if (auto boxCollider = actor->GetComponent<BoxColliderComponent>())
 	{
+		out << YAML::BeginMap;
 		out << YAML::Key << "Box Collider";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Center" << YAML::Value << boxCollider->m_Center;
 		out << YAML::Key << "Size" << YAML::Value << boxCollider->m_Size;
 		out << YAML::EndMap;
+		out << YAML::EndMap;
 	}
 
+	out << YAML::EndSeq;
 	out << YAML::EndMap;
 }

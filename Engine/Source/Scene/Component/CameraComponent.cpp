@@ -32,7 +32,7 @@ void CameraComponent::Destroy()
 
 glm::mat4 CameraComponent::GetViewMatrix()
 {
-	return glm::lookAt(m_Owner->GetWorldPosition(), m_Owner->GetWorldPosition() + m_Front, m_Up);
+	return glm::lookAt(m_Owner->GetTransform()->GetWorldPosition(), m_Owner->GetTransform()->GetWorldPosition() + m_Front, m_Up);
 }
 
 glm::mat4 CameraComponent::GetProjectionMatrix()
@@ -47,7 +47,7 @@ glm::mat4 CameraComponent::GetViewProjectionMatrix()
 
 glm::vec3 CameraComponent::CalculateFrontVector()
 {
-	glm::vec3 rotation = m_Owner->GetWorldRotation();
+	glm::vec3 rotation = m_Owner->GetTransform()->GetWorldRotation();
 	float pitch = rotation.x;
 	float yaw = rotation.y;
 

@@ -1,74 +1,113 @@
 Scene: Main
-Current Camera: 1
+CurrentCamera: 968085101
 Actors:
-  - Actor: Root
-    ID: 0
-    Transform:
-      Position: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-  - Actor: Camera
-    ID: 1
-    Parent: 202093007
-    Transform:
-      Position: [0, 4, 5.76602364]
-      Rotation: [-29, -90, 0]
-      Scale: [1, 1, 1]
-    Camera:
-      Aspect Ratio: [16, 9]
-      Field Of View: 60
-      Near Clip Plane: 0.100000001
-      Far Clip Plane: 1000
-  - Actor: Point Light
-    ID: 643321389
-    Parent: 0
-    Transform:
-      Position: [0, 10, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Point Light:
-      Color: [50, 50, 50]
-  - Actor: Ground
-    ID: 792564103
-    Parent: 0
-    Transform:
-      Position: [4.32834721, 0.724073887, 0]
-      Rotation: [0, 0, 0]
-      Scale: [57.1341515, 1, 55.8362999]
-    Model:
-      Mesh: Models/defaults/default_cube.obj
-      Materials:
-        - Material: 0
-          Path: Materials/Default.mat
-  - Actor: Cube
-    ID: 206093007
-    Parent: 0
-    Transform:
-      Position: [16.2759285, 5.87056541, 19.3561459]
-      Rotation: [0, 0, 0]
-      Scale: [4.33983946, 4.20781851, 3.65005636]
-    Model:
-      Mesh: Models/defaults/default_cube.obj
-      Materials:
-        - Material: 0
-          Path: Materials/Default.mat
-    Box Collider:
-      Center: [0, 0, 0]
-      Size: [1, 1, 1]
-  - Actor: Player
-    ID: 202093007
-    Parent: 0
-    Transform:
-      Position: [0, 2.7542274, 11.4265003]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Model:
-      Mesh: Models/defaults/default_cube.obj
-      Materials:
-        - Material: 0
-          Path: Materials/Default.mat
-    Player:
-      {}
-    Box Collider:
-      Center: [0, 0, 0]
-      Size: [1, 1, 1]
+  - Actor: 351984817
+    ID: 351984817
+    Name: GameObject (1)
+    Components:
+      - Transform:
+          LocalPosition: [2, 0, 4.4000001]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 383775632
+    ID: 383775632
+    Name: Cube (1)
+    Components:
+      - Transform:
+          LocalPosition: [0.0723583847, -0.258750439, -2.06999993]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [2, 2, 2]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 932189503
+    ID: 932189503
+    Name: Cube
+    Components:
+      - Transform:
+          LocalPosition: [0.0723583847, -0.258750439, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [2, 2, 2]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 968085101
+    ID: 968085101
+    Name: Main Camera
+    Components:
+      - Transform:
+          LocalPosition: [-5.828403, -0.491944313, 6.4459281]
+          LocalRotation: [0, -48.6337395, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 60
+          NearClipPlane: 0.300000012
+          FarClipPlane: 1000
+  - Actor: 1233056639
+    ID: 1233056639
+    Name: GameObject
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 4.4000001]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 925465284
+    ID: 925465284
+    Name: Sky Light
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SkyLight:
+          Path: Textures/Sky/default.hdr
+  - Actor: 667076417
+    ID: 667076417
+    Name: New Actor
+    Components:
+      - Transform:
+          LocalPosition: [0, -1.76572347, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [16.1000004, 1, 15.1000004]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 768280824
+    ID: 768280824
+    Name: New Actor (1)
+    Components:
+      - Transform:
+          LocalPosition: [-3.16189432, -0.747716188, 2.11705184]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_sphere.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 430300327
+    ID: 430300327
+    Name: New Actor (2)
+    Components:
+      - Transform:
+          LocalPosition: [0.0843043327, -0.203465939, 6.07887983]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - PointLight:
+          Color: [20, 20, 20]

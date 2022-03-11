@@ -35,7 +35,7 @@ void ParticleSystemComponent::Update(float deltaTime)
 		glm::vec4* positions = m_PositionBuffer->Map();
 		for (size_t i = 0; i < m_ParticlesCount; i++)
 		{
-			glm::vec3 center = m_Owner->GetWorldPosition();
+			glm::vec3 center = m_Owner->GetTransform()->GetWorldPosition();
 
 			float u = ((float)rand() / RAND_MAX) * m_Radius;
 			float v = ((float)rand() / RAND_MAX) * m_Radius;
@@ -74,7 +74,7 @@ void ParticleSystemComponent::Render()
 {
 	auto particleShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PARTICLE, "StandardParticle");
 	particleShader->Use();
-	particleShader->SetMat4("u_Model", m_Owner->GetTransform().ModelMatrix);
+	particleShader->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
 	particleShader->SetMat4("u_View", m_Owner->GetScene()->GetCurrentCamera()->GetViewMatrix());
 	particleShader->SetMat4("u_Projection", m_Owner->GetScene()->GetCurrentCamera()->GetProjectionMatrix());
 	particleShader->SetVec2("u_SpriteSize", glm::vec2(0.03f, 0.03f));
@@ -115,7 +115,7 @@ void ParticleSystemComponent::Reset()
 	glm::vec4* positions = m_PositionBuffer->Map();
 	for (size_t i = 0; i < m_ParticlesCount; i++)
 	{
-		glm::vec3 center = m_Owner->GetWorldPosition();
+		glm::vec3 center = m_Owner->GetTransform()->GetWorldPosition();
 
 		float u = ((float)rand() / RAND_MAX) * m_Radius;
 		float v = ((float)rand() / RAND_MAX) * m_Radius;

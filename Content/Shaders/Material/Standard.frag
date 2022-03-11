@@ -397,7 +397,7 @@ void main()
     shadow = clamp(shadow, 0.0, 1.0);
 
     vec3 ambient = (kD * diffuse + specular) * ao;
-    vec3 color = ambient + Lo * (1.0 - shadow) + emissive * u_Material.emissiveStrength;
+    vec3 color = ambient * (1 - shadow) + Lo + emissive * u_Material.emissiveStrength;
 
     f_Color = vec4(color, 1.0);
 }

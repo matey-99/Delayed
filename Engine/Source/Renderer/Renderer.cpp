@@ -9,6 +9,7 @@
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
+#include "Scene/Component/TransformComponent.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -240,7 +241,7 @@ void Renderer::RenderScene(Ref<Scene> scene)
 	m_CameraVertexUniformBuffer->Unbind();
 
 	m_CameraFragmentUniformBuffer->Bind();
-	m_CameraFragmentUniformBuffer->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(scene->GetCurrentCamera()->GetOwner()->GetWorldPosition()));
+	m_CameraFragmentUniformBuffer->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(scene->GetCurrentCamera()->GetOwner()->GetTransform()->GetWorldPosition()));
 	m_CameraFragmentUniformBuffer->Unbind();
 
 	scene->Render();
@@ -362,11 +363,11 @@ void Renderer::RenderShadowMap(Scene* scene, DirectionalLight* source)
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glCullFace(GL_FRONT);
 
-	for (auto e : scene->GetActors())
+	for (auto a : scene->GetActors())
 	{
-		if (auto smc = e->GetComponent<StaticMeshComponent>())
+		if (auto smc = a->GetComponent<StaticMeshComponent>())
 		{
-			depthShader->SetMat4("u_Model", e->GetTransform().ModelMatrix);
+			depthShader->SetMat4("u_Model", a->GetTransform()->GetWorldModelMatrix());
 
 			for (auto mesh : smc->GetMeshes())
 				mesh.Render();
@@ -402,7 +403,7 @@ void Renderer::RenderShadowMap(Scene* scene, PointLight* source)
 	for (int i = 0; i < 6; i++)
 		depthShader->SetMat4("u_ShadowMatrices[" + std::to_string(i) + "]", source->GetLightViews().at(i));
 	depthShader->SetFloat("u_FarPlane", source->GetFarPlane());
-	depthShader->SetVec3("u_LightPos", source->GetOwner()->GetWorldPosition());
+	depthShader->SetVec3("u_LightPos", source->GetOwner()->GetTransform()->GetWorldPosition());
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glCullFace(GL_FRONT);
@@ -411,7 +412,7 @@ void Renderer::RenderShadowMap(Scene* scene, PointLight* source)
 	{
 		if (auto smc = e->GetComponent<StaticMeshComponent>())
 		{
-			depthShader->SetMat4("u_Model", e->GetTransform().ModelMatrix);
+			depthShader->SetMat4("u_Model", e->GetTransform()->GetWorldModelMatrix());
 
 			for (auto mesh : smc->GetMeshes())
 				mesh.Render();
@@ -423,7 +424,7 @@ void Renderer::RenderShadowMap(Scene* scene, PointLight* source)
 	for (int i = 0; i < 6; i++)
 		depthIstancedShader->SetMat4("u_ShadowMatrices[" + std::to_string(i) + "]", source->GetLightViews().at(i));
 	depthIstancedShader->SetFloat("u_FarPlane", source->GetFarPlane());
-	depthIstancedShader->SetVec3("u_LightPos", source->GetOwner()->GetWorldPosition());
+	depthIstancedShader->SetVec3("u_LightPos", source->GetOwner()->GetTransform()->GetWorldPosition());
 	
 	for (auto c : scene->GetComponents<InstanceRenderedMeshComponent>())
 	{
@@ -455,7 +456,7 @@ void Renderer::RenderShadowMap(Scene* scene, SpotLight* source)
 	{
 		if (auto smc = e->GetComponent<StaticMeshComponent>())
 		{
-			depthShader->SetMat4("u_Model", e->GetTransform().ModelMatrix);
+			depthShader->SetMat4("u_Model", e->GetTransform()->GetWorldModelMatrix());
 
 			for (auto mesh : smc->GetMeshes())
 				mesh.Render();

@@ -39,11 +39,11 @@ void Viewport::Render(Ref<Framebuffer> framebuffer)
 
         Ref<EditorCamera> camera = m_Editor->GetCamera();
 
-        Transform transform = selectedActor->GetTransform();
+        auto transform = selectedActor->GetTransform();
 
         glm::mat4 view = camera->GetViewMatrix();
         glm::mat4 projection = camera->GetProjectionMatrix();
-        glm::mat4 model = transform.ModelMatrix;
+        glm::mat4 model = transform->GetWorldModelMatrix();
 
         ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(projection),
             m_Editor->GetGizmoOperation(), ImGuizmo::LOCAL, glm::value_ptr(model));
@@ -56,13 +56,13 @@ void Viewport::Render(Ref<Framebuffer> framebuffer)
             switch (m_Editor->GetGizmoOperation())
             {
             case ImGuizmo::OPERATION::TRANSLATE:
-                selectedActor->SetWorldPosition(position);
+                selectedActor->GetTransform()->SetWorldPosition(position);
                 break;
             case ImGuizmo::OPERATION::ROTATE:
-                selectedActor->SetLocalRotation(glm::degrees(rotation));
+                selectedActor->GetTransform()->SetLocalRotation(glm::degrees(rotation));
                 break;
             case ImGuizmo::OPERATION::SCALE:
-                selectedActor->SetLocalScale(scale);
+                selectedActor->GetTransform()->SetLocalScale(scale);
                 break;
             }
         }

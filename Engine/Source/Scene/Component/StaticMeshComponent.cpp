@@ -163,7 +163,7 @@ void StaticMeshComponent::Render()
 		}
 
 
-		material->GetShader()->SetMat4("u_Model", m_Owner->GetTransform().ModelMatrix);
+		material->GetShader()->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
 	}
 	if (!m_MultipleMaterials && m_Materials.at(0))
 	{

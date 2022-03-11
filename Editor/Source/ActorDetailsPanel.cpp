@@ -38,29 +38,29 @@ void ActorDetailsPanel::Render()
 
     ImGui::Text("Transform");
     float arr[3];
-    arr[0] = m_Actor->GetTransform().LocalPosition.x;
-    arr[1] = m_Actor->GetTransform().LocalPosition.y;
-    arr[2] = m_Actor->GetTransform().LocalPosition.z;
+    arr[0] = m_Actor->GetTransform()->GetLocalPosition().x;
+    arr[1] = m_Actor->GetTransform()->GetLocalPosition().y;
+    arr[2] = m_Actor->GetTransform()->GetLocalPosition().z;
     ImGui::DragFloat3("Position", arr, 0.5f);
 
-    if (!Equals(arr, m_Actor->GetTransform().LocalPosition))
-        m_Actor->SetLocalPosition({ arr[0], arr[1], arr[2] });
+    if (!Equals(arr, m_Actor->GetTransform()->GetLocalPosition()))
+        m_Actor->GetTransform()->SetLocalPosition({arr[0], arr[1], arr[2]});
 
-    arr[0] = m_Actor->GetTransform().LocalRotation.x;
-    arr[1] = m_Actor->GetTransform().LocalRotation.y;
-    arr[2] = m_Actor->GetTransform().LocalRotation.z;
+    arr[0] = m_Actor->GetTransform()->GetLocalRotation().x;
+    arr[1] = m_Actor->GetTransform()->GetLocalRotation().y;
+    arr[2] = m_Actor->GetTransform()->GetLocalRotation().z;
     ImGui::DragFloat3("Rotation", arr, 1.0f);
 
-    if (!Equals(arr, m_Actor->GetTransform().LocalRotation))
-        m_Actor->SetLocalRotation({ arr[0], arr[1], arr[2] });
+    if (!Equals(arr, m_Actor->GetTransform()->GetLocalRotation()))
+        m_Actor->GetTransform()->SetLocalRotation({ arr[0], arr[1], arr[2] });
 
-    arr[0] = m_Actor->GetTransform().LocalScale.x;
-    arr[1] = m_Actor->GetTransform().LocalScale.y;
-    arr[2] = m_Actor->GetTransform().LocalScale.z;
+    arr[0] = m_Actor->GetTransform()->GetLocalScale().x;
+    arr[1] = m_Actor->GetTransform()->GetLocalScale().y;
+    arr[2] = m_Actor->GetTransform()->GetLocalScale().z;
     ImGui::DragFloat3("Scale", arr, 0.1f);
 
-    if (!Equals(arr, m_Actor->GetTransform().LocalScale))
-        m_Actor->SetLocalScale({ arr[0], arr[1], arr[2] });
+    if (!Equals(arr, m_Actor->GetTransform()->GetLocalScale()))
+        m_Actor->GetTransform()->SetLocalScale({ arr[0], arr[1], arr[2] });
 
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 

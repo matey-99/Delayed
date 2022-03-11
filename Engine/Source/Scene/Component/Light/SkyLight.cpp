@@ -4,6 +4,7 @@
 #include <stb_image.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Content/ContentHelper.h"
 #include "Material/ShaderLibrary.h"
 #include "Renderer/Texture.h"
 #include "Renderer/Renderer.h"

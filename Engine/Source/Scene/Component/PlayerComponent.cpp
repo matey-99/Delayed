@@ -31,7 +31,7 @@ void PlayerComponent::MoveLeft()
 	glm::vec3 newPosition = m_Owner->GetTransform().LocalPosition;
 	newPosition.x -= 0.001f;
 	
-	m_Owner->SetLocalPosition(newPosition);
+	m_Owner->GetTransform()->SetLocalPosition(newPosition);
 }
 
 void PlayerComponent::MoveRight()
@@ -39,7 +39,7 @@ void PlayerComponent::MoveRight()
 	glm::vec3 newPosition = m_Owner->GetTransform().LocalPosition;
 	newPosition.x += 0.001f;
 
-	m_Owner->SetLocalPosition(newPosition);
+	m_Owner->GetTransform()->SetLocalPosition(newPosition);
 }
 
 void PlayerComponent::MoveForward()
@@ -47,7 +47,7 @@ void PlayerComponent::MoveForward()
 	glm::vec3 newPosition = m_Owner->GetTransform().LocalPosition;
 	newPosition.z -= 0.001f;
 
-	m_Owner->SetLocalPosition(newPosition);
+	m_Owner->GetTransform()->SetLocalPosition(newPosition);
 }
 
 void PlayerComponent::MoveBackward()
@@ -55,5 +55,5 @@ void PlayerComponent::MoveBackward()
 	glm::vec3 newPosition = m_Owner->GetTransform().LocalPosition;
 	newPosition.z += 0.001f;
 
-	m_Owner->SetLocalPosition(newPosition);
+	m_Owner->GetTransform()->SetLocalPosition(newPosition);
 }

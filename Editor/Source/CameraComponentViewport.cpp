@@ -46,7 +46,7 @@ void CameraComponentViewport::Render(Ref<Framebuffer> framebuffer, Ref<CameraCom
 	renderer->GetCameraVertexUniformBuffer()->Unbind();
 
 	renderer->GetCameraFragmentUniformBuffer()->Bind();
-	renderer->GetCameraFragmentUniformBuffer()->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(camera->GetOwner()->GetWorldPosition()));
+	renderer->GetCameraFragmentUniformBuffer()->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(camera->GetOwner()->GetTransform()->GetWorldPosition()));
 	renderer->GetCameraFragmentUniformBuffer()->Unbind();
 
 	m_Scene->Render();

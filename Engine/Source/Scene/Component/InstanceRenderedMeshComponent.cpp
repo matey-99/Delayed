@@ -9,9 +9,11 @@
 #include "Light/SpotLight.h"
 #include "Light/SkyLight.h"
 #include "Content/ContentHelper.h"
+#include "Math/Transform.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/constants.hpp>
 
 InstanceRenderedMeshComponent::InstanceRenderedMeshComponent(Actor* owner)
 	: InstanceRenderedMeshComponent(owner, "Models/defaults/default_cube.obj")
@@ -158,7 +160,7 @@ void InstanceRenderedMeshComponent::Render()
 			}
 		}
 
-		material->GetShader()->SetMat4("u_Model", m_Owner->GetTransform().ModelMatrix);
+		material->GetShader()->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
 	}
 	if (!m_MultipleMaterials && m_Materials.at(0))
 	{
@@ -230,7 +232,7 @@ void InstanceRenderedMeshComponent::Generate()
 {
 	m_ModelMatrices.clear();
 
-	glm::vec3 center = m_Owner->GetWorldPosition();
+	glm::vec3 center = m_Owner->GetTransform()->GetWorldPosition();
 
 	srand(glfwGetTime());
 	for (uint32_t i = 0; i < m_InstancesCount; i++)
@@ -245,13 +247,12 @@ void InstanceRenderedMeshComponent::Generate()
 		float scale = (rand() % (int)(m_MaxMeshScale * 100)) / 100.0f + m_MinMeshScale;
 		float rotationY = (rand() % 360);
 
-		Transform t = Transform(m_Owner);
-		t.LocalPosition = glm::vec3(x, center.y, z);
-		t.LocalScale = glm::vec3(scale);
-		t.LocalRotation = glm::vec3(m_Owner->GetTransform().LocalRotation.x, rotationY, m_Owner->GetTransform().LocalRotation.z);
-		t.CalculateModelMatrix();
+		Transform t;
+		t.Position = glm::vec3(x, center.y, z);
+		t.Scale = glm::vec3(scale);
+		t.Rotation = glm::vec3(m_Owner->GetTransform()->GetWorldRotation().x, rotationY, m_Owner->GetTransform()->GetWorldRotation().z);
 
-		m_ModelMatrices.push_back(t.ModelMatrix);
+		m_ModelMatrices.push_back(t.GetModelMatrix());
 	}
 
 	if (m_ModelMatricesBuffer)
