@@ -50,35 +50,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	YAML::Node actors = data["Actors"];
 	if (actors)
 	{
-		auto parentsIDs = std::vector<uint64_t>();
+		auto parentsIDs = std::vector<int64_t>();
 
 		for (auto actor : actors)
 		{
-			Ref<Actor> a = Ref<Actor>();
 			if (actor["ID"].as<uint64_t>() == 0)
-			{
-				a = scene->AddRoot();
-			}
-			else
-			{
-				if (!scene->GetRoot())
-				{
-					std::cout << "Loaded scene doesn't contain root actor!" << std::endl;
-				}
+				continue;
 
-				a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Actor"].as<std::string>());
-			}
-			
-			a->SetID(actor["ID"].as<uint64_t>());
-			
-			if (auto parent = actor["Parent"])
-			{
-				parentsIDs.push_back(parent.as<uint64_t>());
-			}
-			else
-			{
-				parentsIDs.push_back(-1);
-			}
+			Ref<Actor> a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
 
 			YAML::Node components = actor["Components"];
 			if (components)
@@ -90,6 +69,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						a->GetTransform()->SetLocalPosition(transform["LocalPosition"].as<glm::vec3>());
 						a->GetTransform()->SetLocalRotation(transform["LocalRotation"].as<glm::vec3>());
 						a->GetTransform()->SetLocalScale(transform["LocalScale"].as<glm::vec3>());
+
+						if (auto parent = transform["Parent"])
+						{
+							parentsIDs.push_back(parent.as<uint64_t>());
+						}
 					}
 
 
@@ -199,18 +183,12 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						a->AddComponent<PlayerComponent>();
 					}
 				}
-				
 			}
-
-			
 		}
 
-		for (int i = 0; i < parentsIDs.size(); i++)
+		for (int i = 1; i < scene->GetActors().size(); i++)
 		{
-			if (parentsIDs[i] == -1)
-				continue;
-
-			scene->GetActors()[i]->GetTransform()->SetParent(scene->FindActor(parentsIDs[i])->GetTransform().get());
+			scene->GetActors().at(i)->GetTransform()->SetParent(scene->FindActor(parentsIDs[i - 1])->GetTransform().get());
 		}
 	}
 
@@ -223,10 +201,13 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 {
+	if (actor->GetID() == 0)
+		return;
+
 	out << YAML::BeginMap;
-	out << YAML::Key << "Actor" << YAML::Value << actor->GetName();
+	out << YAML::Key << "Actor" << YAML::Value << actor->GetID();
 	out << YAML::Key << "ID" << YAML::Value << actor->GetID();
-	
+	out << YAML::Key << "Name" << YAML::Value << actor->GetName();
 
 	out << YAML::Key << "Components" << YAML::Value << YAML::BeginSeq;
 
@@ -317,9 +298,11 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "OuterCutOff" << YAML::Value << spotLight->GetOuterCutOff();
 		out << YAML::Key << "Color" << YAML::Value << spotLight->GetColor();
 		out << YAML::EndMap;
+		out << YAML::EndMap;
 	}
 	if (auto skyLight = actor->GetComponent<SkyLight>())
 	{
+		out << YAML::BeginMap;
 		out << YAML::Key << "SkyLight";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Path" << YAML::Value << skyLight->GetPath();

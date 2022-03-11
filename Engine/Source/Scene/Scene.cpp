@@ -99,7 +99,7 @@ Ref<Actor> Scene::AddRoot()
 	if (m_Root)
 		return m_Root;
 
-	Ref<Actor> root = Actor::Create(this, "Root");
+	Ref<Actor> root = Actor::Create(this, 0, "Root");
 	m_Root = root;
 	m_Actors.push_back(root);
 
