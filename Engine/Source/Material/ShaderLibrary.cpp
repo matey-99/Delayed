@@ -39,15 +39,20 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/Threshold.vert"),
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/Threshold.frag"))));
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Downfilter", 
-		CreateRef<Shader>("Downfilter", 
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Scale", 
+		CreateRef<Shader>("Scale", 
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/Downfilter.frag"))));
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/Scale.frag"))));
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Blur", 
-		CreateRef<Shader>("Blur",
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("BlurHorizontal", 
+		CreateRef<Shader>("BlurHorizontal",
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/Blur.frag"))));
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/BlurHorizontal.frag"))));
+
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("BlurVertical",
+		CreateRef<Shader>("BlurVertical",
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/BlurVertical.frag"))));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthMapOrtographic", 
 		CreateRef<Shader>("DepthMapOrtographic", 

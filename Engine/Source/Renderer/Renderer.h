@@ -7,7 +7,9 @@
 
 #define CHECK_OPENGL_ERRORS()	while (GLenum error = glGetError()) \
 								{ std::cout << "OpenGL Error: " << error << std::endl; __debugbreak(); }
-									
+					
+#define GAUSSIAN_BLUR_RADIUS 6
+#define GAUSSIAN_BLUR_KERNEL_SIZE (GAUSSIAN_BLUR_RADIUS * 2 + 1)
 
 class Framebuffer;
 class UniformBuffer;
@@ -28,7 +30,7 @@ private:
 	Ref<Framebuffer> m_MainSceneFramebuffer;
 	Ref<Framebuffer> m_PostProcessingFramebuffer;
 	Ref<Framebuffer> m_ThresholdFramebuffer;
-	Ref<Framebuffer> m_HalfResolutionFramebuffer;
+	Ref<Framebuffer> m_ScaleFramebuffers[2];
 	Ref<Framebuffer> m_BlurFramebuffer;
 
 	Ref<Framebuffer> m_DirectionalLightShadowMapFramebuffer;
@@ -52,10 +54,14 @@ private:
 	bool m_Bloom;
 	float m_BloomIntensity;
 	float m_BloomThreshold;
-	float m_BlurWidth;
+	float m_BloomLimit;
+	float m_BlurSigma;
 
 	float m_Gamma;
 	float m_Exposure;
+
+	glm::vec2 m_GaussianBlurHorizontalCache[GAUSSIAN_BLUR_KERNEL_SIZE];
+	glm::vec2 m_GaussianBlurVerticalCache[GAUSSIAN_BLUR_KERNEL_SIZE];
 
 public:
 	Renderer();
@@ -85,6 +91,11 @@ public:
 
 	inline Ref<Framebuffer> GetMainSceneFramebuffer() const { return m_MainSceneFramebuffer; }
 	inline Ref<Framebuffer> GetPostProcessingFramebuffer() const { return m_PostProcessingFramebuffer; }
+
+	inline Ref<Framebuffer> GetThresholdFramebuffer() const { return m_ThresholdFramebuffer; }
+	inline Ref<Framebuffer> GetScaleFramebuffers(int index) const { return m_ScaleFramebuffers[index]; }
+	inline Ref<Framebuffer> GetBlurFramebuffer() const { return m_BlurFramebuffer; }
+
 	inline Ref<Framebuffer> GetDirectionalLightShadowMapFramebuffer() const { return m_DirectionalLightShadowMapFramebuffer; }
 	inline Ref<Framebuffer> GetPointLightShadowMapFramebuffer() const { return m_PointLightShadowMapFramebuffer; }
 	inline Ref<Framebuffer> GetSpotLightShadowMapFramebuffer() const { return m_SpotLightShadowMapFramebuffer; }
@@ -102,6 +113,8 @@ public:
 
 private:
 	void CreateShadowMapsPlaceholders();
+
+	void ComputeGaussianBlurKernel(float sigma, float width, float height);
 
 	friend class RendererSettingsPanel;
 };

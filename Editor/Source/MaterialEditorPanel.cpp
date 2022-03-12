@@ -83,7 +83,7 @@ void MaterialEditorPanel::Render()
     {
         std::string name = param.first.substr(param.first.find_first_of('.') + 1);
 
-        ImGui::DragFloat(name.c_str(), &param.second, 0.01f, 0.0f, 1.0f);
+        ImGui::DragFloat(name.c_str(), &param.second, 0.01f, 0.0f, 10.0f);
     }
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
