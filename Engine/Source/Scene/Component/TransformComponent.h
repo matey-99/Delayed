@@ -42,6 +42,8 @@ public:
 	inline glm::mat4 GetLocalModelMatrix() const { return m_LocalModelMatrix; }
 	inline glm::mat4 GetWorldModelMatrix() const { return m_WorldModelMatrix; }
 
+	inline glm::vec3 GetForward() const { return m_Forward; }
+
 private:
 	glm::vec3 m_LocalPosition;
 	glm::vec3 m_LocalRotation;
@@ -52,6 +54,8 @@ private:
 
 	glm::mat4 m_LocalModelMatrix;
 	glm::mat4 m_WorldModelMatrix;
+
+	glm::vec3 m_Forward;
 
 	friend class SceneSerializer;
 };

@@ -259,6 +259,7 @@ int main(int, char**)
         if (shouldRender)
         {
             editor->RenderScene();
+            editor->GetViewport()->RenderGizmos();
 
             if (Renderer::GetInstance()->IsPostProcessing())
                 Renderer::GetInstance()->AddPostProcessingEffects();

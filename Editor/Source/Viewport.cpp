@@ -2,20 +2,32 @@
 
 #include <glm/gtc/type_ptr.hpp>
 #include <ImGuizmo.h>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
+#include "Importer/MeshImporter.h"
 #include "Editor.h"
 #include "Math/Math.h"
+#include "Content/ContentHelper.h"
+#include "Scene/Component/Light/DirectionalLight.h"
 
 Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
 	: m_Editor(editor), m_Scene(scene)
 {
-
+    m_DirectionArrowShader = CreateRef<Shader>("Gizmos",
+                                               ContentHelper::GetAssetPath("Shaders/Editor/Gizmos.vert"),
+                                               ContentHelper::GetAssetPath("Shaders/Editor/Gizmos.frag"));
+    m_DirectionArrow = MeshImporter::GetInstance()->ImportMesh("Models/editor/DirectionArrow.fbx");
 }
 
 void Viewport::Render(Ref<Framebuffer> framebuffer)
 {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin("Viewport");
+    
+
+
 
     m_Hovered = ImGui::IsWindowHovered();
 
@@ -72,4 +84,33 @@ void Viewport::Render(Ref<Framebuffer> framebuffer)
     ImGui::PopStyleVar();
 
 
+}
+
+void Viewport::RenderGizmos()
+{
+    Ref<Actor> selectedActor = m_Editor->GetSceneHierarchyPanel()->GetSelectedActor();
+    if (selectedActor)
+    {
+        if (auto dirLight = selectedActor->GetComponent<DirectionalLight>())
+        {
+            auto renderer = Renderer::GetInstance();
+            renderer->GetMainSceneFramebuffer()->Bind();
+
+            glDisable(GL_DEPTH_TEST);
+
+            glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(selectedActor->GetTransform()->GetWorldRotation())));
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), selectedActor->GetTransform()->GetWorldPosition()) * rotation * glm::scale(glm::mat4(1.0f), glm::vec3(0.05f, 0.05f, 0.2f));
+
+            m_DirectionArrowShader->Use();
+            m_DirectionArrowShader->SetMat4("u_Model", model);
+            for (auto mesh : m_DirectionArrow)
+            {
+                mesh.Render();
+            }
+
+            glEnable(GL_DEPTH_TEST);
+
+            renderer->GetMainSceneFramebuffer()->Unbind();
+        }
+    }
 }

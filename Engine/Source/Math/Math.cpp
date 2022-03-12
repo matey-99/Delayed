@@ -75,3 +75,14 @@ bool Math::DecomposeMatrix(const glm::mat4 modelMatrix, glm::vec3& translation, 
 
 	return true;
 }
+
+// Implementation based on: https://gamedev.stackexchange.com/questions/28395/rotating-vector3-by-a-quaternion
+glm::vec3 Math::Transform(const glm::vec3& v, const glm::quat& q)
+{
+	glm::vec3 u = { q.x, q.y, q.z };
+	float s = q.w;
+
+	return 2.0f * glm::dot(u, v) * u
+		+ (s * s - glm::dot(u, u)) * v
+		+ 2.0f * s * glm::cross(u, v);
+}

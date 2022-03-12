@@ -15,7 +15,7 @@ Actors:
     Name: Cube (1)
     Components:
       - Transform:
-          LocalPosition: [0.0723583847, -0.258750439, -2.06999993]
+          LocalPosition: [-0.875759363, -0.258750439, -5.63559532]
           LocalRotation: [0, 0, 0]
           LocalScale: [2, 2, 2]
           Parent: 0
@@ -100,14 +100,14 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
-  - Actor: 430300327
-    ID: 430300327
-    Name: New Actor (2)
+  - Actor: 933743611
+    ID: 933743611
+    Name: Directional Light
     Components:
       - Transform:
-          LocalPosition: [0.0843043327, -0.203465939, 6.07887983]
-          LocalRotation: [0, 0, 0]
+          LocalPosition: [-0.218811125, -0.833427846, -10.3654699]
+          LocalRotation: [0, 0, -3]
           LocalScale: [1, 1, 1]
           Parent: 0
-      - PointLight:
-          Color: [20, 20, 20]
+      - DirectionalLight:
+          Color: [5, 5, 5]

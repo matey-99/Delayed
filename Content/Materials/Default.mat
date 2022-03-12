@@ -10,6 +10,8 @@ Bool Parameters:
     Value: false
   - Name: u_Material.isAlbedoMap
     Value: false
+  - Name: u_Material.isEmissiveMap
+    Value: false
   - Name: u_Material.isNormalMap
     Value: false
   - Name: u_MaterialVS.flipVerticallyUV
@@ -19,15 +21,19 @@ Bool Parameters:
 Float Parameters:
   - Name: u_Material.ao
     Value: 1
+  - Name: u_Material.roughness
+    Value: 0.5
+  - Name: u_Material.emissiveStrength
+    Value: 0
   - Name: u_Material.opacity
     Value: 1
   - Name: u_Material.metallic
     Value: 0
-  - Name: u_Material.roughness
-    Value: 1
 Vec3 Parameters:
   - Name: u_Material.albedo
     Value: [1, 1, 1]
+  - Name: u_Material.emissive
+    Value: [0, 0, 0]
 Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"
@@ -36,6 +42,8 @@ Texture Parameters:
   - Name: u_Material.albedoMap
     Path: "null"
   - Name: u_Material.aoMap
+    Path: "null"
+  - Name: u_Material.emissiveMap
     Path: "null"
   - Name: u_Material.normalMap
     Path: "null"

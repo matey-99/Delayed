@@ -147,7 +147,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						std::string path = skyLight["Path"].as<std::string>();
 
-						auto l = a->AddComponent<SkyLight>(ContentHelper::GetAssetPath(path));
+						auto l = a->AddComponent<SkyLight>(path);
 					}
 
 					if (auto particle = component["ParticleSystem"])

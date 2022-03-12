@@ -5,6 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Scene/Scene.h"
+#include "Math/Math.h"
 
 TransformComponent::TransformComponent(Actor* owner)
 	: Component(owner)
@@ -18,6 +19,8 @@ TransformComponent::TransformComponent(Actor* owner)
 
 	m_LocalModelMatrix = glm::mat4(1.0f);
 	m_WorldModelMatrix = glm::mat4(1.0f);
+
+	m_Forward = Math::Transform(Math::Forward, glm::quat(glm::radians(GetWorldRotation())));
 }
 
 void TransformComponent::Start()
@@ -90,7 +93,7 @@ void TransformComponent::SetParent(TransformComponent* parent)
 void TransformComponent::CalculateLocalModelMatrix()
 {
 	glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(m_LocalRotation)));
-	m_LocalModelMatrix = glm::translate(glm::mat4(1.0f), m_LocalPosition) * rotation * glm::scale(glm::mat4(1.0f), m_LocalScale * 0.5f);
+	m_LocalModelMatrix = glm::translate(glm::mat4(1.0f), m_LocalPosition) * rotation * glm::scale(glm::mat4(1.0f), m_LocalScale);
 }
 
 void TransformComponent::CalculateWorldModelMatrix()
@@ -101,6 +104,8 @@ void TransformComponent::CalculateWorldModelMatrix()
 		m_WorldModelMatrix = m_Parent->GetWorldModelMatrix() * m_LocalModelMatrix;
 	else
 		m_WorldModelMatrix = m_LocalModelMatrix;
+
+	m_Forward = Math::Transform(Math::Forward, glm::quat(glm::radians(GetWorldRotation())));
 
 	for (auto child : m_Children)
 	{

@@ -46,8 +46,8 @@ void StaticMeshComponent::Start()
 		max = glm::max(min, mesh.GetBoundingBox().Max);
 	}
 
-	m_BoundingBox = BoundingBox(m_Owner->GetTransform().ModelMatrix * glm::vec4(min, 1.0f), 
-		m_Owner->GetTransform().ModelMatrix * glm::vec4(max, 1.0f));
+	m_BoundingBox = BoundingBox(m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(min, 1.0f),
+		m_Owner->GetTransform()->GetWorldModelMatrix()  * glm::vec4(max, 1.0f));
 
 	std::cout << m_Owner->GetName() << ": MIN = [" << m_BoundingBox.Min.x << ", " << m_BoundingBox.Min.y << ", " << m_BoundingBox.Min.z << "]" << std::endl;
 	std::cout << m_Owner->GetName() << ": MAX = [" << m_BoundingBox.Max.x << ", " << m_BoundingBox.Max.y << ", " << m_BoundingBox.Max.z << "]" << std::endl;

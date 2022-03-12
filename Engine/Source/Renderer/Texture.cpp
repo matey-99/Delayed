@@ -5,6 +5,7 @@
 #include <stb_image.h>
 
 #include "Renderer/Renderer.h"
+#include "Content/ContentHelper.h"
 
 Texture::Texture(std::string path, TextureRange range) 
 	: m_Path(path)
@@ -43,7 +44,7 @@ void Texture::Load(std::string path)
 
 	stbi_set_flip_vertically_on_load(true);
 	int width, height, nrComponents;
-	unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
+	unsigned char* data = stbi_load(ContentHelper::GetAssetPath(path).c_str(), &width, &height, &nrComponents, 0);
 	if (data)
 	{
 		glGenTextures(1, &m_ID);
@@ -82,7 +83,7 @@ void Texture::LoadHDR(std::string path)
 
 	stbi_set_flip_vertically_on_load(true);
 	int width, height, nrComponents;
-	float* data = stbi_loadf(path.c_str(), &width, &height, &nrComponents, 0);
+	float* data = stbi_loadf(ContentHelper::GetAssetPath(path).c_str(), &width, &height, &nrComponents, 0);
 	if (data)
 	{
 		glGenTextures(1, &m_ID);

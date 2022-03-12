@@ -17,7 +17,7 @@ DirectionalLight::~DirectionalLight()
 
 void DirectionalLight::Use()
 {
-	glm::vec3 direction = glm::normalize(m_Owner->GetTransform()->GetWorldRotation());
+	glm::vec3 direction = m_Owner->GetTransform()->GetForward();
 
 	uint32_t offset = GLSL_DIRECTIONAL_LIGHT_OFFSET;
 	m_FragmentUniformBuffer->Bind();

@@ -4,6 +4,8 @@
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Scene.h"
 #include "Scene/Component/PlayerComponent.h"
+#include "Scene/Component/TransformComponent.h"
+
 
 BoxColliderComponent::BoxColliderComponent(Actor* owner)
 	: ColliderComponent(owner)
@@ -23,13 +25,13 @@ void BoxColliderComponent::Start()
 		m_BoundingBox = BoundingBox(-m_Size + m_Center, m_Size + m_Center);
 	}
 
-	m_OwnerLastPosition = m_Owner->GetWorldPosition();
+	m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
 }
 
 void BoxColliderComponent::Update(float deltaTime)
 {
-	glm::vec3 deltaPosition = m_Owner->GetWorldPosition() - m_OwnerLastPosition;
-	m_OwnerLastPosition = m_Owner->GetWorldPosition();
+	glm::vec3 deltaPosition = m_Owner->GetTransform()->GetWorldPosition() - m_OwnerLastPosition;
+	m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
 
 	m_BoundingBox = BoundingBox(m_BoundingBox.Min + deltaPosition, m_BoundingBox.Max + deltaPosition);
 
@@ -88,7 +90,7 @@ bool BoxColliderComponent::CheckCollisions()
 						v.y = 0;
 					}
 
-					m_Owner->SetWorldPosition(m_Owner->GetWorldPosition() + v);
+					m_Owner->GetTransform()->SetWorldPosition(m_Owner->GetTransform()->GetWorldPosition() + v);
 				}
 
 			}

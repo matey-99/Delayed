@@ -33,7 +33,7 @@ SpotLight::~SpotLight()
 
 void SpotLight::Use()
 {
-	glm::vec3 direction = glm::normalize(m_Owner->GetTransform()->GetWorldRotation());
+	glm::vec3 direction = m_Owner->GetTransform()->GetForward();
 
 	uint32_t offset = GLSL_SPOT_LIGHTS_OFFSET + (GLSL_SPOT_LIGHT_SIZE * m_Index);
 	m_FragmentUniformBuffer->Bind();
