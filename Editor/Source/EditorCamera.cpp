@@ -13,7 +13,7 @@ EditorCamera::EditorCamera(Scene* scene, glm::vec3 position, glm::vec3 front, gl
 	FieldOfView = 45.0f;
 	AspectRactio = glm::vec2(16.0f, 9.0f);
 	Near = 0.1f;
-	Far = 1000.0f;
+	Far = 500.0f;
 
 	m_MovementSpeed = 200.0f;
 	m_RotateSpeed = 200.0f;
@@ -62,6 +62,31 @@ void EditorCamera::Rotate(float yaw, float pitch, float deltaTime)
 
 	Yaw = glm::mod(Yaw, 360.0f);
 	Pitch = glm::clamp(Pitch, -89.0f, 89.0f);
+}
+
+glm::vec3 EditorCamera::GetWorldPosition()
+{
+	return Position;
+}
+
+glm::vec2 EditorCamera::GetAspectRatio()
+{
+	return AspectRactio;
+}
+
+float EditorCamera::GetFieldOfView()
+{
+	return FieldOfView;
+}
+
+float EditorCamera::GetNearClipPlane()
+{
+	return Near;
+}
+
+float EditorCamera::GetFarClipPlane()
+{
+	return Far;
 }
 
 glm::mat4 EditorCamera::GetViewMatrix()

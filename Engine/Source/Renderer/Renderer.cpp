@@ -10,6 +10,7 @@
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
 #include "Scene/Component/TransformComponent.h"
+#include "Camera/CameraManager.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -56,7 +57,7 @@ void Renderer::Initialize()
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	m_CameraVertexUniformBuffer = CreateRef<UniformBuffer>(sizeof(glm::mat4) * 3, 0);
-	m_CameraFragmentUniformBuffer = CreateRef<UniformBuffer>(GLSL_VEC3_SIZE, 2);
+	m_CameraFragmentUniformBuffer = CreateRef<UniformBuffer>(GLSL_VEC3_SIZE + GLSL_SCALAR_SIZE, 2);
 
 	InitializeMainSceneFramebuffer();
 	InitializePostProcessingFramebuffer();
@@ -163,24 +164,27 @@ void Renderer::InitializePostProcessingFramebuffer()
 
 void Renderer::InitializeShadowMapFramebuffers()
 {
-	FramebufferTextureConfig textureConfig;
-	textureConfig.Attachment = GL_DEPTH_ATTACHMENT;
-	textureConfig.Target = GL_TEXTURE_2D;
-	textureConfig.InternalFormat = GL_DEPTH_COMPONENT;
-	textureConfig.Format = GL_DEPTH_COMPONENT;
-	textureConfig.MinFilter = GL_NEAREST;
-	textureConfig.MagFilter = GL_NEAREST;
-	textureConfig.WrapS = GL_REPEAT;
-	textureConfig.WrapT = GL_REPEAT;
-	textureConfig.Type = GL_FLOAT;
-	textureConfig.Border = true;
+	glGenFramebuffers(1, &m_DirectionalLightShadowMapFramebufferObject);
 
-	FramebufferConfig config;
-	config.Width = 1024;
-	config.Height = 1024;
-	config.Textures.push_back(textureConfig);
+	glGenTextures(1, &m_DirectionalLightShadowMaps);
+	glBindTexture(GL_TEXTURE_2D_ARRAY, m_DirectionalLightShadowMaps);
+	glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32F, 4096, 4096, 5, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
-	m_DirectionalLightShadowMapFramebuffer = Framebuffer::Create(config);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glTexParameterfv(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, m_DirectionalLightShadowMapFramebufferObject);
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_DirectionalLightShadowMaps, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "Directional Light Framebuffer is incomplete!" << std::endl;
 
 	// POINT LIGHT
 	glGenFramebuffers(1, &m_PointLightShadowMapFramebufferObject);
@@ -239,14 +243,19 @@ void Renderer::RenderScene(Ref<Scene> scene)
 	glClearColor(scene->GetBackgroundColor()->x, scene->GetBackgroundColor()->y, scene->GetBackgroundColor()->z, scene->GetBackgroundColor()->w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	auto camera = CameraManager::GetInstance()->GetMainCamera();
+
 	m_CameraVertexUniformBuffer->Bind();
-	m_CameraVertexUniformBuffer->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(scene->GetCurrentCamera()->GetViewProjectionMatrix()));
-	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE, sizeof(glm::mat4), glm::value_ptr(scene->GetCurrentCamera()->GetViewMatrix()));
-	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 2, sizeof(glm::mat4), glm::value_ptr(scene->GetCurrentCamera()->GetProjectionMatrix()));
+	m_CameraVertexUniformBuffer->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(camera->GetViewProjectionMatrix()));
+	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE, sizeof(glm::mat4), glm::value_ptr(camera->GetViewMatrix()));
+	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 2, sizeof(glm::mat4), glm::value_ptr(camera->GetProjectionMatrix()));
 	m_CameraVertexUniformBuffer->Unbind();
 
 	m_CameraFragmentUniformBuffer->Bind();
-	m_CameraFragmentUniformBuffer->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(scene->GetCurrentCamera()->GetOwner()->GetTransform()->GetWorldPosition()));
+	m_CameraFragmentUniformBuffer->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(camera->GetWorldPosition()));
+
+	float farClipPlane = camera->GetFarClipPlane();
+	m_CameraFragmentUniformBuffer->SetUniform(sizeof(glm::vec3), sizeof(float), &farClipPlane);
 	m_CameraFragmentUniformBuffer->Unbind();
 
 	scene->Render();
@@ -426,11 +435,11 @@ void Renderer::AddPostProcessingEffects()
 
 void Renderer::RenderShadowMap(Scene* scene, DirectionalLight* source)
 {
-	m_DirectionalLightShadowMapFramebuffer->Bind();
+	glViewport(0, 0, 4096, 4096);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_DirectionalLightShadowMapFramebufferObject);
 
 	auto depthShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::CALCULATION, "SceneDepth");
 	depthShader->Use();
-	depthShader->SetMat4("u_LightSpace", source->GetLightSpace());
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glCullFace(GL_FRONT);
@@ -448,7 +457,7 @@ void Renderer::RenderShadowMap(Scene* scene, DirectionalLight* source)
 
 	}
 
-	auto depthIstancedShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::CALCULATION, "SceneDepthInstanced");
+	/*auto depthIstancedShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::CALCULATION, "SceneDepthInstanced");
 	depthIstancedShader->Use();
 	depthIstancedShader->SetMat4("u_LightSpace", source->GetLightSpace());
 	for (auto c : scene->GetComponents<InstanceRenderedMeshComponent>())
@@ -456,11 +465,11 @@ void Renderer::RenderShadowMap(Scene* scene, DirectionalLight* source)
 		auto irmc = Cast<InstanceRenderedMeshComponent>(c);
 		for (auto mesh : irmc->GetMeshes())
 			mesh.RenderInstanced(irmc->GetInstancesCount());
-	}
+	}*/
 
 	glCullFace(GL_BACK);
 
-	m_DirectionalLightShadowMapFramebuffer->Unbind();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Renderer::RenderShadowMap(Scene* scene, PointLight* source)
@@ -474,7 +483,7 @@ void Renderer::RenderShadowMap(Scene* scene, PointLight* source)
 	depthShader->Use();
 	for (int i = 0; i < 6; i++)
 		depthShader->SetMat4("u_ShadowMatrices[" + std::to_string(i) + "]", source->GetLightViews().at(i));
-	depthShader->SetFloat("u_FarPlane", source->GetFarPlane());
+	depthShader->SetFloat("u_FarPlane", source->GetFarClipPlane());
 	depthShader->SetVec3("u_LightPos", source->GetOwner()->GetTransform()->GetWorldPosition());
 
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -495,7 +504,7 @@ void Renderer::RenderShadowMap(Scene* scene, PointLight* source)
 	depthIstancedShader->Use();
 	for (int i = 0; i < 6; i++)
 		depthIstancedShader->SetMat4("u_ShadowMatrices[" + std::to_string(i) + "]", source->GetLightViews().at(i));
-	depthIstancedShader->SetFloat("u_FarPlane", source->GetFarPlane());
+	depthIstancedShader->SetFloat("u_FarPlane", source->GetFarClipPlane());
 	depthIstancedShader->SetVec3("u_LightPos", source->GetOwner()->GetTransform()->GetWorldPosition());
 	
 	for (auto c : scene->GetComponents<InstanceRenderedMeshComponent>())

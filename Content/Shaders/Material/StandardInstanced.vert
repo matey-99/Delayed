@@ -21,11 +21,13 @@ struct Material
 layout (std140, binding = 0) uniform u_VertexCamera
 {
     mat4 u_ViewProjection;
+    mat4 u_View;
+    mat4 u_Projection;
 };
 
 layout (std140, binding = 1) uniform u_VertexLights
 {
-    mat4 u_DirectionalLightSpaceMatrix;
+    mat4 u_DirectionalLightSpaceMatrices[16];
     mat4[MAX_SPOT_LIGHTS] u_SpotLightSpaceMatrices;
 };
 
@@ -47,7 +49,6 @@ void main()
         v_TexCoord = a_TexCoord;
     }
 
-    v_DirectionalLightSpacePosition = u_DirectionalLightSpaceMatrix * vec4(v_Position, 1.0);
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         v_SpotLightSpacePositions[i] = u_SpotLightSpaceMatrices[i] * vec4(v_Position, 1.0);
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Camera/Camera.h"
+
 #include <glm/glm.hpp>
 
 class Scene;
@@ -9,7 +11,7 @@ enum class CameraMovement
 	Forward, Backward, Left, Right
 };
 
-class EditorCamera
+class EditorCamera : public Camera
 {
 public:
 	glm::vec3 Position;
@@ -38,9 +40,16 @@ public:
 
 	void Rotate(float yaw, float pitch, float deltaTime);
 
-	glm::mat4 GetViewMatrix();
-	glm::mat4 GetProjectionMatrix();
-	glm::mat4 GetViewProjectionMatrix();
+	virtual glm::vec3 GetWorldPosition() override;
+
+	virtual glm::vec2 GetAspectRatio() override;
+	virtual float GetFieldOfView() override;
+	virtual float GetNearClipPlane() override;
+	virtual float GetFarClipPlane() override;
+
+	virtual glm::mat4 GetViewMatrix() override;
+	virtual glm::mat4 GetProjectionMatrix() override;
+	virtual glm::mat4 GetViewProjectionMatrix() override;
 
 private:
 	glm::vec3 CalculateFrontVector();

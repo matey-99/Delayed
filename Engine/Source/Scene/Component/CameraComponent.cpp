@@ -30,6 +30,31 @@ void CameraComponent::Destroy()
 {
 }
 
+glm::vec3 CameraComponent::GetWorldPosition()
+{
+	return m_Owner->GetTransform()->GetWorldPosition();
+}
+
+glm::vec2 CameraComponent::GetAspectRatio()
+{
+	return m_AspectRatio;
+}
+
+float CameraComponent::GetFieldOfView()
+{
+	return m_FieldOfView;
+}
+
+float CameraComponent::GetNearClipPlane()
+{
+	return m_NearClipPlane;
+}
+
+float CameraComponent::GetFarClipPlane()
+{
+	return m_FarClipPlane;
+}
+
 glm::mat4 CameraComponent::GetViewMatrix()
 {
 	return glm::lookAt(m_Owner->GetTransform()->GetWorldPosition(), m_Owner->GetTransform()->GetWorldPosition() + m_Front, m_Up);

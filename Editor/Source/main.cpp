@@ -27,6 +27,7 @@
 #include "Input/Input.h"
 #include "Scene/SceneManager.h"
 #include "Content/ContentHelper.h"
+#include "Camera/CameraManager.h"
 
 #define FPS 60.0f
 #define MS_PER_UPDATE 1 / FPS
@@ -224,6 +225,8 @@ int main(int, char**)
     glfwSetKeyCallback(window, key_callback);
 
     editor = Editor::GetInstance();
+    auto cameraManager = CameraManager::GetInstance();
+    cameraManager->GetInstance()->SetMainCamera(editor->GetCamera());
     auto input = Input::GetInstance();
 
     bool shouldRender = false;

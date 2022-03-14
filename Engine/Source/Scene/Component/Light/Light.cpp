@@ -22,13 +22,10 @@ void Light::Update(float deltaTime)
 
 void Light::PreRender()
 {
-	if (m_Owner->GetScene()->IsChangedSinceLastFrame())
-	{
-		Use();
+	Use();
 
-		if (m_ShadowsEnabled)
-			RenderShadowMap();
-	}
+	if (m_ShadowsEnabled)
+		RenderShadowMap();
 }
 
 void Light::Render()

@@ -1,10 +1,11 @@
 #pragma once
 
+#include "Camera/Camera.h"
 #include "Component.h"
 
 #include <glm/glm.hpp>
 
-class CameraComponent : public Component
+class CameraComponent : public Camera, public Component
 {
 public:
 	CameraComponent(Actor* owner);
@@ -13,9 +14,16 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Destroy() override;
 
-	glm::mat4 GetViewMatrix();
-	glm::mat4 GetProjectionMatrix();
-	glm::mat4 GetViewProjectionMatrix();
+	virtual glm::vec3 GetWorldPosition() override;
+
+	virtual glm::vec2 GetAspectRatio() override;
+	virtual float GetFieldOfView() override;
+	virtual float GetNearClipPlane() override;
+	virtual float GetFarClipPlane() override;
+
+	virtual glm::mat4 GetViewMatrix() override;
+	virtual glm::mat4 GetProjectionMatrix() override;
+	virtual glm::mat4 GetViewProjectionMatrix() override;
 
 	inline void SetAspectRatio(glm::vec2 aspectRatio) { m_AspectRatio = aspectRatio; }
 

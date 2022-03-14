@@ -74,7 +74,8 @@ ShaderLibrary::ShaderLibrary()
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepth", 
 		CreateRef<Shader>("SceneDepth", 
 			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepth.vert"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepth.frag"))));
+			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepth.frag"),
+			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepth.geom"))));
 
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepthInstanced", 
 		CreateRef<Shader>("SceneDepthInstanced", 

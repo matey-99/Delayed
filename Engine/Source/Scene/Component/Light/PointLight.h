@@ -24,7 +24,7 @@ public:
 
 	inline uint32_t GetShadowMap() const { return m_ShadowMap; }
 	inline std::vector<glm::mat4> GetLightViews() const { return m_LightViews; }
-	inline float GetFarPlane() const { return m_FarPlane; }
+	inline float GetFarClipPlane() const { return m_FarPlane; }
 
 	friend class ActorDetailsPanel;
 };

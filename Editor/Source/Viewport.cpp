@@ -11,6 +11,7 @@
 #include "Math/Math.h"
 #include "Content/ContentHelper.h"
 #include "Scene/Component/Light/DirectionalLight.h"
+#include "Scene/Component/Light/SpotLight.h"
 
 Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
 	: m_Editor(editor), m_Scene(scene)
@@ -91,7 +92,7 @@ void Viewport::RenderGizmos()
     Ref<Actor> selectedActor = m_Editor->GetSceneHierarchyPanel()->GetSelectedActor();
     if (selectedActor)
     {
-        if (auto dirLight = selectedActor->GetComponent<DirectionalLight>())
+        if (selectedActor->GetComponent<DirectionalLight>() || selectedActor->GetComponent<SpotLight>())
         {
             auto renderer = Renderer::GetInstance();
             renderer->GetMainSceneFramebuffer()->Bind();

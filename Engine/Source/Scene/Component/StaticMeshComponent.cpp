@@ -3,6 +3,7 @@
 #include "Importer/MeshImporter.h"
 #include "Importer/MaterialImporter.h"
 #include "Content/ContentHelper.h"
+#include "Camera/CameraManager.h"
 
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
@@ -121,8 +122,15 @@ void StaticMeshComponent::Render()
 		}
 
 		glActiveTexture(GL_TEXTURE0 + 23);
-		glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->GetDirectionalLightShadowMapFramebuffer()->GetDepthAttachment());
+		glBindTexture(GL_TEXTURE_2D_ARRAY, Renderer::GetInstance()->GetDirectionalLightShadowMaps());
 		material->GetShader()->SetInt("u_DirectionalLightShadowMap", 23);
+		material->GetShader()->SetInt("u_CascadeCount", 4);
+
+		auto camera = CameraManager::GetInstance()->GetMainCamera();
+		std::vector<float> shadowCascadeLevels = { camera->GetFarClipPlane() / 50.0f, camera->GetFarClipPlane() / 25.0f, camera->GetFarClipPlane() / 10.0f, camera->GetFarClipPlane() / 2.0f }; //TEMPORARY!
+
+		for (int i = 0; i < 4; i++)
+			material->GetShader()->SetFloat("u_CascadeClipPlaneDistances[" + std::to_string(i) + "]", shadowCascadeLevels[i]);
 
 		auto pointLights = m_Owner->GetScene()->GetComponents<PointLight>();
 		for (int i = 0; i < MAX_POINT_LIGHTS; i++)

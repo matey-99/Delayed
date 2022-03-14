@@ -22,6 +22,7 @@
 #include "Scene/Component/Light/Light.h"
 #include "Renderer/Framebuffer.h"
 #include "Input/Input.h"
+#include "Camera/CameraManager.h"
 
 #define FPS 60.0f
 #define MS_PER_UPDATE 1 / FPS
@@ -90,6 +91,10 @@ int main(int, char**)
     // SCENE
     auto sceneManager = SceneManager::GetInstance();
     auto scene = sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/Main.scene"));
+
+    // CAMERA
+    auto cameraManager = CameraManager::GetInstance();
+    cameraManager->SetMainCamera(scene->GetCurrentCamera());
 
     // INPUT
     auto input = Input::GetInstance();

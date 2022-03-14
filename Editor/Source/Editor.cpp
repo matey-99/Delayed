@@ -2,6 +2,7 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Camera/CameraManager.h"
 #include "Scene/Component/Light/Light.h"
 
 Ref<Editor> Editor::s_Instance{};
@@ -111,14 +112,16 @@ void Editor::RenderScene()
 	glClearColor(m_Scene->GetBackgroundColor()->x, m_Scene->GetBackgroundColor()->y, m_Scene->GetBackgroundColor()->z, m_Scene->GetBackgroundColor()->w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	auto camera = CameraManager::GetInstance()->GetMainCamera();
+
 	renderer->GetCameraVertexUniformBuffer()->Bind();
-	renderer->GetCameraVertexUniformBuffer()->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(m_Camera->GetViewProjectionMatrix()));
-	renderer->GetCameraVertexUniformBuffer()->SetUniform(GLSL_MAT4_SIZE, sizeof(glm::mat4), glm::value_ptr(m_Camera->GetViewMatrix()));
-	renderer->GetCameraVertexUniformBuffer()->SetUniform(GLSL_MAT4_SIZE * 2, sizeof(glm::mat4), glm::value_ptr(m_Camera->GetProjectionMatrix()));
+	renderer->GetCameraVertexUniformBuffer()->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(camera->GetViewProjectionMatrix()));
+	renderer->GetCameraVertexUniformBuffer()->SetUniform(GLSL_MAT4_SIZE, sizeof(glm::mat4), glm::value_ptr(camera->GetViewMatrix()));
+	renderer->GetCameraVertexUniformBuffer()->SetUniform(GLSL_MAT4_SIZE * 2, sizeof(glm::mat4), glm::value_ptr(camera->GetProjectionMatrix()));
 	renderer->GetCameraVertexUniformBuffer()->Unbind();
 
 	renderer->GetCameraFragmentUniformBuffer()->Bind();
-	renderer->GetCameraFragmentUniformBuffer()->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(m_Camera->Position));
+	renderer->GetCameraFragmentUniformBuffer()->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(camera->GetWorldPosition()));
 	renderer->GetCameraFragmentUniformBuffer()->Unbind();
 
 	m_Scene->Render();

@@ -61,7 +61,7 @@ Shader::Shader(std::string name, std::string vertexPath, std::string fragmentPat
     if (!result)
     {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "Shader program linking failed: " << infoLog << std::endl;
+        std::cout << m_Name << ": Shader program linking failed: " << infoLog << std::endl;
     }
 
     glDeleteShader(vertexShader);
@@ -131,7 +131,7 @@ unsigned int Shader::CompileShader(unsigned int type, const char* source)
     if (result == GL_FALSE)
     {
         glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        std::cout << ((type == GL_VERTEX_SHADER) ? "Vertex" : (type == GL_FRAGMENT_SHADER) ? "Fragment" : "Geometry") << " Shader compilation failed: ";
+        std::cout << m_Name << ((type == GL_VERTEX_SHADER) ? ": Vertex" : (type == GL_FRAGMENT_SHADER) ? ": Fragment" : ": Geometry") << " Shader compilation failed: ";
         std::cout << infoLog << std::endl;
         glDeleteShader(shader);
         return 0;

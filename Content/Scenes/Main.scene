@@ -106,8 +106,8 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [-0.218811125, -0.833427846, -10.3654699]
-          LocalRotation: [0, 0, -3]
+          LocalRotation: [23.779871, -1.06721711e-06, -3.0000124]
           LocalScale: [1, 1, 1]
           Parent: 0
       - DirectionalLight:
-          Color: [5, 5, 5]
+          Color: [2, 2, 2]

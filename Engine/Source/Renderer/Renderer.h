@@ -40,12 +40,14 @@ private:
 	Ref<UniformBuffer> m_CameraVertexUniformBuffer;
 	Ref<UniformBuffer> m_CameraFragmentUniformBuffer;
 
+	uint32_t m_DirectionalLightShadowMapFramebufferObject;
 	uint32_t m_PointLightShadowMapFramebufferObject;
 	uint32_t m_SpotLightShadowMapFramebufferObject;
 
 	uint32_t m_PostProcessingVAO;
 	uint32_t m_PostProcessingVBO;
 
+	uint32_t m_DirectionalLightShadowMaps;
 	uint32_t m_PointLightShadowMapsPlaceholders[16];
 	uint32_t m_SpotLightShadowMapsPlaceholders[16];
 
@@ -104,6 +106,8 @@ public:
 	inline Ref<UniformBuffer> GetCameraFragmentUniformBuffer() const { return m_CameraFragmentUniformBuffer; }
 
 	inline uint32_t GetPostProcessingVAO() const { return m_PostProcessingVAO; }
+
+	inline uint32_t GetDirectionalLightShadowMaps() const { return m_DirectionalLightShadowMaps; }
 
 	inline uint32_t GetPointLightShadowMapPlaceholder(int index) const { return m_PointLightShadowMapsPlaceholders[index]; }
 	inline uint32_t GetSpotLightShadowMapPlaceholder(int index) const { return m_SpotLightShadowMapsPlaceholders[index]; }

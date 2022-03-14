@@ -8,8 +8,7 @@ layout (location = 0) out vec4 f_Color;
 layout (location = 0) in vec3 v_Position;
 layout (location = 1) in vec3 v_Normal;
 layout (location = 2) in vec2 v_TexCoord;
-layout (location = 3) in vec4 v_DirectionalLightSpacePosition;
-layout (location = 4) in vec4[MAX_SPOT_LIGHTS] v_SpotLightSpacePositions;
+layout (location = 3) in vec4[MAX_SPOT_LIGHTS] v_SpotLightSpacePositions;
 
 struct Material
 {
@@ -67,9 +66,23 @@ struct SpotLight
     bool shadowsEnabled;
 };
 
+layout (std140, binding = 0) uniform u_VertexCamera
+{
+    mat4 u_ViewProjection;
+    mat4 u_View;
+    mat4 u_Projection;
+};
+
+layout (std140, binding = 1) uniform u_VertexLights
+{
+    mat4 u_DirectionalLightSpaceMatrices[16];
+    mat4[MAX_SPOT_LIGHTS] u_SpotLightSpaceMatrices;
+};
+
 layout (std140, binding = 2) uniform u_FragmentCamera
 {
     vec3 u_ViewPosition;
+    float u_CameraFarClipPlane;
 };
 
 layout (std140, binding = 3) uniform u_FragmentLights
@@ -88,9 +101,11 @@ layout (location = 24) uniform float u_SkyLightIntensity;
 layout (location = 25) uniform samplerCube u_IrradianceMap;
 layout (location = 26) uniform samplerCube u_PrefilterMap;
 layout (location = 27) uniform sampler2D u_BRDFLUT;
-layout (location = 28) uniform sampler2D u_DirectionalLightShadowMap;
-layout (location = 29) uniform samplerCube[MAX_POINT_LIGHTS] u_PointLightShadowMaps;
-layout (location = 29 + MAX_POINT_LIGHTS) uniform sampler2D[MAX_SPOT_LIGHTS] u_SpotLightShadowMaps;
+layout (location = 28) uniform sampler2DArray u_DirectionalLightShadowMap;
+layout (location = 29) uniform int u_CascadeCount;
+layout (location = 30) uniform float[4] u_CascadeClipPlaneDistances;
+layout (location = 34) uniform samplerCube[MAX_POINT_LIGHTS] u_PointLightShadowMaps;
+layout (location = 34 + MAX_POINT_LIGHTS) uniform sampler2D[MAX_SPOT_LIGHTS] u_SpotLightShadowMaps;
 
 const float PI = 3.14159265359;
 
@@ -222,23 +237,48 @@ vec3 CalculateSpotLight(SpotLight light, vec3 V, vec3 albedo, vec3 N, float meta
     return CalculateLight(L, V, albedo, N, metallic, roughness) * intensity * radiance;
 }
 
-float CalculateDirectionalLightShadow(vec4 lightSpacePosition, vec3 normal)
+float CalculateDirectionalLightShadow(vec3 normal)
 {
-    vec3 projectionCoords = lightSpacePosition.xyz / lightSpacePosition.w;
+    vec4 viewSpace = u_View * vec4(v_Position, 1.0);
+    float depthValue = abs(viewSpace.z);
+
+    int layer = -1;
+    for (int i = 0; i < u_CascadeCount; i++)
+    {
+        if (depthValue < u_CascadeClipPlaneDistances[i])
+        {
+            layer = i;
+            break;
+        }
+    }
+    if (layer == -1)
+            layer = u_CascadeCount;
+    
+    vec4 lightSpace = u_DirectionalLightSpaceMatrices[layer] * vec4(v_Position, 1.0);
+    vec3 projectionCoords = lightSpace.xyz / lightSpace.w;
     projectionCoords = projectionCoords * 0.5 + 0.5;
-    float closestDepth = texture(u_DirectionalLightShadowMap, projectionCoords.xy).r;
+
     float currentDepth = projectionCoords.z;
 
+    if (currentDepth > 1.0)
+        return 0.0;
+
     float bias = max(0.05 * (1.0 - dot(normal, u_DirectionalLight.direction)), 0.005);
-    //float bias = 0.005;
+    float biasModifier = 0.5;
+    if (layer == u_CascadeCount)
+        bias *= 1 / (u_CameraFarClipPlane * biasModifier);
+    else
+        bias *= 1 / (u_CascadeClipPlaneDistances[layer] * biasModifier);
+
+    // PCF
     float shadow = 0.0;
-    vec2 texelSize = 1.0 / textureSize(u_DirectionalLightShadowMap, 0);
-    for (int x = -1; x < 1; ++x)
+    vec2 texelSize = 1.0 / vec2(textureSize(u_DirectionalLightShadowMap, 0));
+    for (int x = -1; x <= 1; ++x)
     {
         for (int y = -1; y <= 1; ++y)
         {
-            float pcfDepth = texture(u_DirectionalLightShadowMap, projectionCoords.xy + vec2(x, y) * texelSize).r;
-            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+            float pcfDepth = texture(u_DirectionalLightShadowMap, vec3(projectionCoords.xy + vec2(x, y) * texelSize, layer)).r;
+            shadow += (currentDepth - bias) > pcfDepth ? 1.0 : 0.0;
         }
     }
 
@@ -384,7 +424,7 @@ void main()
 
     float shadow = 0.0;
     if (u_DirectionalLight.shadowsEnabled)
-        shadow += CalculateDirectionalLightShadow(v_DirectionalLightSpacePosition, N);
+        shadow += CalculateDirectionalLightShadow(N);
 
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
         if (u_PointLights[i].shadowsEnabled)

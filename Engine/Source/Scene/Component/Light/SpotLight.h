@@ -27,7 +27,7 @@ public:
 	inline float GetInnerCutOff() const { return m_InnerCutOff; }
 	inline float GetOuterCutOff() const { return m_OuterCutOff; }
 	inline uint32_t GetShadowMap() const { return m_ShadowMap; }
-	inline float GetFarPlane() const { return m_FarPlane; }
+	inline float GetFarClipPlane() const { return m_FarPlane; }
 
 	void SetInnerCutOff(float innerCutOff);
 	void SetOuterCutOff(float outerCutOff);
