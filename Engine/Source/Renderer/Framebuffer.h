@@ -1,8 +1,9 @@
 #pragma once
 
 #include <glm/glm.hpp>
-
 #include <glad/glad.h>
+
+#include "Renderer/Texture.h"
 
 struct FramebufferTextureConfig
 {
@@ -59,12 +60,12 @@ public:
 	inline const FramebufferConfig& GetConfiguration() const { return m_Config; }
 
 	inline uint32_t GetID() const { return m_ID; }
-	inline uint32_t GetColorAttachment() const { return m_ColorAttachment; }
+	inline std::vector<uint32_t> GetColorAttachments() const { return m_ColorAttachments; }
 	inline uint32_t GetDepthAttachment() const { return m_DepthAttachment; }
 
 private:
 	uint32_t m_ID = 0;
-	uint32_t m_ColorAttachment = 0;
+	std::vector<uint32_t> m_ColorAttachments;
 	uint32_t m_DepthAttachment = 0;
 
 	FramebufferConfig m_Config;

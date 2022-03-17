@@ -26,6 +26,12 @@ target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
 target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE YAML_CPP_STATIC_DEFINE)
 target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE LIBRARY_SUFFIX="")
 
+# Copy .exe to .. directory
+add_custom_command(TARGET ${EDITOR_PROJECT_NAME} POST_BUILD
+				   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				   		   "$<TARGET_FILE:${EDITOR_PROJECT_NAME}>"
+						   "${CMAKE_BINARY_DIR}/Editor/Source")
+
 # Create virtual folders to make it look nicer in VS
 if(MSVC_IDE)
 	# Macro to preserve source files hierarchy in the IDE

@@ -301,7 +301,7 @@ void SkyLight::Load(std::string path)
     auto brdfShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::CALCULATION, "BRDF");
     brdfShader->Use();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    Renderer::GetInstance()->RenderQuad();
+    Renderer::GetInstance()->InitializeQuad();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

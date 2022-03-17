@@ -12,6 +12,8 @@
 #define GAUSSIAN_BLUR_KERNEL_SIZE (GAUSSIAN_BLUR_RADIUS * 2 + 1)
 
 class Framebuffer;
+class GBufferPass;
+class LightingPass;
 class UniformBuffer;
 class Scene;
 class DirectionalLight;
@@ -23,9 +25,15 @@ class Renderer
 public:
 	uint32_t m_DepthMap;
 	uint32_t m_DepthCubemap;
+
+	Ref<GBufferPass> m_GBufferPass;
+	Ref<LightingPass> m_LightingPass;
+
+
 private:
 	static Ref<Renderer> s_Instance;
 	static std::mutex s_Mutex;
+
 
 	Ref<Framebuffer> m_MainSceneFramebuffer;
 	Ref<Framebuffer> m_PostProcessingFramebuffer;
@@ -89,7 +97,7 @@ public:
 	void RenderShadowMap(Scene* scene, PointLight* source);
 	void RenderShadowMap(Scene* scene, SpotLight* source);
 
-	void RenderQuad();
+	void InitializeQuad();
 
 	inline Ref<Framebuffer> GetMainSceneFramebuffer() const { return m_MainSceneFramebuffer; }
 	inline Ref<Framebuffer> GetPostProcessingFramebuffer() const { return m_PostProcessingFramebuffer; }

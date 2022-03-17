@@ -9,23 +9,23 @@
 CameraComponentViewport::CameraComponentViewport(Ref<Editor> editor, Ref<Scene> scene)
 	: m_Editor(editor), m_Scene(scene)
 {
-	FramebufferTextureConfig textureConfig;
-	textureConfig.Target = GL_TEXTURE_2D;
-	textureConfig.InternalFormat = GL_RGBA32F;
-	textureConfig.Format = GL_RGBA;
-	textureConfig.MinFilter = GL_LINEAR;
-	textureConfig.MagFilter = GL_LINEAR;
+	//FramebufferTextureConfig textureConfig;
+	//textureConfig.Target = GL_TEXTURE_2D;
+	//textureConfig.InternalFormat = GL_RGBA32F;
+	//textureConfig.Format = GL_RGBA;
+	//textureConfig.MinFilter = GL_LINEAR;
+	//textureConfig.MagFilter = GL_LINEAR;
 
-	FramebufferRenderbufferConfig renderbufferConfig;
-	renderbufferConfig.InternalFormat = GL_DEPTH_STENCIL;
+	//FramebufferRenderbufferConfig renderbufferConfig;
+	//renderbufferConfig.InternalFormat = GL_DEPTH_STENCIL;
 
-	FramebufferConfig config;
-	config.Width = 480;
-	config.Height = 270;
-	config.Textures.push_back(textureConfig);
-	config.Renderbuffers.push_back(renderbufferConfig);
+	//FramebufferConfig config;
+	//config.Width = 480;
+	//config.Height = 270;
+	//config.Textures.push_back(textureConfig);
+	//config.Renderbuffers.push_back(renderbufferConfig);
 
-	m_ViewportFramebuffer = Framebuffer::Create(config);
+	//m_ViewportFramebuffer = Framebuffer::Create(config);
 }
 
 void CameraComponentViewport::Render(Ref<Framebuffer> framebuffer, Ref<CameraComponent> camera)
@@ -56,7 +56,7 @@ void CameraComponentViewport::Render(Ref<Framebuffer> framebuffer, Ref<CameraCom
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin("Camera Viewport");
 
-    uint32_t viewportTexture = m_ViewportFramebuffer->GetColorAttachment();
+    uint32_t viewportTexture = m_ViewportFramebuffer->GetColorAttachments().at(0);
     ImGui::Image((void*)viewportTexture, ImVec2(480, 270), ImVec2(0, 1), ImVec2(1, 0));
 
     ImGui::End();

@@ -4,6 +4,8 @@
 
 #include "Camera/CameraManager.h"
 #include "Scene/Component/Light/Light.h"
+#include "Renderer/RenderPass/GBufferPass.h"
+#include "Renderer/RenderPass/LightingPass.h"
 
 Ref<Editor> Editor::s_Instance{};
 std::mutex Editor::s_Mutex;
@@ -57,6 +59,10 @@ void Editor::Initialize(Ref<Scene> scene)
 	m_DebugPanel = CreateRef<DebugPanel>(GetReference());
 	m_Viewport = CreateRef<Viewport>(GetReference(), scene);
 	m_CameraComponentViewport = CreateRef<CameraComponentViewport>(GetReference(), scene);
+
+	m_Camera->Position = glm::vec3(-19.5f, 8.5f, -0.5f);
+	m_Camera->Pitch = -26.0f;
+	m_Camera->Yaw = 0.25f;
 }
 
 void Editor::Update(float deltaTime)
@@ -88,45 +94,26 @@ void Editor::Render()
 
 	m_ContentBrowserPanel->Render();
 
-	if (Renderer::GetInstance()->IsPostProcessing())
-		m_Viewport->Render(Renderer::GetInstance()->GetPostProcessingFramebuffer());
-	else
-		m_Viewport->Render(Renderer::GetInstance()->GetMainSceneFramebuffer());
+	//if (Renderer::GetInstance()->IsPostProcessing())
+	//	m_Viewport->Render(Renderer::GetInstance()->GetPostProcessingFramebuffer());
+	//else
+	//	m_Viewport->Render(Renderer::GetInstance()->GetMainSceneFramebuffer());
 
-	if (m_IsCameraComponentViewport)
-	{
-		if (Renderer::GetInstance()->IsPostProcessing())
-			m_CameraComponentViewport->Render(Renderer::GetInstance()->GetPostProcessingFramebuffer(), m_SelectedCameraComponent);
-		else
-			m_CameraComponentViewport->Render(Renderer::GetInstance()->GetMainSceneFramebuffer(), m_SelectedCameraComponent);
-	}
+	m_Viewport->Render(Renderer::GetInstance()->m_LightingPass->m_LightingTexture);
+
+	//if (m_IsCameraComponentViewport)
+	//{
+	//	if (Renderer::GetInstance()->IsPostProcessing())
+	//		m_CameraComponentViewport->Render(Renderer::GetInstance()->GetPostProcessingFramebuffer(), m_SelectedCameraComponent);
+	//	else
+	//		m_CameraComponentViewport->Render(Renderer::GetInstance()->GetMainSceneFramebuffer(), m_SelectedCameraComponent);
+	//}
 }
 
 void Editor::RenderScene()
 {
-	m_Scene->PreRender();
 
-	auto renderer = Renderer::GetInstance();
-	renderer->GetMainSceneFramebuffer()->Bind();
-
-	glClearColor(m_Scene->GetBackgroundColor()->x, m_Scene->GetBackgroundColor()->y, m_Scene->GetBackgroundColor()->z, m_Scene->GetBackgroundColor()->w);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	auto camera = CameraManager::GetInstance()->GetMainCamera();
-
-	renderer->GetCameraVertexUniformBuffer()->Bind();
-	renderer->GetCameraVertexUniformBuffer()->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(camera->GetViewProjectionMatrix()));
-	renderer->GetCameraVertexUniformBuffer()->SetUniform(GLSL_MAT4_SIZE, sizeof(glm::mat4), glm::value_ptr(camera->GetViewMatrix()));
-	renderer->GetCameraVertexUniformBuffer()->SetUniform(GLSL_MAT4_SIZE * 2, sizeof(glm::mat4), glm::value_ptr(camera->GetProjectionMatrix()));
-	renderer->GetCameraVertexUniformBuffer()->Unbind();
-
-	renderer->GetCameraFragmentUniformBuffer()->Bind();
-	renderer->GetCameraFragmentUniformBuffer()->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(camera->GetWorldPosition()));
-	renderer->GetCameraFragmentUniformBuffer()->Unbind();
-
-	m_Scene->Render();
-
-	renderer->GetMainSceneFramebuffer()->Unbind();
+	Renderer::GetInstance()->RenderScene(m_Scene);
 }
 
 void Editor::ShowDetails(Ref<Actor> actor)

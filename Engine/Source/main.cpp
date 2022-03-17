@@ -138,23 +138,23 @@ int main(int, char**)
         {
             renderer->RenderScene(scene);
 
-            if (renderer->IsPostProcessing())
-                renderer->AddPostProcessingEffects();
+            /*if (renderer->IsPostProcessing())
+                renderer->AddPostProcessingEffects();*/
 
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            screenShader->Use();
+            /*screenShader->Use();
             screenShader->SetInt("u_Screen", 0);
             glBindVertexArray(renderer->GetPostProcessingVAO());
             glDisable(GL_DEPTH_TEST);
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, renderer->IsPostProcessing() ? renderer->GetPostProcessingFramebuffer()->GetColorAttachment() :
-                renderer->GetMainSceneFramebuffer()->GetColorAttachment());
+            glBindTexture(GL_TEXTURE_2D, renderer->IsPostProcessing() ? renderer->GetPostProcessingFramebuffer()->GetColorAttachments().at(0) :
+                renderer->GetMainSceneFramebuffer()->GetColorAttachments().at(0));
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
             glBindVertexArray(0);
-            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_DEPTH_TEST);*/
 
             glfwSwapBuffers(window);
 

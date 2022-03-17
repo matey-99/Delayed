@@ -15,8 +15,8 @@ Actors:
     Name: Cube (1)
     Components:
       - Transform:
-          LocalPosition: [-0.875759363, -0.258750439, -5.63559532]
-          LocalRotation: [0, 0, 0]
+          LocalPosition: [-6.03860664, 1.1666013, 4.11013412]
+          LocalRotation: [0, 30, 0]
           LocalScale: [2, 2, 2]
           Parent: 0
       - StaticMesh:
@@ -30,7 +30,7 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [0.0723583847, -0.258750439, 0]
-          LocalRotation: [0, 0, 0]
+          LocalRotation: [0, 30, 0]
           LocalScale: [2, 2, 2]
           Parent: 0
       - StaticMesh:
@@ -61,23 +61,12 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
-  - Actor: 925465284
-    ID: 925465284
-    Name: Sky Light
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - SkyLight:
-          Path: Textures/Sky/default.hdr
   - Actor: 667076417
     ID: 667076417
-    Name: New Actor
+    Name: Ground
     Components:
       - Transform:
-          LocalPosition: [0, -1.76572347, 0]
+          LocalPosition: [0, -1.76572347, 0.0846784115]
           LocalRotation: [0, 0, 0]
           LocalScale: [16.1000004, 1, 15.1000004]
           Parent: 0
@@ -85,13 +74,13 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/New material 0.mat
   - Actor: 768280824
     ID: 768280824
     Name: New Actor (1)
     Components:
       - Transform:
-          LocalPosition: [-3.16189432, -0.747716188, 2.11705184]
+          LocalPosition: [-7.05330944, 3.09317827, 0.0987883806]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -99,7 +88,7 @@ Actors:
           Mesh: Models/defaults/default_sphere.obj
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/New material 0.mat
   - Actor: 933743611
     ID: 933743611
     Name: Directional Light
@@ -111,3 +100,14 @@ Actors:
           Parent: 0
       - DirectionalLight:
           Color: [2, 2, 2]
+  - Actor: 672684253
+    ID: 672684253
+    Name: New Actor
+    Components:
+      - Transform:
+          LocalPosition: [0, -0.850547194, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - PointLight:
+          Color: [1, 1, 1]

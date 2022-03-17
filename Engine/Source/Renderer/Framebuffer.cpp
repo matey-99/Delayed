@@ -17,7 +17,10 @@ Framebuffer::Framebuffer(const FramebufferConfig& config)
 Framebuffer::~Framebuffer()
 {
 	glDeleteFramebuffers(1, &m_ID);
-	glDeleteTextures(1, &m_ColorAttachment);
+
+	for (auto attachment : m_ColorAttachments)
+		glDeleteTextures(1, &attachment);
+
 	glDeleteRenderbuffers(1, &m_DepthAttachment);
 }
 
@@ -29,7 +32,7 @@ void Framebuffer::Bind()
 
 void Framebuffer::UpdateTarget(const FramebufferTextureConfig& textureConfig, int i)
 {
-	glFramebufferTexture2D(GL_FRAMEBUFFER, textureConfig.Attachment, textureConfig.Target + i, m_ColorAttachment, 0);
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, textureConfig.Attachment, textureConfig.Target + i, m_ColorAttachment, 0);
 }
 
 void Framebuffer::Unbind()
@@ -45,8 +48,13 @@ void Framebuffer::Resize(uint32_t width, uint32_t height)
 	if (m_ID)
 	{
 		glDeleteFramebuffers(1, &m_ID);
-		glDeleteTextures(1, &m_ColorAttachment);
+
+		for (auto attachment : m_ColorAttachments)
+			glDeleteTextures(1, &attachment);
+
 		glDeleteRenderbuffers(1, &m_DepthAttachment);
+
+		m_ColorAttachments.clear();
 	}
 
 	glGenFramebuffers(1, &m_ID);
@@ -57,11 +65,7 @@ void Framebuffer::Resize(uint32_t width, uint32_t height)
 		for (auto& textureConfig : m_Config.Textures)
 		{
 			uint32_t* attachment;
-			if (textureConfig.Attachment == GL_COLOR_ATTACHMENT0)
-			{
-				attachment = &m_ColorAttachment;
-			}
-			else if (textureConfig.Attachment = GL_DEPTH_ATTACHMENT)
+			if (textureConfig.Attachment = GL_DEPTH_ATTACHMENT)
 			{
 				attachment = &m_DepthAttachment;
 			}
@@ -86,13 +90,20 @@ void Framebuffer::Resize(uint32_t width, uint32_t height)
 			}
 
 			glFramebufferTexture2D(GL_FRAMEBUFFER, textureConfig.Attachment, textureConfig.Target, *attachment, 0);
+
+			m_ColorAttachments.push_back(*attachment);
 		}
 	}
 	
-	if (!m_ColorAttachment)
+	if (!m_ColorAttachments.size())
 	{
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
+	}
+	else
+	{
+		uint32_t attachments[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3};
+		glDrawBuffers(4, attachments);
 	}
 
 	if (m_Config.Renderbuffers.size())

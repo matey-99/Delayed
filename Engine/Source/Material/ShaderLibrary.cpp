@@ -11,7 +11,12 @@ ShaderLibrary::ShaderLibrary()
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Standard", 
 		CreateRef<Shader>("Standard", 
 			ContentHelper::GetAssetPath("Shaders/Material/Standard.vert"),
-			ContentHelper::GetAssetPath("Shaders/Material/Standard.frag"))));
+			ContentHelper::GetAssetPath("Shaders/GBuffer.frag"))));
+
+	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Lighting",
+		CreateRef<Shader>("Lighting",
+			ContentHelper::GetAssetPath("Shaders/Lighting.vert"),
+			ContentHelper::GetAssetPath("Shaders/Lighting.frag"))));
 
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("StandardInstanced", 
 		CreateRef<Shader>("StandardInstanced", 
