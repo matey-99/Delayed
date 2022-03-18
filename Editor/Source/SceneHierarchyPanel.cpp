@@ -91,6 +91,12 @@ void SceneHierarchyPanel::DuplicateSelectedActor()
 		newIRMC->SetMaxMeshScale(irmc->GetMaxMeshScale());
 	}
 
+	if (auto pl = m_SelectedActor->GetComponent<PointLight>())
+	{
+		auto newPL = newActor->AddComponent<PointLight>(m_Scene->m_LightsVertexUniformBuffer, m_Scene->m_LightsFragmentUniformBuffer);
+		newPL->SetColor(pl->GetColor());
+	}
+
 	SelectActor(newActor);
 }
 

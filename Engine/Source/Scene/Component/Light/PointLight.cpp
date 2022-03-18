@@ -42,8 +42,6 @@ void PointLight::Use()
 	m_FragmentUniformBuffer->Bind();
 	m_FragmentUniformBuffer->SetUniform(offset, sizeof(glm::vec3), glm::value_ptr(m_Owner->GetTransform()->GetWorldPosition()));
 	m_FragmentUniformBuffer->SetUniform(offset + GLSL_VEC3_SIZE, sizeof(glm::vec3), glm::value_ptr(m_Color));
-	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 2) - GLSL_SCALAR_SIZE, sizeof(bool), &m_ShadowsEnabled);
-	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 2), sizeof(float), &m_FarPlane);
 	m_FragmentUniformBuffer->Unbind();
 
 	glm::mat4 lightProjection = glm::perspective(glm::radians(90.0f), 1.0f, 1.0f, m_FarPlane);

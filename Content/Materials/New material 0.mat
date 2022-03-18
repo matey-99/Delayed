@@ -18,7 +18,7 @@ Bool Parameters:
     Value: true
 Float Parameters:
   - Name: u_Material.ao
-    Value: 0
+    Value: 1
   - Name: u_Material.opacity
     Value: 1
   - Name: u_Material.metallic

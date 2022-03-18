@@ -89,29 +89,29 @@ void Viewport::Render(uint32_t bufferTexture)
 
 void Viewport::RenderGizmos()
 {
-    Ref<Actor> selectedActor = m_Editor->GetSceneHierarchyPanel()->GetSelectedActor();
-    if (selectedActor)
-    {
-        if (selectedActor->GetComponent<DirectionalLight>() || selectedActor->GetComponent<SpotLight>())
-        {
-            auto renderer = Renderer::GetInstance();
-            renderer->GetMainSceneFramebuffer()->Bind();
+    //Ref<Actor> selectedActor = m_Editor->GetSceneHierarchyPanel()->GetSelectedActor();
+    //if (selectedActor)
+    //{
+    //    if (selectedActor->GetComponent<DirectionalLight>() || selectedActor->GetComponent<SpotLight>())
+    //    {
+    //        auto renderer = Renderer::GetInstance();
+    //        renderer->GetMainSceneFramebuffer()->Bind();
 
-            glDisable(GL_DEPTH_TEST);
+    //        glDisable(GL_DEPTH_TEST);
 
-            glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(selectedActor->GetTransform()->GetWorldRotation())));
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), selectedActor->GetTransform()->GetWorldPosition()) * rotation * glm::scale(glm::mat4(1.0f), glm::vec3(0.05f, 0.05f, 0.2f));
+    //        glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(selectedActor->GetTransform()->GetWorldRotation())));
+    //        glm::mat4 model = glm::translate(glm::mat4(1.0f), selectedActor->GetTransform()->GetWorldPosition()) * rotation * glm::scale(glm::mat4(1.0f), glm::vec3(0.05f, 0.05f, 0.2f));
 
-            m_DirectionArrowShader->Use();
-            m_DirectionArrowShader->SetMat4("u_Model", model);
-            for (auto mesh : m_DirectionArrow)
-            {
-                mesh.Render();
-            }
+    //        m_DirectionArrowShader->Use();
+    //        m_DirectionArrowShader->SetMat4("u_Model", model);
+    //        for (auto mesh : m_DirectionArrow)
+    //        {
+    //            mesh.Render();
+    //        }
 
-            glEnable(GL_DEPTH_TEST);
+    //        glEnable(GL_DEPTH_TEST);
 
-            renderer->GetMainSceneFramebuffer()->Unbind();
-        }
-    }
+    //        renderer->GetMainSceneFramebuffer()->Unbind();
+    //    }
+    //}
 }

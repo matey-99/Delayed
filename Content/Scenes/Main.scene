@@ -80,7 +80,7 @@ Actors:
     Name: New Actor (1)
     Components:
       - Transform:
-          LocalPosition: [-7.05330944, 3.09317827, 0.0987883806]
+          LocalPosition: [-7.05330944, 4.34526062, 2.89237499]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0

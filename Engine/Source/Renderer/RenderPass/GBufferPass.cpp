@@ -60,13 +60,12 @@ GBufferPass::~GBufferPass()
 
 void GBufferPass::Render(Ref<Scene> scene)
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glViewport(0, 0, 1920, 1080);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
 
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 	scene->Render();
 

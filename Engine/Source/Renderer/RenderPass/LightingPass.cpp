@@ -23,10 +23,11 @@ LightingPass::~LightingPass()
 
 void LightingPass::Render()
 {
+	glViewport(0, 0, 1920, 1080);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
 
-	//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);

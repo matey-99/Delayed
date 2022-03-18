@@ -142,6 +142,9 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 V, vec3 albedo, vec3
 
 vec3 CalculatePointLight(PointLight light, vec3 position, vec3 V, vec3 albedo, vec3 N, float metallic, float roughness)
 {
+    if (light.color == vec3(0.0))
+        return vec3(0.0);
+
     vec3 L = normalize(light.position - position);
 
     float dist = length(light.position - position);
@@ -153,6 +156,9 @@ vec3 CalculatePointLight(PointLight light, vec3 position, vec3 V, vec3 albedo, v
 
 vec3 CalculateSpotLight(SpotLight light, vec3 position, vec3 V, vec3 albedo, vec3 N, float metallic, float roughness)
 {
+    if (light.color == vec3(0.0))
+        return vec3(0.0);
+
     vec3 L = normalize(light.position - position);
 
     float dist = length(light.position - position);
@@ -185,13 +191,15 @@ void main()
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
         Lo += CalculatePointLight(u_PointLights[i], position, V, color, normal, metallic, roughness);
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
-        Lo += CalculateSpotLight(u_SpotLights[i], V, position, color, normal, metallic, roughness);
+        Lo += CalculateSpotLight(u_SpotLights[i], position, V, color, normal, metallic, roughness);
 
     vec3 F = FresnelSchlickRoughness(max(dot(normal, V), 0.0), F0, roughness);
     vec3 kS = F;
     vec3 kD = 1.0 - kS;
     kD *= 1.0 - metallic;
 
-    vec3 lighting = Lo;
+    vec3 ambient = vec3(0.03) * color * ao;
+
+    vec3 lighting = ambient + Lo;
     f_Color = vec4(lighting, 1.0);
 }

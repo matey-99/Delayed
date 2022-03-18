@@ -42,7 +42,6 @@ void SpotLight::Use()
 	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 2), sizeof(glm::vec3), glm::value_ptr(m_Color));
 	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) - GLSL_SCALAR_SIZE, sizeof(float), &m_InnerCutOff);
 	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3), sizeof(float), &m_OuterCutOff);
-	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) + GLSL_SCALAR_SIZE, sizeof(bool), &m_ShadowsEnabled);
 	m_FragmentUniformBuffer->Unbind();
 
 	glm::vec3 position = m_Owner->GetTransform()->GetWorldPosition();
