@@ -6,7 +6,6 @@
 #include "Material/ShaderLibrary.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/UniformBuffer.h"
-#include "Renderer/Framebuffer.h"
 
 class Scene
 {

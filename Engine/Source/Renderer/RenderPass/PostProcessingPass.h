@@ -1,27 +1,57 @@
 #pragma once
 
-enum class TextureRange
-{
-	LDR, HDR
-};
+#include "Renderer/RenderTarget.h"
 
-class Texture
+#define GAUSSIAN_BLUR_RADIUS 6
+#define GAUSSIAN_BLUR_KERNEL_SIZE (GAUSSIAN_BLUR_RADIUS * 2 + 1)
+
+class PostProcessingPass
 {
+private:
+	struct PostProcessingSettings
+	{
+		// Basic
+		float Gamma = 2.2f;
+		float Exposure = 1.0f;
+
+		// Bloom
+		bool BloomEnabled = true;
+
+		float BloomThreshold = 1.0f;
+		float BloomLimit = 20.0f;
+		float BloomIntensity = 0.8f;
+		float BloomBlurSigma = 3.6f;
+
+		// Lens Flare
+	};
+
 public:
-	Texture(std::string path, TextureRange range);
-	~Texture();
+	PostProcessingPass();
+	~PostProcessingPass();
 
-	static Ref<Texture> Create(std::string path, TextureRange range = TextureRange::LDR);
+	void Render();
+	void UpdateRenderTargets(uint32_t width, uint32_t height);
 
-	void Load(std::string path);
-	void LoadHDR(std::string path);
+	inline const PostProcessingSettings& GetSettings() const { return m_Settings; }
 
-	void Bind(uint32_t index);
-	void Unbind();
-
-	inline std::string GetPath() const { return m_Path; }
+	inline Ref<RenderTarget> GetMainRenderTarget() const { return m_MainRenderTarget; }
 
 private:
-	uint32_t m_ID;
-	std::string m_Path;
+	void ComputeGaussianBlurKernel(float sigma, float width, float height);
+
+private:
+	PostProcessingSettings m_Settings;
+
+	Ref<RenderTarget> m_MainRenderTarget;
+
+	// BLOOM
+	Ref<RenderTarget> m_ThresholdRenderTarget;
+	Ref<RenderTarget> m_DownscaleRenderTargets[2];
+	Ref<RenderTarget> m_BlurRenderTargets[2];
+	Ref<RenderTarget> m_UpscaleRenderTargets[2];
+
+	glm::vec2 m_GaussianBlurHorizontalCache[GAUSSIAN_BLUR_KERNEL_SIZE];
+	glm::vec2 m_GaussianBlurVerticalCache[GAUSSIAN_BLUR_KERNEL_SIZE];
+
+	friend class RendererSettingsPanel;
 };

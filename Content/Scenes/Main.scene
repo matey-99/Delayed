@@ -23,7 +23,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/New material 1.mat
   - Actor: 932189503
     ID: 932189503
     Name: Cube
@@ -43,8 +43,8 @@ Actors:
     Name: Main Camera
     Components:
       - Transform:
-          LocalPosition: [-5.828403, -0.491944313, 6.4459281]
-          LocalRotation: [0, -48.6337395, 0]
+          LocalPosition: [-11.7621803, 2.91268611, 5.01318264]
+          LocalRotation: [0, 0, -8]
           LocalScale: [1, 1, 1]
           Parent: 0
       - Camera:
@@ -80,7 +80,7 @@ Actors:
     Name: New Actor (1)
     Components:
       - Transform:
-          LocalPosition: [-7.05330944, 4.34526062, 2.89237499]
+          LocalPosition: [-5.54887152, 1.22965384, 6.11936283]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -95,19 +95,28 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [-0.218811125, -0.833427846, -10.3654699]
-          LocalRotation: [23.779871, -1.06721711e-06, -3.0000124]
+          LocalRotation: [-87.3735123, -5.65265942, 88.6044693]
           LocalScale: [1, 1, 1]
           Parent: 0
       - DirectionalLight:
-          Color: [2, 2, 2]
+          Color: [3, 2.20000005, 1]
   - Actor: 672684253
     ID: 672684253
     Name: New Actor
     Components:
       - Transform:
-          LocalPosition: [0, -0.850547194, 0]
+          LocalPosition: [-3.39750338, 0.957658231, -5.87522459]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
       - PointLight:
-          Color: [1, 1, 1]
+          Color: [19, 9, 3]
+  - Actor: 520401842
+    ID: 520401842
+    Name: New Actor (2)
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0

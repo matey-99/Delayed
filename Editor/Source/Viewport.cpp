@@ -22,25 +22,22 @@ Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
     m_DirectionArrow = MeshImporter::GetInstance()->ImportMesh("Models/editor/DirectionArrow.fbx");
 }
 
-void Viewport::Render(uint32_t bufferTexture)
+void Viewport::Render()
 {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin("Viewport");
     
-
-
-
     m_Hovered = ImGui::IsWindowHovered();
 
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     if (m_Size != *((glm::vec2*)&viewportPanelSize))
     {
         m_Size = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
-        //framebuffer->Resize((unsigned int)m_Size.x, (unsigned int)m_Size.y);
+        Renderer::GetInstance()->ResizeWindow((unsigned int)m_Size.x, (unsigned int)m_Size.y);
 
         m_Editor->GetCamera()->AspectRactio = { m_Size.x, m_Size.y };
     }
-    uint32_t viewportTexture = bufferTexture;
+    uint32_t viewportTexture = Renderer::GetInstance()->GetOutput();
     ImGui::Image((void*)viewportTexture, ImVec2(m_Size.x, m_Size.y), ImVec2(0, 1), ImVec2(1, 0));
 
     Ref<Actor> selectedActor = m_Editor->GetSceneHierarchyPanel()->GetSelectedActor();

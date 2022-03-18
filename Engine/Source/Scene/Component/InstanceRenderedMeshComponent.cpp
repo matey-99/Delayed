@@ -68,98 +68,9 @@ void InstanceRenderedMeshComponent::PreRender()
 
 void InstanceRenderedMeshComponent::Render()
 {
-	uint32_t irradianceMap;
-	uint32_t prefilterMap;
-	uint32_t BRDFLUT;
-	float intensity;
-	bool isSkyLight = false;
-
-	auto components = m_Owner->GetScene()->GetComponents<SkyLight>();
-	if (components.size() > 0)
-	{
-		if (auto skyLight = Cast<SkyLight>(components[0]))
-		{
-			isSkyLight = true;
-			intensity = skyLight->GetIntensity();
-
-			irradianceMap = skyLight->GetIrradianceMap();
-			prefilterMap = skyLight->GetPrefilterMap();
-			BRDFLUT = skyLight->GetBRDFLUT();
-		}
-
-	}
-
 	for (auto material : GetMaterials())
 	{
 		material->Use();
-
-		material->GetShader()->SetBool("u_IsSkyLight", isSkyLight);
-
-		if (isSkyLight)
-		{
-			material->GetShader()->SetFloat("u_SkyLightIntensity", intensity);
-
-			glActiveTexture(GL_TEXTURE0 + 20);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceMap);
-			material->GetShader()->SetInt("u_IrradianceMap", 20);
-			glActiveTexture(GL_TEXTURE0 + 21);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, prefilterMap);
-			material->GetShader()->SetInt("u_PrefilterMap", 21);
-			glActiveTexture(GL_TEXTURE0 + 22);
-			glBindTexture(GL_TEXTURE_2D, BRDFLUT);
-			material->GetShader()->SetInt("u_BRDFLUT", 22);
-		}
-		else
-		{
-			glActiveTexture(GL_TEXTURE0 + 20);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, Renderer::GetInstance()->GetPointLightShadowMapPlaceholder(0));
-			material->GetShader()->SetInt("u_IrradianceMap", 20);
-			glActiveTexture(GL_TEXTURE0 + 21);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, Renderer::GetInstance()->GetPointLightShadowMapPlaceholder(0));
-			material->GetShader()->SetInt("u_PrefilterMap", 21);
-			glActiveTexture(GL_TEXTURE0 + 22);
-			glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->GetSpotLightShadowMapPlaceholder(0));
-			material->GetShader()->SetInt("u_BRDFLUT", 22);
-		}
-
-		auto pointLights = m_Owner->GetScene()->GetComponents<PointLight>();
-		for (int i = 0; i < MAX_POINT_LIGHTS; i++)
-		{
-			if (i < pointLights.size())
-			{
-				auto shadowMap = Cast<PointLight>(pointLights[i])->GetShadowMap();
-
-				glActiveTexture(GL_TEXTURE0 + 24 + i);
-				glBindTexture(GL_TEXTURE_CUBE_MAP, shadowMap);
-				material->GetShader()->SetInt("u_PointLightShadowMaps[" + std::to_string(i) + "]", 24 + i);
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE0 + 24 + i);
-				glBindTexture(GL_TEXTURE_CUBE_MAP, Renderer::GetInstance()->GetPointLightShadowMapPlaceholder(i));
-				material->GetShader()->SetInt("u_PointLightShadowMaps[" + std::to_string(i) + "]", 24 + i);
-			}
-		}
-
-		auto spotLights = m_Owner->GetScene()->GetComponents<SpotLight>();
-		for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
-		{
-			if (i < spotLights.size())
-			{
-				auto shadowMap = Cast<SpotLight>(spotLights[i])->GetShadowMap();
-
-				glActiveTexture(GL_TEXTURE0 + 24 + MAX_POINT_LIGHTS + i);
-				glBindTexture(GL_TEXTURE_2D, shadowMap);
-				material->GetShader()->SetInt("u_SpotLightShadowMaps[" + std::to_string(i) + "]", 24 + MAX_POINT_LIGHTS + i);
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE0 + 24 + MAX_POINT_LIGHTS + i);
-				glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->GetSpotLightShadowMapPlaceholder(i));
-				material->GetShader()->SetInt("u_SpotLightShadowMaps[" + std::to_string(i) + "]", 24 + MAX_POINT_LIGHTS + i);
-			}
-		}
-
 		material->GetShader()->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
 	}
 	if (!m_MultipleMaterials && m_Materials.at(0))

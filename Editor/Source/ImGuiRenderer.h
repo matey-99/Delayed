@@ -9,7 +9,6 @@
 
 #include "Editor.h"
 #include "Scene/Scene.h"
-#include "Renderer/Framebuffer.h"
 
 class ImGuiRenderer
 {

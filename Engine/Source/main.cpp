@@ -20,9 +20,9 @@
 #include "Material/Material.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Light/Light.h"
-#include "Renderer/Framebuffer.h"
 #include "Input/Input.h"
 #include "Camera/CameraManager.h"
+#include "Renderer/RenderTools.h"
 
 #define FPS 60.0f
 #define MS_PER_UPDATE 1 / FPS
@@ -134,27 +134,34 @@ int main(int, char**)
             lag -= MS_PER_UPDATE;
         }
 
+
+        
+
         if (shouldRender)
         {
-            renderer->RenderScene(scene);
+            int width, height;
+            glfwGetWindowSize(window, &width, &height);
+            if (width != renderer->GetWindowWidth() || height != renderer->GetWindowHeight())
+            {
+                renderer->ResizeWindow(width, height);
+            }
 
-            /*if (renderer->IsPostProcessing())
-                renderer->AddPostProcessingEffects();*/
+            renderer->Render(scene);
 
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            /*screenShader->Use();
+            screenShader->Use();
             screenShader->SetInt("u_Screen", 0);
-            glBindVertexArray(renderer->GetPostProcessingVAO());
-            glDisable(GL_DEPTH_TEST);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, renderer->IsPostProcessing() ? renderer->GetPostProcessingFramebuffer()->GetColorAttachments().at(0) :
-                renderer->GetMainSceneFramebuffer()->GetColorAttachments().at(0));
-            glDrawArrays(GL_TRIANGLES, 0, 6);
 
-            glBindVertexArray(0);
-            glEnable(GL_DEPTH_TEST);*/
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, renderer->GetOutput());
+
+            glDisable(GL_DEPTH_TEST);
+
+            RenderTools::GetInstance()->RenderQuad();
+
+            glEnable(GL_DEPTH_TEST);
 
             glfwSwapBuffers(window);
 

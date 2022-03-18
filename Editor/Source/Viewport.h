@@ -21,7 +21,7 @@ private:
 public:
 	Viewport(Ref<Editor> editor, Ref<Scene> scene);
 
-	void Render(uint32_t bufferTexture);
+	void Render();
 	void RenderGizmos();
 
 	inline bool IsHovered() const { return m_Hovered; }

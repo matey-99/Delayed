@@ -4,6 +4,7 @@
 #include "imgui.h"
 
 class Editor;
+class RenderTarget;
 
 class CameraComponentViewport
 {
@@ -11,12 +12,12 @@ private:
 	Ref<Editor> m_Editor;
 	Ref<Scene> m_Scene;
 
-	glm::vec2 m_Size;
+	Ref<RenderTarget> m_RenderTarget;
 
-	Ref<Framebuffer> m_ViewportFramebuffer;
+	glm::vec2 m_Size;
 
 public:
 	CameraComponentViewport(Ref<Editor> editor, Ref<Scene> scene);
 
-	void Render(Ref<Framebuffer> framebuffer, Ref<CameraComponent> camera);
+	void Render(Ref<CameraComponent> camera);
 };

@@ -8,6 +8,7 @@
 #include "Material/ShaderLibrary.h"
 #include "Renderer/Texture.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/RenderTools.h"
 
 SkyLight::SkyLight(Actor* owner, std::string path)
     : RenderComponent(owner), m_Path(path)
@@ -301,7 +302,8 @@ void SkyLight::Load(std::string path)
     auto brdfShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::CALCULATION, "BRDF");
     brdfShader->Use();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    Renderer::GetInstance()->InitializeQuad();
+    
+    RenderTools::GetInstance()->RenderQuad();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

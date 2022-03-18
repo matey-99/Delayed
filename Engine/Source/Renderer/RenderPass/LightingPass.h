@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer/Framebuffer.h"
+#include "Renderer/RenderTarget.h"
 #include "Scene/Scene.h"
 
 class LightingPass
@@ -11,15 +11,8 @@ public:
 
 	void Render();
 
-private:
-	void InitializeQuad();
-
-public:
-	uint32_t m_LightingTexture;
+	inline Ref<RenderTarget> GetRenderTarget() const { return m_RenderTarget; }
 
 private:
-	uint32_t m_Framebuffer;
-
-	uint32_t m_QuadVAO;
-	uint32_t m_QuadVBO;
+	Ref<RenderTarget> m_RenderTarget;
 };

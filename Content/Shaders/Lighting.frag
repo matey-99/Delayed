@@ -10,7 +10,8 @@ layout (location = 0) in vec2 v_TexCoord;
 layout (location = 0) uniform sampler2D u_GBufferPosition;
 layout (location = 1) uniform sampler2D u_GBufferNormal;
 layout (location = 2) uniform sampler2D u_GBufferColorAO;
-layout (location = 3) uniform sampler2D u_GBufferMetallicRoughness;
+layout (location = 3) uniform sampler2D u_GBufferEmissive;
+layout (location = 4) uniform sampler2D u_GBufferMetallicRoughness;
 
 struct DirectionalLight
 {
@@ -178,6 +179,7 @@ void main()
     vec3 normal = texture(u_GBufferNormal, v_TexCoord).rgb;
     vec3 color = texture(u_GBufferColorAO, v_TexCoord).rgb;
     float ao = texture(u_GBufferColorAO, v_TexCoord).a;
+    vec3 emissive = texture(u_GBufferEmissive, v_TexCoord).rgb;
     float metallic = texture(u_GBufferMetallicRoughness, v_TexCoord).r;
     float roughness = texture(u_GBufferMetallicRoughness, v_TexCoord).g;
 
@@ -200,6 +202,6 @@ void main()
 
     vec3 ambient = vec3(0.03) * color * ao;
 
-    vec3 lighting = ambient + Lo;
+    vec3 lighting = ambient + Lo + emissive;
     f_Color = vec4(lighting, 1.0);
 }

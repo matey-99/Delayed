@@ -99,7 +99,7 @@ void Editor::Render()
 	//else
 	//	m_Viewport->Render(Renderer::GetInstance()->GetMainSceneFramebuffer());
 
-	m_Viewport->Render(Renderer::GetInstance()->m_LightingPass->m_LightingTexture);
+	m_Viewport->Render();
 
 	//if (m_IsCameraComponentViewport)
 	//{
@@ -112,8 +112,7 @@ void Editor::Render()
 
 void Editor::RenderScene()
 {
-
-	Renderer::GetInstance()->RenderScene(m_Scene);
+	Renderer::GetInstance()->Render(m_Scene);
 }
 
 void Editor::ShowDetails(Ref<Actor> actor)

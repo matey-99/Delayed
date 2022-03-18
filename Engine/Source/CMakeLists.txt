@@ -82,6 +82,12 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 				   		   ${FMOD_DLL}
 						   $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 
+# Copy .exe to .. directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+				COMMAND ${CMAKE_COMMAND} -E copy_if_different
+		   				"$<TARGET_FILE:${PROJECT_NAME}>"
+		   				"${CMAKE_BINARY_DIR}/Engine/Source")
+
 # Create virtual folders to make it look nicer in VS
 if(MSVC_IDE)
 	# Macro to preserve source files hierarchy in the IDE

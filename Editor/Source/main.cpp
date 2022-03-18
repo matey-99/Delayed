@@ -23,7 +23,6 @@
 #include "Material/Material.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Light/Light.h"
-#include "Renderer/Framebuffer.h"
 #include "Input/Input.h"
 #include "Scene/SceneManager.h"
 #include "Content/ContentHelper.h"
@@ -206,12 +205,6 @@ int main(int, char**)
 
     Renderer::GetInstance()->Initialize();
 
-    Renderer::GetInstance()->InitializeMainSceneFramebuffer();
-    Renderer::GetInstance()->InitializePostProcessingFramebuffer();
-    Renderer::GetInstance()->InitializeShadowMapFramebuffers();
-
-    Renderer::GetInstance()->InitializePostProcessing();
-
     auto sceneManager = SceneManager::GetInstance();
     sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/Main.scene"));
 
@@ -263,9 +256,6 @@ int main(int, char**)
         {
             editor->RenderScene();
             editor->GetViewport()->RenderGizmos();
-
-            if (Renderer::GetInstance()->IsPostProcessing())
-                Renderer::GetInstance()->AddPostProcessingEffects();
 
             imGuiRenderer.Render();
             imGuiRenderer.EndFrame();
