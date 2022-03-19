@@ -143,15 +143,15 @@ Ref<Shader> ShaderLibrary::GetShader(ShaderType type, std::string name)
 {
 	switch (type)
 	{
-	case ShaderType::MATERIAL:
+	case ShaderType::Material:
 		return m_MaterialShaders.find(name)->second;
-	case ShaderType::POST_PROCESSING:
+	case ShaderType::PostProcessing:
 		return m_PostProcessingShaders.find(name)->second;
-	case ShaderType::SKYBOX:
+	case ShaderType::Skybox:
 		return m_SkyboxShaders.find(name)->second;
-	case ShaderType::CALCULATION:
+	case ShaderType::Calculations:
 		return m_CalculationShaders.find(name)->second;
-	case ShaderType::PARTICLE:
+	case ShaderType::Particle:
 		return m_ParticleShaders.find(name)->second;
 	}
 

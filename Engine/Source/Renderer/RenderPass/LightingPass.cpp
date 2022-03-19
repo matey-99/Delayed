@@ -1,6 +1,7 @@
 #include "LightingPass.h"
 
 #include "GBufferPass.h"
+#include "ShadowsPass.h"
 #include "Renderer/RenderTools.h"
 
 LightingPass::LightingPass()
@@ -44,13 +45,19 @@ void LightingPass::Render()
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, g->GetRenderTarget()->GetTargets()[4]);
 
-	auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::MATERIAL, "Lighting");
+	auto s = Renderer::GetInstance()->m_ShadowsPass;
+
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D_ARRAY, s->GetDirectionalLightRenderTarget()->GetTargets()[0]);
+
+	auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, "Lighting");
 	shader->Use();
 	shader->SetInt("u_GBufferPosition", 0);
 	shader->SetInt("u_GBufferNormal", 1);
 	shader->SetInt("u_GBufferColorAO", 2);
 	shader->SetInt("u_GBufferEmissive", 3);
 	shader->SetInt("u_GBufferMetallicRoughness", 4);
+	shader->SetInt("u_DirectionalLightShadowMaps", 5);
 
 	RenderTools::GetInstance()->RenderQuad();
 

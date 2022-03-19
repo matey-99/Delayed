@@ -61,8 +61,3 @@ void PointLight::SwitchOff()
 	m_FragmentUniformBuffer->SetUniform(offset + GLSL_VEC3_SIZE, sizeof(glm::vec3), glm::value_ptr(glm::vec3(0.0f)));
 	m_FragmentUniformBuffer->Unbind();
 }
-
-void PointLight::RenderShadowMap()
-{
-	Renderer::GetInstance()->RenderShadowMap(m_Owner->GetScene(), this);
-}

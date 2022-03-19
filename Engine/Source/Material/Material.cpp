@@ -33,7 +33,7 @@ Ref<Material> Material::Create(std::string name, Ref<Shader> shader)
 
 Ref<Material> Material::Create(std::string name, std::string shaderName)
 {
-	Ref<Material> material = CreateRef<Material>(name, ShaderLibrary::GetInstance()->GetShader(ShaderType::MATERIAL, shaderName));
+	Ref<Material> material = CreateRef<Material>(name, ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, shaderName));
 	MaterialSerializer::Serialize(material);
 	MaterialImporter::GetInstance()->AddMaterial(ContentHelper::GetAssetPath("Materials/") + material->GetName() + ".mat", material);
 

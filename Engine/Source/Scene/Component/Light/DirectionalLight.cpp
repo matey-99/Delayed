@@ -29,7 +29,8 @@ void DirectionalLight::Use()
 	auto camera = CameraManager::GetInstance()->GetMainCamera();
 
 	m_ShadowCascadeLevels = { camera->GetFarClipPlane() / 50.0f, camera->GetFarClipPlane() / 25.0f, camera->GetFarClipPlane() / 10.0f, camera->GetFarClipPlane() / 2.0f };
-	
+	int cascadeCount = m_ShadowCascadeLevels.size();
+
 	m_LightSpaceMatrices.clear();
 	for (int i = 0; i < m_ShadowCascadeLevels.size() + 1; i++)
 	{
@@ -46,6 +47,12 @@ void DirectionalLight::Use()
 	for (int i = 0; i < m_LightSpaceMatrices.size(); i++)
 		m_VertexUniformBuffer->SetUniform(i * sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(m_LightSpaceMatrices[i]));
 
+	m_VertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 16, GLSL_SCALAR_SIZE, &cascadeCount);
+
+	offset = GLSL_MAT4_SIZE * 16 + 16;
+	for (int i = 0; i < m_ShadowCascadeLevels.size(); i++)
+		m_VertexUniformBuffer->SetUniform(offset + 16 * i, GLSL_SCALAR_SIZE, &m_ShadowCascadeLevels[i]);
+
 	m_VertexUniformBuffer->Unbind();
 }
 
@@ -56,11 +63,6 @@ void DirectionalLight::SwitchOff()
 	m_FragmentUniformBuffer->SetUniform(offset, sizeof(glm::vec3), glm::value_ptr(glm::vec3(0.0f)));
 	m_FragmentUniformBuffer->SetUniform(offset + GLSL_VEC3_SIZE, sizeof(glm::vec3), glm::value_ptr(glm::vec3(0.0f)));
 	m_FragmentUniformBuffer->Unbind();
-}
-
-void DirectionalLight::RenderShadowMap()
-{
-	Renderer::GetInstance()->RenderShadowMap(m_Owner->GetScene(), this);
 }
 
 std::vector<glm::vec4> DirectionalLight::GetFrustumCornersWorldSpace(const glm::mat4& projection, const glm::mat4& view)

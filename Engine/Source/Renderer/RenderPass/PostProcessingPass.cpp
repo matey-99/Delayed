@@ -65,7 +65,7 @@ void PostProcessingPass::Render()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_LightingPass->GetRenderTarget()->GetTargets()[0]);
 
-		auto thresholdShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::POST_PROCESSING, "Threshold");
+		auto thresholdShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Threshold");
 		thresholdShader->Use();
 		thresholdShader->SetInt("u_Screen", 0);
 		thresholdShader->SetFloat("u_Threshold", m_Settings.BloomThreshold);
@@ -84,7 +84,7 @@ void PostProcessingPass::Render()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_ThresholdRenderTarget->GetTargets()[0]);
 
-		auto scaleShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::POST_PROCESSING, "Scale");
+		auto scaleShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Scale");
 		scaleShader->Use();
 		scaleShader->SetInt("u_SourceTexture", 0);
 
@@ -119,7 +119,7 @@ void PostProcessingPass::Render()
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, (i == 0) ? m_DownscaleRenderTargets[1]->GetTargets()[0] : m_BlurRenderTargets[1]->GetTargets()[0]);
 
-			auto blurShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::POST_PROCESSING, "BlurHorizontal");
+			auto blurShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "BlurHorizontal");
 			blurShader->Use();
 			blurShader->SetInt("u_SourceTexture", 0);
 			for (int i = 0; i < GAUSSIAN_BLUR_KERNEL_SIZE; i++)
@@ -135,7 +135,7 @@ void PostProcessingPass::Render()
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, m_BlurRenderTargets[0]->GetTargets()[0]);
 
-			blurShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::POST_PROCESSING, "BlurVertical");
+			blurShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "BlurVertical");
 			blurShader->Use();
 			blurShader->SetInt("u_SourceTexture", 0);
 			for (int i = 0; i < GAUSSIAN_BLUR_KERNEL_SIZE; i++)
@@ -188,7 +188,7 @@ void PostProcessingPass::Render()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_LightingPass->GetRenderTarget()->GetTargets()[0]);
 
-	auto postProcessingShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::POST_PROCESSING, "PostProcessing");
+	auto postProcessingShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "PostProcessing");
 	postProcessingShader->Use();
 	postProcessingShader->SetInt("u_Screen", 0);
 	postProcessingShader->SetBool("u_IsBloom", m_Settings.BloomEnabled);

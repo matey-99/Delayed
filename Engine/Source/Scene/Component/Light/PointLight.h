@@ -18,8 +18,6 @@ public:
 	virtual void Use() override;
 	virtual void SwitchOff() override;
 
-	virtual void RenderShadowMap() override;
-
 	inline void SetIndex(int index) { m_Index = index; }
 
 	inline uint32_t GetShadowMap() const { return m_ShadowMap; }

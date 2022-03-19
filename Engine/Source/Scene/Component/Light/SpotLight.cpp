@@ -50,7 +50,7 @@ void SpotLight::Use()
 
 	m_LightSpace = lightProjection * lightView;
 
-	uint32_t vertexOffset = GLSL_MAT4_SIZE + (GLSL_MAT4_SIZE * m_Index);
+	uint32_t vertexOffset = (GLSL_MAT4_SIZE * 16) + 32 + (GLSL_MAT4_SIZE * m_Index);
 	m_VertexUniformBuffer->Bind();
 	m_VertexUniformBuffer->SetUniform(vertexOffset, sizeof(glm::mat4), glm::value_ptr(m_LightSpace));
 	m_VertexUniformBuffer->Unbind();
@@ -66,11 +66,6 @@ void SpotLight::SwitchOff()
 	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) - GLSL_SCALAR_SIZE, sizeof(float), (void*)0);
 	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3), sizeof(float), (void*)0);
 	m_FragmentUniformBuffer->Unbind();
-}
-
-void SpotLight::RenderShadowMap()
-{
-	Renderer::GetInstance()->RenderShadowMap(m_Owner->GetScene(), this);
 }
 
 void SpotLight::SetInnerCutOff(float innerCutOff)

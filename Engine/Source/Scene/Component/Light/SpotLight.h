@@ -20,8 +20,6 @@ public:
 	virtual void Use() override;
 	virtual void SwitchOff() override;
 
-	virtual void RenderShadowMap() override;
-
 	inline void SetIndex(int index) { m_Index = index; }
 
 	inline float GetInnerCutOff() const { return m_InnerCutOff; }

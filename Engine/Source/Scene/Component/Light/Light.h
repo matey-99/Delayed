@@ -40,8 +40,6 @@ public:
 	virtual void Use() = 0;
 	virtual void SwitchOff() = 0;
 
-	virtual void RenderShadowMap() = 0;
-
 	inline Actor* GetOwner() const { return m_Owner; }
 	inline glm::vec3 GetColor() const { return m_Color; }
 	inline glm::mat4 GetLightSpace() const { return m_LightSpace; }

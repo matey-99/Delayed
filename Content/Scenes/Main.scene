@@ -30,7 +30,7 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [0.0723583847, -0.258750439, 0]
-          LocalRotation: [0, 30, 0]
+          LocalRotation: [0, -15.0869608, 0]
           LocalScale: [2, 2, 2]
           Parent: 0
       - StaticMesh:
@@ -68,13 +68,13 @@ Actors:
       - Transform:
           LocalPosition: [0, -1.76572347, 0.0846784115]
           LocalRotation: [0, 0, 0]
-          LocalScale: [16.1000004, 1, 15.1000004]
+          LocalScale: [85.5664978, 1, 79.0606003]
           Parent: 0
       - StaticMesh:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/New material 0.mat
+              Path: Materials/Default.mat
   - Actor: 768280824
     ID: 768280824
     Name: New Actor (1)
@@ -94,8 +94,8 @@ Actors:
     Name: Directional Light
     Components:
       - Transform:
-          LocalPosition: [-0.218811125, -0.833427846, -10.3654699]
-          LocalRotation: [-87.3735123, -5.65265942, 88.6044693]
+          LocalPosition: [1.25076604, 4.39159727, -1.30138278]
+          LocalRotation: [146.655029, -74.2121811, -128.579346]
           LocalScale: [1, 1, 1]
           Parent: 0
       - DirectionalLight:
@@ -120,3 +120,787 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
+  - Actor: 739406592
+    ID: 739406592
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-27.7298126, 4.89222383, 15.1919994]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 536628344
+    ID: 536628344
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-27.7298126, 4.89222383, 6.45532179]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 612977383
+    ID: 612977383
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-27.7298126, 4.89222383, -1.71640968]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 584726813
+    ID: 584726813
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-27.7298126, 4.89222383, -10.271884]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 637136095
+    ID: 637136095
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-27.7298126, 4.89222383, -19.1188145]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 238405663
+    ID: 238405663
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-27.7298126, 4.89222383, -25.0018559]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 605695127
+    ID: 605695127
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-19.4004135, 4.89222383, -25.0018559]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 264710844
+    ID: 264710844
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-19.4004135, 4.89222383, -17.7280846]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 302530188
+    ID: 302530188
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-19.4004135, 4.89222383, -9.7518177]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 231481449
+    ID: 231481449
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-19.4004135, 4.89222383, -1.65414762]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 886827668
+    ID: 886827668
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-18.5173626, 4.89222383, 2.25502968]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 529155969
+    ID: 529155969
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-18.5173626, 4.89222383, 9.67903233]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 759919907
+    ID: 759919907
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-11.6162395, 4.89222383, 9.67903233]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 148183616
+    ID: 148183616
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-11.6162395, 4.89222383, -0.231269807]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 593053365
+    ID: 593053365
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-11.6162395, 4.89222383, -9.35008526]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 98962634
+    ID: 98962634
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-11.6162395, 4.89222383, -16.3752747]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 276243748
+    ID: 276243748
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-11.6162395, 4.89222383, -20.5329151]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 802607946
+    ID: 802607946
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-11.6162395, 4.89222383, -26.0826778]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 892748329
+    ID: 892748329
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-4.84634304, 4.89222383, -26.0826778]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 603295563
+    ID: 603295563
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-4.84634304, 4.89222383, -21.187294]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 259432092
+    ID: 259432092
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-4.84634304, 4.89222383, -14.9480143]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 422511979
+    ID: 422511979
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-4.84634304, 4.89222383, -9.61480713]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 56339419
+    ID: 56339419
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [-4.84634304, 4.89222383, 9.29801941]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 736704615
+    ID: 736704615
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [2.46967506, 4.89222383, 9.29801941]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 646866007
+    ID: 646866007
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [2.46967506, 4.89222383, -10.0870438]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 270761439
+    ID: 270761439
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [2.46967506, 4.89222383, -15.6539688]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 884866332
+    ID: 884866332
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [2.46967506, 4.89222383, -21.7149315]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 285175111
+    ID: 285175111
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [2.46967506, 4.89222383, -25.9379158]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 159372848
+    ID: 159372848
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [9.07343864, 4.89222383, -25.9379158]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 361743268
+    ID: 361743268
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [9.07343864, 4.89222383, -20.7196903]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 62346338
+    ID: 62346338
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [9.07343864, 4.89222383, -15.1152458]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 601324985
+    ID: 601324985
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [9.07343864, 4.89222383, -8.22437954]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 471622233
+    ID: 471622233
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [9.07343864, 4.89222383, -0.471354723]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 8022704
+    ID: 8022704
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [9.07343864, 4.89222383, 10.0102634]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 704902771
+    ID: 704902771
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [16.3681889, 4.89222383, 10.0102634]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 39154968
+    ID: 39154968
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [16.3681889, 4.89222383, -0.145506859]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 509101027
+    ID: 509101027
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [16.3681889, 4.89222383, -10.2004499]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 203140277
+    ID: 203140277
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [16.3681889, 4.89222383, -16.3784542]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 745987322
+    ID: 745987322
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [16.3681889, 4.89222383, -21.2156124]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 864443514
+    ID: 864443514
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [16.3681889, 4.89222383, -25.070013]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 48671465
+    ID: 48671465
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [21.6673088, 4.89222383, -25.070013]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 665060457
+    ID: 665060457
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [21.6673088, 4.89222383, -18.9671078]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 732853036
+    ID: 732853036
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [21.6673088, 4.89222383, -11.8112688]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 881804719
+    ID: 881804719
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [21.6673088, 4.89222383, -4.25592518]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 756408566
+    ID: 756408566
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [21.6673088, 4.89222383, 5.01319695]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 637609569
+    ID: 637609569
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [28.2208347, 4.89222383, 5.01319695]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 236429221
+    ID: 236429221
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [28.2208347, 4.89222383, -4.43659496]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 266842259
+    ID: 266842259
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [28.2208347, 4.89222383, -11.5457697]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 8295488
+    ID: 8295488
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [28.2208347, 4.89222383, -19.0088234]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 601819050
+    ID: 601819050
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [28.2208347, 4.89222383, -23.7855606]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 614370711
+    ID: 614370711
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [34.4350281, 4.89222383, -23.7855606]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 267884898
+    ID: 267884898
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [34.4350281, 4.89222383, -17.6238289]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 490790805
+    ID: 490790805
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [34.4350281, 4.89222383, -11.0075836]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 228090130
+    ID: 228090130
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [34.4350281, 4.89222383, -1.50550199]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 461635050
+    ID: 461635050
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [34.4350281, 4.89222383, 7.63462782]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 739535261
+    ID: 739535261
+    Name: New Actor (3)
+    Components:
+      - Transform:
+          LocalPosition: [34.4350281, 4.89222383, 7.63462782]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [50, 50, 50]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat

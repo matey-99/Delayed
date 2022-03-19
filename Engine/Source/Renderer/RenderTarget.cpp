@@ -66,9 +66,11 @@ void RenderTarget::Update(uint32_t width, uint32_t height)
 			switch (config.DepthInternalFormat)
 			{
 			case DepthInternalFormat::Depth:
+			case DepthInternalFormat::Depth32:
+			case DepthInternalFormat::Depth32F:
 				attachment = GL_DEPTH_ATTACHMENT;
 				break;
-			case DepthInternalFormat::DepthStencil:
+			case DepthInternalFormat::Depth24Stencil8:
 				attachment = GL_DEPTH_STENCIL_ATTACHMENT;
 				break;
 			}
@@ -90,6 +92,17 @@ void RenderTarget::Update(uint32_t width, uint32_t height)
 
 				glTexStorage2D(type, 1, internalFormat, width, height);
 				glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, type, m_Targets[i], 0);
+			}
+			else if (config.Type == Type::Texture2DArray)
+			{
+				glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+				glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+				float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+				glTexParameterfv(type, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+				glTexStorage3D(type, 1, internalFormat, width, height, 5);
+				glFramebufferTexture(GL_FRAMEBUFFER, attachment, m_Targets[i], 0);
 			}
 			else if (config.Type == Type::TextureCube)
 			{
@@ -123,6 +136,14 @@ void RenderTarget::Update(uint32_t width, uint32_t height)
 				glTexStorage2D(type, 1, internalFormat, width, height);
 				glFramebufferTexture2D(GL_FRAMEBUFFER, attachment + colorAttachmentIndex, type, m_Targets[i], 0);
 			}
+			else if (config.Type == Type::Texture2DArray)
+			{
+				glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+				glTexStorage3D(type, 1, internalFormat, width, height, 5);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, attachment + colorAttachmentIndex, type, m_Targets[i], 0);
+			}
 			else if (config.Type == Type::TextureCube)
 			{
 				glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -138,8 +159,17 @@ void RenderTarget::Update(uint32_t width, uint32_t height)
 		}
 	}
 
-	uint32_t* drawBuffers = &colorAttachments[0];
-	glDrawBuffers(colorAttachmentIndex, drawBuffers);
+	if (colorAttachments.size() > 0)
+	{
+		uint32_t* drawBuffers = &colorAttachments[0];
+		glDrawBuffers(colorAttachmentIndex, drawBuffers);
+	}
+	else
+	{
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
+	}
+
 
 	if (!hasDepth)
 	{

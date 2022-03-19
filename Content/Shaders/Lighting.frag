@@ -12,6 +12,7 @@ layout (location = 1) uniform sampler2D u_GBufferNormal;
 layout (location = 2) uniform sampler2D u_GBufferColorAO;
 layout (location = 3) uniform sampler2D u_GBufferEmissive;
 layout (location = 4) uniform sampler2D u_GBufferMetallicRoughness;
+layout (location = 5) uniform sampler2DArray u_DirectionalLightShadowMaps;
 
 struct DirectionalLight
 {
@@ -43,7 +44,12 @@ layout (std140, binding = 0) uniform u_VertexCamera
 
 layout (std140, binding = 1) uniform u_VertexLights
 {
+    // Directional Light
     mat4 u_DirectionalLightSpaceMatrices[16];
+    int u_CascadeCount;
+    float u_CascadeClipPlaneDistances[4];
+
+    // Spot Light
     mat4[MAX_SPOT_LIGHTS] u_SpotLightSpaceMatrices;
 };
 
@@ -173,6 +179,59 @@ vec3 CalculateSpotLight(SpotLight light, vec3 position, vec3 V, vec3 albedo, vec
     return CalculateLight(L, V, albedo, N, metallic, roughness) * intensity * radiance;
 }
 
+float CalculateDirectionalLightShadow(vec3 position, vec3 normal)
+{
+    vec4 viewSpace = u_View * vec4(position, 1.0);
+    float depthValue = abs(viewSpace.z);
+
+    int layer = -1;
+    for (int i = 0; i < u_CascadeCount; i++)
+    {
+        if (depthValue < u_CascadeClipPlaneDistances[i])
+        {
+            layer = i;
+            break;
+        }
+    }
+    if (layer == -1)
+            layer = u_CascadeCount;
+    
+    vec4 lightSpace = u_DirectionalLightSpaceMatrices[layer] * vec4(position, 1.0);
+    vec3 projectionCoords = lightSpace.xyz / lightSpace.w;
+    projectionCoords = projectionCoords * 0.5 + 0.5;
+
+    float currentDepth = projectionCoords.z;
+
+    if (currentDepth > 1.0)
+        return 0.0;
+
+    float bias = max(0.05 * (1.0 - dot(normal, u_DirectionalLight.direction)), 0.005);
+    float biasModifier = 0.5;
+    if (layer == u_CascadeCount)
+        bias *= 1 / (u_CameraFarClipPlane * biasModifier);
+    else
+        bias *= 1 / (u_CascadeClipPlaneDistances[layer] * biasModifier);
+
+    // PCF
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / vec2(textureSize(u_DirectionalLightShadowMaps, 0));
+    for (int x = -1; x <= 1; ++x)
+    {
+        for (int y = -1; y <= 1; ++y)
+        {
+            float pcfDepth = texture(u_DirectionalLightShadowMaps, vec3(projectionCoords.xy + vec2(x, y) * texelSize, layer)).r;
+            shadow += (currentDepth - bias) > pcfDepth ? 1.0 : 0.0;
+        }
+    }
+
+    shadow /= 9.0;
+
+    if (projectionCoords.z > 1.0)
+        shadow = 0.0;
+
+    return shadow;
+}
+
 void main()
 {    
     vec3 position = texture(u_GBufferPosition, v_TexCoord).rgb;
@@ -189,16 +248,19 @@ void main()
     F0 = mix(F0, color, metallic);
 
     vec3 Lo = vec3(0.0);
+
+    // Directional Light
+    float shadow = 0.0;
+    shadow = CalculateDirectionalLightShadow(position, normal);
+    shadow = clamp(shadow, 0.0, 1.0);
+
     Lo += CalculateDirectionalLight(u_DirectionalLight, V, color, normal, metallic, roughness);
+    Lo *= (1 - shadow);
+
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
         Lo += CalculatePointLight(u_PointLights[i], position, V, color, normal, metallic, roughness);
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         Lo += CalculateSpotLight(u_SpotLights[i], position, V, color, normal, metallic, roughness);
-
-    vec3 F = FresnelSchlickRoughness(max(dot(normal, V), 0.0), F0, roughness);
-    vec3 kS = F;
-    vec3 kD = 1.0 - kS;
-    kD *= 1.0 - metallic;
 
     vec3 ambient = vec3(0.03) * color * ao;
 

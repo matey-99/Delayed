@@ -10,7 +10,7 @@
 
 enum class ShaderType
 {
-	MATERIAL, POST_PROCESSING, SKYBOX, CALCULATION, PARTICLE
+	Material, PostProcessing, Skybox, Calculations, Particle
 };
 
 class ShaderLibrary

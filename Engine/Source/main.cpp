@@ -100,7 +100,7 @@ int main(int, char**)
     auto input = Input::GetInstance();
 
     // SHADER
-    auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::POST_PROCESSING, "Screen");
+    auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Screen");
 
     // TIME
     float deltaTime = 0.0f;

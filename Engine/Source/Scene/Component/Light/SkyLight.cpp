@@ -13,7 +13,7 @@
 SkyLight::SkyLight(Actor* owner, std::string path)
     : RenderComponent(owner), m_Path(path)
 {
-	m_Shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::SKYBOX, "Skybox");
+	m_Shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Skybox, "Skybox");
     SetupMesh();
 
     m_ID = 0;
@@ -170,7 +170,7 @@ void SkyLight::Load(std::string path)
         glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
     };
 
-    auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::CALCULATION, "EquirectangularToCubemap");
+    auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "EquirectangularToCubemap");
     shader->Use();
     shader->SetInt("u_EquirenctangularMap", 0);
     shader->SetMat4("u_Projection", captureProjection);
@@ -213,7 +213,7 @@ void SkyLight::Load(std::string path)
     glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 32, 32);
 
-    auto irradianceShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::CALCULATION, "Irradiance");
+    auto irradianceShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "Irradiance");
     irradianceShader->Use();
     irradianceShader->SetInt("u_EnvironmentMap", 0);
     irradianceShader->SetMat4("u_Projection", captureProjection);
@@ -248,7 +248,7 @@ void SkyLight::Load(std::string path)
 
     glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
-    auto prefilterShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::CALCULATION, "Prefilter");
+    auto prefilterShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "Prefilter");
     prefilterShader->Use();
     prefilterShader->SetInt("u_EnvironmentMap", 0);
     prefilterShader->SetMat4("u_Projection", captureProjection);
@@ -299,7 +299,7 @@ void SkyLight::Load(std::string path)
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_BRDFLUT, 0);
 
     glViewport(0, 0, 512, 512);
-    auto brdfShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::CALCULATION, "BRDF");
+    auto brdfShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "BRDF");
     brdfShader->Use();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     

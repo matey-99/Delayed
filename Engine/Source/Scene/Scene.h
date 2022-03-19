@@ -52,6 +52,18 @@ public:
 	Ref<Actor> FindActor(uint64_t id);
 
 	template<typename T>
+	Ref<T> FindComponent()
+	{
+		for (auto actor : m_Actors)
+		{
+			if (auto c = actor->GetComponent<T>())
+				return c;
+		}
+
+		return nullptr;
+	}
+
+	template<typename T>
 	std::vector<Ref<Component>> GetComponents()
 	{
 		std::vector<Ref<Component>> components;

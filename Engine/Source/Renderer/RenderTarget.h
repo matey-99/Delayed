@@ -17,6 +17,7 @@ public:
 	enum class Type
 	{
 		Texture2D = GL_TEXTURE_2D,
+		Texture2DArray = GL_TEXTURE_2D_ARRAY,
 		TextureCube = GL_TEXTURE_CUBE_MAP
 	};
 
@@ -37,7 +38,9 @@ public:
 	enum class DepthInternalFormat
 	{
 		Depth = GL_DEPTH_COMPONENT,
-		DepthStencil = GL_DEPTH24_STENCIL8
+		Depth32 = GL_DEPTH_COMPONENT32,
+		Depth32F = GL_DEPTH_COMPONENT32F,
+		Depth24Stencil8 = GL_DEPTH24_STENCIL8
 	};
 
 	enum class Filter

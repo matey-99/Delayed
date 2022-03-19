@@ -23,9 +23,6 @@ void Light::Update(float deltaTime)
 void Light::PreRender()
 {
 	Use();
-
-	if (m_ShadowsEnabled)
-		RenderShadowMap();
 }
 
 void Light::Render()

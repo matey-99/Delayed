@@ -10,8 +10,6 @@ public:
 
 	virtual void Use() override;
 	virtual void SwitchOff() override;
-	
-	virtual void RenderShadowMap() override;
 
 private:
 	std::vector<glm::vec4> GetFrustumCornersWorldSpace(const glm::mat4& projection, const glm::mat4& view);

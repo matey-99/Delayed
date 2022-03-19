@@ -3,6 +3,7 @@
 #include "Scene/Scene.h"
 #include "imgui.h"
 #include "Renderer/Mesh.h"
+#include "Renderer/RenderTarget.h"
 
 class Editor;
 
@@ -15,7 +16,11 @@ private:
 	glm::vec2 m_Size;
 	bool m_Hovered;
 
+	Ref<RenderTarget> m_GizmosRenderTarget;
+	Ref<RenderTarget> m_ViewportRenderTarget;
+
 	Ref<Shader> m_DirectionArrowShader;
+	Ref<Shader> m_ViewportShader;
 	std::vector<Mesh> m_DirectionArrow;
 
 public:

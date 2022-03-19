@@ -72,7 +72,7 @@ void ParticleSystemComponent::PreRender()
 
 void ParticleSystemComponent::Render()
 {
-	auto particleShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PARTICLE, "StandardParticle");
+	auto particleShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Particle, "StandardParticle");
 	particleShader->Use();
 	particleShader->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
 	particleShader->SetMat4("u_View", m_Owner->GetScene()->GetCurrentCamera()->GetViewMatrix());
