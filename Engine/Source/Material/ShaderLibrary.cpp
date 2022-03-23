@@ -39,6 +39,11 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.frag"))));
 
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("FXAA",
+		CreateRef<Shader>("FXAA",
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/FXAA.frag"))));
+
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Threshold", 
 		CreateRef<Shader>("Threshold", 
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/Threshold.vert"),

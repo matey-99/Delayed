@@ -17,6 +17,7 @@ class GBufferPass;
 class LightingPass;
 class ShadowsPass;
 class PostProcessingPass;
+class FXAAPass;
 class UniformBuffer;
 class Scene;
 class DirectionalLight;
@@ -30,20 +31,24 @@ public:
 	Ref<ShadowsPass> m_ShadowsPass;
 	Ref<LightingPass> m_LightingPass;
 	Ref<PostProcessingPass> m_PostProcessingPass;
+	Ref<FXAAPass> m_FXAAPass;
 
-	enum class RenderOutputType
+	struct RendererSettings
 	{
-		Normal, PostProcessing
+		bool PostProcessingEnabled;
+		bool FXAAEnabled;
 	};
 
 private:
 	Ref<UniformBuffer> m_CameraVertexUniformBuffer;
 	Ref<UniformBuffer> m_CameraFragmentUniformBuffer;
 
-	RenderOutputType m_RenderOutputType;
+	RendererSettings m_Settings;
 
 	uint32_t m_WindowWidth;
 	uint32_t m_WindowHeight;
+
+	uint32_t m_Output;
 
 public:
 	Renderer();

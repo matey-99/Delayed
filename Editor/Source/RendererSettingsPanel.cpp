@@ -12,6 +12,11 @@ void RendererSettingsPanel::Render()
 {
     ImGui::Begin("Renderer Settings");
 
+    ImGui::Checkbox("Post Processing Enabled", &m_Renderer->m_Settings.PostProcessingEnabled);
+    ImGui::Checkbox("FXAA Enabled", &m_Renderer->m_Settings.FXAAEnabled);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
     ImGui::Text("Post Processing");
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
