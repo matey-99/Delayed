@@ -15,6 +15,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <fmod.hpp>
+#include <fmod_errors.h>
 
 #include "typedefs.h"
 #include "Scene/Scene.h"
@@ -200,6 +202,21 @@ int main(int, char**)
     if (err)
     {
         fprintf(stderr, "Failed to initialize OpenGL loader!\n");
+        return 1;
+    }
+
+    FMOD::System* system = nullptr;
+    FMOD_RESULT result = FMOD::System_Create(&system);
+    if (result != FMOD_OK)
+    {
+        printf("FMOD error! (%d) $s\n", result, FMOD_ErrorString(result));
+        return 1;
+    }
+
+    result = system->init(512, FMOD_INIT_NORMAL, 0);
+    if (result != FMOD_OK)
+    {
+        printf("FMOD error! (%d) $s\n", result, FMOD_ErrorString(result));
         return 1;
     }
 
