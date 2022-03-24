@@ -26,6 +26,12 @@ target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
 target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE YAML_CPP_STATIC_DEFINE)
 target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE LIBRARY_SUFFIX="")
 
+#OTHER
+add_custom_command(TARGET ${EDITOR_PROJECT_NAME} POST_BUILD
+				   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				   		   ${FMOD_DLL}
+						   $<TARGET_FILE_DIR:${EDITOR_PROJECT_NAME}>)
+
 # Copy .exe to .. directory
 add_custom_command(TARGET ${EDITOR_PROJECT_NAME} POST_BUILD
 				   COMMAND ${CMAKE_COMMAND} -E copy_if_different

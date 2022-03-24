@@ -15,14 +15,13 @@
 #include "RenderPass/SSAOPass.h"
 #include "RenderPass/LightingPass.h"
 #include "RenderPass/PostProcessingPass.h"
+#include "RenderPass/FXAAPass.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
 Renderer::Renderer()
 {
-	m_RenderOutputType = RenderOutputType::PostProcessing;
-
 	m_WindowWidth = 1920;
 	m_WindowHeight = 1080;
 }
@@ -53,6 +52,9 @@ void Renderer::Initialize()
 	m_SSAOPass = CreateRef<SSAOPass>();
 	m_LightingPass = CreateRef<LightingPass>();
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
+	m_FXAAPass = CreateRef<FXAAPass>();
+
+	m_Output = 0;
 }
 
 void Renderer::Render(Ref<Scene> scene)
@@ -87,20 +89,26 @@ void Renderer::Render(Ref<Scene> scene)
 		
 	// Lighting
 	m_LightingPass->Render();
+	m_Output = m_LightingPass->GetRenderTarget()->GetTargets()[0];
 
 	// Post Processing
-	 m_PostProcessingPass->Render();
+	if (m_Settings.PostProcessingEnabled)
+	{
+		m_PostProcessingPass->Render();
+		m_Output = m_PostProcessingPass->GetMainRenderTarget()->GetTargets()[0];
+	}
+
+	// FXAA
+	if (m_Settings.FXAAEnabled)
+	{
+		m_FXAAPass->Render(m_Output);
+		m_Output = m_FXAAPass->GetRenderTarget()->GetTargets()[0];
+	}
 }
 
 uint32_t Renderer::GetOutput()
 {
-	switch (m_RenderOutputType)
-	{
-	case RenderOutputType::Normal:
-		return m_LightingPass->GetRenderTarget()->GetTargets()[0];
-	case RenderOutputType::PostProcessing:
-		return m_PostProcessingPass->GetMainRenderTarget()->GetTargets()[0];
-	}
+	return m_Output;
 }
 
 void Renderer::ResizeWindow(uint32_t width, uint32_t height)
@@ -117,6 +125,9 @@ void Renderer::ResizeWindow(uint32_t width, uint32_t height)
 	// Lighting
 	m_LightingPass->GetRenderTarget()->Update(width, height);
 
-	// POST PROCESSING
+	// Post Processing
 	m_PostProcessingPass->UpdateRenderTargets(width, height);
+
+	// FXAA
+	m_FXAAPass->UpdateRenderTarget(width, height);
 }
