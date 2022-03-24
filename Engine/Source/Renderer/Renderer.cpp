@@ -12,6 +12,7 @@
 #include "Camera/CameraManager.h"
 #include "RenderPass/GBufferPass.h"
 #include "RenderPass/ShadowsPass.h"
+#include "RenderPass/SSAOPass.h"
 #include "RenderPass/LightingPass.h"
 #include "RenderPass/PostProcessingPass.h"
 
@@ -49,6 +50,7 @@ void Renderer::Initialize()
 
 	m_GBufferPass = CreateRef<GBufferPass>();
 	m_ShadowsPass = CreateRef<ShadowsPass>();
+	m_SSAOPass = CreateRef<SSAOPass>();
 	m_LightingPass = CreateRef<LightingPass>();
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
 }
@@ -80,6 +82,9 @@ void Renderer::Render(Ref<Scene> scene)
 	// Shadows
 	m_ShadowsPass->Render(scene);
 
+	// SSAO
+	m_SSAOPass->Render();
+		
 	// Lighting
 	m_LightingPass->Render();
 
@@ -105,6 +110,9 @@ void Renderer::ResizeWindow(uint32_t width, uint32_t height)
 
 	// GBuffer
 	m_GBufferPass->GetRenderTarget()->Update(width, height);
+
+	// SSAO
+	m_SSAOPass->UpdateRenderTargets(width, height);
 
 	// Lighting
 	m_LightingPass->GetRenderTarget()->Update(width, height);

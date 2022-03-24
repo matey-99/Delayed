@@ -13,6 +13,7 @@ layout (location = 2) uniform sampler2D u_GBufferColorAO;
 layout (location = 3) uniform sampler2D u_GBufferEmissive;
 layout (location = 4) uniform sampler2D u_GBufferMetallicRoughness;
 layout (location = 5) uniform sampler2DArray u_DirectionalLightShadowMaps;
+layout (location = 6) uniform sampler2D u_SSAO;
 
 struct DirectionalLight
 {
@@ -241,6 +242,8 @@ void main()
     vec3 emissive = texture(u_GBufferEmissive, v_TexCoord).rgb;
     float metallic = texture(u_GBufferMetallicRoughness, v_TexCoord).r;
     float roughness = texture(u_GBufferMetallicRoughness, v_TexCoord).g;
+
+    ao = texture(u_SSAO, v_TexCoord).r;
 
     vec3 V = normalize(u_ViewPosition - position);
 

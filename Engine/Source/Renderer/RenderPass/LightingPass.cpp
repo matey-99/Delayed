@@ -2,6 +2,7 @@
 
 #include "GBufferPass.h"
 #include "ShadowsPass.h"
+#include "SSAOPass.h"
 #include "Renderer/RenderTools.h"
 
 LightingPass::LightingPass()
@@ -50,6 +51,11 @@ void LightingPass::Render()
 	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, s->GetDirectionalLightRenderTarget()->GetTargets()[0]);
 
+	auto ssao = Renderer::GetInstance()->m_SSAOPass;
+
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, ssao->GetFinalRenderTarget()->GetTargets()[0]);
+
 	auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, "Lighting");
 	shader->Use();
 	shader->SetInt("u_GBufferPosition", 0);
@@ -58,6 +64,7 @@ void LightingPass::Render()
 	shader->SetInt("u_GBufferEmissive", 3);
 	shader->SetInt("u_GBufferMetallicRoughness", 4);
 	shader->SetInt("u_DirectionalLightShadowMaps", 5);
+	shader->SetInt("u_SSAO", 6);
 
 	RenderTools::GetInstance()->RenderQuad();
 

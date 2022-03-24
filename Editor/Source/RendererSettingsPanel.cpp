@@ -1,6 +1,7 @@
 #include "RendererSettingsPanel.h"
 
 #include "Renderer/RenderPass/PostProcessingPass.h"
+#include "Renderer/RenderPass/SSAOPass.h"
 
 RendererSettingsPanel::RendererSettingsPanel(Ref<Editor> editor, Ref<Renderer> renderer)
     : m_Editor(editor), m_Renderer(renderer)
@@ -12,6 +13,22 @@ void RendererSettingsPanel::Render()
 {
     ImGui::Begin("Renderer Settings");
 
+<<<<<<< Updated upstream
+=======
+    ImGui::Checkbox("Post Processing Enabled", &m_Renderer->m_Settings.PostProcessingEnabled);
+    ImGui::Checkbox("FXAA Enabled", &m_Renderer->m_Settings.FXAAEnabled);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("SSAO");
+    ImGui::DragFloat("SSAO Intensity", &m_Renderer->m_SSAOPass->m_Settings.Intensity, 0.1f, 0.1f, 20.0f);
+    ImGui::DragInt("Kernel Size", &m_Renderer->m_SSAOPass->m_Settings.KernelSize, 1, 2, 256);
+    ImGui::DragFloat("Radius", &m_Renderer->m_SSAOPass->m_Settings.Radius, 0.1f, 0.1f, 20.0f);
+    ImGui::DragFloat("Bias", &m_Renderer->m_SSAOPass->m_Settings.Bias, 0.001f, 0.0f, 1.0f);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+>>>>>>> Stashed changes
     ImGui::Text("Post Processing");
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
@@ -19,7 +36,7 @@ void RendererSettingsPanel::Render()
     ImGui::Checkbox("Enabled", &m_Renderer->m_PostProcessingPass->m_Settings.BloomEnabled);
     ImGui::DragFloat("Threshold", &m_Renderer->m_PostProcessingPass->m_Settings.BloomThreshold, 0.1f, 0.1f, 20.0f);
     ImGui::DragFloat("Limit", &m_Renderer->m_PostProcessingPass->m_Settings.BloomLimit, 1.0f, 1.0f, 100.0f);
-    ImGui::DragFloat("Intensity", &m_Renderer->m_PostProcessingPass->m_Settings.BloomIntensity, 0.1f, 0.1f, 20.0f);
+    ImGui::DragFloat("Bloom Intensity", &m_Renderer->m_PostProcessingPass->m_Settings.BloomIntensity, 0.1f, 0.1f, 20.0f);
     ImGui::DragFloat("Blur Sigma", &m_Renderer->m_PostProcessingPass->m_Settings.BloomBlurSigma, 0.1f, 0.1f, 20.0f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 

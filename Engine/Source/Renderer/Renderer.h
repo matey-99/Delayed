@@ -16,6 +16,7 @@
 class GBufferPass;
 class LightingPass;
 class ShadowsPass;
+class SSAOPass;
 class PostProcessingPass;
 class UniformBuffer;
 class Scene;
@@ -28,6 +29,7 @@ class Renderer : public Singleton<Renderer>
 public:
 	Ref<GBufferPass> m_GBufferPass;
 	Ref<ShadowsPass> m_ShadowsPass;
+	Ref<SSAOPass> m_SSAOPass;
 	Ref<LightingPass> m_LightingPass;
 	Ref<PostProcessingPass> m_PostProcessingPass;
 

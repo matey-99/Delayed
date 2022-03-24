@@ -69,6 +69,11 @@ glm::vec3 EditorCamera::GetWorldPosition()
 	return Position;
 }
 
+glm::vec3 EditorCamera::GetDirection()
+{
+	return Front;
+}
+
 glm::vec2 EditorCamera::GetAspectRatio()
 {
 	return AspectRactio;

@@ -14,6 +14,8 @@ namespace Math
 	/// <returns>Trasformed vector</returns>
 	glm::vec3 Transform(const glm::vec3& v, const glm::quat& q);
 
+	float Lerp(float a, float b, float alpha);
+
 	const glm::vec3 Forward = { 0.0f, 0.0f, 1.0f };
 }
 

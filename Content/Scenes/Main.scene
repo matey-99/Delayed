@@ -95,7 +95,7 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [1.25076604, 4.39159727, -1.30138278]
-          LocalRotation: [146.655029, -74.2121811, -128.579346]
+          LocalRotation: [158.488174, -37.8358192, -98.6894531]
           LocalScale: [1, 1, 1]
           Parent: 0
       - DirectionalLight:
@@ -901,6 +901,34 @@ Actors:
           Parent: 0
       - StaticMesh:
           Mesh: Models/Wine_MIDDLE.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 648239786
+    ID: 648239786
+    Name: New Actor (4)
+    Components:
+      - Transform:
+          LocalPosition: [6.109972, 2.99672294, 18.8398972]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [9.10932064, 9.10932064, 9.10932064]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 318508058
+    ID: 318508058
+    Name: New Actor (4)
+    Components:
+      - Transform:
+          LocalPosition: [-2.89566016, 2.99672294, 27.8993759]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [9.10932064, 9.10932064, 9.10932064]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
               Path: Materials/Default.mat

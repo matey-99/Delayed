@@ -41,6 +41,7 @@ public:
 	void Rotate(float yaw, float pitch, float deltaTime);
 
 	virtual glm::vec3 GetWorldPosition() override;
+	virtual glm::vec3 GetDirection() override;
 
 	virtual glm::vec2 GetAspectRatio() override;
 	virtual float GetFieldOfView() override;

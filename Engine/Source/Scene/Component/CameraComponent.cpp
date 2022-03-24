@@ -35,6 +35,11 @@ glm::vec3 CameraComponent::GetWorldPosition()
 	return m_Owner->GetTransform()->GetWorldPosition();
 }
 
+glm::vec3 CameraComponent::GetDirection()
+{
+	return m_Front;
+}
+
 glm::vec2 CameraComponent::GetAspectRatio()
 {
 	return m_AspectRatio;

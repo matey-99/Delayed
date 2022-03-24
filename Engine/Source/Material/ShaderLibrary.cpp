@@ -34,6 +34,16 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/Screen.vert"),
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/Screen.frag"))));
 
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("SSAO",
+		CreateRef<Shader>("SSAO",
+			ContentHelper::GetAssetPath("Shaders/SSAO.vert"),
+			ContentHelper::GetAssetPath("Shaders/SSAO.frag"))));
+
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("SSAOBlur",
+		CreateRef<Shader>("SSAOBlur",
+			ContentHelper::GetAssetPath("Shaders/SSAO.vert"),
+			ContentHelper::GetAssetPath("Shaders/SSAOBlur.frag"))));
+
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("PostProcessing", 
 		CreateRef<Shader>("PostProcessing", 
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
