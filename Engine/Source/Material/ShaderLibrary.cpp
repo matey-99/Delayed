@@ -54,6 +54,16 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/FXAA.frag"))));
 
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Blur",
+		CreateRef<Shader>("Blur",
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
+			ContentHelper::GetAssetPath("Shaders/Blur.frag"))));
+
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthOfField",
+		CreateRef<Shader>("DepthOfField",
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
+			ContentHelper::GetAssetPath("Shaders/DepthOfField.frag"))));
+
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Threshold", 
 		CreateRef<Shader>("Threshold", 
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/Threshold.vert"),

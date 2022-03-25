@@ -2,6 +2,7 @@
 
 #include "Renderer/RenderPass/PostProcessingPass.h"
 #include "Renderer/RenderPass/SSAOPass.h"
+#include "Renderer/RenderPass/DepthOfFieldPass.h"
 
 RendererSettingsPanel::RendererSettingsPanel(Ref<Editor> editor, Ref<Renderer> renderer)
     : m_Editor(editor), m_Renderer(renderer)
@@ -15,6 +16,7 @@ void RendererSettingsPanel::Render()
 
     ImGui::Checkbox("Post Processing Enabled", &m_Renderer->m_Settings.PostProcessingEnabled);
     ImGui::Checkbox("FXAA Enabled", &m_Renderer->m_Settings.FXAAEnabled);
+    ImGui::Checkbox("Depth Of Field Enabled", &m_Renderer->m_Settings.DepthOfFieldEnabled);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
@@ -27,8 +29,6 @@ void RendererSettingsPanel::Render()
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("Post Processing");
-    ImGui::Dummy(ImVec2(0.0f, 10.0f));
-
     ImGui::Text("Bloom");
     ImGui::Checkbox("Enabled", &m_Renderer->m_PostProcessingPass->m_Settings.BloomEnabled);
     ImGui::DragFloat("Threshold", &m_Renderer->m_PostProcessingPass->m_Settings.BloomThreshold, 0.1f, 0.1f, 20.0f);
@@ -37,6 +37,13 @@ void RendererSettingsPanel::Render()
     ImGui::DragFloat("Blur Sigma", &m_Renderer->m_PostProcessingPass->m_Settings.BloomBlurSigma, 0.1f, 0.1f, 20.0f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
+    ImGui::Text("Depth Of Field");
+    ImGui::DragFloat("Min Distance", &m_Renderer->m_DepthOfFieldPass->m_Settings.MinDistance, 0.1f, 0.1f, 20.0f);
+    ImGui::DragFloat("Max Distance", &m_Renderer->m_DepthOfFieldPass->m_Settings.MaxDistance, 0.1f, 0.1f, 100.0f);
+    ImGui::DragInt("Blur Size", &m_Renderer->m_DepthOfFieldPass->m_Settings.Size, 1, 1, 4);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("General");
     ImGui::DragFloat("Gamma", &m_Renderer->m_PostProcessingPass->m_Settings.Gamma, 0.1f, 0.0f, 10.0f);
     ImGui::DragFloat("Exposure", &m_Renderer->m_PostProcessingPass->m_Settings.Exposure, 0.1f, 0.0f, 10.0f);
 

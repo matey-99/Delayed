@@ -19,6 +19,7 @@ class ShadowsPass;
 class SSAOPass;
 class PostProcessingPass;
 class FXAAPass;
+class DepthOfFieldPass;
 class UniformBuffer;
 class Scene;
 class DirectionalLight;
@@ -34,11 +35,13 @@ public:
 	Ref<LightingPass> m_LightingPass;
 	Ref<PostProcessingPass> m_PostProcessingPass;
 	Ref<FXAAPass> m_FXAAPass;
+	Ref<DepthOfFieldPass> m_DepthOfFieldPass;
 
 	struct RendererSettings
 	{
-		bool PostProcessingEnabled;
-		bool FXAAEnabled;
+		bool PostProcessingEnabled = true;
+		bool FXAAEnabled = true;
+		bool DepthOfFieldEnabled = true;
 	};
 
 private:

@@ -16,6 +16,7 @@
 #include "RenderPass/LightingPass.h"
 #include "RenderPass/PostProcessingPass.h"
 #include "RenderPass/FXAAPass.h"
+#include "RenderPass/DepthOfFieldPass.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -53,6 +54,7 @@ void Renderer::Initialize()
 	m_LightingPass = CreateRef<LightingPass>();
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
 	m_FXAAPass = CreateRef<FXAAPass>();
+	m_DepthOfFieldPass = CreateRef<DepthOfFieldPass>();
 
 	m_Output = 0;
 }
@@ -103,6 +105,13 @@ void Renderer::Render(Ref<Scene> scene)
 	{
 		m_FXAAPass->Render(m_Output);
 		m_Output = m_FXAAPass->GetRenderTarget()->GetTargets()[0];
+	}
+
+	// Depth Of Field
+	if (m_Settings.DepthOfFieldEnabled)
+	{
+		m_DepthOfFieldPass->Render(m_Output);
+		m_Output = m_DepthOfFieldPass->GetFinalRenderTarget()->GetTargets()[0];
 	}
 }
 
