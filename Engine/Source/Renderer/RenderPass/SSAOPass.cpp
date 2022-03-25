@@ -69,7 +69,7 @@ void SSAOPass::Render()
 	auto g = Renderer::GetInstance()->m_GBufferPass;
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, g->GetRenderTarget()->GetTargets()[0]);
+	glBindTexture(GL_TEXTURE_2D, g->GetRenderTarget()->GetTargets()[5]);
 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, g->GetRenderTarget()->GetTargets()[1]);
@@ -79,7 +79,7 @@ void SSAOPass::Render()
 
 	auto ssaoShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "SSAO");
 	ssaoShader->Use();
-	ssaoShader->SetInt("u_GBufferPosition", 0);
+	ssaoShader->SetInt("u_GBufferViewPosition", 0);
 	ssaoShader->SetInt("u_GBufferNormal", 1);
 	ssaoShader->SetInt("u_NoiseTexture", 2);
 	ssaoShader->SetInt("u_KernelSize", m_Settings.KernelSize);

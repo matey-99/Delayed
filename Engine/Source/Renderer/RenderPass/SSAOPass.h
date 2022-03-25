@@ -7,10 +7,10 @@ class SSAOPass
 private:
 	struct SSAOSettings
 	{
-		float Intensity = 1.0f;
+		float Intensity = 1.5f;
 		int KernelSize = 64;
 		float Radius = 0.5f;
-		float Bias = 0.025f;
+		float Bias = 0.45f;
 	};
 
 public:

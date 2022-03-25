@@ -4,7 +4,7 @@ layout (location = 0) out float f_Color;
 
 layout (location = 0) in vec2 v_TexCoord;
 
-layout (location = 0) uniform sampler2D u_GBufferPosition;
+layout (location = 0) uniform sampler2D u_GBufferViewPosition;
 layout (location = 1) uniform sampler2D u_GBufferNormal;
 layout (location = 2) uniform sampler2D u_NoiseTexture;
 layout (location = 3) uniform vec2 u_ScreenSize;
@@ -25,7 +25,7 @@ void main()
 {    
     const vec2 noiseScale = vec2(u_ScreenSize.x / 4.0, u_ScreenSize.y / 4.0);
 
-    vec3 position = texture(u_GBufferPosition, v_TexCoord).rgb;
+    vec3 position = texture(u_GBufferViewPosition, v_TexCoord).rgb;
     vec3 normal = normalize(texture(u_GBufferNormal, v_TexCoord).rgb);
     vec3 random = normalize(texture(u_NoiseTexture, v_TexCoord * noiseScale).rgb);
 
@@ -44,7 +44,7 @@ void main()
         offset.xyz /= offset.w;
         offset.xyz = offset.xyz * 0.5 + 0.5;
 
-        float sampleDepth = texture(u_GBufferPosition, offset.xy).z;
+        float sampleDepth = texture(u_GBufferViewPosition, offset.xy).z;
         float rangeCheck = smoothstep(0.0, 1.0, u_Radius / abs(position.z - sampleDepth));
 
         occlusion += (sampleDepth >= samplePos.z + u_Bias ? 1.0 : 0.0) * rangeCheck;

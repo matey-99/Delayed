@@ -5,10 +5,12 @@ layout (location = 1) out vec4 f_Normal;
 layout (location = 2) out vec4 f_ColorAO;
 layout (location = 3) out vec4 f_Emissive;
 layout (location = 4) out vec4 f_MetallicRoughness;
+layout (location = 5) out vec4 f_ViewSpacePosition;
 
 layout (location = 0) in vec3 v_Position;
 layout (location = 1) in vec3 v_Normal;
 layout (location = 2) in vec2 v_TexCoord;
+layout (location = 3) in vec4 v_ViewPosition;
 
 struct Material
 {
@@ -115,4 +117,6 @@ void main()
     f_Emissive = vec4(emissive * u_Material.emissiveStrength, 1.0);
 
     f_MetallicRoughness = vec4(metallic, roughness, 0.0, 1.0);
+
+    f_ViewSpacePosition = v_ViewPosition;
 }

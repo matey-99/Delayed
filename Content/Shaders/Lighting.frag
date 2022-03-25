@@ -238,12 +238,10 @@ void main()
     vec3 position = texture(u_GBufferPosition, v_TexCoord).rgb;
     vec3 normal = texture(u_GBufferNormal, v_TexCoord).rgb;
     vec3 color = texture(u_GBufferColorAO, v_TexCoord).rgb;
-    float ao = texture(u_GBufferColorAO, v_TexCoord).a;
+    float ao = texture(u_GBufferColorAO, v_TexCoord).a * texture(u_SSAO, v_TexCoord).r; // EXPERIMENTAL
     vec3 emissive = texture(u_GBufferEmissive, v_TexCoord).rgb;
     float metallic = texture(u_GBufferMetallicRoughness, v_TexCoord).r;
     float roughness = texture(u_GBufferMetallicRoughness, v_TexCoord).g;
-
-    ao = texture(u_SSAO, v_TexCoord).r;
 
     vec3 V = normalize(u_ViewPosition - position);
 
