@@ -10,7 +10,7 @@
 
 enum class ShaderType
 {
-	Material, PostProcessing, Skybox, Calculations, Particle
+	Material, PostProcessing, Skybox, Calculations, Particle, UI
 };
 
 class ShaderLibrary
@@ -39,6 +39,7 @@ private:
 	std::unordered_map<std::string, Ref<Shader>> m_SkyboxShaders;
 	std::unordered_map<std::string, Ref<Shader>> m_CalculationShaders;
 	std::unordered_map<std::string, Ref<Shader>> m_ParticleShaders;
+	std::unordered_map<std::string, Ref<Shader>> m_UIShaders;
 
 	std::unordered_map<std::string, Ref<ComputeShader>> m_ComputeShaders;
 };

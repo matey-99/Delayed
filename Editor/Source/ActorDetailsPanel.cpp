@@ -11,6 +11,7 @@
 #include "Scene/Component/Light/SkyLight.h"
 #include "Scene/Component/ParticleSystemComponent.h"
 #include "Scene/Component/PlayerComponent.h"
+#include "Scene/Component/UI/ImageComponent.h"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -282,6 +283,23 @@ void ActorDetailsPanel::Render()
         ImGui::Text("Player");
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
+    if (auto image = m_Actor->GetComponent<ImageComponent>())
+    {
+        ImGui::Text("Image");
+
+        std::string path = image->m_Image->GetPath();
+        std::string name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Image", name.c_str()))
+        {
+            std::vector<std::string> extensions = std::vector<std::string>();
+            extensions.push_back("png");
+            DisplayResources(extensions);
+
+            ImGui::EndCombo();
+        }
+        ImGui::ColorEdit4("Image Color", glm::value_ptr(image->m_Color));
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
 
     bool addComponent = false;
     bool staticMesh = false;
@@ -293,6 +311,7 @@ void ActorDetailsPanel::Render()
     bool particleSystem = false;
     bool player = false;
     bool camera = false;
+    bool image = false;
     if (ImGui::BeginPopupContextWindow())
     {
         if (ImGui::BeginMenu("Add Component"))
@@ -311,6 +330,12 @@ void ActorDetailsPanel::Render()
             ImGui::MenuItem("Particle System", "", &particleSystem);
             ImGui::MenuItem("Player", "", &player);
             ImGui::MenuItem("Camera", "", &camera);
+            if (ImGui::BeginMenu("UI"))
+            {
+                ImGui::MenuItem("Image", "", &image);
+
+                ImGui::EndMenu();
+            }
 
             ImGui::EndMenu();
         }
@@ -336,6 +361,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<PlayerComponent>();
     if (camera)
         m_Actor->AddComponent<CameraComponent>();
+    if (image)
+        m_Actor->AddComponent<ImageComponent>();
 
     if (ImGui::Button("Close"))
     {

@@ -150,6 +150,12 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/Particle/StandardParticle.vert"),
 			ContentHelper::GetAssetPath("Shaders/Particle/StandardParticle.frag"))));
 
+	// UI SHADERS
+	m_UIShaders.insert(std::make_pair<std::string, Ref<Shader>>("UI",
+		CreateRef<Shader>("UI",
+			ContentHelper::GetAssetPath("Shaders/UI/UI.vert"),
+			ContentHelper::GetAssetPath("Shaders/UI/UI.frag"))));
+
 	// COMPUTE SHADERS
 	m_ComputeShaders.insert(std::make_pair<std::string, Ref<ComputeShader>>("StandardParticle",
 		CreateRef<ComputeShader>(ContentHelper::GetAssetPath("Shaders/Particle/StandardParticle.comp"))));
@@ -178,6 +184,8 @@ Ref<Shader> ShaderLibrary::GetShader(ShaderType type, std::string name)
 		return m_CalculationShaders.find(name)->second;
 	case ShaderType::Particle:
 		return m_ParticleShaders.find(name)->second;
+	case ShaderType::UI:
+		return m_UIShaders.find(name)->second;
 	}
 
 	return Ref<Shader>();

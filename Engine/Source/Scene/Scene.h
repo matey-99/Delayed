@@ -64,9 +64,9 @@ public:
 	}
 
 	template<typename T>
-	std::vector<Ref<Component>> GetComponents()
+	std::vector<Ref<T>> GetComponents()
 	{
-		std::vector<Ref<Component>> components;
+		std::vector<Ref<T>> components;
 		for (auto actor : m_Actors)
 		{
 			if (auto c = actor->GetComponent<T>())

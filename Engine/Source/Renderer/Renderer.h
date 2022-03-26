@@ -20,6 +20,7 @@ class SSAOPass;
 class PostProcessingPass;
 class FXAAPass;
 class DepthOfFieldPass;
+class UIPass;
 class UniformBuffer;
 class Scene;
 class DirectionalLight;
@@ -36,6 +37,7 @@ public:
 	Ref<PostProcessingPass> m_PostProcessingPass;
 	Ref<FXAAPass> m_FXAAPass;
 	Ref<DepthOfFieldPass> m_DepthOfFieldPass;
+	Ref<UIPass> m_UIPass;
 
 	struct RendererSettings
 	{

@@ -17,6 +17,7 @@
 #include "RenderPass/PostProcessingPass.h"
 #include "RenderPass/FXAAPass.h"
 #include "RenderPass/DepthOfFieldPass.h"
+#include "RenderPass/UIPass.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -55,6 +56,7 @@ void Renderer::Initialize()
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
 	m_FXAAPass = CreateRef<FXAAPass>();
 	m_DepthOfFieldPass = CreateRef<DepthOfFieldPass>();
+	m_UIPass = CreateRef<UIPass>();
 
 	m_Output = 0;
 }
@@ -113,6 +115,10 @@ void Renderer::Render(Ref<Scene> scene)
 		m_DepthOfFieldPass->Render(m_Output);
 		m_Output = m_DepthOfFieldPass->GetFinalRenderTarget()->GetTargets()[0];
 	}
+
+	// UI
+	m_UIPass->Render(scene, m_Output);
+	m_Output = m_UIPass->GetRenderTarget()->GetTargets()[0];
 }
 
 uint32_t Renderer::GetOutput()
@@ -139,4 +145,10 @@ void Renderer::ResizeWindow(uint32_t width, uint32_t height)
 
 	// FXAA
 	m_FXAAPass->UpdateRenderTarget(width, height);
+
+	// Depth Of Field
+	m_DepthOfFieldPass->UpdateRenderTargets(width, height);
+
+	// UI
+	m_UIPass->UpdateRenderTargets(width, height);
 }
