@@ -35,9 +35,11 @@ void SceneHierarchyPanel::Render()
 	}
 
 	bool addActor = false;
+	bool addUIActor = false;
 	if (ImGui::BeginPopupContextWindow())
 	{
 		ImGui::MenuItem("Add Actor", "", &addActor);
+		ImGui::MenuItem("Add UI Actor", "", &addUIActor);
 
 		ImGui::EndPopup();
 	}
@@ -62,6 +64,28 @@ void SceneHierarchyPanel::Render()
 		}
 
 		m_Scene->AddActor(actorName);
+	}
+
+	if (addUIActor)
+	{
+		std::string actorName = "New UI Actor";
+		bool unique = false;
+		int nr = 1;
+		while (!unique)
+		{
+			unique = true;
+			for (auto actor : m_Scene->GetActors())
+			{
+				if (actor->GetName() == actorName)
+				{
+					actorName = "New UI Actor (" + std::to_string(nr) + ")";
+					nr++;
+					unique = false;
+				}
+			}
+		}
+
+		m_Scene->AddUIActor(actorName);
 	}
 
 	ImGui::End();

@@ -146,7 +146,7 @@ int main(int, char**)
                 renderer->ResizeWindow(width, height);
             }
 
-            renderer->Render(scene);
+            renderer->Render(scene, cameraManager->GetMainCamera());
 
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);

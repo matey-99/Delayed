@@ -82,6 +82,43 @@ void ActorDetailsPanel::Render()
     if (auto transform = m_Actor->GetComponent<RectTransformComponent>())
     {
         ImGui::Text("Rect Transform");
+
+        const char* anchorName = "";
+        switch (transform->GetAnchorType())
+        {
+        case AnchorType::Center:
+            anchorName = "Center";
+            break;
+        case AnchorType::Top:
+            anchorName = "Top";
+            break;
+        case AnchorType::Bottom:
+            anchorName = "Bottom";
+            break;
+        case AnchorType::Left:
+            anchorName = "Left";
+            break;
+        case AnchorType::Right:
+            anchorName = "Right";
+            break;
+        }
+
+        if (ImGui::BeginCombo("Anchor", anchorName))
+        {
+            if (ImGui::Selectable("Center"))
+                transform->SetAnchor(AnchorType::Center);
+            if (ImGui::Selectable("Top"))
+                transform->SetAnchor(AnchorType::Top);
+            if (ImGui::Selectable("Bottom"))
+                transform->SetAnchor(AnchorType::Bottom);
+            if (ImGui::Selectable("Left"))
+                transform->SetAnchor(AnchorType::Left);
+            if (ImGui::Selectable("Right"))
+                transform->SetAnchor(AnchorType::Right);
+
+            ImGui::EndCombo();
+        }
+
         int pos[3];
         pos[0] = transform->GetLocalPosition().x;
         pos[1] = transform->GetLocalPosition().y;
@@ -360,36 +397,54 @@ void ActorDetailsPanel::Render()
     bool player = false;
     bool camera = false;
     bool image = false;
-    if (ImGui::BeginPopupContextWindow())
+
+    if (m_Actor->GetComponent<TransformComponent>())
     {
-        if (ImGui::BeginMenu("Add Component"))
+        if (ImGui::BeginPopupContextWindow())
         {
-            ImGui::MenuItem("Static Mesh", "", &staticMesh);
-            ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
-            if (ImGui::BeginMenu("Light"))
+            if (ImGui::BeginMenu("Add Component"))
             {
-                ImGui::MenuItem("Directional Light", "", &dirLight);
-                ImGui::MenuItem("Point Light", "", &pointLight);
-                ImGui::MenuItem("Spot Light", "", &spotLight);
-                ImGui::MenuItem("Sky Light", "", &skyLight);
+                ImGui::MenuItem("Static Mesh", "", &staticMesh);
+                ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
+                if (ImGui::BeginMenu("Light"))
+                {
+                    ImGui::MenuItem("Directional Light", "", &dirLight);
+                    ImGui::MenuItem("Point Light", "", &pointLight);
+                    ImGui::MenuItem("Spot Light", "", &spotLight);
+                    ImGui::MenuItem("Sky Light", "", &skyLight);
+
+                    ImGui::EndMenu();
+                }
+                ImGui::MenuItem("Particle System", "", &particleSystem);
+                ImGui::MenuItem("Player", "", &player);
+                ImGui::MenuItem("Camera", "", &camera);
 
                 ImGui::EndMenu();
             }
-            ImGui::MenuItem("Particle System", "", &particleSystem);
-            ImGui::MenuItem("Player", "", &player);
-            ImGui::MenuItem("Camera", "", &camera);
-            if (ImGui::BeginMenu("UI"))
-            {
-                ImGui::MenuItem("Image", "", &image);
 
+            ImGui::EndPopup();
+        }
+    }
+    else if (m_Actor->GetComponent<RectTransformComponent>())
+    {
+        if (ImGui::BeginPopupContextWindow())
+        {
+            if (ImGui::BeginMenu("Add Component"))
+            {
+                if (ImGui::BeginMenu("UI"))
+                {
+                    ImGui::MenuItem("Image", "", &image);
+
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMenu();
             }
 
-            ImGui::EndMenu();
+            ImGui::EndPopup();
         }
 
-        ImGui::EndPopup();
     }
+    
 
     if (staticMesh)
         m_Actor->AddComponent<StaticMeshComponent>();

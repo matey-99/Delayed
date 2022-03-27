@@ -94,25 +94,17 @@ void Editor::Render()
 
 	m_ContentBrowserPanel->Render();
 
-	//if (Renderer::GetInstance()->IsPostProcessing())
-	//	m_Viewport->Render(Renderer::GetInstance()->GetPostProcessingFramebuffer());
-	//else
-	//	m_Viewport->Render(Renderer::GetInstance()->GetMainSceneFramebuffer());
-
 	m_Viewport->Render();
 
-	//if (m_IsCameraComponentViewport)
-	//{
-	//	if (Renderer::GetInstance()->IsPostProcessing())
-	//		m_CameraComponentViewport->Render(Renderer::GetInstance()->GetPostProcessingFramebuffer(), m_SelectedCameraComponent);
-	//	else
-	//		m_CameraComponentViewport->Render(Renderer::GetInstance()->GetMainSceneFramebuffer(), m_SelectedCameraComponent);
-	//}
+	if (m_IsCameraComponentViewport)
+		m_CameraComponentViewport->Render(m_SelectedCameraComponent);
+
 }
 
 void Editor::RenderScene()
 {
-	Renderer::GetInstance()->Render(m_Scene);
+	auto camera = CameraManager::GetInstance()->GetMainCamera();
+	Renderer::GetInstance()->Render(m_Scene, camera);
 }
 
 void Editor::ShowDetails(Ref<Actor> actor)

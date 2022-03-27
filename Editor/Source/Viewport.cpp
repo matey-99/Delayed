@@ -13,6 +13,7 @@
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/SpotLight.h"
 #include "Renderer/RenderTools.h"
+#include "Scene/Component/UI/RectTransformComponent.h"
 
 Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
 	: m_Editor(editor), m_Scene(scene)
@@ -65,7 +66,6 @@ void Viewport::Render()
     Ref<Actor> selectedActor = m_Editor->GetSceneHierarchyPanel()->GetSelectedActor();
     if (selectedActor)
     {
-        ImGuizmo::SetOrthographic(false);
         ImGuizmo::SetDrawlist();
         ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
 
@@ -73,29 +73,68 @@ void Viewport::Render()
 
         auto transform = selectedActor->GetTransform();
 
-        glm::mat4 view = camera->GetViewMatrix();
-        glm::mat4 projection = camera->GetProjectionMatrix();
         glm::mat4 model = transform->GetWorldModelMatrix();
 
-        ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(projection),
-            m_Editor->GetGizmoOperation(), ImGuizmo::LOCAL, glm::value_ptr(model));
-
-        if (ImGuizmo::IsUsing())
+        if (selectedActor->GetComponent<TransformComponent>())
         {
-            glm::vec3 position, rotation, scale;
-            Math::DecomposeMatrix(model, position, rotation, scale);
+            glm::mat4 view = camera->GetViewMatrix();
+            glm::mat4 projection = camera->GetProjectionMatrix();
 
-            switch (m_Editor->GetGizmoOperation())
+            ImGuizmo::SetOrthographic(false);
+
+            ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(projection),
+                m_Editor->GetGizmoOperation(), ImGuizmo::LOCAL, glm::value_ptr(model));
+
+            if (ImGuizmo::IsUsing())
             {
-            case ImGuizmo::OPERATION::TRANSLATE:
-                selectedActor->GetTransform()->SetWorldPosition(position);
-                break;
-            case ImGuizmo::OPERATION::ROTATE:
-                selectedActor->GetTransform()->SetLocalRotation(glm::degrees(rotation));
-                break;
-            case ImGuizmo::OPERATION::SCALE:
-                selectedActor->GetTransform()->SetLocalScale(scale);
-                break;
+                glm::vec3 position, rotation, scale;
+                Math::DecomposeMatrix(model, position, rotation, scale);
+
+                switch (m_Editor->GetGizmoOperation())
+                {
+                case ImGuizmo::OPERATION::TRANSLATE:
+                    selectedActor->GetTransform()->SetWorldPosition(position);
+                    break;
+                case ImGuizmo::OPERATION::ROTATE:
+                    selectedActor->GetTransform()->SetLocalRotation(glm::degrees(rotation));
+                    break;
+                case ImGuizmo::OPERATION::SCALE:
+                    selectedActor->GetTransform()->SetLocalScale(scale);
+                    break;
+                }
+            }
+        }
+        else if (auto rect = selectedActor->GetComponent<RectTransformComponent>())
+        {
+            glm::mat4 projection(1.0f);
+            glm::mat4 view(1.0f);
+
+            ImGuizmo::SetOrthographic(true);
+
+            ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(projection),
+                m_Editor->GetGizmoOperation(), ImGuizmo::LOCAL, glm::value_ptr(model));
+
+            if (ImGuizmo::IsUsing())
+            {
+                glm::vec3 position, rotation, scale;
+                Math::DecomposeMatrix(model, position, rotation, scale);
+
+                auto r = Renderer::GetInstance();
+                position.x *= r->GetWindowWidth() + rect->GetAnchor().x * r->GetWindowWidth();
+                position.y *= r->GetWindowHeight() + rect->GetAnchor().y * r->GetWindowHeight();
+
+                switch (m_Editor->GetGizmoOperation())
+                {
+                case ImGuizmo::OPERATION::TRANSLATE:
+                    selectedActor->GetTransform()->SetWorldPosition(position);
+                    break;
+                case ImGuizmo::OPERATION::ROTATE:
+                    selectedActor->GetTransform()->SetLocalRotation(glm::degrees(rotation));
+                    break;
+                case ImGuizmo::OPERATION::SCALE:
+                    selectedActor->GetTransform()->SetLocalScale(scale);
+                    break;
+                }
             }
         }
     }

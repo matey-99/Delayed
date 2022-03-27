@@ -58,16 +58,14 @@ void Renderer::Initialize()
 	m_DepthOfFieldPass = CreateRef<DepthOfFieldPass>();
 	m_UIPass = CreateRef<UIPass>();
 
-	m_Output = 0;
+	m_Output[0] = 0;
+	m_Output[1] = 0;
 }
 
-void Renderer::Render(Ref<Scene> scene)
+void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex)
 {
 	// Pre-Render
 	scene->PreRender();
-
-	// Camera
-	auto camera = CameraManager::GetInstance()->GetMainCamera();
 
 	m_CameraVertexUniformBuffer->Bind();
 	m_CameraVertexUniformBuffer->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(camera->GetViewProjectionMatrix()));
@@ -93,37 +91,37 @@ void Renderer::Render(Ref<Scene> scene)
 		
 	// Lighting
 	m_LightingPass->Render();
-	m_Output = m_LightingPass->GetRenderTarget()->GetTargets()[0];
+	m_Output[outputIndex] = m_LightingPass->GetRenderTarget()->GetTargets()[0];
 
 	// Post Processing
 	if (m_Settings.PostProcessingEnabled)
 	{
 		m_PostProcessingPass->Render();
-		m_Output = m_PostProcessingPass->GetMainRenderTarget()->GetTargets()[0];
+		m_Output[outputIndex] = m_PostProcessingPass->GetMainRenderTarget()->GetTargets()[0];
 	}
 
 	// FXAA
 	if (m_Settings.FXAAEnabled)
 	{
-		m_FXAAPass->Render(m_Output);
-		m_Output = m_FXAAPass->GetRenderTarget()->GetTargets()[0];
+		m_FXAAPass->Render(m_Output[outputIndex]);
+		m_Output[outputIndex] = m_FXAAPass->GetRenderTarget()->GetTargets()[0];
 	}
 
 	// Depth Of Field
 	if (m_Settings.DepthOfFieldEnabled)
 	{
-		m_DepthOfFieldPass->Render(m_Output);
-		m_Output = m_DepthOfFieldPass->GetFinalRenderTarget()->GetTargets()[0];
+		m_DepthOfFieldPass->Render(m_Output[outputIndex]);
+		m_Output[outputIndex] = m_DepthOfFieldPass->GetFinalRenderTarget()->GetTargets()[0];
 	}
 
 	// UI
-	m_UIPass->Render(scene, m_Output);
-	m_Output = m_UIPass->GetRenderTarget()->GetTargets()[0];
+	m_UIPass->Render(scene, m_Output[outputIndex]);
+	m_Output[outputIndex] = m_UIPass->GetRenderTarget()->GetTargets()[0];
 }
 
-uint32_t Renderer::GetOutput()
+uint32_t Renderer::GetOutput(uint32_t index)
 {
-	return m_Output;
+	return m_Output[index];
 }
 
 void Renderer::ResizeWindow(uint32_t width, uint32_t height)

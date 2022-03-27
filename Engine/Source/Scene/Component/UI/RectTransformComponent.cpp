@@ -12,7 +12,36 @@ RectTransformComponent::RectTransformComponent(Actor* owner)
 {
 	auto r = Renderer::GetInstance();
 
-	m_LocalPosition = glm::vec3(0.0f + (r->GetWindowWidth() / 2), 0.0f + (r->GetWindowHeight() / 2), 0.0f);
+	m_LocalPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+
+	m_AnchorType = AnchorType::Center;
+	m_Anchor = glm::vec2(0.0f);
+}
+
+void RectTransformComponent::SetAnchor(AnchorType type)
+{
+	m_AnchorType = type;
+
+	switch (type)
+	{
+	case AnchorType::Center:
+		m_Anchor = glm::vec2(0.0f);
+		break;
+	case AnchorType::Top:
+		m_Anchor = glm::vec2(0.0f, 1.0f);
+		break;
+	case AnchorType::Bottom:
+		m_Anchor = glm::vec2(0.0f, -1.0f);
+		break;
+	case AnchorType::Left:
+		m_Anchor = glm::vec2(-1.0f, 0.0f);
+		break;
+	case AnchorType::Right:
+		m_Anchor = glm::vec2(1.0f, 0.0f);
+		break;
+	}
+
+	CalculateWorldModelMatrix();
 }
 
 void RectTransformComponent::CalculateLocalModelMatrix()
@@ -20,8 +49,11 @@ void RectTransformComponent::CalculateLocalModelMatrix()
 	auto r = Renderer::GetInstance();
 
 	glm::vec3 position = m_LocalPosition;
-	position.x -= (r->GetWindowWidth() / 2);
-	position.y -= (r->GetWindowHeight() / 2);
+	position.x /= r->GetWindowWidth();
+	position.y /= r->GetWindowHeight();
+
+	position.x += m_Anchor.x;
+	position.y += m_Anchor.y;
 
 	glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(m_LocalRotation)));
 	m_LocalModelMatrix = glm::translate(glm::mat4(1.0f), position) * rotation * glm::scale(glm::mat4(1.0f), m_LocalScale);

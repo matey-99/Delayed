@@ -23,6 +23,7 @@ class DepthOfFieldPass;
 class UIPass;
 class UniformBuffer;
 class Scene;
+class Camera;
 class DirectionalLight;
 class PointLight;
 class SpotLight;
@@ -55,7 +56,7 @@ private:
 	uint32_t m_WindowWidth;
 	uint32_t m_WindowHeight;
 
-	uint32_t m_Output;
+	uint32_t m_Output[2];
 
 public:
 	Renderer();
@@ -63,9 +64,9 @@ public:
 
 	void Initialize();
 
-	void Render(Ref<Scene> scene);
+	void Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex = 0);
 
-	uint32_t GetOutput();
+	uint32_t GetOutput(uint32_t index = 0);
 	void ResizeWindow(uint32_t width, uint32_t height);
 
 	inline Ref<UniformBuffer> GetCameraVertexUniformBuffer() const { return m_CameraVertexUniformBuffer; }
