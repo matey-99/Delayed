@@ -13,6 +13,7 @@
 #include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
+#include "Scene/Component/Collider/BoxColliderComponent.h"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -349,6 +350,12 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
+    if (auto boxCollider = m_Actor->GetComponent<BoxColliderComponent>())
+    {
+        ImGui::Text("Box Collider");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
     bool addComponent = false;
     bool staticMesh = false;
     bool instanceRenderedMesh = false;
@@ -360,6 +367,7 @@ void ActorDetailsPanel::Render()
     bool player = false;
     bool camera = false;
     bool image = false;
+    bool boxCollider = false;
     if (ImGui::BeginPopupContextWindow())
     {
         if (ImGui::BeginMenu("Add Component"))
@@ -381,6 +389,12 @@ void ActorDetailsPanel::Render()
             if (ImGui::BeginMenu("UI"))
             {
                 ImGui::MenuItem("Image", "", &image);
+
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Collider"))
+            {
+                ImGui::MenuItem("Box Collider", "", &boxCollider);
 
                 ImGui::EndMenu();
             }
@@ -411,6 +425,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<CameraComponent>();
     if (image)
         m_Actor->AddComponent<ImageComponent>();
+    if (boxCollider)
+        m_Actor->AddComponent<BoxColliderComponent>();
 
     if (ImGui::Button("Close"))
     {
