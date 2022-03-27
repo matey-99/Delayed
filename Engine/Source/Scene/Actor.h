@@ -2,6 +2,7 @@
 
 #include "glm/glm.hpp"
 #include "Scene/Component/Component.h"
+#include "Scene/Component/TransformBaseComponent.h"
 #include "Scene/Component/TransformComponent.h"
 #include "Scene/Component/RenderComponent.h"
 
@@ -60,7 +61,7 @@ public:
 	inline bool IsEnable() const { return m_Enable; }
 	inline uint64_t GetID() const { return m_ID; }
 
-	Ref<TransformComponent> GetTransform();
+	Ref<TransformBaseComponent> GetTransform();
 
 	void SetEnable(bool enable);
 	void SetID(uint64_t id);

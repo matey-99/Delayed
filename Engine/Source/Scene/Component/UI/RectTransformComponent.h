@@ -1,13 +1,15 @@
 #pragma once
 
-#include "Scene/Component/TransformComponent.h"
+#include "Scene/Component/TransformBaseComponent.h"
 
 #include <glm/glm.hpp>
 
-class RectTransformComponent : public TransformComponent
+class RectTransformComponent : public TransformBaseComponent
 {
 public:
 	RectTransformComponent(Actor* owner);
+
+	virtual void CalculateLocalModelMatrix() override;
 
 	friend class SceneSerializer;
 };

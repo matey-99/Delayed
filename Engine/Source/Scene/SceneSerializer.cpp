@@ -56,7 +56,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 		for (auto actor : actors)
 		{
-			if (actor["ID"].as<uint64_t>() == 0)
+			if (actor["ID"].as<uint64_t>() == 0 || actor["ID"].as<uint64_t>() == 1)
 				continue;
 
 			Ref<Actor> a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
@@ -198,9 +198,9 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 			}
 		}
 
-		for (int i = 1; i < scene->GetActors().size(); i++)
+		for (int i = 2; i < scene->GetActors().size(); i++)
 		{
-			scene->GetActors().at(i)->GetTransform()->SetParent(scene->FindActor(parentsIDs[i - 1])->GetTransform().get());
+			scene->GetActors().at(i)->GetTransform()->SetParent(scene->FindActor(parentsIDs[i - 2])->GetTransform().get());
 		}
 	}
 
@@ -213,7 +213,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 {
-	if (actor->GetID() == 0)
+	// Root and UI Root ID's
+	if (actor->GetID() == 0 || actor->GetID() == 1)
 		return;
 
 	out << YAML::BeginMap;

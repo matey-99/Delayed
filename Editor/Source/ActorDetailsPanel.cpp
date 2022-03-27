@@ -12,6 +12,7 @@
 #include "Scene/Component/ParticleSystemComponent.h"
 #include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/UI/ImageComponent.h"
+#include "Scene/Component/UI/RectTransformComponent.h"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -20,6 +21,13 @@ bool Equals(float arr[3], glm::vec3 vec)
     return arr[0] == vec.x &&
            arr[1] == vec.y &&
            arr[2] == vec.z;
+}
+
+bool Equals(int arr[3], glm::vec3 vec)
+{
+    return arr[0] == (int)vec.x &&
+        arr[1] == (int)vec.y &&
+        arr[2] == (int)vec.z;
 }
 
 ActorDetailsPanel::ActorDetailsPanel(Ref<Editor> editor) : m_Editor(editor)
@@ -37,33 +45,73 @@ void ActorDetailsPanel::Render()
     m_Actor->m_Name = name;
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-    ImGui::Text("Transform");
-    float arr[3];
-    arr[0] = m_Actor->GetTransform()->GetLocalPosition().x;
-    arr[1] = m_Actor->GetTransform()->GetLocalPosition().y;
-    arr[2] = m_Actor->GetTransform()->GetLocalPosition().z;
-    ImGui::DragFloat3("Position", arr, 0.5f);
+    if (auto transform = m_Actor->GetComponent<TransformComponent>())
+    {
+        ImGui::Text("Transform");
+        float pos[3];
+        pos[0] = transform->GetLocalPosition().x;
+        pos[1] = transform->GetLocalPosition().y;
+        pos[2] = transform->GetLocalPosition().z;
 
-    if (!Equals(arr, m_Actor->GetTransform()->GetLocalPosition()))
-        m_Actor->GetTransform()->SetLocalPosition({arr[0], arr[1], arr[2]});
+        float rot[3];
+        rot[0] = transform->GetLocalRotation().x;
+        rot[1] = transform->GetLocalRotation().y;
+        rot[2] = transform->GetLocalRotation().z;
 
-    arr[0] = m_Actor->GetTransform()->GetLocalRotation().x;
-    arr[1] = m_Actor->GetTransform()->GetLocalRotation().y;
-    arr[2] = m_Actor->GetTransform()->GetLocalRotation().z;
-    ImGui::DragFloat3("Rotation", arr, 1.0f);
+        float scl[3];
+        scl[0] = transform->GetLocalScale().x;
+        scl[1] = transform->GetLocalScale().y;
+        scl[2] = transform->GetLocalScale().z;
 
-    if (!Equals(arr, m_Actor->GetTransform()->GetLocalRotation()))
-        m_Actor->GetTransform()->SetLocalRotation({ arr[0], arr[1], arr[2] });
+        ImGui::DragFloat3("Position", pos, 0.5f);
+        ImGui::DragFloat3("Rotation", rot, 1.0f);
+        ImGui::DragFloat3("Scale", scl, 0.1f);
 
-    arr[0] = m_Actor->GetTransform()->GetLocalScale().x;
-    arr[1] = m_Actor->GetTransform()->GetLocalScale().y;
-    arr[2] = m_Actor->GetTransform()->GetLocalScale().z;
-    ImGui::DragFloat3("Scale", arr, 0.1f);
+        if (!Equals(pos, transform->GetLocalPosition()))
+            transform->SetLocalPosition({ pos[0], pos[1], pos[2] });
 
-    if (!Equals(arr, m_Actor->GetTransform()->GetLocalScale()))
-        m_Actor->GetTransform()->SetLocalScale({ arr[0], arr[1], arr[2] });
+        if (!Equals(rot, transform->GetLocalRotation()))
+            transform->SetLocalRotation({ rot[0], rot[1], rot[2] });    
 
-    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        if (!Equals(scl, transform->GetLocalScale()))
+            transform->SetLocalScale({ scl[0], scl[1], scl[2] });
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto transform = m_Actor->GetComponent<RectTransformComponent>())
+    {
+        ImGui::Text("Rect Transform");
+        int pos[3];
+        pos[0] = transform->GetLocalPosition().x;
+        pos[1] = transform->GetLocalPosition().y;
+        pos[2] = transform->GetLocalPosition().z;
+
+        float rot[3];
+        rot[0] = transform->GetLocalRotation().x;
+        rot[1] = transform->GetLocalRotation().y;
+        rot[2] = transform->GetLocalRotation().z;
+
+        float scl[3];
+        scl[0] = transform->GetLocalScale().x;
+        scl[1] = transform->GetLocalScale().y;
+        scl[2] = transform->GetLocalScale().z;
+
+        ImGui::DragInt3("Position", pos, 0.5f);
+        ImGui::DragFloat3("Rotation", rot, 1.0f);
+        ImGui::DragFloat3("Scale", scl, 0.1f);
+
+        if (!Equals(pos, transform->GetLocalPosition()))
+            transform->SetLocalPosition({ pos[0], pos[1], pos[2] });
+
+        if (!Equals(rot, transform->GetLocalRotation()))
+            transform->SetLocalRotation({ rot[0], rot[1], rot[2] });
+
+        if (!Equals(scl, transform->GetLocalScale()))
+            transform->SetLocalScale({ scl[0], scl[1], scl[2] });
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
 
     if (auto camera = m_Actor->GetComponent<CameraComponent>())
     {

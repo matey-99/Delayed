@@ -20,6 +20,7 @@ private:
 	std::string m_Name;
 
 	Ref<Actor> m_Root;
+	Ref<Actor> m_UIRoot;
 	std::vector<Ref<Actor>> m_Actors;
 	Ref<CameraComponent> m_CurrentCamera;
 
@@ -42,10 +43,15 @@ public:
 	void RenderActor(Actor* actor);
 
 	Ref<Actor> AddRoot();
+	Ref<Actor> AddUIRoot();
+
 	Ref<Actor> AddActor(std::string name);
 	Ref<Actor> AddActor(uint64_t id, std::string name);
 	Ref<Actor> AddActor(std::string path, std::string name);
 	Ref<Actor> AddActor(std::string path, std::string name, Ref<Actor> parent);
+
+	Ref<Actor> AddUIActor(std::string name);
+	Ref<Actor> AddUIActor(uint64_t id, std::string name);
 
 	void RemoveActor(Ref<Actor> actor);
 	Ref<Actor> FindActor(std::string name);
@@ -104,6 +110,7 @@ public:
 
 	inline Ref<CameraComponent> GetCurrentCamera() const { return m_CurrentCamera; }
 	inline Ref<Actor> GetRoot() const { return m_Root; }
+	inline Ref<Actor> GetUIRoot() const { return m_UIRoot; }
 	inline std::vector<Ref<Actor>> GetActors() const { return m_Actors; }
 	inline glm::vec4* GetBackgroundColor() { return &m_BackgroundColor; }
 	inline bool IsChangedSinceLastFrame() const { return m_ChangedSinceLastFrame; }

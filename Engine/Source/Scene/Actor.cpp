@@ -1,7 +1,9 @@
 #include "Actor.h"
 
 #include "Scene.h"
+#include "Component/TransformBaseComponent.h"
 #include "Component/TransformComponent.h"
+#include "Component/UI/RectTransformComponent.h"
 
 Ref<Actor> Actor::Create(Scene* scene, std::string name)
 {
@@ -21,14 +23,11 @@ Actor::Actor(Scene* scene, std::string name)
 	std::uniform_int_distribution distribution(1, 999999999);
 
 	m_ID = distribution(gen);
-
-	AddComponent<TransformComponent>();
 }
 
 Actor::Actor(Scene* scene, uint64_t id, std::string name)
 	: m_Scene(scene), m_ID(id), m_Name(name)
 {
-	AddComponent<TransformComponent>();
 }
 
 void Actor::Start()
@@ -73,9 +72,9 @@ void Actor::Destroy()
 	}
 }
 
-Ref<TransformComponent> Actor::GetTransform()
+Ref<TransformBaseComponent> Actor::GetTransform()
 {
-	return GetComponent<TransformComponent>();
+	return GetComponent<TransformBaseComponent>();
 }
 
 void Actor::SetEnable(bool enable)

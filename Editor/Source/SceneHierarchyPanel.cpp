@@ -25,6 +25,15 @@ void SceneHierarchyPanel::Render()
 		ImGui::TreePop();
 	}
 
+	if (ImGui::TreeNodeEx("UI Root", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		if (ImGui::IsItemClicked())
+			m_Editor->ShowDetails(m_Scene->GetUIRoot());
+
+		TreeChildren(m_Scene->GetUIRoot());
+		ImGui::TreePop();
+	}
+
 	bool addActor = false;
 	if (ImGui::BeginPopupContextWindow())
 	{

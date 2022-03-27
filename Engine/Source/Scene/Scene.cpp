@@ -9,6 +9,7 @@
 #include <glad/glad.h>
 #include "Renderer/Renderer.h"
 #include "Component/TransformComponent.h"
+#include "Component/UI/RectTransformComponent.h"
 #include "Component/PlayerComponent.h"
 
 Scene::Scene()
@@ -25,6 +26,7 @@ Scene::Scene()
 		+ (GLSL_SPOT_LIGHT_SIZE * MAX_SPOT_LIGHTS), 3);
 
 	AddRoot();
+	AddUIRoot();
 }
 
 void Scene::Start()
@@ -100,16 +102,35 @@ Ref<Actor> Scene::AddRoot()
 		return m_Root;
 
 	Ref<Actor> root = Actor::Create(this, 0, "Root");
+	root->AddComponent<TransformComponent>();
+
 	m_Root = root;
 	m_Actors.push_back(root);
 
 	return root;
 }
 
+Ref<Actor> Scene::AddUIRoot()
+{
+	if (m_UIRoot)
+		return m_UIRoot;
+
+	Ref<Actor> uiRoot = Actor::Create(this, 1, "UI Root");
+	uiRoot->AddComponent<RectTransformComponent>();
+
+	m_UIRoot = uiRoot;
+	m_Actors.push_back(uiRoot);
+
+	return uiRoot;
+}
+
 Ref<Actor> Scene::AddActor(std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
-	actor->GetComponent<TransformComponent>()->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
+	auto transform = actor->AddComponent<TransformComponent>();
+	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
 	m_Actors.push_back(actor);
 
 	return actor;
@@ -118,7 +139,10 @@ Ref<Actor> Scene::AddActor(std::string name)
 Ref<Actor> Scene::AddActor(uint64_t id, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, id, name);
-	actor->GetComponent<TransformComponent>()->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
+	auto transform = actor->AddComponent<TransformComponent>();
+	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
 	m_Actors.push_back(actor);
 
 	return actor;
@@ -127,8 +151,12 @@ Ref<Actor> Scene::AddActor(uint64_t id, std::string name)
 Ref<Actor> Scene::AddActor(std::string path, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
-	actor->GetComponent<TransformComponent>()->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
+	auto transform = actor->AddComponent<TransformComponent>();
+	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
 	actor->AddComponent<StaticMeshComponent>(path.c_str());
+
 	m_Actors.push_back(actor);
 
 	return actor;
@@ -137,8 +165,36 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name)
 Ref<Actor> Scene::AddActor(std::string path, std::string name, Ref<Actor> parent)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
-	actor->GetComponent<TransformComponent>()->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
+	auto transform = actor->AddComponent<TransformComponent>();
+	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
 	actor->AddComponent<StaticMeshComponent>(path.c_str());
+
+	m_Actors.push_back(actor);
+
+	return actor;
+}
+
+Ref<Actor> Scene::AddUIActor(std::string name)
+{
+	Ref<Actor> actor = Actor::Create(this, name);
+
+	auto transform = actor->AddComponent<RectTransformComponent>();
+	transform->SetParent(m_UIRoot->GetComponent<RectTransformComponent>().get());
+
+	m_Actors.push_back(actor);
+
+	return actor;
+}
+
+Ref<Actor> Scene::AddUIActor(uint64_t id, std::string name)
+{
+	Ref<Actor> actor = Actor::Create(this, id, name);
+
+	auto transform = actor->AddComponent<RectTransformComponent>();
+	transform->SetParent(m_UIRoot->GetComponent<RectTransformComponent>().get());
+
 	m_Actors.push_back(actor);
 
 	return actor;
