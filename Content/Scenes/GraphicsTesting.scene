@@ -1,0 +1,56 @@
+Scene: Main
+CurrentCamera: 968085101
+Actors:
+  - Actor: 968085101
+    ID: 968085101
+    Name: Main Camera
+    Components:
+      - Transform:
+          LocalPosition: [-11.7621803, 2.91268611, 5.01318264]
+          LocalRotation: [0, 0, -8]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 60
+          NearClipPlane: 0.300000012
+          FarClipPlane: 1000
+  - Actor: 922122535
+    ID: 922122535
+    Name: Cube
+    Components:
+      - Transform:
+          LocalPosition: [0, 1.94758081, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [5, 5, 5]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 337649296
+    ID: 337649296
+    Name: Ground
+    Components:
+      - Transform:
+          LocalPosition: [0, -1.02843952, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [21.5356598, 1, 18.2138557]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 410957571
+    ID: 410957571
+    Name: Directional Light
+    Components:
+      - Transform:
+          LocalPosition: [0, 8.19483471, -0.056064114]
+          LocalRotation: [60.3118744, -0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - DirectionalLight:
+          Color: [1, 1, 1]
