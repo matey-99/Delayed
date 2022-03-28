@@ -410,37 +410,34 @@ void ActorDetailsPanel::Render()
     {
         if (ImGui::BeginPopupContextWindow())
         {
-            if (ImGui::BeginPopupContextWindow())
+            if (ImGui::BeginMenu("Add Component"))
             {
-                if (ImGui::BeginMenu("Add Component"))
+                ImGui::MenuItem("Static Mesh", "", &staticMesh);
+                ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
+                if (ImGui::BeginMenu("Light"))
                 {
-                    ImGui::MenuItem("Static Mesh", "", &staticMesh);
-                    ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
-                    if (ImGui::BeginMenu("Light"))
-                    {
-                        ImGui::MenuItem("Directional Light", "", &dirLight);
-                        ImGui::MenuItem("Point Light", "", &pointLight);
-                        ImGui::MenuItem("Spot Light", "", &spotLight);
-                        ImGui::MenuItem("Sky Light", "", &skyLight);
+                    ImGui::MenuItem("Directional Light", "", &dirLight);
+                    ImGui::MenuItem("Point Light", "", &pointLight);
+                    ImGui::MenuItem("Spot Light", "", &spotLight);
+                    ImGui::MenuItem("Sky Light", "", &skyLight);
 
-                        ImGui::EndMenu();
-                    }
-                    ImGui::MenuItem("Particle System", "", &particleSystem);
-                    ImGui::MenuItem("Player", "", &player);
-                    ImGui::MenuItem("Camera", "", &camera);
+                    ImGui::EndMenu();
+                }
+                ImGui::MenuItem("Particle System", "", &particleSystem);
+                ImGui::MenuItem("Player", "", &player);
+                ImGui::MenuItem("Camera", "", &camera);
 
-                    if (ImGui::BeginMenu("Collider"))
-                    {
-                        ImGui::MenuItem("Box Collider", "", &boxCollider);
-
-                        ImGui::EndMenu();
-                    }
+                if (ImGui::BeginMenu("Collider"))
+                {
+                    ImGui::MenuItem("Box Collider", "", &boxCollider);
 
                     ImGui::EndMenu();
                 }
 
-                ImGui::EndPopup();
+                ImGui::EndMenu();
             }
+
+            ImGui::EndPopup();
         }
     }
     else if (m_Actor->GetComponent<RectTransformComponent>())
