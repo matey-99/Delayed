@@ -184,17 +184,17 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						a->AddComponent<PlayerComponent>();
 					}
+
+					if (auto boxCollider = component["Box Collider"])
+					{
+						glm::vec3 center = boxCollider["Center"].as<glm::vec3>();
+						glm::vec3 size = boxCollider["Size"].as<glm::vec3>();
+
+						auto b = a->AddComponent<BoxColliderComponent>();
+						b->m_Center = center;
+						b->m_Size = size;
+					}
 				}
-			}
-
-			if (auto boxCollider = actor["Box Collider"])
-			{
-				glm::vec3 center = boxCollider["Center"].as<glm::vec3>();
-				glm::vec3 size = boxCollider["Size"].as<glm::vec3>();
-
-				auto b = a->AddComponent<BoxColliderComponent>();
-				b->m_Center = center;
-				b->m_Size = size;
 			}
 		}
 

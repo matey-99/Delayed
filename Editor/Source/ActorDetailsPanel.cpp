@@ -13,6 +13,7 @@
 #include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
+#include "Scene/Component/Collider/BoxColliderComponent.h"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -386,6 +387,12 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
+    if (auto boxCollider = m_Actor->GetComponent<BoxColliderComponent>())
+    {
+        ImGui::Text("Box Collider");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
     bool addComponent = false;
     bool staticMesh = false;
     bool instanceRenderedMesh = false;
@@ -397,32 +404,43 @@ void ActorDetailsPanel::Render()
     bool player = false;
     bool camera = false;
     bool image = false;
+    bool boxCollider = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
         if (ImGui::BeginPopupContextWindow())
         {
-            if (ImGui::BeginMenu("Add Component"))
+            if (ImGui::BeginPopupContextWindow())
             {
-                ImGui::MenuItem("Static Mesh", "", &staticMesh);
-                ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
-                if (ImGui::BeginMenu("Light"))
+                if (ImGui::BeginMenu("Add Component"))
                 {
-                    ImGui::MenuItem("Directional Light", "", &dirLight);
-                    ImGui::MenuItem("Point Light", "", &pointLight);
-                    ImGui::MenuItem("Spot Light", "", &spotLight);
-                    ImGui::MenuItem("Sky Light", "", &skyLight);
+                    ImGui::MenuItem("Static Mesh", "", &staticMesh);
+                    ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
+                    if (ImGui::BeginMenu("Light"))
+                    {
+                        ImGui::MenuItem("Directional Light", "", &dirLight);
+                        ImGui::MenuItem("Point Light", "", &pointLight);
+                        ImGui::MenuItem("Spot Light", "", &spotLight);
+                        ImGui::MenuItem("Sky Light", "", &skyLight);
+
+                        ImGui::EndMenu();
+                    }
+                    ImGui::MenuItem("Particle System", "", &particleSystem);
+                    ImGui::MenuItem("Player", "", &player);
+                    ImGui::MenuItem("Camera", "", &camera);
+
+                    if (ImGui::BeginMenu("Collider"))
+                    {
+                        ImGui::MenuItem("Box Collider", "", &boxCollider);
+
+                        ImGui::EndMenu();
+                    }
 
                     ImGui::EndMenu();
                 }
-                ImGui::MenuItem("Particle System", "", &particleSystem);
-                ImGui::MenuItem("Player", "", &player);
-                ImGui::MenuItem("Camera", "", &camera);
 
-                ImGui::EndMenu();
+                ImGui::EndPopup();
             }
-
-            ImGui::EndPopup();
         }
     }
     else if (m_Actor->GetComponent<RectTransformComponent>())
@@ -439,7 +457,6 @@ void ActorDetailsPanel::Render()
                 }
                 ImGui::EndMenu();
             }
-
             ImGui::EndPopup();
         }
 
@@ -466,6 +483,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<CameraComponent>();
     if (image)
         m_Actor->AddComponent<ImageComponent>();
+    if (boxCollider)
+        m_Actor->AddComponent<BoxColliderComponent>();
 
     if (ImGui::Button("Close"))
     {
