@@ -76,3 +76,20 @@ Actors:
       - Box Collider:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+  - Actor: 736521600
+    ID: 736521600
+    Name: default_sphere
+    Components:
+      - Transform:
+          LocalPosition: [0, -0.7546345, -9.58407879]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_sphere.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+      - Sphere Collider:
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]

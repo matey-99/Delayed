@@ -11,6 +11,7 @@
 #include "Scene/Component/ParticleSystemComponent.h"
 #include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
+#include <Scene/Component/Collider/SphereColliderComponent.h>
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -194,6 +195,16 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						b->m_Center = center;
 						b->m_Size = size;
 					}
+
+					if (auto sphereCollider = component["Sphere Collider"])
+					{
+						glm::vec3 center = sphereCollider["Center"].as<glm::vec3>();
+						glm::vec3 size = sphereCollider["Size"].as<glm::vec3>();
+
+						auto b = a->AddComponent<SphereColliderComponent>();
+						b->m_Center = center;
+						b->m_Size = size;
+					}
 				}
 			}
 		}
@@ -365,6 +376,17 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Center" << YAML::Value << boxCollider->m_Center;
 		out << YAML::Key << "Size" << YAML::Value << boxCollider->m_Size;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto sphereCollider = actor->GetComponent<SphereColliderComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Sphere Collider";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Center" << YAML::Value << sphereCollider->m_Center;
+		out << YAML::Key << "Size" << YAML::Value << sphereCollider->m_Size;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
