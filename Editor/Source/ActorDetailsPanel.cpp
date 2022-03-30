@@ -540,6 +540,13 @@ void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, in
                         if (auto skyLight = m_Actor->GetComponent<SkyLight>())
                             skyLight->Load(path);
                     }
+                    else if (ext == "png")
+                    {
+                        if (auto image = m_Actor->GetComponent<ImageComponent>())
+                        {
+                            image->ChangeImage(path);
+                        }
+                    }
                 }
             }
         }

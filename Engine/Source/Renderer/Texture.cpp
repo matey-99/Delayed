@@ -44,7 +44,7 @@ void Texture::Load(std::string path)
 
 	stbi_set_flip_vertically_on_load(true);
 	int width, height, nrComponents;
-	unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
+	unsigned char* data = stbi_load(ContentHelper::GetAssetPath(path).c_str(), &width, &height, &nrComponents, 0);
 	if (data)
 	{
 		glGenTextures(1, &m_ID);

@@ -130,9 +130,9 @@ Ref<Material> MaterialSerializer::Deserialize(std::string path)
 				Ref<Texture> texture;
 				std::string extension = path.substr(path.find_last_of('.') + 1);
 				if (extension == "hdr")
-					texture = Texture::Create(ContentHelper::GetAssetPath(path), TextureRange::HDR);
+					texture = Texture::Create(path, TextureRange::HDR);
 				else
-					texture = Texture::Create(ContentHelper::GetAssetPath(path));
+					texture = Texture::Create(path);
 
 				if (material->m_Texture2DParameters.find(name) != material->m_Texture2DParameters.end())
 					material->m_Texture2DParameters.find(name)->second = texture;

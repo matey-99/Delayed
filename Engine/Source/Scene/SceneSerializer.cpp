@@ -12,6 +12,8 @@
 #include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include <Scene/Component/Collider/SphereColliderComponent.h>
+#include "Scene/Component/UI/ImageComponent.h"
+#include "Scene/Component/UI/RectTransformComponent.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -60,7 +62,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 			if (actor["ID"].as<uint64_t>() == 0 || actor["ID"].as<uint64_t>() == 1)
 				continue;
 
-			Ref<Actor> a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
+			Ref<Actor> a = Ref<Actor>();
 
 			YAML::Node components = actor["Components"];
 			if (components)
@@ -69,6 +71,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 				{
 					if (auto transform = component["Transform"])
 					{
+						a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
+
 						a->GetTransform()->SetLocalPosition(transform["LocalPosition"].as<glm::vec3>());
 						a->GetTransform()->SetLocalRotation(transform["LocalRotation"].as<glm::vec3>());
 						a->GetTransform()->SetLocalScale(transform["LocalScale"].as<glm::vec3>());
@@ -78,7 +82,19 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							parentsIDs.push_back(parent.as<uint64_t>());
 						}
 					}
+					if (auto rectTransform = component["RectTransform"])
+					{
+						a = scene->AddUIActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
 
+						a->GetTransform()->SetLocalPosition(rectTransform["LocalPosition"].as<glm::vec3>());
+						a->GetTransform()->SetLocalRotation(rectTransform["LocalRotation"].as<glm::vec3>());
+						a->GetTransform()->SetLocalScale(rectTransform["LocalScale"].as<glm::vec3>());
+
+						if (auto parent = rectTransform["Parent"])
+						{
+							parentsIDs.push_back(parent.as<uint64_t>());
+						}
+					}
 
 					if (auto mesh = component["StaticMesh"])
 					{
@@ -204,6 +220,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						auto b = a->AddComponent<SphereColliderComponent>();
 						b->m_Center = center;
 						b->m_Size = size;
+					if (auto image = component["Image"])
+					{
+						std::string path = image["Path"].as<std::string>();
+						glm::vec4 color = image["Color"].as<glm::vec4>();
+
+						auto i = a->AddComponent<ImageComponent>();
+						i->m_Image = Texture::Create(path);
+						i->m_Color = color;
 					}
 				}
 			}
@@ -235,7 +259,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 
 	out << YAML::Key << "Components" << YAML::Value << YAML::BeginSeq;
 
-	if (auto transform = actor->GetTransform())
+	if (auto transform = actor->GetComponent<TransformComponent>())
 	{
 		out << YAML::BeginMap;
 		out << YAML::Key << "Transform";
@@ -247,6 +271,22 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 
 		if (transform->GetParent())
 			out << YAML::Key << "Parent" << YAML::Value << transform->GetParent()->GetOwner()->GetID();
+
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+	if (auto rectTransform = actor->GetComponent<RectTransformComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "RectTransform";
+
+		out << YAML::BeginMap;
+		out << YAML::Key << "LocalPosition" << YAML::Value << rectTransform->m_LocalPosition;
+		out << YAML::Key << "LocalRotation" << YAML::Value << rectTransform->m_LocalRotation;
+		out << YAML::Key << "LocalScale" << YAML::Value << rectTransform->m_LocalScale;
+
+		if (rectTransform->GetParent())
+			out << YAML::Key << "Parent" << YAML::Value << rectTransform->GetParent()->GetOwner()->GetID();
 
 		out << YAML::EndMap;
 		out << YAML::EndMap;
@@ -387,6 +427,17 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Center" << YAML::Value << sphereCollider->m_Center;
 		out << YAML::Key << "Size" << YAML::Value << sphereCollider->m_Size;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+	
+	if (auto image = actor->GetComponent<ImageComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Image";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Path" << YAML::Value << image->m_Image->GetPath();
+		out << YAML::Key << "Color" << YAML::Value << image->m_Color;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
