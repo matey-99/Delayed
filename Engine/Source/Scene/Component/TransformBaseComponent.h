@@ -36,7 +36,7 @@ public:
 	virtual void SetParent(TransformBaseComponent* parent);
 
 	// MODEL MATRIX
-	virtual void CalculateLocalModelMatrix();
+	virtual void CalculateLocalModelMatrix() = 0;
 	virtual void CalculateWorldModelMatrix();
 
 	virtual inline glm::mat4 GetLocalModelMatrix() const { return m_LocalModelMatrix; }

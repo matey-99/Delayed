@@ -72,9 +72,10 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
 
-						a->GetTransform()->SetLocalPosition(transform["LocalPosition"].as<glm::vec3>());
-						a->GetTransform()->SetLocalRotation(transform["LocalRotation"].as<glm::vec3>());
-						a->GetTransform()->SetLocalScale(transform["LocalScale"].as<glm::vec3>());
+						auto t = a->GetComponent<TransformComponent>();
+						t->SetLocalPosition(transform["LocalPosition"].as<glm::vec3>());
+						t->SetLocalRotation(transform["LocalRotation"].as<glm::vec3>());
+						t->SetLocalScale(transform["LocalScale"].as<glm::vec3>());
 
 						if (auto parent = transform["Parent"])
 						{
@@ -85,9 +86,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						a = scene->AddUIActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
 
-						a->GetTransform()->SetLocalPosition(rectTransform["LocalPosition"].as<glm::vec3>());
-						a->GetTransform()->SetLocalRotation(rectTransform["LocalRotation"].as<glm::vec3>());
-						a->GetTransform()->SetLocalScale(rectTransform["LocalScale"].as<glm::vec3>());
+						auto t = a->GetComponent<RectTransformComponent>();
+						t->SetAnchor((AnchorType)rectTransform["Anchor"].as<uint16_t>());
+						t->SetLocalPosition(rectTransform["LocalPosition"].as<glm::vec3>());
+						t->SetLocalRotation(rectTransform["LocalRotation"].as<glm::vec3>());
+						t->SetLocalScale(rectTransform["LocalScale"].as<glm::vec3>());
 
 						if (auto parent = rectTransform["Parent"])
 						{
@@ -272,6 +275,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "RectTransform";
 
 		out << YAML::BeginMap;
+		out << YAML::Key << "Anchor" << YAML::Value << (uint16_t)rectTransform->m_AnchorType;
 		out << YAML::Key << "LocalPosition" << YAML::Value << rectTransform->m_LocalPosition;
 		out << YAML::Key << "LocalRotation" << YAML::Value << rectTransform->m_LocalRotation;
 		out << YAML::Key << "LocalScale" << YAML::Value << rectTransform->m_LocalScale;

@@ -4,6 +4,7 @@
 #include "Content/ContentHelper.h"
 #include "Material/ShaderLibrary.h"
 #include "Renderer/RenderTools.h"
+#include "Renderer/RenderPass/UIPass.h"
 
 ImageComponent::ImageComponent(Actor* owner)
 	: UIComponent(owner)
@@ -29,6 +30,9 @@ void ImageComponent::Render()
 	shader->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
 	shader->SetInt("u_Image", 0);
 	shader->SetVec4("u_Color", m_Color);
+	shader->SetBool("u_IsGammaCorrection", true);
+	shader->SetFloat("u_Gamma", Renderer::GetInstance()->m_UIPass->GetSettings().Gamma);
+	shader->SetFloat("u_Exposure", Renderer::GetInstance()->m_UIPass->GetSettings().Exposure);
 
 	RenderTools::GetInstance()->RenderQuad();
 

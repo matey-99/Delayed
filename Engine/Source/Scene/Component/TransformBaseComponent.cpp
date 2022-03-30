@@ -90,12 +90,6 @@ void TransformBaseComponent::SetParent(TransformBaseComponent* parent)
 	CalculateWorldModelMatrix();
 }
 
-void TransformBaseComponent::CalculateLocalModelMatrix()
-{
-	glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(m_LocalRotation)));
-	m_LocalModelMatrix = glm::translate(glm::mat4(1.0f), m_LocalPosition) * rotation * glm::scale(glm::mat4(1.0f), m_LocalScale);
-}
-
 void TransformBaseComponent::CalculateWorldModelMatrix()
 {
 	CalculateLocalModelMatrix();

@@ -43,6 +43,7 @@ void UIPass::Render(Ref<Scene> scene, uint32_t input)
 	uiShader->SetMat4("u_Model", transform.GetModelMatrix());
 	uiShader->SetInt("u_Image", 0);
 	uiShader->SetVec4("u_Color", glm::vec4(1.0f));
+	uiShader->SetBool("u_IsGammaCorrection", false);
 
 	RenderTools::GetInstance()->RenderQuad();
 

@@ -3,6 +3,7 @@
 #include "Renderer/RenderPass/PostProcessingPass.h"
 #include "Renderer/RenderPass/SSAOPass.h"
 #include "Renderer/RenderPass/DepthOfFieldPass.h"
+#include "Renderer/RenderPass/UIPass.h"
 
 RendererSettingsPanel::RendererSettingsPanel(Ref<Editor> editor, Ref<Renderer> renderer)
     : m_Editor(editor), m_Renderer(renderer)
@@ -46,6 +47,14 @@ void RendererSettingsPanel::Render()
     ImGui::Text("General");
     ImGui::DragFloat("Gamma", &m_Renderer->m_PostProcessingPass->m_Settings.Gamma, 0.1f, 0.0f, 10.0f);
     ImGui::DragFloat("Exposure", &m_Renderer->m_PostProcessingPass->m_Settings.Exposure, 0.1f, 0.0f, 10.0f);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("UI Post Processing");
+    ImGui::Text("UI General");
+    ImGui::DragFloat("UI Gamma", &m_Renderer->m_UIPass->m_Settings.Gamma, 0.1f, 0.0f, 10.0f);
+    ImGui::DragFloat("UI Exposure", &m_Renderer->m_UIPass->m_Settings.Exposure, 0.1f, 0.0f, 10.0f);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
 
     ImGui::End();
 }
