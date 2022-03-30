@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ColliderComponent.h"
-#include "Math/BoundingSphere.h"
 
 class SphereColliderComponent : public ColliderComponent
 {

@@ -5,7 +5,7 @@
 #include "Scene/Scene.h"
 #include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/TransformComponent.h"
-
+#include "SphereColliderComponent.h"
 
 BoxColliderComponent::BoxColliderComponent(Actor* owner)
 	: ColliderComponent(owner)
@@ -53,9 +53,9 @@ bool BoxColliderComponent::CheckCollisions()
 
 		if (auto collider = actor->GetComponent<BoxColliderComponent>())
 		{
-			if ((glm::abs(m_BoundingBox.Center.x - collider->GetBoundingBox().Center.x) < (m_BoundingBox.Extents.x + collider->GetBoundingBox().Extents.x)) &&
-				(glm::abs(m_BoundingBox.Center.y - collider->GetBoundingBox().Center.y) < (m_BoundingBox.Extents.y + collider->GetBoundingBox().Extents.y)) &&
-				(glm::abs(m_BoundingBox.Center.z - collider->GetBoundingBox().Center.z) < (m_BoundingBox.Extents.z + collider->GetBoundingBox().Extents.z)))
+			if ((glm::abs(m_BoundingBox.Center.x - collider->GetBoundingBox().Center.x) <= (m_BoundingBox.Extents.x + collider->GetBoundingBox().Extents.x)) &&
+				(glm::abs(m_BoundingBox.Center.y - collider->GetBoundingBox().Center.y) <= (m_BoundingBox.Extents.y + collider->GetBoundingBox().Extents.y)) &&
+				(glm::abs(m_BoundingBox.Center.z - collider->GetBoundingBox().Center.z) <= (m_BoundingBox.Extents.z + collider->GetBoundingBox().Extents.z)))
 			{
 				float left = m_BoundingBox.Max.x - collider->GetBoundingBox().Min.x;
 				float right = collider->GetBoundingBox().Max.x - m_BoundingBox.Min.x;
@@ -69,11 +69,8 @@ bool BoxColliderComponent::CheckCollisions()
 				v.y = bottom < top ? -bottom : top;
 				v.z = backward < forward ? -backward : forward;
 
-
 				if (m_Owner->GetComponent<PlayerComponent>())
 				{
-
-
 					if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z))
 					{
 						v.y = 0;
@@ -92,9 +89,29 @@ bool BoxColliderComponent::CheckCollisions()
 
 					m_Owner->GetTransform()->SetWorldPosition(m_Owner->GetTransform()->GetWorldPosition() + v);
 				}
-
 			}
 		}
+
+        if (auto collider = actor->GetComponent<SphereColliderComponent>()) {
+            if (Dist2PointAABB(collider->GetBoundingSphere().Center, m_BoundingBox) <= collider->GetBoundingSphere().Radius * collider->GetBoundingSphere().Radius) {
+                glm::vec3 v = glm::normalize(m_BoundingBox.Center - collider->GetBoundingSphere().Center) * Dist2PointAABB(collider->GetBoundingSphere().Center, m_BoundingBox);
+
+                if (m_Owner->GetComponent<PlayerComponent>()) {
+                    if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z)) {
+                        v.y = 0;
+                        v.z = 0;
+                    } else if (glm::abs(v.y) < glm::abs(v.x) && glm::abs(v.y) < glm::abs(v.z)) {
+                        v.x = 0;
+                        v.z = 0;
+                    } else if (glm::abs(v.z) < glm::abs(v.x) && glm::abs(v.z) < glm::abs(v.y)) {
+                        v.x = 0;
+                        v.y = 0;
+                    }
+
+                    m_Owner->GetTransform()->SetWorldPosition(m_Owner->GetTransform()->GetWorldPosition() + v);
+                }
+            }
+        }
 	}
 
 	return false;

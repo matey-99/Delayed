@@ -1,7 +1,5 @@
 #include "BoundingSphere.h"
 
-#include <utility>
-
 void MostSeparatedPointsOnAABB(int &min, int &max, std::vector<glm::vec3> &points) {
     int minx = 0, maxx = 0, miny = 0, maxy = 0, minz = 0, maxz = 0;
 

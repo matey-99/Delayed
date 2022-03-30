@@ -6,7 +6,7 @@ Actors:
     Name: Main Camera
     Components:
       - Transform:
-          LocalPosition: [0, 3, 15]
+          LocalPosition: [0, 5, 15]
           LocalRotation: [0, -90, 0]
           LocalScale: [1, 1, 1]
           Parent: 922122535
@@ -75,7 +75,7 @@ Actors:
           Mesh: Models/defaults/default_sphere.obj
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/New material 2.mat
       - Box Collider:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
@@ -84,7 +84,7 @@ Actors:
     Name: default_sphere
     Components:
       - Transform:
-          LocalPosition: [0, 0, -9.58407879]
+          LocalPosition: [0, -0.5, -9.58407879]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -92,7 +92,7 @@ Actors:
           Mesh: Models/defaults/default_sphere.obj
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/New material 1.mat
       - Sphere Collider:
           Center: [0, 0, 0]
           Size: 1
