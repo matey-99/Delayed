@@ -16,7 +16,7 @@ void main()
     vec3 col = texture(u_Screen, v_TexCoord).rgb;
 
     if (u_IsBloom)
-        col += u_BloomIntensity * texture2D(u_BloomTexture, v_TexCoord).rgb;
+        col += u_BloomIntensity * texture(u_BloomTexture, v_TexCoord).rgb;
 
     //vec3 mapped = col / (col + vec3(1.0));          //REINHARD TONE MAPPING
     
