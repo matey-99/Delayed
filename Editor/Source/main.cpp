@@ -239,7 +239,6 @@ int main(int, char**)
     cameraManager->GetInstance()->SetMainCamera(editor->GetCamera());
     auto input = Input::GetInstance();
 
-    bool shouldRender = false;
     lastFrame = glfwGetTime();
 
     // Main loop
@@ -261,26 +260,15 @@ int main(int, char**)
 
         glfwPollEvents();
 
-        while (lag >= MS_PER_UPDATE)
-        {
-            editor->Update(deltaTime);
+        editor->Update(deltaTime);
 
-            shouldRender = true;
-            lag -= MS_PER_UPDATE;
-        }
+        editor->RenderScene();
+        editor->GetViewport()->RenderGizmos();
 
-        if (shouldRender)
-        {
-            editor->RenderScene();
-            editor->GetViewport()->RenderGizmos();
+        imGuiRenderer.Render();
+        imGuiRenderer.EndFrame();
 
-            imGuiRenderer.Render();
-            imGuiRenderer.EndFrame();
-
-            glfwSwapBuffers(window);
-
-            shouldRender = false;
-        }
+        glfwSwapBuffers(window);
     }
 
     imGuiRenderer.CleanUp();

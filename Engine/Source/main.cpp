@@ -91,7 +91,7 @@ int main(int, char**)
 
     // SCENE
     auto sceneManager = SceneManager::GetInstance();
-    auto scene = sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/Main.scene"));
+    auto scene = sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/CollisionTesting.scene"));
 
     // CAMERA
     auto cameraManager = CameraManager::GetInstance();
@@ -111,7 +111,6 @@ int main(int, char**)
     // START
     scene->Start();
 
-    bool shouldRender = false;
     lastFrame = glfwGetTime();
 
     while (!glfwWindowShouldClose(window))
@@ -125,49 +124,39 @@ int main(int, char**)
         glfwPollEvents();
         input->ProcessKeyboardInput(window);
 
-        while (lag >= MS_PER_UPDATE)
-        {
-            // UPDATE
-            scene = sceneManager->GetCurrentScene();
-            scene->Update(deltaTime);
+        // UPDATE
+        scene = sceneManager->GetCurrentScene();
+        scene->Update(deltaTime);
 
-            shouldRender = true;
-            lag -= MS_PER_UPDATE;
+        // Check if window has changed
+        int windowWidth, windowHeight;
+        glfwGetWindowSize(window, &windowWidth, &windowHeight);
+        if (windowWidth != renderer->GetWindowWidth() || windowHeight != renderer->GetWindowHeight())
+        {
+            renderer->ResizeWindow(windowWidth, windowHeight);
+            cameraManager->GetMainCamera()->SetAspectRatio(glm::vec2(windowWidth, windowHeight));
+            scene->GetUIRoot()->GetTransform()->CalculateWorldModelMatrix();
         }
 
-        if (shouldRender)
-        {
-            // Check if window has changed
-            int windowWidth, windowHeight;
-            glfwGetWindowSize(window, &windowWidth, &windowHeight);
-            if (windowWidth != renderer->GetWindowWidth() || windowHeight != renderer->GetWindowHeight())
-            {
-                renderer->ResizeWindow(windowWidth, windowHeight);
-                cameraManager->GetMainCamera()->SetAspectRatio(glm::vec2(windowWidth, windowHeight));
-                scene->GetUIRoot()->GetTransform()->CalculateWorldModelMatrix();
-            }
+        // RENDER
+        renderer->Render(scene, cameraManager->GetMainCamera());
 
-            renderer->Render(scene, cameraManager->GetMainCamera());
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
-            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
+        screenShader->Use();
+        screenShader->SetInt("u_Screen", 0);
 
-            screenShader->Use();
-            screenShader->SetInt("u_Screen", 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, renderer->GetOutput());
 
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, renderer->GetOutput());
+        glDisable(GL_DEPTH_TEST);
 
-            glDisable(GL_DEPTH_TEST);
+        RenderTools::GetInstance()->RenderQuad();
 
-            RenderTools::GetInstance()->RenderQuad();
+        glEnable(GL_DEPTH_TEST);
 
-            glEnable(GL_DEPTH_TEST);
-
-            glfwSwapBuffers(window);
-
-            shouldRender = false;
-        }
+        glfwSwapBuffers(window);
     }
     glfwDestroyWindow(window);
     glfwTerminate();

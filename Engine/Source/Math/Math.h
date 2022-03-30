@@ -16,6 +16,11 @@ namespace Math
 
 	float Lerp(float a, float b, float alpha);
 
-	const glm::vec3 Forward = { 0.0f, 0.0f, 1.0f };
+	float Magnitude(const glm::vec3& v);
+
+	glm::vec3 Normalize(const glm::vec3& v);
+
+	const glm::vec3 ForwardVector = { 0.0f, 0.0f, 1.0f };
+	const glm::vec3 RightVector = { 1.0f, 0.0f, 0.0f };
 }
 
