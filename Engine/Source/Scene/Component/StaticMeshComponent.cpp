@@ -53,6 +53,11 @@ void StaticMeshComponent::Start()
 	std::cout << m_Owner->GetName() << ": MIN = [" << m_BoundingBox.Min.x << ", " << m_BoundingBox.Min.y << ", " << m_BoundingBox.Min.z << "]" << std::endl;
 	std::cout << m_Owner->GetName() << ": MAX = [" << m_BoundingBox.Max.x << ", " << m_BoundingBox.Max.y << ", " << m_BoundingBox.Max.z << "]" << std::endl;
 	std::cout << m_Owner->GetName() << ": CENTER = [" << m_BoundingBox.Center.x << ", " << m_BoundingBox.Center.y << ", " << m_BoundingBox.Center.z << "]" << std::endl;
+
+    m_BoundingSphere = BoundingSphere(m_BoundingBox.Center, glm::length(m_BoundingBox.Extents));
+
+    std::cout << m_Owner->GetName() << ": CENTER = [" << m_BoundingSphere.Center.x << ", " << m_BoundingSphere.Center.y << ", " << m_BoundingSphere.Center.z << "]" << std::endl;
+    std::cout << m_Owner->GetName() << ": RADIUS = [" << m_BoundingSphere.Radius << "]" << std::endl;
 }
 
 void StaticMeshComponent::Update(float deltaTime)

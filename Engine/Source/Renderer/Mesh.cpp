@@ -16,6 +16,7 @@ Mesh::Mesh(std::vector<Vertex> inVertices, std::vector<uint32_t> inIndices, bool
 			points.push_back(vertex.position);
 
 		m_BoundingBox = BoundingBox(points);
+        m_BoundingSphere = BoundingSphere(points);
 	}
 }
 
