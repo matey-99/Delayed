@@ -4,8 +4,6 @@
 
 class PlayerComponent : public Component
 {
-private:
-
 public:
 	PlayerComponent(Actor* owner);
 
@@ -14,8 +12,13 @@ public:
 	virtual void Destroy() override;
 
 private:
-	void MoveLeft();
-	void MoveRight();
-	void MoveForward();
-	void MoveBackward();
+	void MoveForward(float value);
+	void MoveRight(float value);
+	
+
+	void AddMovementInput(glm::vec3 direction, float value);
+
+private:
+	glm::vec3 m_MoveDirection;
+	float m_MovementSpeed;
 };

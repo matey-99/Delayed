@@ -12,4 +12,10 @@ TransformComponent::TransformComponent(Actor* owner)
 {
 }
 
+void TransformComponent::CalculateLocalModelMatrix()
+{
+	glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(m_LocalRotation)));
+	m_LocalModelMatrix = glm::translate(glm::mat4(1.0f), m_LocalPosition) * rotation * glm::scale(glm::mat4(1.0f), m_LocalScale);
+}
+
 

@@ -5,34 +5,45 @@ std::mutex Input::s_Mutex;
 
 Input::Input()
 {
-	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Player0_MoveLeft", GLFW_KEY_A));
-	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Player0_MoveRight", GLFW_KEY_D));
-	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Player0_MoveForward", GLFW_KEY_W));
-	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Player0_MoveBackward", GLFW_KEY_S));
+	// This should be done in some config file
+	std::unordered_map<int, float> moveForwardBinding;
+	moveForwardBinding.insert({ GLFW_KEY_W, 1.0f });
+	moveForwardBinding.insert({ GLFW_KEY_S, -1.0f });
+
+	std::unordered_map<int, float> moveRightBinding;
+	moveRightBinding.insert({ GLFW_KEY_D, 1.0f });
+	moveRightBinding.insert({ GLFW_KEY_A, -1.0f });
+
+	m_KeyboardAxisMappings.push_back(CreateRef<KeyboardAxisMapping>("Player_MoveForward", moveForwardBinding));
+	m_KeyboardAxisMappings.push_back(CreateRef<KeyboardAxisMapping>("Player_MoveRight", moveRightBinding));
 
 	m_KeyboardActionMappings.push_back(CreateRef<KeyboardActionMapping>("Exit", GLFW_KEY_ESCAPE));
-
 }
 
 Input::~Input()
 {
 }
 
-Ref<Input> Input::GetInstance()
-{
-	std::lock_guard<std::mutex> lock(s_Mutex);
-	if (!s_Instance)
-		s_Instance = CreateRef<Input>();
-
-	return s_Instance;
-}
-
 void Input::ProcessKeyboardInput(GLFWwindow* window)
 {
+	// Actions
 	for (auto actionMapping : m_KeyboardActionMappings)
 	{
 		if (glfwGetKey(window, actionMapping->m_Key) == GLFW_PRESS)
 			MakeAction(actionMapping);
+	}
+
+	// Axes
+	for (auto axisMapping : m_KeyboardAxisMappings)
+	{
+		for (auto func : axisMapping->m_Functions)
+		{
+			for (auto key : axisMapping->m_Keys)
+			{
+				if (glfwGetKey(window, key.first) == GLFW_PRESS)
+					func(key.second);
+			}
+		}
 	}
 }
 
@@ -47,24 +58,59 @@ Ref<KeyboardActionMapping> Input::FindActionMapping(std::string name)
 	return Ref<KeyboardActionMapping>();
 }
 
-void Input::MakeAction(Ref<KeyboardActionMapping> ActionMapping)
+void Input::MakeAction(Ref<KeyboardActionMapping> actionMapping)
 {
-	for (auto action : ActionMapping->m_Actions)
-		action();
+	for (auto function : actionMapping->m_Functions)
+		function();
 }
 
-void Input::BindInput(std::string actionName, std::function<void()> action)
+void Input::BindAction(std::string actionName, std::function<void()> function)
 {
 	auto actionMapping = FindActionMapping(actionName);
 
 	if (actionMapping)
-		actionMapping->m_Actions.push_back(action);
+		actionMapping->m_Functions.push_back(function);
 }
 
-void Input::ClearBinding(std::string actionName)
+void Input::ClearAction(std::string actionName)
 {
-	auto actionMapping = FindActionMapping(actionName);
+	auto actionMapping = FindAxisMapping(actionName);
 
 	if (actionMapping)
-		actionMapping->m_Actions.clear();
+		actionMapping->m_Functions.clear();
+}
+
+
+Ref<KeyboardAxisMapping> Input::FindAxisMapping(std::string name)
+{
+	for (auto axis : m_KeyboardAxisMappings)
+	{
+		if (axis->m_Name == name)
+			return axis;
+	}
+
+	return Ref<KeyboardAxisMapping>();
+}
+
+void Input::MakeAxis(Ref<KeyboardAxisMapping> axisMapping, float value)
+{
+	for (auto function : axisMapping->m_Functions)
+		function(value);
+}
+
+
+void Input::BindAxis(std::string axisName, std::function<void(float)> function)
+{
+	auto axisMapping = FindAxisMapping(axisName);
+
+	if (axisMapping)
+		axisMapping->m_Functions.push_back(function);
+}
+
+void Input::ClearAxis(std::string axisName)
+{
+	auto axisMapping = FindAxisMapping(axisName);
+
+	if (axisMapping)
+		axisMapping->m_Functions.clear();
 }

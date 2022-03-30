@@ -103,6 +103,18 @@ void ActorDetailsPanel::Render()
         case AnchorType::Right:
             anchorName = "Right";
             break;
+        case AnchorType::TopLeft:
+            anchorName = "Top Left";
+            break;
+        case AnchorType::TopRight:
+            anchorName = "Top Right";
+            break;
+        case AnchorType::BottomLeft:
+            anchorName = "Bottom Left";
+            break;
+        case AnchorType::BottomRight:
+            anchorName = "Bottom Right";
+            break;
         }
 
         if (ImGui::BeginCombo("Anchor", anchorName))
@@ -117,6 +129,14 @@ void ActorDetailsPanel::Render()
                 transform->SetAnchor(AnchorType::Left);
             if (ImGui::Selectable("Right"))
                 transform->SetAnchor(AnchorType::Right);
+            if (ImGui::Selectable("TopLeft"))
+                transform->SetAnchor(AnchorType::TopLeft);
+            if (ImGui::Selectable("TopRight"))
+                transform->SetAnchor(AnchorType::TopRight);
+            if (ImGui::Selectable("BottomLeft"))
+                transform->SetAnchor(AnchorType::BottomLeft);
+            if (ImGui::Selectable("BottomRight"))
+                transform->SetAnchor(AnchorType::BottomRight);
 
             ImGui::EndCombo();
         }

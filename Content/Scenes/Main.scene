@@ -932,3 +932,16 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+  - Actor: 32024630
+    ID: 32024630
+    Name: New UI Actor
+    Components:
+      - RectTransform:
+          Anchor: 7
+          LocalPosition: [133, 133, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+      - Image:
+          Path: Textures/HUD_placeholder.png
+          Color: [1, 1, 1, 1]

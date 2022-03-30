@@ -15,8 +15,8 @@ EditorCamera::EditorCamera(Scene* scene, glm::vec3 position, glm::vec3 front, gl
 	Near = 0.1f;
 	Far = 500.0f;
 
-	m_MovementSpeed = 200.0f;
-	m_RotateSpeed = 200.0f;
+	m_MovementSpeed = 50.0f;
+	m_RotateSpeed = 50.0f;
 }
 
 void EditorCamera::Update()

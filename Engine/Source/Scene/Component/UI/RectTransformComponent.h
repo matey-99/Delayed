@@ -6,7 +6,7 @@
 
 enum class AnchorType
 {
-	Center, Top, Bottom, Left, Right
+	Center, Top, Bottom, Left, Right, TopLeft, TopRight, BottomLeft, BottomRight
 };
 
 class RectTransformComponent : public TransformBaseComponent

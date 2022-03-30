@@ -6,6 +6,7 @@
 #include <mutex>
 #include <GLFW/glfw3.h>
 
+#include "Patterns/Singleton.h"
 #include "typedefs.h"
 
 struct KeyboardActionMapping
@@ -17,31 +18,42 @@ public:
 
 	std::string m_Name;
 	int m_Key;
-	std::vector<std::function<void()>> m_Actions;
+	std::vector<std::function<void()>> m_Functions;
 };
 
-class Input
+struct KeyboardAxisMapping
+{
+public:
+	KeyboardAxisMapping(std::string name, std::unordered_map<int, float> keys)
+		: m_Name(name), m_Keys(keys)
+	{}
+
+	std::string m_Name;
+	std::unordered_map<int, float> m_Keys;
+	std::vector<std::function<void(float)>> m_Functions;
+};
+
+class Input : public Singleton<Input>
 {
 public:
 	Input();
 	~Input();
 
-	Input(Input& other) = delete;
-	void operator=(const Input&) = delete;
-
-	static Ref<Input> GetInstance();
-
 	void ProcessKeyboardInput(GLFWwindow* window);
 
+	// Keyboard Actions
 	Ref<KeyboardActionMapping> FindActionMapping(std::string name);
-	void MakeAction(Ref<KeyboardActionMapping> ActionMapping);
+	void MakeAction(Ref<KeyboardActionMapping> actionMapping);
+	void BindAction(std::string actionName, std::function<void()> function);
+	void ClearAction(std::string actionName);
 
-	void BindInput(std::string actionName, std::function<void()> action);
-	void ClearBinding(std::string actionName);
+	// Keyboard Axes
+	Ref<KeyboardAxisMapping> FindAxisMapping(std::string name);
+	void MakeAxis(Ref<KeyboardAxisMapping> axisMapping, float value);
+	void BindAxis(std::string axisName, std::function<void(float)> function);
+	void ClearAxis(std::string axisName);
 
 private:
-	static Ref<Input> s_Instance;
-	static std::mutex s_Mutex;
-
 	std::vector<Ref<KeyboardActionMapping>> m_KeyboardActionMappings;
+	std::vector<Ref<KeyboardAxisMapping>> m_KeyboardAxisMappings;
 };

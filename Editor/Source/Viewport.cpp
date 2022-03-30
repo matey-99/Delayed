@@ -59,6 +59,8 @@ void Viewport::Render()
         m_ViewportRenderTarget->Update((unsigned int)m_Size.x, (unsigned int)m_Size.y);
 
         m_Editor->GetCamera()->AspectRactio = { m_Size.x, m_Size.y };
+
+        m_Scene->GetUIRoot()->GetTransform()->CalculateWorldModelMatrix();
     }
     uint32_t viewportTexture = m_ViewportRenderTarget->GetTargets()[0];
     ImGui::Image((void*)viewportTexture, ImVec2(m_Size.x, m_Size.y), ImVec2(0, 1), ImVec2(1, 0));

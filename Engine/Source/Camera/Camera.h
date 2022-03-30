@@ -18,4 +18,6 @@ public:
 	virtual glm::mat4 GetViewMatrix() = 0;
 	virtual glm::mat4 GetProjectionMatrix() = 0;
 	virtual glm::mat4 GetViewProjectionMatrix() = 0;
+
+	virtual void SetAspectRatio(glm::vec2) = 0;
 };

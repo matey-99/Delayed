@@ -20,7 +20,7 @@ TransformBaseComponent::TransformBaseComponent(Actor* owner)
 	m_LocalModelMatrix = glm::mat4(1.0f);
 	m_WorldModelMatrix = glm::mat4(1.0f);
 
-	m_Forward = Math::Transform(Math::Forward, glm::quat(glm::radians(GetWorldRotation())));
+	m_Forward = Math::Transform(Math::ForwardVector, glm::quat(glm::radians(GetWorldRotation())));
 }
 
 void TransformBaseComponent::Start()
@@ -90,12 +90,6 @@ void TransformBaseComponent::SetParent(TransformBaseComponent* parent)
 	CalculateWorldModelMatrix();
 }
 
-void TransformBaseComponent::CalculateLocalModelMatrix()
-{
-	glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(m_LocalRotation)));
-	m_LocalModelMatrix = glm::translate(glm::mat4(1.0f), m_LocalPosition) * rotation * glm::scale(glm::mat4(1.0f), m_LocalScale);
-}
-
 void TransformBaseComponent::CalculateWorldModelMatrix()
 {
 	CalculateLocalModelMatrix();
@@ -105,7 +99,7 @@ void TransformBaseComponent::CalculateWorldModelMatrix()
 	else
 		m_WorldModelMatrix = m_LocalModelMatrix;
 
-	m_Forward = Math::Transform(Math::Forward, glm::quat(glm::radians(GetWorldRotation())));
+	m_Forward = Math::Transform(Math::ForwardVector, glm::quat(glm::radians(GetWorldRotation())));
 
 	for (auto child : m_Children)
 	{
