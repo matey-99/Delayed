@@ -10,18 +10,18 @@ SphereColliderComponent::SphereColliderComponent(Actor* owner)
 	: ColliderComponent(owner)
 {
 	m_Center = glm::vec3(0.0f);
-	m_Size = glm::vec3(1.0f);
+	m_Size = 1.0f;
 }
 
 void SphereColliderComponent::Start()
 {
 	if (auto staticMesh = m_Owner->GetComponent<StaticMeshComponent>())
 	{
-		m_BoundingBox = BoundingBox(staticMesh->GetBoundingBox().Min * m_Size, staticMesh->GetBoundingBox().Max * m_Size);
+		m_BoundingSphere = BoundingSphere(staticMesh->GetBoundingSphere().Center, staticMesh->GetBoundingSphere().Radius * m_Size);
 	}
 	else
 	{
-		m_BoundingBox = BoundingBox(-m_Size + m_Center, m_Size + m_Center);
+        m_BoundingSphere = BoundingSphere(m_Center, m_Size);
 	}
 
 	m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
@@ -32,7 +32,7 @@ void SphereColliderComponent::Update(float deltaTime)
 	glm::vec3 deltaPosition = m_Owner->GetTransform()->GetWorldPosition() - m_OwnerLastPosition;
 	m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
 
-	m_BoundingBox = BoundingBox(m_BoundingBox.Min + deltaPosition, m_BoundingBox.Max + deltaPosition);
+	m_BoundingSphere = BoundingSphere(m_BoundingSphere.Center + deltaPosition, m_BoundingSphere.Radius);
 
 	CheckCollisions();
 }
@@ -52,12 +52,10 @@ bool SphereColliderComponent::CheckCollisions()
 
 		if (auto collider = actor->GetComponent<SphereColliderComponent>())
 		{
-			if ((m_BoundingBox.Center.x - collider->GetBoundingBox().Center.x) < (m_BoundingBox.Extents.x + collider->GetBoundingBox().Extents.x) &&
-				(m_BoundingBox.Center.y - collider->GetBoundingBox().Center.y) < (m_BoundingBox.Extents.x + collider->GetBoundingBox().Extents.y) &&
-				(m_BoundingBox.Center.z - collider->GetBoundingBox().Center.z) < (m_BoundingBox.Extents.x + collider->GetBoundingBox().Extents.z))
+            glm::vec3 d = m_BoundingSphere.Center - collider->GetBoundingSphere().Center;
+			if (glm::length(d) < (collider->GetBoundingSphere().Radius + m_BoundingSphere.Radius))
 			{
-				glm::vec3 d = m_BoundingBox.Center - collider->GetBoundingBox().Center;
-				glm::vec3 v = glm::normalize(d) * (glm::length(collider->GetBoundingBox().Extents) + glm::length(m_BoundingBox.Extents) - glm::length(d)) * 0.5f;
+				glm::vec3 v = glm::normalize(d) * (collider->GetBoundingSphere().Radius + m_BoundingSphere.Radius - glm::length(d));
 
 				if (m_Owner->GetComponent<PlayerComponent>())
 				{
