@@ -8,7 +8,7 @@
 ImageComponent::ImageComponent(Actor* owner)
 	: UIComponent(owner)
 {
-	m_Image = Texture::Create(ContentHelper::GetAssetPath("Textures/Default/UI.png"));
+	m_Image = Texture::Create("Textures/Default/UI.png");
 	m_Color = glm::vec4(1.0f);
 }
 
@@ -41,5 +41,5 @@ void ImageComponent::Destroy()
 
 void ImageComponent::ChangeImage(std::string path)
 {
-	m_Image = Texture::Create(ContentHelper::GetAssetPath(path));
+	m_Image = Texture::Create(path);
 }
