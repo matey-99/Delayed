@@ -212,14 +212,15 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						b->m_Size = size;
 					}
 
-					if (auto sphereCollider = component["Sphere Collider"])
-					{
-						glm::vec3 center = sphereCollider["Center"].as<glm::vec3>();
-						glm::vec3 size = sphereCollider["Size"].as<glm::vec3>();
+					if (auto sphereCollider = component["Sphere Collider"]) {
+                        glm::vec3 center = sphereCollider["Center"].as<glm::vec3>();
+                        glm::vec3 size = sphereCollider["Size"].as<glm::vec3>();
 
-						auto b = a->AddComponent<SphereColliderComponent>();
-						b->m_Center = center;
-						b->m_Size = size;
+                        auto b = a->AddComponent<SphereColliderComponent>();
+                        b->m_Center = center;
+                        b->m_Size = size;
+                    }
+                    
 					if (auto image = component["Image"])
 					{
 						std::string path = image["Path"].as<std::string>();
