@@ -69,6 +69,7 @@ int main(int, char**)
         return 1;
     }
 
+    // Initialize FMOD
     FMOD::System* system = nullptr;
     FMOD_RESULT result = FMOD::System_Create(&system);
     if (result != FMOD_OK)
@@ -134,16 +135,16 @@ int main(int, char**)
             lag -= MS_PER_UPDATE;
         }
 
-
-        
-
         if (shouldRender)
         {
-            int width, height;
-            glfwGetWindowSize(window, &width, &height);
-            if (width != renderer->GetWindowWidth() || height != renderer->GetWindowHeight())
+            // Check if window has changed
+            int windowWidth, windowHeight;
+            glfwGetWindowSize(window, &windowWidth, &windowHeight);
+            if (windowWidth != renderer->GetWindowWidth() || windowHeight != renderer->GetWindowHeight())
             {
-                renderer->ResizeWindow(width, height);
+                renderer->ResizeWindow(windowWidth, windowHeight);
+                cameraManager->GetMainCamera()->SetAspectRatio(glm::vec2(windowWidth, windowHeight));
+                scene->GetUIRoot()->GetTransform()->CalculateWorldModelMatrix();
             }
 
             renderer->Render(scene, cameraManager->GetMainCamera());

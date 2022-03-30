@@ -26,7 +26,7 @@ public:
 	virtual glm::mat4 GetProjectionMatrix() override;
 	virtual glm::mat4 GetViewProjectionMatrix() override;
 
-	inline void SetAspectRatio(glm::vec2 aspectRatio) { m_AspectRatio = aspectRatio; }
+	inline void SetAspectRatio(glm::vec2 aspectRatio) override { m_AspectRatio = aspectRatio; }
 
 private:
 	glm::vec3 CalculateFrontVector();
