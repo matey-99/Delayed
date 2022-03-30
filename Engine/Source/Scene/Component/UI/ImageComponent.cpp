@@ -38,3 +38,8 @@ void ImageComponent::Render()
 void ImageComponent::Destroy()
 {
 }
+
+void ImageComponent::ChangeImage(std::string path)
+{
+	m_Image = Texture::Create(ContentHelper::GetAssetPath(path));
+}

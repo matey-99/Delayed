@@ -40,6 +40,28 @@ namespace YAML
 		return true;
 	}
 
+	Node convert<glm::vec4>::encode(const glm::vec4& rhs)
+	{
+		Node node;
+		node.push_back(rhs.x);
+		node.push_back(rhs.y);
+		node.push_back(rhs.z);
+		node.push_back(rhs.w);
+		return node;
+	}
+
+	bool convert<glm::vec4>::decode(const Node& node, glm::vec4& rhs)
+	{
+		if (!node.IsSequence() || node.size() != 4)
+			return false;
+
+		rhs.x = node[0].as<float>();
+		rhs.y = node[1].as<float>();
+		rhs.z = node[2].as<float>();
+		rhs.w = node[3].as<float>();
+		return true;
+	}
+
 	Emitter& operator<<(Emitter& out, const glm::vec2& v)
 	{
 		out << Flow;
