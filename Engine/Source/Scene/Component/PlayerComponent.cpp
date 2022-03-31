@@ -17,6 +17,8 @@ void PlayerComponent::Start()
 
 	input->BindAxis("Player_MoveForward", std::bind(&PlayerComponent::MoveForward, this, std::placeholders::_1));
 	input->BindAxis("Player_MoveRight", std::bind(&PlayerComponent::MoveRight, this, std::placeholders::_1));
+	input->BindAxis("Player_Turn", std::bind(&PlayerComponent::MoveRight, this, std::placeholders::_1));
+	input->BindAxis("Player_LookUp", std::bind(&PlayerComponent::MoveForward, this, std::placeholders::_1));
 }
 
 void PlayerComponent::Update(float deltaTime)
@@ -39,7 +41,7 @@ void PlayerComponent::Destroy()
 
 void PlayerComponent::MoveForward(float value)
 {
-	AddMovementInput(Math::ForwardVector, -value);
+	AddMovementInput(Math::ForwardVector, value);
 }
 
 void PlayerComponent::MoveRight(float value)

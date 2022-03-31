@@ -238,6 +238,7 @@ int main(int, char**)
     auto cameraManager = CameraManager::GetInstance();
     cameraManager->GetInstance()->SetMainCamera(editor->GetCamera());
     auto input = Input::GetInstance();
+    input->Initialize(window);
 
     lastFrame = glfwGetTime();
 

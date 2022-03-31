@@ -9,51 +9,88 @@
 #include "Patterns/Singleton.h"
 #include "typedefs.h"
 
-struct KeyboardActionMapping
-{
-public:
-	KeyboardActionMapping(std::string name, int key)
-		: m_Name(name), m_Key(key)
-	{}
+#define MOUSE_X 0
+#define MOUSE_Y 1
 
-	std::string m_Name;
-	int m_Key;
-	std::vector<std::function<void()>> m_Functions;
+enum class InputType
+{
+	Keyboard, Mouse, Gamepad
 };
 
-struct KeyboardAxisMapping
+struct ActionInputBinding
 {
 public:
-	KeyboardAxisMapping(std::string name, std::unordered_map<int, float> keys)
-		: m_Name(name), m_Keys(keys)
+	ActionInputBinding(std::string name, InputType inputType, int input)
+		: Name(name), InputType(inputType), Input(input)
 	{}
 
-	std::string m_Name;
-	std::unordered_map<int, float> m_Keys;
-	std::vector<std::function<void(float)>> m_Functions;
+	static Ref<ActionInputBinding> Create(std::string name, InputType inputType, int input)
+	{
+		return CreateRef<ActionInputBinding>(name, inputType, input);
+	}
+
+	std::string Name;
+	InputType InputType;
+	int Input;
+	std::vector<std::function<void()>> Functions;
+};
+
+struct AxisInputBinding
+{
+public:
+	AxisInputBinding(std::string name, InputType inputType, std::unordered_map<int, float> inputs)
+		: Name(name), InputType(inputType), Inputs(inputs)
+	{}
+
+	static Ref<AxisInputBinding> Create(std::string name, InputType inputType, std::unordered_map<int, float> inputs)
+	{
+		return CreateRef<AxisInputBinding>(name, inputType, inputs);
+	}
+
+	std::string Name;
+	InputType InputType;
+	std::unordered_map<int, float> Inputs;
+	std::vector<std::function<void(float)>> Functions;
 };
 
 class Input : public Singleton<Input>
 {
+private:
+	enum class InputMode
+	{
+		Player, UI, PlayerAndUI
+	};
+
 public:
 	Input();
 	~Input();
 
-	void ProcessKeyboardInput(GLFWwindow* window);
+	void Initialize(GLFWwindow* window);
 
-	// Keyboard Actions
-	Ref<KeyboardActionMapping> FindActionMapping(std::string name);
-	void MakeAction(Ref<KeyboardActionMapping> actionMapping);
+	void Process();
+
+	// Actions
+	std::vector<Ref<ActionInputBinding>> FindActionInputBindings(std::string name);
+	void MakeAction(Ref<ActionInputBinding> actionInputBinding);
 	void BindAction(std::string actionName, std::function<void()> function);
 	void ClearAction(std::string actionName);
 
-	// Keyboard Axes
-	Ref<KeyboardAxisMapping> FindAxisMapping(std::string name);
-	void MakeAxis(Ref<KeyboardAxisMapping> axisMapping, float value);
+	// Axes
+	std::vector<Ref<AxisInputBinding>> FindAxisInputBindings(std::string name);
+	void MakeAxis(Ref<AxisInputBinding> axisInputBinding, float value);
 	void BindAxis(std::string axisName, std::function<void(float)> function);
 	void ClearAxis(std::string axisName);
 
+	void SetInputMode(InputMode mode);
+
 private:
-	std::vector<Ref<KeyboardActionMapping>> m_KeyboardActionMappings;
-	std::vector<Ref<KeyboardAxisMapping>> m_KeyboardAxisMappings;
+	GLFWwindow* m_Window;
+
+	std::vector<Ref<ActionInputBinding>> m_ActionInputBindings;
+	std::vector<Ref<AxisInputBinding>> m_AxisInputBindings;
+
+	InputMode m_Mode;
+
+	float m_LastMousePositionX;
+	float m_LastMousePositionY;
 };
