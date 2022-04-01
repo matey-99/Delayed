@@ -12,6 +12,8 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Destroy() override;
 
+	void UpdateBoundingBox();
+
 	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
 
 protected:

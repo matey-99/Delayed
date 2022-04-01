@@ -16,30 +16,38 @@ BoxColliderComponent::BoxColliderComponent(Actor* owner)
 
 void BoxColliderComponent::Start()
 {
-	if (auto staticMesh = m_Owner->GetComponent<StaticMeshComponent>())
-	{
-		m_BoundingBox = BoundingBox(staticMesh->GetBoundingBox().Min * m_Size, staticMesh->GetBoundingBox().Max * m_Size);
-	}
-	else
-	{
-		m_BoundingBox = BoundingBox(-m_Size + m_Center, m_Size + m_Center);
-	}
+	m_Owner->GetTransform()->OnTransformChanged.Add(&BoxColliderComponent::UpdateBoundingBox, this);
+
+	UpdateBoundingBox();
 
 	m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
 }
 
 void BoxColliderComponent::Update(float deltaTime)
 {
-	glm::vec3 deltaPosition = m_Owner->GetTransform()->GetWorldPosition() - m_OwnerLastPosition;
-	m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
-
-	m_BoundingBox = BoundingBox(m_BoundingBox.Min + deltaPosition, m_BoundingBox.Max + deltaPosition);
-
 	CheckCollisions();
 }
 
 void BoxColliderComponent::Destroy()
 {
+}
+
+void BoxColliderComponent::UpdateBoundingBox()
+{
+	if (auto staticMesh = m_Owner->GetComponent<StaticMeshComponent>())
+	{
+		m_BoundingBox = BoundingBox(staticMesh->GetBoundingBox().Min * m_Size, staticMesh->GetBoundingBox().Max * m_Size);
+	}
+	else
+	{
+		auto temp = BoundingBox(-m_Size + m_Center, m_Size + m_Center);
+		auto points = temp.GetPoints();
+
+		for (auto& point : points)
+			point = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(point, 1.0f);
+
+		m_BoundingBox = BoundingBox(points);
+	}
 }
 
 bool BoxColliderComponent::CheckCollisions()

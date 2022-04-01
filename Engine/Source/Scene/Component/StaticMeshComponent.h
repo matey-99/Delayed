@@ -31,6 +31,8 @@ public:
 	void ChangeMesh(std::string path);
 	void ChangeMaterial(int index, std::string path);
 
+	void UpdateBoundingBox();
+
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
 	virtual void PreRender() override;
