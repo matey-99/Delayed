@@ -1,49 +1,12 @@
 #include "Input.h"
 
+#include "InputSerializer.h"
+
 Ref<Input> Input::s_Instance{};
 std::mutex Input::s_Mutex;
 
 Input::Input()
 {
-	// Creating bindings should be done in some config file
-
-	// Keyboard & Mouse
-	std::unordered_map<int, float> moveForwardKeyboardBinding = { { GLFW_KEY_S, 1.0f }, { GLFW_KEY_W, -1.0f } };
-	std::unordered_map<int, float> moveRightKeyboardBinding = { { GLFW_KEY_D, 1.0f }, { GLFW_KEY_A, -1.0f } };
-
-	// Second fields are set as 0.0f, because value will be taken from mouse delta position
-	std::unordered_map<int, float> turnBinding = { { MOUSE_X, 0.0f } };
-	std::unordered_map<int, float> lookUpBinding = { { MOUSE_Y, 0.0f } };
-
-	// Gamepad
-	// Second fields are set as 0.0f, because value will be taken from gamepad
-	std::unordered_map<int, float> moveForwardGamepadBinding = { { GLFW_GAMEPAD_AXIS_LEFT_Y, 0.0f } };
-	std::unordered_map<int, float> moveRightGamepadBinding = { { GLFW_GAMEPAD_AXIS_LEFT_X, 0.0f } };
-	std::unordered_map<int, float> turnRateBinding = { { GLFW_GAMEPAD_AXIS_RIGHT_X, 0.0f } };
-	std::unordered_map<int, float> lookUpRateBinding = { { GLFW_GAMEPAD_AXIS_RIGHT_Y, 0.0f } };
-	
-
-	// Binding axis inputs
-	// Keyboard & Mouse
-	m_AxisInputBindings.push_back(AxisInputBinding::Create("Player_MoveForward", InputType::Keyboard, moveForwardKeyboardBinding));
-	m_AxisInputBindings.push_back(AxisInputBinding::Create("Player_MoveRight", InputType::Keyboard, moveRightKeyboardBinding));
-	m_AxisInputBindings.push_back(AxisInputBinding::Create("Player_Turn", InputType::Mouse, turnBinding));
-	m_AxisInputBindings.push_back(AxisInputBinding::Create("Player_LookUp", InputType::Mouse, lookUpBinding));
-
-	// Gamepad
-	m_AxisInputBindings.push_back(AxisInputBinding::Create("Player_MoveForward", InputType::Gamepad, moveForwardGamepadBinding));
-	m_AxisInputBindings.push_back(AxisInputBinding::Create("Player_MoveRight", InputType::Gamepad, moveRightGamepadBinding));
-	m_AxisInputBindings.push_back(AxisInputBinding::Create("Player_Turn", InputType::Gamepad, turnRateBinding));
-	m_AxisInputBindings.push_back(AxisInputBinding::Create("Player_LookUp", InputType::Gamepad, lookUpRateBinding));
-
-	// Binding action inputs
-	// Keyboard & Mouse
-	m_ActionInputBindings.push_back(ActionInputBinding::Create("Exit", InputType::Keyboard, GLFW_KEY_ESCAPE));
-
-	// Gamepad
-	m_ActionInputBindings.push_back(ActionInputBinding::Create("Exit", InputType::Gamepad, GLFW_GAMEPAD_BUTTON_BACK));
-
-	// Fields initialization
 	m_Window = nullptr;
 	m_Mode = InputMode::Player;
 	m_LastMousePositionX = 0.0f;
@@ -58,7 +21,9 @@ void Input::Initialize(GLFWwindow* window)
 {
 	m_Window = window;
 
-	SetInputMode(InputMode::Player);
+	InputSerializer::Deserialize("../../../Config/Input.yaml");
+
+	SetInputMode(InputMode::PlayerAndUI);
 }
 
 void Input::Process()
@@ -114,18 +79,18 @@ void Input::Process()
 				case InputType::Mouse:
 					switch (input.first)
 					{
-					case MOUSE_X:
-						MakeAxis(axisInputBinding, mouseDeltaX);
+					case 0:
+						MakeAxis(axisInputBinding, mouseDeltaX * input.second);
 						break;
-					case MOUSE_Y:
-						MakeAxis(axisInputBinding, mouseDeltaY);
+					case 1:
+						MakeAxis(axisInputBinding, mouseDeltaY * input.second);
 						break;
 					}
 					break;
 				case InputType::Gamepad:
 					GLFWgamepadstate state;
 					if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
-						MakeAxis(axisInputBinding, state.axes[input.first]);
+						MakeAxis(axisInputBinding, state.axes[input.first] * input.second);
 					break;
 				}
 			}
