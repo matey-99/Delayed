@@ -99,6 +99,7 @@ int main(int, char**)
 
     // INPUT
     auto input = Input::GetInstance();
+    input->Initialize(window);
 
     // SHADER
     auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Screen");
@@ -122,7 +123,7 @@ int main(int, char**)
 
         // INPUTS
         glfwPollEvents();
-        input->ProcessKeyboardInput(window);
+        input->Process();
 
         // UPDATE
         scene = sceneManager->GetCurrentScene();

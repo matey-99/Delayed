@@ -223,7 +223,7 @@ int main(int, char**)
     Renderer::GetInstance()->Initialize();
 
     auto sceneManager = SceneManager::GetInstance();
-    sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/Main.scene"));
+    sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/CollisionTesting.scene"));
 
     scene = sceneManager->GetCurrentScene();
 
@@ -238,6 +238,9 @@ int main(int, char**)
     auto cameraManager = CameraManager::GetInstance();
     cameraManager->GetInstance()->SetMainCamera(editor->GetCamera());
     auto input = Input::GetInstance();
+    input->Initialize(window);
+
+    editor->Start();
 
     lastFrame = glfwGetTime();
 

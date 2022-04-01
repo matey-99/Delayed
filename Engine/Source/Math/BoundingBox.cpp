@@ -21,8 +21,13 @@ BoundingBox::BoundingBox(std::vector<glm::vec3> points)
 
 	for (auto point : points)
 	{
-		Min = glm::min(Min, point);
-		Max = glm::max(Max, point);
+		Min.x = glm::min(Min.x, point.x);
+		Min.y = glm::min(Min.y, point.y);
+		Min.z = glm::min(Min.z, point.z);
+
+		Max.x = glm::max(Max.x, point.x);
+		Max.y = glm::max(Max.y, point.y);
+		Max.z = glm::max(Max.z, point.z);
 	}
 
 	Center = (Min + Max) * 0.5f;
@@ -34,13 +39,13 @@ std::vector<glm::vec3> BoundingBox::GetPoints()
 {
 	std::vector<glm::vec3> points;
 	points.push_back({ Min.x, Min.y, Min.z });
-	points.push_back({ Max.x, Min.y, Min.z });
-	points.push_back({ Max.x, Min.y, Max.z });
 	points.push_back({ Min.x, Min.y, Max.z });
 	points.push_back({ Min.x, Max.y, Min.z });
+	points.push_back({ Min.x, Max.y, Max.z });
+	points.push_back({ Max.x, Min.y, Min.z });
+	points.push_back({ Max.x, Min.y, Max.z });
 	points.push_back({ Max.x, Max.y, Min.z });
 	points.push_back({ Max.x, Max.y, Max.z });
-	points.push_back({ Min.x, Max.y, Max.z });
 
 	return points;
 }

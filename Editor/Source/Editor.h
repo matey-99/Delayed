@@ -56,6 +56,7 @@ public:
 	static Ref<Editor> GetInstance();
 
 	void Initialize(Ref<Scene> scene);
+	void Start();
 	void Update(float deltaTime);
 	void Render();
 

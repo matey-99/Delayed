@@ -1,0 +1,52 @@
+ActionInputBindings:
+  - Name: Exit
+    InputType: Keyboard
+    Input: Escape
+  - Name: Exit
+    InputType: Gamepad
+    Input: Back
+AxisInputBindings:
+  - Name: Player_MoveForward
+    InputType: Keyboard
+    Inputs:
+      - Input: S
+        Value: 1.0
+      - Input: W
+        Value: -1.0
+  - Name: Player_MoveRight
+    InputType: Keyboard
+    Inputs:
+      - Input: D
+        Value: 1.0
+      - Input: A
+        Value: -1.0
+  - Name: Player_Turn
+    InputType: Mouse
+    Inputs:
+      - Input: MouseX
+        Value: 1.0
+  - Name: Player_LookUp
+    InputType: Mouse
+    Inputs:
+      - Input: MouseY
+        Value: 1.0
+  - Name: Player_MoveForward
+    InputType: Gamepad
+    Inputs:
+      - Input: LeftY
+        Value: 1.0
+  - Name: Player_MoveRight
+    InputType: Gamepad
+    Inputs:
+      - Input: LeftX
+        Value: 1.0
+  - Name: Player_Turn
+    InputType: Gamepad
+    Inputs:
+      - Input: RightX
+        Value: 1.0
+  - Name: Player_LookUp
+    InputType: Gamepad
+    Inputs:
+      - Input: RightY
+        Value: 1.0

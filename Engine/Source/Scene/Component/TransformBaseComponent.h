@@ -4,6 +4,8 @@
 
 #include <glm/glm.hpp>
 
+#include "Patterns/Event.h"
+
 class TransformBaseComponent : public Component
 {
 public:
@@ -43,6 +45,9 @@ public:
 	virtual inline glm::mat4 GetWorldModelMatrix() const { return m_WorldModelMatrix; }
 
 	virtual inline glm::vec3 GetForward() const { return m_Forward; }
+
+public:
+	Event OnTransformChanged;
 
 protected:
 	glm::vec3 m_LocalPosition;
