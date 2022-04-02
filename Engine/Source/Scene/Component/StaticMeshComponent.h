@@ -33,6 +33,7 @@ public:
 	void ChangeMaterial(int index, std::string path);
 
 	void UpdateBoundingBox();
+    void UpdateBoundingSphere();
 
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;

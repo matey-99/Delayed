@@ -34,9 +34,6 @@ Actors:
       - Box Collider:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
-      - Sphere Collider:
-          Center: [0, 0, 0]
-          Size: 1
   - Actor: 337649296
     ID: 337649296
     Name: Ground
@@ -84,7 +81,7 @@ Actors:
     Name: default_sphere
     Components:
       - Transform:
-          LocalPosition: [0, -0.5, -9.58407879]
+          LocalPosition: [0, 0.5, -9.58407879]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0

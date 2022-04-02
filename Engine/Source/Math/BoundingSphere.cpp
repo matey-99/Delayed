@@ -5,11 +5,11 @@ void MostSeparatedPointsOnAABB(int &min, int &max, std::vector<glm::vec3> &point
 
     for (int i = 1; i < points.size(); ++i) {
         if (points[i].x < points[minx].x) minx = i;
-        if (points[i].x < points[maxx].x) maxx = i;
+        if (points[i].x > points[maxx].x) maxx = i;
         if (points[i].y < points[miny].y) miny = i;
-        if (points[i].y < points[maxy].y) maxy = i;
+        if (points[i].y > points[maxy].y) maxy = i;
         if (points[i].z < points[minz].z) minz = i;
-        if (points[i].z < points[maxz].z) maxz = i;
+        if (points[i].z > points[maxz].z) maxz = i;
     }
 
     float dist2x = glm::dot(points[maxx] - points[minx], points[maxx] - points[minx]);

@@ -4,15 +4,16 @@
 #include "Math/BoundingBox.h"
 #include "Math/BoundingSphere.h"
 
-class ColliderComponent : public Component
-{
+class ColliderComponent : public Component {
 public:
-	ColliderComponent(Actor* owner);
+    ColliderComponent(Actor *owner);
 
 protected:
-	virtual bool CheckCollisions() = 0;
+    bool isTrigger;
 
-    static float Dist2PointAABB(glm::vec3 point, BoundingBox box);
+    virtual bool CheckCollisions() = 0;
 
-	friend class SceneSerializer;
+    virtual glm::vec3 ClosestPoint(glm::vec3 point) = 0;
+
+    friend class SceneSerializer;
 };

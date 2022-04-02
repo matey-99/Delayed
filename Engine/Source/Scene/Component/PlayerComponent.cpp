@@ -17,12 +17,16 @@ void PlayerComponent::Start()
 
 	input->BindAxis("Player_MoveForward", std::bind(&PlayerComponent::MoveForward, this, std::placeholders::_1));
 	input->BindAxis("Player_MoveRight", std::bind(&PlayerComponent::MoveRight, this, std::placeholders::_1));
-	input->BindAxis("Player_Turn", std::bind(&PlayerComponent::MoveRight, this, std::placeholders::_1));
-	input->BindAxis("Player_LookUp", std::bind(&PlayerComponent::MoveForward, this, std::placeholders::_1));
+//	input->BindAxis("Player_Turn", std::bind(&PlayerComponent::MoveRight, this, std::placeholders::_1));
+//	input->BindAxis("Player_LookUp", std::bind(&PlayerComponent::MoveForward, this, std::placeholders::_1));
 }
 
 void PlayerComponent::Update(float deltaTime)
 {
+    //FIXME player each frame fires Event from transform, this is temporary fix
+    if (Math::Magnitude(m_MoveDirection) == 0.0f)
+        return;
+
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
 

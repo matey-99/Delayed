@@ -40,13 +40,10 @@ StaticMeshComponent::StaticMeshComponent(Actor* owner, std::string path, std::ve
 void StaticMeshComponent::Start()
 {
 	m_Owner->GetTransform()->OnTransformChanged.Add(&StaticMeshComponent::UpdateBoundingBox, this);
-
-    m_BoundingSphere = BoundingSphere(m_BoundingBox.Center, glm::length(m_BoundingBox.Extents));
-
-    std::cout << m_Owner->GetName() << ": CENTER = [" << m_BoundingSphere.Center.x << ", " << m_BoundingSphere.Center.y << ", " << m_BoundingSphere.Center.z << "]" << std::endl;
-    std::cout << m_Owner->GetName() << ": RADIUS = [" << m_BoundingSphere.Radius << "]" << std::endl;
+    m_Owner->GetTransform()->OnTransformChanged.Add(&StaticMeshComponent::UpdateBoundingSphere, this);
 	
 	UpdateBoundingBox();
+    UpdateBoundingSphere();
 }
 
 void StaticMeshComponent::Update(float deltaTime)
@@ -144,4 +141,19 @@ void StaticMeshComponent::UpdateBoundingBox()
 	}
 
 	m_BoundingBox = BoundingBox(pointsFromAllMeshes);
+}
+
+void StaticMeshComponent::UpdateBoundingSphere() {
+    std::vector<glm::vec3> pointsFromAllMeshes;
+    for (auto mesh : m_Meshes)
+    {
+        auto points = mesh.GetBoundingBox().GetPoints();
+        for (auto& point : points)
+        {
+            point = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(point, 1.0f);
+            pointsFromAllMeshes.push_back(point);
+        }
+    }
+
+    m_BoundingSphere = BoundingSphere(pointsFromAllMeshes);
 }
