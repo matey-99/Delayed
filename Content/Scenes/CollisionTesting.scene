@@ -20,7 +20,7 @@ Actors:
     Name: Player
     Components:
       - Transform:
-          LocalPosition: [0, 1.94758081, 11.0338955]
+          LocalPosition: [0, 1.97156048, 11.0338955]
           LocalRotation: [0, 0, 0]
           LocalScale: [5, 5, 5]
           Parent: 0
@@ -31,7 +31,7 @@ Actors:
               Path: Materials/Default.mat
       - Player:
           {}
-      - Box Collider:
+      - BoxCollider:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
   - Actor: 337649296
@@ -48,6 +48,9 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 410957571
     ID: 410957571
     Name: Directional Light
@@ -73,7 +76,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/New material 2.mat
-      - Box Collider:
+      - BoxCollider:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
   - Actor: 736521600
@@ -90,6 +93,27 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/New material 1.mat
-      - Sphere Collider:
+      - SphereCollider:
           Center: [0, 0, 0]
           Size: 1
+  - Actor: 964083174
+    ID: 964083174
+    Name: Grav
+    Components:
+      - Transform:
+          LocalPosition: [-13.6539049, 26.0694313, -7.71205997]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [5, 5, 5]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+      - BoxCollider:
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - RigidBody:
+          Gravity: 1
+          Mass: 1
+          Drag: 0.939999998

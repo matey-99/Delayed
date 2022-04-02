@@ -12,6 +12,7 @@
 #include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include <Scene/Component/Collider/SphereColliderComponent.h>
+#include <Scene/Component/RigidBodyComponent.h>
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 
@@ -205,7 +206,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						a->AddComponent<PlayerComponent>();
 					}
 
-					if (auto boxCollider = component["Box Collider"])
+					if (auto boxCollider = component["BoxCollider"])
 					{
 						glm::vec3 center = boxCollider["Center"].as<glm::vec3>();
 						glm::vec3 size = boxCollider["Size"].as<glm::vec3>();
@@ -215,7 +216,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						b->m_Size = size;
 					}
 
-					if (auto sphereCollider = component["Sphere Collider"]) {
+					if (auto sphereCollider = component["SphereCollider"]) {
                         glm::vec3 center = sphereCollider["Center"].as<glm::vec3>();
                         float size = sphereCollider["Size"].as<float>();
 
@@ -233,6 +234,18 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						i->m_Image = Texture::Create(path);
 						i->m_Color = color;
 					}
+
+                    if (auto rigidBody = component["RigidBody"])
+                    {
+                        float gravity = rigidBody["Gravity"].as<float>();
+                        float mass = rigidBody["Mass"].as<float>();
+                        float drag = rigidBody["Drag"].as<float>();
+
+                        auto r = a->AddComponent<RigidBodyComponent>();
+                        r->m_Gravity = gravity;
+                        r->m_Mass = mass;
+                        r->m_Drag = drag;
+                    }
 				}
 			}
 		}
@@ -417,7 +430,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	if (auto boxCollider = actor->GetComponent<BoxColliderComponent>())
 	{
 		out << YAML::BeginMap;
-		out << YAML::Key << "Box Collider";
+		out << YAML::Key << "BoxCollider";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Center" << YAML::Value << boxCollider->m_Center;
 		out << YAML::Key << "Size" << YAML::Value << boxCollider->m_Size;
@@ -428,7 +441,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	if (auto sphereCollider = actor->GetComponent<SphereColliderComponent>())
 	{
 		out << YAML::BeginMap;
-		out << YAML::Key << "Sphere Collider";
+		out << YAML::Key << "SphereCollider";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Center" << YAML::Value << sphereCollider->m_Center;
 		out << YAML::Key << "Size" << YAML::Value << sphereCollider->m_Size;
@@ -446,6 +459,18 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
+
+    if (auto rigidBody = actor->GetComponent<RigidBodyComponent>())
+    {
+        out << YAML::BeginMap;
+        out << YAML::Key << "RigidBody";
+        out << YAML::BeginMap;
+        out << YAML::Key << "Gravity" << YAML::Value << rigidBody->m_Gravity;
+        out << YAML::Key << "Mass" << YAML::Value << rigidBody->m_Mass;
+        out << YAML::Key << "Drag" << YAML::Value << rigidBody->m_Drag;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
 
 	out << YAML::EndSeq;
 	out << YAML::EndMap;

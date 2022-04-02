@@ -1,3 +1,4 @@
+#include <Scene/Component/RigidBodyComponent.h>
 #include "BoxColliderComponent.h"
 
 #include "Scene/Actor.h"
@@ -95,7 +96,7 @@ bool BoxColliderComponent::CheckCollisions() {
                 v.y = bottom < top ? -bottom : top;
                 v.z = backward < forward ? -backward : forward;
 
-                if (m_Owner->GetComponent<PlayerComponent>()) {
+                if (m_Owner->GetComponent<PlayerComponent>() || m_Owner->GetComponent<RigidBodyComponent>()) {
                     if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z)) {
                         v.y = 0;
                         v.z = 0;
@@ -118,9 +119,9 @@ bool BoxColliderComponent::CheckCollisions() {
 
                 //FIXME needs better separation vector
                 glm::vec3 v = ClosestPoint(collider->GetBoundingSphere().Center) - collider->GetBoundingSphere().Center;
-                printf("Separation: [%f, %f, %f]\n", v.x, v.y, v.z);
-                printf("Player pos: [%f, %f, %f]", m_Owner->GetTransform()->GetWorldPosition().x,
-                       m_Owner->GetTransform()->GetWorldPosition().y, m_Owner->GetTransform()->GetWorldPosition().z);
+//                printf("Separation: [%f, %f, %f]\n", v.x, v.y, v.z);
+//                printf("%s pos: [%f, %f, %f]", m_Owner->GetName().c_str(), m_Owner->GetTransform()->GetWorldPosition().x,
+//                       m_Owner->GetTransform()->GetWorldPosition().y, m_Owner->GetTransform()->GetWorldPosition().z);
 
                 if (m_Owner->GetComponent<PlayerComponent>()) {
                     if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z)) {
