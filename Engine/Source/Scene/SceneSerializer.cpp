@@ -12,6 +12,7 @@
 #include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include "Scene/Component/UI/ImageComponent.h"
+#include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
@@ -223,6 +224,24 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						i->m_Image = Texture::Create(path);
 						i->m_Color = color;
 					}
+
+					if (auto button = component["Button"])
+					{
+						bool enabled = button["Enabled"].as<bool>();
+						std::string path = button["ImagePath"].as<std::string>();
+						glm::vec4 normalColor = button["NormalColor"].as<glm::vec4>();
+						glm::vec4 hoveredColor = button["HoveredColor"].as<glm::vec4>();
+						glm::vec4 pressedColor = button["PressedColor"].as<glm::vec4>();
+						glm::vec4 disabledColor = button["DisabledColor"].as<glm::vec4>();
+
+						auto b = a->AddComponent<ButtonComponent>();
+						b->m_Enabled = enabled;
+						b->m_Image = Texture::Create(path);
+						b->m_NormalColor = normalColor;
+						b->m_HoveredColor = hoveredColor;
+						b->m_PressedColor = pressedColor;
+						b->m_DisabledColor = disabledColor;
+					}
 				}
 			}
 		}
@@ -422,6 +441,21 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Path" << YAML::Value << image->m_Image->GetPath();
 		out << YAML::Key << "Color" << YAML::Value << image->m_Color;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto button = actor->GetComponent<ButtonComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Button";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Enabled" << YAML::Value << button->m_Enabled;
+		out << YAML::Key << "ImagePath" << YAML::Value << button->m_Image->GetPath();
+		out << YAML::Key << "NormalColor" << YAML::Value << button->m_NormalColor;
+		out << YAML::Key << "HoveredColor" << YAML::Value << button->m_HoveredColor;
+		out << YAML::Key << "PressedColor" << YAML::Value << button->m_PressedColor;
+		out << YAML::Key << "DisabledColor" << YAML::Value << button->m_DisabledColor;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

@@ -91,7 +91,7 @@ int main(int, char**)
 
     // SCENE
     auto sceneManager = SceneManager::GetInstance();
-    auto scene = sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/CollisionTesting.scene"));
+    auto scene = sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/MainMenu.scene"));
 
     // CAMERA
     auto cameraManager = CameraManager::GetInstance();

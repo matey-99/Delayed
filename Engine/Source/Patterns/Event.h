@@ -16,6 +16,7 @@ public:
 		m_Functions.push_back(std::bind(func, object));
 	}
 
+	// TO DO: objects of type std::bind can't compare between each other with using '==' - need to find another way of removing binded functions
 	template <class T>
 	void Remove(void (T::* func)(), T* object)
 	{

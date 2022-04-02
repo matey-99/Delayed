@@ -17,6 +17,9 @@ public:
 	inline AnchorType GetAnchorType() const { return m_AnchorType; }
 	inline glm::vec2 GetAnchor() const { return m_Anchor; }
 
+	inline glm::vec3 GetLocalPositionUI() const { return m_LocalPositionUI; }
+	inline glm::vec3 GetLocalScaleUI() const { return m_LocalScaleUI; }
+
 	void SetAnchor(AnchorType type);
 
 	virtual void CalculateLocalModelMatrix() override;
@@ -24,6 +27,9 @@ public:
 private:
 	AnchorType m_AnchorType;
 	glm::vec2 m_Anchor;
+
+	glm::vec3 m_LocalPositionUI;
+	glm::vec3 m_LocalScaleUI;
 
 	friend class SceneSerializer;
 };

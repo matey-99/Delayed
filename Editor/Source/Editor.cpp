@@ -8,6 +8,9 @@
 #include "Renderer/RenderPass/LightingPass.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/UI/UIComponent.h"
+
+#define UPDATE_UI 1
 
 Ref<Editor> Editor::s_Instance{};
 std::mutex Editor::s_Mutex;
@@ -103,6 +106,16 @@ void Editor::Update(float deltaTime)
 		if (m_SelectedCameraComponent)
 			m_SelectedCameraComponent->Update(deltaTime);
 	}
+
+#if UPDATE_UI
+
+	auto uiComponents = m_Scene->GetComponents<UIComponent>();
+	for (auto comp : uiComponents)
+		comp->Update(deltaTime);
+
+
+#endif
+
 }
 
 void Editor::Render()

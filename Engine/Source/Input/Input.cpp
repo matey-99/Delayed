@@ -95,6 +95,14 @@ void Input::Process()
 				}
 			}
 		}
+
+		if (m_Mode == InputMode::UI || m_Mode == InputMode::PlayerAndUI)
+		{
+			if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == GLFW_PRESS)
+				OnLeftMouseButtonPressed.Broadcast();
+			else if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == GLFW_RELEASE)
+				OnLeftMouseButtonReleased.Broadcast();
+		}
 	}
 }
 
@@ -187,4 +195,12 @@ void Input::SetInputMode(InputMode mode)
 		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		break;
 	}
+}
+
+glm::vec2 Input::GetMousePosition()
+{
+	double mousePosX, mousePosY;
+	glfwGetCursorPos(m_Window, &mousePosX, &mousePosY);
+
+	return glm::vec2(mousePosX, mousePosY);
 }

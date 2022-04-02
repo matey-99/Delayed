@@ -5,6 +5,7 @@
 #include <functional>
 
 #include "Patterns/Singleton.h"
+#include "Patterns/Event.h"
 #include "InputEnums.h"
 #include "typedefs.h"
 
@@ -73,6 +74,12 @@ public:
 	void ClearAxis(std::string axisName);
 
 	void SetInputMode(InputMode mode);
+
+	glm::vec2 GetMousePosition();
+
+public:
+	Event OnLeftMouseButtonPressed;
+	Event OnLeftMouseButtonReleased;
 
 private:
 	GLFWwindow* m_Window;

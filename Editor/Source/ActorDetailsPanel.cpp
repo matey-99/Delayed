@@ -12,6 +12,7 @@
 #include "Scene/Component/ParticleSystemComponent.h"
 #include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/UI/ImageComponent.h"
+#include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 
@@ -406,6 +407,48 @@ void ActorDetailsPanel::Render()
         ImGui::ColorEdit4("Image Color", glm::value_ptr(image->m_Color));
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
+    if (auto button = m_Actor->GetComponent<ButtonComponent>())
+    {
+        const char* buttonState = "";
+        switch (button->m_CurrentState)
+        {
+        case ButtonComponent::ButtonState::Normal:
+            buttonState = "Normal";
+            break;
+        case ButtonComponent::ButtonState::Hovered:
+            buttonState = "Hovered";
+            break;
+        case ButtonComponent::ButtonState::Pressed:
+            buttonState = "Pressed";
+            break;
+        case ButtonComponent::ButtonState::Disabled:
+            buttonState = "Disabled";
+            break;
+        }
+
+        ImGui::Text("Button");
+
+        ImGui::Checkbox("Enabled", &button->m_Enabled);
+        ImGui::Text("Current State: ");
+        ImGui::SameLine();
+        ImGui::Text(buttonState);
+        std::string path = button->m_Image->GetPath();
+        std::string name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Image", name.c_str()))
+        {
+            std::vector<std::string> extensions = std::vector<std::string>();
+            extensions.push_back("png");
+            DisplayResources(extensions);
+
+            ImGui::EndCombo();
+        }
+
+        ImGui::ColorEdit4("Normal Color", glm::value_ptr(button->m_NormalColor));
+        ImGui::ColorEdit4("Hovered Color", glm::value_ptr(button->m_HoveredColor));
+        ImGui::ColorEdit4("Pressed Color", glm::value_ptr(button->m_PressedColor));
+        ImGui::ColorEdit4("Disabled Color", glm::value_ptr(button->m_DisabledColor));
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
 
     if (auto boxCollider = m_Actor->GetComponent<BoxColliderComponent>())
     {
@@ -424,6 +467,7 @@ void ActorDetailsPanel::Render()
     bool player = false;
     bool camera = false;
     bool image = false;
+    bool button = false;
     bool boxCollider = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
@@ -469,6 +513,7 @@ void ActorDetailsPanel::Render()
                 if (ImGui::BeginMenu("UI"))
                 {
                     ImGui::MenuItem("Image", "", &image);
+                    ImGui::MenuItem("Button", "", &button);
 
                     ImGui::EndMenu();
                 }
@@ -500,6 +545,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<CameraComponent>();
     if (image)
         m_Actor->AddComponent<ImageComponent>();
+    if (button)
+        m_Actor->AddComponent<ButtonComponent>();
     if (boxCollider)
         m_Actor->AddComponent<BoxColliderComponent>();
 
@@ -554,6 +601,10 @@ void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, in
                         if (auto image = m_Actor->GetComponent<ImageComponent>())
                         {
                             image->ChangeImage(path);
+                        }
+                        if (auto button = m_Actor->GetComponent<ButtonComponent>())
+                        {
+                            button->ChangeImage(path);
                         }
                     }
                 }
