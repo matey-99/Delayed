@@ -223,7 +223,7 @@ int main(int, char**)
     Renderer::GetInstance()->Initialize();
 
     auto sceneManager = SceneManager::GetInstance();
-    sceneManager->LoadScene(ContentHelper::GetAssetPath("Scenes/MainMenu.scene"));
+    sceneManager->LoadScene("Scenes/MainMenu.scene");
 
     scene = sceneManager->GetCurrentScene();
 

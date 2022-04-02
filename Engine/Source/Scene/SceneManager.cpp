@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "SceneSerializer.h"
+#include "Content/ContentHelper.h"
 
 Ref<SceneManager> SceneManager::s_Instance{};
 std::mutex SceneManager::s_Mutex;
@@ -35,8 +36,10 @@ Ref<Scene> SceneManager::CreateScene(std::string name)
 
 Ref<Scene> SceneManager::LoadScene(std::string path)
 {
-	m_CurrentScene = SceneSerializer::Deserialize(path);
+	m_CurrentScene = SceneSerializer::Deserialize(ContentHelper::GetAssetPath(path));
 	m_CurrentScenePath = path;
+
+	m_CurrentScene->Start();
 
 	return m_CurrentScene;
 }

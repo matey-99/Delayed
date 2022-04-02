@@ -2,6 +2,7 @@
 
 #include "Scene/SceneSerializer.h"
 #include "Scene/SceneManager.h"
+#include "Content/ContentHelper.h"
 
 WorldSettingsPanel::WorldSettingsPanel(Ref<Editor> editor, Ref<Scene> scene)
 	: m_Editor(editor), m_Scene(scene)
@@ -17,7 +18,7 @@ void WorldSettingsPanel::Render()
     ImGui::ColorEdit3("Background color", (float*)bg);
 
     if (ImGui::Button("Save scene"))
-        SceneSerializer::Serialize(m_Scene, SceneManager::GetInstance()->GetCurrentScenePath());
+        SceneSerializer::Serialize(m_Scene, ContentHelper::GetAssetPath(SceneManager::GetInstance()->GetCurrentScenePath()));
 
     ImGui::End();
 }

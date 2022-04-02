@@ -11,6 +11,7 @@
 #include "Component/TransformComponent.h"
 #include "Component/UI/RectTransformComponent.h"
 #include "Component/PlayerComponent.h"
+#include "Camera/CameraManager.h"
 
 Scene::Scene()
 {
@@ -31,7 +32,10 @@ Scene::Scene()
 
 void Scene::Start()
 {
+	CameraManager::GetInstance()->SetMainCamera(m_CurrentCamera);
+
 	m_Root->GetComponent<TransformComponent>()->CalculateWorldModelMatrix();
+	m_UIRoot->GetComponent<RectTransformComponent>()->CalculateWorldModelMatrix();
 
 	for (auto actor : m_Actors)
 	{

@@ -15,6 +15,8 @@
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 
+#include "Game/MainMenu.h"
+
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
 	YAML::Emitter out;
@@ -242,6 +244,20 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						b->m_PressedColor = pressedColor;
 						b->m_DisabledColor = disabledColor;
 					}
+
+					/* --- GAME COMPONENTS --- */
+
+					if (auto menu = component["MainMenu"])
+					{
+						uint64_t playButtonActorID = menu["PlayButton"].as<uint64_t>();
+						uint64_t optionsButtonActorID = menu["OptionsButton"].as<uint64_t>();
+						uint64_t exitButtonActorID = menu["ExitButton"].as<uint64_t>();
+
+						auto m = a->AddComponent<MainMenu>();
+						m->m_PlayButtonID = playButtonActorID;
+						m->m_OptionsButtonID = optionsButtonActorID;
+						m->m_ExitButtonID = exitButtonActorID;
+					}
 				}
 			}
 		}
@@ -250,10 +266,10 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 		{
 			scene->GetActors().at(i)->GetTransform()->SetParent(scene->FindActor(parentsIDs[i - 2])->GetTransform().get());
 		}
-	}
 
-	uint64_t currentCameraID = data["CurrentCamera"].as<uint64_t>();
-	scene->m_CurrentCamera = scene->FindActor(currentCameraID)->GetComponent<CameraComponent>();
+		uint64_t currentCameraID = data["CurrentCamera"].as<uint64_t>();
+		scene->m_CurrentCamera = scene->FindActor(currentCameraID)->GetComponent<CameraComponent>();
+	}
 
 	file.close();
 	return scene;
@@ -271,6 +287,8 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	out << YAML::Key << "Name" << YAML::Value << actor->GetName();
 
 	out << YAML::Key << "Components" << YAML::Value << YAML::BeginSeq;
+
+	/* --- ENGINE COMPONENTS --- */
 
 	if (auto transform = actor->GetComponent<TransformComponent>())
 	{
@@ -456,6 +474,20 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "HoveredColor" << YAML::Value << button->m_HoveredColor;
 		out << YAML::Key << "PressedColor" << YAML::Value << button->m_PressedColor;
 		out << YAML::Key << "DisabledColor" << YAML::Value << button->m_DisabledColor;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	/* --- GAME COMPONENTS --- */
+
+	if (auto menu = actor->GetComponent<MainMenu>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "MainMenu";
+		out << YAML::BeginMap;
+		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButton->GetOwner()->GetID();
+		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButton->GetOwner()->GetID();
+		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButton->GetOwner()->GetID();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

@@ -1,13 +1,26 @@
 Scene: MainMenu
 CurrentCamera: 968085101
 Actors:
-  - Actor: 968085101
-    ID: 968085101
-    Name: Main Camera
+  - Actor: 968295101
+    ID: 968295101
+    Name: MainMenu
     Components:
       - Transform:
-          LocalPosition: [-11.7621803, 2.91268611, 5.01318264]
-          LocalRotation: [0, 0, -8]
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - MainMenu:
+          PlayButton: 451190724
+          OptionsButton: 826052383
+          ExitButton: 334289216
+  - Actor: 968085101
+    ID: 968085101
+    Name: MainCamera
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
       - Camera:
@@ -17,31 +30,65 @@ Actors:
           FarClipPlane: 1000
   - Actor: 504208015
     ID: 504208015
-    Name: Game Logo
+    Name: GameLogo
     Components:
       - RectTransform:
-          Anchor: 1
-          LocalPosition: [0, -163, 0]
+          Anchor: 0
+          LocalPosition: [0, 386.899078, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [512, 128, 1]
+          LocalScale: [467.5, 124, 1]
           Parent: 1
       - Image:
-          Path: Textures/Default/UI.png
+          Path: Textures/Menu/Logo1.png
           Color: [1, 1, 1, 1]
   - Actor: 451190724
     ID: 451190724
-    Name: Start Game Button
+    Name: PlayButton
     Components:
       - RectTransform:
-          Anchor: 1
-          LocalPosition: [36, -450, 0]
+          Anchor: 0
+          LocalPosition: [0, 150, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [256, 64, 1]
+          LocalScale: [282, 64, 1]
           Parent: 1
       - Button:
           Enabled: true
-          ImagePath: Textures/Default/UI.png
+          ImagePath: Textures/Menu/PlayButton1.png
           NormalColor: [1, 1, 1, 1]
-          HoveredColor: [1, 0, 0, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 826052383
+    ID: 826052383
+    Name: OptionsButton
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -50, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 1
+      - Button:
+          Enabled: true
+          ImagePath: Textures/Menu/OptionsButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 334289216
+    ID: 334289216
+    Name: ExitButton
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -250, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 1
+      - Button:
+          Enabled: true
+          ImagePath: Textures/Menu/ExitButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
           DisabledColor: [0.25, 0.25, 0.25, 1]
