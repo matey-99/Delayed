@@ -1,6 +1,9 @@
 #include "RenderTools.h"
 
 #include <glad/glad.h>
+#include <glm/gtx/rotate_vector.hpp>
+
+#define SPHERE_COLLIDER_SEGMENTS 32
 
 RenderTools::RenderTools()
 {
@@ -87,8 +90,110 @@ void RenderTools::RenderBoundingBox(BoundingBox box)
 	glDeleteVertexArrays(1, &vao);
 }
 
-void RenderTools::RenderSphere()
+void RenderTools::RenderBoundingSphere(BoundingSphere sphere)
 {
+	// First circle
+	glm::vec3 center = sphere.Center;
+	float radius = sphere.Radius;
+	float circleVertices[SPHERE_COLLIDER_SEGMENTS * 3];
+	float angle = 0.0f;
+	for (int i = 0; i < (SPHERE_COLLIDER_SEGMENTS * 3);)
+	{
+		float theta = 2.0f * glm::pi<float>() * angle / (float)(SPHERE_COLLIDER_SEGMENTS);
+
+		float x = radius * glm::cos(theta);
+		float y = radius * glm::sin(theta);
+
+		circleVertices[i] = x + center.x;
+		circleVertices[i + 1] = y + center.y;
+		circleVertices[i + 2] = center.z;
+
+		i += 3;
+		angle++;
+	}
+
+	uint32_t vao, vbo;
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
+
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	glDrawArrays(GL_LINES, 0, SPHERE_COLLIDER_SEGMENTS);
+	glBindVertexArray(0);
+
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
+
+	// Second circle
+	angle = 0.0f;
+	for (int i = 0; i < (SPHERE_COLLIDER_SEGMENTS * 3);)
+	{
+		float theta = 2.0f * glm::pi<float>() * angle / (float)(SPHERE_COLLIDER_SEGMENTS);
+
+		float x = radius * glm::cos(theta);
+		float z = radius * glm::sin(theta);
+
+		circleVertices[i] = x + center.x;
+		circleVertices[i + 1] = center.y;
+		circleVertices[i + 2] = z + center.z;
+
+		i += 3;
+		angle++;
+	}
+
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
+
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	glDrawArrays(GL_LINES, 0, SPHERE_COLLIDER_SEGMENTS);
+	glBindVertexArray(0);
+
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
+
+	// Third circle
+	angle = 0.0f;
+	for (int i = 0; i < (SPHERE_COLLIDER_SEGMENTS * 3);)
+	{
+		float theta = 2.0f * glm::pi<float>() * angle / (float)(SPHERE_COLLIDER_SEGMENTS);
+
+		float y = radius * glm::cos(theta);
+		float z = radius * glm::sin(theta);
+
+		circleVertices[i] = center.x;
+		circleVertices[i + 1] = y + center.y;
+		circleVertices[i + 2] = z + center.z;
+
+		i += 3;
+		angle++;
+	}
+
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
+
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	glDrawArrays(GL_LINES, 0, SPHERE_COLLIDER_SEGMENTS);
+	glBindVertexArray(0);
+
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
 }
 
 void RenderTools::Initialize()

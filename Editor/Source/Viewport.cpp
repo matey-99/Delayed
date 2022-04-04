@@ -15,6 +15,7 @@
 #include "Renderer/RenderTools.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
+#include "Scene/Component/Collider/SphereColliderComponent.h"
 
 Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
 	: m_Editor(editor), m_Scene(scene)
@@ -193,6 +194,21 @@ void Viewport::RenderGizmos()
             m_ColliderShader->Use();
 
             RenderTools::GetInstance()->RenderBoundingBox(c->GetBoundingBox());
+
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glEnable(GL_DEPTH_TEST);
+        }
+
+        if (auto c = selectedActor->GetComponent<SphereColliderComponent>())
+        {
+            isGizmos = true;
+
+            glDisable(GL_DEPTH_TEST);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+            m_ColliderShader->Use();
+
+            RenderTools::GetInstance()->RenderBoundingSphere(c->GetBoundingSphere());
 
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             glEnable(GL_DEPTH_TEST);

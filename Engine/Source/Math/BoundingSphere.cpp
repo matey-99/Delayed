@@ -60,7 +60,7 @@ BoundingSphere::BoundingSphere(std::vector<glm::vec3> &points) {
 
     SphereFromDistantPoints(this, points);
 
-    for(auto point : points) {
-        SphereOfSphereAndPt(this, point);
-    }
+    //for(auto point : points) {
+    //    SphereOfSphereAndPt(this, point);
+    //}
 }

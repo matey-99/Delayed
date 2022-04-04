@@ -2,6 +2,7 @@
 
 #include "Patterns/Singleton.h"
 #include "Math/BoundingBox.h"
+#include "Math/BoundingSphere.h"
 
 class RenderTools : public Singleton<RenderTools>
 {
@@ -10,7 +11,7 @@ public:
 
 	void RenderQuad();
 	void RenderBoundingBox(BoundingBox box);
-	void RenderSphere();
+	void RenderBoundingSphere(BoundingSphere sphere);
 
 private:
 	void Initialize();
