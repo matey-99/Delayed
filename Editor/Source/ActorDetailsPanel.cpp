@@ -17,6 +17,8 @@
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <Scene/Component/Collider/SphereColliderComponent.h>
+#include <Scene/Component/RigidBodyComponent.h>
 
 bool Equals(float arr[3], glm::vec3 vec)
 {
@@ -456,6 +458,18 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
+    if (auto sphereCollider = m_Actor->GetComponent<SphereColliderComponent>())
+    {
+        ImGui::Text("Sphere Collider");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto rigidBody = m_Actor->GetComponent<RigidBodyComponent>())
+    {
+        ImGui::Text("RigidBody");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
     bool addComponent = false;
     bool staticMesh = false;
     bool instanceRenderedMesh = false;
@@ -469,6 +483,8 @@ void ActorDetailsPanel::Render()
     bool image = false;
     bool button = false;
     bool boxCollider = false;
+    bool sphereCollider = false;
+    bool rigidBody = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -494,9 +510,12 @@ void ActorDetailsPanel::Render()
                 if (ImGui::BeginMenu("Collider"))
                 {
                     ImGui::MenuItem("Box Collider", "", &boxCollider);
+                    ImGui::MenuItem("Sphere Collider", "", &sphereCollider);
 
                     ImGui::EndMenu();
                 }
+
+                ImGui::MenuItem("RigidBody", "", &rigidBody);
 
                 ImGui::EndMenu();
             }
@@ -549,6 +568,10 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<ButtonComponent>();
     if (boxCollider)
         m_Actor->AddComponent<BoxColliderComponent>();
+    if (sphereCollider)
+        m_Actor->AddComponent<SphereColliderComponent>();
+    if (rigidBody)
+        m_Actor->AddComponent<RigidBodyComponent>();
 
     if (ImGui::Button("Close"))
     {

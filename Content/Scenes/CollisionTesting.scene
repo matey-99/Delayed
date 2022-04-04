@@ -6,7 +6,7 @@ Actors:
     Name: Main Camera
     Components:
       - Transform:
-          LocalPosition: [0, 3, 15]
+          LocalPosition: [0, 5, 15]
           LocalRotation: [0, -90, 0]
           LocalScale: [1, 1, 1]
           Parent: 922122535
@@ -20,7 +20,7 @@ Actors:
     Name: Player
     Components:
       - Transform:
-          LocalPosition: [0, 1.94758081, 11.0338955]
+          LocalPosition: [0, 1.97156048, 11.0338955]
           LocalRotation: [0, 0, 0]
           LocalScale: [5, 5, 5]
           Parent: 0
@@ -31,7 +31,7 @@ Actors:
               Path: Materials/Default.mat
       - Player:
           {}
-      - Box Collider:
+      - BoxCollider:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
   - Actor: 337649296
@@ -48,6 +48,9 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 410957571
     ID: 410957571
     Name: Directional Light
@@ -72,7 +75,45 @@ Actors:
           Mesh: Models/defaults/default_sphere.obj
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
-      - Box Collider:
+              Path: Materials/New material 2.mat
+      - BoxCollider:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+  - Actor: 736521600
+    ID: 736521600
+    Name: default_sphere
+    Components:
+      - Transform:
+          LocalPosition: [0, 0.5, -9.58407879]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_sphere.obj
+          Materials:
+            - Material: 0
+              Path: Materials/New material 1.mat
+      - SphereCollider:
+          Center: [0, 0, 0]
+          Size: 1
+  - Actor: 964083174
+    ID: 964083174
+    Name: Grav
+    Components:
+      - Transform:
+          LocalPosition: [-13.6539049, 26.0694313, -7.71205997]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [5, 5, 5]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+      - BoxCollider:
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - RigidBody:
+          Gravity: 1
+          Mass: 1
+          Drag: 0.939999998

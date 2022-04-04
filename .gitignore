@@ -1,5 +1,7 @@
 # Directories
 Build/
+.idea
+cmake-build-debug
 
 # CMake
 CMakeCache.txt

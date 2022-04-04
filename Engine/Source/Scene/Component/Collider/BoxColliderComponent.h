@@ -3,29 +3,34 @@
 #include "ColliderComponent.h"
 #include "Math/BoundingBox.h"
 
-class BoxColliderComponent : public ColliderComponent
-{
+class BoxColliderComponent : public ColliderComponent {
 public:
-	BoxColliderComponent(Actor* owner);
+    BoxColliderComponent(Actor *owner);
 
-	virtual void Start() override;
-	virtual void Update(float deltaTime) override;
-	virtual void Destroy() override;
+    virtual void Start() override;
 
-	void UpdateBoundingBox();
+    virtual void Update(float deltaTime) override;
 
-	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
+    virtual void Destroy() override;
+
+    void UpdateBoundingBox();
+
+    inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
 
 protected:
-	virtual bool CheckCollisions() override;
+    virtual bool CheckCollisions() override;
+
+    glm::vec3 ClosestPoint(glm::vec3 point) override;
 
 private:
-	BoundingBox m_BoundingBox;
+    BoundingBox m_BoundingBox;
 
-	glm::vec3 m_Center;
-	glm::vec3 m_Size;
+    glm::vec3 m_Center;
+    glm::vec3 m_Size;
 
-	glm::vec3 m_OwnerLastPosition;
+    glm::vec3 m_OwnerLastPosition;
 
-	friend class SceneSerializer;
+    friend class SceneSerializer;
+
+    float Distance2ToPoint(glm::vec3 point);
 };
