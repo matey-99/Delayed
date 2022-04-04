@@ -86,7 +86,7 @@ Actors:
       - Transform:
           LocalPosition: [0, 0.5, -9.58407879]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [2.61999989, 2.61999989, 2.61999989]
           Parent: 0
       - StaticMesh:
           Mesh: Models/defaults/default_sphere.obj

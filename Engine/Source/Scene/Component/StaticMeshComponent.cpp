@@ -144,16 +144,37 @@ void StaticMeshComponent::UpdateBoundingBox()
 }
 
 void StaticMeshComponent::UpdateBoundingSphere() {
-    std::vector<glm::vec3> pointsFromAllMeshes;
+    BoundingSphere s0, s1, s = m_Meshes[0].GetBoundingSphere();
+    glm::vec3 d;
+    float dist2, dist, r;
+
+    s.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s.Center, 1.0f);
+    s.Radius *= m_Owner->GetTransform()->GetWorldModelMatrix()[0][0];
+
     for (auto mesh : m_Meshes)
     {
-        auto points = mesh.GetBoundingBox().GetPoints();
-        for (auto& point : points)
-        {
-            point = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(point, 1.0f);
-            pointsFromAllMeshes.push_back(point);
+        s0 = s;
+        s1 = mesh.GetBoundingSphere();
+        s1.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s1.Center, 1.0f);
+        s1.Radius *= m_Owner->GetTransform()->GetWorldModelMatrix()[0][0];
+
+        d = s1.Center - s0.Center;
+        dist2 = glm::dot(d,d);
+
+        r = s1.Radius - s0.Radius;
+
+        if ((r * r) >= dist2) {
+            if (s1.Radius >= s0.Radius)
+                s = s1;
+        } else {
+            dist = glm::sqrt(dist2);
+            s.Radius = (dist + s0.Radius + s1.Radius) * 0.5f;
+            s.Center = s0.Center;
+            if (dist > (s0.Radius + s1.Radius))
+                s.Center += ((s.Radius - s0.Center) / dist) * d;
         }
+
     }
 
-    m_BoundingSphere = BoundingSphere(pointsFromAllMeshes);
+    m_BoundingSphere = s;
 }
