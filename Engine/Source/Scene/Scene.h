@@ -36,6 +36,7 @@ public:
 
 	void Start();
 	void Update(float deltaTime);
+	void FixedUpdate();
 	void PreRender();
 	void Render();
 	void Destroy();

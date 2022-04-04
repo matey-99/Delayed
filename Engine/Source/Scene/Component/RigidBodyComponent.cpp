@@ -1,5 +1,6 @@
 #include "RigidBodyComponent.h"
 #include "Scene/Actor.h"
+#include "Time/Time.h"
 
 RigidBodyComponent::RigidBodyComponent(Actor *owner) : Component(owner) {
 
@@ -17,13 +18,18 @@ void RigidBodyComponent::Start() {
 
 void RigidBodyComponent::Update(float deltaTime) {
 
+
+}
+
+void RigidBodyComponent::FixedUpdate()
+{
     m_Velocity.y -= m_Gravity;
 
     m_Velocity *= m_Drag;
 
     //m_Velocity = glm::clamp(m_Velocity, -m_VelocityMax, m_VelocityMax);
 
-    m_Owner->GetTransform()->SetLocalPosition(m_Owner->GetTransform()->GetLocalPosition() + m_Velocity * deltaTime);
+    m_Owner->GetTransform()->SetLocalPosition(m_Owner->GetTransform()->GetLocalPosition() + m_Velocity * Time::GetInstance()->GetFixedDeltaTime());
 }
 
 void RigidBodyComponent::Destroy() {

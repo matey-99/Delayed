@@ -10,11 +10,11 @@
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
 #include "Scene/Component/ParticleSystemComponent.h"
-#include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
+#include "Game/Player.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -47,6 +47,7 @@ void ActorDetailsPanel::Render()
     char* name = (char*)m_Actor->m_Name.c_str();
     ImGui::InputText("##Name", name, maxSize);
     m_Actor->m_Name = name;
+    ImGui::Checkbox("Dynamic", &m_Actor->m_Dynamic);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     if (auto transform = m_Actor->GetComponent<TransformComponent>())
@@ -387,7 +388,7 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
-    if (auto player = m_Actor->GetComponent<PlayerComponent>())
+    if (auto player = m_Actor->GetComponent<Player>())
     {
         ImGui::Text("Player");
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -559,7 +560,7 @@ void ActorDetailsPanel::Render()
     if (particleSystem)
         m_Actor->AddComponent<ParticleSystemComponent>();
     if (player)
-        m_Actor->AddComponent<PlayerComponent>();
+        m_Actor->AddComponent<Player>();
     if (camera)
         m_Actor->AddComponent<CameraComponent>();
     if (image)

@@ -10,7 +10,6 @@
 #include "Renderer/Renderer.h"
 #include "Component/TransformComponent.h"
 #include "Component/UI/RectTransformComponent.h"
-#include "Component/PlayerComponent.h"
 #include "Camera/CameraManager.h"
 
 Scene::Scene()
@@ -51,6 +50,12 @@ void Scene::Update(float deltaTime)
 	}
 }
 
+void Scene::FixedUpdate()
+{
+	for (auto actor : m_Actors)
+		actor->FixedUpdate();
+}
+
 void Scene::PreRender()
 {
 	for (auto actor : m_Actors)
@@ -80,7 +85,7 @@ void Scene::Destroy()
 
 void Scene::RenderActor(Actor* actor)
 {
-	if (!actor->IsEnable())
+	if (!actor->IsEnabled())
 	{
 		if (auto light = actor->GetComponent<Light>())
 			light->SwitchOff();

@@ -4,7 +4,6 @@
 #include "Scene/Actor.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Scene.h"
-#include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/TransformComponent.h"
 #include "SphereColliderComponent.h"
 
@@ -23,6 +22,10 @@ void BoxColliderComponent::Start() {
 }
 
 void BoxColliderComponent::Update(float deltaTime) {
+}
+
+void BoxColliderComponent::FixedUpdate()
+{
     CheckCollisions();
 }
 
@@ -96,7 +99,7 @@ bool BoxColliderComponent::CheckCollisions() {
                 v.y = bottom < top ? -bottom : top;
                 v.z = backward < forward ? -backward : forward;
 
-                if (m_Owner->GetComponent<PlayerComponent>() || m_Owner->GetComponent<RigidBodyComponent>()) {
+                if (m_Owner->IsDynamic()) {
                     if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z)) {
                         v.y = 0;
                         v.z = 0;
@@ -123,7 +126,7 @@ bool BoxColliderComponent::CheckCollisions() {
 //                printf("%s pos: [%f, %f, %f]", m_Owner->GetName().c_str(), m_Owner->GetTransform()->GetWorldPosition().x,
 //                       m_Owner->GetTransform()->GetWorldPosition().y, m_Owner->GetTransform()->GetWorldPosition().z);
 
-                if (m_Owner->GetComponent<PlayerComponent>()) {
+                if (m_Owner->IsDynamic()) {
                     if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z)) {
                         v.y = 0;
                         v.z = 0;

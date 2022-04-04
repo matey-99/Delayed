@@ -4,6 +4,7 @@ Actors:
   - Actor: 968295101
     ID: 968295101
     Name: MainMenu
+    Dynamic: false
     Components:
       - Transform:
           LocalPosition: [0, 0, 0]
@@ -17,6 +18,7 @@ Actors:
   - Actor: 968085101
     ID: 968085101
     Name: MainCamera
+    Dynamic: false
     Components:
       - Transform:
           LocalPosition: [0, 0, 0]
@@ -31,6 +33,7 @@ Actors:
   - Actor: 504208015
     ID: 504208015
     Name: GameLogo
+    Dynamic: false
     Components:
       - RectTransform:
           Anchor: 0
@@ -44,6 +47,7 @@ Actors:
   - Actor: 451190724
     ID: 451190724
     Name: PlayButton
+    Dynamic: false
     Components:
       - RectTransform:
           Anchor: 0
@@ -61,6 +65,7 @@ Actors:
   - Actor: 826052383
     ID: 826052383
     Name: OptionsButton
+    Dynamic: false
     Components:
       - RectTransform:
           Anchor: 0
@@ -78,6 +83,7 @@ Actors:
   - Actor: 334289216
     ID: 334289216
     Name: ExitButton
+    Dynamic: false
     Components:
       - RectTransform:
           Anchor: 0

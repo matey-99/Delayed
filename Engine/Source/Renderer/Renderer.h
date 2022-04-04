@@ -65,6 +65,7 @@ public:
 	void Initialize();
 
 	void Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex = 0);
+	void Display();
 
 	uint32_t GetOutput(uint32_t index = 0);
 	void ResizeWindow(uint32_t width, uint32_t height);

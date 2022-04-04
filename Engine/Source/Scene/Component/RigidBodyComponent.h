@@ -8,6 +8,8 @@ public:
 
     void Update(float deltaTime) override;
 
+    void FixedUpdate() override;
+
     void Destroy() override;
 
 private:

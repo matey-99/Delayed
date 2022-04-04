@@ -11,6 +11,8 @@ public:
 
     virtual void Update(float deltaTime) override;
 
+    virtual void FixedUpdate() override;
+
     virtual void Destroy() override;
 
     void UpdateBoundingBox();

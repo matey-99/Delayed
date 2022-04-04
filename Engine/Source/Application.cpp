@@ -6,6 +6,7 @@
 #include <fmod_errors.h>
 
 #include "Input/Input.h"
+#include "Time/Time.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderTools.h"
 #include "Scene/SceneManager.h"
@@ -85,6 +86,9 @@ Ref<Application> Application::Create(std::string name)
 
 void Application::Run()
 {
+    // TIME
+    auto time = Time::GetInstance();
+
     // RENDERER
     auto renderer = Renderer::GetInstance();
     renderer->Initialize();
@@ -100,29 +104,17 @@ void Application::Run()
     auto input = Input::GetInstance();
     input->Initialize(m_Window);
 
-    // SHADER
-    auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Screen");
-
-    // TIME
-    float deltaTime = 0.0f;
-    float lastFrame = 0.0f;
-    float lag = 0.0f;
-
-    lastFrame = glfwGetTime();
+    time->SetLastFrameTime(glfwGetTime());
     while (!glfwWindowShouldClose(m_Window))
     {
-        float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
-        lag += deltaTime;
-
         // INPUTS
         glfwPollEvents();
         input->Process();
 
-        // UPDATE
+        // FIXED UPDATES & UPDATE
+        time->SetCurrentFrameTime(glfwGetTime());
         scene = sceneManager->GetCurrentScene();
-        scene->Update(deltaTime);
+        time->Tick(scene);
 
         // Check if window has changed
         int windowWidth, windowHeight;
@@ -136,32 +128,13 @@ void Application::Run()
 
         // RENDER
         renderer->Render(scene, cameraManager->GetMainCamera());
-
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        screenShader->Use();
-        screenShader->SetInt("u_Screen", 0);
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, renderer->GetOutput());
-
-        glDisable(GL_DEPTH_TEST);
-
-        RenderTools::GetInstance()->RenderQuad();
-
-        glEnable(GL_DEPTH_TEST);
+        renderer->Display();
 
         glfwSwapBuffers(m_Window);
     }
 
     glfwDestroyWindow(m_Window);
     glfwTerminate();
-}
-
-void Application::RunEditor()
-{
-
 }
 
 void Application::Exit()
