@@ -1,31 +1,32 @@
-#include "PlayerComponent.h"
+#include "Player.h"
 
 #include "Scene/Actor.h"
 #include "Input/Input.h"
 #include "Math/Math.h"
+#include "Time/Time.h"
 
-PlayerComponent::PlayerComponent(Actor* owner)
+Player::Player(Actor* owner)
 	: Component(owner)
 {
 	m_MoveDirection = glm::vec3(0.0f);
 	m_MovementSpeed = 15.0f;
 }
 
-void PlayerComponent::Start()
+void Player::Start()
 {
 	auto input = Input::GetInstance();
 
-	input->BindAxis("Player_MoveForward", std::bind(&PlayerComponent::MoveForward, this, std::placeholders::_1));
-	input->BindAxis("Player_MoveRight", std::bind(&PlayerComponent::MoveRight, this, std::placeholders::_1));
+	input->BindAxis("Player_MoveForward", std::bind(&Player::MoveForward, this, std::placeholders::_1));
+	input->BindAxis("Player_MoveRight", std::bind(&Player::MoveRight, this, std::placeholders::_1));
 //	input->BindAxis("Player_Turn", std::bind(&PlayerComponent::MoveRight, this, std::placeholders::_1));
 //	input->BindAxis("Player_LookUp", std::bind(&PlayerComponent::MoveForward, this, std::placeholders::_1));
 }
 
-void PlayerComponent::Update(float deltaTime)
+void Player::Update(float deltaTime)
 {
-    //FIXME player each frame fires Event from transform, this is temporary fix
-    if (Math::Magnitude(m_MoveDirection) == 0.0f)
-        return;
+	//FIXME player each frame fires Event from transform, this is temporary fix
+	if (Math::Magnitude(m_MoveDirection) == 0.0f)
+		return;
 
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
@@ -39,21 +40,26 @@ void PlayerComponent::Update(float deltaTime)
 	m_MoveDirection = glm::vec3(0.0f);
 }
 
-void PlayerComponent::Destroy()
+void Player::FixedUpdate()
+{
+
+}
+
+void Player::Destroy()
 {
 }
 
-void PlayerComponent::MoveForward(float value)
+void Player::MoveForward(float value)
 {
 	AddMovementInput(Math::ForwardVector, value);
 }
 
-void PlayerComponent::MoveRight(float value)
+void Player::MoveRight(float value)
 {
 	AddMovementInput(Math::RightVector, value);
 }
 
-void PlayerComponent::AddMovementInput(glm::vec3 direction, float value)
+void Player::AddMovementInput(glm::vec3 direction, float value)
 {
 	m_MoveDirection += (direction * value);
 	//m_MoveDirection = glm::normalize(m_MoveDirection);

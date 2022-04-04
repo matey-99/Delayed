@@ -18,6 +18,7 @@
 #include "RenderPass/FXAAPass.h"
 #include "RenderPass/DepthOfFieldPass.h"
 #include "RenderPass/UIPass.h"
+#include "RenderTools.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -117,6 +118,25 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	// UI
 	m_UIPass->Render(scene, m_Output[outputIndex]);
 	m_Output[outputIndex] = m_UIPass->GetRenderTarget()->GetTargets()[0];
+}
+
+void Renderer::Display()
+{
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Screen");
+	screenShader->Use();
+	screenShader->SetInt("u_Screen", 0);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_Output[0]);
+
+	glDisable(GL_DEPTH_TEST);
+
+	RenderTools::GetInstance()->RenderQuad();
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 uint32_t Renderer::GetOutput(uint32_t index)

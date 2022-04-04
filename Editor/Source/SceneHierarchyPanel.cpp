@@ -159,9 +159,9 @@ void SceneHierarchyPanel::TreeChildren(Ref<Actor> actor)
 		auto e = m_Scene->FindActor(children[i]->GetOwner()->GetID());
 
 		ImGui::PushID(i);
-		bool enable = e->IsEnable();
+		bool enable = e->IsEnabled();
 		if (ImGui::Checkbox("", &enable))
-			e->SetEnable(enable);
+			e->SetEnabled(enable);
 
 		ImGui::PopID();
 

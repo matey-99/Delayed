@@ -13,7 +13,6 @@ public:
 	static Ref<Application> Create(std::string name);
 
 	void Run();
-	void RunEditor();
 
 	static void Exit();
 	void ExitApp();

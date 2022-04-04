@@ -3,7 +3,6 @@
 #include "Scene/Actor.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Scene.h"
-#include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/TransformComponent.h"
 
 SphereColliderComponent::SphereColliderComponent(Actor *owner)
@@ -25,7 +24,10 @@ void SphereColliderComponent::Update(float deltaTime) {
     m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
 
     m_BoundingSphere = BoundingSphere(m_BoundingSphere.Center + deltaPosition, m_BoundingSphere.Radius);
+}
 
+void SphereColliderComponent::FixedUpdate()
+{
     CheckCollisions();
 }
 
@@ -59,7 +61,7 @@ bool SphereColliderComponent::CheckCollisions() {
                 glm::vec3 v = glm::normalize(d) *
                               (collider->GetBoundingSphere().Radius + m_BoundingSphere.Radius - glm::length(d));
 
-                if (m_Owner->GetComponent<PlayerComponent>()) {
+                if (m_Owner->IsDynamic()) {
                     if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z)) {
                         v.y = 0;
                         v.z = 0;

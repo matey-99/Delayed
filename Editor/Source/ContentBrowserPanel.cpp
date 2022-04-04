@@ -17,6 +17,9 @@ ContentBrowserPanel::ContentBrowserPanel(Ref<Editor> editor, Ref<Scene> scene) :
 	m_SupportedFileFormats.push_back("mat");
 
 	m_DisplayedDirectory = ContentHelper::GetAssetPath("");
+
+	m_IsCreateMaterialWindowDisplayed = false;
+	m_NewMaterialName = "New Material";
 }
 
 void ContentBrowserPanel::Render()
@@ -67,22 +70,29 @@ void ContentBrowserPanel::Render()
 
 	if (createMaterial)
 	{
-		int count = 0;
-		for (auto& p : std::filesystem::directory_iterator(m_DisplayedDirectory))
+		m_IsCreateMaterialWindowDisplayed = true;
+	}
+
+	if (m_IsCreateMaterialWindowDisplayed)
+	{
+		ImGui::Begin("Create Material");
+
+		size_t maxSize = 128;
+		char* name = (char*)m_NewMaterialName.c_str();
+		ImGui::InputText("##Name", name, maxSize);
+		m_NewMaterialName = name;
+		ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+		if (ImGui::Button("Save"))
 		{
-			if (p.is_directory())
-				continue;
-
-			std::stringstream ss;
-			ss << p.path();
-			std::string path = ss.str();
-			CorrectPath(path);
-			std::string filename = path.substr(path.find_last_of("/") + 1);
-
-			if (filename.substr(0, 12) == "New material")
-				count++;
+			m_IsCreateMaterialWindowDisplayed = false;
+			Material::Create(m_NewMaterialName, "Standard");
 		}
-		Material::Create("New material " + std::to_string(count), "Standard");
+		if (ImGui::Button("Exit"))
+		{
+			m_IsCreateMaterialWindowDisplayed = false;
+		}
+		ImGui::End();
 	}
 
 	ImGui::End();

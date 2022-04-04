@@ -9,7 +9,6 @@
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
 #include "Scene/Component/ParticleSystemComponent.h"
-#include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/RigidBodyComponent.h>
@@ -18,6 +17,7 @@
 #include "Scene/Component/UI/RectTransformComponent.h"
 
 #include "Game/MainMenu.h"
+#include "Game/Player.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -77,6 +77,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
 
+						if (auto dynamic = actor["Dynamic"])
+							a->SetDynamic(dynamic.as<bool>());
+						else
+							a->SetDynamic(false);
+
 						auto t = a->GetComponent<TransformComponent>();
 						t->SetLocalPosition(transform["LocalPosition"].as<glm::vec3>());
 						t->SetLocalRotation(transform["LocalRotation"].as<glm::vec3>());
@@ -90,6 +95,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto rectTransform = component["RectTransform"])
 					{
 						a = scene->AddUIActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
+						
+						if (auto dynamic = actor["Dynamic"])
+							a->SetDynamic(dynamic.as<bool>());
+						else
+							a->SetDynamic(false);
 
 						auto t = a->GetComponent<RectTransformComponent>();
 						t->SetAnchor((AnchorType)rectTransform["Anchor"].as<uint16_t>());
@@ -204,11 +214,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						c->m_FarClipPlane = farClipPlane;
 					}
 
-					if (auto player = component["Player"])
-					{
-						a->AddComponent<PlayerComponent>();
-					}
-
 					if (auto boxCollider = component["BoxCollider"])
 					{
 						glm::vec3 center = boxCollider["Center"].as<glm::vec3>();
@@ -281,6 +286,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						m->m_OptionsButtonID = optionsButtonActorID;
 						m->m_ExitButtonID = exitButtonActorID;
 					}
+
+					if (auto player = component["Player"])
+					{
+						a->AddComponent<Player>();
+					}
 				}
 			}
 		}
@@ -308,6 +318,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	out << YAML::Key << "Actor" << YAML::Value << actor->GetID();
 	out << YAML::Key << "ID" << YAML::Value << actor->GetID();
 	out << YAML::Key << "Name" << YAML::Value << actor->GetName();
+	out << YAML::Key << "Dynamic" << YAML::Value << actor->IsDynamic();
 
 	out << YAML::Key << "Components" << YAML::Value << YAML::BeginSeq;
 
@@ -455,15 +466,6 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 	}
 
-	if (auto player = actor->GetComponent<PlayerComponent>())
-	{
-		out << YAML::BeginMap;
-		out << YAML::Key << "Player";
-		out << YAML::BeginMap;
-		out << YAML::EndMap;
-		out << YAML::EndMap;
-	}
-
 	if (auto boxCollider = actor->GetComponent<BoxColliderComponent>())
 	{
 		out << YAML::BeginMap;
@@ -534,6 +536,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButton->GetOwner()->GetID();
 		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButton->GetOwner()->GetID();
 		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButton->GetOwner()->GetID();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto player = actor->GetComponent<Player>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Player";
+		out << YAML::BeginMap;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

@@ -1,14 +1,15 @@
 #pragma once
 
-#include "Component.h"
+#include "Scene/Component/Component.h"
 
-class PlayerComponent : public Component
+class Player : public Component
 {
 public:
-	PlayerComponent(Actor* owner);
+	Player(Actor* owner);
 
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
+	virtual void FixedUpdate() override;
 	virtual void Destroy() override;
 
 private:
