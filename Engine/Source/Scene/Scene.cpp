@@ -209,8 +209,24 @@ Ref<Actor> Scene::AddUIActor(uint64_t id, std::string name)
 	return actor;
 }
 
-void Scene::RemoveActor(Ref<Actor> actor)
+void Scene::RemoveActor(Actor* actor)
 {
+	if (actor->GetTransform()->GetChildren().empty())
+	{
+		auto parent = actor->GetTransform()->GetParent();
+		if (parent)
+			parent->RemoveChild(actor->GetTransform().get());
+
+		m_Actors.erase(std::remove_if(m_Actors.begin(), m_Actors.end(), [actor](Ref<Actor> a) { return a->GetID() == actor->GetID(); }), m_Actors.end());
+	}
+	else
+	{
+		for (auto child : actor->GetTransform()->GetChildren())
+		{
+			RemoveActor(child->GetOwner());
+		}
+	}
+
 }
 
 Ref<Actor> Scene::FindActor(std::string name)

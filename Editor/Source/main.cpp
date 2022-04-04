@@ -52,6 +52,7 @@ float lastMouseX = 400, lastMouseY = 300;
 
 bool leftCtrlClicked = false;
 bool keyDClicked = false;
+bool keyDeleteClicked = false;
 
 void ProcessKeyboardInput(GLFWwindow* window)
 {
@@ -127,6 +128,17 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         else if (action == GLFW_RELEASE)
             keyDClicked = false;
     }
+
+    if (key == GLFW_KEY_DELETE)
+    {
+        if (action == GLFW_PRESS)
+            keyDeleteClicked = true;
+        else if (action == GLFW_RELEASE)
+            keyDeleteClicked = false;
+    }
+
+    if (keyDeleteClicked)
+        Editor::GetInstance()->GetSceneHierarchyPanel()->DeleteSelectedActor();
 
     if (leftCtrlClicked && keyDClicked)
         Editor::GetInstance()->GetSceneHierarchyPanel()->DuplicateSelectedActor();
@@ -223,7 +235,7 @@ int main(int, char**)
     Renderer::GetInstance()->Initialize();
 
     auto sceneManager = SceneManager::GetInstance();
-    sceneManager->LoadScene("Scenes/MainMenu.scene");
+    sceneManager->LoadScene("Scenes/Prototype.scene");
 
     scene = sceneManager->GetCurrentScene();
 

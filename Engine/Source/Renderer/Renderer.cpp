@@ -45,7 +45,7 @@ void Renderer::Initialize()
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	m_CameraVertexUniformBuffer = CreateRef<UniformBuffer>(sizeof(glm::mat4) * 3, 0);
 	m_CameraFragmentUniformBuffer = CreateRef<UniformBuffer>(GLSL_VEC3_SIZE + GLSL_SCALAR_SIZE, 2);
@@ -91,7 +91,7 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	m_SSAOPass->Render();
 		
 	// Lighting
-	m_LightingPass->Render();
+	m_LightingPass->Render(scene);
 	m_Output[outputIndex] = m_LightingPass->GetRenderTarget()->GetTargets()[0];
 
 	// Post Processing

@@ -25,6 +25,12 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::BeginMap;
 	out << YAML::Key << "Scene" << YAML::Value << scene->m_Name;
 	out << YAML::Key << "CurrentCamera" << YAML::Value << scene->m_CurrentCamera->GetOwner()->GetID();
+
+	out << YAML::Key << "RendererSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "FXAA" << YAML::Value << Renderer::GetInstance()->GetSettings().FXAAEnabled;
+	out << YAML::Key << "DepthOfField" << YAML::Value << Renderer::GetInstance()->GetSettings().DepthOfFieldEnabled;
+	out << YAML::EndMap;
+
 	out << YAML::Key << "Actors" << YAML::Value << YAML::BeginSeq;
 	for (auto actor : scene->GetActors())
 	{
@@ -55,6 +61,15 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	
 	std::string sceneName = data["Scene"].as<std::string>();
 	scene->m_Name = sceneName;
+
+	bool fxaa = data["RendererSettings"]["FXAA"].as<bool>();
+	bool depthOfField = data["RendererSettings"]["DepthOfField"].as<bool>();
+
+	Renderer::RendererSettings settings;
+	settings.FXAAEnabled = fxaa;
+	settings.DepthOfFieldEnabled = depthOfField;
+
+	Renderer::GetInstance()->SetSettings(settings);
 
 	YAML::Node actors = data["Actors"];
 	if (actors)
@@ -179,9 +194,18 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto skyLight = component["SkyLight"])
 					{
-						std::string path = skyLight["Path"].as<std::string>();
+						std::vector<std::string> paths;
+						auto p = skyLight["Paths"];
+						uint16_t index = 0;
+						for (auto path : p)
+							paths.push_back(path.second.as<std::string>());
 
-						auto l = a->AddComponent<SkyLight>(path);
+						glm::vec3 color = skyLight["Color"].as<glm::vec3>();
+						float intensity = skyLight["Intensity"].as<float>();
+
+						auto l = a->AddComponent<SkyLight>(paths);
+						l->m_Color = color;
+						l->m_Intensity = intensity;
 					}
 
 					if (auto particle = component["ParticleSystem"])
@@ -435,7 +459,17 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "SkyLight";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Path" << YAML::Value << skyLight->GetPath();
+
+		out << YAML::Key << "Paths" << YAML::Value << YAML::BeginMap;
+		for (uint16_t i = 0; i < skyLight->GetPaths().size(); i++)
+		{
+			out << YAML::Key << i << YAML::Value << skyLight->GetPaths()[i];
+		}
+		out << YAML::EndMap;
+
+		out << YAML::Key << "Color" << YAML::Value << skyLight->m_Color;
+		out << YAML::Key << "Intensity" << YAML::Value << skyLight->m_Intensity;
+
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

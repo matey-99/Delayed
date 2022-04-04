@@ -133,6 +133,15 @@ void SceneHierarchyPanel::DuplicateSelectedActor()
 	SelectActor(newActor);
 }
 
+void SceneHierarchyPanel::DeleteSelectedActor()
+{
+	auto actor = m_SelectedActor;
+	m_Editor->HideDetails();
+	UnselectActor();
+
+	m_Scene->RemoveActor(actor.get());
+}
+
 void SceneHierarchyPanel::SelectActor(Ref<Actor> actor)
 {
 	m_SelectedActor = actor;

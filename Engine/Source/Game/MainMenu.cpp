@@ -61,7 +61,7 @@ void MainMenu::Destroy()
 
 void MainMenu::Play()
 {
-	SceneManager::GetInstance()->LoadScene("Scenes/CollisionTesting.scene");
+	SceneManager::GetInstance()->LoadScene("Scenes/Prototype.scene");
 }
 
 void MainMenu::OpenOptions()

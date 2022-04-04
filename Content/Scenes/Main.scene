@@ -1,5 +1,8 @@
 Scene: Main
 CurrentCamera: 968085101
+RendererSettings:
+  FXAA: true
+  DepthOfField: true
 Actors:
   - Actor: 351984817
     ID: 351984817

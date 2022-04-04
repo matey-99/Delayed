@@ -96,6 +96,11 @@ void TransformBaseComponent::SetParent(TransformBaseComponent* parent)
 	CalculateWorldModelMatrix();
 }
 
+void TransformBaseComponent::RemoveChild(TransformBaseComponent* child)
+{
+	m_Children.erase(std::remove(m_Children.begin(), m_Children.end(), child));
+}
+
 void TransformBaseComponent::CalculateWorldModelMatrix()
 {
 	CalculateLocalModelMatrix();

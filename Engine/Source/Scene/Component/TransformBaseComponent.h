@@ -36,6 +36,7 @@ public:
 	virtual inline std::vector<TransformBaseComponent*> GetChildren() const { return m_Children; }
 
 	virtual void SetParent(TransformBaseComponent* parent);
+	virtual void RemoveChild(TransformBaseComponent* child);
 
 	// MODEL MATRIX
 	virtual void CalculateLocalModelMatrix() = 0;

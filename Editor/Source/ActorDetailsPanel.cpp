@@ -334,18 +334,22 @@ void ActorDetailsPanel::Render()
     {
         ImGui::Text("Sky Light");
 
-        std::string path = skyLight->GetPath();
-        std::string name = path.substr(path.find_last_of("/") + 1);
-
-        if (ImGui::BeginCombo("Path", name.c_str()))
+        std::vector<std::string> paths = skyLight->GetPaths();
+        for (auto path : paths)
         {
-            std::vector<std::string> extensions = std::vector<std::string>();
-            extensions.push_back("hdr");
-            DisplayResources(extensions);
+            std::string name = path.substr(path.find_last_of("/") + 1);
+            if (ImGui::BeginCombo("Path", name.c_str()))
+            {
+                std::vector<std::string> extensions = std::vector<std::string>();
+                extensions.push_back("png");
+                DisplayResources(extensions);
 
-            ImGui::EndCombo();
+                ImGui::EndCombo();
+            }
         }
+        
         ImGui::Checkbox("Sky Visibility", &skyLight->m_SkyVisibility);
+        ImGui::ColorEdit3("Color", glm::value_ptr(skyLight->m_Color), ImGuiColorEditFlags_Float);
         ImGui::DragFloat("Intensity", &skyLight->m_Intensity, 0.01f, 0.0f, 1.0f);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -556,7 +560,18 @@ void ActorDetailsPanel::Render()
     if (spotLight)
         m_Actor->AddComponent<SpotLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
     if (skyLight)
-        m_Actor->AddComponent<SkyLight>(ContentHelper::GetAssetPath("Textures/Sky/default.hdr"));
+    {
+        std::vector<std::string> defaultPaths;
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/px.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/nx.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/py.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/ny.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/nz.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/pz.png"));
+
+        m_Actor->AddComponent<SkyLight>(defaultPaths);
+
+    }
     if (particleSystem)
         m_Actor->AddComponent<ParticleSystemComponent>();
     if (player)
@@ -617,8 +632,7 @@ void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, in
                     }
                     else if (ext == "hdr")
                     {
-                        if (auto skyLight = m_Actor->GetComponent<SkyLight>())
-                            skyLight->Load(path);
+
                     }
                     else if (ext == "png")
                     {
@@ -629,6 +643,11 @@ void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, in
                         if (auto button = m_Actor->GetComponent<ButtonComponent>())
                         {
                             button->ChangeImage(path);
+                        }
+                        if (auto skyLight = m_Actor->GetComponent<SkyLight>())
+                        {
+                            //skyLight->Load(path);
+
                         }
                     }
                 }
