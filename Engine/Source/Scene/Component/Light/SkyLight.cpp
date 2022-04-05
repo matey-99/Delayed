@@ -70,7 +70,6 @@ void SkyLight::Render()
         RenderTools::GetInstance()->RenderSkybox();
 
         glDepthFunc(GL_LESS);
-        glDisable(GL_DEPTH_TEST);
     }
 }
 
