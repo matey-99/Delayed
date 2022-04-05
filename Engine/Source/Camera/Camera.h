@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include "Math/Ray.h"
 
 class Camera
 {
@@ -20,4 +21,6 @@ public:
 	virtual glm::mat4 GetViewProjectionMatrix() = 0;
 
 	virtual void SetAspectRatio(glm::vec2) = 0;
+
+	Ray ScreenPointToRay(glm::vec2 position);
 };

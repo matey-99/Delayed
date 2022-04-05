@@ -133,6 +133,15 @@ void SceneHierarchyPanel::DuplicateSelectedActor()
 	SelectActor(newActor);
 }
 
+void SceneHierarchyPanel::DeleteSelectedActor()
+{
+	auto actor = m_SelectedActor;
+	m_Editor->HideDetails();
+	UnselectActor();
+
+	m_Scene->RemoveActor(actor.get());
+}
+
 void SceneHierarchyPanel::SelectActor(Ref<Actor> actor)
 {
 	m_SelectedActor = actor;
@@ -141,6 +150,7 @@ void SceneHierarchyPanel::SelectActor(Ref<Actor> actor)
 
 void SceneHierarchyPanel::UnselectActor()
 {
+	m_Editor->HideDetails();
 	m_SelectedActor = Ref<Actor>();
 }
 
@@ -159,9 +169,9 @@ void SceneHierarchyPanel::TreeChildren(Ref<Actor> actor)
 		auto e = m_Scene->FindActor(children[i]->GetOwner()->GetID());
 
 		ImGui::PushID(i);
-		bool enable = e->IsEnable();
+		bool enable = e->IsEnabled();
 		if (ImGui::Checkbox("", &enable))
-			e->SetEnable(enable);
+			e->SetEnabled(enable);
 
 		ImGui::PopID();
 

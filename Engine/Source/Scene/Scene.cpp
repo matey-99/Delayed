@@ -10,7 +10,7 @@
 #include "Renderer/Renderer.h"
 #include "Component/TransformComponent.h"
 #include "Component/UI/RectTransformComponent.h"
-#include "Component/PlayerComponent.h"
+#include "Camera/CameraManager.h"
 
 Scene::Scene()
 {
@@ -31,7 +31,10 @@ Scene::Scene()
 
 void Scene::Start()
 {
+	CameraManager::GetInstance()->SetMainCamera(m_CurrentCamera);
+
 	m_Root->GetComponent<TransformComponent>()->CalculateWorldModelMatrix();
+	m_UIRoot->GetComponent<RectTransformComponent>()->CalculateWorldModelMatrix();
 
 	for (auto actor : m_Actors)
 	{
@@ -45,6 +48,12 @@ void Scene::Update(float deltaTime)
 	{
 		actor->Update(deltaTime);
 	}
+}
+
+void Scene::FixedUpdate()
+{
+	for (auto actor : m_Actors)
+		actor->FixedUpdate();
 }
 
 void Scene::PreRender()
@@ -76,7 +85,7 @@ void Scene::Destroy()
 
 void Scene::RenderActor(Actor* actor)
 {
-	if (!actor->IsEnable())
+	if (!actor->IsEnabled())
 	{
 		if (auto light = actor->GetComponent<Light>())
 			light->SwitchOff();
@@ -200,8 +209,24 @@ Ref<Actor> Scene::AddUIActor(uint64_t id, std::string name)
 	return actor;
 }
 
-void Scene::RemoveActor(Ref<Actor> actor)
+void Scene::RemoveActor(Actor* actor)
 {
+	if (actor->GetTransform()->GetChildren().empty())
+	{
+		auto parent = actor->GetTransform()->GetParent();
+		if (parent)
+			parent->RemoveChild(actor->GetTransform().get());
+
+		m_Actors.erase(std::remove_if(m_Actors.begin(), m_Actors.end(), [actor](Ref<Actor> a) { return a->GetID() == actor->GetID(); }), m_Actors.end());
+	}
+	else
+	{
+		for (auto child : actor->GetTransform()->GetChildren())
+		{
+			RemoveActor(child->GetOwner());
+		}
+	}
+
 }
 
 Ref<Actor> Scene::FindActor(std::string name)

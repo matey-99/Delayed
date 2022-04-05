@@ -46,6 +46,12 @@ void Actor::Update(float deltaTime)
 	}
 }
 
+void Actor::FixedUpdate()
+{
+	for (auto component : m_Components)
+		component->FixedUpdate();
+}
+
 void Actor::PreRender()
 {
 	for (auto component : m_Components)
@@ -77,9 +83,14 @@ Ref<TransformBaseComponent> Actor::GetTransform()
 	return GetComponent<TransformBaseComponent>();
 }
 
-void Actor::SetEnable(bool enable)
+void Actor::SetDynamic(bool dynamic)
 {
-	m_Enable = enable;
+	m_Dynamic = dynamic;
+}
+
+void Actor::SetEnabled(bool enabled)
+{
+	m_Enabled = enabled;
 }
 
 void Actor::SetID(uint64_t id)

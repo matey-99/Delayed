@@ -2,15 +2,18 @@
 
 #include "ColliderComponent.h"
 
-class CapsuleColliderComponent : public ColliderComponent
-{
+class CapsuleColliderComponent : public ColliderComponent {
 public:
-	CapsuleColliderComponent(Actor* owner);
+    CapsuleColliderComponent(Actor *owner);
 
-	virtual void Start() override;
-	virtual void Update(float deltaTime) override;
-	virtual void Destroy() override;
+    virtual void Start() override;
+
+    virtual void Update(float deltaTime) override;
+
+    virtual void Destroy() override;
 
 protected:
-	virtual bool CheckCollisions() override;
+    virtual bool CheckCollisions() override;
+
+    glm::vec3 ClosestPoint(glm::vec3 point) override;
 };

@@ -39,26 +39,15 @@ StaticMeshComponent::StaticMeshComponent(Actor* owner, std::string path, std::ve
 
 void StaticMeshComponent::Start()
 {
-	glm::vec3 min = m_Meshes.at(0).GetBoundingBox().Min;
-	glm::vec3 max = m_Meshes.at(0).GetBoundingBox().Max;
-	for (auto mesh : m_Meshes)
-	{
-		min = glm::min(min, mesh.GetBoundingBox().Min);
-		max = glm::max(min, mesh.GetBoundingBox().Max);
-	}
-
-	m_BoundingBox = BoundingBox(m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(min, 1.0f),
-		m_Owner->GetTransform()->GetWorldModelMatrix()  * glm::vec4(max, 1.0f));
-
-	std::cout << m_Owner->GetName() << ": MIN = [" << m_BoundingBox.Min.x << ", " << m_BoundingBox.Min.y << ", " << m_BoundingBox.Min.z << "]" << std::endl;
-	std::cout << m_Owner->GetName() << ": MAX = [" << m_BoundingBox.Max.x << ", " << m_BoundingBox.Max.y << ", " << m_BoundingBox.Max.z << "]" << std::endl;
-	std::cout << m_Owner->GetName() << ": CENTER = [" << m_BoundingBox.Center.x << ", " << m_BoundingBox.Center.y << ", " << m_BoundingBox.Center.z << "]" << std::endl;
+	m_Owner->GetTransform()->OnTransformChanged.Add(&StaticMeshComponent::UpdateBoundingBox, this);
+    m_Owner->GetTransform()->OnTransformChanged.Add(&StaticMeshComponent::UpdateBoundingSphere, this);
+	
+	UpdateBoundingBox();
+    UpdateBoundingSphere();
 }
 
 void StaticMeshComponent::Update(float deltaTime)
 {
-	//m_BoundingBox = BoundingBox(m_Owner->GetTransform().ModelMatrix * glm::vec4(m_BoundingBox.Min, 1.0f),
-	//	m_Owner->GetTransform().ModelMatrix * glm::vec4(m_BoundingBox.Max, 1.0f));
 }
 
 void StaticMeshComponent::PreRender()
@@ -136,4 +125,56 @@ void StaticMeshComponent::ChangeMaterial(int index, std::string path)
 {
 	m_MaterialsPaths.at(index) = path;
 	m_Materials.at(index) = MaterialImporter::GetInstance()->ImportMaterial(path);
+}
+
+void StaticMeshComponent::UpdateBoundingBox()
+{
+	std::vector<glm::vec3> pointsFromAllMeshes;
+	for (auto mesh : m_Meshes)
+	{
+		auto points = mesh.GetBoundingBox().GetPoints();
+		for (auto& point : points)
+		{
+			point = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(point, 1.0f);
+			pointsFromAllMeshes.push_back(point);
+		}
+	}
+
+	m_BoundingBox = BoundingBox(pointsFromAllMeshes);
+}
+
+void StaticMeshComponent::UpdateBoundingSphere() {
+    BoundingSphere s0, s1, s = m_Meshes[0].GetBoundingSphere();
+    glm::vec3 d;
+    float dist2, dist, r;
+
+    s.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s.Center, 1.0f);
+    s.Radius *= m_Owner->GetTransform()->GetWorldModelMatrix()[0][0];
+
+    for (auto mesh : m_Meshes)
+    {
+        s0 = s;
+        s1 = mesh.GetBoundingSphere();
+        s1.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s1.Center, 1.0f);
+        s1.Radius *= m_Owner->GetTransform()->GetWorldModelMatrix()[0][0];
+
+        d = s1.Center - s0.Center;
+        dist2 = glm::dot(d,d);
+
+        r = s1.Radius - s0.Radius;
+
+        if ((r * r) >= dist2) {
+            if (s1.Radius >= s0.Radius)
+                s = s1;
+        } else {
+            dist = glm::sqrt(dist2);
+            s.Radius = (dist + s0.Radius + s1.Radius) * 0.5f;
+            s.Center = s0.Center;
+            if (dist > (s0.Radius + s1.Radius))
+                s.Center += ((s.Radius - s0.Center) / dist) * d;
+        }
+
+    }
+
+    m_BoundingSphere = s;
 }

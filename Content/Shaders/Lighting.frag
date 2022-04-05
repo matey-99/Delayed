@@ -14,6 +14,8 @@ layout (location = 3) uniform sampler2D u_GBufferEmissive;
 layout (location = 4) uniform sampler2D u_GBufferMetallicRoughness;
 layout (location = 5) uniform sampler2DArray u_DirectionalLightShadowMaps;
 layout (location = 6) uniform sampler2D u_SSAO;
+layout (location = 7) uniform vec3 u_SkyLightColor;
+layout (location = 8) uniform float u_SkyLightIntensity;
 
 struct DirectionalLight
 {
@@ -263,7 +265,7 @@ void main()
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         Lo += CalculateSpotLight(u_SpotLights[i], position, V, color, normal, metallic, roughness);
 
-    vec3 ambient = vec3(0.03) * color * ao;
+    vec3 ambient = u_SkyLightColor * u_SkyLightIntensity * color * ao;
 
     vec3 lighting = ambient + Lo + emissive;
     f_Color = vec4(lighting, 1.0);

@@ -17,6 +17,7 @@ public:
 	void Render();
 
 	void DuplicateSelectedActor();
+	void DeleteSelectedActor();
 
 	void SelectActor(Ref<Actor> actor);
 	void UnselectActor();

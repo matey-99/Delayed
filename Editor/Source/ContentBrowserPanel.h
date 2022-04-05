@@ -11,6 +11,8 @@ private:
 	Ref<Scene> m_Scene;
 	std::vector<std::string> m_SupportedFileFormats;
 	std::string m_DisplayedDirectory;
+	bool m_IsCreateMaterialWindowDisplayed;
+	std::string m_NewMaterialName;
 
 public:
 	ContentBrowserPanel(Ref<Editor> editor, Ref<Scene> scene);

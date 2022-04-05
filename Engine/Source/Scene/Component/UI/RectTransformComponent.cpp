@@ -60,24 +60,17 @@ void RectTransformComponent::CalculateLocalModelMatrix()
 {
 	auto r = Renderer::GetInstance();
 
-	glm::vec3 position = m_LocalPosition;
-	position.x /= r->GetWindowWidth();
-	position.y /= r->GetWindowHeight();
-	position.x += m_Anchor.x;
-	position.y += m_Anchor.y;
+	m_LocalPositionUI = m_LocalPosition;
+	m_LocalPositionUI.x += m_Anchor.x * r->GetWindowWidth();
+	m_LocalPositionUI.y += m_Anchor.y * r->GetWindowHeight();
 
-	glm::vec3 scale = m_LocalScale;
-
-	// If owner isn't UI Root
-	if (m_Owner->GetID() != 1)
+	m_LocalScaleUI = m_LocalScale;
+	if (m_Owner->GetID() == 1)
 	{
-		scale.x /= r->GetWindowWidth();
-		scale.y /= r->GetWindowHeight();
-		scale.x *= 100.0f;
-		scale.y *= 100.0f;
+		m_LocalScaleUI.x /= r->GetWindowWidth();
+		m_LocalScaleUI.y /= r->GetWindowHeight();
 	}
 
-
 	glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(m_LocalRotation)));
-	m_LocalModelMatrix = glm::translate(glm::mat4(1.0f), position) * rotation * glm::scale(glm::mat4(1.0f), scale);
+	m_LocalModelMatrix = glm::translate(glm::mat4(1.0f), m_LocalPositionUI) * rotation * glm::scale(glm::mat4(1.0f), m_LocalScaleUI);
 }

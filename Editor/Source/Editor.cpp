@@ -6,6 +6,11 @@
 #include "Scene/Component/Light/Light.h"
 #include "Renderer/RenderPass/GBufferPass.h"
 #include "Renderer/RenderPass/LightingPass.h"
+#include "Scene/Component/Collider/ColliderComponent.h"
+#include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/UI/UIComponent.h"
+
+#define UPDATE_UI 1
 
 Ref<Editor> Editor::s_Instance{};
 std::mutex Editor::s_Mutex;
@@ -65,15 +70,52 @@ void Editor::Initialize(Ref<Scene> scene)
 	m_Camera->Yaw = 0.25f;
 }
 
+void Editor::Start()
+{
+	auto meshes = m_Scene->GetComponents<StaticMeshComponent>();
+	for (auto mesh : meshes)
+	{
+		mesh->Start();
+	}
+
+	auto colliders = m_Scene->GetComponents<ColliderComponent>();
+	for (auto collider : colliders)
+	{
+		collider->Start();
+	}
+}
+
 void Editor::Update(float deltaTime)
 {
 	m_Camera->Update();
+
+	auto meshes = m_Scene->GetComponents<StaticMeshComponent>();
+	for (auto mesh : meshes)
+	{
+		mesh->Update(deltaTime);
+	}
+
+	auto colliders = m_Scene->GetComponents<ColliderComponent>();
+	for (auto collider : colliders)
+	{
+		collider->Update(deltaTime);
+	}
 
 	if (m_IsCameraComponentViewport)
 	{
 		if (m_SelectedCameraComponent)
 			m_SelectedCameraComponent->Update(deltaTime);
 	}
+
+#if UPDATE_UI
+
+	auto uiComponents = m_Scene->GetComponents<UIComponent>();
+	for (auto comp : uiComponents)
+		comp->Update(deltaTime);
+
+
+#endif
+
 }
 
 void Editor::Render()

@@ -20,6 +20,7 @@ private:
 	Ref<RenderTarget> m_ViewportRenderTarget;
 
 	Ref<Shader> m_DirectionArrowShader;
+	Ref<Shader> m_ColliderShader;
 	Ref<Shader> m_ViewportShader;
 	std::vector<Mesh> m_DirectionArrow;
 

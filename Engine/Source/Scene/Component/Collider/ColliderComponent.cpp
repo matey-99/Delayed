@@ -1,6 +1,5 @@
 #include "ColliderComponent.h"
 
-ColliderComponent::ColliderComponent(Actor* owner)
-	: Component(owner)
-{
+ColliderComponent::ColliderComponent(Actor *owner)
+        : Component(owner) {
 }

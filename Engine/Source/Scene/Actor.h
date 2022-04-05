@@ -19,6 +19,7 @@ public:
 
 	void Start();
 	void Update(float deltaTime);
+	void FixedUpdate();
 	void PreRender();
 	void Render();
 	void Destroy();
@@ -58,12 +59,14 @@ public:
 
 	inline Scene* GetScene() const { return m_Scene; }
 	inline std::string GetName() const { return m_Name; }
-	inline bool IsEnable() const { return m_Enable; }
+	inline bool IsEnabled() const { return m_Enabled; }
 	inline uint64_t GetID() const { return m_ID; }
+	inline bool IsDynamic() const { return m_Dynamic; }
 
 	Ref<TransformBaseComponent> GetTransform();
 
-	void SetEnable(bool enable);
+	void SetDynamic(bool dynamic);
+	void SetEnabled(bool enabled);
 	void SetID(uint64_t id);
 
 private:
@@ -71,11 +74,12 @@ private:
 
 	uint64_t m_ID;
 	std::string m_Name;
+	bool m_Enabled = true;
+	bool m_Dynamic = false;
 	std::vector<Ref<Component>> m_Components;
 
 
 
-	bool m_Enable = true;
 
 	friend class SceneHierarchyPanel;
 	friend class ActorDetailsPanel;

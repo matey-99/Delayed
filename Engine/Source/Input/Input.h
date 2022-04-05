@@ -3,19 +3,11 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include <mutex>
-#include <GLFW/glfw3.h>
 
 #include "Patterns/Singleton.h"
+#include "Patterns/Event.h"
+#include "InputEnums.h"
 #include "typedefs.h"
-
-#define MOUSE_X 0
-#define MOUSE_Y 1
-
-enum class InputType
-{
-	Keyboard, Mouse, Gamepad
-};
 
 struct ActionInputBinding
 {
@@ -83,6 +75,12 @@ public:
 
 	void SetInputMode(InputMode mode);
 
+	glm::vec2 GetMousePosition();
+
+public:
+	Event OnLeftMouseButtonPressed;
+	Event OnLeftMouseButtonReleased;
+
 private:
 	GLFWwindow* m_Window;
 
@@ -93,4 +91,6 @@ private:
 
 	float m_LastMousePositionX;
 	float m_LastMousePositionY;
+
+	friend class InputSerializer;
 };

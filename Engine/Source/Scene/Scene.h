@@ -36,6 +36,7 @@ public:
 
 	void Start();
 	void Update(float deltaTime);
+	void FixedUpdate();
 	void PreRender();
 	void Render();
 	void Destroy();
@@ -53,7 +54,7 @@ public:
 	Ref<Actor> AddUIActor(std::string name);
 	Ref<Actor> AddUIActor(uint64_t id, std::string name);
 
-	void RemoveActor(Ref<Actor> actor);
+	void RemoveActor(Actor* actor);
 	Ref<Actor> FindActor(std::string name);
 	Ref<Actor> FindActor(uint64_t id);
 

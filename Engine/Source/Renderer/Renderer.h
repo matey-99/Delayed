@@ -65,9 +65,13 @@ public:
 	void Initialize();
 
 	void Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex = 0);
+	void Display();
 
 	uint32_t GetOutput(uint32_t index = 0);
 	void ResizeWindow(uint32_t width, uint32_t height);
+
+	inline const RendererSettings& GetSettings() const { return m_Settings; }
+	inline void SetSettings(const RendererSettings& settings) { m_Settings = settings; }
 
 	inline Ref<UniformBuffer> GetCameraVertexUniformBuffer() const { return m_CameraVertexUniformBuffer; }
 	inline Ref<UniformBuffer> GetCameraFragmentUniformBuffer() const { return m_CameraFragmentUniformBuffer; }

@@ -14,6 +14,9 @@
 #include "Scene/Component/Light/SpotLight.h"
 #include "Renderer/RenderTools.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
+#include "Scene/Component/Collider/BoxColliderComponent.h"
+#include "Scene/Component/Collider/SphereColliderComponent.h"
+#include "Scene/Component/StaticMeshComponent.h"
 
 Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
 	: m_Editor(editor), m_Scene(scene)
@@ -34,6 +37,10 @@ Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
     m_DirectionArrowShader = CreateRef<Shader>("Gizmos",
                                                ContentHelper::GetAssetPath("Shaders/Editor/Gizmos.vert"),
                                                ContentHelper::GetAssetPath("Shaders/Editor/Gizmos.frag"));
+
+    m_ColliderShader = CreateRef<Shader>("Collider",
+                                               ContentHelper::GetAssetPath("Shaders/Editor/Collider.vert"),
+                                               ContentHelper::GetAssetPath("Shaders/Editor/Collider.frag"));
 
     m_ViewportShader = CreateRef<Shader>("Viewport", 
                                          ContentHelper::GetAssetPath("Shaders/Editor/Viewport.vert"),
@@ -163,8 +170,6 @@ void Viewport::RenderGizmos()
         {
             isGizmos = true;
 
-            
-
             glDisable(GL_DEPTH_TEST);
 
             glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(selectedActor->GetTransform()->GetWorldRotation())));
@@ -178,8 +183,54 @@ void Viewport::RenderGizmos()
             }
 
             glEnable(GL_DEPTH_TEST);
+        }
 
-            
+        if (auto mesh = selectedActor->GetComponent<StaticMeshComponent>())
+        {
+            isGizmos = true;
+
+            glDisable(GL_DEPTH_TEST);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+            m_ColliderShader->Use();
+            m_ColliderShader->SetVec3("u_Color", glm::vec3(0.75f, 0.5f, 0.0f));
+
+            RenderTools::GetInstance()->RenderBoundingBox(mesh->GetBoundingBox());
+
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glEnable(GL_DEPTH_TEST);
+        }
+        
+        if (auto c = selectedActor->GetComponent<BoxColliderComponent>())
+        {
+            isGizmos = true;
+
+            glDisable(GL_DEPTH_TEST);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+            m_ColliderShader->Use();
+            m_ColliderShader->SetVec3("u_Color", glm::vec3(0.0f, 1.0f, 0.0f));
+
+            RenderTools::GetInstance()->RenderBoundingBox(c->GetBoundingBox());
+
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glEnable(GL_DEPTH_TEST);
+        }
+
+        if (auto c = selectedActor->GetComponent<SphereColliderComponent>())
+        {
+            isGizmos = true;
+
+            glDisable(GL_DEPTH_TEST);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+            m_ColliderShader->Use();
+            m_ColliderShader->SetVec3("u_Color", glm::vec3(0.0f, 1.0f, 0.0f));
+
+            RenderTools::GetInstance()->RenderBoundingSphere(c->GetBoundingSphere());
+
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glEnable(GL_DEPTH_TEST);
         }
     }
     m_GizmosRenderTarget->Unbind();

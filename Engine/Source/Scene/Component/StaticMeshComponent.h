@@ -18,6 +18,7 @@ private:
 	std::vector<std::string> m_MaterialsPaths;
 
 	BoundingBox m_BoundingBox;
+    BoundingSphere m_BoundingSphere;
 
 	bool m_MultipleMaterials;
 
@@ -31,6 +32,9 @@ public:
 	void ChangeMesh(std::string path);
 	void ChangeMaterial(int index, std::string path);
 
+	void UpdateBoundingBox();
+    void UpdateBoundingSphere();
+
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
 	virtual void PreRender() override;
@@ -42,7 +46,8 @@ public:
 	inline std::vector<Ref<Material>> GetMaterials() const { return m_Materials; }
 	inline std::vector<std::string> GetMaterialsPaths() const { return m_MaterialsPaths; }
 	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
-	uint32_t GetRenderedVerticesCount();
+    inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
+    uint32_t GetRenderedVerticesCount();
 
 	inline void SetMaterial(int index, Ref<Material> material) { m_Materials.at(index) = material; }
 };

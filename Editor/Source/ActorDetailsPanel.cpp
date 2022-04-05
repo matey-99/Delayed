@@ -10,12 +10,15 @@
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
 #include "Scene/Component/ParticleSystemComponent.h"
-#include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/UI/ImageComponent.h"
+#include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
+#include "Game/Player.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <Scene/Component/Collider/SphereColliderComponent.h>
+#include <Scene/Component/RigidBodyComponent.h>
 
 bool Equals(float arr[3], glm::vec3 vec)
 {
@@ -44,6 +47,7 @@ void ActorDetailsPanel::Render()
     char* name = (char*)m_Actor->m_Name.c_str();
     ImGui::InputText("##Name", name, maxSize);
     m_Actor->m_Name = name;
+    ImGui::Checkbox("Dynamic", &m_Actor->m_Dynamic);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     if (auto transform = m_Actor->GetComponent<TransformComponent>())
@@ -330,18 +334,22 @@ void ActorDetailsPanel::Render()
     {
         ImGui::Text("Sky Light");
 
-        std::string path = skyLight->GetPath();
-        std::string name = path.substr(path.find_last_of("/") + 1);
-
-        if (ImGui::BeginCombo("Path", name.c_str()))
+        std::vector<std::string> paths = skyLight->GetPaths();
+        for (auto path : paths)
         {
-            std::vector<std::string> extensions = std::vector<std::string>();
-            extensions.push_back("hdr");
-            DisplayResources(extensions);
+            std::string name = path.substr(path.find_last_of("/") + 1);
+            if (ImGui::BeginCombo("Path", name.c_str()))
+            {
+                std::vector<std::string> extensions = std::vector<std::string>();
+                extensions.push_back("png");
+                DisplayResources(extensions);
 
-            ImGui::EndCombo();
+                ImGui::EndCombo();
+            }
         }
+        
         ImGui::Checkbox("Sky Visibility", &skyLight->m_SkyVisibility);
+        ImGui::ColorEdit3("Color", glm::value_ptr(skyLight->m_Color), ImGuiColorEditFlags_Float);
         ImGui::DragFloat("Intensity", &skyLight->m_Intensity, 0.01f, 0.0f, 1.0f);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -384,7 +392,7 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
-    if (auto player = m_Actor->GetComponent<PlayerComponent>())
+    if (auto player = m_Actor->GetComponent<Player>())
     {
         ImGui::Text("Player");
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -406,10 +414,64 @@ void ActorDetailsPanel::Render()
         ImGui::ColorEdit4("Image Color", glm::value_ptr(image->m_Color));
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
+    if (auto button = m_Actor->GetComponent<ButtonComponent>())
+    {
+        const char* buttonState = "";
+        switch (button->m_CurrentState)
+        {
+        case ButtonComponent::ButtonState::Normal:
+            buttonState = "Normal";
+            break;
+        case ButtonComponent::ButtonState::Hovered:
+            buttonState = "Hovered";
+            break;
+        case ButtonComponent::ButtonState::Pressed:
+            buttonState = "Pressed";
+            break;
+        case ButtonComponent::ButtonState::Disabled:
+            buttonState = "Disabled";
+            break;
+        }
+
+        ImGui::Text("Button");
+
+        ImGui::Checkbox("Enabled", &button->m_Enabled);
+        ImGui::Text("Current State: ");
+        ImGui::SameLine();
+        ImGui::Text(buttonState);
+        std::string path = button->m_Image->GetPath();
+        std::string name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Image", name.c_str()))
+        {
+            std::vector<std::string> extensions = std::vector<std::string>();
+            extensions.push_back("png");
+            DisplayResources(extensions);
+
+            ImGui::EndCombo();
+        }
+
+        ImGui::ColorEdit4("Normal Color", glm::value_ptr(button->m_NormalColor));
+        ImGui::ColorEdit4("Hovered Color", glm::value_ptr(button->m_HoveredColor));
+        ImGui::ColorEdit4("Pressed Color", glm::value_ptr(button->m_PressedColor));
+        ImGui::ColorEdit4("Disabled Color", glm::value_ptr(button->m_DisabledColor));
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
 
     if (auto boxCollider = m_Actor->GetComponent<BoxColliderComponent>())
     {
         ImGui::Text("Box Collider");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto sphereCollider = m_Actor->GetComponent<SphereColliderComponent>())
+    {
+        ImGui::Text("Sphere Collider");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto rigidBody = m_Actor->GetComponent<RigidBodyComponent>())
+    {
+        ImGui::Text("RigidBody");
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
@@ -424,7 +486,10 @@ void ActorDetailsPanel::Render()
     bool player = false;
     bool camera = false;
     bool image = false;
+    bool button = false;
     bool boxCollider = false;
+    bool sphereCollider = false;
+    bool rigidBody = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -450,9 +515,12 @@ void ActorDetailsPanel::Render()
                 if (ImGui::BeginMenu("Collider"))
                 {
                     ImGui::MenuItem("Box Collider", "", &boxCollider);
+                    ImGui::MenuItem("Sphere Collider", "", &sphereCollider);
 
                     ImGui::EndMenu();
                 }
+
+                ImGui::MenuItem("RigidBody", "", &rigidBody);
 
                 ImGui::EndMenu();
             }
@@ -469,6 +537,7 @@ void ActorDetailsPanel::Render()
                 if (ImGui::BeginMenu("UI"))
                 {
                     ImGui::MenuItem("Image", "", &image);
+                    ImGui::MenuItem("Button", "", &button);
 
                     ImGui::EndMenu();
                 }
@@ -491,17 +560,34 @@ void ActorDetailsPanel::Render()
     if (spotLight)
         m_Actor->AddComponent<SpotLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
     if (skyLight)
-        m_Actor->AddComponent<SkyLight>(ContentHelper::GetAssetPath("Textures/Sky/default.hdr"));
+    {
+        std::vector<std::string> defaultPaths;
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/px.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/nx.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/py.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/ny.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/nz.png"));
+        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/pz.png"));
+
+        m_Actor->AddComponent<SkyLight>(defaultPaths);
+
+    }
     if (particleSystem)
         m_Actor->AddComponent<ParticleSystemComponent>();
     if (player)
-        m_Actor->AddComponent<PlayerComponent>();
+        m_Actor->AddComponent<Player>();
     if (camera)
         m_Actor->AddComponent<CameraComponent>();
     if (image)
         m_Actor->AddComponent<ImageComponent>();
+    if (button)
+        m_Actor->AddComponent<ButtonComponent>();
     if (boxCollider)
         m_Actor->AddComponent<BoxColliderComponent>();
+    if (sphereCollider)
+        m_Actor->AddComponent<SphereColliderComponent>();
+    if (rigidBody)
+        m_Actor->AddComponent<RigidBodyComponent>();
 
     if (ImGui::Button("Close"))
     {
@@ -546,14 +632,22 @@ void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, in
                     }
                     else if (ext == "hdr")
                     {
-                        if (auto skyLight = m_Actor->GetComponent<SkyLight>())
-                            skyLight->Load(path);
+
                     }
                     else if (ext == "png")
                     {
                         if (auto image = m_Actor->GetComponent<ImageComponent>())
                         {
                             image->ChangeImage(path);
+                        }
+                        if (auto button = m_Actor->GetComponent<ButtonComponent>())
+                        {
+                            button->ChangeImage(path);
+                        }
+                        if (auto skyLight = m_Actor->GetComponent<SkyLight>())
+                        {
+                            //skyLight->Load(path);
+
                         }
                     }
                 }

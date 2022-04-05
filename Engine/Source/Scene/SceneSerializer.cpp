@@ -9,10 +9,15 @@
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
 #include "Scene/Component/ParticleSystemComponent.h"
-#include "Scene/Component/PlayerComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
+#include <Scene/Component/Collider/SphereColliderComponent.h>
+#include <Scene/Component/RigidBodyComponent.h>
 #include "Scene/Component/UI/ImageComponent.h"
+#include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
+
+#include "Game/MainMenu.h"
+#include "Game/Player.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -20,6 +25,12 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::BeginMap;
 	out << YAML::Key << "Scene" << YAML::Value << scene->m_Name;
 	out << YAML::Key << "CurrentCamera" << YAML::Value << scene->m_CurrentCamera->GetOwner()->GetID();
+
+	out << YAML::Key << "RendererSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "FXAA" << YAML::Value << Renderer::GetInstance()->GetSettings().FXAAEnabled;
+	out << YAML::Key << "DepthOfField" << YAML::Value << Renderer::GetInstance()->GetSettings().DepthOfFieldEnabled;
+	out << YAML::EndMap;
+
 	out << YAML::Key << "Actors" << YAML::Value << YAML::BeginSeq;
 	for (auto actor : scene->GetActors())
 	{
@@ -51,6 +62,15 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	std::string sceneName = data["Scene"].as<std::string>();
 	scene->m_Name = sceneName;
 
+	bool fxaa = data["RendererSettings"]["FXAA"].as<bool>();
+	bool depthOfField = data["RendererSettings"]["DepthOfField"].as<bool>();
+
+	Renderer::RendererSettings settings;
+	settings.FXAAEnabled = fxaa;
+	settings.DepthOfFieldEnabled = depthOfField;
+
+	Renderer::GetInstance()->SetSettings(settings);
+
 	YAML::Node actors = data["Actors"];
 	if (actors)
 	{
@@ -72,6 +92,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						a = scene->AddActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
 
+						if (auto dynamic = actor["Dynamic"])
+							a->SetDynamic(dynamic.as<bool>());
+						else
+							a->SetDynamic(false);
+
 						auto t = a->GetComponent<TransformComponent>();
 						t->SetLocalPosition(transform["LocalPosition"].as<glm::vec3>());
 						t->SetLocalRotation(transform["LocalRotation"].as<glm::vec3>());
@@ -85,6 +110,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto rectTransform = component["RectTransform"])
 					{
 						a = scene->AddUIActor(actor["ID"].as<uint64_t>(), actor["Name"].as<std::string>());
+						
+						if (auto dynamic = actor["Dynamic"])
+							a->SetDynamic(dynamic.as<bool>());
+						else
+							a->SetDynamic(false);
 
 						auto t = a->GetComponent<RectTransformComponent>();
 						t->SetAnchor((AnchorType)rectTransform["Anchor"].as<uint16_t>());
@@ -164,9 +194,18 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto skyLight = component["SkyLight"])
 					{
-						std::string path = skyLight["Path"].as<std::string>();
+						std::vector<std::string> paths;
+						auto p = skyLight["Paths"];
+						uint16_t index = 0;
+						for (auto path : p)
+							paths.push_back(path.second.as<std::string>());
 
-						auto l = a->AddComponent<SkyLight>(path);
+						glm::vec3 color = skyLight["Color"].as<glm::vec3>();
+						float intensity = skyLight["Intensity"].as<float>();
+
+						auto l = a->AddComponent<SkyLight>(paths);
+						l->m_Color = color;
+						l->m_Intensity = intensity;
 					}
 
 					if (auto particle = component["ParticleSystem"])
@@ -199,12 +238,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						c->m_FarClipPlane = farClipPlane;
 					}
 
-					if (auto player = component["Player"])
-					{
-						a->AddComponent<PlayerComponent>();
-					}
-
-					if (auto boxCollider = component["Box Collider"])
+					if (auto boxCollider = component["BoxCollider"])
 					{
 						glm::vec3 center = boxCollider["Center"].as<glm::vec3>();
 						glm::vec3 size = boxCollider["Size"].as<glm::vec3>();
@@ -213,6 +247,27 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						b->m_Center = center;
 						b->m_Size = size;
 					}
+
+					if (auto sphereCollider = component["SphereCollider"]) {
+                        glm::vec3 center = sphereCollider["Center"].as<glm::vec3>();
+                        float size = sphereCollider["Size"].as<float>();
+
+                        auto b = a->AddComponent<SphereColliderComponent>();
+                        b->m_Center = center;
+                        b->m_Size = size;
+                    }
+
+					if (auto rigidBody = component["RigidBody"])
+                    {
+                        float gravity = rigidBody["Gravity"].as<float>();
+                        float mass = rigidBody["Mass"].as<float>();
+                        float drag = rigidBody["Drag"].as<float>();
+
+                        auto r = a->AddComponent<RigidBodyComponent>();
+                        r->m_Gravity = gravity;
+                        r->m_Mass = mass;
+                        r->m_Drag = drag;
+                    }
 
 					if (auto image = component["Image"])
 					{
@@ -223,6 +278,43 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						i->m_Image = Texture::Create(path);
 						i->m_Color = color;
 					}
+
+					if (auto button = component["Button"])
+					{
+						bool enabled = button["Enabled"].as<bool>();
+						std::string path = button["ImagePath"].as<std::string>();
+						glm::vec4 normalColor = button["NormalColor"].as<glm::vec4>();
+						glm::vec4 hoveredColor = button["HoveredColor"].as<glm::vec4>();
+						glm::vec4 pressedColor = button["PressedColor"].as<glm::vec4>();
+						glm::vec4 disabledColor = button["DisabledColor"].as<glm::vec4>();
+
+						auto b = a->AddComponent<ButtonComponent>();
+						b->m_Enabled = enabled;
+						b->m_Image = Texture::Create(path);
+						b->m_NormalColor = normalColor;
+						b->m_HoveredColor = hoveredColor;
+						b->m_PressedColor = pressedColor;
+						b->m_DisabledColor = disabledColor;
+					}
+
+					/* --- GAME COMPONENTS --- */
+
+					if (auto menu = component["MainMenu"])
+					{
+						uint64_t playButtonActorID = menu["PlayButton"].as<uint64_t>();
+						uint64_t optionsButtonActorID = menu["OptionsButton"].as<uint64_t>();
+						uint64_t exitButtonActorID = menu["ExitButton"].as<uint64_t>();
+
+						auto m = a->AddComponent<MainMenu>();
+						m->m_PlayButtonID = playButtonActorID;
+						m->m_OptionsButtonID = optionsButtonActorID;
+						m->m_ExitButtonID = exitButtonActorID;
+					}
+
+					if (auto player = component["Player"])
+					{
+						a->AddComponent<Player>();
+					}
 				}
 			}
 		}
@@ -231,10 +323,10 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 		{
 			scene->GetActors().at(i)->GetTransform()->SetParent(scene->FindActor(parentsIDs[i - 2])->GetTransform().get());
 		}
-	}
 
-	uint64_t currentCameraID = data["CurrentCamera"].as<uint64_t>();
-	scene->m_CurrentCamera = scene->FindActor(currentCameraID)->GetComponent<CameraComponent>();
+		uint64_t currentCameraID = data["CurrentCamera"].as<uint64_t>();
+		scene->m_CurrentCamera = scene->FindActor(currentCameraID)->GetComponent<CameraComponent>();
+	}
 
 	file.close();
 	return scene;
@@ -250,8 +342,11 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	out << YAML::Key << "Actor" << YAML::Value << actor->GetID();
 	out << YAML::Key << "ID" << YAML::Value << actor->GetID();
 	out << YAML::Key << "Name" << YAML::Value << actor->GetName();
+	out << YAML::Key << "Dynamic" << YAML::Value << actor->IsDynamic();
 
 	out << YAML::Key << "Components" << YAML::Value << YAML::BeginSeq;
+
+	/* --- ENGINE COMPONENTS --- */
 
 	if (auto transform = actor->GetComponent<TransformComponent>())
 	{
@@ -364,7 +459,17 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "SkyLight";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Path" << YAML::Value << skyLight->GetPath();
+
+		out << YAML::Key << "Paths" << YAML::Value << YAML::BeginMap;
+		for (uint16_t i = 0; i < skyLight->GetPaths().size(); i++)
+		{
+			out << YAML::Key << i << YAML::Value << skyLight->GetPaths()[i];
+		}
+		out << YAML::EndMap;
+
+		out << YAML::Key << "Color" << YAML::Value << skyLight->m_Color;
+		out << YAML::Key << "Intensity" << YAML::Value << skyLight->m_Intensity;
+
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -395,19 +500,10 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 	}
 
-	if (auto player = actor->GetComponent<PlayerComponent>())
-	{
-		out << YAML::BeginMap;
-		out << YAML::Key << "Player";
-		out << YAML::BeginMap;
-		out << YAML::EndMap;
-		out << YAML::EndMap;
-	}
-
 	if (auto boxCollider = actor->GetComponent<BoxColliderComponent>())
 	{
 		out << YAML::BeginMap;
-		out << YAML::Key << "Box Collider";
+		out << YAML::Key << "BoxCollider";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Center" << YAML::Value << boxCollider->m_Center;
 		out << YAML::Key << "Size" << YAML::Value << boxCollider->m_Size;
@@ -415,6 +511,29 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 	}
 
+	if (auto sphereCollider = actor->GetComponent<SphereColliderComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "SphereCollider";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Center" << YAML::Value << sphereCollider->m_Center;
+		out << YAML::Key << "Size" << YAML::Value << sphereCollider->m_Size;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto rigidBody = actor->GetComponent<RigidBodyComponent>())
+    {
+        out << YAML::BeginMap;
+        out << YAML::Key << "RigidBody";
+        out << YAML::BeginMap;
+        out << YAML::Key << "Gravity" << YAML::Value << rigidBody->m_Gravity;
+        out << YAML::Key << "Mass" << YAML::Value << rigidBody->m_Mass;
+        out << YAML::Key << "Drag" << YAML::Value << rigidBody->m_Drag;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
+	
 	if (auto image = actor->GetComponent<ImageComponent>())
 	{
 		out << YAML::BeginMap;
@@ -422,6 +541,44 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Path" << YAML::Value << image->m_Image->GetPath();
 		out << YAML::Key << "Color" << YAML::Value << image->m_Color;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto button = actor->GetComponent<ButtonComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Button";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Enabled" << YAML::Value << button->m_Enabled;
+		out << YAML::Key << "ImagePath" << YAML::Value << button->m_Image->GetPath();
+		out << YAML::Key << "NormalColor" << YAML::Value << button->m_NormalColor;
+		out << YAML::Key << "HoveredColor" << YAML::Value << button->m_HoveredColor;
+		out << YAML::Key << "PressedColor" << YAML::Value << button->m_PressedColor;
+		out << YAML::Key << "DisabledColor" << YAML::Value << button->m_DisabledColor;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	/* --- GAME COMPONENTS --- */
+
+	if (auto menu = actor->GetComponent<MainMenu>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "MainMenu";
+		out << YAML::BeginMap;
+		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButton->GetOwner()->GetID();
+		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButton->GetOwner()->GetID();
+		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButton->GetOwner()->GetID();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto player = actor->GetComponent<Player>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Player";
+		out << YAML::BeginMap;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

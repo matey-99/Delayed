@@ -4,6 +4,7 @@
 #include "ShadowsPass.h"
 #include "SSAOPass.h"
 #include "Renderer/RenderTools.h"
+#include "Scene/Component/Light/SkyLight.h"
 
 LightingPass::LightingPass()
 {
@@ -19,7 +20,7 @@ LightingPass::~LightingPass()
 {
 }
 
-void LightingPass::Render()
+void LightingPass::Render(Ref<Scene> scene)
 {
 	m_RenderTarget->Bind();
 
@@ -65,6 +66,17 @@ void LightingPass::Render()
 	shader->SetInt("u_GBufferMetallicRoughness", 4);
 	shader->SetInt("u_DirectionalLightShadowMaps", 5);
 	shader->SetInt("u_SSAO", 6);
+
+	if (auto skyLight = scene->FindComponent<SkyLight>())
+	{
+		shader->SetVec3("u_SkyLightColor", skyLight->GetColor());
+		shader->SetFloat("u_SkyLightIntensity", skyLight->GetIntensity());
+	}
+	else
+	{
+		shader->SetVec3("u_SkyLightColor", glm::vec3(1.0f));
+		shader->SetFloat("u_SkyLightIntensity", 0.03f);
+	}
 
 	RenderTools::GetInstance()->RenderQuad();
 
