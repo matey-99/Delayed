@@ -29,6 +29,7 @@
 #include "Scene/SceneManager.h"
 #include "Content/ContentHelper.h"
 #include "Camera/CameraManager.h"
+#include "Math/Math.h"
 
 #define FPS 60.0f
 #define MS_PER_UPDATE 1 / FPS
@@ -53,6 +54,8 @@ float lastMouseX = 400, lastMouseY = 300;
 bool leftCtrlClicked = false;
 bool keyDClicked = false;
 bool keyDeleteClicked = false;
+
+bool selectActor = false;
 
 void ProcessKeyboardInput(GLFWwindow* window)
 {
@@ -79,6 +82,11 @@ void ProcessMouseInput(GLFWwindow* window)
 {
     if (isViewportHovered)
     {
+        if (!selectActor && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+            selectActor = true;
+        if (selectActor && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE)
+            selectActor = false;
+
         if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_3) == GLFW_PRESS)
         {
             double xpos, ypos;
@@ -108,6 +116,41 @@ void ProcessMouseInput(GLFWwindow* window)
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         rotateCamera = false;
+    }
+
+    if (selectActor)
+    {
+        double mousePosX, mousePosY;
+        glfwGetCursorPos(window, &mousePosX, &mousePosY);
+        auto camera = CameraManager::GetInstance()->GetMainCamera();
+        auto ray = camera->ScreenPointToRay(glm::vec2(mousePosX, mousePosY));
+
+        std::vector<Ref<Actor>> actors = SceneManager::GetInstance()->GetCurrentScene()->GetActors();
+        std::sort(actors.begin(), actors.end(), [camera](Ref<Actor> a1, Ref<Actor> a2) {
+            float a1Distance = Math::Distance(a1->GetTransform()->GetWorldPosition(), camera->GetWorldPosition());
+            float a2Distance = Math::Distance(a2->GetTransform()->GetWorldPosition(), camera->GetWorldPosition());
+
+            return a1 > a2;
+            });
+
+        bool selectedActor = false;
+        for (auto actor : actors)
+        {
+            if (auto mesh = actor->GetComponent<StaticMeshComponent>())
+            {
+                if (mesh->GetBoundingBox().IsIntersect(ray))
+                {
+                    Editor::GetInstance()->GetSceneHierarchyPanel()->SelectActor(actor);
+                    selectedActor = true;
+                    break;
+                }
+            }
+        }
+
+        if (!selectedActor)
+            Editor::GetInstance()->GetSceneHierarchyPanel()->UnselectActor();
+
+        selectActor = false;
     }
 }
 

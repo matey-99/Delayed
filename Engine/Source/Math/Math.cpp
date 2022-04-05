@@ -97,6 +97,11 @@ float Math::Magnitude(const glm::vec3& v)
 	return glm::sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
 }
 
+float Math::Distance(const glm::vec3& a, const glm::vec3& b)
+{
+	return glm::sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y) + (b.z - a.z) * (b.z - a.z));
+}
+
 glm::vec3 Math::Normalize(const glm::vec3& v)
 {
 	return v / Magnitude(v);

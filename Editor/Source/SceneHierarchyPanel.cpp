@@ -150,6 +150,7 @@ void SceneHierarchyPanel::SelectActor(Ref<Actor> actor)
 
 void SceneHierarchyPanel::UnselectActor()
 {
+	m_Editor->HideDetails();
 	m_SelectedActor = Ref<Actor>();
 }
 

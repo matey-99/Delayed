@@ -1,5 +1,7 @@
 #include "BoundingSphere.h"
 
+#include "Math/Math.h"
+
 void MostSeparatedPointsOnAABB(int &min, int &max, std::vector<glm::vec3> &points) {
     int minx = 0, maxx = 0, miny = 0, maxy = 0, minz = 0, maxz = 0;
 
@@ -63,4 +65,15 @@ BoundingSphere::BoundingSphere(std::vector<glm::vec3> &points) {
     //for(auto point : points) {
     //    SphereOfSphereAndPt(this, point);
     //}
+}
+
+bool BoundingSphere::IsIntersect(const Ray& ray)
+{
+    glm::vec3 d = ray.Origin - Center;
+    float p = glm::dot(ray.Direction, d);
+    float q = glm::dot(d, d) - Radius * Radius;
+
+    float discriminant = (p * p) - q;
+
+    return discriminant >= 0;
 }

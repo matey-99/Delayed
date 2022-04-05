@@ -386,21 +386,6 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/White.mat
-  - Actor: 620608541
-    ID: 620608541
-    Name: floor
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [37.1954308, -28.2999992, 77.298027]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [4000, 1, 4000]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Default.mat
   - Actor: 623242758
     ID: 623242758
     Name: checkpoint1 (1)

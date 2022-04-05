@@ -1,6 +1,7 @@
 #pragma once
 
 #include "glm/glm.hpp"
+#include "Math/Ray.h"
 
 struct BoundingSphere {
 
@@ -12,5 +13,7 @@ struct BoundingSphere {
     BoundingSphere(glm::vec3 center, float radius);
 
     BoundingSphere(std::vector<glm::vec3> &points);
+
+    bool IsIntersect(const Ray& ray);
 };
 

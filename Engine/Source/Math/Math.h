@@ -18,6 +18,8 @@ namespace Math
 
 	float Magnitude(const glm::vec3& v);
 
+	float Distance(const glm::vec3& a, const glm::vec3& b);
+
 	glm::vec3 Normalize(const glm::vec3& v);
 
 	const glm::vec3 ForwardVector = { 0.0f, 0.0f, 1.0f };
