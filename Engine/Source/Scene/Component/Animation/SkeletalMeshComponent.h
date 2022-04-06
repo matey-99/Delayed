@@ -47,7 +47,6 @@ public:
 
 	// Details
 	uint32_t GetBoneCount();
-	uint32_t GetAnimationCount();
 
 
 	inline void SetMaterial(int index, Ref<Material> material) { m_Materials.at(index) = material; }

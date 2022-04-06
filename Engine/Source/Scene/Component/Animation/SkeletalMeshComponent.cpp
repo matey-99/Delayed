@@ -103,11 +103,6 @@ uint32_t SkeletalMeshComponent::GetBoneCount()
 	return SkeletalMeshImporter::GetInstance()->GetBoneCount();
 }
 
-uint32_t SkeletalMeshComponent::GetAnimationCount()
-{
-	return SkeletalMeshImporter::GetInstance()->GetAnimationCount();
-}
-
 void SkeletalMeshComponent::LoadMesh(std::string path)
 {
 	m_Path = path;

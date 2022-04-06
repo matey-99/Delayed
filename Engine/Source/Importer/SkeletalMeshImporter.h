@@ -36,7 +36,8 @@ public:
 	void SetVertexBoneDataToDefault(SkinnedVertex& vertex);
 	void ExtractBoneWeightForVertices(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene);
 
-	inline uint32_t GetBoneCount() { return m_BoneCounter; }
+	uint32_t GetBoneCount() { return m_BoneCounter; }
+	uint32_t GetAnimationCount() { return m_AnimationCounter; }
 
 private:
 	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<SkeletalMesh>& meshes);
@@ -49,4 +50,5 @@ private:
 	std::unordered_map<std::string, std::vector<SkeletalMesh>> m_ImportedMeshes;
 	std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
 	uint32_t m_BoneCounter = 0;
+	uint32_t m_AnimationCounter = 0;
 };

@@ -35,6 +35,8 @@ std::vector<SkeletalMesh> SkeletalMeshImporter::ImportMesh(std::string path)
 		return std::vector<SkeletalMesh>();
 	}
 
+	m_AnimationCounter = scene->mNumAnimations;
+
 	std::vector<SkeletalMesh> meshes = std::vector<SkeletalMesh>();
 
 	ProcessNode(scene->mRootNode, scene, meshes);

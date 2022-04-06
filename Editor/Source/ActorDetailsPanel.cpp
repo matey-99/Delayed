@@ -308,9 +308,9 @@ void ActorDetailsPanel::Render()
         // Skeleton informations
         ImGui::Text("Skeleton informations");
         ImGui::Text("Bones: %i", mesh->GetBoneCount());
+        ImGui::Text("Animations: %i", mesh->GetAnimationCount());
 
     }
-
 
     if (auto light = m_Actor->GetComponent<Light>())
     {
