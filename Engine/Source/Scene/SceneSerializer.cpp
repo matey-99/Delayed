@@ -150,7 +150,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						{
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
-						a->AddComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
+						a->AddComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
 					}
 
 					if (auto mesh = component["InstanceRenderedMesh"])
