@@ -167,7 +167,12 @@ SkeletalMesh SkeletalMeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scen
 		}
 	}
 
-	ExtractBoneWeightForVertices(vertices, mesh, scene);
+	m_BoneCounter = 0;  // zeroth bone counter as another mesh might be loading there
+
+	if (mesh->HasBones())
+	{
+		ExtractBoneWeightForVertices(vertices, mesh, scene);
+	}
 
 	return SkeletalMesh(vertices, indices);
 }
