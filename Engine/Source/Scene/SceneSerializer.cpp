@@ -3,6 +3,7 @@
 #include "yaml/yaml.h"
 #include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/SkeletalMeshComponent.h"
 #include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
@@ -136,7 +137,18 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						for (auto material : materials)
 						{
 							materialsPaths.push_back(material["Path"].as<std::string>());
+						}
+						a->AddComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
+					}
 
+					if (auto mesh = component["SkeletalMesh"])
+					{
+						std::string path = mesh["SkeletalMesh"].as<std::string>();
+						std::vector<std::string> materialsPaths;
+						YAML::Node materials = mesh["Materials"];
+						for (auto material : materials)
+						{
+							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
 						a->AddComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
 					}
@@ -389,6 +401,26 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Mesh" << YAML::Value << mesh->GetPath();
 		out << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
+		for (int i = 0; i < mesh->GetMaterialsPaths().size(); i++)
+		{
+			out << YAML::BeginMap;
+			out << YAML::Key << "Material" << YAML::Value << i;
+			out << YAML::Key << "Path" << YAML::Value << mesh->GetMaterialsPaths().at(i);
+			out << YAML::EndMap;
+		}
+		out << YAML::EndSeq;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+	if (auto mesh = actor->GetComponent<SkeletalMeshComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "SkeletalMesh";
+
+		out << YAML::BeginMap;
+		out << YAML::Key << "SkeletalMesh" << YAML::Value << mesh->GetPath();
+		out << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
+		//out << YAML::Key << "Bones" << YAML::Value << YAML::BeginSeq;
 		for (int i = 0; i < mesh->GetMaterialsPaths().size(); i++)
 		{
 			out << YAML::BeginMap;

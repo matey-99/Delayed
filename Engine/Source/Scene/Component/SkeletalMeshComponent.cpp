@@ -39,26 +39,15 @@ SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path, std
 
 void SkeletalMeshComponent::Start()
 {
-	glm::vec3 min = m_Meshes.at(0).GetBoundingBox().Min;
-	glm::vec3 max = m_Meshes.at(0).GetBoundingBox().Max;
-	for (auto mesh : m_Meshes)
-	{
-		min = glm::min(min, mesh.GetBoundingBox().Min);
-		max = glm::max(min, mesh.GetBoundingBox().Max);
-	}
-
-	m_BoundingBox = BoundingBox(m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(min, 1.0f),
-		m_Owner->GetTransform()->GetWorldModelMatrix()  * glm::vec4(max, 1.0f));
-
-	std::cout << m_Owner->GetName() << ": MIN = [" << m_BoundingBox.Min.x << ", " << m_BoundingBox.Min.y << ", " << m_BoundingBox.Min.z << "]" << std::endl;
-	std::cout << m_Owner->GetName() << ": MAX = [" << m_BoundingBox.Max.x << ", " << m_BoundingBox.Max.y << ", " << m_BoundingBox.Max.z << "]" << std::endl;
-	std::cout << m_Owner->GetName() << ": CENTER = [" << m_BoundingBox.Center.x << ", " << m_BoundingBox.Center.y << ", " << m_BoundingBox.Center.z << "]" << std::endl;
+	m_Owner->GetTransform()->OnTransformChanged.Add(&SkeletalMeshComponent::UpdateBoundingBox, this);
+    m_Owner->GetTransform()->OnTransformChanged.Add(&SkeletalMeshComponent::UpdateBoundingSphere, this);
+	
+	UpdateBoundingBox();
+    UpdateBoundingSphere();
 }
 
 void SkeletalMeshComponent::Update(float deltaTime)
 {
-	//m_BoundingBox = BoundingBox(m_Owner->GetTransform().ModelMatrix * glm::vec4(m_BoundingBox.Min, 1.0f),
-	//	m_Owner->GetTransform().ModelMatrix * glm::vec4(m_BoundingBox.Max, 1.0f));
 }
 
 void SkeletalMeshComponent::PreRender()
@@ -109,6 +98,11 @@ uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
 	return vertices;
 }
 
+uint32_t SkeletalMeshComponent::GetBoneCount()
+{
+	return SkeletalMeshImporter::GetInstance()->GetBoneCount();
+}
+
 void SkeletalMeshComponent::LoadMesh(std::string path)
 {
 	m_Path = path;
@@ -138,136 +132,55 @@ void SkeletalMeshComponent::ChangeMaterial(int index, std::string path)
 	m_Materials.at(index) = MaterialImporter::GetInstance()->ImportMaterial(path);
 }
 
-Bone::Bone(const std::string& name, int ID, const aiNodeAnim* channel)
-	:
-	m_Name(name),
-	m_ID(ID),
-	m_LocalTransform(1.0f)
+void SkeletalMeshComponent::UpdateBoundingBox()
 {
-	m_NumPositions = channel->mNumPositionKeys;
-
-	for (int positionIndex = 0; positionIndex < m_NumPositions; ++positionIndex)
+	std::vector<glm::vec3> pointsFromAllMeshes;
+	for (auto mesh : m_Meshes)
 	{
-		aiVector3D aiPosition = channel->mPositionKeys[positionIndex].mValue;
-		float timeStamp = channel->mPositionKeys[positionIndex].mTime;
-		KeyPosition data;
-		data.position = AssimpGLMHelpers::GetGLMVec(aiPosition);
-		data.timeStamp = timeStamp;
-		m_Positions.push_back(data);
+		auto points = mesh.GetBoundingBox().GetPoints();
+		for (auto& point : points)
+		{
+			point = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(point, 1.0f);
+			pointsFromAllMeshes.push_back(point);
+		}
 	}
 
-	m_NumRotations = channel->mNumRotationKeys;
-	for (int rotationIndex = 0; rotationIndex < m_NumRotations; ++rotationIndex)
+	m_BoundingBox = BoundingBox(pointsFromAllMeshes);
+}
+
+void SkeletalMeshComponent::UpdateBoundingSphere() {
+	BoundingSphere s0, s1, s = m_Meshes[0].GetBoundingSphere();
+	glm::vec3 d;
+	float dist2, dist, r;
+
+	s.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s.Center, 1.0f);
+	s.Radius *= m_Owner->GetTransform()->GetWorldModelMatrix()[0][0];
+
+	for (auto mesh : m_Meshes)
 	{
-		aiQuaternion aiOrientation = channel->mRotationKeys[rotationIndex].mValue;
-		float timeStamp = channel->mRotationKeys[rotationIndex].mTime;
-		KeyRotation data;
-		data.orientation = AssimpGLMHelpers::GetGLMQuat(aiOrientation);
-		data.timeStamp = timeStamp;
-		m_Rotations.push_back(data);
+		s0 = s;
+		s1 = mesh.GetBoundingSphere();
+		s1.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s1.Center, 1.0f);
+		s1.Radius *= m_Owner->GetTransform()->GetWorldModelMatrix()[0][0];
+
+		d = s1.Center - s0.Center;
+		dist2 = glm::dot(d, d);
+
+		r = s1.Radius - s0.Radius;
+
+		if ((r * r) >= dist2) {
+			if (s1.Radius >= s0.Radius)
+				s = s1;
+		}
+		else {
+			dist = glm::sqrt(dist2);
+			s.Radius = (dist + s0.Radius + s1.Radius) * 0.5f;
+			s.Center = s0.Center;
+			if (dist > (s0.Radius + s1.Radius))
+				s.Center += ((s.Radius - s0.Center) / dist) * d;
+		}
+
 	}
 
-	m_NumScalings = channel->mNumScalingKeys;
-	for (int keyIndex = 0; keyIndex < m_NumScalings; ++keyIndex)
-	{
-		aiVector3D scale = channel->mScalingKeys[keyIndex].mValue;
-		float timeStamp = channel->mScalingKeys[keyIndex].mTime;
-		KeyScale data;
-		data.scale = AssimpGLMHelpers::GetGLMVec(scale);
-		data.timeStamp = timeStamp;
-		m_Scales.push_back(data);
-	}
-}
-
-void Bone::Update(float animationTime)
-{
-	glm::mat4 translation = InterpolatePosition(animationTime);
-	glm::mat4 rotation = InterpolateRotation(animationTime);
-	glm::mat4 scale = InterpolateScaling(animationTime);
-	m_LocalTransform = translation * rotation * scale;
-}
-
-int Bone::GetPositionIndex(float animationTime)
-{
-	for (int index = 0; index < m_NumPositions - 1; ++index)
-	{
-		if (animationTime < m_Positions[index + 1].timeStamp)
-			return index;
-	}
-	assert(0);
-}
-
-int Bone::GetRotationIndex(float animationTime)
-{
-	for (int index = 0; index < m_NumRotations - 1; ++index)
-	{
-		if (animationTime < m_Rotations[index + 1].timeStamp)
-			return index;
-	}
-	assert(0);
-}
-
-int Bone::GetScaleIndex(float animationTime)
-{
-	for (int index = 0; index < m_NumScalings - 1; ++index)
-	{
-		if (animationTime < m_Scales[index + 1].timeStamp)
-			return index;
-	}
-	assert(0);
-}
-
-float Bone::GetScaleFactor(float lastTimeStamp, float nextTimeStamp, float animationTime)
-{
-	float scaleFactor = 0.0f;
-	float midWayLength = animationTime - lastTimeStamp;
-	float framesDiff = nextTimeStamp - lastTimeStamp;
-	scaleFactor = midWayLength / framesDiff;
-	return scaleFactor;
-}
-
-glm::mat4 Bone::InterpolatePosition(float animationTime)
-{
-	if (1 == m_NumPositions)
-		return glm::translate(glm::mat4(1.0f), m_Positions[0].position);
-
-	int p0Index = GetPositionIndex(animationTime);
-	int p1Index = p0Index + 1;
-	float scaleFactor = GetScaleFactor(m_Positions[p0Index].timeStamp,
-		m_Positions[p1Index].timeStamp, animationTime);
-	glm::vec3 finalPosition = glm::mix(m_Positions[p0Index].position, m_Positions[p1Index].position
-		, scaleFactor);
-	return glm::translate(glm::mat4(1.0f), finalPosition);
-}
-
-glm::mat4 Bone::InterpolateRotation(float animationTime)
-{
-	if (1 == m_NumRotations)
-	{
-		auto rotation = glm::normalize(m_Rotations[0].orientation);
-		return glm::toMat4(rotation);
-	}
-
-	int p0Index = GetRotationIndex(animationTime);
-	int p1Index = p0Index + 1;
-	float scaleFactor = GetScaleFactor(m_Rotations[p0Index].timeStamp,
-		m_Rotations[p1Index].timeStamp, animationTime);
-	glm::quat finalRotation = glm::slerp(m_Rotations[p0Index].orientation, m_Rotations[p1Index].orientation
-		, scaleFactor);
-	finalRotation = glm::normalize(finalRotation);
-	return glm::toMat4(finalRotation);
-}
-
-glm::mat4 Bone::InterpolateScaling(float animationTime)
-{
-	if (1 == m_NumScalings)
-		return glm::scale(glm::mat4(1.0f), m_Scales[0].scale);
-
-	int p0Index = GetScaleIndex(animationTime);
-	int p1Index = p0Index + 1;
-	float scaleFactor = GetScaleFactor(m_Scales[p0Index].timeStamp,
-		m_Scales[p1Index].timeStamp, animationTime);
-	glm::vec3 finalScale = glm::mix(m_Scales[p0Index].scale, m_Scales[p1Index].scale
-		, scaleFactor);
-	return glm::scale(glm::mat4(1.0f), finalScale);
+	m_BoundingSphere = s;
 }

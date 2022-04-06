@@ -10,8 +10,8 @@
 
 #include "typedefs.h"
 #include "Renderer/SkeletalMesh.h"
+#include "Math/AssimpGLMHelper.h"
 
-class AssimpGLMHelpers;
 
 struct BoneInfo
 {
@@ -36,6 +36,8 @@ public:
 	void SetVertexBoneDataToDefault(SkinnedVertex& vertex);
 	void ExtractBoneWeightForVertices(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene);
 
+	inline uint32_t GetBoneCount() { return m_BoneCounter; }
+
 private:
 	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<SkeletalMesh>& meshes);
 	SkeletalMesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
@@ -46,5 +48,5 @@ private:
 
 	std::unordered_map<std::string, std::vector<SkeletalMesh>> m_ImportedMeshes;
 	std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
-	int m_BoneCounter = 0;
+	uint32_t m_BoneCounter = 0;
 };

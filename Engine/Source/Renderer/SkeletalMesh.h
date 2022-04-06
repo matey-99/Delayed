@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Math/BoundingBox.h"
+#include "Math/BoundingSphere.h"
 #include <vector>
 
 #define MAX_BONES_INFLUENCE 4
@@ -26,6 +27,7 @@ public:
 	void Render();
 
 	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
+	inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
 	inline std::vector<SkinnedVertex> GetVertices() const { return m_Vertices; }
 	inline std::vector<uint32_t> GetIndices() const { return m_Indices; }
 	inline uint32_t GetVAO() const { return m_VAO; }
@@ -36,6 +38,7 @@ private:
 
 private:
 	BoundingBox m_BoundingBox;
+	BoundingSphere m_BoundingSphere;
 
 	std::vector<SkinnedVertex> m_Vertices;
 	std::vector<uint32_t> m_Indices;

@@ -145,7 +145,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-60.9959564, 19.6425037, 16.6615028]
+          LocalPosition: [-60.9959564, 25.575676, 16.6615028]
           LocalRotation: [0, -0.994260907, 0]
           LocalScale: [4.7439208, 0.443498313, 4.7439208]
           Parent: 2141099751
@@ -407,7 +407,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-1.20000005, -9.22000027, 97.1999969]
+          LocalPosition: [-1.20000076, 22.7807236, 97.1999969]
           LocalRotation: [0, 0, 0]
           LocalScale: [19.2026157, 46.7669334, 11.288888]
           Parent: 2141099751
@@ -864,7 +864,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-63.9000015, -19.4399986, 34.7999992]
+          LocalPosition: [-63.9000015, 5.77089357, 34.7999992]
           LocalRotation: [0, 0.995079637, 0]
           LocalScale: [13.9499035, 66.3676605, 8.49724865]
           Parent: 2141099751
@@ -1014,7 +1014,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-60.9959564, 19.9125061, 16.6615028]
+          LocalPosition: [-60.9959564, 26.2319012, 16.6615028]
           LocalRotation: [0, -0.994260907, 0]
           LocalScale: [4.05196953, 0.111803748, 4.05196953]
           Parent: 2141099751
@@ -1362,3 +1362,28 @@ Actors:
       - Image:
           Path: Textures/HUD_placeholder.png
           Color: [1, 1, 1, 1]
+  - Actor: 549324600
+    ID: 549324600
+    Name: SKELETON_SERIALIZED
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [-8, 23.2099991, -36.5]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Skeletal/SK_Walking.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 938763612
+    ID: 938763612
+    Name: SKELETON
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [0, 19, -36]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0

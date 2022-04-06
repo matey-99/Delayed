@@ -12,6 +12,7 @@ SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> inVertices, std::vector<ui
 		points.push_back(vertex.position);
 
 	m_BoundingBox = BoundingBox(points);
+	m_BoundingSphere = BoundingSphere(points);
 }
 
 void SkeletalMesh::Render()

@@ -5,6 +5,7 @@
 #include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/InstanceRenderedMeshComponent.h"
+#include "Scene/Component/SkeletalMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
@@ -267,6 +268,50 @@ void ActorDetailsPanel::Render()
         if (ImGui::Button("Generate"))
             mesh->Generate();
     }
+
+    if (auto mesh = m_Actor->GetComponent<SkeletalMeshComponent>())
+    {
+        ImGui::Text("Skeletal Mesh");
+
+        std::string path = mesh->GetPath();
+        std::string name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Skeletal Mesh", name.c_str()))
+        {
+            std::vector<std::string> extensions = std::vector<std::string>();
+            extensions.push_back("obj");
+            extensions.push_back("fbx");
+            extensions.push_back("3ds");
+            extensions.push_back("dae");
+            DisplayResources(extensions);
+
+            ImGui::EndCombo();
+        }
+
+        ImGui::Text("Materials");
+        for (int i = 0; i < mesh->GetMaterials().size(); i++)
+        {
+            path = mesh->GetMaterialsPaths().at(i);
+            name = path.substr(path.find_last_of("/") + 1);
+
+            ImGui::PushID(i);
+            if (ImGui::BeginCombo(("[" + std::to_string(i) + "]").c_str(), name.c_str()))
+            {
+                std::vector<std::string> extensions = std::vector<std::string>();
+                extensions.push_back("mat");
+                DisplayResources(extensions, i);
+
+                ImGui::EndCombo();
+            }
+            ImGui::PopID();
+        }
+
+        // Skeleton informations
+        ImGui::Text("Skeleton informations");
+        ImGui::Text("Bones: %i", mesh->GetBoneCount());
+
+    }
+
+
     if (auto light = m_Actor->GetComponent<Light>())
     {
         ImGui::Text("Light");
@@ -478,6 +523,7 @@ void ActorDetailsPanel::Render()
     bool addComponent = false;
     bool staticMesh = false;
     bool instanceRenderedMesh = false;
+    bool skeletalMesh = false;
     bool dirLight = false;
     bool pointLight = false;
     bool spotLight = false;
@@ -499,6 +545,7 @@ void ActorDetailsPanel::Render()
             {
                 ImGui::MenuItem("Static Mesh", "", &staticMesh);
                 ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
+                ImGui::MenuItem("Skeletal Mesh", "", &skeletalMesh);
                 if (ImGui::BeginMenu("Light"))
                 {
                     ImGui::MenuItem("Directional Light", "", &dirLight);
@@ -553,6 +600,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<StaticMeshComponent>();
     if (instanceRenderedMesh)
         m_Actor->AddComponent<InstanceRenderedMeshComponent>();
+    if (skeletalMesh)
+        m_Actor->AddComponent<SkeletalMeshComponent>();
     if (dirLight)
         m_Actor->AddComponent<DirectionalLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
     if (pointLight)
@@ -622,12 +671,16 @@ void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, in
                             mesh->ChangeMesh(path);
                         else if (auto mesh = m_Actor->GetComponent<InstanceRenderedMeshComponent>())
                             mesh->ChangeMesh(path);
+                        else if (auto mesh = m_Actor->GetComponent<SkeletalMeshComponent>())
+                            mesh->ChangeMesh(path);
                     }
                     else if (ext == "mat")
                     {
                         if (auto mesh = m_Actor->GetComponent<StaticMeshComponent>())
                             mesh->ChangeMaterial(index, path);
                         else if (auto mesh = m_Actor->GetComponent<InstanceRenderedMeshComponent>())
+                            mesh->ChangeMaterial(index, path);
+                        else if (auto mesh = m_Actor->GetComponent<SkeletalMeshComponent>())
                             mesh->ChangeMaterial(index, path);
                     }
                     else if (ext == "hdr")

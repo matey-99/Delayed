@@ -70,7 +70,7 @@ void SkeletalMeshImporter::SetVertexBoneDataToDefault(SkinnedVertex& vertex)
 void SkeletalMeshImporter::ExtractBoneWeightForVertices(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene)
 {
 	auto& boneInfoMap = m_BoneInfoMap;
-	int& boneCount = m_BoneCounter;
+	uint32_t& boneCount = m_BoneCounter;
 
 	for (int boneIndex = 0; boneIndex < mesh->mNumBones; ++boneIndex)
 	{
@@ -166,6 +166,8 @@ SkeletalMesh SkeletalMeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scen
 			indices.push_back(face.mIndices[j]);
 		}
 	}
+
+	ExtractBoneWeightForVertices(vertices, mesh, scene);
 
 	return SkeletalMesh(vertices, indices);
 }
