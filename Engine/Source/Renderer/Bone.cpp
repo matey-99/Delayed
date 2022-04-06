@@ -1,4 +1,5 @@
 #include "Bone.h"
+#include "Math/AssimpGLMHelper.h"
 
 Bone::Bone(const std::string& name, int ID, const aiNodeAnim* channel)
 	:

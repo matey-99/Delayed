@@ -1,7 +1,7 @@
 #include "SkeletalMeshImporter.h"
 
 #include "Content/ContentHelper.h"
-#include "Scene/Component/SkeletalMeshComponent.h"  // ? because AssimpGLMHelpes is there
+#include "Scene/Component/Animation/SkeletalMeshComponent.h"  // ? because AssimpGLMHelpes is there
 #include <iostream>
 
 Ref<SkeletalMeshImporter> SkeletalMeshImporter::s_Instance{};
@@ -35,7 +35,7 @@ std::vector<SkeletalMesh> SkeletalMeshImporter::ImportMesh(std::string path)
 		return std::vector<SkeletalMesh>();
 	}
 
-	m_AnimationCounter = scene->mNumAnimations;
+	//m_AnimationCounter = scene->mNumAnimations;
 
 	std::vector<SkeletalMesh> meshes = std::vector<SkeletalMesh>();
 
@@ -69,10 +69,13 @@ void SkeletalMeshImporter::SetVertexBoneDataToDefault(SkinnedVertex& vertex)
 	}
 }
 
-void SkeletalMeshImporter::ExtractBoneWeightForVertices(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene)
+void SkeletalMeshImporter::ExtractBoneWeightForVertices(
+	std::vector<SkinnedVertex>& vertices,
+	aiMesh* mesh,
+	const aiScene* scene,
+	uint32_t &boneCounter)
 {
 	auto& boneInfoMap = m_BoneInfoMap;
-	uint32_t& boneCount = m_BoneCounter;
 
 	for (int boneIndex = 0; boneIndex < mesh->mNumBones; ++boneIndex)
 	{
@@ -81,11 +84,11 @@ void SkeletalMeshImporter::ExtractBoneWeightForVertices(std::vector<SkinnedVerte
 		if (boneInfoMap.find(boneName) == boneInfoMap.end())
 		{
 			BoneInfo newBoneInfo;
-			newBoneInfo.id = boneCount;
+			newBoneInfo.id = boneCounter;
 			newBoneInfo.offset = AssimpGLMHelpers::ConvertMatrixToGLMFormat(mesh->mBones[boneIndex]->mOffsetMatrix);
 			boneInfoMap[boneName] = newBoneInfo;
-			boneID = boneCount;
-			boneCount++;
+			boneID = boneCounter;
+			boneCounter++;
 		}
 		else
 		{
@@ -102,6 +105,7 @@ void SkeletalMeshImporter::ExtractBoneWeightForVertices(std::vector<SkinnedVerte
 			assert(vertexId <= vertices.size());
 			SetVertexBoneData(vertices[vertexId], boneID, weight);
 		}
+		
 	}
 }
 
@@ -169,12 +173,12 @@ SkeletalMesh SkeletalMeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scen
 		}
 	}
 
-	m_BoneCounter = 0;  // zeroth bone counter as another mesh might be loading there
+	uint32_t boneCounter = 0;
 
 	if (mesh->HasBones())
 	{
-		ExtractBoneWeightForVertices(vertices, mesh, scene);
+		ExtractBoneWeightForVertices(vertices, mesh, scene, boneCounter);
 	}
 
-	return SkeletalMesh(vertices, indices);
+	return SkeletalMesh(vertices, indices, boneCounter);
 }

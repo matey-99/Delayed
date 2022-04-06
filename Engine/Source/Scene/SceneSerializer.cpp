@@ -3,7 +3,7 @@
 #include "yaml/yaml.h"
 #include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
-#include "Scene/Component/SkeletalMeshComponent.h"
+#include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"

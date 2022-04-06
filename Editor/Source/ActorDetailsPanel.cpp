@@ -5,7 +5,7 @@
 #include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/InstanceRenderedMeshComponent.h"
-#include "Scene/Component/SkeletalMeshComponent.h"
+#include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
@@ -308,7 +308,6 @@ void ActorDetailsPanel::Render()
         // Skeleton informations
         ImGui::Text("Skeleton informations");
         ImGui::Text("Bones: %i", mesh->GetBoneCount());
-        ImGui::Text("Animations: %i", mesh->GetAnimationCount());
 
     }
 

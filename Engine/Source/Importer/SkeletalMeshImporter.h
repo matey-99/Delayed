@@ -8,16 +8,10 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "typedefs.h"
+#include "Core.h"
 #include "Renderer/SkeletalMesh.h"
 #include "Math/AssimpGLMHelper.h"
 
-
-struct BoneInfo
-{
-	int id;				// index in finalBoneMatrices
-	glm::mat4 offset;	// offset matrix transforms vertex from model space to bone space
-};
 
 class SkeletalMeshImporter
 {
@@ -34,10 +28,11 @@ public:
 
 	void SetVertexBoneData(SkinnedVertex& vertex, int boneID, float weight);
 	void SetVertexBoneDataToDefault(SkinnedVertex& vertex);
-	void ExtractBoneWeightForVertices(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene);
-
-	uint32_t GetBoneCount() { return m_BoneCounter; }
-	uint32_t GetAnimationCount() { return m_AnimationCounter; }
+	void ExtractBoneWeightForVertices(
+		std::vector<SkinnedVertex>& vertices,
+		aiMesh* mesh,
+		const aiScene* scene,
+		uint32_t &boneCounter);
 
 private:
 	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<SkeletalMesh>& meshes);
@@ -49,6 +44,5 @@ private:
 
 	std::unordered_map<std::string, std::vector<SkeletalMesh>> m_ImportedMeshes;
 	std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
-	uint32_t m_BoneCounter = 0;
-	uint32_t m_AnimationCounter = 0;
+
 };

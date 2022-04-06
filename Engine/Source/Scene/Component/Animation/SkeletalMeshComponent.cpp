@@ -7,9 +7,6 @@
 
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
-#include "Light/PointLight.h"
-#include "Light/SpotLight.h"
-#include "Light/SkyLight.h"
 
 #include <glad/glad.h>
 
@@ -100,7 +97,13 @@ uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
 
 uint32_t SkeletalMeshComponent::GetBoneCount()
 {
-	return SkeletalMeshImporter::GetInstance()->GetBoneCount();
+	uint32_t bones = 0;
+	for (auto mesh : m_Meshes)
+	{
+		bones += mesh.GetBoneCount();
+	}
+
+	return bones;
 }
 
 void SkeletalMeshComponent::LoadMesh(std::string path)

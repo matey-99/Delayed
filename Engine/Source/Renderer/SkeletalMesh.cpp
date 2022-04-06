@@ -2,8 +2,11 @@
 
 #include <glad/glad.h>
 
-SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> inVertices, std::vector<uint32_t> inIndices, bool instanced)
-	: m_Vertices(inVertices), m_Indices(inIndices)
+SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> inVertices,
+	std::vector<uint32_t> inIndices,
+	uint32_t boneCounter)
+	:
+	m_Vertices(inVertices), m_Indices(inIndices), m_BoneCounter(boneCounter)
 {
 	SetupMesh();
 
