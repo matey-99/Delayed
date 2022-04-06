@@ -35,6 +35,8 @@ private:
 	float m_MovementSpeed;
 	float m_RotateSpeed;
 	float m_LookUpLimit;
+	float smooth;
+	float t_MovementSpeed;
 
 #pragma region Serialization
 
