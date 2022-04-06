@@ -18,6 +18,7 @@
 
 #include "Game/MainMenu.h"
 #include "Game/Player.h"
+#include "Game/Button.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -240,19 +241,23 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto boxCollider = component["BoxCollider"])
 					{
+						bool isTrigger = boxCollider["IsTrigger"].as<bool>();
 						glm::vec3 center = boxCollider["Center"].as<glm::vec3>();
 						glm::vec3 size = boxCollider["Size"].as<glm::vec3>();
 
 						auto b = a->AddComponent<BoxColliderComponent>();
+						b->m_IsTrigger = isTrigger;
 						b->m_Center = center;
 						b->m_Size = size;
 					}
 
 					if (auto sphereCollider = component["SphereCollider"]) {
+						bool isTrigger = sphereCollider["IsTrigger"].as<bool>();
                         glm::vec3 center = sphereCollider["Center"].as<glm::vec3>();
                         float size = sphereCollider["Size"].as<float>();
 
                         auto b = a->AddComponent<SphereColliderComponent>();
+						b->m_IsTrigger = isTrigger;
                         b->m_Center = center;
                         b->m_Size = size;
                     }
@@ -279,7 +284,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						i->m_Color = color;
 					}
 
-					if (auto button = component["Button"])
+					if (auto button = component["UIButton"])
 					{
 						bool enabled = button["Enabled"].as<bool>();
 						std::string path = button["ImagePath"].as<std::string>();
@@ -313,7 +318,15 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto player = component["Player"])
 					{
-						a->AddComponent<Player>();
+						uint64_t cameraActorID = player["Camera"].as<uint64_t>();
+
+						auto p = a->AddComponent<Player>();
+						p->m_CameraID = cameraActorID;
+					}
+
+					if (auto button = component["Button"])
+					{
+						a->AddComponent<Button>();
 					}
 				}
 			}
@@ -505,6 +518,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "BoxCollider";
 		out << YAML::BeginMap;
+		out << YAML::Key << "IsTrigger" << YAML::Value << boxCollider->m_IsTrigger;
 		out << YAML::Key << "Center" << YAML::Value << boxCollider->m_Center;
 		out << YAML::Key << "Size" << YAML::Value << boxCollider->m_Size;
 		out << YAML::EndMap;
@@ -516,6 +530,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "SphereCollider";
 		out << YAML::BeginMap;
+		out << YAML::Key << "IsTrigger" << YAML::Value << sphereCollider->m_IsTrigger;
 		out << YAML::Key << "Center" << YAML::Value << sphereCollider->m_Center;
 		out << YAML::Key << "Size" << YAML::Value << sphereCollider->m_Size;
 		out << YAML::EndMap;
@@ -548,7 +563,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	if (auto button = actor->GetComponent<ButtonComponent>())
 	{
 		out << YAML::BeginMap;
-		out << YAML::Key << "Button";
+		out << YAML::Key << "UIButton";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Enabled" << YAML::Value << button->m_Enabled;
 		out << YAML::Key << "ImagePath" << YAML::Value << button->m_Image->GetPath();
@@ -578,6 +593,16 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	{
 		out << YAML::BeginMap;
 		out << YAML::Key << "Player";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Camera" << YAML::Value << player->m_Camera->GetOwner()->GetID();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto button = actor->GetComponent<Button>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Button";
 		out << YAML::BeginMap;
 		out << YAML::EndMap;
 		out << YAML::EndMap;

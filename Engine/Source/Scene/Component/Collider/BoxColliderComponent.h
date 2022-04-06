@@ -25,6 +25,9 @@ protected:
     glm::vec3 ClosestPoint(glm::vec3 point) override;
 
 private:
+    float Distance2ToPoint(glm::vec3 point);
+
+private:
     BoundingBox m_BoundingBox;
 
     glm::vec3 m_Center;
@@ -33,6 +36,5 @@ private:
     glm::vec3 m_OwnerLastPosition;
 
     friend class SceneSerializer;
-
-    float Distance2ToPoint(glm::vec3 point);
+    friend class ActorDetailsPanel;
 };

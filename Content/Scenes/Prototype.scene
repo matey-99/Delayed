@@ -94,6 +94,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 101983686
     ID: 101983686
     Name: Cube (49)
@@ -175,8 +179,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 3, 0]
-          LocalRotation: [117.709732, 18.4819489, -31.1134892]
+          LocalPosition: [5.96281385, 14.6443539, 7.53207064]
+          LocalRotation: [59.2794533, 0, 160.1492]
           LocalScale: [1, 1, 1]
           Parent: 0
       - DirectionalLight:
@@ -241,16 +245,6 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Blue.mat
-  - Actor: 355381169
-    ID: 355381169
-    Name: Player (1)
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [41.5699997, 1.07000005, -17.7299995]
-          LocalRotation: [0, -0.998971045, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 0
   - Actor: 356231740
     ID: 356231740
     Name: button_frame (7)
@@ -356,21 +350,6 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Gray.mat
-  - Actor: 544546482
-    ID: 544546482
-    Name: Camera
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0.200000003, 2.52999997, 5.21000004]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 355381169
-      - Camera:
-          AspectRatio: [16, 9]
-          FieldOfView: 60
-          NearClipPlane: 0.300000012
-          FarClipPlane: 1000
   - Actor: 561580789
     ID: 561580789
     Name: button (10)
@@ -551,6 +530,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 898368555
     ID: 898368555
     Name: Cube (42)
@@ -849,15 +832,27 @@ Actors:
   - Actor: 1503310902
     ID: 1503310902
     Name: Player
-    Dynamic: false
+    Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [41.1899986, 6.08907938, -20.1200008]
-          LocalRotation: [0, 180, 0]
+          LocalPosition: [40.7097855, 6.68288755, -13.2750196]
+          LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
           LocalScale: [1, 1, 1]
           Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 2, 1]
+      - SphereCollider:
+          IsTrigger: true
+          Center: [0, -1.75, 0]
+          Size: 0.5
+      - RigidBody:
+          Gravity: -1
+          Mass: 5
+          Drag: 0.899999976
       - Player:
-          {}
+          Camera: 1541634381
   - Actor: 1526879318
     ID: 1526879318
     Name: Cube (63)
@@ -880,7 +875,7 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [0, 1.63999999, 0]
-          LocalRotation: [0, -90, 0]
+          LocalRotation: [0, 90, 0]
           LocalScale: [1, 1, 1]
           Parent: 1503310902
       - Camera:
@@ -1188,16 +1183,6 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Gray.mat
-  - Actor: 1927973485
-    ID: 1927973485
-    Name: trail
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 1, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 355381169
   - Actor: 1944101418
     ID: 1944101418
     Name: interactable_object (2)
@@ -1362,3 +1347,24 @@ Actors:
       - Image:
           Path: Textures/HUD_placeholder.png
           Color: [1, 1, 1, 1]
+  - Actor: 963697696
+    ID: 963697696
+    Name: button_test
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [5.99404526, 8.28652573, -24.4245491]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.05197001, 0.111803748, 4.05197001]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/White.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Button:
+          {}

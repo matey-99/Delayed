@@ -33,4 +33,5 @@ private:
     glm::vec3 m_OwnerLastPosition;
 
     friend class SceneSerializer;
+    friend class ActorDetailsPanel;
 };

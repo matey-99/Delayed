@@ -46,6 +46,7 @@ public:
 	virtual inline glm::mat4 GetWorldModelMatrix() const { return m_WorldModelMatrix; }
 
 	virtual inline glm::vec3 GetForward() const { return m_Forward; }
+	virtual inline glm::vec3 GetRight() const { return m_Right; }
 
 public:
 	Event OnTransformChanged;
@@ -62,6 +63,7 @@ protected:
 	glm::mat4 m_WorldModelMatrix;
 
 	glm::vec3 m_Forward;
+	glm::vec3 m_Right;
 
 	friend class SceneSerializer;
 };

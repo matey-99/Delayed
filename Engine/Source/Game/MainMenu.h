@@ -2,12 +2,12 @@
 
 #include "Core.h"
 
-#include "Scene/Component/Component.h"
+#include "GameComponent.h"
 #include "Patterns/Singleton.h"
 
 class ButtonComponent;
 
-class MainMenu : public Component, public Singleton<MainMenu>
+class MainMenu : public GameComponent, public Singleton<MainMenu>
 {
 public:
 	MainMenu(Actor* owner);

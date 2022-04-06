@@ -23,13 +23,16 @@ void RigidBodyComponent::Update(float deltaTime) {
 
 void RigidBodyComponent::FixedUpdate()
 {
-    m_Acceleration.y = m_Gravity;
+    m_Acceleration.y += m_Gravity;
 
     m_Velocity += m_Acceleration;
 
     m_Velocity *= m_Drag;
 
     m_Owner->GetTransform()->SetLocalPosition(m_Owner->GetTransform()->GetLocalPosition() + glm::clamp(m_Velocity * Time::GetInstance()->GetFixedDeltaTime(), -m_VelocityMax, m_VelocityMax));
+
+    // Reset acceleration
+    m_Acceleration = glm::vec3(0.0f);
 }
 
 void RigidBodyComponent::Destroy() {
@@ -37,5 +40,5 @@ void RigidBodyComponent::Destroy() {
 }
 
 void RigidBodyComponent::AddForce(glm::vec3 force) {
-
+    m_Acceleration += force;
 }
