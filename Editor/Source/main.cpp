@@ -130,7 +130,7 @@ void ProcessMouseInput(GLFWwindow* window)
             float a1Distance = Math::Distance(a1->GetTransform()->GetWorldPosition(), camera->GetWorldPosition());
             float a2Distance = Math::Distance(a2->GetTransform()->GetWorldPosition(), camera->GetWorldPosition());
 
-            return a1 > a2;
+            return a1Distance < a2Distance;
             });
 
         bool selectedActor = false;
