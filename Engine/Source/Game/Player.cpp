@@ -16,10 +16,11 @@ Player::Player(Actor* owner)
 {
 	m_MoveDirection = glm::vec3(0.0f);
 	m_Rotation = glm::vec3(0.0f);
-	m_MovementSpeed = 15.0f;
+	m_MovementSpeed = 0.0f;
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
-
+	smooth = 0.95f;
+	t_MovementSpeed = 35.0f;
 	m_IsGrounded = false;
 }
 
@@ -54,10 +55,14 @@ void Player::Update(float deltaTime)
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
 
+	m_MovementSpeed = t_MovementSpeed * (1.0f - smooth) + m_MovementSpeed * smooth;
+
 	// Player position
 	glm::vec3 newPosition = m_Owner->GetTransform()->GetLocalPosition();
 	newPosition += m_MoveDirection * m_MovementSpeed * deltaTime;
 	m_Owner->GetTransform()->SetLocalPosition(newPosition);
+
+	
 
 	// Player rotation
 	glm::vec3 newRotation = m_Owner->GetTransform()->GetLocalRotation();
