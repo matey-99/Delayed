@@ -80,9 +80,11 @@ void ProcessKeyboardInput(GLFWwindow* window)
 
 void ProcessMouseInput(GLFWwindow* window)
 {
+    bool selectingActor = Editor::GetInstance()->GetViewport()->IsSelectingActor();
+
     if (isViewportHovered)
     {
-        if (!selectActor && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+        if (!selectActor && selectingActor && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
             selectActor = true;
         if (selectActor && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE)
             selectActor = false;
@@ -118,7 +120,7 @@ void ProcessMouseInput(GLFWwindow* window)
         rotateCamera = false;
     }
 
-    if (selectActor)
+    if (selectActor && selectingActor)
     {
         double mousePosX, mousePosY;
         glfwGetCursorPos(window, &mousePosX, &mousePosY);

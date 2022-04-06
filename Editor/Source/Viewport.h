@@ -24,6 +24,8 @@ private:
 	Ref<Shader> m_ViewportShader;
 	std::vector<Mesh> m_DirectionArrow;
 
+	bool m_SelectingActor;
+
 public:
 	Viewport(Ref<Editor> editor, Ref<Scene> scene);
 
@@ -31,4 +33,5 @@ public:
 	void RenderGizmos();
 
 	inline bool IsHovered() const { return m_Hovered; }
+	inline bool IsSelectingActor() const { return m_SelectingActor; }
 };

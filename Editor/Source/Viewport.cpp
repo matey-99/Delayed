@@ -47,6 +47,8 @@ Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
                                          ContentHelper::GetAssetPath("Shaders/Editor/Viewport.frag"));
 
     m_DirectionArrow = MeshImporter::GetInstance()->ImportMesh("Models/editor/DirectionArrow.fbx");
+
+    m_SelectingActor = true;
 }
 
 void Viewport::Render()
@@ -96,6 +98,8 @@ void Viewport::Render()
 
             if (ImGuizmo::IsUsing())
             {
+                m_SelectingActor = false;
+
                 glm::vec3 position, rotation, scale;
                 Math::DecomposeMatrix(model, position, rotation, scale);
 
@@ -112,6 +116,8 @@ void Viewport::Render()
                     break;
                 }
             }
+            else
+                m_SelectingActor = true;
         }
         else if (auto rect = selectedActor->GetComponent<RectTransformComponent>())
         {
