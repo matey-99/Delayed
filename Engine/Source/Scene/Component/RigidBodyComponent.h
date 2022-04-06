@@ -12,6 +12,8 @@ public:
 
     void Destroy() override;
 
+    void AddForce(glm::vec3 force);
+
 private:
 
     float m_Gravity;

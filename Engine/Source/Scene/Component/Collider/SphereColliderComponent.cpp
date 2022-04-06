@@ -9,14 +9,14 @@ SphereColliderComponent::SphereColliderComponent(Actor *owner)
         : ColliderComponent(owner) {
     m_Center = glm::vec3(0.0f);
     m_Size = 1.0f;
+
+    m_OwnerLastPosition = glm::vec3(0.0f);
 }
 
 void SphereColliderComponent::Start() {
     m_Owner->GetTransform()->OnTransformChanged.Add(&SphereColliderComponent::UpdateBoundingSphere, this);
 
     UpdateBoundingSphere();
-
-    m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
 }
 
 void SphereColliderComponent::Update(float deltaTime) {
@@ -39,7 +39,7 @@ void SphereColliderComponent::UpdateBoundingSphere() {
         m_BoundingSphere = BoundingSphere(staticMesh->GetBoundingSphere().Center + m_Center,
                                           staticMesh->GetBoundingSphere().Radius * m_Size);
     } else {
-        m_BoundingSphere = BoundingSphere(m_Center, m_Size);
+        m_BoundingSphere = BoundingSphere(m_Owner->GetTransform()->GetWorldPosition() + m_Center, m_Size);
     }
 }
 

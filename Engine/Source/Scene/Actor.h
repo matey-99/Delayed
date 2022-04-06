@@ -45,6 +45,8 @@ public:
 		return Ref<T>();
 	}
 
+	inline std::vector<Ref<Component>> GetComponents() const { return m_Components; }
+
 	template<typename T>
 	void RemoveComponent()
 	{

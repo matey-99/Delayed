@@ -7,7 +7,7 @@
 #include "Scene/SceneManager.h"
 
 MainMenu::MainMenu(Actor* owner)
-	: Component(owner)
+	: GameComponent(owner)
 {
 	m_PlayButtonID = 0;
 	m_OptionsButtonID = 0;

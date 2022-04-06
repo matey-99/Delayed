@@ -58,7 +58,7 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [282, 64, 1]
           Parent: 1
-      - Button:
+      - UIButton:
           Enabled: true
           ImagePath: Textures/Menu/PlayButton1.png
           NormalColor: [1, 1, 1, 1]
@@ -76,7 +76,7 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [282, 71.5999985, 1]
           Parent: 1
-      - Button:
+      - UIButton:
           Enabled: true
           ImagePath: Textures/Menu/OptionsButton1.png
           NormalColor: [1, 1, 1, 1]
@@ -94,7 +94,7 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [282, 71.5999985, 1]
           Parent: 1
-      - Button:
+      - UIButton:
           Enabled: true
           ImagePath: Textures/Menu/ExitButton1.png
           NormalColor: [1, 1, 1, 1]

@@ -505,12 +505,22 @@ void ActorDetailsPanel::Render()
     if (auto boxCollider = m_Actor->GetComponent<BoxColliderComponent>())
     {
         ImGui::Text("Box Collider");
+        ImGui::PushID(1);
+        ImGui::Checkbox("Is Trigger", &boxCollider->m_IsTrigger);
+        ImGui::DragFloat3("Center", glm::value_ptr(boxCollider->m_Center), 0.05f, -100.0f, 100.0f);
+        ImGui::DragFloat3("Size", glm::value_ptr(boxCollider->m_Size), 0.05f, 0.0f, 100.0f);
+        ImGui::PopID();
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
     if (auto sphereCollider = m_Actor->GetComponent<SphereColliderComponent>())
     {
         ImGui::Text("Sphere Collider");
+        ImGui::PushID(2);
+        ImGui::Checkbox("Is Trigger", &sphereCollider->m_IsTrigger);
+        ImGui::DragFloat3("Center", glm::value_ptr(sphereCollider->m_Center), 0.05f, -100.0f, 100.0f);
+        ImGui::DragFloat("Size", &sphereCollider->m_Size);
+        ImGui::PopID();
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 

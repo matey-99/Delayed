@@ -87,6 +87,14 @@ bool BoxColliderComponent::CheckCollisions() {
                 (glm::abs(m_BoundingBox.Center.z - collider->GetBoundingBox().Center.z) <=
                  (m_BoundingBox.Extents.z + collider->GetBoundingBox().Extents.z))) {
 
+                if (m_IsTrigger)
+                {
+                    m_Triggered = true;
+
+                    OnTriggerEnterDelegate.Broadcast(collider);
+                    continue;
+                }
+
                 float left = m_BoundingBox.Max.x - collider->GetBoundingBox().Min.x;
                 float right = collider->GetBoundingBox().Max.x - m_BoundingBox.Min.x;
                 float bottom = m_BoundingBox.Max.y - collider->GetBoundingBox().Min.y;
@@ -112,6 +120,16 @@ bool BoxColliderComponent::CheckCollisions() {
                     }
 
                     m_Owner->GetTransform()->SetWorldPosition(m_Owner->GetTransform()->GetWorldPosition() + v);
+                }
+            }
+            else
+            {
+                if (m_Triggered)
+                {
+                    m_Triggered = false;
+
+                    OnTriggerExitDelegate.Broadcast(collider);
+                    continue;
                 }
             }
         }

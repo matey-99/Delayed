@@ -22,7 +22,8 @@ namespace Math
 
 	glm::vec3 Normalize(const glm::vec3& v);
 
-	const glm::vec3 ForwardVector = { 0.0f, 0.0f, 1.0f };
+	const glm::vec3 ForwardVector = { 0.0f, 0.0f, -1.0f };
+	const glm::vec3 UpVector = { 0.0f, 1.0f, 0.0f };
 	const glm::vec3 RightVector = { 1.0f, 0.0f, 0.0f };
 }
 

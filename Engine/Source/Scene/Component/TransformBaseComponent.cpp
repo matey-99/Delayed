@@ -21,6 +21,7 @@ TransformBaseComponent::TransformBaseComponent(Actor* owner)
 	m_WorldModelMatrix = glm::mat4(1.0f);
 
 	m_Forward = Math::Transform(Math::ForwardVector, glm::quat(glm::radians(GetWorldRotation())));
+	m_Right = Math::Transform(Math::RightVector, glm::quat(glm::radians(GetWorldRotation())));
 }
 
 void TransformBaseComponent::Start()
@@ -111,6 +112,7 @@ void TransformBaseComponent::CalculateWorldModelMatrix()
 		m_WorldModelMatrix = m_LocalModelMatrix;
 
 	m_Forward = Math::Transform(Math::ForwardVector, glm::quat(glm::radians(GetWorldRotation())));
+	m_Right = Math::Transform(Math::RightVector, glm::quat(glm::radians(GetWorldRotation())));
 
 	for (auto child : m_Children)
 	{

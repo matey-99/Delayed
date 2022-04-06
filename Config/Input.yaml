@@ -1,4 +1,10 @@
 ActionInputBindings:
+  - Name: Jump
+    InputType: Keyboard
+    Input: Space
+  - Name: Jump
+    InputType: Gamepad
+    Input: A
   - Name: Exit
     InputType: Keyboard
     Input: Escape

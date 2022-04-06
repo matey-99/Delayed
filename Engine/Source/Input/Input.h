@@ -45,14 +45,13 @@ public:
 	std::vector<std::function<void(float)>> Functions;
 };
 
+enum class InputMode
+{
+	Player, UI, PlayerAndUI
+};
+
 class Input : public Singleton<Input>
 {
-private:
-	enum class InputMode
-	{
-		Player, UI, PlayerAndUI
-	};
-
 public:
 	Input();
 	~Input();
