@@ -19,8 +19,8 @@ Player::Player(Actor* owner)
 	m_MovementSpeed = 0.0f;
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
-	smooth = 0.95f;
-	t_MovementSpeed = 35.0f;
+	m_Smooth = 0.98f;
+	m_TargetMovementSpeed = 15.0f;
 	m_IsGrounded = false;
 }
 
@@ -55,7 +55,7 @@ void Player::Update(float deltaTime)
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
 
-	m_MovementSpeed = t_MovementSpeed * (1.0f - smooth) + m_MovementSpeed * smooth;
+	m_MovementSpeed = m_TargetMovementSpeed * (1.0f - m_Smooth) + m_MovementSpeed * m_Smooth;
 
 	// Player position
 	glm::vec3 newPosition = m_Owner->GetTransform()->GetLocalPosition();
@@ -112,7 +112,7 @@ void Player::LookUp(float value)
 void Player::Jump()
 {
 	auto rb = GetOwner()->GetComponent<RigidBodyComponent>();
-	rb->AddForce(glm::vec3(0.0f, 10.0f, 0.0f));
+	rb->AddForce(glm::vec3(0.0f, 30.0f, 0.0f));
 }
 
 bool Player::IsGrounded()
