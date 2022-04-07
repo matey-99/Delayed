@@ -89,6 +89,10 @@ void Application::Run()
     // TIME
     auto time = Time::GetInstance();
 
+    // INPUT
+    auto input = Input::GetInstance();
+    input->Initialize(m_Window);
+
     // RENDERER
     auto renderer = Renderer::GetInstance();
     renderer->Initialize();
@@ -99,10 +103,6 @@ void Application::Run()
 
     // CAMERA
     auto cameraManager = CameraManager::GetInstance();
-
-    // INPUT
-    auto input = Input::GetInstance();
-    input->Initialize(m_Window);
 
     time->SetLastFrameTime(glfwGetTime());
     while (!glfwWindowShouldClose(m_Window))
