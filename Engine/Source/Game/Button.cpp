@@ -20,6 +20,7 @@ void Button::Start()
 	if (auto collider = m_Owner->GetComponent<ColliderComponent>())
 	{
 		collider->OnTriggerEnterDelegate.Add(&Button::OnTriggerEnter, this);
+		collider->OnTriggerStayDelegate.Add(&Button::OnTriggerStay, this);
 		collider->OnTriggerExitDelegate.Add(&Button::OnTriggerExit, this);
 	}
 }
@@ -32,7 +33,6 @@ void Button::Update(float deltaTime)
 
 		if (m_IsPressed)
 		{
-			std::cout << "Button pressed!" << std::endl;
 			// TO DO: Make platform moves to m_PlatformRelativeEndPosition
 		}
 		else
@@ -51,6 +51,18 @@ void Button::OnTriggerEnter(Ref<ColliderComponent> other)
 	if (other->GetOwner()->GetComponent<Player>())
 	{
 		m_IsPressed = true;
+
+		std::cout << "enter!" << std::endl;
+	}
+}
+
+void Button::OnTriggerStay(Ref<ColliderComponent> other)
+{
+	if (other->GetOwner()->GetComponent<Player>())
+	{
+		m_IsPressed = true;
+
+		std::cout << "stay!" << std::endl;
 	}
 }
 
@@ -59,5 +71,7 @@ void Button::OnTriggerExit(Ref<ColliderComponent> other)
 	if (other->GetOwner()->GetComponent<Player>())
 	{
 		m_IsPressed = false;
+
+		std::cout << "exit!" << std::endl;
 	}
 }

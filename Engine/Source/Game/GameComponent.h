@@ -15,5 +15,6 @@ public:
 	virtual void Destroy() override {};
 
 	virtual void OnTriggerEnter(Ref<ColliderComponent> other) {};
+	virtual void OnTriggerStay(Ref<ColliderComponent> other) {};
 	virtual void OnTriggerExit(Ref<ColliderComponent> other) {};
 };
