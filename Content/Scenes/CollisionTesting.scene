@@ -1,5 +1,8 @@
 Scene: Main
 CurrentCamera: 968085101
+RendererSettings:
+  FXAA: true
+  DepthOfField: false
 Actors:
   - Actor: 968085101
     ID: 968085101
@@ -32,10 +35,11 @@ Actors:
             - Material: 0
               Path: Materials/Default.mat
       - BoxCollider:
+          IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
       - Player:
-          {}
+          Camera: 968085101
   - Actor: 337649296
     ID: 337649296
     Name: Ground
@@ -52,6 +56,7 @@ Actors:
             - Material: 0
               Path: Materials/Default.mat
       - BoxCollider:
+          IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
   - Actor: 410957571
@@ -82,6 +87,7 @@ Actors:
             - Material: 0
               Path: Materials/New material 2.mat
       - BoxCollider:
+          IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
   - Actor: 736521600
@@ -100,6 +106,7 @@ Actors:
             - Material: 0
               Path: Materials/New material 1.mat
       - SphereCollider:
+          IsTrigger: false
           Center: [0, 0, 0]
           Size: 1
   - Actor: 964083174
@@ -118,6 +125,7 @@ Actors:
             - Material: 0
               Path: Materials/Default.mat
       - BoxCollider:
+          IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
       - RigidBody:
