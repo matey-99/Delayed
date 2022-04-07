@@ -20,10 +20,6 @@ void SphereColliderComponent::Start() {
 }
 
 void SphereColliderComponent::Update(float deltaTime) {
-    glm::vec3 deltaPosition = m_Owner->GetTransform()->GetWorldPosition() - m_OwnerLastPosition;
-    m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
-
-    m_BoundingSphere = BoundingSphere(m_BoundingSphere.Center + deltaPosition, m_BoundingSphere.Radius);
 }
 
 void SphereColliderComponent::FixedUpdate()
@@ -45,9 +41,10 @@ void SphereColliderComponent::UpdateBoundingSphere() {
 
 glm::vec3 SphereColliderComponent::ClosestPoint(glm::vec3 point) {
     glm::vec3 t = point - m_BoundingSphere.Center;
-    return glm::normalize(t) * m_BoundingSphere.Radius;
+    return m_BoundingSphere.Center + (glm::normalize(t) * m_BoundingSphere.Radius);
 }
 
+//FIXME jittery collisions
 bool SphereColliderComponent::CheckCollisions() {
     auto scene = m_Owner->GetScene();
     auto actors = scene->GetActors();

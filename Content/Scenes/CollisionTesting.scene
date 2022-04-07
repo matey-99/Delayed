@@ -11,7 +11,7 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [0, 5, 15]
-          LocalRotation: [0, -90, 0]
+          LocalRotation: [0, 90, 0]
           LocalScale: [1, 1, 1]
           Parent: 922122535
       - Camera:
@@ -26,7 +26,7 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [0, 1.97156048, 11.0338955]
-          LocalRotation: [0, 0, 0]
+          LocalRotation: [0, 180, 0]
           LocalScale: [5, 5, 5]
           Parent: 0
       - StaticMesh:
@@ -38,6 +38,10 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+      - SphereCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: 1
       - Player:
           Camera: 968085101
   - Actor: 337649296
@@ -66,7 +70,7 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [0, 8.19483471, -0.056064114]
-          LocalRotation: [60.3118744, -0, 0]
+          LocalRotation: [-153.903915, 40.3588791, -48.3661041]
           LocalScale: [1, 1, 1]
           Parent: 0
       - DirectionalLight:
@@ -96,7 +100,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 0.5, -9.58407879]
+          LocalPosition: [-0.220031559, -0.0864198208, -9.30156612]
           LocalRotation: [0, 0, 0]
           LocalScale: [2.61999989, 2.61999989, 2.61999989]
           Parent: 0

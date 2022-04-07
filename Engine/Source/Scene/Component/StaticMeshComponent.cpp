@@ -143,20 +143,21 @@ void StaticMeshComponent::UpdateBoundingBox()
 	m_BoundingBox = BoundingBox(pointsFromAllMeshes);
 }
 
+//TODO Potentially can be made more efficient
 void StaticMeshComponent::UpdateBoundingSphere() {
     BoundingSphere s0, s1, s = m_Meshes[0].GetBoundingSphere();
     glm::vec3 d;
     float dist2, dist, r;
 
     s.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s.Center, 1.0f);
-    s.Radius *= m_Owner->GetTransform()->GetWorldModelMatrix()[0][0];
+    s.Radius *= m_Owner->GetTransform()->GetWorldScale().x;
 
     for (auto mesh : m_Meshes)
     {
         s0 = s;
         s1 = mesh.GetBoundingSphere();
         s1.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s1.Center, 1.0f);
-        s1.Radius *= m_Owner->GetTransform()->GetWorldModelMatrix()[0][0];
+        s1.Radius *= m_Owner->GetTransform()->GetWorldScale().x;
 
         d = s1.Center - s0.Center;
         dist2 = glm::dot(d,d);
