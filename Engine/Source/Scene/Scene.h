@@ -38,10 +38,11 @@ public:
 	void Update(float deltaTime);
 	void FixedUpdate();
 	void PreRender();
-	void Render();
+	void Render(Material::BlendMode blendMode = Material::BlendMode::Opaque);
 	void Destroy();
 
-	void RenderActor(Actor* actor);
+	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
+	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
 
 	Ref<Actor> AddRoot();
 	Ref<Actor> AddUIRoot();

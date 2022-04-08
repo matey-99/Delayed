@@ -10,6 +10,17 @@ Ref<RenderTarget> RenderTarget::CreateMRT(const std::vector<Config>& configs, ui
 	return CreateRef<RenderTarget>(configs, width, height);
 }
 
+void RenderTarget::Copy(Ref<RenderTarget> source, Ref<RenderTarget> destination, Buffer buffer, Filter filter)
+{
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, source->m_ID);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, destination->m_ID);
+
+	glBlitFramebuffer(0, 0, source->m_Width, source->m_Height, 0, 0, destination->m_Width, destination->m_Height, (uint32_t)buffer, (uint32_t)filter);
+
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+}
+
 RenderTarget::RenderTarget(const Config& config, uint32_t width, uint32_t height)
 	: m_Width(width), m_Height(height), m_ID(0)
 {

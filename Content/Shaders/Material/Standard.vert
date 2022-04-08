@@ -26,7 +26,12 @@ layout (std140, binding = 0) uniform u_VertexCamera
 
 layout (std140, binding = 1) uniform u_VertexLights
 {
+    // Directional Light
     mat4 u_DirectionalLightSpaceMatrices[16];
+    int u_CascadeCount;
+    float u_CascadeClipPlaneDistances[4];
+
+    // Spot Light
     mat4[MAX_SPOT_LIGHTS] u_SpotLightSpaceMatrices;
 };
 

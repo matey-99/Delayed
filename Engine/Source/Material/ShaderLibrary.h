@@ -35,6 +35,7 @@ private:
 	static std::mutex s_Mutex;
 
 	std::unordered_map<std::string, Ref<Shader>> m_MaterialShaders;
+
 	std::unordered_map<std::string, Ref<Shader>> m_PostProcessingShaders;
 	std::unordered_map<std::string, Ref<Shader>> m_SkyboxShaders;
 	std::unordered_map<std::string, Ref<Shader>> m_CalculationShaders;

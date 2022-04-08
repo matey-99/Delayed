@@ -1111,7 +1111,7 @@ Actors:
           LocalScale: [0.120000005, 0.119999997, 0.119999997]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/PlatformSmall00/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
               Path: Materials/M_PlatformSmall00.mat
@@ -1321,7 +1321,7 @@ Actors:
           LocalScale: [0.120000005, 0.119999997, 0.119999997]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/PlatformSmall00/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
               Path: Materials/M_PlatformSmall00.mat

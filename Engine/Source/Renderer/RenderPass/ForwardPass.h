@@ -10,9 +10,4 @@ public:
 	~ForwardPass();
 
 	void Render(Ref<Scene> scene);
-
-	inline Ref<RenderTarget> GetRenderTarget() const { return m_RenderTarget; }
-
-private:
-	Ref<RenderTarget> m_RenderTarget;
 };

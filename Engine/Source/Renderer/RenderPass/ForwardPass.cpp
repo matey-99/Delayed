@@ -1,5 +1,9 @@
 #include "ForwardPass.h"
 
+#include "Renderer/RenderPass/GBufferPass.h"
+#include "Renderer/RenderPass/LightingPass.h"
+#include "Renderer/RenderPass/ShadowsPass.h"
+
 ForwardPass::ForwardPass()
 {
 }
@@ -10,12 +14,19 @@ ForwardPass::~ForwardPass()
 
 void ForwardPass::Render(Ref<Scene> scene)
 {
-	m_RenderTarget->Bind();
+	auto gBufferMRT = Renderer::GetInstance()->m_GBufferPass->GetRenderTarget();
+	auto lightingRT  = Renderer::GetInstance()->m_LightingPass->GetRenderTarget();
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	RenderTarget::Copy(gBufferMRT, lightingRT, RenderTarget::Buffer::Depth, RenderTarget::Filter::Nearest);
 
-	scene->Render();
+	lightingRT->Bind();
 
-	m_RenderTarget->Unbind();
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	scene->Render(Material::BlendMode::Transparent);
+
+	glDisable(GL_BLEND);
+
+	lightingRT->Unbind();
 }

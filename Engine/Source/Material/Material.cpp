@@ -13,12 +13,16 @@ Material::Material(std::string name, Ref<Shader> shader)
 	std::uniform_int_distribution distribution(1, 999999999);
 
 	m_ID = distribution(gen);
+	m_BlendMode = BlendMode::Opaque;
+
 	LoadParameters();
 }
 
 Material::Material(uint64_t id, std::string name, Ref<Shader> shader)
 	: m_ID(id), m_Name(name), m_Shader(shader)
 {
+	m_BlendMode = BlendMode::Opaque;
+
 	LoadParameters();
 }
 

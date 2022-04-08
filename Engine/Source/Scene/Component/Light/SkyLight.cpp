@@ -55,8 +55,11 @@ void SkyLight::SetupMesh()
     
 }
 
-void SkyLight::Render()
+void SkyLight::Render(Material::BlendMode blendMode)
 {
+    if (blendMode == Material::BlendMode::Transparent)
+        return;
+
     if (m_SkyVisibility)
     {
         glActiveTexture(GL_TEXTURE0);

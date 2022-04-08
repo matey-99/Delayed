@@ -13,6 +13,7 @@
 #include "RenderPass/ShadowsPass.h"
 #include "RenderPass/SSAOPass.h"
 #include "RenderPass/LightingPass.h"
+#include "RenderPass/ForwardPass.h"
 #include "RenderPass/PostProcessingPass.h"
 #include "RenderPass/FXAAPass.h"
 #include "RenderPass/DepthOfFieldPass.h"
@@ -40,10 +41,6 @@ void Renderer::Initialize()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	m_CameraVertexUniformBuffer = CreateRef<UniformBuffer>(sizeof(glm::mat4) * 3, 0);
@@ -53,6 +50,7 @@ void Renderer::Initialize()
 	m_ShadowsPass = CreateRef<ShadowsPass>();
 	m_SSAOPass = CreateRef<SSAOPass>();
 	m_LightingPass = CreateRef<LightingPass>();
+	m_ForwardPass = CreateRef<ForwardPass>();
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
 	m_FXAAPass = CreateRef<FXAAPass>();
 	m_DepthOfFieldPass = CreateRef<DepthOfFieldPass>();
@@ -93,10 +91,13 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	m_LightingPass->Render(scene);
 	m_Output[outputIndex] = m_LightingPass->GetRenderTarget()->GetTargets()[0];
 
+	// Forward
+	m_ForwardPass->Render(scene);
+
 	// Post Processing
 	if (m_Settings.PostProcessingEnabled)
 	{
-		m_PostProcessingPass->Render();
+		m_PostProcessingPass->Render(m_Output[outputIndex]);
 		m_Output[outputIndex] = m_PostProcessingPass->GetMainRenderTarget()->GetTargets()[0];
 	}
 

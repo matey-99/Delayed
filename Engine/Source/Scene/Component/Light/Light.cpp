@@ -25,7 +25,7 @@ void Light::PreRender()
 	Use();
 }
 
-void Light::Render()
+void Light::Render(Material::BlendMode blendMode)
 {
 }
 

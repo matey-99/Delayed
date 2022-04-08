@@ -39,6 +39,7 @@ public:
 
 	inline uint64_t GetID() const { return m_ID; }
 	inline std::string GetName() const { return m_Name; }
+	inline BlendMode GetBlendMode() const { return m_BlendMode; }
 	inline Ref<Shader> GetShader() const { return m_Shader; }
 
 	friend class MaterialEditorPanel;
