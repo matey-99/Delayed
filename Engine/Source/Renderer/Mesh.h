@@ -5,40 +5,41 @@
 #include "Texture.h"
 #include "Math/BoundingBox.h"
 #include "Math/BoundingSphere.h"
+#include "Patterns/Container.h"
 
 struct Vertex
 {
-	glm::vec3 position;
-	glm::vec3 normal;
-	glm::vec2 texCoords;
-	glm::vec3 tangent;
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec2 TexCoords;
+	glm::vec3 Tangent;
+	glm::vec3 Bitangent;
 };
 
 class Mesh
 {
 public:
-	Mesh(std::vector<Vertex> inVertices, std::vector<uint32_t> inIndices, bool instanced = false);
+	Mesh(std::vector<uint32_t> indices);
 	void Render();
-	void RenderInstanced(uint32_t count);
+
+	void CreateBounds(std::vector<Vertex> vertices);
 
 	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
     inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
-	inline std::vector<Vertex> GetVertices() const { return m_Vertices; }
 	inline std::vector<uint32_t> GetIndices() const { return m_Indices; }
 	inline uint32_t GetVAO() const { return m_VAO; }
 
-private:
-	void SetupMesh();
-	void SetupMeshInstanced();
+protected:
+	virtual void SetupMesh() = 0;
 
-private:
-	BoundingBox m_BoundingBox;
-    BoundingSphere m_BoundingSphere;
-
-	std::vector<Vertex> m_Vertices;
+protected:
 	std::vector<uint32_t> m_Indices;
 
 	uint32_t m_VAO;
 	uint32_t m_VBO;
 	uint32_t m_EBO;
+
+private:
+	BoundingBox m_BoundingBox;
+    BoundingSphere m_BoundingSphere;
 };

@@ -11,12 +11,12 @@
 #include <glad/glad.h>
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner)
-	: SkeletalMeshComponent(owner, "Models/defaults/default_cube.obj")
+	: SkeletalMeshComponent(owner, "Models/defaults/Skeletal/SK_Walking.fbx")
 {
 }
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path)
-	: RenderComponent(owner), m_Path(path)
+	: MeshComponent(owner, path)
 {
 	LoadMesh(path);
 
@@ -25,46 +25,25 @@ SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path)
 }
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPaths)
-	: RenderComponent(owner), m_Path(path), m_MaterialsPaths(materialsPaths)
+	: MeshComponent(owner, path, materialsPaths)
 {
 	LoadMesh(path);
 
 	for (auto path : m_MaterialsPaths)
 		m_Materials.push_back(MaterialImporter::GetInstance()->ImportMaterial(path));
-
-}
-
-void SkeletalMeshComponent::Start()
-{
-	m_Owner->GetTransform()->OnTransformChanged.Add(&SkeletalMeshComponent::UpdateBoundingBox, this);
-    m_Owner->GetTransform()->OnTransformChanged.Add(&SkeletalMeshComponent::UpdateBoundingSphere, this);
-	
-	UpdateBoundingBox();
-    UpdateBoundingSphere();
-}
-
-void SkeletalMeshComponent::Update(float deltaTime)
-{
-}
-
-void SkeletalMeshComponent::PreRender()
-{
 }
 
 void SkeletalMeshComponent::Render()
 {
-	for (auto material : GetMaterials())
-	{
-		material->Use();
-		material->GetShader()->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
-	}
+	MeshComponent::Render();
+
 	if (!m_MultipleMaterials && m_Materials.at(0))
 	{
 		m_Materials.at(0)->Use();
 
 		for (auto mesh : m_Meshes)
 		{
-			mesh.Render();
+			mesh->Render();
 		}
 
 		return;
@@ -75,13 +54,18 @@ void SkeletalMeshComponent::Render()
 		if (m_Materials.size() > i)
 			m_Materials.at(i)->Use();
 
-		m_Meshes.at(i).Render();
+		m_Meshes.at(i)->Render();
 	}
 
 }
 
-void SkeletalMeshComponent::Destroy()
+std::vector<Ref<Mesh>> SkeletalMeshComponent::GetMeshes() const
 {
+	std::vector<Ref<Mesh>> result;
+	for (auto mesh : m_Meshes)
+		result.push_back(mesh);
+
+	return result;
 }
 
 uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
@@ -89,7 +73,7 @@ uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
 	uint32_t vertices = 0;
 	for (auto mesh : m_Meshes)
 	{
-		vertices += mesh.GetVertices().size();
+		vertices += mesh->GetVertices().size();
 	}
 
 	return vertices;
@@ -100,7 +84,7 @@ uint32_t SkeletalMeshComponent::GetBoneCount()
 	uint32_t bones = 0;
 	for (auto mesh : m_Meshes)
 	{
-		bones += mesh.GetBoneCount();
+		bones += mesh->GetBoneCount();
 	}
 
 	return bones;
@@ -110,12 +94,6 @@ void SkeletalMeshComponent::LoadMesh(std::string path)
 {
 	m_Path = path;
 	m_Meshes = SkeletalMeshImporter::GetInstance()->ImportMesh(path);
-}
-
-void SkeletalMeshComponent::LoadMaterial(std::string path)
-{
-	m_Materials.push_back(MaterialImporter::GetInstance()->ImportMaterial(path));
-	m_MaterialsPaths.push_back(path);
 }
 
 void SkeletalMeshComponent::ChangeMesh(std::string path)
@@ -129,18 +107,12 @@ void SkeletalMeshComponent::ChangeMesh(std::string path)
 		LoadMaterial("Materials/Default.mat");
 }
 
-void SkeletalMeshComponent::ChangeMaterial(int index, std::string path)
-{
-	m_MaterialsPaths.at(index) = path;
-	m_Materials.at(index) = MaterialImporter::GetInstance()->ImportMaterial(path);
-}
-
 void SkeletalMeshComponent::UpdateBoundingBox()
 {
 	std::vector<glm::vec3> pointsFromAllMeshes;
 	for (auto mesh : m_Meshes)
 	{
-		auto points = mesh.GetBoundingBox().GetPoints();
+		auto points = mesh->GetBoundingBox().GetPoints();
 		for (auto& point : points)
 		{
 			point = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(point, 1.0f);
@@ -152,7 +124,7 @@ void SkeletalMeshComponent::UpdateBoundingBox()
 }
 
 void SkeletalMeshComponent::UpdateBoundingSphere() {
-	BoundingSphere s0, s1, s = m_Meshes[0].GetBoundingSphere();
+	BoundingSphere s0, s1, s = m_Meshes[0]->GetBoundingSphere();
 	glm::vec3 d;
 	float dist2, dist, r;
 
@@ -162,7 +134,7 @@ void SkeletalMeshComponent::UpdateBoundingSphere() {
 	for (auto mesh : m_Meshes)
 	{
 		s0 = s;
-		s1 = mesh.GetBoundingSphere();
+		s1 = mesh->GetBoundingSphere();
 		s1.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s1.Center, 1.0f);
 		s1.Radius *= m_Owner->GetTransform()->GetWorldModelMatrix()[0][0];
 

@@ -4,7 +4,6 @@
 #include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
-#include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
@@ -152,29 +151,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
 						a->AddComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
-					}
-
-					if (auto mesh = component["InstanceRenderedMesh"])
-					{
-						std::string path = mesh["Mesh"].as<std::string>();
-						std::vector<std::string> materialsPaths;
-						YAML::Node materials = mesh["Materials"];
-						for (auto material : materials)
-						{
-							materialsPaths.push_back(material["Path"].as<std::string>());
-						}
-
-						float radius = mesh["Radius"].as<float>();
-						int count = mesh["InstancesCount"].as<int>();
-						float minScale = mesh["MinMeshScale"].as<float>();
-						float maxScale = mesh["MaxMeshScale"].as<float>();
-
-						auto m = a->AddComponent<InstanceRenderedMeshComponent>(path.c_str(), materialsPaths);
-						m->m_Radius = radius;
-						m->m_InstancesCount = count;
-						m->m_MinMeshScale = minScale;
-						m->m_MaxMeshScale = maxScale;
-						m->Generate();
 					}
 
 					if (auto dirLight = component["DirectionalLight"])
@@ -442,31 +418,6 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 			out << YAML::EndMap;
 		}
 		out << YAML::EndSeq;
-		out << YAML::EndMap;
-		out << YAML::EndMap;
-	}
-	if (auto mesh = actor->GetComponent<InstanceRenderedMeshComponent>())
-	{
-		out << YAML::BeginMap;
-		out << YAML::Key << "InstanceRenderedMesh";
-		out << YAML::BeginMap;
-		out << YAML::Key << "Mesh" << YAML::Value << mesh->GetPath();
-		out << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
-		for (int i = 0; i < mesh->GetMaterialsPaths().size(); i++)
-		{
-			out << YAML::BeginMap;
-			out << YAML::Key << "Material" << YAML::Value << i;
-			out << YAML::Key << "Path" << YAML::Value << mesh->GetMaterialsPaths().at(i);
-			out << YAML::EndMap;
-		}
-		out << YAML::EndSeq;
-
-		out << YAML::Key << "Radius" << YAML::Value << mesh->m_Radius;
-		out << YAML::Key << "InstancesCount" << YAML::Value << mesh->m_InstancesCount;
-		out << YAML::Key << "MinMeshScale" << YAML::Value << mesh->m_MinMeshScale;
-		out << YAML::Key << "MaxMeshScale" << YAML::Value << mesh->m_MaxMeshScale;
-
-
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

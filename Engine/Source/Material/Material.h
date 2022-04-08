@@ -8,24 +8,18 @@
 #include "Renderer/Shader.h"
 #include "Renderer/Texture.h"
 
-//template <typename T>
-//struct MaterialParameter
-//{
-//	std::string uniformName;
-//	std::string name;
-//	T value;
-//};
-//
-//struct MaterialBoolParameter : MaterialParameter<bool> {};
-//struct MaterialFloatParameter : MaterialParameter<float> {};
-//struct MaterialVec3Parameter : MaterialParameter<glm::vec3> {};
-//struct MaterialTexture2DParameter : MaterialParameter<Ref<Texture>> {};
-
 class Material
 {
+public:
+	enum class BlendMode
+	{
+		Opaque, Transparent
+	};
+
 private:
 	uint64_t m_ID;
 	std::string m_Name;
+	BlendMode m_BlendMode;
 	Ref<Shader> m_Shader;
 
 	std::unordered_map<std::string, bool> m_BoolParameters;

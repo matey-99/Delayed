@@ -2,7 +2,6 @@
 #include "Scene/Scene.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/StaticMeshComponent.h"
-#include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Mesh.h"
 #include "Scene/Component/Light/Light.h"
 #include "Scene/Component/Light/PointLight.h"

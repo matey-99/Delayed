@@ -7,7 +7,7 @@ std::mutex MeshImporter::s_Mutex;
 
 MeshImporter::MeshImporter()
 {
-	m_ImportedMeshes = std::unordered_map<std::string, std::vector<Mesh>>();
+	m_ImportedMeshes = std::unordered_map<std::string, std::vector<Ref<StaticMesh>>>();
 }
 
 Ref<MeshImporter> MeshImporter::GetInstance()
@@ -19,7 +19,7 @@ Ref<MeshImporter> MeshImporter::GetInstance()
 	return s_Instance;
 }
 
-std::vector<Mesh> MeshImporter::ImportMesh(std::string path)
+std::vector<Ref<StaticMesh>> MeshImporter::ImportMesh(std::string path)
 {
 	if (m_ImportedMeshes.find(path) != m_ImportedMeshes.end())
 		return m_ImportedMeshes.at(path);
@@ -30,10 +30,10 @@ std::vector<Mesh> MeshImporter::ImportMesh(std::string path)
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		std::cout << "Loading model failed: " << importer.GetErrorString() << std::endl;
-		return std::vector<Mesh>();
+		return std::vector<Ref<StaticMesh>>();
 	}
 
-	std::vector<Mesh> meshes = std::vector<Mesh>();
+	std::vector<Ref<StaticMesh>> meshes = std::vector<Ref<StaticMesh>>();
 
 	ProcessNode(scene->mRootNode, scene, meshes);
 
@@ -41,7 +41,7 @@ std::vector<Mesh> MeshImporter::ImportMesh(std::string path)
 	return meshes;
 }
 
-void MeshImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes)
+void MeshImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Ref<StaticMesh>>& meshes)
 {
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
@@ -55,7 +55,7 @@ void MeshImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<M
 	}
 }
 
-Mesh MeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+Ref<StaticMesh> MeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -69,29 +69,34 @@ Mesh MeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
-		vertex.position = vector;
+		vertex.Position = vector;
 
 		vector.x = mesh->mNormals[i].x;
 		vector.y = mesh->mNormals[i].y;
 		vector.z = mesh->mNormals[i].z;
-		vertex.normal = vector;
+		vertex.Normal = vector;
 
 		if (mesh->mTextureCoords[0])
 		{
 			glm::vec2 vec;
 			vec.x = mesh->mTextureCoords[0][i].x;
 			vec.y = mesh->mTextureCoords[0][i].y;
-			vertex.texCoords = vec;
+			vertex.TexCoords = vec;
 		}
 		else
 		{
-			vertex.texCoords = glm::vec2(0.0f, 0.0f);
+			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
 		}
 
 		vector.x = mesh->mTangents[i].x;
 		vector.y = mesh->mTangents[i].y;
 		vector.z = mesh->mTangents[i].z;
-		vertex.tangent = vector;
+		vertex.Tangent = vector;
+
+		vector.x = mesh->mBitangents[i].x;
+		vector.y = mesh->mBitangents[i].y;
+		vector.z = mesh->mBitangents[i].z;
+		vertex.Bitangent = vector;
 
 		vertices.push_back(vertex);
 	}
@@ -105,5 +110,5 @@ Mesh MeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 	}
 
-	return Mesh(vertices, indices);
+	return CreateRef<StaticMesh>(vertices, indices);
 }
