@@ -87,6 +87,11 @@ glm::vec3 Math::Transform(const glm::vec3& v, const glm::quat& q)
 		+ 2.0f * s * glm::cross(u, v);
 }
 
+glm::vec3 Math::Direction(const glm::vec3& a, const glm::vec3& b)
+{
+	return glm::vec3(b.x - a.x, b.y - a.y, b.z - a.z);
+}
+
 float Math::Lerp(float a, float b, float alpha)
 {
 	return a + alpha * (b - a);

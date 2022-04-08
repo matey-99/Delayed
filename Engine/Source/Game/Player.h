@@ -2,6 +2,7 @@
 
 #include "GameComponent.h"
 
+class CharacterController;
 class CameraComponent;
 class BoxColliderComponent;
 
@@ -20,23 +21,35 @@ private:
 	void LookUp(float value);
 
 	void Jump();
+	void AllowJumping();
 
-	bool IsGrounded();
-	
+	void RunOn();
+	void RunOff();
+
 	void AddMovementInput(glm::vec3 direction, float value);
 
 private:
+	/* References */
+	Ref<CharacterController> m_CharacterController;
 	Ref<CameraComponent> m_Camera;
-	Ref<BoxColliderComponent> m_GroundChecker;
+
+	/* Inputs */
 	glm::vec3 m_MoveDirection;
 	glm::vec3 m_Rotation;
-	bool m_IsGrounded;
 
+	/* Flags */
+	bool m_IsRunning;
+	bool m_IsJumping;
+	bool m_CanJump;
+
+	/* Movement properties */
 	float m_MovementSpeed;
+	float m_WalkSpeed;
+	float m_RunSpeed;
+
+	/* Camera */
 	float m_RotateSpeed;
 	float m_LookUpLimit;
-	float m_Smooth;
-	float m_TargetMovementSpeed;
 
 #pragma region Serialization
 

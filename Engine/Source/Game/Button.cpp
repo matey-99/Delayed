@@ -20,7 +20,6 @@ void Button::Start()
 	if (auto collider = m_Owner->GetComponent<ColliderComponent>())
 	{
 		collider->OnTriggerEnterDelegate.Add(&Button::OnTriggerEnter, this);
-		collider->OnTriggerStayDelegate.Add(&Button::OnTriggerStay, this);
 		collider->OnTriggerExitDelegate.Add(&Button::OnTriggerExit, this);
 	}
 }
@@ -52,17 +51,6 @@ void Button::OnTriggerEnter(Ref<ColliderComponent> other)
 	{
 		m_IsPressed = true;
 
-		std::cout << "enter!" << std::endl;
-	}
-}
-
-void Button::OnTriggerStay(Ref<ColliderComponent> other)
-{
-	if (other->GetOwner()->GetComponent<Player>())
-	{
-		m_IsPressed = true;
-
-		std::cout << "stay!" << std::endl;
 	}
 }
 
@@ -72,6 +60,5 @@ void Button::OnTriggerExit(Ref<ColliderComponent> other)
 	{
 		m_IsPressed = false;
 
-		std::cout << "exit!" << std::endl;
 	}
 }

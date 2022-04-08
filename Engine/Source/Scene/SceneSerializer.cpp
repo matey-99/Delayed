@@ -346,7 +346,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 		for (int i = 2; i < scene->GetActors().size(); i++)
 		{
-			scene->GetActors().at(i)->GetTransform()->SetParent(scene->FindActor(parentsIDs[i - 2])->GetTransform().get());
+			scene->GetActors().at(i)->GetComponent<TransformBaseComponent>()->SetParent(scene->FindActor(parentsIDs[i - 2])->GetComponent<TransformBaseComponent>().get());
 		}
 
 		uint64_t currentCameraID = data["CurrentCamera"].as<uint64_t>();

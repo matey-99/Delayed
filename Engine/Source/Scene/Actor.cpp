@@ -32,6 +32,8 @@ Actor::Actor(Scene* scene, uint64_t id, std::string name)
 
 void Actor::Start()
 {
+	m_Transform = GetComponent<TransformBaseComponent>();
+
 	for (auto component : m_Components)
 	{
 		component->Start();
@@ -80,7 +82,7 @@ void Actor::Destroy()
 
 Ref<TransformBaseComponent> Actor::GetTransform()
 {
-	return GetComponent<TransformBaseComponent>();
+	return m_Transform;
 }
 
 void Actor::SetDynamic(bool dynamic)

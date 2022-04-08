@@ -16,6 +16,9 @@ public:
 
     void UpdateBoundingSphere();
 
+    virtual bool IsIntersect(const Ray& ray) override;
+    virtual bool IsIntersect(const glm::vec3& point) override;
+
     inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
 
 protected:

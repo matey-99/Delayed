@@ -39,6 +39,16 @@ void SphereColliderComponent::UpdateBoundingSphere() {
     }
 }
 
+bool SphereColliderComponent::IsIntersect(const Ray& ray)
+{
+    return m_BoundingSphere.IsIntersect(ray);
+}
+
+bool SphereColliderComponent::IsIntersect(const glm::vec3& point)
+{
+    return m_BoundingSphere.IsIntersect(point);
+}
+
 glm::vec3 SphereColliderComponent::ClosestPoint(glm::vec3 point) {
     glm::vec3 t = point - m_BoundingSphere.Center;
     return m_BoundingSphere.Center + (glm::normalize(t) * m_BoundingSphere.Radius);

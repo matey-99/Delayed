@@ -104,3 +104,8 @@ bool BoundingSphere::IsIntersect(const Ray& ray)
 
     return discriminant >= 0;
 }
+
+bool BoundingSphere::IsIntersect(const glm::vec3& point)
+{
+    return Math::Distance(Center, point) < Radius;
+}

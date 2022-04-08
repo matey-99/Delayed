@@ -9,6 +9,13 @@ enum class InputType
 	Gamepad			= 2
 };
 
+enum class InputEvent
+{
+	Press			= GLFW_PRESS,
+	Release			= GLFW_RELEASE,
+	Repeat			= GLFW_REPEAT
+};
+
 enum class Key
 {
 	Space			= GLFW_KEY_SPACE,
