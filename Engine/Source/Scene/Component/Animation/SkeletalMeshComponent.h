@@ -3,20 +3,11 @@
 #include "Renderer/SkeletalMesh.h"
 #include "Material/Material.h"
 #include "Material/ShaderLibrary.h"
-#include "Scene/Component/RenderComponent.h"
+#include "Scene/Component/MeshComponent.h"
 
-class SkeletalMeshComponent : public RenderComponent
+class SkeletalMeshComponent : public MeshComponent
 {
-private:
-	std::string m_Path;
-	std::vector<SkeletalMesh> m_Meshes;
-	std::vector<Ref<Material>> m_Materials;
-	std::vector<std::string> m_MaterialsPaths;
 
-	BoundingBox m_BoundingBox;
-	BoundingSphere m_BoundingSphere;
-
-	bool m_MultipleMaterials;
 
 public:
 	SkeletalMeshComponent(Actor* owner);
@@ -24,30 +15,19 @@ public:
 	SkeletalMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPath);
 
 	void LoadMesh(std::string path);
-	void LoadMaterial(std::string path);
 	void ChangeMesh(std::string path);
-	void ChangeMaterial(int index, std::string path);
 
-	void UpdateBoundingBox();
-	void UpdateBoundingSphere();
+	virtual void UpdateBoundingBox() override;
+	virtual void UpdateBoundingSphere() override;
 
-	virtual void Start() override;
-	virtual void Update(float deltaTime) override;
-	virtual void PreRender() override;
 	virtual void Render() override;
-	virtual void Destroy() override;
 
-	inline std::string GetPath() const { return m_Path; }
-	inline std::vector<SkeletalMesh> GetMeshes() const { return m_Meshes; }
-	inline std::vector<Ref<Material>> GetMaterials() const { return m_Materials; }
-	inline std::vector<std::string> GetMaterialsPaths() const { return m_MaterialsPaths; }
-	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
-	inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
-	uint32_t GetRenderedVerticesCount();
+	virtual std::vector<Ref<Mesh>> GetMeshes() const override;
+	virtual uint32_t GetRenderedVerticesCount() override;
 
 	// Details
 	uint32_t GetBoneCount();
 
-
-	inline void SetMaterial(int index, Ref<Material> material) { m_Materials.at(index) = material; }
+private:
+	std::vector<Ref<SkeletalMesh>> m_Meshes;
 };

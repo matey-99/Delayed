@@ -139,6 +139,7 @@ Ref<Actor> Scene::AddActor(std::string name)
 
 	auto transform = actor->AddComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+	actor->SetTransform(transform);
 
 	m_Actors.push_back(actor);
 
@@ -151,6 +152,7 @@ Ref<Actor> Scene::AddActor(uint64_t id, std::string name)
 
 	auto transform = actor->AddComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+	actor->SetTransform(transform);
 
 	m_Actors.push_back(actor);
 
@@ -163,6 +165,7 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name)
 
 	auto transform = actor->AddComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+	actor->SetTransform(transform);
 
 	actor->AddComponent<StaticMeshComponent>(path.c_str());
 
@@ -177,6 +180,7 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name, Ref<Actor> parent
 
 	auto transform = actor->AddComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+	actor->SetTransform(transform);
 
 	actor->AddComponent<StaticMeshComponent>(path.c_str());
 
@@ -191,6 +195,7 @@ Ref<Actor> Scene::AddUIActor(std::string name)
 
 	auto transform = actor->AddComponent<RectTransformComponent>();
 	transform->SetParent(m_UIRoot->GetComponent<RectTransformComponent>().get());
+	actor->SetTransform(transform);
 
 	m_Actors.push_back(actor);
 
@@ -203,6 +208,7 @@ Ref<Actor> Scene::AddUIActor(uint64_t id, std::string name)
 
 	auto transform = actor->AddComponent<RectTransformComponent>();
 	transform->SetParent(m_UIRoot->GetComponent<RectTransformComponent>().get());
+	actor->SetTransform(transform);
 
 	m_Actors.push_back(actor);
 

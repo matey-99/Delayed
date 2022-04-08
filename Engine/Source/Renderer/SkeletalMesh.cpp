@@ -2,27 +2,17 @@
 
 #include <glad/glad.h>
 
-SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> inVertices,
-	std::vector<uint32_t> inIndices,
+SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> vertices,
+	std::vector<uint32_t> indices,
 	uint32_t boneCounter)
-	:
-	m_Vertices(inVertices), m_Indices(inIndices), m_BoneCounter(boneCounter)
+	: m_Vertices(vertices), Mesh(indices), m_BoneCounter(boneCounter)
 {
+	std::vector<Vertex> v;
+	for (auto skinnedVertex : m_Vertices)
+		v.push_back(skinnedVertex);
+
 	SetupMesh();
-
-	std::vector<glm::vec3> points;
-	for (auto vertex : m_Vertices)
-		points.push_back(vertex.position);
-
-	m_BoundingBox = BoundingBox(points);
-	m_BoundingSphere = BoundingSphere(points);
-}
-
-void SkeletalMesh::Render()
-{
-	glBindVertexArray(m_VAO);
-	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
+	CreateBounds(v);
 }
 
 void SkeletalMesh::SetupMesh()
@@ -45,24 +35,27 @@ void SkeletalMesh::SetupMesh()
 
 	// Vertex normals
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, Normal));
 
 	// Vertex texture coords
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, texCoords));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, TexCoords));
 
+	// Tangent
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, tangent));
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, Tangent));
+
+	// Bitangent
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, Bitangent));
 
 	// bone ids
-	glEnableVertexAttribArray(4);
-	glVertexAttribIPointer(4, 4, GL_INT, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, boneIDs));
+	glEnableVertexAttribArray(5);
+	glVertexAttribIPointer(5, 4, GL_INT, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, BoneIDs));
 
 	// weights
-	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, weights));
-
-
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, Weights));
 
 	glBindVertexArray(0);
 }

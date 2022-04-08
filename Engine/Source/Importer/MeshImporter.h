@@ -9,7 +9,7 @@
 #include <assimp/postprocess.h>
 
 #include "typedefs.h"
-#include "Renderer/Mesh.h"
+#include "Renderer/StaticMesh.h"
 
 class MeshImporter
 {
@@ -22,15 +22,15 @@ public:
 
 	static Ref<MeshImporter> GetInstance();
 
-	std::vector<Mesh> ImportMesh(std::string path);
+	std::vector<Ref<StaticMesh>> ImportMesh(std::string path);
 
 private:
-	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
-	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Ref<StaticMesh>>& meshes);
+	Ref<StaticMesh> ProcessMesh(aiMesh* mesh, const aiScene* scene);
 
 private:
 	static Ref<MeshImporter> s_Instance;
 	static std::mutex s_Mutex;
 
-	std::unordered_map<std::string, std::vector<Mesh>> m_ImportedMeshes;
+	std::unordered_map<std::string, std::vector<Ref<StaticMesh>>> m_ImportedMeshes;
 };

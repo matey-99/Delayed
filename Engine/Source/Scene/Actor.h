@@ -66,6 +66,7 @@ public:
 	inline bool IsDynamic() const { return m_Dynamic; }
 
 	Ref<TransformBaseComponent> GetTransform();
+	inline void SetTransform(Ref<TransformBaseComponent> transform) { m_Transform = transform; }
 
 	void SetDynamic(bool dynamic);
 	void SetEnabled(bool enabled);
