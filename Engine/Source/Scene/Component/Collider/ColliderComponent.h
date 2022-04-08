@@ -15,6 +15,9 @@ public:
     DelegateOneParam<Ref<ColliderComponent>> OnTriggerStayDelegate;
     DelegateOneParam<Ref<ColliderComponent>> OnTriggerExitDelegate;
 
+    virtual bool IsIntersect(const Ray& ray) = 0;
+    virtual bool IsIntersect(const glm::vec3& point) = 0;
+
     inline bool IsTrigger() const { return m_IsTrigger; }
 
 protected:
@@ -26,6 +29,7 @@ protected:
     virtual bool CheckCollisions() = 0;
 
     virtual glm::vec3 ClosestPoint(glm::vec3 point) = 0;
+
 
     friend class SceneSerializer;
 };

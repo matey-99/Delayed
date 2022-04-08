@@ -84,3 +84,10 @@ bool BoundingBox::IsIntersect(const Ray& ray)
 
 	return true;
 }
+
+bool BoundingBox::IsIntersect(const glm::vec3& point)
+{
+	return (point.x > Min.x && point.x < Max.x
+		 && point.y > Min.y && point.y < Max.y
+		 && point.z > Min.z && point.z < Max.z);
+}

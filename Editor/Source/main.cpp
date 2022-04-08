@@ -279,6 +279,9 @@ int main(int, char**)
 
     Renderer::GetInstance()->Initialize();
 
+    auto input = Input::GetInstance();
+    input->Initialize(window);
+
     auto sceneManager = SceneManager::GetInstance();
     sceneManager->LoadScene("Scenes/Prototype.scene");
 
@@ -294,8 +297,6 @@ int main(int, char**)
     editor = Editor::GetInstance();
     auto cameraManager = CameraManager::GetInstance();
     cameraManager->GetInstance()->SetMainCamera(editor->GetCamera());
-    auto input = Input::GetInstance();
-    input->Initialize(window);
 
     editor->Start();
 

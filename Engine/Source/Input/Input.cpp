@@ -47,19 +47,31 @@ void Input::Process()
 			switch (actionInputBinding->InputType)
 			{
 			case InputType::Keyboard:
-				if (glfwGetKey(m_Window, actionInputBinding->Input) == GLFW_PRESS)
-					MakeAction(actionInputBinding);
+				if (glfwGetKey(m_Window, actionInputBinding->Input) == (int)InputEvent::Press)
+					actionInputBinding->OnActionInputPress.Broadcast();
+				if (glfwGetKey(m_Window, actionInputBinding->Input) == (int)InputEvent::Release)
+					actionInputBinding->OnActionInputRelease.Broadcast();
+				if (glfwGetKey(m_Window, actionInputBinding->Input) == (int)InputEvent::Repeat)
+					actionInputBinding->OnActionInputRepeat.Broadcast();
 				break;
 			case InputType::Mouse:
-				if (glfwGetMouseButton(m_Window, actionInputBinding->Input) == GLFW_PRESS)
-					MakeAction(actionInputBinding);
+				if (glfwGetMouseButton(m_Window, actionInputBinding->Input) == (int)InputEvent::Press)
+					actionInputBinding->OnActionInputPress.Broadcast();
+				if (glfwGetMouseButton(m_Window, actionInputBinding->Input) == (int)InputEvent::Release)
+					actionInputBinding->OnActionInputRelease.Broadcast();
+				if (glfwGetMouseButton(m_Window, actionInputBinding->Input) == (int)InputEvent::Repeat)
+					actionInputBinding->OnActionInputRepeat.Broadcast();
 				break;
 			case InputType::Gamepad:
 				GLFWgamepadstate state;
 				if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
 				{
-					if (state.buttons[actionInputBinding->Input])
-						MakeAction(actionInputBinding);
+					if (state.buttons[actionInputBinding->Input] == (int)InputEvent::Press)
+						actionInputBinding->OnActionInputPress.Broadcast();
+					if (state.buttons[actionInputBinding->Input] == (int)InputEvent::Release)
+						actionInputBinding->OnActionInputRelease.Broadcast();
+					if (state.buttons[actionInputBinding->Input] == (int)InputEvent::Repeat)
+						actionInputBinding->OnActionInputRepeat.Broadcast();
 				}
 				break;
 			}
@@ -74,23 +86,29 @@ void Input::Process()
 				{
 				case InputType::Keyboard:
 					if (glfwGetKey(m_Window, input.first) == GLFW_PRESS)
-						MakeAxis(axisInputBinding, input.second);
+						axisInputBinding->OnAxisInput.Broadcast(input.second);
 					break;
 				case InputType::Mouse:
 					switch (input.first)
 					{
 					case 0:
-						MakeAxis(axisInputBinding, mouseDeltaX * input.second);
+						axisInputBinding->OnAxisInput.Broadcast(mouseDeltaX * input.second);
 						break;
 					case 1:
-						MakeAxis(axisInputBinding, mouseDeltaY * input.second);
+						axisInputBinding->OnAxisInput.Broadcast(mouseDeltaY * input.second);
 						break;
 					}
 					break;
 				case InputType::Gamepad:
 					GLFWgamepadstate state;
 					if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
-						MakeAxis(axisInputBinding, state.axes[input.first] * input.second);
+					{
+						float value = state.axes[input.first] * input.second;
+						if (glm::abs(value) < 0.05f)
+							value = 0.0f;
+
+						axisInputBinding->OnAxisInput.Broadcast(state.axes[input.first] * input.second);
+					}
 					break;
 				}
 			}
@@ -98,9 +116,9 @@ void Input::Process()
 
 		if (m_Mode == InputMode::UI || m_Mode == InputMode::PlayerAndUI)
 		{
-			if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == GLFW_PRESS)
+			if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == (int)InputEvent::Press)
 				OnLeftMouseButtonPressed.Broadcast();
-			else if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == GLFW_RELEASE)
+			else if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == (int)InputEvent::Release)
 				OnLeftMouseButtonReleased.Broadcast();
 		}
 	}
@@ -118,26 +136,16 @@ std::vector<Ref<ActionInputBinding>> Input::FindActionInputBindings(std::string 
 	return result;
 }
 
-void Input::MakeAction(Ref<ActionInputBinding> actionInputBinding)
-{
-	for (auto function : actionInputBinding->Functions)
-		function();
-}
-
-void Input::BindAction(std::string actionName, std::function<void()> function)
+void Input::ClearAction(std::string actionName)
 {
 	auto actionInputBindings = FindActionInputBindings(actionName);
 
 	for (auto actionInputBinding : actionInputBindings)
-		actionInputBinding->Functions.push_back(function);
-}
-
-void Input::ClearAction(std::string actionName)
-{
-	auto actionInputBindings = FindAxisInputBindings(actionName);
-
-	for (auto actionInputBinding : actionInputBindings)
-		actionInputBinding->Functions.clear();
+	{
+		actionInputBinding->OnActionInputPress.Clear();
+		actionInputBinding->OnActionInputRelease.Clear();
+		actionInputBinding->OnActionInputRepeat.Clear();
+	}
 }
 
 
@@ -153,30 +161,12 @@ std::vector<Ref<AxisInputBinding>> Input::FindAxisInputBindings(std::string name
 	return result;
 }
 
-void Input::MakeAxis(Ref<AxisInputBinding> axisInputBinding, float value)
-{
-	if (glm::abs(value) < 0.1f)
-		value = 0.0f;
-
-	for (auto function : axisInputBinding->Functions)
-		function(value);
-}
-
-
-void Input::BindAxis(std::string axisName, std::function<void(float)> function)
-{
-	auto axisInputBindings = FindAxisInputBindings(axisName);
-
-	for (auto axisInputBinding : axisInputBindings)
-		axisInputBinding->Functions.push_back(function);
-}
-
 void Input::ClearAxis(std::string axisName)
 {
 	auto axisInputBindings = FindAxisInputBindings(axisName);
 
 	for (auto axisInputBinding : axisInputBindings)
-		axisInputBinding->Functions.clear();
+		axisInputBinding->OnAxisInput.Clear();
 }
 
 void Input::SetInputMode(InputMode mode)

@@ -80,7 +80,7 @@ private:
 	bool m_Dynamic = false;
 	std::vector<Ref<Component>> m_Components;
 
-
+	Ref<TransformBaseComponent> m_Transform;
 
 
 	friend class SceneHierarchyPanel;

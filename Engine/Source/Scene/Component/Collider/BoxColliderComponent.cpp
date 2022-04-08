@@ -47,6 +47,16 @@ void BoxColliderComponent::UpdateBoundingBox() {
     }
 }
 
+bool BoxColliderComponent::IsIntersect(const Ray& ray)
+{
+    return m_BoundingBox.IsIntersect(ray);
+}
+
+bool BoxColliderComponent::IsIntersect(const glm::vec3& point)
+{
+    return m_BoundingBox.IsIntersect(point);
+}
+
 glm::vec3 BoxColliderComponent::ClosestPoint(glm::vec3 point) {
     glm::vec3 t;
     float v;

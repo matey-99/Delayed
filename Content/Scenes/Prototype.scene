@@ -843,14 +843,6 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 2, 1]
-      - SphereCollider:
-          IsTrigger: true
-          Center: [0, -1.75, 0]
-          Size: 0.5
-      - RigidBody:
-          Gravity: -1
-          Mass: 5
-          Drag: 0.899999976
       - Player:
           Camera: 1541634381
   - Actor: 1526879318
