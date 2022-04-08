@@ -69,17 +69,6 @@ bool SphereColliderComponent::CheckCollisions() {
                               (collider->GetBoundingSphere().Radius + m_BoundingSphere.Radius - glm::length(d));
 
                 if (m_Owner->IsDynamic()) {
-                    if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z)) {
-                        v.y = 0;
-                        v.z = 0;
-                    } else if (glm::abs(v.y) < glm::abs(v.x) && glm::abs(v.y) < glm::abs(v.z)) {
-                        v.x = 0;
-                        v.z = 0;
-                    } else if (glm::abs(v.z) < glm::abs(v.x) && glm::abs(v.z) < glm::abs(v.y)) {
-                        v.x = 0;
-                        v.y = 0;
-                    }
-
                     m_Owner->GetTransform()->SetWorldPosition(m_Owner->GetTransform()->GetWorldPosition() + v);
                 }
             }
