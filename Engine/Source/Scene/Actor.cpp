@@ -63,12 +63,12 @@ void Actor::PreRender()
 	}
 }
 
-void Actor::Render()
+void Actor::Render(Material::BlendMode blendMode)
 {
 	for (auto component : m_Components)
 	{
 		if (auto rc = Cast<RenderComponent>(component))
-			rc->Render();
+			rc->Render(blendMode);
 	}
 }
 

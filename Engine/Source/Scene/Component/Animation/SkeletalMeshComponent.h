@@ -20,7 +20,7 @@ public:
 	virtual void UpdateBoundingBox() override;
 	virtual void UpdateBoundingSphere() override;
 
-	virtual void Render() override;
+	virtual void Render(Material::BlendMode blendMode) override;
 
 	virtual std::vector<Ref<Mesh>> GetMeshes() const override;
 	virtual uint32_t GetRenderedVerticesCount() override;

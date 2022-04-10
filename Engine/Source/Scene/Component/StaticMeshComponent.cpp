@@ -10,6 +10,7 @@
 #include "Light/PointLight.h"
 #include "Light/SpotLight.h"
 #include "Light/SkyLight.h"
+#include "Renderer/RenderPass/ShadowsPass.h"
 
 #include <glad/glad.h>
 
@@ -36,30 +37,41 @@ StaticMeshComponent::StaticMeshComponent(Actor* owner, std::string path, std::ve
 		m_Materials.push_back(MaterialImporter::GetInstance()->ImportMaterial(path));
 }
 
-void StaticMeshComponent::Render()
+void StaticMeshComponent::Render(Material::BlendMode blendMode)
 {
-	MeshComponent::Render();
-
-	if (!m_MultipleMaterials && m_Materials.at(0))
-	{
-		m_Materials.at(0)->Use();
-
-		for (auto mesh : m_Meshes)
-		{
-			mesh->Render();
-		}
-
-		return;
-	}
-
 	for (int i = 0; i < m_Meshes.size(); i++)
 	{
 		if (m_Materials.size() > i)
+		{
+			if (m_Materials.at(i)->GetBlendMode() != blendMode)
+				continue;
+
 			m_Materials.at(i)->Use();
+			m_Materials.at(i)->GetShader()->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
+
+			if (blendMode == Material::BlendMode::Transparent)
+			{
+				auto s = Renderer::GetInstance()->m_ShadowsPass;
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D_ARRAY, s->GetDirectionalLightRenderTarget()->GetTargets()[0]);
+
+				m_Materials.at(i)->GetShader()->SetInt("u_DirectionalLightShadowMaps", 0);
+
+				if (auto skyLight = m_Owner->GetScene()->FindComponent<SkyLight>())
+				{
+					m_Materials.at(i)->GetShader()->SetVec3("u_SkyLightColor", skyLight->GetColor());
+					m_Materials.at(i)->GetShader()->SetFloat("u_SkyLightIntensity", skyLight->GetIntensity());
+				}
+				else
+				{
+					m_Materials.at(i)->GetShader()->SetVec3("u_SkyLightColor", glm::vec3(1.0f));
+					m_Materials.at(i)->GetShader()->SetFloat("u_SkyLightIntensity", 0.03f);
+				}
+			}
+		}
 
 		m_Meshes.at(i)->Render();
 	}
-
 }
 
 std::vector<Ref<Mesh>> StaticMeshComponent::GetMeshes() const
