@@ -89,7 +89,7 @@ Actors:
           Mesh: Models/defaults/default_sphere.obj
           Materials:
             - Material: 0
-              Path: Materials/New material 2.mat
+              Path: Materials/Default.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -108,7 +108,7 @@ Actors:
           Mesh: Models/defaults/default_sphere.obj
           Materials:
             - Material: 0
-              Path: Materials/New material 1.mat
+              Path: Materials/Default.mat
       - SphereCollider:
           IsTrigger: false
           Center: [0, 0, 0]

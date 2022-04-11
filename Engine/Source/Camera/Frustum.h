@@ -2,7 +2,6 @@
 
 #include <Math/BoundingBox.h>
 #include <Math/BoundingSphere.h>
-#include <Scene/Component/CameraComponent.h>
 #include "glm/glm.hpp"
 
 struct Plane {
@@ -14,17 +13,12 @@ struct Plane {
         distance = -glm::dot(normal, p);
     }
 
-    float Distance(glm::vec3 &p) const {
+    float Distance(const glm::vec3 &p) {
         return (distance + glm::dot(normal, p));
     }
 };
 
 class Frustum {
-private:
-    enum {
-        TOP = 0, BOTTOM, LEFT, RIGHT, NEAR, FAR
-    };
-
 public:
 
     enum {
@@ -33,25 +27,23 @@ public:
 
     Plane m_Planes[6];
 
-    CameraComponent m_Camera;
-
     glm::vec3 m_NearTopLeft, m_NearTopRight, m_NearBottomLeft, m_NearBottomRight, m_FarTopLeft, m_FarTopRight, m_FarBottomLeft, m_FarBottomRight;
-    float m_Tan, m_Ratio;
+    float m_Tan, m_Ratio, m_FOV, m_NearDistance, m_FarDistance;
     float m_NearWidth, m_NearHeight, m_FarWidth, m_FarHeight;
 
-    Frustum(const CameraComponent &mCamera);
+    Frustum() = default;
 
     ~Frustum() = default;
 
     // Run if window resized
-    void SetCamInternals();
+    void SetCamInternals(float angle, float ratio, float nearD, float farD);
 
     // Run if camera moves
-    void SetCamDef();
+    void SetCamDef(const glm::vec3 &p, const glm::vec3 &front, const glm::vec3 &up);
 
-    int PointInFrustum(glm::vec3 &p);
+    int PointInFrustum(const glm::vec3 &p);
 
-    int SphereInFrustum(BoundingSphere &s);
+    int SphereInFrustum(const BoundingSphere &s);
 
-    int BoxInFrustum(BoundingBox &b);
+    int BoxInFrustum(BoundingBox b);
 };
