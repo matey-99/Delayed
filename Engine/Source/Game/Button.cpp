@@ -2,12 +2,11 @@
 
 #include "Scene/Actor.h"
 #include "Game/Player.h"
+#include "Scene/Scene.h"
 
 Button::Button(Actor* owner)
 	: GameComponent(owner)
 {
-	m_Speed = 255.0f;
-
 	m_IsPressed = false;
 }
 
@@ -22,22 +21,20 @@ void Button::Start()
 		collider->OnTriggerEnterDelegate.Add(&Button::OnTriggerEnter, this);
 		collider->OnTriggerExitDelegate.Add(&Button::OnTriggerExit, this);
 	}
+
+	auto platformActor = m_Owner->GetScene()->FindActor(m_PlatformID);
+	if (!platformActor)
+	{
+		DEBUG_LOG("Platform is null!");
+		return;
+	}
+	m_Platform = platformActor->GetComponent<Platform>();
 }
 
 void Button::Update(float deltaTime)
 {
 	if (m_ConnectedButtons.empty())
 	{
-		float step = m_Speed * deltaTime;
-
-		if (m_IsPressed)
-		{
-			// TO DO: Make platform moves to m_PlatformRelativeEndPosition
-		}
-		else
-		{
-			// TO DO: Make platform moves to m_PlatformRelativeStartPosition
-		}
 	}
 }
 
@@ -51,6 +48,7 @@ void Button::OnTriggerEnter(Ref<ColliderComponent> other)
 	{
 		m_IsPressed = true;
 
+		m_Platform->SetActive(true);
 	}
 }
 
@@ -60,5 +58,6 @@ void Button::OnTriggerExit(Ref<ColliderComponent> other)
 	{
 		m_IsPressed = false;
 
+		m_Platform->SetActive(false);
 	}
 }

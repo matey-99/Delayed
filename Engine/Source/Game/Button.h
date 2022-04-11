@@ -4,6 +4,7 @@
 
 #include "GameComponent.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
+#include "Platform.h"
 #include "Patterns/Singleton.h"
 
 class Button : public GameComponent
@@ -20,17 +21,12 @@ public:
 	virtual void OnTriggerExit(Ref<ColliderComponent> other) override;
 
 private:
-	Ref<Actor> m_Platform;
+	Ref<Platform> m_Platform;
 	std::vector<Ref<Button>> m_ConnectedButtons;
 
 	bool m_IsPressed;
 
 #pragma region Serialization
-
-	glm::vec3 m_PlatformRelativeStartPosition;
-	glm::vec3 m_PlatformRelativeEndPosition;
-
-	float m_Speed;
 
 	uint64_t m_PlatformID;
 	std::vector<uint64_t> m_ConnectedButtonsIDs;
