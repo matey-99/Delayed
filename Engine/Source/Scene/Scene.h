@@ -6,16 +6,10 @@
 #include "Material/ShaderLibrary.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/UniformBuffer.h"
+#include "Patterns/Delegate.h"
 
 class Scene
 {
-public:
-	glm::mat4 m_LightSpace;
-
-	unsigned int m_IrradianceMap;
-	unsigned int m_PrefilterMap;
-	unsigned int m_BRDFLUT;
-
 private:
 	std::string m_Name;
 
@@ -23,6 +17,9 @@ private:
 	Ref<Actor> m_UIRoot;
 	std::vector<Ref<Actor>> m_Actors;
 	Ref<CameraComponent> m_CurrentCamera;
+
+	std::vector<Ref<Actor>> m_ActorsAddedRuntime;
+	std::vector<Actor*> m_ActorsDestroyedRuntime;
 
 	glm::vec4 m_BackgroundColor;
 
@@ -52,12 +49,39 @@ public:
 	Ref<Actor> AddActor(std::string path, std::string name);
 	Ref<Actor> AddActor(std::string path, std::string name, Ref<Actor> parent);
 
+	void AddActorToList(Ref<Actor> actor);
+
 	Ref<Actor> AddUIActor(std::string name);
 	Ref<Actor> AddUIActor(uint64_t id, std::string name);
 
 	void RemoveActor(Actor* actor);
 	Ref<Actor> FindActor(std::string name);
 	Ref<Actor> FindActor(uint64_t id);
+
+	void DestroyActor(Actor* actor);
+
+	template <class T>
+	Ref<Actor> SpawnActor(const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), Ref<Actor> parent = nullptr)
+	{
+		Ref<Actor> actor = Actor::Create(this, "SpawnedActor" + std::to_string(m_Actors.size()));
+
+		auto transform = actor->AddComponent<TransformComponent>();
+		if (parent)
+			transform->SetParent(parent->GetTransform().get());
+		else
+			transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
+		actor->SetTransform(transform);
+
+		actor->GetTransform()->SetLocalPosition(position);
+		actor->GetTransform()->SetLocalRotation(rotation);
+		
+		actor->AddComponent<T>();
+
+		m_ActorsAddedRuntime.push_back(actor);
+
+		return actor;
+	}
 
 	template<typename T>
 	Ref<T> FindComponent()

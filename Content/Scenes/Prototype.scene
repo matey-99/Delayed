@@ -881,6 +881,27 @@ Actors:
           Size: [1, 2, 1]
       - Player:
           Camera: 1541634381
+  - Actor: 1503775902
+    ID: 1503775902
+    Name: Ghost
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [40.7097855, 6.73608208, -13.0490322]
+          LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
+          LocalScale: [2, 4, 2]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_Ghost.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Ghost:
+          Player: 1503310902
   - Actor: 1526879318
     ID: 1526879318
     Name: Cube (63)
@@ -1154,7 +1175,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-2.34000015, 4.39041138, 4.14000034]
+          LocalPosition: [-2.34000015, -5.14698553, 4.14000034]
           LocalRotation: [90, -0, 0]
           LocalScale: [0.120000005, 0.119999997, 0.119999997]
           Parent: 2141099751
@@ -1372,7 +1393,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-2.34000015, 4.26375961, 12.841382]
+          LocalPosition: [-2.34000015, 4.26375961, 14.2984285]
           LocalRotation: [90, -0, 0]
           LocalScale: [0.120000005, 0.119999997, 0.119999997]
           Parent: 2141099751

@@ -49,6 +49,14 @@ void Scene::Update(float deltaTime)
 	{
 		actor->Update(deltaTime);
 	}
+
+	for (auto actor : m_ActorsAddedRuntime)
+		m_Actors.push_back(actor);
+	m_ActorsAddedRuntime.clear();
+
+	for (auto actor : m_ActorsDestroyedRuntime)
+		RemoveActor(actor);
+	m_ActorsDestroyedRuntime.clear();
 }
 
 void Scene::FixedUpdate()
@@ -212,6 +220,11 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name, Ref<Actor> parent
 	return actor;
 }
 
+void Scene::AddActorToList(Ref<Actor> actor)
+{
+	m_Actors.push_back(actor);
+}
+
 Ref<Actor> Scene::AddUIActor(std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
@@ -278,4 +291,9 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 	}
 
 	return Ref<Actor>();
+}
+
+void Scene::DestroyActor(Actor* actor)
+{
+	m_ActorsDestroyedRuntime.push_back(actor);
 }

@@ -23,6 +23,7 @@ public:
 private:
 	Ref<Platform> m_Platform;
 	std::vector<Ref<Button>> m_ConnectedButtons;
+	int m_TriggeringActorsCount;
 
 	bool m_IsPressed;
 

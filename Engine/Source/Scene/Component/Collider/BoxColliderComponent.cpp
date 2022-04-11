@@ -114,7 +114,7 @@ bool BoxColliderComponent::CheckCollisions() {
                     }
                 }
 
-                if (m_Owner->IsDynamic() && !collider->m_IsTrigger) 
+                if (m_Owner->IsDynamic() && !m_IsTrigger && !collider->m_IsTrigger)
                 {
                     float left = m_BoundingBox.Max.x - collider->GetBoundingBox().Min.x;
                     float right = collider->GetBoundingBox().Max.x - m_BoundingBox.Min.x;
