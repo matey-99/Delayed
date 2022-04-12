@@ -10,19 +10,33 @@ class PostProcessingPass
 private:
 	struct PostProcessingSettings
 	{
+		//glm::vec2 Resolution = glm::vec2(1920, 1080);
+
 		// Basic
-		float Gamma = 2.2f;
+		//float Gamma = 2.2f;
+		float Gamma = 0.0f;
+		float Gain = 0.0f;
+		float Lift = 0.0f;
+		float Offset = 0.0f;
 		float Exposure = 1.0f;
+		float Contrast = 1.0f;
+		float ContrastPivot = 0.5f;
+
 
 		// Bloom
 		bool BloomEnabled = true;
 
-		float BloomThreshold = 1.0f;
+		float BloomThreshold = 2.0f;
 		float BloomLimit = 20.0f;
 		float BloomIntensity = 0.8f;
 		float BloomBlurSigma = 3.6f;
 
 		// Lens Flare
+
+		// Color Grading
+		float Saturation = 1.0f;
+		float Temperature = 66.0f;
+		float Hue = 180.0f;
 	};
 
 public:
