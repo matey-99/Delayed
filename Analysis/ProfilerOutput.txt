@@ -1,0 +1,64 @@
+Profile Name: GBuffer Pass
+System Time: Tue Apr 12 13:48:32 2022
+Frame: 160
+Execution Time: 0.001568
+Profile Name: Shadows Pass
+System Time: Tue Apr 12 13:48:32 2022
+Frame: 160
+Execution Time: 0.000585
+Profile Name: SSAO Pass
+System Time: Tue Apr 12 13:48:32 2022
+Frame: 160
+Execution Time: 0.000308
+Profile Name: Lighting Pass
+System Time: Tue Apr 12 13:48:32 2022
+Frame: 160
+Execution Time: 0.000147
+Profile Name: GBuffer Pass
+System Time: Tue Apr 12 13:48:38 2022
+Frame: 315
+Execution Time: 0.002090
+Profile Name: Shadows Pass
+System Time: Tue Apr 12 13:48:38 2022
+Frame: 315
+Execution Time: 0.000723
+Profile Name: SSAO Pass
+System Time: Tue Apr 12 13:48:38 2022
+Frame: 315
+Execution Time: 0.000250
+Profile Name: Lighting Pass
+System Time: Tue Apr 12 13:48:38 2022
+Frame: 315
+Execution Time: 0.000131
+Profile Name: GBuffer Pass
+System Time: Tue Apr 12 13:48:43 2022
+Frame: 469
+Execution Time: 0.000876
+Profile Name: Shadows Pass
+System Time: Tue Apr 12 13:48:43 2022
+Frame: 469
+Execution Time: 0.000335
+Profile Name: SSAO Pass
+System Time: Tue Apr 12 13:48:43 2022
+Frame: 469
+Execution Time: 0.000179
+Profile Name: Lighting Pass
+System Time: Tue Apr 12 13:48:43 2022
+Frame: 469
+Execution Time: 0.000085
+Profile Name: GBuffer Pass
+System Time: Tue Apr 12 13:48:49 2022
+Frame: 625
+Execution Time: 0.001045
+Profile Name: Shadows Pass
+System Time: Tue Apr 12 13:48:49 2022
+Frame: 625
+Execution Time: 0.000352
+Profile Name: SSAO Pass
+System Time: Tue Apr 12 13:48:49 2022
+Frame: 625
+Execution Time: 0.000184
+Profile Name: Lighting Pass
+System Time: Tue Apr 12 13:48:49 2022
+Frame: 625
+Execution Time: 0.000092

@@ -19,6 +19,7 @@
 #include "RenderPass/DepthOfFieldPass.h"
 #include "RenderPass/UIPass.h"
 #include "RenderTools.h"
+#include "Analysis/Profiler.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -79,16 +80,24 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	m_CameraFragmentUniformBuffer->Unbind();
 
 	// GBuffer
+	PROFILER_START("GBuffer Pass");
 	m_GBufferPass->Render(scene);
+	PROFILER_STOP();
 
 	// Shadows
+	PROFILER_START("Shadows Pass");
 	m_ShadowsPass->Render(scene);
+	PROFILER_STOP();
 
 	// SSAO
+	PROFILER_START("SSAO Pass");
 	m_SSAOPass->Render();
+	PROFILER_STOP();
 		
 	// Lighting
+	PROFILER_START("Lighting Pass");
 	m_LightingPass->Render(scene);
+	PROFILER_STOP();
 	m_Output[outputIndex] = m_LightingPass->GetRenderTarget()->GetTargets()[0];
 
 	// Forward
