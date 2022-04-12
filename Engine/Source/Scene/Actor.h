@@ -5,6 +5,7 @@
 #include "Scene/Component/TransformBaseComponent.h"
 #include "Scene/Component/TransformComponent.h"
 #include "Scene/Component/RenderComponent.h"
+#include "Material/Material.h"
 
 class Scene;
 
@@ -21,7 +22,7 @@ public:
 	void Update(float deltaTime);
 	void FixedUpdate();
 	void PreRender();
-	void Render();
+	void Render(Material::BlendMode blendMode);
 	void Destroy();
 
 	template<typename T, typename ... Args>

@@ -16,6 +16,7 @@
 class GBufferPass;
 class LightingPass;
 class ShadowsPass;
+class ForwardPass;
 class SSAOPass;
 class PostProcessingPass;
 class FXAAPass;
@@ -35,6 +36,7 @@ public:
 	Ref<ShadowsPass> m_ShadowsPass;
 	Ref<SSAOPass> m_SSAOPass;
 	Ref<LightingPass> m_LightingPass;
+	Ref<ForwardPass> m_ForwardPass;
 	Ref<PostProcessingPass> m_PostProcessingPass;
 	Ref<FXAAPass> m_FXAAPass;
 	Ref<DepthOfFieldPass> m_DepthOfFieldPass;

@@ -10,6 +10,7 @@ void MaterialSerializer::Serialize(Ref<Material> material)
 	out << YAML::BeginMap;
 	out << YAML::Key << "Material" << YAML::Value << material->GetName();
 	out << YAML::Key << "ID" << YAML::Value << material->GetID();
+	out << YAML::Key << "BlendMode" << YAML::Value << (uint16_t)material->GetBlendMode();
 	out << YAML::Key << "Shader" << YAML::Value << material->GetShader()->GetName();
 
 	out << YAML::Key << "Bool Parameters" << YAML::Value << YAML::BeginSeq;
@@ -73,9 +74,11 @@ Ref<Material> MaterialSerializer::Deserialize(std::string path)
 
 	std::string name = data["Material"].as<std::string>();
 	uint64_t id = data["ID"].as<uint64_t>();
+	Material::BlendMode blend = (Material::BlendMode)data["BlendMode"].as<uint16_t>();
 	std::string shader = data["Shader"].as<std::string>();
 
 	Ref<Material> material = CreateRef<Material>(id, name, ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, shader));
+	material->m_BlendMode = blend;
 
 	YAML::Node boolParameters = data["Bool Parameters"];
 	if (boolParameters)

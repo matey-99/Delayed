@@ -12,6 +12,7 @@
 #include "Scene/SceneManager.h"
 #include "Camera/CameraManager.h"
 #include "Content/ContentHelper.h"
+#include "Analysis/Profiler.h"
 
 Ref<Application> Application::s_Instance{};
 
@@ -89,6 +90,10 @@ void Application::Run()
     // TIME
     auto time = Time::GetInstance();
 
+    // ANALYSIS
+    auto profiler = Profiler::GetInstance();
+    profiler->SetEnabled(true);
+
     // INPUT
     auto input = Input::GetInstance();
     input->Initialize(m_Window);
@@ -129,6 +134,9 @@ void Application::Run()
         // RENDER
         renderer->Render(scene, cameraManager->GetMainCamera());
         renderer->Display();
+
+        // ANALYSIS
+        profiler->Update();
 
         glfwSwapBuffers(m_Window);
     }

@@ -11,6 +11,7 @@
 #include "Component/TransformComponent.h"
 #include "Component/UI/RectTransformComponent.h"
 #include "Camera/CameraManager.h"
+#include "Math/Math.h"
 
 Scene::Scene()
 {
@@ -48,6 +49,14 @@ void Scene::Update(float deltaTime)
 	{
 		actor->Update(deltaTime);
 	}
+
+	for (auto actor : m_ActorsAddedRuntime)
+		m_Actors.push_back(actor);
+	m_ActorsAddedRuntime.clear();
+
+	for (auto actor : m_ActorsDestroyedRuntime)
+		RemoveActor(actor);
+	m_ActorsDestroyedRuntime.clear();
 }
 
 void Scene::FixedUpdate()
@@ -57,14 +66,6 @@ void Scene::FixedUpdate()
 }
 
 void Scene::PreRender()
-{
-	for (auto actor : m_Actors)
-	{
-		actor->PreRender();
-	}
-}
-
-void Scene::Render()
 {
 	m_ChangedSinceLastFrame = false;
 
@@ -76,14 +77,35 @@ void Scene::Render()
 	m_LightsFragmentUniformBuffer->SetUniform(GLSL_SCALAR_SIZE, GLSL_SCALAR_SIZE, &spotLightsCount);
 	m_LightsFragmentUniformBuffer->Unbind();
 
-	RenderActor(GetRoot().get());
+	for (auto actor : m_Actors)
+	{
+		actor->PreRender();
+	}
+}
+
+void Scene::Render(Material::BlendMode blendMode)
+{
+	std::vector<Actor*> actors;
+	GetEnabledActors(m_Root.get(), actors);
+
+	// Set order of rendering actors in Forward Rendering
+	if (blendMode == Material::BlendMode::Transparent)
+	{
+		auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
+		SortActorsByDistance(actors, cameraPosition, false);
+	}
+
+	// TO DO: Frustum Culling
+
+	for (auto actor : actors)
+		actor->Render(blendMode);
 }
 
 void Scene::Destroy()
 {
 }
 
-void Scene::RenderActor(Actor* actor)
+void Scene::GetEnabledActors(Actor* actor, std::vector<Actor*>& output)
 {
 	if (!actor->IsEnabled())
 	{
@@ -92,17 +114,26 @@ void Scene::RenderActor(Actor* actor)
 
 		return;
 	}
-
-	actor->Render();
+	
+	output.push_back(actor);
 
 	if (!actor->GetTransform()->GetChildren().empty())
 	{
 		for (auto child : actor->GetTransform()->GetChildren())
 		{
-			RenderActor(child->GetOwner());
+			GetEnabledActors(child->GetOwner(), output);
 		}
 	}
+}
 
+void Scene::SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending)
+{
+	std::sort(actors.begin(), actors.end(), [point, ascending](Actor* a1, Actor* a2) {
+		float a1Distance = Math::Distance(a1->GetTransform()->GetWorldPosition(), point);
+		float a2Distance = Math::Distance(a2->GetTransform()->GetWorldPosition(), point);
+
+		return ascending ? a1Distance < a2Distance : a1Distance > a2Distance;
+		});
 }
 
 Ref<Actor> Scene::AddRoot()
@@ -189,6 +220,11 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name, Ref<Actor> parent
 	return actor;
 }
 
+void Scene::AddActorToList(Ref<Actor> actor)
+{
+	m_Actors.push_back(actor);
+}
+
 Ref<Actor> Scene::AddUIActor(std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
@@ -255,4 +291,9 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 	}
 
 	return Ref<Actor>();
+}
+
+void Scene::DestroyActor(Actor* actor)
+{
+	m_ActorsDestroyedRuntime.push_back(actor);
 }

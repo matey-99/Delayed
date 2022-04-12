@@ -22,6 +22,8 @@ namespace Math
 
 	float Distance(const glm::vec3& a, const glm::vec3& b);
 
+	bool IsNearlyEqual(const glm::vec3& a, const glm::vec3& b, float errorTolerance = 0.001f);
+
 	glm::vec3 Normalize(const glm::vec3& v);
 
 	const float Infinity = std::numeric_limits<float>::infinity();

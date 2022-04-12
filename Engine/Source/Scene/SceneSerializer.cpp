@@ -19,6 +19,7 @@
 #include "Game/MainMenu.h"
 #include "Game/Player.h"
 #include "Game/Button.h"
+#include "Game/Ghost.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -314,7 +315,30 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto button = component["Button"])
 					{
-						a->AddComponent<Button>();
+						uint64_t platformActorID = button["Platform"].as<uint64_t>();
+
+						auto b = a->AddComponent<Button>();
+						b->m_PlatformID = platformActorID;
+					}
+
+					if (auto platform = component["Platform"])
+					{
+						glm::vec3 direction = platform["Direction"].as<glm::vec3>();
+						float distance = platform["Distance"].as<float>();
+						float speed = platform["Speed"].as<float>();
+
+						auto p = a->AddComponent<Platform>();
+						p->m_Direction = direction;
+						p->m_Distance = distance;
+						p->m_Speed = speed;
+					}
+
+					if (auto ghost = component["Ghost"])
+					{
+						uint64_t playerActorID = ghost["Player"].as<uint64_t>();
+
+						auto g = a->AddComponent<Ghost>();
+						g->m_PlayerID = playerActorID;
 					}
 				}
 			}
@@ -587,6 +611,29 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Button";
 		out << YAML::BeginMap;
+		out << YAML::Key << "Platform" << YAML::Value << button->m_Platform->GetOwner()->GetID();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto platform = actor->GetComponent<Platform>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Platform";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Direction" << YAML::Value << platform->m_Direction;
+		out << YAML::Key << "Distance" << YAML::Value << platform->m_Distance;
+		out << YAML::Key << "Speed" << YAML::Value << platform->m_Speed;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto ghost = actor->GetComponent<Ghost>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Ghost";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Player" << YAML::Value << ghost->m_PlayerActor->GetID();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

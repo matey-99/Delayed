@@ -45,13 +45,9 @@ void MeshComponent::PreRender()
 {
 }
 
-void MeshComponent::Render()
+void MeshComponent::Render(Material::BlendMode blendMode)
 {
-	for (auto material : GetMaterials())
-	{
-		material->Use();
-		material->GetShader()->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
-	}
+
 }
 
 void MeshComponent::Destroy()

@@ -1,5 +1,6 @@
 Material: M_PlatformSmall00
 ID: 760324857
+BlendMode: 0
 Shader: Standard
 Bool Parameters:
   - Name: u_Material.isAOMap
@@ -7,7 +8,7 @@ Bool Parameters:
   - Name: u_Material.isOpacityMap
     Value: false
   - Name: u_Material.isMetallicMap
-    Value: false
+    Value: true
   - Name: u_Material.isAlbedoMap
     Value: true
   - Name: u_Material.isEmissiveMap
@@ -17,7 +18,7 @@ Bool Parameters:
   - Name: u_MaterialVS.flipVerticallyUV
     Value: true
   - Name: u_Material.isRoughnessMap
-    Value: false
+    Value: true
 Float Parameters:
   - Name: u_Material.ao
     Value: 0
@@ -38,14 +39,14 @@ Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"
   - Name: u_Material.metallicMap
-    Path: "null"
+    Path: Textures/PlatformSmall/platformSmall00_mdl_Metallic.png
   - Name: u_Material.albedoMap
-    Path: Models/PlatformSmall00/Materials/platformSmall00_mdl_platformSmall00_AlbedoTransparency.png
+    Path: Textures/PlatformSmall/platformSmall00_mdl_BaseColor.png
   - Name: u_Material.aoMap
-    Path: Models/PlatformSmall00/Materials/platformSmall00_mdl_platformSmall00_AO.png
+    Path: Textures/PlatformSmall/platformSmall00_mdl_AO.png
   - Name: u_Material.emissiveMap
     Path: "null"
   - Name: u_Material.normalMap
-    Path: Models/PlatformSmall00/Materials/platformSmall00_mdl_platformSmall00_Normal.png
+    Path: Textures/PlatformSmall/platformSmall00_mdl_Normal.png
   - Name: u_Material.roughnessMap
-    Path: "null"
+    Path: Textures/PlatformSmall/platformSmall00_mdl_Roughness.png

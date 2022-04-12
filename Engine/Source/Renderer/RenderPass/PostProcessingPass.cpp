@@ -50,7 +50,7 @@ PostProcessingPass::~PostProcessingPass()
 {
 }
 
-void PostProcessingPass::Render()
+void PostProcessingPass::Render(uint32_t input)
 {
 	// Bloom
 	if (m_Settings.BloomEnabled)
@@ -63,7 +63,7 @@ void PostProcessingPass::Render()
 		glDisable(GL_DEPTH_TEST);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_LightingPass->GetRenderTarget()->GetTargets()[0]);
+		glBindTexture(GL_TEXTURE_2D, input);
 
 		auto thresholdShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Threshold");
 		thresholdShader->Use();
@@ -186,7 +186,7 @@ void PostProcessingPass::Render()
 	glDisable(GL_CULL_FACE);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_LightingPass->GetRenderTarget()->GetTargets()[0]);
+	glBindTexture(GL_TEXTURE_2D, input);
 
 	auto postProcessingShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "PostProcessing");
 	postProcessingShader->Use();

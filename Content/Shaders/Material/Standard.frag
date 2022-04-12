@@ -8,7 +8,8 @@ layout (location = 0) out vec4 f_Color;
 layout (location = 0) in vec3 v_Position;
 layout (location = 1) in vec3 v_Normal;
 layout (location = 2) in vec2 v_TexCoord;
-layout (location = 3) in vec4[MAX_SPOT_LIGHTS] v_SpotLightSpacePositions;
+layout (location = 3) in vec4 v_ViewPosition;
+layout (location = 4) in vec4[MAX_SPOT_LIGHTS] v_SpotLightSpacePositions;
 
 struct Material
 {
@@ -42,17 +43,12 @@ struct DirectionalLight
 {
     vec3 direction;
     vec3 color;
-
-    bool shadowsEnabled;
 };
 
 struct PointLight
 {
     vec3 position;
     vec3 color;
-
-    bool shadowsEnabled;
-    float farPlane;
 };
 
 struct SpotLight
@@ -62,8 +58,6 @@ struct SpotLight
     vec3 color;
     float innerCutOff;
     float outerCutOff;
-
-    bool shadowsEnabled;
 };
 
 layout (std140, binding = 0) uniform u_VertexCamera
@@ -75,7 +69,12 @@ layout (std140, binding = 0) uniform u_VertexCamera
 
 layout (std140, binding = 1) uniform u_VertexLights
 {
+    // Directional Light
     mat4 u_DirectionalLightSpaceMatrices[16];
+    int u_CascadeCount;
+    float u_CascadeClipPlaneDistances[4];
+
+    // Spot Light
     mat4[MAX_SPOT_LIGHTS] u_SpotLightSpaceMatrices;
 };
 
@@ -96,27 +95,11 @@ layout (std140, binding = 3) uniform u_FragmentLights
 };
 
 layout (location = 2) uniform Material u_Material;
-layout (location = 23) uniform bool u_IsSkyLight;
-layout (location = 24) uniform float u_SkyLightIntensity;
-layout (location = 25) uniform samplerCube u_IrradianceMap;
-layout (location = 26) uniform samplerCube u_PrefilterMap;
-layout (location = 27) uniform sampler2D u_BRDFLUT;
-layout (location = 28) uniform sampler2DArray u_DirectionalLightShadowMap;
-layout (location = 29) uniform int u_CascadeCount;
-layout (location = 30) uniform float[4] u_CascadeClipPlaneDistances;
-layout (location = 34) uniform samplerCube[MAX_POINT_LIGHTS] u_PointLightShadowMaps;
-layout (location = 34 + MAX_POINT_LIGHTS) uniform sampler2D[MAX_SPOT_LIGHTS] u_SpotLightShadowMaps;
+layout (location = 23) uniform sampler2DArray u_DirectionalLightShadowMaps;
+layout (location = 24) uniform vec3 u_SkyLightColor;
+layout (location = 25) uniform float u_SkyLightIntensity;
 
 const float PI = 3.14159265359;
-
-vec3 sampleOffsetDirections[20] = vec3[]
-(
-    vec3(1, 1,  1), vec3( 1, -1,  1), vec3(-1, -1,  1), vec3(-1, 1,  1),
-    vec3(1, 1, -1), vec3( 1, -1, -1), vec3(-1, -1, -1), vec3(-1, 1, -1),
-    vec3(1, 1,  0), vec3( 1, -1,  0), vec3(-1, -1,  0), vec3(-1, 1,  0),
-    vec3(1, 0,  1), vec3(-1,  0,  1), vec3( 1,  0, -1), vec3(-1, 0, -1),
-    vec3(0, 1,  1), vec3( 0, -1,  1), vec3( 0, -1, -1), vec3( 0, 1, -1)
-);
 
 vec3 GetNormalFromNormalMap()
 {
@@ -237,107 +220,59 @@ vec3 CalculateSpotLight(SpotLight light, vec3 V, vec3 albedo, vec3 N, float meta
     return CalculateLight(L, V, albedo, N, metallic, roughness) * intensity * radiance;
 }
 
-float CalculateDirectionalLightShadow(vec3 normal)
-{
-    vec4 viewSpace = u_View * vec4(v_Position, 1.0);
-    float depthValue = abs(viewSpace.z);
+// TO DO: FIX
+// float CalculateDirectionalLightShadow(vec3 position, vec3 normal)
+// {
+//     vec4 viewSpace = u_View * vec4(position, 1.0);
+//     float depthValue = abs(viewSpace.z);
 
-    int layer = -1;
-    for (int i = 0; i < u_CascadeCount; i++)
-    {
-        if (depthValue < u_CascadeClipPlaneDistances[i])
-        {
-            layer = i;
-            break;
-        }
-    }
-    if (layer == -1)
-            layer = u_CascadeCount;
+//     int layer = -1;
+//     for (int i = 0; i < u_CascadeCount; i++)
+//     {
+//         if (depthValue < u_CascadeClipPlaneDistances[i])
+//         {
+//             layer = i;
+//             break;
+//         }
+//     }
+//     if (layer == -1)
+//             layer = u_CascadeCount;
     
-    vec4 lightSpace = u_DirectionalLightSpaceMatrices[layer] * vec4(v_Position, 1.0);
-    vec3 projectionCoords = lightSpace.xyz / lightSpace.w;
-    projectionCoords = projectionCoords * 0.5 + 0.5;
+//     vec4 lightSpace = u_DirectionalLightSpaceMatrices[layer] * vec4(position, 1.0);
+//     vec3 projectionCoords = lightSpace.xyz / lightSpace.w;
+//     projectionCoords = projectionCoords * 0.5 + 0.5;
 
-    float currentDepth = projectionCoords.z;
+//     float currentDepth = projectionCoords.z;
 
-    if (currentDepth > 1.0)
-        return 0.0;
+//     if (currentDepth > 1.0)
+//         return 0.0;
 
-    float bias = max(0.05 * (1.0 - dot(normal, u_DirectionalLight.direction)), 0.005);
-    float biasModifier = 0.5;
-    if (layer == u_CascadeCount)
-        bias *= 1 / (u_CameraFarClipPlane * biasModifier);
-    else
-        bias *= 1 / (u_CascadeClipPlaneDistances[layer] * biasModifier);
+//     float bias = max(0.05 * (1.0 - dot(normal, u_DirectionalLight.direction)), 0.005);
+//     float biasModifier = 0.5;
+//     if (layer == u_CascadeCount)
+//         bias *= 1 / (u_CameraFarClipPlane * biasModifier);
+//     else
+//         bias *= 1 / (u_CascadeClipPlaneDistances[layer] * biasModifier);
 
-    // PCF
-    float shadow = 0.0;
-    vec2 texelSize = 1.0 / vec2(textureSize(u_DirectionalLightShadowMap, 0));
-    for (int x = -1; x <= 1; ++x)
-    {
-        for (int y = -1; y <= 1; ++y)
-        {
-            float pcfDepth = texture(u_DirectionalLightShadowMap, vec3(projectionCoords.xy + vec2(x, y) * texelSize, layer)).r;
-            shadow += (currentDepth - bias) > pcfDepth ? 1.0 : 0.0;
-        }
-    }
+//     // PCF
+//     float shadow = 0.0;
+//     vec2 texelSize = 1.0 / vec2(textureSize(u_DirectionalLightShadowMaps, 0));
+//     for (int x = -1; x <= 1; ++x)
+//     {
+//         for (int y = -1; y <= 1; ++y)
+//         {
+//             float pcfDepth = texture(u_DirectionalLightShadowMaps, vec3(projectionCoords.xy + vec2(x, y) * texelSize, layer)).r;
+//             shadow += (currentDepth - bias) > pcfDepth ? 1.0 : 0.0;
+//         }
+//     }
 
-    shadow /= 9.0;
+//     shadow /= 9.0;
 
-    if (projectionCoords.z > 1.0)
-        shadow = 0.0;
+//     if (projectionCoords.z > 1.0)
+//         shadow = 0.0;
 
-    return shadow;
-}
-
-float CalculatePointLightShadow(PointLight light, samplerCube lightShadowMap, vec3 position)
-{
-    vec3 fragToLight = position - light.position;
-    float currentDepth = length(fragToLight);
-
-    float shadow = 0.0;
-    float bias = 0.005;
-    int samples = 20;
-    float viewDistance = length(u_ViewPosition - v_Position);
-    float diskRadius = (1.0 + (viewDistance / light.farPlane)) / 25.0;
-    for (int i = 0; i < samples; i++)
-    {
-        float closestDepth = texture(lightShadowMap, fragToLight + sampleOffsetDirections[i] * diskRadius).r;
-        closestDepth *= light.farPlane;
-        if (currentDepth - bias > closestDepth)
-            shadow += 1.0;
-    }
-    shadow /= float(samples);
-
-    return shadow;
-}
-
-float CalculateSpotLightShadow(SpotLight light, vec4 lightSpacePosition, sampler2D lightShadowMap, vec3 normal)
-{
-    vec3 projectionCoords = lightSpacePosition.xyz / lightSpacePosition.w;
-    projectionCoords = projectionCoords * 0.5 + 0.5;
-    float closestDepth = texture(lightShadowMap, projectionCoords.xy).r;
-    float currentDepth = projectionCoords.z;
-
-    float bias = max(0.00025 * (1.0 - dot(normal, light.direction)), 0.000005);
-    float shadow = 0.0;
-    vec2 texelSize = 1.0 / textureSize(lightShadowMap, 0);
-    for (int x = -1; x < 1; ++x)
-    {
-        for (int y = -1; y <= 1; ++y)
-        {
-            float pcfDepth = texture(lightShadowMap, projectionCoords.xy + vec2(x, y) * texelSize).r;
-            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
-        }
-    }
-
-    shadow /= 9.0;
-
-    if (projectionCoords.z > 1.0)
-        shadow = 0.0;
-
-    return shadow;
-}
+//     return shadow;
+// }
 
 void main()
 {
@@ -379,65 +314,35 @@ void main()
         opacity = u_Material.opacity;
 
     if (u_Material.isEmissiveMap)
-        emissive = texture(u_Material.emissiveMap, v_TexCoord).rgb;
+        emissive = texture(u_Material.emissiveMap, v_TexCoord).rgb * u_Material.emissiveStrength;
     else
-        emissive = u_Material.emissive;
+        emissive = u_Material.emissive * u_Material.emissiveStrength;
 
-    if (opacity < 0.1)
+    if (opacity < 0.01)
         discard;
 
     vec3 V = normalize(u_ViewPosition - v_Position);
-    vec3 R = reflect(-V, N);
 
     vec3 F0 = vec3(0.04);
     F0 = mix(F0, albedo, metallic);
 
     vec3 Lo = vec3(0.0);
+
+    // Directional Light
+    float shadow = 0.0;
+    // shadow = CalculateDirectionalLightShadow(v_Position, N);
+    // shadow = clamp(shadow, 0.0, 1.0);
+
     Lo += CalculateDirectionalLight(u_DirectionalLight, V, albedo, N, metallic, roughness);
+    Lo *= (1 - shadow);
+
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
         Lo += CalculatePointLight(u_PointLights[i], V, albedo, N, metallic, roughness);
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         Lo += CalculateSpotLight(u_SpotLights[i], V, albedo, N, metallic, roughness);
 
-    vec3 F = FresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness);
-    vec3 kS = F;
-    vec3 kD = 1.0 - kS;
-    kD *= 1.0 - metallic;
+    vec3 ambient = u_SkyLightColor * u_SkyLightIntensity * albedo * ao;
 
-    vec3 diffuse, specular;
-
-    if (u_IsSkyLight)
-    {
-        vec3 irradiance = texture(u_IrradianceMap, N).rgb;
-        diffuse = irradiance * albedo * u_SkyLightIntensity;
-
-        const float MAX_REFLECTION_LOD = 4.0;
-        vec3 prefilteredColor = textureLod(u_PrefilterMap, R, roughness * MAX_REFLECTION_LOD).rgb;
-        vec2 brdf = texture(u_BRDFLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
-        specular = prefilteredColor * (F * brdf.x + brdf.y) * u_SkyLightIntensity;
-    }
-    else
-    {
-        diffuse = vec3(0.0);
-        specular = vec3(0.0);
-    }
-
-    float shadow = 0.0;
-    if (u_DirectionalLight.shadowsEnabled)
-        shadow += CalculateDirectionalLightShadow(N);
-
-    for (int i = 0; i < MAX_POINT_LIGHTS; i++)
-        if (u_PointLights[i].shadowsEnabled)
-            shadow += CalculatePointLightShadow(u_PointLights[i], u_PointLightShadowMaps[i], v_Position);
-
-    for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
-        if (u_SpotLights[i].shadowsEnabled)
-            shadow += CalculateSpotLightShadow(u_SpotLights[i], v_SpotLightSpacePositions[i], u_SpotLightShadowMaps[i], N);      
-
-    shadow = clamp(shadow, 0.0, 1.0);
-
-    vec3 ambient = (kD * diffuse + specular) * ao;
-    vec3 color = ambient * (1 - shadow) + Lo + emissive * u_Material.emissiveStrength;
-
-    f_Color = vec4(color, 1.0);
+    vec3 color = ambient + Lo + emissive;
+    f_Color = vec4(color, opacity);
 }

@@ -12,6 +12,7 @@
 #include "Scene/Component/RigidBodyComponent.h"
 #include "Physics/Physics.h"
 #include "CharacterController.h"
+#include "GhostPathElement.h"
 
 Player::Player(Actor* owner)
 	: GameComponent(owner)
@@ -83,6 +84,8 @@ void Player::Update(float deltaTime)
 	// Reset move direction & rotation
 	m_MoveDirection = glm::vec3(0.0f);
 	m_Rotation = glm::vec3(0.0f);
+
+	//m_Owner->GetScene()->SpawnActor<GhostPathElement>(m_Owner->GetTransform()->GetWorldPosition());
 }
 
 void Player::MoveForward(float value)

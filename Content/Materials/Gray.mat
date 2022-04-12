@@ -1,5 +1,6 @@
 Material: Gray
 ID: 474772153
+BlendMode: 0
 Shader: Standard
 Bool Parameters:
   - Name: u_Material.isAOMap

@@ -15,7 +15,9 @@ public:
 	virtual void Destroy() override;
 
 	virtual glm::vec3 GetWorldPosition() override;
-	virtual glm::vec3 GetDirection() override;
+	virtual glm::vec3 GetFront() override;
+	virtual glm::vec3 GetRight() override;
+	virtual glm::vec3 GetUp() override;
 
 	virtual glm::vec2 GetAspectRatio() override;
 	virtual float GetFieldOfView() override;

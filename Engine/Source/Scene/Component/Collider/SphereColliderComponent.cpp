@@ -20,10 +20,6 @@ void SphereColliderComponent::Start() {
 }
 
 void SphereColliderComponent::Update(float deltaTime) {
-    glm::vec3 deltaPosition = m_Owner->GetTransform()->GetWorldPosition() - m_OwnerLastPosition;
-    m_OwnerLastPosition = m_Owner->GetTransform()->GetWorldPosition();
-
-    m_BoundingSphere = BoundingSphere(m_BoundingSphere.Center + deltaPosition, m_BoundingSphere.Radius);
 }
 
 void SphereColliderComponent::FixedUpdate()
@@ -55,11 +51,10 @@ bool SphereColliderComponent::IsIntersect(const glm::vec3& point)
 
 glm::vec3 SphereColliderComponent::ClosestPoint(glm::vec3 point) {
     glm::vec3 t = point - m_BoundingSphere.Center;
-    return glm::normalize(t) * m_BoundingSphere.Radius;
+    return m_BoundingSphere.Center + (glm::normalize(t) * m_BoundingSphere.Radius);
 }
 
-
-
+//FIXME jittery collisions
 bool SphereColliderComponent::CheckCollisions() {
     auto scene = m_Owner->GetScene();
     auto actors = scene->GetActors();
@@ -74,17 +69,6 @@ bool SphereColliderComponent::CheckCollisions() {
                               (collider->GetBoundingSphere().Radius + m_BoundingSphere.Radius - glm::length(d));
 
                 if (m_Owner->IsDynamic()) {
-                    if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z)) {
-                        v.y = 0;
-                        v.z = 0;
-                    } else if (glm::abs(v.y) < glm::abs(v.x) && glm::abs(v.y) < glm::abs(v.z)) {
-                        v.x = 0;
-                        v.z = 0;
-                    } else if (glm::abs(v.z) < glm::abs(v.x) && glm::abs(v.z) < glm::abs(v.y)) {
-                        v.x = 0;
-                        v.y = 0;
-                    }
-
                     m_Owner->GetTransform()->SetWorldPosition(m_Owner->GetTransform()->GetWorldPosition() + v);
                 }
             }
