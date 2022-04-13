@@ -100,6 +100,11 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthMapPerspective.vert"),
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthMapPerspective.frag"))));
 
+    m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthFog",
+            CreateRef<Shader>("DepthFog",
+                              ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
+                              ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthFog.frag"))));
+
 	// SKYBOX SHADERS
 	m_SkyboxShaders.insert(std::make_pair<std::string, Ref<Shader>>("Skybox", 
 		CreateRef<Shader>("Skybox", 

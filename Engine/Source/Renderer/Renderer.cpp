@@ -19,6 +19,7 @@
 #include "RenderPass/VignettePass.h"
 #include "RenderPass/DepthOfFieldPass.h"
 #include "RenderPass/UIPass.h"
+#include "RenderPass/DepthFogPass.h"
 #include "RenderTools.h"
 #include "Analysis/Profiler.h"
 
@@ -58,6 +59,7 @@ void Renderer::Initialize()
 	m_VignettePass = CreateRef<VignettePass>();
 	m_DepthOfFieldPass = CreateRef<DepthOfFieldPass>();
 	m_UIPass = CreateRef<UIPass>();
+    m_DepthFogPass = CreateRef<DepthFogPass>();
 
 	m_Output[0] = 0;
 	m_Output[1] = 0;
@@ -104,6 +106,10 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 
 	// Forward
 	m_ForwardPass->Render(scene);
+
+    // Depth Fog
+    m_DepthFogPass->Render(m_Output[outputIndex]);
+    m_Output[outputIndex] = m_DepthFogPass->GetRenderTarget()->GetTargets()[0];
 
 	// Post Processing
 	if (m_Settings.PostProcessingEnabled)
