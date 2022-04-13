@@ -41,10 +41,10 @@ void DepthFogPass::Render(uint32_t input) {
     depthFogShader->Use();
     depthFogShader->SetInt("u_GBufferPosition", 0);
     depthFogShader->SetInt("u_Screen", 1);
-    depthFogShader->SetFloat("u_FogMinimalDistance", 10.0f);
-    depthFogShader->SetFloat("u_FogMaximumDistance", 100.0f);
-    depthFogShader->SetFloat("u_Density", 0.2f);
-    depthFogShader->SetVec4("u_FogColor", color);
+    depthFogShader->SetFloat("u_FogMinimalDistance", m_Settings.MinDistance);
+    depthFogShader->SetFloat("u_FogMaximumDistance", m_Settings.MaxDistance);
+    depthFogShader->SetFloat("u_Density", m_Settings.Density);
+    depthFogShader->SetVec3("u_FogColor", m_Settings.Color);
 
     RenderTools::GetInstance()->RenderQuad();
 

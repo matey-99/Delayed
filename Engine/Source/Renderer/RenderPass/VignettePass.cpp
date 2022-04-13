@@ -32,8 +32,8 @@ void VignettePass::Render(uint32_t input)
 	auto vignetteShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Vignette");
 	vignetteShader->Use();
 	vignetteShader->SetInt("u_SourceTexture", 0);
-	//fxaaShader->SetVec2("u_InverseScreenSize", glm::vec2(1.0f / m_RenderTarget->GetWidth(), 1.0f / m_RenderTarget->GetHeight()));
-
+	vignetteShader->SetFloat("u_Intensity", m_Settings.Intensity);
+	vignetteShader->SetFloat("u_Size", m_Settings.Size);
 	RenderTools::GetInstance()->RenderQuad();
 
 	glEnable(GL_DEPTH_TEST);

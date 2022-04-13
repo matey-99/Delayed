@@ -4,6 +4,9 @@
 #include "Renderer/RenderPass/SSAOPass.h"
 #include "Renderer/RenderPass/DepthOfFieldPass.h"
 #include "Renderer/RenderPass/UIPass.h"
+#include "Renderer/RenderPass/DepthFogPass.h"
+#include "Renderer/RenderPass/VignettePass.h"
+#include <glm/gtc/type_ptr.hpp>
 
 RendererSettingsPanel::RendererSettingsPanel(Ref<Editor> editor, Ref<Renderer> renderer)
     : m_Editor(editor), m_Renderer(renderer)
@@ -42,6 +45,18 @@ void RendererSettingsPanel::Render()
     ImGui::DragFloat("Min Distance", &m_Renderer->m_DepthOfFieldPass->m_Settings.MinDistance, 0.1f, 0.1f, 20.0f);
     ImGui::DragFloat("Max Distance", &m_Renderer->m_DepthOfFieldPass->m_Settings.MaxDistance, 0.1f, 0.1f, 100.0f);
     ImGui::DragInt("Blur Size", &m_Renderer->m_DepthOfFieldPass->m_Settings.Size, 1, 1, 4);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("Depth Fog");
+    ImGui::DragFloat("Fog Min Distance", &m_Renderer->m_DepthFogPass->m_Settings.MinDistance, 0.1f, 0.1f, 20.0f);
+    ImGui::DragFloat("Fog Max Distance", &m_Renderer->m_DepthFogPass->m_Settings.MaxDistance, 0.1f, 0.1f, 200.0f);
+    ImGui::DragFloat("Fog Density", &m_Renderer->m_DepthFogPass->m_Settings.Density, 0.01f, 0.01f, 1.0f);
+    ImGui::ColorEdit3("Fog Color", glm::value_ptr(m_Renderer->m_DepthFogPass->m_Settings.Color));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("Vignette");
+    ImGui::DragFloat("Vignette Intensity", &m_Renderer->m_VignettePass->m_Settings.Intensity, 0.1f, 0.1f, 50.0f);
+    ImGui::DragFloat("Vignette Size", &m_Renderer->m_VignettePass->m_Settings.Size, 0.01f, 0.01f, 1.0f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("General");
