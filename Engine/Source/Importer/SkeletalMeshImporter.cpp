@@ -49,10 +49,10 @@ void SkeletalMeshImporter::SetVertexBoneData(SkinnedVertex& vertex, int boneID, 
 {
 	for (int i = 0; i < 4; ++i)
 	{
-		if (vertex.boneIDs[i] < 0)
+		if (vertex.BoneIDs[i] < 0)
 		{
-			vertex.weights[i] = weight;
-			vertex.boneIDs[i] = boneID;
+			vertex.Weights[i] = weight;
+			vertex.BoneIDs[i] = boneID;
 			break;
 		}
 	}
@@ -64,8 +64,8 @@ void SkeletalMeshImporter::SetVertexBoneDataToDefault(SkinnedVertex& vertex)
 
 	for (int i = 0; i < MAX_BONE_INFLUENCE; i++)
 	{
-		vertex.boneIDs[i] = -1;
-		vertex.weights[i] = 0.0f;
+		vertex.BoneIDs[i] = -1;
+		vertex.Weights[i] = 0.0f;
 	}
 }
 
@@ -85,8 +85,8 @@ void SkeletalMeshImporter::ExtractBoneWeightForVertices(
 		if (boneInfoMap.find(boneName) == boneInfoMap.end())
 		{
 			BoneInfo newBoneInfo;
-			newBoneInfo.id = boneCounter;
-			newBoneInfo.offset = AssimpGLMHelpers::ConvertMatrixToGLMFormat(mesh->mBones[boneIndex]->mOffsetMatrix);
+			newBoneInfo.Id = boneCounter;
+			newBoneInfo.Offset = AssimpGLMHelpers::ConvertMatrixToGLMFormat(mesh->mBones[boneIndex]->mOffsetMatrix);
 			boneInfoMap[boneName] = newBoneInfo;
 			boneID = boneCounter;
 			boneCounter++;
@@ -182,9 +182,7 @@ SkeletalMesh SkeletalMeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scen
 		ExtractBoneWeightForVertices(vertices, mesh, scene, boneCounter, boneInfoMap);
 	}
 
-<<<<<<< Updated upstream
 	return SkeletalMesh(vertices, indices, boneCounter);
-=======
-	return CreateRef<SkeletalMesh>(vertices, indices, boneCounter, boneInfoMap);
->>>>>>> Stashed changes
+	//return CreateRef<SkeletalMesh>(vertices, indices, boneCounter, boneInfoMap);
+
 }

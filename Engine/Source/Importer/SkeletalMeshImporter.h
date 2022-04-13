@@ -44,12 +44,7 @@ private:
 	static Ref<SkeletalMeshImporter> s_Instance;
 	static std::mutex s_Mutex;
 
-<<<<<<< Updated upstream
 	std::unordered_map<std::string, std::vector<SkeletalMesh>> m_ImportedMeshes;
 	std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
-=======
-	std::unordered_map<std::string, std::vector<Ref<SkeletalMesh>>> m_ImportedMeshes;
-	//std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
->>>>>>> Stashed changes
 
 };

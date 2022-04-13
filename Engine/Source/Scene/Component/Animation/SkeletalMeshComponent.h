@@ -16,11 +16,8 @@ private:
 	BoundingBox m_BoundingBox;
 	BoundingSphere m_BoundingSphere;
 
-<<<<<<< Updated upstream
 	bool m_MultipleMaterials;
 
-=======
->>>>>>> Stashed changes
 public:
 	SkeletalMeshComponent(Actor* owner);
 	SkeletalMeshComponent(Actor* owner, std::string path);
