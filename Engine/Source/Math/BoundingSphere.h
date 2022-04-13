@@ -15,5 +15,6 @@ struct BoundingSphere {
     BoundingSphere(std::vector<glm::vec3> &points);
 
     bool IsIntersect(const Ray& ray);
+    bool IsIntersect(const glm::vec3& point);
 };
 

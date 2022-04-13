@@ -10,32 +10,45 @@
 #include "Scene/Component/Collider/SphereColliderComponent.h"
 #include "Scene/Component/CameraComponent.h"
 #include "Scene/Component/RigidBodyComponent.h"
+#include "Physics/Physics.h"
+#include "CharacterController.h"
+#include "GhostPathElement.h"
 
 Player::Player(Actor* owner)
 	: GameComponent(owner)
 {
 	m_MoveDirection = glm::vec3(0.0f);
 	m_Rotation = glm::vec3(0.0f);
+
+	m_IsRunning = false;
+	m_CanJump = true;
+
 	m_MovementSpeed = 0.0f;
+	m_WalkSpeed = 15.0f;
+	m_RunSpeed = 25.0f;
+
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
-	smooth = 0.95f;
-	t_MovementSpeed = 35.0f;
-	m_IsGrounded = false;
 }
 
 void Player::Start()
 {
 	auto input = Input::GetInstance();
 
-	input->BindAxis("Player_MoveForward", std::bind(&Player::MoveForward, this, std::placeholders::_1));
-	input->BindAxis("Player_MoveRight", std::bind(&Player::MoveRight, this, std::placeholders::_1));
-	input->BindAxis("Player_Turn", std::bind(&Player::Turn, this, std::placeholders::_1));
-	input->BindAxis("Player_LookUp", std::bind(&Player::LookUp, this, std::placeholders::_1));
+	input->BindAxis("Player_MoveForward", &Player::MoveForward, this);
+	input->BindAxis("Player_MoveRight", &Player::MoveRight, this);
+	input->BindAxis("Player_Turn", &Player::Turn, this);
+	input->BindAxis("Player_LookUp", &Player::LookUp, this);
 
-	input->BindAction("Jump", std::bind(&Player::Jump, this));
+	input->BindAction("Jump", InputEvent::Press, &Player::Jump, this);
+	input->BindAction("Jump", InputEvent::Release, &Player::AllowJumping, this);
 
-	//input->SetInputMode(InputMode::Player);
+	input->BindAction("Run", InputEvent::Press, &Player::RunOn, this);
+	input->BindAction("Run", InputEvent::Release, &Player::RunOff, this);
+
+	input->SetInputMode(InputMode::Player);
+
+	m_CharacterController = m_Owner->AddComponent<CharacterController>();
 
 	auto cameraActor = m_Owner->GetScene()->FindActor(m_CameraID);
 	if (!cameraActor)
@@ -44,25 +57,17 @@ void Player::Start()
 		return;
 	}
 	m_Camera = cameraActor->GetComponent<CameraComponent>();
+
 }
 
 void Player::Update(float deltaTime)
 {
-	//FIXME player each frame fires Event from transform, this is temporary fix
-	if (Math::Magnitude(m_MoveDirection) == 0.0f && Math::Magnitude(m_Rotation) == 0.0f)
-		return;
-
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
 
-	m_MovementSpeed = t_MovementSpeed * (1.0f - smooth) + m_MovementSpeed * smooth;
-
-	// Player position
-	glm::vec3 newPosition = m_Owner->GetTransform()->GetLocalPosition();
-	newPosition += m_MoveDirection * m_MovementSpeed * deltaTime;
-	m_Owner->GetTransform()->SetLocalPosition(newPosition);
-
-	
+	// Player move
+	m_MovementSpeed = m_IsRunning ? m_RunSpeed : m_WalkSpeed;
+	m_CharacterController->Move(m_MoveDirection * m_MovementSpeed * deltaTime);
 
 	// Player rotation
 	glm::vec3 newRotation = m_Owner->GetTransform()->GetLocalRotation();
@@ -79,6 +84,8 @@ void Player::Update(float deltaTime)
 	// Reset move direction & rotation
 	m_MoveDirection = glm::vec3(0.0f);
 	m_Rotation = glm::vec3(0.0f);
+
+	//m_Owner->GetScene()->SpawnActor<GhostPathElement>(m_Owner->GetTransform()->GetWorldPosition());
 }
 
 void Player::MoveForward(float value)
@@ -111,13 +118,25 @@ void Player::LookUp(float value)
 
 void Player::Jump()
 {
-	auto rb = GetOwner()->GetComponent<RigidBodyComponent>();
-	rb->AddForce(glm::vec3(0.0f, 10.0f, 0.0f));
+	if (m_CanJump)
+	{
+		m_CharacterController->Jump();
+	}
 }
 
-bool Player::IsGrounded()
+void Player::AllowJumping()
 {
-	return false;
+	m_CanJump = true;
+}
+
+void Player::RunOn()
+{
+	m_IsRunning = true;
+}
+
+void Player::RunOff()
+{
+	m_IsRunning = false;
 }
 
 void Player::AddMovementInput(glm::vec3 direction, float value)

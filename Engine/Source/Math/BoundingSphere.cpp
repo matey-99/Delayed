@@ -52,6 +52,14 @@ void SphereOfSphereAndPt(BoundingSphere *sphere, glm::vec3 &point) {
     }
 }
 
+void RitterSphere(BoundingSphere *s, std::vector<glm::vec3> &points) {
+    SphereFromDistantPoints(s, points);
+
+    for(auto point : points) {
+        SphereOfSphereAndPt(s, point);
+    }
+}
+
 BoundingSphere::BoundingSphere() : Center(glm::vec3(0.0f)), Radius(1.0f) {}
 
 BoundingSphere::BoundingSphere(glm::vec3 center, float radius) : Center(center), Radius(radius) {}
@@ -60,11 +68,30 @@ BoundingSphere::BoundingSphere(std::vector<glm::vec3> &points) {
     if (points.empty())
         return;
 
-    SphereFromDistantPoints(this, points);
+    const int NUM_ITER = 8;
 
-    //for(auto point : points) {
-    //    SphereOfSphereAndPt(this, point);
-    //}
+    RitterSphere(this, points);
+
+    BoundingSphere s2 = *this;
+
+    for (int k = 0; k < NUM_ITER; ++k) {
+
+        s2.Radius *= 0.9f;
+
+        for (int i = 0; i < points.size(); ++i) {
+            int range = points.size() - i;
+            int r = rand() % range + i;
+            glm::vec3 tmp = points[i];
+            points[i] = points[r];
+            points[r] = tmp;
+            SphereOfSphereAndPt(&s2, points[i]);
+        }
+
+        if (s2.Radius < Radius) {
+            Center = s2.Center;
+            Radius = s2.Radius;
+        }
+    }
 }
 
 bool BoundingSphere::IsIntersect(const Ray& ray)
@@ -76,4 +103,9 @@ bool BoundingSphere::IsIntersect(const Ray& ray)
     float discriminant = (p * p) - q;
 
     return discriminant >= 0;
+}
+
+bool BoundingSphere::IsIntersect(const glm::vec3& point)
+{
+    return Math::Distance(Center, point) < Radius;
 }

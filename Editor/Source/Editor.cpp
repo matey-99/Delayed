@@ -170,8 +170,8 @@ void Editor::ShowDetails(Ref<Actor> actor)
 void Editor::HideDetails()
 {
 	m_DetailsPanel = false;
-	m_CameraComponentViewport = false;
-	m_SelectedCameraComponent = nullptr;
+	m_IsCameraComponentViewport = false;
+	m_SelectedCameraComponent = Ref<CameraComponent>();
 }
 
 void Editor::ShowMaterialEditor(Ref<Material> material)

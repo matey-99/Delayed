@@ -1,5 +1,6 @@
 Material: Green
 ID: 374792153
+BlendMode: 0
 Shader: Standard
 Bool Parameters:
   - Name: u_Material.isAOMap

@@ -32,12 +32,12 @@ void ShadowsPass::Render(Ref<Scene> scene)
 
 		for (auto a : scene->GetActors())
 		{
-			if (auto smc = a->GetComponent<StaticMeshComponent>())
+			if (auto meshComponent = a->GetComponent<MeshComponent>())
 			{
 				depthShader->SetMat4("u_Model", a->GetTransform()->GetWorldModelMatrix());
 
-				for (auto mesh : smc->GetMeshes())
-					mesh.Render();
+				for (auto mesh : meshComponent->GetMeshes())
+					mesh->Render();
 			}
 		}
 

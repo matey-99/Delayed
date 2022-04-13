@@ -185,7 +185,7 @@ void Viewport::RenderGizmos()
             m_DirectionArrowShader->SetMat4("u_Model", model);
             for (auto mesh : m_DirectionArrow)
             {
-                mesh.Render();
+                mesh->Render();
             }
 
             glEnable(GL_DEPTH_TEST);

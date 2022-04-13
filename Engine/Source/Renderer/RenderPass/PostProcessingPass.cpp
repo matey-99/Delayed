@@ -50,7 +50,7 @@ PostProcessingPass::~PostProcessingPass()
 {
 }
 
-void PostProcessingPass::Render()
+void PostProcessingPass::Render(uint32_t input)
 {
 	// Bloom
 	if (m_Settings.BloomEnabled)
@@ -63,7 +63,7 @@ void PostProcessingPass::Render()
 		glDisable(GL_DEPTH_TEST);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_LightingPass->GetRenderTarget()->GetTargets()[0]);
+		glBindTexture(GL_TEXTURE_2D, input);
 
 		auto thresholdShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Threshold");
 		thresholdShader->Use();
@@ -186,7 +186,7 @@ void PostProcessingPass::Render()
 	glDisable(GL_CULL_FACE);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_LightingPass->GetRenderTarget()->GetTargets()[0]);
+	glBindTexture(GL_TEXTURE_2D, input);
 
 	auto postProcessingShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "PostProcessing");
 	postProcessingShader->Use();
@@ -203,6 +203,14 @@ void PostProcessingPass::Render()
 
 	postProcessingShader->SetFloat("u_Gamma", m_Settings.Gamma);
 	postProcessingShader->SetFloat("u_Exposure", m_Settings.Exposure);
+	postProcessingShader->SetFloat("u_Saturation", m_Settings.Saturation);
+	postProcessingShader->SetFloat("u_Temperature", m_Settings.Temperature);
+	postProcessingShader->SetFloat("u_Hue", m_Settings.Hue);
+	postProcessingShader->SetFloat("u_Gain", m_Settings.Gain);
+	postProcessingShader->SetFloat("u_Lift", m_Settings.Lift);
+	postProcessingShader->SetFloat("u_Offset", m_Settings.Offset);
+	postProcessingShader->SetFloat("u_Contrast", m_Settings.Contrast);
+	postProcessingShader->SetFloat("u_ContrastPivot", m_Settings.ContrastPivot);
 
 	RenderTools::GetInstance()->RenderQuad();
 

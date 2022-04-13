@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Core.h"
 
 namespace Math
 {
@@ -14,13 +14,19 @@ namespace Math
 	/// <returns>Trasformed vector</returns>
 	glm::vec3 Transform(const glm::vec3& v, const glm::quat& q);
 
+	glm::vec3 Direction(const glm::vec3& a, const glm::vec3& b);
+
 	float Lerp(float a, float b, float alpha);
 
 	float Magnitude(const glm::vec3& v);
 
 	float Distance(const glm::vec3& a, const glm::vec3& b);
 
+	bool IsNearlyEqual(const glm::vec3& a, const glm::vec3& b, float errorTolerance = 0.001f);
+
 	glm::vec3 Normalize(const glm::vec3& v);
+
+	const float Infinity = std::numeric_limits<float>::infinity();
 
 	const glm::vec3 ForwardVector = { 0.0f, 0.0f, -1.0f };
 	const glm::vec3 UpVector = { 0.0f, 1.0f, 0.0f };

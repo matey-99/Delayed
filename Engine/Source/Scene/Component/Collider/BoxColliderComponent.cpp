@@ -47,6 +47,16 @@ void BoxColliderComponent::UpdateBoundingBox() {
     }
 }
 
+bool BoxColliderComponent::IsIntersect(const Ray& ray)
+{
+    return m_BoundingBox.IsIntersect(ray);
+}
+
+bool BoxColliderComponent::IsIntersect(const glm::vec3& point)
+{
+    return m_BoundingBox.IsIntersect(point);
+}
+
 glm::vec3 BoxColliderComponent::ClosestPoint(glm::vec3 point) {
     glm::vec3 t;
     float v;
@@ -85,29 +95,39 @@ bool BoxColliderComponent::CheckCollisions() {
                 (glm::abs(m_BoundingBox.Center.y - collider->GetBoundingBox().Center.y) <=
                  (m_BoundingBox.Extents.y + collider->GetBoundingBox().Extents.y)) &&
                 (glm::abs(m_BoundingBox.Center.z - collider->GetBoundingBox().Center.z) <=
-                 (m_BoundingBox.Extents.z + collider->GetBoundingBox().Extents.z))) {
-
-                if (m_IsTrigger)
+                 (m_BoundingBox.Extents.z + collider->GetBoundingBox().Extents.z))) 
+            {
+                if (m_CollisionColliders.find(collider) == m_CollisionColliders.end())
                 {
-                    m_Triggered = true;
+                    m_CollisionColliders.insert(collider);
 
-                    OnTriggerEnterDelegate.Broadcast(collider);
-                    continue;
+                    if (m_IsTrigger)
+                    {
+                        OnTriggerEnterDelegate.Broadcast(collider);
+                    }
+                }
+                else
+                {
+                    if (m_IsTrigger)
+                    {
+                        OnTriggerStayDelegate.Broadcast(collider);
+                    }
                 }
 
-                float left = m_BoundingBox.Max.x - collider->GetBoundingBox().Min.x;
-                float right = collider->GetBoundingBox().Max.x - m_BoundingBox.Min.x;
-                float bottom = m_BoundingBox.Max.y - collider->GetBoundingBox().Min.y;
-                float top = collider->GetBoundingBox().Max.y - m_BoundingBox.Min.y;
-                float backward = m_BoundingBox.Max.z - collider->GetBoundingBox().Min.z;
-                float forward = collider->GetBoundingBox().Max.z - m_BoundingBox.Min.z;
+                if (m_Owner->IsDynamic() && !m_IsTrigger && !collider->m_IsTrigger)
+                {
+                    float left = m_BoundingBox.Max.x - collider->GetBoundingBox().Min.x;
+                    float right = collider->GetBoundingBox().Max.x - m_BoundingBox.Min.x;
+                    float bottom = m_BoundingBox.Max.y - collider->GetBoundingBox().Min.y;
+                    float top = collider->GetBoundingBox().Max.y - m_BoundingBox.Min.y;
+                    float backward = m_BoundingBox.Max.z - collider->GetBoundingBox().Min.z;
+                    float forward = collider->GetBoundingBox().Max.z - m_BoundingBox.Min.z;
 
-                glm::vec3 v;
-                v.x = left < right ? -left : right;
-                v.y = bottom < top ? -bottom : top;
-                v.z = backward < forward ? -backward : forward;
+                    glm::vec3 v;
+                    v.x = left < right ? -left : right;
+                    v.y = bottom < top ? -bottom : top;
+                    v.z = backward < forward ? -backward : forward;
 
-                if (m_Owner->IsDynamic()) {
                     if (glm::abs(v.x) < glm::abs(v.y) && glm::abs(v.x) < glm::abs(v.z)) {
                         v.y = 0;
                         v.z = 0;
@@ -124,25 +144,59 @@ bool BoxColliderComponent::CheckCollisions() {
             }
             else
             {
-                if (m_Triggered)
+                if (m_CollisionColliders.find(collider) != m_CollisionColliders.end())
                 {
-                    m_Triggered = false;
+                    m_CollisionColliders.erase(collider);
 
-                    OnTriggerExitDelegate.Broadcast(collider);
-                    continue;
+                    if (m_IsTrigger)
+                    {
+                        OnTriggerExitDelegate.Broadcast(collider);
+                    }
                 }
             }
         }
 
         if (auto collider = actor->GetComponent<SphereColliderComponent>()) {
             if (Distance2ToPoint(collider->GetBoundingSphere().Center) <=
-                collider->GetBoundingSphere().Radius * collider->GetBoundingSphere().Radius) {
+                collider->GetBoundingSphere().Radius * collider->GetBoundingSphere().Radius) 
+            {
+                // TO DO: Test trigger with sphere collider
+                if (m_CollisionColliders.find(collider) == m_CollisionColliders.end())
+                {
+                    m_CollisionColliders.insert(collider);
 
-                glm::vec3 d = ClosestPoint(collider->GetBoundingSphere().Center) - collider->GetBoundingSphere().Center;
-                glm::vec3 v = glm::normalize(d) * (collider->GetBoundingSphere().Radius - glm::length(d));
+                    if (m_IsTrigger)
+                    {
+                        OnTriggerEnterDelegate.Broadcast(collider);
+                    }
+                }
+                else
+                {
+                    if (m_IsTrigger)
+                    {
+                        OnTriggerStayDelegate.Broadcast(collider);
+                    }
+                }
 
-                if (m_Owner->IsDynamic()) {
+
+                if (m_Owner->IsDynamic() && !collider->IsTrigger()) 
+                {
+                    glm::vec3 d = ClosestPoint(collider->GetBoundingSphere().Center) - collider->GetBoundingSphere().Center;
+                    glm::vec3 v = glm::normalize(d) * (collider->GetBoundingSphere().Radius - glm::length(d));
+
                     m_Owner->GetTransform()->SetWorldPosition(m_Owner->GetTransform()->GetWorldPosition() + v);
+                }
+            }
+            else
+            {
+                if (m_CollisionColliders.find(collider) != m_CollisionColliders.end())
+                {
+                    m_CollisionColliders.erase(collider);
+
+                    if (m_IsTrigger)
+                    {
+                        OnTriggerExitDelegate.Broadcast(collider);
+                    }
                 }
             }
         }

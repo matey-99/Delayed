@@ -5,6 +5,9 @@ ActionInputBindings:
   - Name: Jump
     InputType: Gamepad
     Input: A
+  - Name: Run
+    InputType: Keyboard
+    Input: LeftShift
   - Name: Exit
     InputType: Keyboard
     Input: Escape

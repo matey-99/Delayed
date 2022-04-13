@@ -45,8 +45,20 @@ void RendererSettingsPanel::Render()
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("General");
-    ImGui::DragFloat("Gamma", &m_Renderer->m_PostProcessingPass->m_Settings.Gamma, 0.1f, 0.0f, 10.0f);
-    ImGui::DragFloat("Exposure", &m_Renderer->m_PostProcessingPass->m_Settings.Exposure, 0.1f, 0.0f, 10.0f);
+    ImGui::DragFloat("Gamma", &m_Renderer->m_PostProcessingPass->m_Settings.Gamma, 0.01f, 0.0f, 10.0f);
+    ImGui::DragFloat("Gain", &m_Renderer->m_PostProcessingPass->m_Settings.Gain, 0.01f, -1.0f, 1.f);
+    ImGui::DragFloat("Exposure (inactive)", &m_Renderer->m_PostProcessingPass->m_Settings.Exposure, 0.1f, 0.0f, 10.0f);
+    ImGui::DragFloat("Contrast", &m_Renderer->m_PostProcessingPass->m_Settings.Contrast, 0.01f, 0.0f, 1.9f);
+    ImGui::DragFloat("Contrast Pivot", &m_Renderer->m_PostProcessingPass->m_Settings.ContrastPivot, 0.01f, 0.0f, 1.0f);
+    ImGui::DragFloat("Offset", &m_Renderer->m_PostProcessingPass->m_Settings.Offset, 0.005f, -0.1f, 0.1f);
+    ImGui::DragFloat("Lift", &m_Renderer->m_PostProcessingPass->m_Settings.Lift, 0.005f, -0.1f, 0.1f);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("Color Grading");
+    ImGui::DragFloat("Saturation", &m_Renderer->m_PostProcessingPass->m_Settings.Saturation, 0.1f, 0.0f, 2.0f);
+    ImGui::DragFloat("Temperature", &m_Renderer->m_PostProcessingPass->m_Settings.Temperature, 1.f, 15.0f, 150.0f);
+    ImGui::DragFloat("Hue", &m_Renderer->m_PostProcessingPass->m_Settings.Hue, 1.0f, 0.0f, 360.0f);
+    
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("UI Post Processing");
@@ -54,6 +66,9 @@ void RendererSettingsPanel::Render()
     ImGui::DragFloat("UI Gamma", &m_Renderer->m_UIPass->m_Settings.Gamma, 0.1f, 0.0f, 10.0f);
     ImGui::DragFloat("UI Exposure", &m_Renderer->m_UIPass->m_Settings.Exposure, 0.1f, 0.0f, 10.0f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+
+    
 
 
     ImGui::End();

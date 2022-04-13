@@ -7,7 +7,7 @@ std::mutex ShaderLibrary::s_Mutex;
 
 ShaderLibrary::ShaderLibrary()
 {
-	// MATERIAL SHADERS
+	// OPAQUE MATERIAL SHADERS
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Standard", 
 		CreateRef<Shader>("Standard", 
 			ContentHelper::GetAssetPath("Shaders/Material/Standard.vert"),
@@ -18,20 +18,16 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/Lighting.vert"),
 			ContentHelper::GetAssetPath("Shaders/Lighting.frag"))));
 
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("StandardSkinned",
-		CreateRef<Shader>("StandardSkinned",
+	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("OpaqueSkinned",
+		CreateRef<Shader>("OpaqueSkinned",
 			ContentHelper::GetAssetPath("Shaders/Material/StandardSkinned.vert"),
 			ContentHelper::GetAssetPath("Shaders/GBuffer.frag"))));
 
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("StandardInstanced", 
-		CreateRef<Shader>("StandardInstanced", 
-			ContentHelper::GetAssetPath("Shaders/Material/StandardInstanced.vert"),
+	// TRANSPARENT MATERIAL SHADERS
+	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Transparent",
+		CreateRef<Shader>("Transparent",
+			ContentHelper::GetAssetPath("Shaders/Material/Standard.vert"),
 			ContentHelper::GetAssetPath("Shaders/Material/Standard.frag"))));
-
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("GrassInstanced", 
-		CreateRef<Shader>("GrassInstanced", 
-			ContentHelper::GetAssetPath("Shaders/Material/StandardInstanced.vert"),
-			ContentHelper::GetAssetPath("Shaders/Material/Grass.frag"))));
 
 	// POST PROCESSING SHADERS
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Screen", 
@@ -58,6 +54,11 @@ ShaderLibrary::ShaderLibrary()
 		CreateRef<Shader>("FXAA",
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/FXAA.frag"))));
+
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Vignette",
+		CreateRef<Shader>("Vignette",
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/Vignette.frag"))));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Blur",
 		CreateRef<Shader>("Blur",

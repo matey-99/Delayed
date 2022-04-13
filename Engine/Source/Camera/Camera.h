@@ -9,7 +9,9 @@ public:
 	Camera() {}
 
 	virtual glm::vec3 GetWorldPosition() = 0;
-	virtual glm::vec3 GetDirection() = 0;
+	virtual glm::vec3 GetFront() = 0;
+	virtual glm::vec3 GetRight() = 0;
+	virtual glm::vec3 GetUp() = 0;
 
 	virtual glm::vec2 GetAspectRatio() = 0;
 	virtual float GetFieldOfView() = 0;

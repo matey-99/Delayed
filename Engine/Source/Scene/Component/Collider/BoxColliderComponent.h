@@ -17,6 +17,9 @@ public:
 
     void UpdateBoundingBox();
 
+    virtual bool IsIntersect(const Ray& ray) override;
+    virtual bool IsIntersect(const glm::vec3& point) override;
+
     inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
 
 protected:

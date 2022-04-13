@@ -25,7 +25,7 @@ public:
 
 	static Ref<SkeletalMeshImporter> GetInstance();
 
-	std::vector<SkeletalMesh> ImportMesh(std::string path);
+	std::vector<Ref<SkeletalMesh>> ImportMesh(std::string path);
 
 	void SetVertexBoneData(SkinnedVertex& vertex, int boneID, float weight);
 	void SetVertexBoneDataToDefault(SkinnedVertex& vertex);
@@ -37,14 +37,14 @@ public:
 		std::unordered_map<std::string, BoneInfo> &_boneInfoMap);
 
 private:
-	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<SkeletalMesh>& meshes);
-	SkeletalMesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Ref<SkeletalMesh>>& meshes);
+	Ref<SkeletalMesh> ProcessMesh(aiMesh* mesh, const aiScene* scene);
 
 private:
 	static Ref<SkeletalMeshImporter> s_Instance;
 	static std::mutex s_Mutex;
 
-	std::unordered_map<std::string, std::vector<SkeletalMesh>> m_ImportedMeshes;
+	std::unordered_map<std::string, std::vector<Ref<SkeletalMesh>>> m_ImportedMeshes;
 	std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
 
 };

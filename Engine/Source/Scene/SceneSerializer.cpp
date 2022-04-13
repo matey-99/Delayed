@@ -4,7 +4,6 @@
 #include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
-#include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
@@ -20,6 +19,7 @@
 #include "Game/MainMenu.h"
 #include "Game/Player.h"
 #include "Game/Button.h"
+#include "Game/Ghost.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -152,29 +152,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
 						a->AddComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
-					}
-
-					if (auto mesh = component["InstanceRenderedMesh"])
-					{
-						std::string path = mesh["Mesh"].as<std::string>();
-						std::vector<std::string> materialsPaths;
-						YAML::Node materials = mesh["Materials"];
-						for (auto material : materials)
-						{
-							materialsPaths.push_back(material["Path"].as<std::string>());
-						}
-
-						float radius = mesh["Radius"].as<float>();
-						int count = mesh["InstancesCount"].as<int>();
-						float minScale = mesh["MinMeshScale"].as<float>();
-						float maxScale = mesh["MaxMeshScale"].as<float>();
-
-						auto m = a->AddComponent<InstanceRenderedMeshComponent>(path.c_str(), materialsPaths);
-						m->m_Radius = radius;
-						m->m_InstancesCount = count;
-						m->m_MinMeshScale = minScale;
-						m->m_MaxMeshScale = maxScale;
-						m->Generate();
 					}
 
 					if (auto dirLight = component["DirectionalLight"])
@@ -338,7 +315,30 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto button = component["Button"])
 					{
-						a->AddComponent<Button>();
+						uint64_t platformActorID = button["Platform"].as<uint64_t>();
+
+						auto b = a->AddComponent<Button>();
+						b->m_PlatformID = platformActorID;
+					}
+
+					if (auto platform = component["Platform"])
+					{
+						glm::vec3 direction = platform["Direction"].as<glm::vec3>();
+						float distance = platform["Distance"].as<float>();
+						float speed = platform["Speed"].as<float>();
+
+						auto p = a->AddComponent<Platform>();
+						p->m_Direction = direction;
+						p->m_Distance = distance;
+						p->m_Speed = speed;
+					}
+
+					if (auto ghost = component["Ghost"])
+					{
+						uint64_t playerActorID = ghost["Player"].as<uint64_t>();
+
+						auto g = a->AddComponent<Ghost>();
+						g->m_PlayerID = playerActorID;
 					}
 				}
 			}
@@ -346,7 +346,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 		for (int i = 2; i < scene->GetActors().size(); i++)
 		{
-			scene->GetActors().at(i)->GetTransform()->SetParent(scene->FindActor(parentsIDs[i - 2])->GetTransform().get());
+			scene->GetActors().at(i)->GetComponent<TransformBaseComponent>()->SetParent(scene->FindActor(parentsIDs[i - 2])->GetComponent<TransformBaseComponent>().get());
 		}
 
 		uint64_t currentCameraID = data["CurrentCamera"].as<uint64_t>();
@@ -442,31 +442,6 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 			out << YAML::EndMap;
 		}
 		out << YAML::EndSeq;
-		out << YAML::EndMap;
-		out << YAML::EndMap;
-	}
-	if (auto mesh = actor->GetComponent<InstanceRenderedMeshComponent>())
-	{
-		out << YAML::BeginMap;
-		out << YAML::Key << "InstanceRenderedMesh";
-		out << YAML::BeginMap;
-		out << YAML::Key << "Mesh" << YAML::Value << mesh->GetPath();
-		out << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
-		for (int i = 0; i < mesh->GetMaterialsPaths().size(); i++)
-		{
-			out << YAML::BeginMap;
-			out << YAML::Key << "Material" << YAML::Value << i;
-			out << YAML::Key << "Path" << YAML::Value << mesh->GetMaterialsPaths().at(i);
-			out << YAML::EndMap;
-		}
-		out << YAML::EndSeq;
-
-		out << YAML::Key << "Radius" << YAML::Value << mesh->m_Radius;
-		out << YAML::Key << "InstancesCount" << YAML::Value << mesh->m_InstancesCount;
-		out << YAML::Key << "MinMeshScale" << YAML::Value << mesh->m_MinMeshScale;
-		out << YAML::Key << "MaxMeshScale" << YAML::Value << mesh->m_MaxMeshScale;
-
-
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -636,6 +611,29 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Button";
 		out << YAML::BeginMap;
+		out << YAML::Key << "Platform" << YAML::Value << button->m_Platform->GetOwner()->GetID();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto platform = actor->GetComponent<Platform>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Platform";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Direction" << YAML::Value << platform->m_Direction;
+		out << YAML::Key << "Distance" << YAML::Value << platform->m_Distance;
+		out << YAML::Key << "Speed" << YAML::Value << platform->m_Speed;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto ghost = actor->GetComponent<Ghost>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Ghost";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Player" << YAML::Value << ghost->m_PlayerActor->GetID();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

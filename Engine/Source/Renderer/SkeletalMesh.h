@@ -12,6 +12,13 @@
 
 #define MAX_BONES_INFLUENCE 4
 
+
+struct BoneInfo
+{
+	int ID;				// index in finalBoneMatrices
+	glm::mat4 Offset;	// offset matrix transforms vertex from model space to bone space
+};
+
 struct SkinnedVertex : Vertex
 {
 	int BoneIDs[MAX_BONES_INFLUENCE];
@@ -37,5 +44,4 @@ private:
 	std::vector<SkinnedVertex> m_Vertices;
 	uint32_t m_BoneCounter = 0;
 	//std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
-
 };

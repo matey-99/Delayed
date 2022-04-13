@@ -25,7 +25,7 @@ public:
 	void CreateBounds(std::vector<Vertex> vertices);
 
 	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
-	inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
+    inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
 	inline std::vector<uint32_t> GetIndices() const { return m_Indices; }
 	inline uint32_t GetVAO() const { return m_VAO; }
 
@@ -41,5 +41,5 @@ protected:
 
 private:
 	BoundingBox m_BoundingBox;
-	BoundingSphere m_BoundingSphere;
+    BoundingSphere m_BoundingSphere;
 };

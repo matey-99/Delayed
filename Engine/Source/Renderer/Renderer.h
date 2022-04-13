@@ -16,9 +16,11 @@
 class GBufferPass;
 class LightingPass;
 class ShadowsPass;
+class ForwardPass;
 class SSAOPass;
 class PostProcessingPass;
 class FXAAPass;
+class VignettePass;
 class DepthOfFieldPass;
 class UIPass;
 class UniformBuffer;
@@ -35,8 +37,10 @@ public:
 	Ref<ShadowsPass> m_ShadowsPass;
 	Ref<SSAOPass> m_SSAOPass;
 	Ref<LightingPass> m_LightingPass;
+	Ref<ForwardPass> m_ForwardPass;
 	Ref<PostProcessingPass> m_PostProcessingPass;
 	Ref<FXAAPass> m_FXAAPass;
+	Ref<VignettePass> m_VignettePass;
 	Ref<DepthOfFieldPass> m_DepthOfFieldPass;
 	Ref<UIPass> m_UIPass;
 
@@ -44,6 +48,7 @@ public:
 	{
 		bool PostProcessingEnabled = true;
 		bool FXAAEnabled = true;
+		bool VignetteEnabled = true;
 		bool DepthOfFieldEnabled = true;
 	};
 

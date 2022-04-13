@@ -70,7 +70,7 @@ void ParticleSystemComponent::PreRender()
 {
 }
 
-void ParticleSystemComponent::Render()
+void ParticleSystemComponent::Render(Material::BlendMode blendMode)
 {
 	auto particleShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Particle, "StandardParticle");
 	particleShader->Use();

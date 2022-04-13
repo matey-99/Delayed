@@ -1,6 +1,7 @@
-Material: New material 2
-ID: 485121174
-Shader: Standard
+Material: M_Ghost
+ID: 150550024
+BlendMode: 1
+Shader: Transparent
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: false
@@ -24,16 +25,16 @@ Float Parameters:
   - Name: u_Material.roughness
     Value: 0
   - Name: u_Material.emissiveStrength
-    Value: 5
+    Value: 2.55999994
   - Name: u_Material.opacity
-    Value: 1
+    Value: 0.600000024
   - Name: u_Material.metallic
     Value: 0
 Vec3 Parameters:
   - Name: u_Material.albedo
-    Value: [1, 1, 1]
+    Value: [0, 1, 1]
   - Name: u_Material.emissive
-    Value: [0.882352948, 1, 0]
+    Value: [0.161764681, 0.926038384, 1]
 Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"

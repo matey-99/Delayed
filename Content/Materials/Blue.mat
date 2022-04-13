@@ -1,5 +1,6 @@
 Material: Blue
 ID: 374773663
+BlendMode: 0
 Shader: Standard
 Bool Parameters:
   - Name: u_Material.isAOMap

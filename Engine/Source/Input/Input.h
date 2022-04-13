@@ -6,6 +6,7 @@
 
 #include "Patterns/Singleton.h"
 #include "Patterns/Event.h"
+#include "Patterns/Delegate.h"
 #include "InputEnums.h"
 #include "typedefs.h"
 
@@ -24,7 +25,9 @@ public:
 	std::string Name;
 	InputType InputType;
 	int Input;
-	std::vector<std::function<void()>> Functions;
+	Event OnActionInputPress;
+	Event OnActionInputRelease;
+	Event OnActionInputRepeat;
 };
 
 struct AxisInputBinding
@@ -42,7 +45,7 @@ public:
 	std::string Name;
 	InputType InputType;
 	std::unordered_map<int, float> Inputs;
-	std::vector<std::function<void(float)>> Functions;
+	DelegateOneParam<float> OnAxisInput;
 };
 
 enum class InputMode
@@ -63,17 +66,47 @@ public:
 	// Actions
 	std::vector<Ref<ActionInputBinding>> FindActionInputBindings(std::string name);
 	void MakeAction(Ref<ActionInputBinding> actionInputBinding);
-	void BindAction(std::string actionName, std::function<void()> function);
 	void ClearAction(std::string actionName);
 
 	// Axes
 	std::vector<Ref<AxisInputBinding>> FindAxisInputBindings(std::string name);
 	void MakeAxis(Ref<AxisInputBinding> axisInputBinding, float value);
-	void BindAxis(std::string axisName, std::function<void(float)> function);
 	void ClearAxis(std::string axisName);
 
-	void SetInputMode(InputMode mode);
+	// Bindings
+	template <typename T>
+	void BindAction(std::string actionName, InputEvent inputEvent, void (T::* func)(), T* object)
+	{
+		auto actionInputBindings = FindActionInputBindings(actionName);
+		for (auto actionInputBinding : actionInputBindings)
+		{
+			switch (inputEvent)
+			{
+			case InputEvent::Press:
+				actionInputBinding->OnActionInputPress.Add(func, object);
+				break;
+			case InputEvent::Release:
+				actionInputBinding->OnActionInputRelease.Add(func, object);
+				break;
+			case InputEvent::Repeat:
+				actionInputBinding->OnActionInputRepeat.Add(func, object);
+				break;
+			}
+		}
+	}
 
+	template <typename T>
+	void BindAxis(std::string axisName, void (T::* func)(float), T* object)
+	{
+		auto axisInputBindings = FindAxisInputBindings(axisName);
+		for (auto axisInputBinding : axisInputBindings)
+		{
+			axisInputBinding->OnAxisInput.Add(func, object);
+		}
+	}
+
+	// Other
+	void SetInputMode(InputMode mode);
 	glm::vec2 GetMousePosition();
 
 public:

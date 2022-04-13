@@ -21,24 +21,44 @@ void MaterialEditorPanel::Render()
     ImGui::Text(m_Material->m_Name.c_str());
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-    ImGui::Text("Shader");
-    ImGui::SameLine();
-    if (ImGui::BeginMenu(m_Material->m_Shader->GetName().c_str()))
+    const char* blendModeName = "";
+    switch (m_Material->GetBlendMode())
+    {
+    case Material::BlendMode::Opaque:
+        blendModeName = "Opaque";
+        break;
+    case Material::BlendMode::Transparent:
+        blendModeName = "Transparent";
+        break;
+    }
+
+    if (ImGui::BeginCombo("Blend Mode", blendModeName))
+    {
+        if (ImGui::Selectable("Opaque"))
+            m_Material->m_BlendMode = Material::BlendMode::Opaque;
+        if (ImGui::Selectable("Transparent"))
+            m_Material->m_BlendMode = Material::BlendMode::Transparent;
+
+        ImGui::EndCombo();
+    }
+
+    std::string shaderName = m_Material->m_Shader->GetName();
+    if (ImGui::BeginCombo("Shader", shaderName.c_str()))
     {
         std::vector<std::string> extensions = std::vector<std::string>();
         extensions.push_back("frag");
-        
+
         auto sl = ShaderLibrary::GetInstance();
         for (auto sh : sl->GetMaterialShaders())
         {
-            if (ImGui::MenuItem(sh.first.c_str()))
+            if (ImGui::Selectable(sh.first.c_str()))
             {
                 m_Material->m_Shader = sh.second;
                 m_Material->LoadParameters();
+
             }
         }
-
-        ImGui::EndMenu();
+        ImGui::EndCombo();
     }
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 

@@ -9,7 +9,7 @@ std::mutex SkeletalMeshImporter::s_Mutex;
 
 SkeletalMeshImporter::SkeletalMeshImporter()
 {
-	m_ImportedMeshes = std::unordered_map<std::string, std::vector<SkeletalMesh>>();
+	m_ImportedMeshes = std::unordered_map<std::string, std::vector<Ref<SkeletalMesh>>>();
 }
 
 Ref<SkeletalMeshImporter> SkeletalMeshImporter::GetInstance()
@@ -21,7 +21,7 @@ Ref<SkeletalMeshImporter> SkeletalMeshImporter::GetInstance()
 	return s_Instance;
 }
 
-std::vector<SkeletalMesh> SkeletalMeshImporter::ImportMesh(std::string path)
+std::vector<Ref<SkeletalMesh>> SkeletalMeshImporter::ImportMesh(std::string path)
 {
 	if (m_ImportedMeshes.find(path) != m_ImportedMeshes.end())
 		return m_ImportedMeshes.at(path);
@@ -32,12 +32,12 @@ std::vector<SkeletalMesh> SkeletalMeshImporter::ImportMesh(std::string path)
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		std::cout << "Loading model failed: " << importer.GetErrorString() << std::endl;
-		return std::vector<SkeletalMesh>();
+		return std::vector<Ref<SkeletalMesh>>();
 	}
 
 	//m_AnimationCounter = scene->mNumAnimations;
 
-	std::vector<SkeletalMesh> meshes = std::vector<SkeletalMesh>();
+	std::vector<Ref<SkeletalMesh>> meshes = std::vector<Ref<SkeletalMesh>>();
 
 	ProcessNode(scene->mRootNode, scene, meshes);
 
@@ -85,7 +85,7 @@ void SkeletalMeshImporter::ExtractBoneWeightForVertices(
 		if (boneInfoMap.find(boneName) == boneInfoMap.end())
 		{
 			BoneInfo newBoneInfo;
-			newBoneInfo.Id = boneCounter;
+			newBoneInfo.ID = boneCounter;
 			newBoneInfo.Offset = AssimpGLMHelpers::ConvertMatrixToGLMFormat(mesh->mBones[boneIndex]->mOffsetMatrix);
 			boneInfoMap[boneName] = newBoneInfo;
 			boneID = boneCounter;
@@ -93,7 +93,7 @@ void SkeletalMeshImporter::ExtractBoneWeightForVertices(
 		}
 		else
 		{
-			boneID = boneInfoMap[boneName].id;
+			boneID = boneInfoMap[boneName].ID;
 		}
 		assert(boneID != -1);
 		auto weights = mesh->mBones[boneIndex]->mWeights;
@@ -110,7 +110,7 @@ void SkeletalMeshImporter::ExtractBoneWeightForVertices(
 	}
 }
 
-void SkeletalMeshImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<SkeletalMesh>& meshes)
+void SkeletalMeshImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Ref<SkeletalMesh>>& meshes)
 {
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
@@ -124,7 +124,7 @@ void SkeletalMeshImporter::ProcessNode(aiNode* node, const aiScene* scene, std::
 	}
 }
 
-SkeletalMesh SkeletalMeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+Ref<SkeletalMesh> SkeletalMeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<SkinnedVertex> vertices;
 	std::vector<unsigned int> indices;
@@ -138,29 +138,34 @@ SkeletalMesh SkeletalMeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scen
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
-		vertex.position = vector;
+		vertex.Position = vector;
 
 		vector.x = mesh->mNormals[i].x;
 		vector.y = mesh->mNormals[i].y;
 		vector.z = mesh->mNormals[i].z;
-		vertex.normal = vector;
+		vertex.Normal = vector;
 
 		if (mesh->mTextureCoords[0])
 		{
 			glm::vec2 vec;
 			vec.x = mesh->mTextureCoords[0][i].x;
 			vec.y = mesh->mTextureCoords[0][i].y;
-			vertex.texCoords = vec;
+			vertex.TexCoords = vec;
 		}
 		else
 		{
-			vertex.texCoords = glm::vec2(0.0f, 0.0f);
+			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
 		}
 
 		vector.x = mesh->mTangents[i].x;
 		vector.y = mesh->mTangents[i].y;
 		vector.z = mesh->mTangents[i].z;
-		vertex.tangent = vector;
+		vertex.Tangent = vector;
+
+		vector.x = mesh->mBitangents[i].x;
+		vector.y = mesh->mBitangents[i].y;
+		vector.z = mesh->mBitangents[i].z;
+		vertex.Bitangent = vector;
 
 		vertices.push_back(vertex);
 	}
@@ -182,7 +187,5 @@ SkeletalMesh SkeletalMeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scen
 		ExtractBoneWeightForVertices(vertices, mesh, scene, boneCounter, boneInfoMap);
 	}
 
-	return SkeletalMesh(vertices, indices, boneCounter);
-	//return CreateRef<SkeletalMesh>(vertices, indices, boneCounter, boneInfoMap);
-
+	return CreateRef<SkeletalMesh>(vertices, indices, boneCounter);
 }

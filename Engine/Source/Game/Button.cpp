@@ -2,13 +2,14 @@
 
 #include "Scene/Actor.h"
 #include "Game/Player.h"
+#include "Game/Ghost.h"
+#include "Scene/Scene.h"
 
 Button::Button(Actor* owner)
 	: GameComponent(owner)
 {
-	m_Speed = 255.0f;
-
 	m_IsPressed = false;
+	m_TriggeringActorsCount = 0;
 }
 
 Button::~Button()
@@ -22,23 +23,24 @@ void Button::Start()
 		collider->OnTriggerEnterDelegate.Add(&Button::OnTriggerEnter, this);
 		collider->OnTriggerExitDelegate.Add(&Button::OnTriggerExit, this);
 	}
+
+	auto platformActor = m_Owner->GetScene()->FindActor(m_PlatformID);
+	if (!platformActor)
+	{
+		DEBUG_LOG("Platform is null!");
+		return;
+	}
+	m_Platform = platformActor->GetComponent<Platform>();
 }
 
 void Button::Update(float deltaTime)
 {
 	if (m_ConnectedButtons.empty())
 	{
-		float step = m_Speed * deltaTime;
-
-		if (m_IsPressed)
-		{
-			std::cout << "Button pressed!" << std::endl;
-			// TO DO: Make platform moves to m_PlatformRelativeEndPosition
-		}
+		if (m_TriggeringActorsCount > 0)
+			m_Platform->SetActive(true);
 		else
-		{
-			// TO DO: Make platform moves to m_PlatformRelativeStartPosition
-		}
+			m_Platform->SetActive(false);
 	}
 }
 
@@ -48,16 +50,16 @@ void Button::Destroy()
 
 void Button::OnTriggerEnter(Ref<ColliderComponent> other)
 {
-	if (other->GetOwner()->GetComponent<Player>())
+	if (other->GetOwner()->GetComponent<Player>() || other->GetOwner()->GetComponent<Ghost>())
 	{
-		m_IsPressed = true;
+		m_TriggeringActorsCount++;
 	}
 }
 
 void Button::OnTriggerExit(Ref<ColliderComponent> other)
 {
-	if (other->GetOwner()->GetComponent<Player>())
+	if (other->GetOwner()->GetComponent<Player>() || other->GetOwner()->GetComponent<Ghost>())
 	{
-		m_IsPressed = false;
+		m_TriggeringActorsCount--;
 	}
 }

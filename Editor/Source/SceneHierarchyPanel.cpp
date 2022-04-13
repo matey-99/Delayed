@@ -2,7 +2,6 @@
 
 #include "Editor.h"
 #include "Scene/Component/StaticMeshComponent.h"
-#include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/ParticleSystemComponent.h"
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
@@ -109,19 +108,6 @@ void SceneHierarchyPanel::DuplicateSelectedActor()
 		newSMC->ChangeMesh(smc->GetPath());
 		for (int i = 0; i < smc->GetMaterialsPaths().size(); i++)
 			newSMC->ChangeMaterial(i, smc->GetMaterialsPaths()[i]);
-	}
-
-	if (auto irmc = m_SelectedActor->GetComponent<InstanceRenderedMeshComponent>())
-	{
-		auto newIRMC = newActor->AddComponent<InstanceRenderedMeshComponent>();
-		newIRMC->ChangeMesh(irmc->GetPath());
-		for (int i = 0; i < irmc->GetMaterialsPaths().size(); i++)
-			newIRMC->ChangeMaterial(i, irmc->GetMaterialsPaths()[i]);
-
-		newIRMC->SetInstancesCount(irmc->GetInstancesCount());
-		newIRMC->SetRadius(irmc->GetRadius());
-		newIRMC->SetMinMeshScale(irmc->GetMinMeshScale());
-		newIRMC->SetMaxMeshScale(irmc->GetMaxMeshScale());
 	}
 
 	if (auto pl = m_SelectedActor->GetComponent<PointLight>())

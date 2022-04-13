@@ -5,6 +5,7 @@
 #include "Scene/Component/TransformBaseComponent.h"
 #include "Scene/Component/TransformComponent.h"
 #include "Scene/Component/RenderComponent.h"
+#include "Material/Material.h"
 
 class Scene;
 
@@ -21,7 +22,7 @@ public:
 	void Update(float deltaTime);
 	void FixedUpdate();
 	void PreRender();
-	void Render();
+	void Render(Material::BlendMode blendMode);
 	void Destroy();
 
 	template<typename T, typename ... Args>
@@ -66,6 +67,7 @@ public:
 	inline bool IsDynamic() const { return m_Dynamic; }
 
 	Ref<TransformBaseComponent> GetTransform();
+	inline void SetTransform(Ref<TransformBaseComponent> transform) { m_Transform = transform; }
 
 	void SetDynamic(bool dynamic);
 	void SetEnabled(bool enabled);
@@ -80,7 +82,7 @@ private:
 	bool m_Dynamic = false;
 	std::vector<Ref<Component>> m_Components;
 
-
+	Ref<TransformBaseComponent> m_Transform;
 
 
 	friend class SceneHierarchyPanel;

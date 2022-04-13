@@ -128,6 +128,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 170675663
     ID: 170675663
     Name: button_frame (2)
@@ -173,6 +177,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Red.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 258264437
     ID: 258264437
     Name: Directional Light
@@ -386,7 +394,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-1.20000076, 22.7807236, 97.1999969]
+          LocalPosition: [-1.20000076, -6.39129877, 97.1999969]
           LocalRotation: [0, 0, 0]
           LocalScale: [19.2026157, 46.7669334, 11.288888]
           Parent: 2141099751
@@ -395,6 +403,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 676977960
     ID: 676977960
     Name: Cube (27)
@@ -549,6 +561,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 905694676
     ID: 905694676
     Name: button (7)
@@ -609,6 +625,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 962530030
     ID: 962530030
     Name: Cube (21)
@@ -624,6 +644,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 1037621198
     ID: 1037621198
     Name: platform (4)
@@ -694,6 +718,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 1247332933
     ID: 1247332933
     Name: Cube (43)
@@ -709,6 +737,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 1285539109
     ID: 1285539109
     Name: Cube (22)
@@ -724,6 +756,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 1297352485
     ID: 1297352485
     Name: Cube (59)
@@ -843,16 +879,29 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 2, 1]
-      - SphereCollider:
-          IsTrigger: true
-          Center: [0, -1.75, 0]
-          Size: 0.5
-      - RigidBody:
-          Gravity: -1
-          Mass: 5
-          Drag: 0.899999976
       - Player:
           Camera: 1541634381
+  - Actor: 1503775902
+    ID: 1503775902
+    Name: Ghost
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [40.7097855, 6.73608208, -13.0490322]
+          LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
+          LocalScale: [2, 4, 2]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_Ghost.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Ghost:
+          Player: 1503310902
   - Actor: 1526879318
     ID: 1526879318
     Name: Cube (63)
@@ -928,6 +977,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 1572592382
     ID: 1572592382
     Name: platform (9)
@@ -943,6 +996,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 1579695555
     ID: 1579695555
     Name: Cube (47)
@@ -958,6 +1015,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 1639903156
     ID: 1639903156
     Name: platform (7)
@@ -1114,15 +1175,23 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-2.34000015, 4.39041138, 4.14000034]
+          LocalPosition: [-2.34000015, -5.14698553, 4.14000034]
           LocalRotation: [90, -0, 0]
           LocalScale: [0.120000005, 0.119999997, 0.119999997]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/PlatformSmall00/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
               Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 5
+          Speed: 10
   - Actor: 1887690212
     ID: 1887690212
     Name: Cube (38)
@@ -1324,15 +1393,19 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-2.34000015, 4.26375961, 12.841382]
+          LocalPosition: [-2.34000015, 4.26375961, 14.2984285]
           LocalRotation: [90, -0, 0]
           LocalScale: [0.120000005, 0.119999997, 0.119999997]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/PlatformSmall00/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
               Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 765667130
     ID: 765667130
     Name: Icon
@@ -1350,10 +1423,10 @@ Actors:
   - Actor: 963697696
     ID: 963697696
     Name: button_test
-    Dynamic: false
+    Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [5.99404526, 8.28652573, -24.4245491]
+          LocalPosition: [-2.58542633, 7.78071737, -4.88545799]
           LocalRotation: [0, 0, 0]
           LocalScale: [4.05197001, 0.111803748, 4.05197001]
           Parent: 2141099751
@@ -1367,4 +1440,4 @@ Actors:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
       - Button:
-          {}
+          Platform: 1880114162

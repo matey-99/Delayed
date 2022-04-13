@@ -49,6 +49,12 @@ public:
 		Linear = GL_LINEAR
 	};
 
+	enum class Buffer
+	{
+		Depth = GL_DEPTH_BUFFER_BIT,
+		Color = GL_COLOR_BUFFER_BIT
+	};
+
 	struct Config
 	{
 		Attachment Attachment = Attachment::Color;
@@ -62,6 +68,8 @@ public:
 public:
 	static Ref<RenderTarget> Create(const Config& config, uint32_t width, uint32_t height);
 	static Ref<RenderTarget> CreateMRT(const std::vector<Config>& configs, uint32_t width, uint32_t height);
+
+	static void Copy(Ref<RenderTarget> source, Ref<RenderTarget> destination, Buffer buffer, Filter filter);
 
 	RenderTarget(const Config& config, uint32_t width, uint32_t height);
 	RenderTarget(const std::vector<Config>& configs, uint32_t width, uint32_t height);

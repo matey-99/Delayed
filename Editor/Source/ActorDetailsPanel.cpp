@@ -4,7 +4,6 @@
 #include "Editor.h"
 #include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
-#include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/Animation/Animator.h"
 #include "Scene/Component/Light/DirectionalLight.h"
@@ -222,52 +221,6 @@ void ActorDetailsPanel::Render()
             }
             ImGui::PopID();
         }
-    }
-    if (auto mesh = m_Actor->GetComponent<InstanceRenderedMeshComponent>())
-    {
-        ImGui::Text("Instance Rendered Mesh");
-
-        std::string path = mesh->GetPath();
-        std::string name = path.substr(path.find_last_of("/") + 1);
-        if (ImGui::BeginCombo("Static Mesh", name.c_str()))
-        {
-            std::vector<std::string> extensions = std::vector<std::string>();
-            extensions.push_back("obj");
-            extensions.push_back("fbx");
-            extensions.push_back("3ds");
-            extensions.push_back("dae");
-            DisplayResources(extensions);
-
-            ImGui::EndCombo();
-        }
-
-        ImGui::Text("Materials");
-        for (int i = 0; i < mesh->GetMaterials().size(); i++)
-        {
-            path = mesh->GetMaterialsPaths().at(i);
-            name = path.substr(path.find_last_of("/") + 1);
-
-            ImGui::PushID(i);
-            if (ImGui::BeginCombo(("[" + std::to_string(i) + "]").c_str(), name.c_str()))
-            {
-                std::vector<std::string> extensions = std::vector<std::string>();
-                extensions.push_back("mat");
-                DisplayResources(extensions, i);
-
-                ImGui::EndCombo();
-            }
-            ImGui::PopID();
-        }
-        ImGui::Dummy(ImVec2(0.0f, 10.0f));
-        
-        ImGui::Text("Instancing");
-        ImGui::DragFloat("Radius", &mesh->m_Radius, 25.0f, 1.0f, 1000000.0f);
-        ImGui::DragInt("Instances Count", &mesh->m_InstancesCount, 25, 1, 10000000);
-        ImGui::DragFloat("Min Mesh Scale", &mesh->m_MinMeshScale, 0.1f, 0.1f, 2.0f);
-        ImGui::DragFloat("Max Mesh Scale", &mesh->m_MaxMeshScale, 0.1f, 0.1f, 2.0f);
-
-        if (ImGui::Button("Generate"))
-            mesh->Generate();
     }
 
     if (auto animator = m_Actor->GetComponent<Animator>())
@@ -622,8 +575,6 @@ void ActorDetailsPanel::Render()
 
     if (staticMesh)
         m_Actor->AddComponent<StaticMeshComponent>();
-    if (instanceRenderedMesh)
-        m_Actor->AddComponent<InstanceRenderedMeshComponent>();
     if (skeletalMesh)
         m_Actor->AddComponent<SkeletalMeshComponent>();
     if (animator)
@@ -700,20 +651,12 @@ void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, in
                 {
                     if (ext == "obj" || ext == "fbx" || ext == "3ds" || ext == "dae")
                     {
-                        if (auto mesh = m_Actor->GetComponent<StaticMeshComponent>())
-                            mesh->ChangeMesh(path);
-                        else if (auto mesh = m_Actor->GetComponent<InstanceRenderedMeshComponent>())
-                            mesh->ChangeMesh(path);
-                        else if (auto mesh = m_Actor->GetComponent<SkeletalMeshComponent>())
+                        if (auto mesh = m_Actor->GetComponent<MeshComponent>())
                             mesh->ChangeMesh(path);
                     }
                     else if (ext == "mat")
                     {
-                        if (auto mesh = m_Actor->GetComponent<StaticMeshComponent>())
-                            mesh->ChangeMaterial(index, path);
-                        else if (auto mesh = m_Actor->GetComponent<InstanceRenderedMeshComponent>())
-                            mesh->ChangeMaterial(index, path);
-                        else if (auto mesh = m_Actor->GetComponent<SkeletalMeshComponent>())
+                        if (auto mesh = m_Actor->GetComponent<MeshComponent>())
                             mesh->ChangeMaterial(index, path);
                     }
                     else if (ext == "hdr")

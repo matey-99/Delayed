@@ -2,7 +2,6 @@
 
 #include <glad/glad.h>
 
-
 SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> vertices,
 	std::vector<uint32_t> indices,
 	uint32_t boneCounter)
@@ -42,18 +41,21 @@ void SkeletalMesh::SetupMesh()
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, TexCoords));
 
+	// Tangent
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, Tangent));
 
-	// bone ids
+	// Bitangent
 	glEnableVertexAttribArray(4);
-	glVertexAttribIPointer(4, 4, GL_INT, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, BoneIDs));
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, Bitangent));
+
+	// bone ids
+	glEnableVertexAttribArray(5);
+	glVertexAttribIPointer(5, 4, GL_INT, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, BoneIDs));
 
 	// weights
-	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, Weights));
-
-
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(SkinnedVertex), (void*)offsetof(SkinnedVertex, Weights));
 
 	glBindVertexArray(0);
 }
