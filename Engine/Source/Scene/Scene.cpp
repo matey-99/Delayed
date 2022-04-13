@@ -7,6 +7,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
+#include <Scene/Component/Collider/SphereColliderComponent.h>
+#include <Scene/Component/Collider/BoxColliderComponent.h>
 #include "Renderer/Renderer.h"
 #include "Component/TransformComponent.h"
 #include "Component/UI/RectTransformComponent.h"
@@ -95,7 +97,7 @@ void Scene::Render(Material::BlendMode blendMode)
 		SortActorsByDistance(actors, cameraPosition, false);
 	}
 
-	// TO DO: Frustum Culling
+    actors = CullActors(actors);
 
 	for (auto actor : actors)
 		actor->Render(blendMode);
@@ -134,6 +136,23 @@ void Scene::SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, b
 
 		return ascending ? a1Distance < a2Distance : a1Distance > a2Distance;
 		});
+}
+
+std::vector<Actor*> Scene::CullActors(std::vector<Actor*>& actors) {
+    std::vector<Actor*> output;
+    for (auto actor : actors) {
+        if (auto a = actor->GetComponent<SphereColliderComponent>()) {
+            if (m_CurrentCamera->GetFrustum()->SphereInFrustum(a->GetBoundingSphere()) > 0) {
+                output.push_back(actor);
+            }
+        }
+        if (auto a = actor->GetComponent<BoxColliderComponent>()) {
+            if (m_CurrentCamera->GetFrustum()->BoxInFrustum(a->GetBoundingBox()) > 0) {
+                output.push_back(actor);
+            }
+        }
+    }
+    return output;
 }
 
 Ref<Actor> Scene::AddRoot()

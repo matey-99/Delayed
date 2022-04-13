@@ -14,6 +14,8 @@ CameraComponent::CameraComponent(Actor* owner)
 
 	m_Right = CalculateRightVector();
 	m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    m_Frustum = CreateRef<Frustum>();
 }
 
 void CameraComponent::Start()
@@ -24,6 +26,9 @@ void CameraComponent::Update(float deltaTime)
 {
 	m_Front = CalculateFrontVector();
 	m_Right = CalculateRightVector();
+
+    m_Frustum->SetCamInternals(m_FieldOfView, m_AspectRatio.x / m_AspectRatio.y, m_NearClipPlane, m_FarClipPlane);
+    m_Frustum->SetCamDef(GetWorldPosition(), GetFront(), GetUp());
 }
 
 void CameraComponent::Destroy()
@@ -83,6 +88,10 @@ glm::mat4 CameraComponent::GetProjectionMatrix()
 glm::mat4 CameraComponent::GetViewProjectionMatrix()
 {
 	return GetProjectionMatrix() * GetViewMatrix();
+}
+
+Ref<Frustum> CameraComponent::GetFrustum() {
+    return m_Frustum;
 }
 
 glm::vec3 CameraComponent::CalculateFrontVector()

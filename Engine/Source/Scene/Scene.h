@@ -40,6 +40,7 @@ public:
 
 	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
 	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
+    std::vector<Actor*> CullActors(std::vector<Actor*>& actors);
 
 	Ref<Actor> AddRoot();
 	Ref<Actor> AddUIRoot();
