@@ -7,6 +7,11 @@ layout (location = 0) in vec2 v_TexCoord;
 layout (location = 0) uniform sampler2D u_GBufferPosition;
 layout (location = 1) uniform sampler2D u_Screen;
 
+layout (location = 2) uniform float u_FogMinimalDistance;
+layout (location = 3) uniform float u_FogMaximumDistance;
+layout (location = 4) uniform float u_Density;
+layout (location = 5) uniform vec4 u_FogColor;
+
 layout (std140, binding = 2) uniform u_FragmentCamera
 {
     vec3 u_ViewPosition;
@@ -15,17 +20,13 @@ layout (std140, binding = 2) uniform u_FragmentCamera
 
 void main()
 {
-    float fog_maxdist = 20.0;
-    float fog_mindist = 5.0;
-    vec4 fog_colour = vec4(0.4, 0.4, 0.4, 1.0);
-
-    vec4 col = texture(u_Screen, v_TexCoord);
-    vec3 pos = vec3(texture(u_GBufferPosition, v_TexCoord));
+    vec4 color = texture(u_Screen, v_TexCoord);
+    vec4 fragmentPosition = texture(u_GBufferPosition, v_TexCoord);
 
     // Calculate fog
-    float dist = length(pos - u_ViewPosition);
-    float fog_factor = (fog_maxdist - dist) / (fog_maxdist - fog_mindist);
-    fog_factor = clamp(fog_factor, 0.0, 1.0);
+    float dist = length(vec3(fragmentPosition) - u_ViewPosition);
+    float fogFactor = (u_FogMaximumDistance - dist) / (u_FogMaximumDistance - u_FogMinimalDistance);
+    fogFactor = clamp(fogFactor, 0.0, 1.0);
 
-    f_Color = mix(fog_colour, col, fog_factor);
+    f_Color = mix(u_FogColor, color, fogFactor);
 }

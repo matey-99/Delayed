@@ -35,11 +35,16 @@ void DepthFogPass::Render(uint32_t input) {
     glBindTexture(GL_TEXTURE_2D, input);
 
     glm::vec3 camPos = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
+    glm::vec4 color(0.4f, 0.4f, 0.4f, 1.0f);
 
     auto depthFogShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "DepthFog");
     depthFogShader->Use();
     depthFogShader->SetInt("u_GBufferPosition", 0);
     depthFogShader->SetInt("u_Screen", 1);
+    depthFogShader->SetFloat("u_FogMinimalDistance", 10.0f);
+    depthFogShader->SetFloat("u_FogMaximumDistance", 100.0f);
+    depthFogShader->SetFloat("u_Density", 0.2f);
+    depthFogShader->SetVec4("u_FogColor", color);
 
     RenderTools::GetInstance()->RenderQuad();
 
