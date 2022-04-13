@@ -83,31 +83,20 @@ void Scene::PreRender()
 	{
 		actor->PreRender();
 	}
+
+	UpdateMeshesRenderList();
 }
 
 void Scene::Render(Material::BlendMode blendMode)
 {
-	std::vector<Actor*> actors;
-	GetEnabledActors(m_Root.get(), actors);
-
-	// Set order of rendering actors in Forward Rendering
-	if (blendMode == Material::BlendMode::Transparent)
+	MeshesRenderList meshesList;
+	for (auto& mesh : m_MeshesRenderList)
 	{
-		auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
-		SortActorsByDistance(actors, cameraPosition, false);
+		if (mesh.first->Material->GetBlendMode() == blendMode)
+			meshesList.insert(mesh);
 	}
-	// TO DO: Distance Culling
-	// TO DO: Frustum Culling
 
-	std::vector<Ref<MeshComponent>> meshComponents;
-	for (auto actor : actors)
-	{
-		if (auto m = actor->GetComponent<MeshComponent>())
-			meshComponents.push_back(m);
-	}
-	SortMeshesByMaterial(meshComponents);
-
-	RenderMeshes(blendMode);
+	RenderMeshes(meshesList, blendMode);
 }
 
 void Scene::Destroy()
@@ -145,9 +134,9 @@ void Scene::SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, b
 		});
 }
 
-void Scene::SortMeshesByMaterial(std::vector<Ref<MeshComponent>>& meshComponents)
+void Scene::SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents)
 {
-	m_Meshes.clear();
+	m_MeshesRenderList.clear();
 
 	for (auto meshComponent : meshComponents)
 	{
@@ -158,32 +147,62 @@ void Scene::SortMeshesByMaterial(std::vector<Ref<MeshComponent>>& meshComponents
 				Ref<Mesh> mesh = meshComponent->GetMeshes()[i];
 				Ref<Material> material = meshComponent->GetMaterials()[i];
 
-				RenderMesh renderMesh = { mesh, meshComponent->GetOwner()->GetTransform()->GetWorldModelMatrix() };
-				if (m_Meshes.find(material) == m_Meshes.end())
-				{
-					std::vector<RenderMesh> renderMeshes;
-					renderMeshes.push_back(renderMesh);
+				glm::mat4 transformation = meshComponent->GetOwner()->GetTransform()->GetWorldModelMatrix();
 
-					m_Meshes.insert({ material, renderMeshes });
-				}
-				else
+				bool found = false;
+				for (auto& renderMesh : m_MeshesRenderList)
 				{
-					m_Meshes.find(material)->second.push_back(renderMesh);
+					if (renderMesh.first->Mesh == mesh && renderMesh.first->Material == material)
+					{
+						found = true;
+						renderMesh.second.push_back(transformation);
+
+						break;
+					}
+				}
+				if (!found)
+				{
+					Ref<MaterialMesh> materialMesh = CreateRef<MaterialMesh>();
+					materialMesh->Mesh = mesh;
+					materialMesh->Material = material;
+
+					std::vector<glm::mat4> transformations;
+					transformations.push_back(transformation);
+
+					m_MeshesRenderList.insert({ materialMesh, transformations });
 				}
 			}
 		}
 	}
 }
 
-void Scene::RenderMeshes(Material::BlendMode blendMode)
+void Scene::UpdateMeshesRenderList()
 {
-	for (auto& mesh : m_Meshes)
-	{
-		auto material = mesh.first;
-		auto renderMeshes = mesh.second;
+	std::vector<Actor*> actors;
+	GetEnabledActors(m_Root.get(), actors);
 
-		if (material->GetBlendMode() != blendMode)
-			continue;
+	// TO DO: Distance Culling
+	// TO DO: Frustum Culling
+
+	// Set order of rendering actors
+	auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
+	SortActorsByDistance(actors, cameraPosition, false);
+
+	std::vector<Ref<MeshComponent>> meshComponents;
+	for (auto actor : actors)
+	{
+		if (auto m = actor->GetComponent<MeshComponent>())
+			meshComponents.push_back(m);
+	}
+	SortMeshes(meshComponents);
+}
+
+void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
+{
+	for (auto& renderMesh : meshes)
+	{
+		auto mesh = renderMesh.first->Mesh;
+		auto material = renderMesh.first->Material;
 
 		material->Use();
 
@@ -207,15 +226,15 @@ void Scene::RenderMeshes(Material::BlendMode blendMode)
 			}
 		}
 
-		std::vector<glm::mat4> modelMatrices;
+		std::vector<glm::mat4> transformations;
 		uint32_t instancesCount = 0;
-		for (auto& renderMesh : renderMeshes)
+		for (auto& transformation : renderMesh.second)
 		{
 			instancesCount++;
-			modelMatrices.push_back(renderMesh.WorldModelMatrix);
+			transformations.push_back(transformation);
 		}
 
-		renderMeshes[0].Mesh->RenderInstanced(instancesCount, modelMatrices);
+		mesh->RenderInstanced(instancesCount, transformations);
 	}
 }
 
