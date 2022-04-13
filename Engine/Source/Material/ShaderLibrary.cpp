@@ -55,6 +55,11 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/FXAA.frag"))));
 
+	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Vignette",
+		CreateRef<Shader>("Vignette",
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
+			ContentHelper::GetAssetPath("Shaders/PostProcessing/Vignette.frag"))));
+
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Blur",
 		CreateRef<Shader>("Blur",
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),

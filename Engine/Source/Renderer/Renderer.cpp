@@ -16,6 +16,7 @@
 #include "RenderPass/ForwardPass.h"
 #include "RenderPass/PostProcessingPass.h"
 #include "RenderPass/FXAAPass.h"
+#include "RenderPass/VignettePass.h"
 #include "RenderPass/DepthOfFieldPass.h"
 #include "RenderPass/UIPass.h"
 #include "RenderTools.h"
@@ -54,6 +55,7 @@ void Renderer::Initialize()
 	m_ForwardPass = CreateRef<ForwardPass>();
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
 	m_FXAAPass = CreateRef<FXAAPass>();
+	m_VignettePass = CreateRef<VignettePass>();
 	m_DepthOfFieldPass = CreateRef<DepthOfFieldPass>();
 	m_UIPass = CreateRef<UIPass>();
 
@@ -117,6 +119,12 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 		m_Output[outputIndex] = m_FXAAPass->GetRenderTarget()->GetTargets()[0];
 	}
 
+	if (m_Settings.VignetteEnabled)
+	{
+		m_VignettePass->Render(m_Output[outputIndex]);
+		m_Output[outputIndex] = m_VignettePass->GetRenderTarget()->GetTargets()[0];
+	}
+
 	// Depth Of Field
 	if (m_Settings.DepthOfFieldEnabled)
 	{
@@ -172,6 +180,8 @@ void Renderer::ResizeWindow(uint32_t width, uint32_t height)
 
 	// FXAA
 	m_FXAAPass->UpdateRenderTarget(width, height);
+
+	m_VignettePass->UpdateRenderTarget(width, height);
 
 	// Depth Of Field
 	m_DepthOfFieldPass->UpdateRenderTargets(width, height);
