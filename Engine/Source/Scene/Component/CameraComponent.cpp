@@ -27,8 +27,8 @@ void CameraComponent::Update(float deltaTime)
 	m_Front = CalculateFrontVector();
 	m_Right = CalculateRightVector();
 
-    m_Frustum->SetCamInternals(m_FieldOfView, m_AspectRatio.x / m_AspectRatio.y, m_NearClipPlane, m_FarClipPlane);
-    m_Frustum->SetCamDef(GetWorldPosition(), GetFront(), GetUp());
+
+    m_Frustum->UpdateFrustum(GetViewProjectionMatrix());
 }
 
 void CameraComponent::Destroy()
