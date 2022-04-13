@@ -6,6 +6,7 @@
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/InstanceRenderedMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
+#include "Scene/Component/Animation/Animator.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
@@ -267,6 +268,18 @@ void ActorDetailsPanel::Render()
 
         if (ImGui::Button("Generate"))
             mesh->Generate();
+    }
+
+    if (auto animator = m_Actor->GetComponent<Animator>())
+    {
+        ImGui::Text("Animator Component");
+
+        ImGui::Text("Animations available: %i", animator->HowManyAnimationsAreThere());
+
+        ImGui::Text("Animation current time: %f", animator->GetCurrentAnimationTime());
+
+        ImGui::Dummy(ImVec2(0.0, 10.0));
+        // [...]
     }
 
     if (auto mesh = m_Actor->GetComponent<SkeletalMeshComponent>())
@@ -533,6 +546,7 @@ void ActorDetailsPanel::Render()
     bool staticMesh = false;
     bool instanceRenderedMesh = false;
     bool skeletalMesh = false;
+    bool animator = false;
     bool dirLight = false;
     bool pointLight = false;
     bool spotLight = false;
@@ -555,6 +569,7 @@ void ActorDetailsPanel::Render()
                 ImGui::MenuItem("Static Mesh", "", &staticMesh);
                 ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
                 ImGui::MenuItem("Skeletal Mesh", "", &skeletalMesh);
+                ImGui::MenuItem("Animator", "", &animator);
                 if (ImGui::BeginMenu("Light"))
                 {
                     ImGui::MenuItem("Directional Light", "", &dirLight);
@@ -611,6 +626,15 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<InstanceRenderedMeshComponent>();
     if (skeletalMesh)
         m_Actor->AddComponent<SkeletalMeshComponent>();
+    if (animator)
+    {
+        if (m_Actor->GetComponent<SkeletalMeshComponent>() == nullptr)
+        {
+            m_Actor->AddComponent<SkeletalMeshComponent>();
+        }
+
+        m_Actor->AddComponent<Animator>();
+    }
     if (dirLight)
         m_Actor->AddComponent<DirectionalLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
     if (pointLight)

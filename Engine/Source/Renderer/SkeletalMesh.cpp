@@ -2,11 +2,19 @@
 
 #include <glad/glad.h>
 
+<<<<<<< Updated upstream
 SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> inVertices,
 	std::vector<uint32_t> inIndices,
 	uint32_t boneCounter)
 	:
 	m_Vertices(inVertices), m_Indices(inIndices), m_BoneCounter(boneCounter)
+=======
+SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> vertices,
+	std::vector<uint32_t> indices,
+	uint32_t boneCounter,
+	std::unordered_map<std::string, BoneInfo> boneInfoMap)
+	: m_Vertices(vertices), Mesh(indices), m_BoneCounter(boneCounter), m_BoneInfoMap(boneInfoMap)
+>>>>>>> Stashed changes
 {
 	SetupMesh();
 

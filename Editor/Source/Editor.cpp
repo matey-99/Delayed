@@ -8,6 +8,7 @@
 #include "Renderer/RenderPass/LightingPass.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/UI/UIComponent.h"
 
 #define UPDATE_UI 1
@@ -76,6 +77,12 @@ void Editor::Start()
 	for (auto mesh : meshes)
 	{
 		mesh->Start();
+	}
+
+	auto skelMeshes = m_Scene->GetComponents<SkeletalMeshComponent>();
+	for (auto skelMesh : skelMeshes)
+	{
+		skelMesh->Start();
 	}
 
 	auto colliders = m_Scene->GetComponents<ColliderComponent>();

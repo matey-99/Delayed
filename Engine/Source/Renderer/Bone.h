@@ -8,6 +8,12 @@
 #include <glm/gtx/quaternion.hpp>
 
 
+struct BoneInfo
+{
+	int ID;				// index in finalBoneMatrices
+	glm::mat4 Offset;	// offset matrix transforms vertex from model space to bone space
+};
+
 struct KeyPosition
 {
 	glm::vec3 position;

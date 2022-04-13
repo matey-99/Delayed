@@ -73,9 +73,10 @@ void SkeletalMeshImporter::ExtractBoneWeightForVertices(
 	std::vector<SkinnedVertex>& vertices,
 	aiMesh* mesh,
 	const aiScene* scene,
-	uint32_t &boneCounter)
+	uint32_t &boneCounter,
+	std::unordered_map<std::string, BoneInfo> &_boneInfoMap)
 {
-	auto& boneInfoMap = m_BoneInfoMap;
+	auto& boneInfoMap = _boneInfoMap;
 
 	for (int boneIndex = 0; boneIndex < mesh->mNumBones; ++boneIndex)
 	{
@@ -174,11 +175,16 @@ SkeletalMesh SkeletalMeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scen
 	}
 
 	uint32_t boneCounter = 0;
+	std::unordered_map<std::string, BoneInfo> boneInfoMap;
 
 	if (mesh->HasBones())
 	{
-		ExtractBoneWeightForVertices(vertices, mesh, scene, boneCounter);
+		ExtractBoneWeightForVertices(vertices, mesh, scene, boneCounter, boneInfoMap);
 	}
 
+<<<<<<< Updated upstream
 	return SkeletalMesh(vertices, indices, boneCounter);
+=======
+	return CreateRef<SkeletalMesh>(vertices, indices, boneCounter, boneInfoMap);
+>>>>>>> Stashed changes
 }

@@ -8,6 +8,7 @@
 #include <vector>
 #include <unordered_map>
 
+<<<<<<< Updated upstream
 #define MAX_BONES_INFLUENCE 4
 
 
@@ -18,6 +19,15 @@ struct BoneInfo
 };
 
 struct SkinnedVertex
+=======
+#include "../Renderer/Bone.h"
+#include "Mesh.h"
+
+#define MAX_BONES_INFLUENCE 4
+
+
+struct SkinnedVertex : Vertex
+>>>>>>> Stashed changes
 {
 	glm::vec3 position;
 	glm::vec3 normal;
@@ -31,10 +41,17 @@ struct SkinnedVertex
 class SkeletalMesh
 {
 public:
+<<<<<<< Updated upstream
 	SkeletalMesh(std::vector<SkinnedVertex> inVertices,
 		std::vector<uint32_t> inIndices,
 		uint32_t boneCounter);
 	void Render();
+=======
+	SkeletalMesh(std::vector<SkinnedVertex> vertices,
+		std::vector<uint32_t> indices,
+		uint32_t boneCounter,
+		std::unordered_map<std::string, BoneInfo> boneInfoMap);
+>>>>>>> Stashed changes
 
 	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
 	inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
@@ -44,6 +61,7 @@ public:
 	inline int const GetMaxBonesInfluence() const { return MAX_BONES_INFLUENCE; }
 
 	uint32_t GetBoneCount() { return m_BoneCounter; }
+	std::unordered_map<std::string, BoneInfo> GetBoneInfoMap() { return m_BoneInfoMap; }
 
 private:
 	void SetupMesh();
@@ -53,6 +71,7 @@ private:
 	BoundingSphere m_BoundingSphere;
 
 	std::vector<SkinnedVertex> m_Vertices;
+<<<<<<< Updated upstream
 	std::vector<uint32_t> m_Indices;
 
 	uint32_t m_BoneCounter = 0;
@@ -61,4 +80,9 @@ private:
 	uint32_t m_VAO;
 	uint32_t m_VBO;
 	uint32_t m_EBO;
+=======
+	std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
+public:
+	uint32_t m_BoneCounter = 0;
+>>>>>>> Stashed changes
 };
