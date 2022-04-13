@@ -7,17 +7,11 @@
 #include "Math/BoundingSphere.h"
 #include <vector>
 #include <unordered_map>
-
+#include "Bone.h"
 #include "Mesh.h"
 
 #define MAX_BONES_INFLUENCE 4
 
-
-struct BoneInfo
-{
-	int ID;				// index in finalBoneMatrices
-	glm::mat4 Offset;	// offset matrix transforms vertex from model space to bone space
-};
 
 struct SkinnedVertex : Vertex
 {
@@ -36,12 +30,13 @@ public:
 	inline int const GetMaxBonesInfluence() const { return MAX_BONES_INFLUENCE; }
 
 	uint32_t GetBoneCount() { return m_BoneCounter; }
+	std::unordered_map<std::string, BoneInfo> GetBoneInfoMap() { return m_BoneInfoMap; }
 
 private:
 	void SetupMesh();
 
-private:
+public:
 	std::vector<SkinnedVertex> m_Vertices;
 	uint32_t m_BoneCounter = 0;
-	//std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
+	std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
 };

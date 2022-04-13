@@ -53,8 +53,8 @@ private:
 	{
 		int size = animation->mNumChannels;
 
-		auto& boneInfoMap = model->GetBoneInfoMap();//getting m_BoneInfoMap from Model class
-		uint32_t& boneCount = model->m_BoneCounter; //getting the m_BoneCounter from Model class
+		auto& boneInfoMap = model->GetBoneInfoMap(); //getting m_BoneInfoMap from Model class
+		uint32_t& boneCount = model->m_BoneCounter;  //getting the m_BoneCounter from Model class
 
 		//reading channels(bones engaged in an animation and their keyframes)
 		for (int i = 0; i < size; i++)
