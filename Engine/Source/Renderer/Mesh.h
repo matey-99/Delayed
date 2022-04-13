@@ -21,6 +21,7 @@ class Mesh
 public:
 	Mesh(std::vector<uint32_t> indices);
 	void Render();
+	void RenderInstanced(uint32_t instancesCount, std::vector<glm::mat4> modelMatrices);
 
 	void CreateBounds(std::vector<Vertex> vertices);
 
@@ -38,6 +39,8 @@ protected:
 	uint32_t m_VAO;
 	uint32_t m_VBO;
 	uint32_t m_EBO;
+
+	uint32_t m_TransformationVBO;
 
 private:
 	BoundingBox m_BoundingBox;

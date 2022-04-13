@@ -8,7 +8,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 #include "Renderer/Renderer.h"
+#include "Renderer/RenderPass/ShadowsPass.h"
 #include "Component/TransformComponent.h"
+#include "Component/Light/SkyLight.h"
 #include "Component/UI/RectTransformComponent.h"
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
@@ -94,11 +96,18 @@ void Scene::Render(Material::BlendMode blendMode)
 		auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
 		SortActorsByDistance(actors, cameraPosition, false);
 	}
-
+	// TO DO: Distance Culling
 	// TO DO: Frustum Culling
 
+	std::vector<Ref<MeshComponent>> meshComponents;
 	for (auto actor : actors)
-		actor->Render(blendMode);
+	{
+		if (auto m = actor->GetComponent<MeshComponent>())
+			meshComponents.push_back(m);
+	}
+	SortMeshesByMaterial(meshComponents);
+
+	RenderMeshes(blendMode);
 }
 
 void Scene::Destroy()
@@ -134,6 +143,80 @@ void Scene::SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, b
 
 		return ascending ? a1Distance < a2Distance : a1Distance > a2Distance;
 		});
+}
+
+void Scene::SortMeshesByMaterial(std::vector<Ref<MeshComponent>>& meshComponents)
+{
+	m_Meshes.clear();
+
+	for (auto meshComponent : meshComponents)
+	{
+		for (int i = 0; i < meshComponent->GetMeshes().size(); i++)
+		{
+			if (meshComponent->GetMaterials().size() > i)
+			{
+				Ref<Mesh> mesh = meshComponent->GetMeshes()[i];
+				Ref<Material> material = meshComponent->GetMaterials()[i];
+
+				RenderMesh renderMesh = { mesh, meshComponent->GetOwner()->GetTransform()->GetWorldModelMatrix() };
+				if (m_Meshes.find(material) == m_Meshes.end())
+				{
+					std::vector<RenderMesh> renderMeshes;
+					renderMeshes.push_back(renderMesh);
+
+					m_Meshes.insert({ material, renderMeshes });
+				}
+				else
+				{
+					m_Meshes.find(material)->second.push_back(renderMesh);
+				}
+			}
+		}
+	}
+}
+
+void Scene::RenderMeshes(Material::BlendMode blendMode)
+{
+	for (auto& mesh : m_Meshes)
+	{
+		auto material = mesh.first;
+		auto renderMeshes = mesh.second;
+
+		if (material->GetBlendMode() != blendMode)
+			continue;
+
+		material->Use();
+
+		if (blendMode == Material::BlendMode::Transparent)
+		{
+			auto s = Renderer::GetInstance()->m_ShadowsPass;
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D_ARRAY, s->GetDirectionalLightRenderTarget()->GetTargets()[0]);
+
+			material->GetShader()->SetInt("u_DirectionalLightShadowMaps", 0);
+
+			if (auto skyLight = FindComponent<SkyLight>())
+			{
+				material->GetShader()->SetVec3("u_SkyLightColor", skyLight->GetColor());
+				material->GetShader()->SetFloat("u_SkyLightIntensity", skyLight->GetIntensity());
+			}
+			else
+			{
+				material->GetShader()->SetVec3("u_SkyLightColor", glm::vec3(1.0f));
+				material->GetShader()->SetFloat("u_SkyLightIntensity", 0.03f);
+			}
+		}
+
+		std::vector<glm::mat4> modelMatrices;
+		uint32_t instancesCount = 0;
+		for (auto& renderMesh : renderMeshes)
+		{
+			instancesCount++;
+			modelMatrices.push_back(renderMesh.WorldModelMatrix);
+		}
+
+		renderMeshes[0].Mesh->RenderInstanced(instancesCount, modelMatrices);
+	}
 }
 
 Ref<Actor> Scene::AddRoot()

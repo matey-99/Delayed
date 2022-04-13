@@ -8,6 +8,15 @@
 #include "Renderer/UniformBuffer.h"
 #include "Patterns/Delegate.h"
 
+class Mesh;
+class MeshComponent;
+
+struct RenderMesh
+{
+	Ref<Mesh> Mesh;
+	glm::mat4 WorldModelMatrix;
+};
+
 class Scene
 {
 private:
@@ -20,6 +29,8 @@ private:
 
 	std::vector<Ref<Actor>> m_ActorsAddedRuntime;
 	std::vector<Actor*> m_ActorsDestroyedRuntime;
+
+	std::unordered_map<Ref<Material>, std::vector<RenderMesh>> m_Meshes;
 
 	glm::vec4 m_BackgroundColor;
 
@@ -37,9 +48,6 @@ public:
 	void PreRender();
 	void Render(Material::BlendMode blendMode = Material::BlendMode::Opaque);
 	void Destroy();
-
-	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
-	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
 
 	Ref<Actor> AddRoot();
 	Ref<Actor> AddUIRoot();
@@ -143,6 +151,12 @@ public:
 
 	inline void SetName(std::string name) { m_Name = name; }
 	inline void SetChangedSinceLastFrame(bool changed) { m_ChangedSinceLastFrame = changed; }
+
+private:
+	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
+	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
+	void SortMeshesByMaterial(std::vector<Ref<MeshComponent>>& meshComponents);
+	void RenderMeshes(Material::BlendMode blendMode);
 
 	friend class SceneSerializer;
 	friend class WorldSettingsPanel;
