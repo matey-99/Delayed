@@ -1,7 +1,5 @@
 #include "InputSerializer.h"
 
-#include "Content/ContentHelper.h"
-
 #include "yaml/yaml.h"
 
 void InputSerializer::Deserialize(std::string path)

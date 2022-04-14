@@ -25,7 +25,7 @@ public:
 	virtual void UpdateBoundingBox() = 0;
     virtual void UpdateBoundingSphere() = 0;
 
-	virtual std::vector<Ref<Mesh>> GetMeshes() const = 0;
+	virtual std::vector<Ref<MeshBase>> GetMeshes() const = 0;
 	virtual uint32_t GetRenderedVerticesCount() = 0;
 
 	virtual void Start() override;

@@ -1,8 +1,7 @@
 #include "MeshComponent.h"
 
-#include "Importer/MeshImporter.h"
+#include "Assets/AssetManager.h"
 #include "Importer/MaterialImporter.h"
-#include "Content/ContentHelper.h"
 #include "Camera/CameraManager.h"
 
 #include "Scene/Actor.h"
@@ -56,12 +55,12 @@ void MeshComponent::Destroy()
 
 void MeshComponent::LoadMaterial(std::string path)
 {
-	m_Materials.push_back(MaterialImporter::GetInstance()->ImportMaterial(path));
+	m_Materials.push_back(AssetManager::LoadMaterial(path));
 	m_MaterialsPaths.push_back(path);
 }
 
 void MeshComponent::ChangeMaterial(int index, std::string path)
 {
 	m_MaterialsPaths.at(index) = path;
-	m_Materials.at(index) = MaterialImporter::GetInstance()->ImportMaterial(path);
+	m_Materials.at(index) = AssetManager::LoadMaterial(path);
 }

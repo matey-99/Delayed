@@ -4,7 +4,6 @@
 #include <stb_image.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Content/ContentHelper.h"
 #include "Material/ShaderLibrary.h"
 #include "Renderer/Texture.h"
 #include "Renderer/Renderer.h"
@@ -99,7 +98,8 @@ void SkyLight::Load(std::vector<std::string> paths)
     uint8_t* data;
     for (uint32_t i = 0; i < paths.size(); i++)
     {
-        data = stbi_load(ContentHelper::GetAssetPath(paths[i]).c_str(), &width, &height, &channelsNumber, 0);
+        std::string path = "../../../Content/" + paths[i];
+        data = stbi_load(path.c_str(), &width, &height, &channelsNumber, 0);
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
 

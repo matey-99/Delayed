@@ -1,10 +1,10 @@
 #include "MaterialSerializer.h"
 
-#include "Content/ContentHelper.h"
+#include "Assets/AssetManager.h"
 
 #include "yaml/yaml.h"
 
-void MaterialSerializer::Serialize(Ref<Material> material)
+void MaterialSerializer::Serialize(Ref<Material> material, std::string destinationPath)
 {
 	YAML::Emitter out;
 	out << YAML::BeginMap;
@@ -48,13 +48,22 @@ void MaterialSerializer::Serialize(Ref<Material> material)
 	{
 		out << YAML::BeginMap;
 		out << YAML::Key << "Name" << YAML::Value << param.first;
-		out << YAML::Key << "Path" << YAML::Value << (param.second ? param.second->GetPath() : "null");
+
+		if (param.second)
+		{
+			std::string fullPath = param.second->GetPath();
+			std::string path = fullPath.substr(fullPath.find_last_of("Content/"));
+			out << YAML::Key << "Path" << YAML::Value << path;
+		}
+		else
+			out << YAML::Key << "Path" << YAML::Value << "null";
+
 		out << YAML::EndMap;
 	}
 	out << YAML::EndSeq;
 	out << YAML::EndMap;
 
-	std::ofstream file(ContentHelper::GetAssetPath("Materials/") + material->GetName() + ".mat");
+	std::ofstream file(destinationPath + material->GetName() + ".mat");
 	file << out.c_str();
 	file.close();
 }
@@ -130,12 +139,7 @@ Ref<Material> MaterialSerializer::Deserialize(std::string path)
 
 			if (path != "null")
 			{
-				Ref<Texture> texture;
-				std::string extension = path.substr(path.find_last_of('.') + 1);
-				if (extension == "hdr")
-					texture = Texture::Create(path, TextureRange::HDR);
-				else
-					texture = Texture::Create(path);
+				Ref<Texture> texture = AssetManager::LoadTexture(path);
 
 				if (material->m_Texture2DParameters.find(name) != material->m_Texture2DParameters.end())
 					material->m_Texture2DParameters.find(name)->second = texture;

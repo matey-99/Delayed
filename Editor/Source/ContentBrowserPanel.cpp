@@ -7,7 +7,7 @@
 #include "Material/Material.h"
 #include "Material/MaterialSerializer.h"
 #include "Importer/MaterialImporter.h"
-#include "Content/ContentHelper.h"
+#include "Assets/AssetManager.h"
 
 ContentBrowserPanel::ContentBrowserPanel(Ref<Editor> editor, Ref<Scene> scene) : m_Editor(editor), m_Scene(scene)
 {
@@ -16,7 +16,7 @@ ContentBrowserPanel::ContentBrowserPanel(Ref<Editor> editor, Ref<Scene> scene) :
 	m_SupportedFileFormats.push_back("fbx");
 	m_SupportedFileFormats.push_back("mat");
 
-	m_DisplayedDirectory = ContentHelper::GetAssetPath("");
+	m_DisplayedDirectory = AssetManager::ContentDirectory;
 
 	m_IsCreateMaterialWindowDisplayed = false;
 	m_NewMaterialName = "New Material";
@@ -26,7 +26,7 @@ void ContentBrowserPanel::Render()
 {
 	ImGui::Begin("Content Browser");
 
-	if (m_DisplayedDirectory != ContentHelper::GetAssetPath(""))
+	if (m_DisplayedDirectory != AssetManager::ContentDirectory)
 	{
 		bool selected = false;
 		ImGui::Selectable("..", &selected);
@@ -144,5 +144,5 @@ void ContentBrowserPanel::CorrectPath(std::string& path)
 		path = path.substr(1);
 	}
 
-	path = path.substr(ContentHelper::GetAssetPath("").size());
+	path = path.substr(AssetManager::ContentDirectory.size());
 }

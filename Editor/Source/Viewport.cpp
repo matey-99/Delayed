@@ -6,10 +6,10 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Importer/MeshImporter.h"
 #include "Editor.h"
 #include "Math/Math.h"
-#include "Content/ContentHelper.h"
+#include "Assets/AssetManager.h"
+#include "Assets/Model.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/SpotLight.h"
 #include "Renderer/RenderTools.h"
@@ -34,19 +34,19 @@ Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
     m_ViewportRenderTarget = RenderTarget::Create(viewportConfig, 1920, 1080);
 
 
-    m_DirectionArrowShader = CreateRef<Shader>("Gizmos",
-                                               ContentHelper::GetAssetPath("Shaders/Editor/Gizmos.vert"),
-                                               ContentHelper::GetAssetPath("Shaders/Editor/Gizmos.frag"));
+    m_DirectionArrowShader = CreateRef<Shader>("Gizmos", 
+        AssetManager::ContentDirectory + "Shaders/Editor/Gizmos.vert", 
+        AssetManager::ContentDirectory + "Shaders/Editor/Gizmos.frag");
 
-    m_ColliderShader = CreateRef<Shader>("Collider",
-                                               ContentHelper::GetAssetPath("Shaders/Editor/Collider.vert"),
-                                               ContentHelper::GetAssetPath("Shaders/Editor/Collider.frag"));
+    m_ColliderShader = CreateRef<Shader>("Collider", 
+        AssetManager::ContentDirectory + "Shaders/Editor/Collider.vert", 
+        AssetManager::ContentDirectory + "Shaders/Editor/Collider.frag");
 
     m_ViewportShader = CreateRef<Shader>("Viewport", 
-                                         ContentHelper::GetAssetPath("Shaders/Editor/Viewport.vert"),
-                                         ContentHelper::GetAssetPath("Shaders/Editor/Viewport.frag"));
+        AssetManager::ContentDirectory + "Shaders/Editor/Viewport.vert", 
+        AssetManager::ContentDirectory + "Shaders/Editor/Viewport.frag");
 
-    m_DirectionArrow = MeshImporter::GetInstance()->ImportMesh("Models/editor/DirectionArrow.fbx");
+    m_DirectionArrow = AssetManager::LoadModel("Models/editor/DirectionArrow.fbx");
 
     m_SelectingActor = true;
 }
@@ -183,7 +183,7 @@ void Viewport::RenderGizmos()
 
             m_DirectionArrowShader->Use();
             m_DirectionArrowShader->SetMat4("u_Model", model);
-            for (auto mesh : m_DirectionArrow)
+            for (auto mesh : m_DirectionArrow->GetMeshes())
             {
                 mesh->Render();
             }

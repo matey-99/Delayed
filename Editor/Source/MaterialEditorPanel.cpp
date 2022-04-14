@@ -1,9 +1,9 @@
 #include "MaterialEditorPanel.h"
 
+#include "Assets/AssetManager.h"
 #include "imgui.h"
 #include "Editor.h"
 #include "Material/MaterialSerializer.h"
-#include "Content/ContentHelper.h"
 
 MaterialEditorPanel::MaterialEditorPanel(Ref<Editor> editor) : m_Editor(editor)
 {
@@ -108,7 +108,7 @@ void MaterialEditorPanel::Render()
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     if (ImGui::Button("Save"))
-        MaterialSerializer::Serialize(m_Material);
+        MaterialSerializer::Serialize(m_Material, "../../../Content/Materials/");
 
     if (ImGui::Button("Close"))
         m_Editor->HideMaterialEditor();
@@ -118,7 +118,7 @@ void MaterialEditorPanel::Render()
 
 void MaterialEditorPanel::DisplayTextures(std::string name)
 {
-    for (auto& p : std::filesystem::recursive_directory_iterator(ContentHelper::GetAssetPath("")))
+    for (auto& p : std::filesystem::recursive_directory_iterator(AssetManager::ContentDirectory))
     {
         std::stringstream ss;
         ss << p.path();
@@ -137,7 +137,7 @@ void MaterialEditorPanel::DisplayTextures(std::string name)
                 const bool isSelected = false;
                 if (ImGui::Selectable(shaderName.c_str(), &isSelected))
                 {
-                    auto texture = Texture::Create(path);
+                    auto texture = AssetManager::LoadTexture(path);
                     m_Material->m_Texture2DParameters.find(name)->second = texture;
                 }
             }

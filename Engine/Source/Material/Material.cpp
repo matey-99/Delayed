@@ -3,7 +3,7 @@
 #include "MaterialSerializer.h"
 #include "Importer/MaterialImporter.h"
 #include "ShaderLibrary.h"
-#include "Content/ContentHelper.h"
+#include "Assets/AssetManager.h"
 
 Material::Material(std::string name, Ref<Shader> shader)
 	: m_Name(name), m_Shader(shader)
@@ -29,8 +29,7 @@ Material::Material(uint64_t id, std::string name, Ref<Shader> shader)
 Ref<Material> Material::Create(std::string name, Ref<Shader> shader)
 {
 	Ref<Material> material = CreateRef<Material>(name, shader);
-	MaterialSerializer::Serialize(material);
-	MaterialImporter::GetInstance()->AddMaterial(ContentHelper::GetAssetPath("Materials/") + material->GetName() + ".mat", material);
+	AssetManager::CreateMaterial(name, material);
 
 	return material;
 }
@@ -38,8 +37,7 @@ Ref<Material> Material::Create(std::string name, Ref<Shader> shader)
 Ref<Material> Material::Create(std::string name, std::string shaderName)
 {
 	Ref<Material> material = CreateRef<Material>(name, ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, shaderName));
-	MaterialSerializer::Serialize(material);
-	MaterialImporter::GetInstance()->AddMaterial(ContentHelper::GetAssetPath("Materials/") + material->GetName() + ".mat", material);
+	AssetManager::CreateMaterial(name, material);
 
 	return material;
 }

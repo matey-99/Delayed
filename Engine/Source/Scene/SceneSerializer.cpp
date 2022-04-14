@@ -1,7 +1,8 @@
 #include "SceneSerializer.h"
 
+#include "Assets/AssetManager.h"
+
 #include "yaml/yaml.h"
-#include "Content/ContentHelper.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
@@ -269,7 +270,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						glm::vec4 color = image["Color"].as<glm::vec4>();
 
 						auto i = a->AddComponent<ImageComponent>();
-						i->m_Image = Texture::Create(path);
+						i->m_Image = AssetManager::LoadTexture(path);
 						i->m_Color = color;
 					}
 
@@ -284,7 +285,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 						auto b = a->AddComponent<ButtonComponent>();
 						b->m_Enabled = enabled;
-						b->m_Image = Texture::Create(path);
+						b->m_Image = AssetManager::LoadTexture(path);
 						b->m_NormalColor = normalColor;
 						b->m_HoveredColor = hoveredColor;
 						b->m_PressedColor = pressedColor;

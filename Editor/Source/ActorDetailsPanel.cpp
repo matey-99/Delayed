@@ -2,7 +2,7 @@
 
 #include "imgui.h"
 #include "Editor.h"
-#include "Content/ContentHelper.h"
+#include "Assets/AssetManager.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
@@ -571,12 +571,12 @@ void ActorDetailsPanel::Render()
     if (skyLight)
     {
         std::vector<std::string> defaultPaths;
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/px.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/nx.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/py.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/ny.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/nz.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/pz.png"));
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/px.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/nx.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/py.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/ny.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/nz.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/pz.png");
 
         auto sk = m_Actor->AddComponent<SkyLight>(defaultPaths);
         m_Actor->GetScene()->m_SkyLight = sk;
@@ -610,7 +610,7 @@ void ActorDetailsPanel::Render()
 
 void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, int index)
 {
-    for (auto& p : std::filesystem::recursive_directory_iterator(ContentHelper::GetAssetPath("")))
+    for (auto& p : std::filesystem::recursive_directory_iterator(AssetManager::ContentDirectory))
     {
         std::stringstream ss;
         ss << p.path();
@@ -635,10 +635,6 @@ void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, in
                     {
                         if (auto mesh = m_Actor->GetComponent<MeshComponent>())
                             mesh->ChangeMaterial(index, path);
-                    }
-                    else if (ext == "hdr")
-                    {
-
                     }
                     else if (ext == "png")
                     {
@@ -677,5 +673,5 @@ void ActorDetailsPanel::CorrectPath(std::string& path)
         path.replace(index, 2, "/");
     }
 
-    path = path.substr(ContentHelper::GetAssetPath("").size());
+    path = path.substr(AssetManager::ContentDirectory.size());
 }

@@ -8,13 +8,13 @@
 #include "Renderer/UniformBuffer.h"
 #include "Patterns/Delegate.h"
 
-class Mesh;
+class MeshBase;
 class MeshComponent;
 class SkyLight;
 
 struct MaterialMesh
 {
-	Ref<Mesh> Mesh;
+	Ref<MeshBase> Mesh;
 	Ref<Material> Material;
 };
 

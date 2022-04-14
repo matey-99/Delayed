@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Renderer/SkeletalMesh.h"
+#include "Assets/SkeletalModel.h"
 #include "Material/Material.h"
 #include "Material/ShaderLibrary.h"
 #include "Scene/Component/MeshComponent.h"
 
 class SkeletalMeshComponent : public MeshComponent
 {
-
-
 public:
 	SkeletalMeshComponent(Actor* owner);
 	SkeletalMeshComponent(Actor* owner, std::string path);
@@ -22,12 +21,12 @@ public:
 
 	virtual void Render(Material::BlendMode blendMode) override;
 
-	virtual std::vector<Ref<Mesh>> GetMeshes() const override;
+	virtual std::vector<Ref<MeshBase>> GetMeshes() const override;
 	virtual uint32_t GetRenderedVerticesCount() override;
 
 	// Details
 	uint32_t GetBoneCount();
 
 private:
-	std::vector<Ref<SkeletalMesh>> m_Meshes;
+	Ref<SkeletalModel> m_SkeletalModel;
 };

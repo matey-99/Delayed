@@ -1,6 +1,6 @@
 #include "ShaderLibrary.h"
 
-#include "Content/ContentHelper.h"
+#include "Assets/AssetManager.h"
 
 Ref<ShaderLibrary> ShaderLibrary::s_Instance{};
 std::mutex ShaderLibrary::s_Mutex;
@@ -9,172 +9,125 @@ ShaderLibrary::ShaderLibrary()
 {
 	// OPAQUE MATERIAL SHADERS
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Standard", 
-		CreateRef<Shader>("Standard", 
-			ContentHelper::GetAssetPath("Shaders/Material/Standard.vert"),
-			ContentHelper::GetAssetPath("Shaders/GBuffer.frag"))));
+		AssetManager::LoadShader("Standard", "Shaders/Material/Standard.vert", "Shaders/GBuffer.frag")));
 
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Lighting",
-		CreateRef<Shader>("Lighting",
-			ContentHelper::GetAssetPath("Shaders/Lighting.vert"),
-			ContentHelper::GetAssetPath("Shaders/Lighting.frag"))));
+		AssetManager::LoadShader("Lighting", "Shaders/Lighting.vert", "Shaders/Lighting.frag")));
 
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("OpaqueSkeletal",
-		CreateRef<Shader>("OpaqueSkeletal",
-			ContentHelper::GetAssetPath("Shaders/Material/StandardSkeletal.vert"),
-			ContentHelper::GetAssetPath("Shaders/GBuffer.frag"))));
+		AssetManager::LoadShader("OpaqueSkeletal", "Shaders/Material/StandardSkeletal.vert", "Shaders/GBuffer.frag")));
 
 	// TRANSPARENT MATERIAL SHADERS
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Transparent",
-		CreateRef<Shader>("Transparent",
-			ContentHelper::GetAssetPath("Shaders/Material/Standard.vert"),
-			ContentHelper::GetAssetPath("Shaders/Material/Standard.frag"))));
+		AssetManager::LoadShader("Transparent", "Shaders/Material/Standard.vert", "Shaders/Material/Standard.frag")));
 
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("TransparentSkeletal",
-		CreateRef<Shader>("TransparentSkeletal",
-			ContentHelper::GetAssetPath("Shaders/Material/StandardSkeletal.vert"),
-			ContentHelper::GetAssetPath("Shaders/Material/Standard.frag"))));
+		AssetManager::LoadShader("TransparentSkeletal", "Shaders/Material/StandardSkeletal.vert", "Shaders/Material/Standard.frag")));
 
 	// POST PROCESSING SHADERS
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Screen", 
-		CreateRef<Shader>("Screen", 
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/Screen.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/Screen.frag"))));
+		AssetManager::LoadShader("Screen", "Shaders/PostProcessing/Screen.vert", "Shaders/PostProcessing/Screen.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("SSAO",
-		CreateRef<Shader>("SSAO",
-			ContentHelper::GetAssetPath("Shaders/SSAO.vert"),
-			ContentHelper::GetAssetPath("Shaders/SSAO.frag"))));
+		AssetManager::LoadShader("SSAO", "Shaders/SSAO.vert", "Shaders/SSAO.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("SSAOBlur",
-		CreateRef<Shader>("SSAOBlur",
-			ContentHelper::GetAssetPath("Shaders/SSAO.vert"),
-			ContentHelper::GetAssetPath("Shaders/SSAOBlur.frag"))));
+		AssetManager::LoadShader("SSAOBlur", "Shaders/SSAO.vert", "Shaders/SSAOBlur.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("PostProcessing", 
-		CreateRef<Shader>("PostProcessing", 
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.frag"))));
+		AssetManager::LoadShader("PostProcessing", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/PostProcessing.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("FXAA",
-		CreateRef<Shader>("FXAA",
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/FXAA.frag"))));
+		AssetManager::LoadShader("FXAA", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/FXAA.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Vignette",
-		CreateRef<Shader>("Vignette",
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/Vignette.frag"))));
+		AssetManager::LoadShader("Vignette", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/Vignette.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Blur",
-		CreateRef<Shader>("Blur",
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/Blur.frag"))));
+		AssetManager::LoadShader("Blur", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/Blur.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthOfField",
-		CreateRef<Shader>("DepthOfField",
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/DepthOfField.frag"))));
+		AssetManager::LoadShader("DepthOfField", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/DepthOfField.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Threshold", 
-		CreateRef<Shader>("Threshold", 
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/Threshold.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/Threshold.frag"))));
+		AssetManager::LoadShader("Threshold", "Shaders/PostProcessing/Threshold.vert", "Shaders/PostProcessing/Threshold.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Scale", 
-		CreateRef<Shader>("Scale", 
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/Scale.frag"))));
+		AssetManager::LoadShader("Scale", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/Scale.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("BlurHorizontal", 
-		CreateRef<Shader>("BlurHorizontal",
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/BlurHorizontal.frag"))));
+		AssetManager::LoadShader("BlurHorizontal", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/BlurHorizontal.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("BlurVertical",
-		CreateRef<Shader>("BlurVertical",
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/BlurVertical.frag"))));
+		AssetManager::LoadShader("BlurVertical", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/BlurVertical.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthMapOrtographic", 
-		CreateRef<Shader>("DepthMapOrtographic", 
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthMapOrtographic.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthMapOrtographic.frag"))));
+		AssetManager::LoadShader("DepthMapOrtographic", "Shaders/PostProcessing/DepthMapOrtographic.vert", "Shaders/PostProcessing/DepthMapOrtographic.frag")));
 
 	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthMapPerspective",
-		CreateRef<Shader>("DepthMapPerspective", 
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthMapPerspective.vert"),
-			ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthMapPerspective.frag"))));
+		AssetManager::LoadShader("DepthMapPerspective", "Shaders/PostProcessing/DepthMapPerspective.vert", "Shaders/PostProcessing/DepthMapPerspective.frag")));
 
     m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthFog",
-            CreateRef<Shader>("DepthFog",
-                              ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
-                              ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthFog.frag"))));
+            AssetManager::LoadShader("DepthFog", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/DepthFog.frag")));
 
 	// SKYBOX SHADERS
 	m_SkyboxShaders.insert(std::make_pair<std::string, Ref<Shader>>("Skybox", 
-		CreateRef<Shader>("Skybox", 
-			ContentHelper::GetAssetPath("Shaders/Skybox/Skybox.vert"),
-			ContentHelper::GetAssetPath("Shaders/Skybox/Skybox.frag"))));
+		AssetManager::LoadShader("Skybox", "Shaders/Skybox/Skybox.vert", "Shaders/Skybox/Skybox.frag")));
 
 	// CALCULATION SHADERS
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepth", 
-		CreateRef<Shader>("SceneDepth", 
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepth.vert"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepth.frag"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepth.geom"))));
+		AssetManager::LoadShader("SceneDepth", "Shaders/Calculation/SceneDepth.vert", "Shaders/Calculation/SceneDepth.frag", "Shaders/Calculation/SceneDepth.geom")));
 
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepthInstanced", 
-		CreateRef<Shader>("SceneDepthInstanced", 
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepthInstanced.vert"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepth.frag"))));
+		AssetManager::LoadShader("SceneDepthInstanced", "Shaders/Calculation/SceneDepthInstanced.vert", "Shaders/Calculation/SceneDepth.frag")));
 
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepthPoint", 
-		CreateRef<Shader>("SceneDepthPoint", 
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepthPoint.vert"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepthPoint.frag"), 
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepthPoint.geom"))));
+		AssetManager::LoadShader("SceneDepthPoint", 
+			"Shaders/Calculation/SceneDepthPoint.vert", 
+			"Shaders/Calculation/SceneDepthPoint.frag", 
+			"Shaders/Calculation/SceneDepthPoint.geom")));
 
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepthPointInstanced",
-		CreateRef<Shader>("SceneDepthPointInstanced", 
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepthPointInstanced.vert"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepthPoint.frag"), 
-			ContentHelper::GetAssetPath("Shaders/Calculation/SceneDepthPoint.geom"))));
+		AssetManager::LoadShader("SceneDepthPointInstanced", 
+			"Shaders/Calculation/SceneDepthPointInstanced.vert", 
+			"Shaders/Calculation/SceneDepthPoint.frag", 
+			"Shaders/Calculation/SceneDepthPoint.geom")));
 
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("EquirectangularToCubemap", 
-		CreateRef<Shader>("EquirectangularToCubemap", 
-			ContentHelper::GetAssetPath("Shaders/Calculation/EquirectangularToCubemap.vert"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/EquirectangularToCubemap.frag"))));
+		AssetManager::LoadShader("EquirectangularToCubemap", 
+			 "Shaders/Calculation/EquirectangularToCubemap.vert",
+			 "Shaders/Calculation/EquirectangularToCubemap.frag")));
 
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("Irradiance", 
-		CreateRef<Shader>("Irradiance", 
-			ContentHelper::GetAssetPath("Shaders/Calculation/Irradiance.vert"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/Irradiance.frag"))));
+		AssetManager::LoadShader("Irradiance", 
+			 "Shaders/Calculation/Irradiance.vert",
+			 "Shaders/Calculation/Irradiance.frag")));
 
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("Prefilter", 
-		CreateRef<Shader>("Prefilter", 
-			ContentHelper::GetAssetPath("Shaders/Calculation/Prefilter.vert"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/Prefilter.frag"))));
+		AssetManager::LoadShader("Prefilter", 
+			 "Shaders/Calculation/Prefilter.vert",
+			 "Shaders/Calculation/Prefilter.frag")));
 
 	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("BRDF", 
-		CreateRef<Shader>("BRDF", 
-			ContentHelper::GetAssetPath("Shaders/Calculation/BRDF.vert"),
-			ContentHelper::GetAssetPath("Shaders/Calculation/BRDF.frag"))));
+		AssetManager::LoadShader("BRDF", 
+			 "Shaders/Calculation/BRDF.vert",
+			 "Shaders/Calculation/BRDF.frag")));
 
 	// PARTICLE SHADERS
 	m_ParticleShaders.insert(std::make_pair<std::string, Ref<Shader>>("StandardParticle", 
-		CreateRef<Shader>("StandardParticle", 
-			ContentHelper::GetAssetPath("Shaders/Particle/StandardParticle.vert"),
-			ContentHelper::GetAssetPath("Shaders/Particle/StandardParticle.frag"))));
+		AssetManager::LoadShader("StandardParticle", 
+			 "Shaders/Particle/StandardParticle.vert",
+			 "Shaders/Particle/StandardParticle.frag")));
 
 	// UI SHADERS
 	m_UIShaders.insert(std::make_pair<std::string, Ref<Shader>>("UI",
-		CreateRef<Shader>("UI",
-			ContentHelper::GetAssetPath("Shaders/UI/UI.vert"),
-			ContentHelper::GetAssetPath("Shaders/UI/UI.frag"))));
+		AssetManager::LoadShader("UI",
+			 "Shaders/UI/UI.vert",
+			 "Shaders/UI/UI.frag")));
 
 	// COMPUTE SHADERS
 	m_ComputeShaders.insert(std::make_pair<std::string, Ref<ComputeShader>>("StandardParticle",
-		CreateRef<ComputeShader>(ContentHelper::GetAssetPath("Shaders/Particle/StandardParticle.comp"))));
+		AssetManager::LoadComputeShader("StandardParticle", "Shaders/Particle/StandardParticle.comp")));
 }
 
 Ref<ShaderLibrary> ShaderLibrary::GetInstance()

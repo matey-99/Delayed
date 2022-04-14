@@ -1,47 +1,35 @@
-#include "MeshImporter.h"
+#include "ModelImporter.h"
 
-#include "Content/ContentHelper.h"
+#include "Renderer/Mesh.h"
 
-Ref<MeshImporter> MeshImporter::s_Instance{};
-std::mutex MeshImporter::s_Mutex;
-
-MeshImporter::MeshImporter()
+ModelImporter::ModelImporter()
 {
-	m_ImportedMeshes = std::unordered_map<std::string, std::vector<Ref<StaticMesh>>>();
 }
 
-Ref<MeshImporter> MeshImporter::GetInstance()
+Ref<Model> ModelImporter::ImportModel(std::string path)
 {
-	std::lock_guard<std::mutex> lock(s_Mutex);
-	if (s_Instance == nullptr)
-		s_Instance = CreateRef<MeshImporter>();
-
-	return s_Instance;
-}
-
-std::vector<Ref<StaticMesh>> MeshImporter::ImportMesh(std::string path)
-{
-	if (m_ImportedMeshes.find(path) != m_ImportedMeshes.end())
-		return m_ImportedMeshes.at(path);
+	if (m_ImportedModels.find(path) != m_ImportedModels.end())
+		return m_ImportedModels.at(path);
 
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(ContentHelper::GetAssetPath(path), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
-		std::cout << "Loading model failed: " << importer.GetErrorString() << std::endl;
-		return std::vector<Ref<StaticMesh>>();
+		std::cout << "Loading mesh failed: " << importer.GetErrorString() << std::endl;
+		return nullptr;
 	}
 
-	std::vector<Ref<StaticMesh>> meshes = std::vector<Ref<StaticMesh>>();
-
+	std::vector<Ref<Mesh>> meshes;
 	ProcessNode(scene->mRootNode, scene, meshes);
 
-	m_ImportedMeshes.insert({ path, meshes });
-	return meshes;
+	Ref<Model> importedModel = CreateRef<Model>(meshes);
+
+	m_ImportedModels.insert({ path, importedModel });
+	return importedModel;
 }
 
-void MeshImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Ref<StaticMesh>>& meshes)
+void ModelImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Ref<Mesh>>& meshes)
 {
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
@@ -55,7 +43,7 @@ void MeshImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<R
 	}
 }
 
-Ref<StaticMesh> MeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+Ref<Mesh> ModelImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -110,5 +98,5 @@ Ref<StaticMesh> MeshImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 	}
 
-	return CreateRef<StaticMesh>(vertices, indices);
+	return CreateRef<Mesh>(vertices, indices);
 }

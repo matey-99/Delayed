@@ -6,6 +6,6 @@
 class MaterialSerializer
 {
 public:
-	static void Serialize(Ref<Material> material);
+	static void Serialize(Ref<Material> material, std::string destinationPath);
 	static Ref<Material> Deserialize(std::string path);
 };
