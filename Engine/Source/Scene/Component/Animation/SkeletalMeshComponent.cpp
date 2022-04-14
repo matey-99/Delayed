@@ -35,20 +35,6 @@ SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path, std
 
 void SkeletalMeshComponent::Render(Material::BlendMode blendMode)
 {
-	for (int i = 0; i < m_Meshes.size(); i++)
-	{
-		if (m_Materials.size() > i)
-		{
-			if (m_Materials.at(i)->GetBlendMode() != blendMode)
-				continue;
-
-			m_Materials.at(i)->Use();
-			m_Materials.at(i)->GetShader()->SetMat4("u_Model", m_Owner->GetTransform()->GetWorldModelMatrix());
-
-		}
-
-		m_Meshes.at(i)->Render();
-	}
 }
 
 std::vector<Ref<Mesh>> SkeletalMeshComponent::GetMeshes() const

@@ -18,15 +18,20 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/Lighting.vert"),
 			ContentHelper::GetAssetPath("Shaders/Lighting.frag"))));
 
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("OpaqueSkinned",
-		CreateRef<Shader>("OpaqueSkinned",
-			ContentHelper::GetAssetPath("Shaders/Material/StandardSkinned.vert"),
+	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("OpaqueSkeletal",
+		CreateRef<Shader>("OpaqueSkeletal",
+			ContentHelper::GetAssetPath("Shaders/Material/StandardSkeletal.vert"),
 			ContentHelper::GetAssetPath("Shaders/GBuffer.frag"))));
 
 	// TRANSPARENT MATERIAL SHADERS
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Transparent",
 		CreateRef<Shader>("Transparent",
 			ContentHelper::GetAssetPath("Shaders/Material/Standard.vert"),
+			ContentHelper::GetAssetPath("Shaders/Material/Standard.frag"))));
+
+	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("TransparentSkeletal",
+		CreateRef<Shader>("TransparentSkeletal",
+			ContentHelper::GetAssetPath("Shaders/Material/StandardSkeletal.vert"),
 			ContentHelper::GetAssetPath("Shaders/Material/Standard.frag"))));
 
 	// POST PROCESSING SHADERS

@@ -578,7 +578,8 @@ void ActorDetailsPanel::Render()
         defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/nz.png"));
         defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/pz.png"));
 
-        m_Actor->AddComponent<SkyLight>(defaultPaths);
+        auto sk = m_Actor->AddComponent<SkyLight>(defaultPaths);
+        m_Actor->GetScene()->m_SkyLight = sk;
 
     }
     if (particleSystem)

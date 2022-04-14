@@ -10,6 +10,7 @@
 
 class Mesh;
 class MeshComponent;
+class SkyLight;
 
 struct MaterialMesh
 {
@@ -149,6 +150,7 @@ private:
 	Ref<Actor> m_UIRoot;
 	std::vector<Ref<Actor>> m_Actors;
 	Ref<CameraComponent> m_CurrentCamera;
+	Ref<SkyLight> m_SkyLight;
 
 	std::vector<Ref<Actor>> m_ActorsAddedRuntime;
 	std::vector<Actor*> m_ActorsDestroyedRuntime;

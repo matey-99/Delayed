@@ -43,6 +43,8 @@ void Scene::Start()
 	{
 		actor->Start();
 	}
+
+	m_SkyLight = FindComponent<SkyLight>();
 }
 
 void Scene::Update(float deltaTime)
@@ -97,6 +99,9 @@ void Scene::Render(Material::BlendMode blendMode)
 	}
 
 	RenderMeshes(meshesList, blendMode);
+
+	if (m_SkyLight)
+		m_SkyLight->Render(blendMode);
 }
 
 void Scene::Render(Ref<Shader> shader)

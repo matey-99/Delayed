@@ -38,8 +38,7 @@ layout (std140, binding = 1) uniform u_VertexLights
     mat4[MAX_SPOT_LIGHTS] u_SpotLightSpaceMatrices;
 };
 
-layout (location = 0) uniform mat4 u_Model;
-layout (location = 1) uniform Material u_MaterialVS;
+layout (location = 0) uniform Material u_MaterialVS;
 
 void main()
 {
