@@ -14,5 +14,8 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 
-#ThirdParty
+# ThirdParty
 Engine/ThirdParty/fmod/lib
+
+# Other
+Analysis

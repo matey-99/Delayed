@@ -6,6 +6,16 @@
 #define PROFILER_START(name) if(Profiler::GetInstance()->IsProfiling()) Profiler::GetInstance()->StartProfiling(name);
 #define PROFILER_STOP() if(Profiler::GetInstance()->IsProfiling()) Profiler::GetInstance()->StopProfiling();
 
+struct ProfileData
+{
+	std::string Name;
+	std::chrono::system_clock::time_point StartTime;
+
+	ProfileData(std::string name, std::chrono::system_clock::time_point startTime)
+		: Name(name), StartTime(startTime) 
+	{}
+};
+
 class Profiler : public Singleton<Profiler>
 {
 public:
@@ -30,9 +40,7 @@ private:
 	float m_ElapsedTimeToProfile;
 	float m_ProfilerTimer;
 
-	std::string m_CurrentProfilingName;
-	std::chrono::system_clock::time_point m_StartProfilingTime;
-	std::chrono::system_clock::time_point m_StopProfilingTime;
+	std::stack<ProfileData> m_ProfilesData;
 
 	uint64_t m_FrameCounter;
 	std::string m_Output;

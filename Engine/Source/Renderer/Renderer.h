@@ -23,6 +23,7 @@ class FXAAPass;
 class VignettePass;
 class DepthOfFieldPass;
 class UIPass;
+class DepthFogPass;
 class UniformBuffer;
 class Scene;
 class Camera;
@@ -43,6 +44,7 @@ public:
 	Ref<VignettePass> m_VignettePass;
 	Ref<DepthOfFieldPass> m_DepthOfFieldPass;
 	Ref<UIPass> m_UIPass;
+    Ref<DepthFogPass> m_DepthFogPass;
 
 	struct RendererSettings
 	{

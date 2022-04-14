@@ -18,15 +18,20 @@ ShaderLibrary::ShaderLibrary()
 			ContentHelper::GetAssetPath("Shaders/Lighting.vert"),
 			ContentHelper::GetAssetPath("Shaders/Lighting.frag"))));
 
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("OpaqueSkinned",
-		CreateRef<Shader>("OpaqueSkinned",
-			ContentHelper::GetAssetPath("Shaders/Material/StandardSkinned.vert"),
+	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("OpaqueSkeletal",
+		CreateRef<Shader>("OpaqueSkeletal",
+			ContentHelper::GetAssetPath("Shaders/Material/StandardSkeletal.vert"),
 			ContentHelper::GetAssetPath("Shaders/GBuffer.frag"))));
 
 	// TRANSPARENT MATERIAL SHADERS
 	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Transparent",
 		CreateRef<Shader>("Transparent",
 			ContentHelper::GetAssetPath("Shaders/Material/Standard.vert"),
+			ContentHelper::GetAssetPath("Shaders/Material/Standard.frag"))));
+
+	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("TransparentSkeletal",
+		CreateRef<Shader>("TransparentSkeletal",
+			ContentHelper::GetAssetPath("Shaders/Material/StandardSkeletal.vert"),
 			ContentHelper::GetAssetPath("Shaders/Material/Standard.frag"))));
 
 	// POST PROCESSING SHADERS
@@ -99,6 +104,11 @@ ShaderLibrary::ShaderLibrary()
 		CreateRef<Shader>("DepthMapPerspective", 
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthMapPerspective.vert"),
 			ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthMapPerspective.frag"))));
+
+    m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthFog",
+            CreateRef<Shader>("DepthFog",
+                              ContentHelper::GetAssetPath("Shaders/PostProcessing/PostProcessing.vert"),
+                              ContentHelper::GetAssetPath("Shaders/PostProcessing/DepthFog.frag"))));
 
 	// SKYBOX SHADERS
 	m_SkyboxShaders.insert(std::make_pair<std::string, Ref<Shader>>("Skybox", 

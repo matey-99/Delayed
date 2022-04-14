@@ -25,21 +25,11 @@ void ShadowsPass::Render(Ref<Scene> scene)
 		m_DirectionalLightRenderTarget->Bind();
 
 		auto depthShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "SceneDepth");
-		depthShader->Use();
 
 		glClear(GL_DEPTH_BUFFER_BIT);
 		glCullFace(GL_BACK);
 
-		for (auto a : scene->GetActors())
-		{
-			if (auto meshComponent = a->GetComponent<MeshComponent>())
-			{
-				depthShader->SetMat4("u_Model", a->GetTransform()->GetWorldModelMatrix());
-
-				for (auto mesh : meshComponent->GetMeshes())
-					mesh->Render();
-			}
-		}
+		scene->Render(depthShader);
 
 		glCullFace(GL_BACK);
 

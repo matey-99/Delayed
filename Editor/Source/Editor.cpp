@@ -10,6 +10,7 @@
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/UI/UIComponent.h"
+#include "Input/Input.h"
 
 #define UPDATE_UI 1
 
@@ -90,6 +91,8 @@ void Editor::Start()
 	{
 		collider->Start();
 	}
+
+	Input::GetInstance()->SetInputMode(InputMode::UI);
 }
 
 void Editor::Update(float deltaTime)

@@ -7,7 +7,8 @@ class VignettePass
 private:
 	struct VignetteSettings
 	{
-		// TO DO
+		float Intensity = 15.0f;
+		float Size = 0.25f;
 	};
 
 public:

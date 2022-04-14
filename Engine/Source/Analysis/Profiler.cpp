@@ -32,22 +32,24 @@ void Profiler::Update()
 
 void Profiler::StartProfiling(std::string name)
 {
-	m_CurrentProfilingName = name;
-	m_StartProfilingTime = std::chrono::system_clock::now();
+	m_ProfilesData.push(ProfileData(name, std::chrono::system_clock::now()));
 }
 
 void Profiler::StopProfiling()
 {
-	m_StopProfilingTime = std::chrono::system_clock::now();
-	std::chrono::duration<float> executionTime = m_StopProfilingTime - m_StartProfilingTime;
+	ProfileData data = m_ProfilesData.top();
+	m_ProfilesData.pop();
 
-	auto now = std::chrono::system_clock::now();
-	std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+	auto stopTime = std::chrono::system_clock::now();
+	std::chrono::duration<float> executionTime = stopTime - data.StartTime;
 
-	m_Output += "Profile Name: " + m_CurrentProfilingName + '\n';
-	m_Output += "System Time: " + std::string(std::ctime(&currentTime));
-	m_Output += "Frame: " + std::to_string(m_FrameCounter) + '\n';
-	m_Output += "Execution Time: " + std::to_string(executionTime.count()) + '\n';
+	std::time_t currentTime = std::chrono::system_clock::to_time_t(stopTime);
+	std::string currentTimeStr = std::string(std::ctime(&currentTime));
+	std::string currentTimeStrFormatted = currentTimeStr.substr(0, currentTimeStr.size() - 1);
+
+	m_Output += "[" + currentTimeStrFormatted + "] ";
+	m_Output += "[Frame " + std::to_string(m_FrameCounter) + "] ";
+	m_Output += data.Name + ": " + std::to_string(executionTime.count()) + '\n';
 }
 
 void Profiler::Serialize()
