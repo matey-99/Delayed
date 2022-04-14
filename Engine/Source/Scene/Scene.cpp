@@ -99,6 +99,26 @@ void Scene::Render(Material::BlendMode blendMode)
 	RenderMeshes(meshesList, blendMode);
 }
 
+void Scene::Render(Ref<Shader> shader)
+{
+	shader->Use();
+
+	for (auto& renderMesh : m_MeshesRenderList)
+	{
+		auto mesh = renderMesh.first->Mesh;
+
+		std::vector<glm::mat4> transformations;
+		uint32_t instancesCount = 0;
+		for (auto& transformation : renderMesh.second)
+		{
+			instancesCount++;
+			transformations.push_back(transformation);
+		}
+
+		mesh->RenderInstanced(instancesCount, transformations);
+	}
+}
+
 void Scene::Destroy()
 {
 }

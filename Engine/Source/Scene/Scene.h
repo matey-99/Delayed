@@ -29,6 +29,7 @@ public:
 	void FixedUpdate();
 	void PreRender();
 	void Render(Material::BlendMode blendMode = Material::BlendMode::Opaque);
+	void Render(Ref<Shader> shader);
 	void Destroy();
 
 	Ref<Actor> AddRoot();
