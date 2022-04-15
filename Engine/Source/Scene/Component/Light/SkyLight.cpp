@@ -56,7 +56,8 @@ void SkyLight::SetupMesh()
 
 void SkyLight::Render(Material::BlendMode blendMode)
 {
-    if (blendMode == Material::BlendMode::Transparent)
+    // Render skybox only in Forward Pass
+    if (blendMode == Material::BlendMode::Opaque)
         return;
 
     if (m_SkyVisibility)

@@ -9,5 +9,5 @@ public:
 	ForwardPass();
 	~ForwardPass();
 
-	void Render(Ref<Scene> scene);
+	void Render(Ref<Scene> scene, Ref<RenderTarget> previousRT);
 };

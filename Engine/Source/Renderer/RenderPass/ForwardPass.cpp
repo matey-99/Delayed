@@ -12,14 +12,13 @@ ForwardPass::~ForwardPass()
 {
 }
 
-void ForwardPass::Render(Ref<Scene> scene)
+void ForwardPass::Render(Ref<Scene> scene, Ref<RenderTarget> previousRT)
 {
 	auto gBufferMRT = Renderer::GetInstance()->m_GBufferPass->GetRenderTarget();
-	auto lightingRT  = Renderer::GetInstance()->m_LightingPass->GetRenderTarget();
 
-	RenderTarget::Copy(gBufferMRT, lightingRT, RenderTarget::Buffer::Depth, RenderTarget::Filter::Nearest);
+	RenderTarget::Copy(gBufferMRT, previousRT, RenderTarget::Buffer::Depth, RenderTarget::Filter::Nearest);
 
-	lightingRT->Bind();
+	previousRT->Bind();
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -28,5 +27,5 @@ void ForwardPass::Render(Ref<Scene> scene)
 
 	glDisable(GL_BLEND);
 
-	lightingRT->Unbind();
+	previousRT->Unbind();
 }
