@@ -148,7 +148,7 @@ void Renderer::Display()
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Screen");
+	auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Viewport");
 	screenShader->Use();
 	screenShader->SetInt("u_Screen", 0);
 

@@ -124,6 +124,8 @@ void MaterialEditorPanel::DisplayTextures(std::string name)
         ss << p.path();
         std::string path = ss.str();
         CorrectPath(path);
+        path = path.substr(AssetManager::ContentDirectory.size());
+
         std::string filename = path.substr(path.find_last_of("/") + 1);
         std::string shaderName = filename.substr(0, filename.find_last_of("."));
         std::string ext = filename.substr(filename.find_first_of('.') + 1);

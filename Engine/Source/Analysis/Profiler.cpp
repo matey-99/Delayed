@@ -6,7 +6,7 @@ Profiler::Profiler()
 {
 	m_Enabled = false;
 	m_Profiling = false;
-	m_ElapsedTimeToProfile = 5.0f;
+	m_ElapsedTimeToProfile = 1.0f;
 	m_ProfilerTimer = 0.0f;
 	m_FrameCounter = 0;
 }
