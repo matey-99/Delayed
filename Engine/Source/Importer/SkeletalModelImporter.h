@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core.h"
-#include "Patterns/Singleton.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -10,9 +9,11 @@
 #include "Assets/SkeletalModel.h"
 #include "Renderer/SkeletalMesh.h"
 
-class SkeletalModelImporter : public Singleton<SkeletalModelImporter>
+class SkeletalModelImporter
 {
 public:
+	SkeletalModelImporter();
+
 	Ref<SkeletalModel> ImportSkeletalModel(std::string path);
 
 private:

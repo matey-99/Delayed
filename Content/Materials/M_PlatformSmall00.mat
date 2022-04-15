@@ -1,7 +1,7 @@
 Material: M_PlatformSmall00
 ID: 760324857
 BlendMode: 0
-Shader: Standard
+Shader: Opaque
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: true

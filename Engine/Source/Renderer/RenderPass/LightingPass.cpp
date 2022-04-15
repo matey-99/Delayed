@@ -57,7 +57,7 @@ void LightingPass::Render(Ref<Scene> scene)
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, ssao->GetFinalRenderTarget()->GetTargets()[0]);
 
-	auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, "Lighting");
+	auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "Lighting");
 	shader->Use();
 	shader->SetInt("u_GBufferPosition", 0);
 	shader->SetInt("u_GBufferNormal", 1);

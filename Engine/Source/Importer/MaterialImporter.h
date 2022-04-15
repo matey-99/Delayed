@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Core.h"
-#include "Patterns/Singleton.h"
 
-#include "Material/Material.h"
+class Material;
 
-class MaterialImporter : public Singleton<MaterialImporter>
+class MaterialImporter
 {
 public:
+	MaterialImporter();
+
 	Ref<Material> ImportMaterial(std::string path);
 
 	void AddMaterial(std::string path, Ref<Material> material);

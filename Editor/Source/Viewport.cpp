@@ -34,17 +34,9 @@ Viewport::Viewport(Ref<Editor> editor, Ref<Scene> scene)
     m_ViewportRenderTarget = RenderTarget::Create(viewportConfig, 1920, 1080);
 
 
-    m_DirectionArrowShader = CreateRef<Shader>("Gizmos", 
-        AssetManager::ContentDirectory + "Shaders/Editor/Gizmos.vert", 
-        AssetManager::ContentDirectory + "Shaders/Editor/Gizmos.frag");
-
-    m_ColliderShader = CreateRef<Shader>("Collider", 
-        AssetManager::ContentDirectory + "Shaders/Editor/Collider.vert", 
-        AssetManager::ContentDirectory + "Shaders/Editor/Collider.frag");
-
-    m_ViewportShader = CreateRef<Shader>("Viewport", 
-        AssetManager::ContentDirectory + "Shaders/Editor/Viewport.vert", 
-        AssetManager::ContentDirectory + "Shaders/Editor/Viewport.frag");
+    m_DirectionArrowShader = AssetManager::LoadShader("Shaders/Editor/Gizmos.glsl");
+    m_ColliderShader = AssetManager::LoadShader("Shaders/Editor/Collider.glsl");
+    m_ViewportShader = AssetManager::LoadShader("Shaders/Editor/EditorViewport.glsl");
 
     m_DirectionArrow = AssetManager::LoadModel("Models/editor/DirectionArrow.fbx");
 

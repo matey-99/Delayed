@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core.h"
-#include "Patterns/Singleton.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -9,7 +8,7 @@
 
 #include "Assets/Model.h"
 
-class ModelImporter : public Singleton<ModelImporter>
+class ModelImporter
 {
 public:
 	ModelImporter();

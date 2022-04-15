@@ -3,6 +3,12 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#include "Renderer/Texture.h"
+
+TextureImporter::TextureImporter()
+{
+}
+
 Ref<Texture> TextureImporter::ImportTexture(std::string path)
 {
 	if (m_ImportedTextures.find(path) != m_ImportedTextures.end())

@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Core.h"
-#include "Patterns/Singleton.h"
 
-#include "Material/Material.h"
+class Texture;
 
-class TextureImporter : public Singleton<TextureImporter>
+class TextureImporter
 {
 public:
+	TextureImporter();
+
 	Ref<Texture> ImportTexture(std::string path);
 
 private:

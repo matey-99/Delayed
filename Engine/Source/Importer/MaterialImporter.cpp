@@ -2,6 +2,10 @@
 
 #include "Material/MaterialSerializer.h"
 
+MaterialImporter::MaterialImporter()
+{
+}
+
 Ref<Material> MaterialImporter::ImportMaterial(std::string path)
 {
 	if (m_ImportedMaterials.find(path) != m_ImportedMaterials.end())

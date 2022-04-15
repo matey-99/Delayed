@@ -81,26 +81,26 @@ void Material::LoadParameters()
 	std::vector<ShaderUniform> uniforms = m_Shader->GetUniforms();
 	for (auto uniform : uniforms)
 	{
-		std::string uniformName = uniform.name.substr(0, uniform.name.find_first_of('.'));
+		std::string uniformName = uniform.Name.substr(0, uniform.Name.find_first_of('.'));
 		if (uniformName == "u_Material" || uniformName == "u_MaterialVS")
 		{
 			//std::string name = uniform.name.substr(uniform.name.find_first_of('.') + 1);
 
-			switch (uniform.type)
+			switch (uniform.Type)
 			{
 			case ShaderUniformType::BOOL:
-				m_BoolParameters.insert({ uniform.name, false });
+				m_BoolParameters.insert({ uniform.Name, false });
 				break;
 			case ShaderUniformType::INT:
 				break;
 			case ShaderUniformType::FLOAT:
-				m_FloatParameters.insert({ uniform.name, 0.0 });
+				m_FloatParameters.insert({ uniform.Name, 0.0 });
 				break;
 			case ShaderUniformType::VEC3:
-				m_Vec3Parameters.insert({ uniform.name, glm::vec3(0.0f) });
+				m_Vec3Parameters.insert({ uniform.Name, glm::vec3(0.0f) });
 				break;
 			case ShaderUniformType::SAMPLER_2D:
-				m_Texture2DParameters.insert({ uniform.name, Ref<Texture>() });
+				m_Texture2DParameters.insert({ uniform.Name, Ref<Texture>() });
 			}
 		}
 	}

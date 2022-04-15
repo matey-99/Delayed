@@ -2,141 +2,99 @@
 
 #include "Assets/AssetManager.h"
 
-Ref<ShaderLibrary> ShaderLibrary::s_Instance{};
-std::mutex ShaderLibrary::s_Mutex;
-
 ShaderLibrary::ShaderLibrary()
 {
-	// OPAQUE MATERIAL SHADERS
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Standard", 
-		AssetManager::LoadShader("Standard", "Shaders/Material/Standard.vert", "Shaders/GBuffer.frag")));
+	/* Material Shaders */
 
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Lighting",
-		AssetManager::LoadShader("Lighting", "Shaders/Lighting.vert", "Shaders/Lighting.frag")));
+	Ref<Shader> opaque = AssetManager::LoadShader("Shaders/Opaque.glsl");
+	m_MaterialShaders.insert({ opaque->GetName(), opaque });
 
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("OpaqueSkeletal",
-		AssetManager::LoadShader("OpaqueSkeletal", "Shaders/Material/StandardSkeletal.vert", "Shaders/GBuffer.frag")));
+	Ref<Shader> transparent = AssetManager::LoadShader("Shaders/Transparent.glsl");
+	m_MaterialShaders.insert({ transparent->GetName(), transparent });
 
-	// TRANSPARENT MATERIAL SHADERS
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("Transparent",
-		AssetManager::LoadShader("Transparent", "Shaders/Material/Standard.vert", "Shaders/Material/Standard.frag")));
+	Ref<Shader> opaqueSkeletal = AssetManager::LoadShader("Shaders/OpaqueSkeletal.glsl");
+	m_MaterialShaders.insert({ opaqueSkeletal->GetName(), opaqueSkeletal });
 
-	m_MaterialShaders.insert(std::make_pair<std::string, Ref<Shader>>("TransparentSkeletal",
-		AssetManager::LoadShader("TransparentSkeletal", "Shaders/Material/StandardSkeletal.vert", "Shaders/Material/Standard.frag")));
+	Ref<Shader> transparentSkeletal = AssetManager::LoadShader("Shaders/TransparentSkeletal.glsl");
+	m_MaterialShaders.insert({ transparentSkeletal->GetName(), transparentSkeletal });
 
-	// POST PROCESSING SHADERS
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Screen", 
-		AssetManager::LoadShader("Screen", "Shaders/PostProcessing/Screen.vert", "Shaders/PostProcessing/Screen.frag")));
+	/* Post-Processing Shaders */
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("SSAO",
-		AssetManager::LoadShader("SSAO", "Shaders/SSAO.vert", "Shaders/SSAO.frag")));
+	Ref<Shader> viewport = AssetManager::LoadShader("Shaders/Viewport.glsl");
+	m_PostProcessingShaders.insert({ viewport->GetName(), viewport });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("SSAOBlur",
-		AssetManager::LoadShader("SSAOBlur", "Shaders/SSAO.vert", "Shaders/SSAOBlur.frag")));
+	Ref<Shader> ssao = AssetManager::LoadShader("Shaders/SSAO.glsl");
+	m_PostProcessingShaders.insert({ ssao->GetName(), ssao });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("PostProcessing", 
-		AssetManager::LoadShader("PostProcessing", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/PostProcessing.frag")));
+	Ref<Shader> ssaoBlur = AssetManager::LoadShader("Shaders/SSAOBlur.glsl");
+	m_PostProcessingShaders.insert({ ssaoBlur->GetName(), ssaoBlur });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("FXAA",
-		AssetManager::LoadShader("FXAA", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/FXAA.frag")));
+	Ref<Shader> postProcessing = AssetManager::LoadShader("Shaders/PostProcessing.glsl");
+	m_PostProcessingShaders.insert({ postProcessing->GetName(), postProcessing });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Vignette",
-		AssetManager::LoadShader("Vignette", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/Vignette.frag")));
+	Ref<Shader> fxaa = AssetManager::LoadShader("Shaders/FXAA.glsl");
+	m_PostProcessingShaders.insert({ fxaa->GetName(), fxaa });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Blur",
-		AssetManager::LoadShader("Blur", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/Blur.frag")));
+	Ref<Shader> vignette = AssetManager::LoadShader("Shaders/Vignette.glsl");
+	m_PostProcessingShaders.insert({ vignette->GetName(), vignette });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthOfField",
-		AssetManager::LoadShader("DepthOfField", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/DepthOfField.frag")));
+	Ref<Shader> blur = AssetManager::LoadShader("Shaders/Blur.glsl");
+	m_PostProcessingShaders.insert({ blur->GetName(), blur });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Threshold", 
-		AssetManager::LoadShader("Threshold", "Shaders/PostProcessing/Threshold.vert", "Shaders/PostProcessing/Threshold.frag")));
+	Ref<Shader> dof = AssetManager::LoadShader("Shaders/DepthOfField.glsl");
+	m_PostProcessingShaders.insert({ dof->GetName(), dof });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("Scale", 
-		AssetManager::LoadShader("Scale", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/Scale.frag")));
+	Ref<Shader> threshold = AssetManager::LoadShader("Shaders/Threshold.glsl");
+	m_PostProcessingShaders.insert({ threshold->GetName(), threshold });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("BlurHorizontal", 
-		AssetManager::LoadShader("BlurHorizontal", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/BlurHorizontal.frag")));
+	Ref<Shader> scale = AssetManager::LoadShader("Shaders/Scale.glsl");
+	m_PostProcessingShaders.insert({ scale->GetName(), scale });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("BlurVertical",
-		AssetManager::LoadShader("BlurVertical", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/BlurVertical.frag")));
+	Ref<Shader> gaussianBlurHorizontal = AssetManager::LoadShader("Shaders/GaussianBlurHorizontal.glsl");
+	m_PostProcessingShaders.insert({ gaussianBlurHorizontal->GetName(), gaussianBlurHorizontal });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthMapOrtographic", 
-		AssetManager::LoadShader("DepthMapOrtographic", "Shaders/PostProcessing/DepthMapOrtographic.vert", "Shaders/PostProcessing/DepthMapOrtographic.frag")));
+	Ref<Shader> gaussianBlurVertical = AssetManager::LoadShader("Shaders/GaussianBlurVertical.glsl");
+	m_PostProcessingShaders.insert({ gaussianBlurVertical->GetName(), gaussianBlurVertical });
 
-	m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthMapPerspective",
-		AssetManager::LoadShader("DepthMapPerspective", "Shaders/PostProcessing/DepthMapPerspective.vert", "Shaders/PostProcessing/DepthMapPerspective.frag")));
+	Ref<Shader> depthMapOrtographic = AssetManager::LoadShader("Shaders/DepthMapOrtographic.glsl");
+	m_PostProcessingShaders.insert({ depthMapOrtographic->GetName(), depthMapOrtographic });
 
-    m_PostProcessingShaders.insert(std::make_pair<std::string, Ref<Shader>>("DepthFog",
-            AssetManager::LoadShader("DepthFog", "Shaders/PostProcessing/PostProcessing.vert", "Shaders/PostProcessing/DepthFog.frag")));
+	Ref<Shader> depthMapPerspective = AssetManager::LoadShader("Shaders/DepthMapPerspective.glsl");
+	m_PostProcessingShaders.insert({ depthMapPerspective->GetName(), depthMapPerspective });
 
-	// SKYBOX SHADERS
-	m_SkyboxShaders.insert(std::make_pair<std::string, Ref<Shader>>("Skybox", 
-		AssetManager::LoadShader("Skybox", "Shaders/Skybox/Skybox.vert", "Shaders/Skybox/Skybox.frag")));
+	Ref<Shader> depthFog = AssetManager::LoadShader("Shaders/DepthFog.glsl");
+	m_PostProcessingShaders.insert({ depthFog->GetName(), depthFog });
 
-	// CALCULATION SHADERS
-	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepth", 
-		AssetManager::LoadShader("SceneDepth", "Shaders/Calculation/SceneDepth.vert", "Shaders/Calculation/SceneDepth.frag", "Shaders/Calculation/SceneDepth.geom")));
+	/* Skybox Shaders */
 
-	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepthInstanced", 
-		AssetManager::LoadShader("SceneDepthInstanced", "Shaders/Calculation/SceneDepthInstanced.vert", "Shaders/Calculation/SceneDepth.frag")));
+	Ref<Shader> skybox = AssetManager::LoadShader("Shaders/Skybox.glsl");
+	m_SkyboxShaders.insert({ skybox->GetName(), skybox });
 
-	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepthPoint", 
-		AssetManager::LoadShader("SceneDepthPoint", 
-			"Shaders/Calculation/SceneDepthPoint.vert", 
-			"Shaders/Calculation/SceneDepthPoint.frag", 
-			"Shaders/Calculation/SceneDepthPoint.geom")));
+	/* Calculation Shaders */
 
-	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("SceneDepthPointInstanced",
-		AssetManager::LoadShader("SceneDepthPointInstanced", 
-			"Shaders/Calculation/SceneDepthPointInstanced.vert", 
-			"Shaders/Calculation/SceneDepthPoint.frag", 
-			"Shaders/Calculation/SceneDepthPoint.geom")));
+	Ref<Shader> lighting = AssetManager::LoadShader("Shaders/Lighting.glsl");
+	m_CalculationShaders.insert({ lighting->GetName(), lighting });
 
-	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("EquirectangularToCubemap", 
-		AssetManager::LoadShader("EquirectangularToCubemap", 
-			 "Shaders/Calculation/EquirectangularToCubemap.vert",
-			 "Shaders/Calculation/EquirectangularToCubemap.frag")));
+	Ref<Shader> sceneDepth = AssetManager::LoadShader("Shaders/SceneDepth.glsl");
+	m_CalculationShaders.insert({ sceneDepth->GetName(), sceneDepth });
 
-	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("Irradiance", 
-		AssetManager::LoadShader("Irradiance", 
-			 "Shaders/Calculation/Irradiance.vert",
-			 "Shaders/Calculation/Irradiance.frag")));
+	Ref<Shader> sceneDepthPoint = AssetManager::LoadShader("Shaders/SceneDepthPoint.glsl");
+	m_CalculationShaders.insert({ sceneDepthPoint->GetName(), sceneDepthPoint });
 
-	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("Prefilter", 
-		AssetManager::LoadShader("Prefilter", 
-			 "Shaders/Calculation/Prefilter.vert",
-			 "Shaders/Calculation/Prefilter.frag")));
+	/* Particle Shaders */
 
-	m_CalculationShaders.insert(std::make_pair<std::string, Ref<Shader>>("BRDF", 
-		AssetManager::LoadShader("BRDF", 
-			 "Shaders/Calculation/BRDF.vert",
-			 "Shaders/Calculation/BRDF.frag")));
+	Ref<Shader> particle = AssetManager::LoadShader("Shaders/Particle.glsl");
+	m_ParticleShaders.insert({ particle->GetName(), particle });
 
-	// PARTICLE SHADERS
-	m_ParticleShaders.insert(std::make_pair<std::string, Ref<Shader>>("StandardParticle", 
-		AssetManager::LoadShader("StandardParticle", 
-			 "Shaders/Particle/StandardParticle.vert",
-			 "Shaders/Particle/StandardParticle.frag")));
+	/* UI Shaders */
+	
+	Ref<Shader> ui = AssetManager::LoadShader("Shaders/UI.glsl");
+	m_UIShaders.insert({ ui->GetName(), ui });
 
-	// UI SHADERS
-	m_UIShaders.insert(std::make_pair<std::string, Ref<Shader>>("UI",
-		AssetManager::LoadShader("UI",
-			 "Shaders/UI/UI.vert",
-			 "Shaders/UI/UI.frag")));
+	/* Compute Shaders */
 
-	// COMPUTE SHADERS
-	m_ComputeShaders.insert(std::make_pair<std::string, Ref<ComputeShader>>("StandardParticle",
-		AssetManager::LoadComputeShader("StandardParticle", "Shaders/Particle/StandardParticle.comp")));
-}
-
-Ref<ShaderLibrary> ShaderLibrary::GetInstance()
-{
-	std::lock_guard<std::mutex> lock(s_Mutex);
-	if (s_Instance == nullptr)
-		s_Instance = CreateRef<ShaderLibrary>();
-
-	return s_Instance;
+	Ref<ComputeShader> computeParticles = AssetManager::LoadComputeShader("Shaders/ComputeShaders/Particle.comp");
+	m_ComputeShaders.insert({ computeParticles->GetName(), computeParticles });
 }
 
 Ref<Shader> ShaderLibrary::GetShader(ShaderType type, std::string name)

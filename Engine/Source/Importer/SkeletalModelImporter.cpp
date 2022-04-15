@@ -2,6 +2,10 @@
 
 #include "Math/AssimpGLMHelper.h"
 
+SkeletalModelImporter::SkeletalModelImporter()
+{
+}
+
 Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 {
 	if (m_ImportedSkeletalModels.find(path) != m_ImportedSkeletalModels.end())

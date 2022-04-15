@@ -29,7 +29,7 @@ SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path, std
 	LoadMesh(path);
 
 	for (auto path : m_MaterialsPaths)
-		m_Materials.push_back(MaterialImporter::GetInstance()->ImportMaterial(path));
+		m_Materials.push_back(AssetManager::LoadMaterial(path));
 }
 
 void SkeletalMeshComponent::Render(Material::BlendMode blendMode)

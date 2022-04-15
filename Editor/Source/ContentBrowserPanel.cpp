@@ -102,7 +102,7 @@ void ContentBrowserPanel::MakeAction(std::string path, std::string extension)
 {
 	if (extension == "mat")
 	{
-		Ref<Material> material = MaterialImporter::GetInstance()->ImportMaterial(path);
+		Ref<Material> material = AssetManager::LoadMaterial(path);
 		m_Editor->ShowMaterialEditor(material);
 	}
 	else if (extension == "obj" || extension == "fbx" || extension == "3ds" || extension == "dae")
