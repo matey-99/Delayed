@@ -84,6 +84,17 @@ void SkeletalMeshComponent::ChangeMesh(std::string path)
 		LoadMaterial("Materials/Default.mat");
 }
 
+void SkeletalMeshComponent::ChangeModel(Ref<ModelBase> modelBase)
+{
+	if (auto model = StaticCast<SkeletalModel>(modelBase))
+		m_SkeletalModel = model;
+}
+
+Ref<ModelBase> SkeletalMeshComponent::GetModel() const
+{
+	return m_SkeletalModel;
+}
+
 void SkeletalMeshComponent::UpdateBoundingBox()
 {
 	std::vector<glm::vec3> pointsFromAllMeshes;

@@ -1,13 +1,16 @@
 #pragma once
 
 #include "Core.h"
+#include "ModelBase.h"
 
 class SkeletalMesh;
 
-class SkeletalModel
+class SkeletalModel : public ModelBase
 {
 public:
-	SkeletalModel(std::vector<Ref<SkeletalMesh>> meshes);
+	SkeletalModel(const std::string& path, std::vector<Ref<SkeletalMesh>> meshes);
+
+	static Ref<SkeletalModel> Create(const std::string& path, std::vector<Ref<SkeletalMesh>> meshes);
 
 	inline std::vector<Ref<SkeletalMesh>> GetMeshes() const { return m_Meshes; }
 

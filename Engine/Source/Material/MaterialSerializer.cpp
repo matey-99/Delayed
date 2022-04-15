@@ -86,7 +86,9 @@ Ref<Material> MaterialSerializer::Deserialize(std::string path)
 	Material::BlendMode blend = (Material::BlendMode)data["BlendMode"].as<uint16_t>();
 	std::string shader = data["Shader"].as<std::string>();
 
-	Ref<Material> material = CreateRef<Material>(id, name, ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, shader));
+	std::string materialPath = path.substr(AssetManager::ContentDirectory.size());
+
+	Ref<Material> material = Material::Create(id, name, materialPath, shader);
 	material->m_BlendMode = blend;
 
 	YAML::Node boolParameters = data["Bool Parameters"];

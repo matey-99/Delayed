@@ -176,7 +176,27 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Red.mat
+              Path: Materials/Blue.mat
+      - LODGroup:
+          LODs:
+            - Level: 0
+              Model: Models/defaults/default_cube.obj
+              Materials:
+                - Material: 0
+                  Path: Materials/Red.mat
+              MaxDistance: 20
+            - Level: 1
+              Model: Models/defaults/default_sphere.obj
+              Materials:
+                - Material: 0
+                  Path: Materials/Gray.mat
+              MaxDistance: 40
+            - Level: 2
+              Model: Models/defaults/default_cone.obj
+              Materials:
+                - Material: 0
+                  Path: Materials/Blue.mat
+              MaxDistance: 70
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]

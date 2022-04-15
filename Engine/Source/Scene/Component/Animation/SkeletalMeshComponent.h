@@ -15,6 +15,8 @@ public:
 
 	void LoadMesh(std::string path);
 	void ChangeMesh(std::string path);
+	virtual void ChangeModel(Ref<ModelBase> modelBase) override;
+	virtual Ref<ModelBase> GetModel() const override;
 
 	virtual void UpdateBoundingBox() override;
 	virtual void UpdateBoundingSphere() override;

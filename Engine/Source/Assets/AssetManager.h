@@ -33,7 +33,7 @@ public:
 	static Ref<Scene> LoadScene(std::string assetPath);
 	static Ref<Material> LoadMaterial(std::string assetPath);
 
-	static void CreateMaterial(std::string name, Ref<Material> material);
+	static void CreateNewMaterial(std::string name, std::string destinationPath, std::string shaderName = "Opaque");
 
 	static const std::string ContentDirectory;
 

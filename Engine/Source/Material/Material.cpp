@@ -5,8 +5,8 @@
 #include "ShaderLibrary.h"
 #include "Assets/AssetManager.h"
 
-Material::Material(std::string name, Ref<Shader> shader)
-	: m_Name(name), m_Shader(shader)
+Material::Material(std::string name, std::string path, Ref<Shader> shader)
+	: m_Name(name), m_Path(path), m_Shader(shader)
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -18,28 +18,27 @@ Material::Material(std::string name, Ref<Shader> shader)
 	LoadParameters();
 }
 
-Material::Material(uint64_t id, std::string name, Ref<Shader> shader)
-	: m_ID(id), m_Name(name), m_Shader(shader)
+Material::Material(uint64_t id, std::string name, std::string path, Ref<Shader> shader)
+	: m_ID(id), m_Name(name), m_Path(path), m_Shader(shader)
 {
 	m_BlendMode = BlendMode::Opaque;
 
 	LoadParameters();
 }
 
-Ref<Material> Material::Create(std::string name, Ref<Shader> shader)
+Ref<Material> Material::Create(std::string name, std::string path, Ref<Shader> shader)
 {
-	Ref<Material> material = CreateRef<Material>(name, shader);
-	AssetManager::CreateMaterial(name, material);
-
-	return material;
+	return CreateRef<Material>(name, path, shader);
 }
 
-Ref<Material> Material::Create(std::string name, std::string shaderName)
+Ref<Material> Material::Create(std::string name, std::string path, std::string shaderName)
 {
-	Ref<Material> material = CreateRef<Material>(name, ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, shaderName));
-	AssetManager::CreateMaterial(name, material);
+	return CreateRef<Material>(name, path, ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, shaderName));
+}
 
-	return material;
+Ref<Material> Material::Create(uint64_t id, std::string name, std::string path, std::string shaderName)
+{
+	return CreateRef<Material>(id, name, path, ShaderLibrary::GetInstance()->GetShader(ShaderType::Material, shaderName));
 }
 
 void Material::Use()

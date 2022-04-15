@@ -1,6 +1,7 @@
 #include "ModelImporter.h"
 
 #include "Renderer/Mesh.h"
+#include "Assets/AssetManager.h"
 
 ModelImporter::ModelImporter()
 {
@@ -23,7 +24,8 @@ Ref<Model> ModelImporter::ImportModel(std::string path)
 	std::vector<Ref<Mesh>> meshes;
 	ProcessNode(scene->mRootNode, scene, meshes);
 
-	Ref<Model> importedModel = CreateRef<Model>(meshes);
+	std::string relativePath = path.substr(AssetManager::ContentDirectory.size());
+	Ref<Model> importedModel = Model::Create(relativePath, meshes);
 
 	m_ImportedModels.insert({ path, importedModel });
 	return importedModel;

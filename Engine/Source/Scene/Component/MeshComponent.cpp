@@ -64,3 +64,13 @@ void MeshComponent::ChangeMaterial(int index, std::string path)
 	m_MaterialsPaths.at(index) = path;
 	m_Materials.at(index) = AssetManager::LoadMaterial(path);
 }
+
+void MeshComponent::ChangeMaterials(std::vector<Ref<Material>> materials)
+{
+	m_Materials.clear();
+	m_MaterialsPaths.clear();
+
+	m_Materials = materials;
+	for (auto material : m_Materials)
+		m_MaterialsPaths.push_back(material->GetPath());
+}

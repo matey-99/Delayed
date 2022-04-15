@@ -5,6 +5,7 @@
 #include "yaml/yaml.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
+#include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
@@ -153,6 +154,37 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
 						a->AddComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
+					}
+
+					if (auto lodGroup = component["LODGroup"])
+					{
+						auto lodGroupComponent = a->AddComponent<LODGroupComponent>();
+
+						YAML::Node lods = lodGroup["LODs"];
+						for (auto lod : lods)
+						{
+							uint16_t level = lod["Level"].as<uint16_t>();
+							float distance = lod["MaxDistance"].as<float>();
+							std::string modelPath = lod["Model"].as<std::string>();
+							std::vector<std::string> materialsPaths;
+							YAML::Node materials = lod["Materials"];
+							for (auto material : materials)
+							{
+								materialsPaths.push_back(material["Path"].as<std::string>());
+							}
+
+							LOD temp;
+							temp.Level = level;
+							temp.MaxDistance = distance;
+							temp.Model = AssetManager::LoadModel(modelPath);
+
+							for (auto materialPath : materialsPaths)
+								temp.Materials.push_back(AssetManager::LoadMaterial(materialPath));
+
+							lodGroupComponent->m_LODs.push_back(temp);
+						}
+
+						
 					}
 
 					if (auto dirLight = component["DirectionalLight"])
@@ -446,6 +478,37 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
+
+	if (auto lodGroup = actor->GetComponent<LODGroupComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "LODGroup";
+		out << YAML::BeginMap;
+		out << YAML::Key << "LODs" << YAML::Value << YAML::BeginSeq;
+		for (auto& lod : lodGroup->m_LODs)
+		{
+			out << YAML::BeginMap;
+			out << YAML::Key << "Level" << YAML::Value << lod.Level;
+			out << YAML::Key << "Model" << YAML::Value << lod.Model->GetPath();
+			
+			out << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
+			for (int i = 0; i < lod.Materials.size(); i++)
+			{
+				out << YAML::BeginMap;
+				out << YAML::Key << "Material" << YAML::Value << i;
+				out << YAML::Key << "Path" << YAML::Value << lod.Materials.at(i)->GetPath();
+				out << YAML::EndMap;
+			}
+			out << YAML::EndSeq;
+
+			out << YAML::Key << "MaxDistance" << YAML::Value << lod.MaxDistance;
+			out << YAML::EndMap;
+		}
+		out << YAML::EndSeq;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
 	if (auto dirLight = actor->GetComponent<DirectionalLight>())
 	{
 		out << YAML::BeginMap;

@@ -16,3 +16,9 @@ constexpr Ref<T> Cast(Args&& ... args)
 {
 	return std::dynamic_pointer_cast<T>(std::forward<Args>(args)...);
 }
+
+template<typename T, typename ... Args>
+constexpr Ref<T> StaticCast(Args&& ... args)
+{
+	return std::static_pointer_cast<T>(std::forward<Args>(args)...);
+}

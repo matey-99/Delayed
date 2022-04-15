@@ -19,6 +19,7 @@ public:
 private:
 	uint64_t m_ID;
 	std::string m_Name;
+	std::string m_Path;
 	BlendMode m_BlendMode;
 	Ref<Shader> m_Shader;
 
@@ -28,17 +29,19 @@ private:
 	std::unordered_map<std::string, Ref<Texture>> m_Texture2DParameters;
 
 public:
-	Material(std::string name = "Default", Ref<Shader> shader = Ref<Shader>());
-	Material(uint64_t id, std::string name = "Default", Ref<Shader> shader = Ref<Shader>());
+	Material(std::string name = "Default", std::string path = "Materials/Default.mat", Ref<Shader> shader = Ref<Shader>());
+	Material(uint64_t id, std::string name = "Default", std::string path = "Materials/Default.mat", Ref<Shader> shader = Ref<Shader>());
 
-	static Ref<Material> Create(std::string name, Ref<Shader> shader);
-	static Ref<Material> Create(std::string name, std::string shaderName);
+	static Ref<Material> Create(std::string name, std::string path, Ref<Shader> shader);
+	static Ref<Material> Create(std::string name, std::string path, std::string shaderName);
+	static Ref<Material> Create(uint64_t id, std::string name, std::string path, std::string shaderName);
 
 	void LoadParameters();
 	void Use();
 
 	inline uint64_t GetID() const { return m_ID; }
 	inline std::string GetName() const { return m_Name; }
+	inline std::string GetPath() const { return m_Path; }
 	inline BlendMode GetBlendMode() const { return m_BlendMode; }
 	inline Ref<Shader> GetShader() const { return m_Shader; }
 

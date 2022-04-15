@@ -86,7 +86,7 @@ void ContentBrowserPanel::Render()
 		if (ImGui::Button("Save"))
 		{
 			m_IsCreateMaterialWindowDisplayed = false;
-			Material::Create(m_NewMaterialName, "Standard");
+			AssetManager::CreateNewMaterial(m_NewMaterialName, m_DisplayedDirectory + "/" + m_NewMaterialName + ".mat");
 		}
 		if (ImGui::Button("Exit"))
 		{

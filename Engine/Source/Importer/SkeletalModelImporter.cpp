@@ -1,6 +1,7 @@
 #include "SkeletalModelImporter.h"
 
 #include "Math/AssimpGLMHelper.h"
+#include "Assets/AssetManager.h"
 
 SkeletalModelImporter::SkeletalModelImporter()
 {
@@ -25,7 +26,8 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	std::vector<Ref<SkeletalMesh>> meshes;
 	ProcessNode(scene->mRootNode, scene, meshes);
 
-	Ref<SkeletalModel> importedSkeletalModel = CreateRef<SkeletalModel>(meshes);
+	std::string relativePath = path.substr(AssetManager::ContentDirectory.size() + 1);
+	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes);
 
 	m_ImportedSkeletalModels.insert({ path, importedSkeletalModel });
 	return importedSkeletalModel;

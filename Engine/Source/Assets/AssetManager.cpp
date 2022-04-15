@@ -67,8 +67,11 @@ Ref<Material> AssetManager::LoadMaterial(std::string assetPath)
 	return GetInstance()->m_MaterialImporter->ImportMaterial(fullPath);
 }
 
-void AssetManager::CreateMaterial(std::string name, Ref<Material> material)
+void AssetManager::CreateNewMaterial(std::string name, std::string destinationPath, std::string shaderName)
 {
-	MaterialSerializer::Serialize(material, ContentDirectory + "Materials/");
-	GetInstance()->m_MaterialImporter->AddMaterial(ContentDirectory + "Materials/" + material->GetName() + ".mat", material);
+	std::string fullPath = ContentDirectory + destinationPath;
+	auto material = Material::Create(name, destinationPath, shaderName);
+
+	MaterialSerializer::Serialize(material, fullPath);
+	GetInstance()->m_MaterialImporter->AddMaterial(fullPath, material);
 }

@@ -1,6 +1,7 @@
 #include "StaticMeshComponent.h"
 
 #include "Assets/AssetManager.h"
+#include "Assets/ModelBase.h"
 #include "Camera/CameraManager.h"
 
 #include "Scene/Actor.h"
@@ -74,6 +75,17 @@ void StaticMeshComponent::ChangeMesh(std::string path)
 
 	for (int i = 0; i < m_Model->GetMeshes().size(); i++)
 		LoadMaterial("Materials/Default.mat");
+}
+
+void StaticMeshComponent::ChangeModel(Ref<ModelBase> modelBase)
+{
+	if (auto model = StaticCast<Model>(modelBase))
+		m_Model = model;
+}
+
+Ref<ModelBase> StaticMeshComponent::GetModel() const
+{
+	return m_Model;
 }
 
 void StaticMeshComponent::UpdateBoundingBox()

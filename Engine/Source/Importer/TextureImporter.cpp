@@ -4,6 +4,7 @@
 #include <stb_image.h>
 
 #include "Renderer/Texture.h"
+#include "Assets/AssetManager.h"
 
 TextureImporter::TextureImporter()
 {
@@ -15,6 +16,7 @@ Ref<Texture> TextureImporter::ImportTexture(std::string path)
 		return m_ImportedTextures.at(path);
 
 	std::string extension = path.substr(path.find_last_of(".") + 1);
+	std::string relativePath = path.substr(AssetManager::ContentDirectory.size());
 	Ref<Texture> importedTexture;
 	if (extension == "png" || extension == "jpg")
 	{
@@ -23,7 +25,7 @@ Ref<Texture> TextureImporter::ImportTexture(std::string path)
 		uint8_t* data = stbi_load(path.c_str(), &width, &height, &componentsCount, 0);
 		if (data)
 		{
-			importedTexture = Texture::Create(path, width, height, componentsCount, data);
+			importedTexture = Texture::Create(relativePath, width, height, componentsCount, data);
 		}
 		else
 		{
@@ -39,7 +41,7 @@ Ref<Texture> TextureImporter::ImportTexture(std::string path)
 		float* data = stbi_loadf(path.c_str(), &width, &height, &componentsCount, 0);
 		if (data)
 		{
-			importedTexture = Texture::CreateHDR(path, width, height, componentsCount, data);
+			importedTexture = Texture::CreateHDR(relativePath, width, height, componentsCount, data);
 		}
 		else
 		{
