@@ -8,26 +8,20 @@
 #include "Renderer/UniformBuffer.h"
 #include "Patterns/Delegate.h"
 
+class Mesh;
+class MeshComponent;
+class SkyLight;
+
+struct MaterialMesh
+{
+	Ref<Mesh> Mesh;
+	Ref<Material> Material;
+};
+
+typedef std::unordered_map<Ref<MaterialMesh>, std::vector<glm::mat4>> MeshesRenderList;
+
 class Scene
 {
-private:
-	std::string m_Name;
-
-	Ref<Actor> m_Root;
-	Ref<Actor> m_UIRoot;
-	std::vector<Ref<Actor>> m_Actors;
-	Ref<CameraComponent> m_CurrentCamera;
-
-	std::vector<Ref<Actor>> m_ActorsAddedRuntime;
-	std::vector<Actor*> m_ActorsDestroyedRuntime;
-
-	glm::vec4 m_BackgroundColor;
-
-	Ref<UniformBuffer> m_LightsVertexUniformBuffer;
-	Ref<UniformBuffer> m_LightsFragmentUniformBuffer;
-
-	bool m_ChangedSinceLastFrame = false;
-
 public:
 	Scene();
 
@@ -36,6 +30,7 @@ public:
 	void FixedUpdate();
 	void PreRender();
 	void Render(Material::BlendMode blendMode = Material::BlendMode::Opaque);
+	void Render(Ref<Shader> shader);
 	void Destroy();
 
 	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
@@ -144,6 +139,35 @@ public:
 
 	inline void SetName(std::string name) { m_Name = name; }
 	inline void SetChangedSinceLastFrame(bool changed) { m_ChangedSinceLastFrame = changed; }
+
+private:
+	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
+	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
+	void SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents);
+	void UpdateMeshesRenderList();
+	void RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode);
+
+private:
+	std::string m_Name;
+
+	Ref<Actor> m_Root;
+	Ref<Actor> m_UIRoot;
+	std::vector<Ref<Actor>> m_Actors;
+	Ref<CameraComponent> m_CurrentCamera;
+	Ref<SkyLight> m_SkyLight;
+
+	std::vector<Ref<Actor>> m_ActorsAddedRuntime;
+	std::vector<Actor*> m_ActorsDestroyedRuntime;
+
+	MeshesRenderList m_MeshesRenderList;
+
+	glm::vec4 m_BackgroundColor;
+
+	Ref<UniformBuffer> m_LightsVertexUniformBuffer;
+	Ref<UniformBuffer> m_LightsFragmentUniformBuffer;
+
+	bool m_ChangedSinceLastFrame = false;
+
 
 	friend class SceneSerializer;
 	friend class WorldSettingsPanel;

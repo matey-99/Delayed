@@ -10,7 +10,9 @@
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/Collider/BoxColliderComponent.h>
 #include "Renderer/Renderer.h"
+#include "Renderer/RenderPass/ShadowsPass.h"
 #include "Component/TransformComponent.h"
+#include "Component/Light/SkyLight.h"
 #include "Component/UI/RectTransformComponent.h"
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
@@ -43,6 +45,8 @@ void Scene::Start()
 	{
 		actor->Start();
 	}
+
+	m_SkyLight = FindComponent<SkyLight>();
 }
 
 void Scene::Update(float deltaTime)
@@ -83,24 +87,43 @@ void Scene::PreRender()
 	{
 		actor->PreRender();
 	}
+
+	UpdateMeshesRenderList();
 }
 
 void Scene::Render(Material::BlendMode blendMode)
 {
-	std::vector<Actor*> actors;
-	GetEnabledActors(m_Root.get(), actors);
-
-	// Set order of rendering actors in Forward Rendering
-	if (blendMode == Material::BlendMode::Transparent)
+	MeshesRenderList meshesList;
+	for (auto& mesh : m_MeshesRenderList)
 	{
-		auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
-		SortActorsByDistance(actors, cameraPosition, false);
+		if (mesh.first->Material->GetBlendMode() == blendMode)
+			meshesList.insert(mesh);
 	}
 
-    actors = CullActors(actors);
+	RenderMeshes(meshesList, blendMode);
 
-	for (auto actor : actors)
-		actor->Render(blendMode);
+	if (m_SkyLight)
+		m_SkyLight->Render(blendMode);
+}
+
+void Scene::Render(Ref<Shader> shader)
+{
+	shader->Use();
+
+	for (auto& renderMesh : m_MeshesRenderList)
+	{
+		auto mesh = renderMesh.first->Mesh;
+
+		std::vector<glm::mat4> transformations;
+		uint32_t instancesCount = 0;
+		for (auto& transformation : renderMesh.second)
+		{
+			instancesCount++;
+			transformations.push_back(transformation);
+		}
+
+		mesh->RenderInstanced(instancesCount, transformations);
+	}
 }
 
 void Scene::Destroy()
@@ -158,6 +181,109 @@ std::vector<Actor*> Scene::CullActors(std::vector<Actor*>& actors) {
 //        }
     }
     return output;
+}
+
+void Scene::SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents)
+{
+	m_MeshesRenderList.clear();
+
+	for (auto meshComponent : meshComponents)
+	{
+		for (int i = 0; i < meshComponent->GetMeshes().size(); i++)
+		{
+			if (meshComponent->GetMaterials().size() > i)
+			{
+				Ref<Mesh> mesh = meshComponent->GetMeshes()[i];
+				Ref<Material> material = meshComponent->GetMaterials()[i];
+
+				glm::mat4 transformation = meshComponent->GetOwner()->GetTransform()->GetWorldModelMatrix();
+
+				bool found = false;
+				for (auto& renderMesh : m_MeshesRenderList)
+				{
+					if (renderMesh.first->Mesh == mesh && renderMesh.first->Material == material)
+					{
+						found = true;
+						renderMesh.second.push_back(transformation);
+
+						break;
+					}
+				}
+				if (!found)
+				{
+					Ref<MaterialMesh> materialMesh = CreateRef<MaterialMesh>();
+					materialMesh->Mesh = mesh;
+					materialMesh->Material = material;
+
+					std::vector<glm::mat4> transformations;
+					transformations.push_back(transformation);
+
+					m_MeshesRenderList.insert({ materialMesh, transformations });
+				}
+			}
+		}
+	}
+}
+
+void Scene::UpdateMeshesRenderList()
+{
+	std::vector<Actor*> actors;
+	GetEnabledActors(m_Root.get(), actors);
+
+	actors = CullActors(actors);
+
+	// Set order of rendering actors
+	auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
+	SortActorsByDistance(actors, cameraPosition, false);
+
+	std::vector<Ref<MeshComponent>> meshComponents;
+	for (auto actor : actors)
+	{
+		if (auto m = actor->GetComponent<MeshComponent>())
+			meshComponents.push_back(m);
+	}
+	SortMeshes(meshComponents);
+}
+
+void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
+{
+	for (auto& renderMesh : meshes)
+	{
+		auto mesh = renderMesh.first->Mesh;
+		auto material = renderMesh.first->Material;
+
+		material->Use();
+
+		if (blendMode == Material::BlendMode::Transparent)
+		{
+			auto s = Renderer::GetInstance()->m_ShadowsPass;
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D_ARRAY, s->GetDirectionalLightRenderTarget()->GetTargets()[0]);
+
+			material->GetShader()->SetInt("u_DirectionalLightShadowMaps", 0);
+
+			if (auto skyLight = FindComponent<SkyLight>())
+			{
+				material->GetShader()->SetVec3("u_SkyLightColor", skyLight->GetColor());
+				material->GetShader()->SetFloat("u_SkyLightIntensity", skyLight->GetIntensity());
+			}
+			else
+			{
+				material->GetShader()->SetVec3("u_SkyLightColor", glm::vec3(1.0f));
+				material->GetShader()->SetFloat("u_SkyLightIntensity", 0.03f);
+			}
+		}
+
+		std::vector<glm::mat4> transformations;
+		uint32_t instancesCount = 0;
+		for (auto& transformation : renderMesh.second)
+		{
+			instancesCount++;
+			transformations.push_back(transformation);
+		}
+
+		mesh->RenderInstanced(instancesCount, transformations);
+	}
 }
 
 Ref<Actor> Scene::AddRoot()
