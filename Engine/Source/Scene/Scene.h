@@ -33,10 +33,6 @@ public:
 	void Render(Ref<Shader> shader);
 	void Destroy();
 
-	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
-	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
-    std::vector<Actor*> CullActors(std::vector<Actor*>& actors);
-
 	Ref<Actor> AddRoot();
 	Ref<Actor> AddUIRoot();
 
@@ -144,6 +140,7 @@ private:
 	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
 	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
 	void SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents);
+    std::vector<Actor*> CullActors(std::vector<Actor*>& actors);
 	void UpdateMeshesRenderList();
 	void RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode);
 

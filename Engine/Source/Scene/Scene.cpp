@@ -164,21 +164,11 @@ void Scene::SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, b
 std::vector<Actor*> Scene::CullActors(std::vector<Actor*>& actors) {
     std::vector<Actor*> output;
     for (auto actor : actors) {
-        if (auto a = actor->GetComponent<StaticMeshComponent>()) {
+        if (auto a = actor->GetComponent<MeshComponent>()) {
             if (m_CurrentCamera->GetFrustum()->BoxInFrustum(a->GetBoundingBox())) {
                 output.push_back(actor);
             }
         }
-//        if (auto a = actor->GetComponent<SphereColliderComponent>()) {
-//            if (m_CurrentCamera->GetFrustum()->SphereInFrustum(a->GetBoundingSphere())) {
-//                output.push_back(actor);
-//            }
-//        }
-//        if (auto a = actor->GetComponent<BoxColliderComponent>()) {
-//            if (m_CurrentCamera->GetFrustum()->BoxInFrustum(a->GetBoundingBox()) ) {
-//                output.push_back(actor);
-//            }
-//        }
     }
     return output;
 }
