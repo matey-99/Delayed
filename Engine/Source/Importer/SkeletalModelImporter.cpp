@@ -22,6 +22,8 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	}
 
 	//m_AnimationCounter = scene->mNumAnimations;
+	// Import animations
+	
 
 	std::vector<Ref<SkeletalMesh>> meshes;
 	ProcessNode(scene->mRootNode, scene, meshes);
@@ -107,7 +109,7 @@ Ref<SkeletalMesh> SkeletalModelImporter::ProcessMesh(aiMesh* mesh, const aiScene
 
 	if (mesh->HasBones())
 	{
-		ExtractBoneWeightForVertices(vertices, mesh, scene, boneCounter, boneInfoMap);
+		ExtractBoneWeightForVertices(vertices, mesh, scene, boneCounter);
 	}
 
 	return CreateRef<SkeletalMesh>(vertices, indices, boneCounter);

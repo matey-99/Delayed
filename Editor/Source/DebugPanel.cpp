@@ -7,6 +7,7 @@
 DebugPanel::DebugPanel(Ref<Editor> editor) 
 	: m_Editor(editor)
 {
+
 }
 
 void DebugPanel::Render()

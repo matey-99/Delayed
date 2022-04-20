@@ -48,12 +48,19 @@ std::vector<Ref<MeshBase>> SkeletalMeshComponent::GetMeshes() const
 uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
 {
 	uint32_t vertices = 0;
+
 	for (auto mesh : m_SkeletalModel->GetMeshes())
 	{
 		vertices += mesh->GetVertices().size();
 	}
 
 	return vertices;
+}
+
+void SkeletalMeshComponent::SetBonesPositionInSkeletalModel(std::vector<glm::mat4> boneMatrices)
+{
+	// No hard copy?
+	m_SkeletalModel->SetBoneMatrices(boneMatrices);
 }
 
 uint32_t SkeletalMeshComponent::GetBoneCount()

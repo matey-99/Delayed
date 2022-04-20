@@ -1,7 +1,6 @@
 #pragma once
 #include "Animation.h"
 #include "typedefs.h"
-#include "Importer/SkeletalMeshImporter.h"
 #include <glm/glm.hpp>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
@@ -26,6 +25,9 @@ public:
 	{
 		FindSkeletalMeshComponent();
 
+		// [DEBUG] Load animation
+		m_Animations.push_back(CreateRef<Animation>());
+
 		m_CurrentTime = 0.0;
 
 		m_FinalBoneMatrices.reserve(100);
@@ -49,6 +51,17 @@ public:
 			m_CurrentTime = fmod(m_CurrentTime, m_CurrentAnimation->GetDuration());
 			ComputeBoneTransforms(&m_CurrentAnimation->GetRootNode(), glm::mat4(1.0f));
 		}
+
+		m_SkeletalMeshComponent->SetBonesPositionInSkeletalModel(m_FinalBoneMatrices);
+
+		// [DEBUG ONLY]
+		for (auto& bone : m_FinalBoneMatrices)
+		{
+			for (int i = 0; i < 16; i++)
+				std::cout << bone[i / 4][i % 4] << " ";
+			std::cout << "\n";
+		}
+
 	}
 
 	virtual void FixedUpdate() override { }

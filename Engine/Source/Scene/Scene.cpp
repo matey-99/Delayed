@@ -10,6 +10,7 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderPass/ShadowsPass.h"
 #include "Component/TransformComponent.h"
+#include "Component/Animation/SkeletalMeshComponent.h"
 #include "Component/Light/SkyLight.h"
 #include "Component/UI/RectTransformComponent.h"
 #include "Camera/CameraManager.h"
@@ -250,6 +251,12 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 				material->GetShader()->SetFloat("u_SkyLightIntensity", 0.03f);
 			}
 		}
+
+		// Set bones position in Vertex Shader
+		/*if (auto& skelMesh = Cast<SkeletalMeshComponent>(renderMesh))
+		{
+			std::cout << "SkeletalMeshComponent found in render section...\n";
+		}*/
 
 		std::vector<glm::mat4> transformations;
 		uint32_t instancesCount = 0;
