@@ -1,8 +1,7 @@
 #include "StaticMeshComponent.h"
 
-#include "Importer/MeshImporter.h"
-#include "Importer/MaterialImporter.h"
-#include "Content/ContentHelper.h"
+#include "Assets/AssetManager.h"
+#include "Assets/ModelBase.h"
 #include "Camera/CameraManager.h"
 
 #include "Scene/Actor.h"
@@ -24,7 +23,7 @@ StaticMeshComponent::StaticMeshComponent(Actor* owner, std::string path)
 {
 	LoadMesh(path);
 
-	for (int i = 0; i < m_Meshes.size(); i++)
+	for (int i = 0; i < m_Model->GetMeshes().size(); i++)
 		LoadMaterial("Materials/Default.mat");
 }
 
@@ -34,17 +33,17 @@ StaticMeshComponent::StaticMeshComponent(Actor* owner, std::string path, std::ve
 	LoadMesh(path);
 
 	for (auto path : m_MaterialsPaths)
-		m_Materials.push_back(MaterialImporter::GetInstance()->ImportMaterial(path));
+		m_Materials.push_back(AssetManager::LoadMaterial(path));
 }
 
 void StaticMeshComponent::Render(Material::BlendMode blendMode)
 {
 }
 
-std::vector<Ref<Mesh>> StaticMeshComponent::GetMeshes() const
+std::vector<Ref<MeshBase>> StaticMeshComponent::GetMeshes() const
 {
-	std::vector<Ref<Mesh>> result;
-	for (auto mesh : m_Meshes)
+	std::vector<Ref<MeshBase>> result;
+	for (auto mesh : m_Model->GetMeshes())
 		result.push_back(mesh);
 
 	return result;
@@ -53,7 +52,7 @@ std::vector<Ref<Mesh>> StaticMeshComponent::GetMeshes() const
 uint32_t StaticMeshComponent::GetRenderedVerticesCount()
 {
 	uint32_t vertices = 0;
-	for (auto mesh : m_Meshes)
+	for (auto mesh : m_Model->GetMeshes())
 	{
 		vertices += mesh->GetVertices().size();
 	}
@@ -64,7 +63,7 @@ uint32_t StaticMeshComponent::GetRenderedVerticesCount()
 void StaticMeshComponent::LoadMesh(std::string path)
 {
 	m_Path = path;
-	m_Meshes = MeshImporter::GetInstance()->ImportMesh(path);
+	m_Model = AssetManager::LoadModel(path);
 }
 
 void StaticMeshComponent::ChangeMesh(std::string path)
@@ -74,14 +73,25 @@ void StaticMeshComponent::ChangeMesh(std::string path)
 	m_Materials.clear();
 	m_MaterialsPaths.clear();
 
-	for (int i = 0; i < m_Meshes.size(); i++)
+	for (int i = 0; i < m_Model->GetMeshes().size(); i++)
 		LoadMaterial("Materials/Default.mat");
+}
+
+void StaticMeshComponent::ChangeModel(Ref<ModelBase> modelBase)
+{
+	if (auto model = StaticCast<Model>(modelBase))
+		m_Model = model;
+}
+
+Ref<ModelBase> StaticMeshComponent::GetModel() const
+{
+	return m_Model;
 }
 
 void StaticMeshComponent::UpdateBoundingBox()
 {
 	std::vector<glm::vec3> pointsFromAllMeshes;
-	for (auto mesh : m_Meshes)
+	for (auto mesh : m_Model->GetMeshes())
 	{
 		auto points = mesh->GetBoundingBox().GetPoints();
 		for (auto& point : points)
@@ -96,14 +106,14 @@ void StaticMeshComponent::UpdateBoundingBox()
 
 //TODO Potentially can be made more efficient
 void StaticMeshComponent::UpdateBoundingSphere() {
-	BoundingSphere s0, s1, s = m_Meshes[0]->GetBoundingSphere();
+	BoundingSphere s0, s1, s = m_Model->GetMeshes()[0]->GetBoundingSphere();
 	glm::vec3 d;
 	float dist2, dist, r;
 
 	s.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s.Center, 1.0f);
 	s.Radius *= m_Owner->GetTransform()->GetWorldScale().x;
 
-	for (auto mesh : m_Meshes)
+	for (auto mesh : m_Model->GetMeshes())
 	{
 		s0 = s;
 		s1 = mesh->GetBoundingSphere();

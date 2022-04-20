@@ -104,12 +104,16 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	PROFILER_STOP();
 	m_Output[outputIndex] = m_LightingPass->GetRenderTarget()->GetTargets()[0];
 
-	// Forward
-	m_ForwardPass->Render(scene);
+	// Depth Fog
+	if (m_Settings.DepthFogEnabled)
+	{
+		m_DepthFogPass->Render(m_Output[outputIndex]);
+		m_Output[outputIndex] = m_DepthFogPass->GetRenderTarget()->GetTargets()[0];
+	}
 
-    // Depth Fog
-    m_DepthFogPass->Render(m_Output[outputIndex]);
-    m_Output[outputIndex] = m_DepthFogPass->GetRenderTarget()->GetTargets()[0];
+	// Forward
+	Ref<RenderTarget> previousRT = m_Settings.DepthFogEnabled ? m_DepthFogPass->GetRenderTarget() : m_LightingPass->GetRenderTarget();
+	m_ForwardPass->Render(scene, previousRT);
 
 	// Post Processing
 	if (m_Settings.PostProcessingEnabled)
@@ -148,7 +152,7 @@ void Renderer::Display()
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Screen");
+	auto screenShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "Viewport");
 	screenShader->Use();
 	screenShader->SetInt("u_Screen", 0);
 
@@ -181,12 +185,16 @@ void Renderer::ResizeWindow(uint32_t width, uint32_t height)
 	// Lighting
 	m_LightingPass->GetRenderTarget()->Update(width, height);
 
+	// Depth Fog
+	m_DepthFogPass->UpdateRenderTarget(width, height);
+
 	// Post Processing
 	m_PostProcessingPass->UpdateRenderTargets(width, height);
 
 	// FXAA
 	m_FXAAPass->UpdateRenderTarget(width, height);
 
+	// Vignette
 	m_VignettePass->UpdateRenderTarget(width, height);
 
 	// Depth Of Field

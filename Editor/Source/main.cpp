@@ -27,7 +27,6 @@
 #include "Scene/Component/Light/Light.h"
 #include "Input/Input.h"
 #include "Scene/SceneManager.h"
-#include "Content/ContentHelper.h"
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
 

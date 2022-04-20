@@ -18,8 +18,10 @@ void RendererSettingsPanel::Render()
 {
     ImGui::Begin("Renderer Settings");
 
+    ImGui::Checkbox("Depth Fog Enabled", &m_Renderer->m_Settings.DepthFogEnabled);
     ImGui::Checkbox("Post Processing Enabled", &m_Renderer->m_Settings.PostProcessingEnabled);
     ImGui::Checkbox("FXAA Enabled", &m_Renderer->m_Settings.FXAAEnabled);
+    ImGui::Checkbox("Vignette Enabled", &m_Renderer->m_Settings.VignetteEnabled);
     ImGui::Checkbox("Depth Of Field Enabled", &m_Renderer->m_Settings.DepthOfFieldEnabled);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));

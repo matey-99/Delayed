@@ -48,6 +48,7 @@ public:
 
 	struct RendererSettings
 	{
+		bool DepthFogEnabled = true;
 		bool PostProcessingEnabled = true;
 		bool FXAAEnabled = true;
 		bool VignetteEnabled = true;

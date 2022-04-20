@@ -1,48 +1,19 @@
 #pragma once
 
-#include "glm/glm.hpp"
-#include "Shader.h"
-#include "Texture.h"
-#include "Math/BoundingBox.h"
-#include "Math/BoundingSphere.h"
-#include "Patterns/Container.h"
+#include "MeshBase.h"
 
-struct Vertex
-{
-	glm::vec3 Position;
-	glm::vec3 Normal;
-	glm::vec2 TexCoords;
-	glm::vec3 Tangent;
-	glm::vec3 Bitangent;
-};
+#include "Core.h"
 
-class Mesh
+class Mesh : public MeshBase
 {
 public:
-	Mesh(std::vector<uint32_t> indices);
-	void Render();
-	void RenderInstanced(uint32_t instancesCount, std::vector<glm::mat4> modelMatrices);
+	Mesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices);
 
-	void CreateBounds(std::vector<Vertex> vertices);
-
-	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
-    inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
-	inline std::vector<uint32_t> GetIndices() const { return m_Indices; }
-	inline uint32_t GetVAO() const { return m_VAO; }
+	inline std::vector<Vertex> GetVertices() const { return m_Vertices; }
 
 protected:
-	virtual void SetupMesh() = 0;
-
-protected:
-	std::vector<uint32_t> m_Indices;
-
-	uint32_t m_VAO;
-	uint32_t m_VBO;
-	uint32_t m_EBO;
-
-	uint32_t m_TransformationVBO;
+	virtual void SetupMesh() override;
 
 private:
-	BoundingBox m_BoundingBox;
-    BoundingSphere m_BoundingSphere;
+	std::vector<Vertex> m_Vertices;
 };

@@ -2,7 +2,8 @@
 
 #include "Scene/Scene.h"
 #include "imgui.h"
-#include "Renderer/StaticMesh.h"
+#include "Assets/Model.h"
+#include "Renderer/Mesh.h"
 #include "Renderer/RenderTarget.h"
 
 class Editor;
@@ -22,7 +23,7 @@ private:
 	Ref<Shader> m_DirectionArrowShader;
 	Ref<Shader> m_ColliderShader;
 	Ref<Shader> m_ViewportShader;
-	std::vector<Ref<StaticMesh>> m_DirectionArrow;
+	Ref<Model> m_DirectionArrow;
 
 	bool m_SelectingActor;
 

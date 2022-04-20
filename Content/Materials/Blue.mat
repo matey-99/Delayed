@@ -1,7 +1,7 @@
 Material: Blue
 ID: 374773663
 BlendMode: 0
-Shader: Standard
+Shader: Opaque
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: false

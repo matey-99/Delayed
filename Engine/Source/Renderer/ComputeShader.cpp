@@ -2,27 +2,9 @@
 
 #include <glad/glad.h>
 
-ComputeShader::ComputeShader(std::string path)
-    : m_Uniforms(std::vector<ShaderUniform>())
+ComputeShader::ComputeShader(std::string name, const std::string& source)
+    : m_Name(name)
 {
-    std::string source;
-    std::ifstream filestream;
-
-    filestream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    try
-    {
-        std::stringstream buffer;
-
-        filestream.open(path);
-        buffer << filestream.rdbuf();
-        source = buffer.str();
-        filestream.close();
-    }
-    catch (std::ifstream::failure e)
-    {
-        std::cout << "Reading shader failed." << std::endl;
-    }
-
     uint32_t computeShader = CompileShader(source.c_str());
     uint32_t shaderProgram = glCreateProgram();
     glProgramParameteri(shaderProgram, GL_PROGRAM_SEPARABLE, GL_TRUE);
@@ -47,6 +29,11 @@ ComputeShader::ComputeShader(std::string path)
 ComputeShader::~ComputeShader()
 {
     glDeleteProgram(m_ID);
+}
+
+Ref<ComputeShader> ComputeShader::Create(std::string name, const std::string& source)
+{
+    return CreateRef<ComputeShader>(name, source);
 }
 
 void ComputeShader::Use() const
@@ -131,35 +118,35 @@ void ComputeShader::LoadUniforms()
         glGetActiveUniform(m_ID, i, 32, &length, &size, &type, uniformName);
 
         ShaderUniform uniform;
-        uniform.name = uniformName;
+        uniform.Name = uniformName;
         switch (type)
         {
         case GL_BOOL:
-            uniform.type = ShaderUniformType::BOOL;
+            uniform.Type = ShaderUniformType::BOOL;
             break;
         case GL_INT:
-            uniform.type = ShaderUniformType::INT;
+            uniform.Type = ShaderUniformType::INT;
             break;
         case GL_FLOAT:
-            uniform.type = ShaderUniformType::FLOAT;
+            uniform.Type = ShaderUniformType::FLOAT;
             break;
         case GL_FLOAT_VEC3:
-            uniform.type = ShaderUniformType::VEC3;
+            uniform.Type = ShaderUniformType::VEC3;
             break;
         case GL_FLOAT_VEC4:
-            uniform.type = ShaderUniformType::VEC4;
+            uniform.Type = ShaderUniformType::VEC4;
             break;
         case GL_FLOAT_MAT3:
-            uniform.type = ShaderUniformType::MAT3;
+            uniform.Type = ShaderUniformType::MAT3;
             break;
         case GL_FLOAT_MAT4:
-            uniform.type = ShaderUniformType::MAT4;
+            uniform.Type = ShaderUniformType::MAT4;
             break;
         case GL_SAMPLER_2D:
-            uniform.type = ShaderUniformType::SAMPLER_2D;
+            uniform.Type = ShaderUniformType::SAMPLER_2D;
             break;
         case GL_SAMPLER_CUBE:
-            uniform.type = ShaderUniformType::SAMPLER_CUBE;
+            uniform.Type = ShaderUniformType::SAMPLER_CUBE;
             break;
         }
 

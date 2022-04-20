@@ -9,23 +9,25 @@ enum class ShaderUniformType
 
 struct ShaderUniform
 {
-public:
-	std::string name;
-	ShaderUniformType type;
+	std::string Name;
+	ShaderUniformType Type;
+};
+
+struct ShaderSource
+{
+	std::string VertexSource;
+	std::string FragmentSource;
+	std::string GeometrySource;
 };
 
 class Shader
 {
 public:
-	unsigned int id;
-
-private:
-	std::string m_Name;
-	std::vector<ShaderUniform> m_Uniforms;
-
-public:
-	Shader(std::string name, std::string vertexPath, std::string fragmentPath, std::string geometryPath = "");
+	Shader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource);
 	~Shader();
+
+	static Ref<Shader> Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource = "");
+
 	void Use() const;
 
 	inline std::string GetName() const { return m_Name; }
@@ -43,4 +45,9 @@ public:
 private:
 	unsigned int CompileShader(unsigned int type, const char* source);
 	void LoadUniforms();
+
+private:
+	uint32_t m_ID;
+	std::string m_Name;
+	std::vector<ShaderUniform> m_Uniforms;
 };

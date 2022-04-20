@@ -56,6 +56,6 @@ void DepthFogPass::Render(uint32_t input) {
     m_RenderTarget->Unbind();
 }
 
-void DepthFogPass::UpdateRenderTargets(uint32_t width, uint32_t height) {
+void DepthFogPass::UpdateRenderTarget(uint32_t width, uint32_t height) {
     m_RenderTarget->Update(width, height);
 }

@@ -2,10 +2,10 @@
 
 #include <GLFW/glfw3.h>
 
+#include "Assets/AssetManager.h"
 #include "Material/ShaderLibrary.h"
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
-#include "Content/ContentHelper.h"
 
 ParticleSystemComponent::ParticleSystemComponent(Actor* owner)
 	: RenderComponent(owner)
@@ -163,7 +163,7 @@ void ParticleSystemComponent::Reset()
 	m_IndexBuffer->Unmap();
 	m_IndexBuffer->Unbind();
 
-	m_ComputeShader = CreateRef<ComputeShader>(ContentHelper::GetAssetPath("Shaders/Particle/StandardParticle.comp"));
+	m_ComputeShader = ShaderLibrary::GetInstance()->GetComputeShader("StandardParticle");
 	m_ComputeShader->Use();
 	m_ComputeShader->SetUint("u_ParticlesCount", m_ParticlesCount);
 

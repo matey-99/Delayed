@@ -19,7 +19,7 @@ struct SkinnedVertex : Vertex
 	float Weights[MAX_BONES_INFLUENCE];
 };
 
-class SkeletalMesh : public Mesh
+class SkeletalMesh : public MeshBase
 {
 public:
 	SkeletalMesh(std::vector<SkinnedVertex> vertices,
