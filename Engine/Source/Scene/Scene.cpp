@@ -270,7 +270,7 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 		{
 			std::vector<glm::mat4> transforms = skelMesh->GetBoneMatrices();
 
-			std::cout << transforms.size();
+			//std::cout << transforms.size();
 
 			for (int i = 0; i < transforms.size(); i++)
 			{

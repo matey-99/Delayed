@@ -9,6 +9,7 @@
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
+#include "Scene/Component/Animation/Animator.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/UI/UIComponent.h"
 #include "Input/Input.h"
@@ -110,6 +111,12 @@ void Editor::Update(float deltaTime)
 	for (auto mesh : meshes)
 	{
 		mesh->Update(deltaTime);
+	}
+
+	auto animators = m_Scene->GetComponents<Animator>();
+	for (auto animator : animators)
+	{
+		animator->Update(deltaTime);
 	}
 
 	auto lods = m_Scene->GetComponents<LODGroupComponent>();
