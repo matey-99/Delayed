@@ -17,6 +17,6 @@ public:
 	inline void SetActor(Ref<Actor> actor) { m_Actor = actor; }
 
 private:
-	void DisplayResources(std::vector<std::string> extensions, int index = -1);
+	void DisplayResources(Ref<Component> component, std::vector<std::string> extensions, int index = -1, int lod = -1);
 	void CorrectPath(std::string& path);
 };

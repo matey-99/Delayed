@@ -6,6 +6,7 @@
 #include "Material/ShaderLibrary.h"
 #include "Renderer/RenderTools.h"
 #include "Renderer/RenderPass/UIPass.h"
+#include "Assets/AssetManager.h"
 
 ButtonComponent::ButtonComponent(Actor* owner)
 	: UIComponent(owner)
@@ -14,7 +15,7 @@ ButtonComponent::ButtonComponent(Actor* owner)
 
 	m_CurrentState = ButtonState::Normal;
 
-	m_Image = Texture::Create("Textures/Default/UI.png");
+	m_Image = AssetManager::LoadTexture("Textures/Default/UI.png");
 	m_NormalColor = glm::vec4(1.0f);
 	m_HoveredColor = glm::vec4(0.75f, 0.75f, 0.75f, 1.0f);
 	m_PressedColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -123,5 +124,5 @@ void ButtonComponent::Release()
 
 void ButtonComponent::ChangeImage(std::string path)
 {
-	m_Image = Texture::Create(path);
+	m_Image = AssetManager::LoadTexture(path);
 }

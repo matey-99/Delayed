@@ -4,6 +4,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "Assets/ModelBase.h"
 #include "Renderer/Mesh.h"
 #include "Material/Material.h"
 #include "Material/ShaderLibrary.h"
@@ -18,14 +19,17 @@ public:
 
 	void LoadMaterial(std::string path);
 	void ChangeMaterial(int index, std::string path);
+	void ChangeMaterials(std::vector<Ref<Material>> materials);
 
 	virtual void LoadMesh(std::string path) = 0;
 	virtual void ChangeMesh(std::string path) = 0;
+	virtual void ChangeModel(Ref<ModelBase> model) = 0;
 
 	virtual void UpdateBoundingBox() = 0;
     virtual void UpdateBoundingSphere() = 0;
 
-	virtual std::vector<Ref<Mesh>> GetMeshes() const = 0;
+	virtual Ref<ModelBase> GetModel() const = 0;
+	virtual std::vector<Ref<MeshBase>> GetMeshes() const = 0;
 	virtual uint32_t GetRenderedVerticesCount() = 0;
 
 	virtual void Start() override;

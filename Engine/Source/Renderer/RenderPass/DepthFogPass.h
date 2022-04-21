@@ -19,7 +19,7 @@ public:
     ~DepthFogPass();
 
     void Render(uint32_t input);
-    void UpdateRenderTargets(uint32_t width, uint32_t height);
+    void UpdateRenderTarget(uint32_t width, uint32_t height);
 
     inline const DepthFogSettings& GetSettings() const { return m_Settings; }
 

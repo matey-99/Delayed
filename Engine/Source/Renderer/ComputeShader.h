@@ -6,12 +6,15 @@
 class ComputeShader
 {
 public:
-	ComputeShader(std::string path);
+	ComputeShader(std::string name, const std::string& source);
 	~ComputeShader();
+
+	static Ref<ComputeShader> Create(std::string name, const std::string& source);
 
 	void Use() const;
 
 	inline uint32_t GetID() const { return m_ID; }
+	inline std::string GetName() const { return m_Name; }
 	inline std::vector<ShaderUniform> GetUniforms() const { return m_Uniforms; }
 
 	// uniforms
@@ -30,6 +33,7 @@ private:
 
 private:
 	uint32_t m_ID;
+	std::string m_Name;
 
 	std::vector<ShaderUniform> m_Uniforms;
 };

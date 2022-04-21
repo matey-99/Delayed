@@ -2,9 +2,10 @@
 
 #include "imgui.h"
 #include "Editor.h"
-#include "Content/ContentHelper.h"
+#include "Assets/AssetManager.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
+#include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
@@ -14,6 +15,7 @@
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
+
 #include "Game/Player.h"
 
 #include <glm/gtc/type_ptr.hpp>
@@ -189,7 +191,7 @@ void ActorDetailsPanel::Render()
     {
         ImGui::Text("Static Mesh");
 
-        std::string path = mesh->GetPath();
+        std::string path = mesh->GetModel()->GetPath();
         std::string name = path.substr(path.find_last_of("/") + 1);
         if (ImGui::BeginCombo("Static Mesh", name.c_str()))
         {
@@ -198,7 +200,7 @@ void ActorDetailsPanel::Render()
             extensions.push_back("fbx");
             extensions.push_back("3ds");
             extensions.push_back("dae");
-            DisplayResources(extensions);
+            DisplayResources(mesh, extensions);
 
             ImGui::EndCombo();
         }
@@ -214,19 +216,21 @@ void ActorDetailsPanel::Render()
             {
                 std::vector<std::string> extensions = std::vector<std::string>();
                 extensions.push_back("mat");
-                DisplayResources(extensions, i);
+                DisplayResources(mesh, extensions, i);
 
                 ImGui::EndCombo();
             }
             ImGui::PopID();
         }
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
     if (auto mesh = m_Actor->GetComponent<SkeletalMeshComponent>())
     {
         ImGui::Text("Skeletal Mesh");
 
-        std::string path = mesh->GetPath();
+        std::string path = mesh->GetModel()->GetPath();
         std::string name = path.substr(path.find_last_of("/") + 1);
         if (ImGui::BeginCombo("Skeletal Mesh", name.c_str()))
         {
@@ -235,7 +239,7 @@ void ActorDetailsPanel::Render()
             extensions.push_back("fbx");
             extensions.push_back("3ds");
             extensions.push_back("dae");
-            DisplayResources(extensions);
+            DisplayResources(mesh, extensions);
 
             ImGui::EndCombo();
         }
@@ -251,7 +255,7 @@ void ActorDetailsPanel::Render()
             {
                 std::vector<std::string> extensions = std::vector<std::string>();
                 extensions.push_back("mat");
-                DisplayResources(extensions, i);
+                DisplayResources(mesh, extensions, i);
 
                 ImGui::EndCombo();
             }
@@ -262,6 +266,66 @@ void ActorDetailsPanel::Render()
         ImGui::Text("Skeleton informations");
         ImGui::Text("Bones: %i", mesh->GetBoneCount());
 
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto lodGroup = m_Actor->GetComponent<LODGroupComponent>())
+    {
+        ImGui::Text("LOD Group");
+        ImGui::Text(("Current LOD: " + std::to_string(lodGroup->GetCurrentLOD().Level)).c_str());
+
+        int i = 0;
+        for (auto& lod : lodGroup->m_LODs)
+        {
+            ImGui::PushID(i);
+            ImGui::Text(("LOD" + std::to_string(lod.Level)).c_str());
+            std::string path = lod.Model->GetPath();
+            std::string name = path.substr(path.find_last_of("/") + 1);
+            if (ImGui::BeginCombo("Model", name.c_str()))
+            {
+                std::vector<std::string> extensions = std::vector<std::string>();
+                extensions.push_back("obj");
+                extensions.push_back("fbx");
+                extensions.push_back("3ds");
+                extensions.push_back("dae");
+                DisplayResources(lodGroup, extensions, -1, i);
+
+                ImGui::EndCombo();
+            }
+
+            ImGui::Text("Materials");
+            for (int j = 0; j < lod.Materials.size(); j++)
+            {
+                path = lod.Materials[j]->GetPath();
+                name = path.substr(path.find_last_of("/") + 1);
+
+                ImGui::PushID(j);
+                if (ImGui::BeginCombo(("[" + std::to_string(j) + "]").c_str(), name.c_str()))
+                {
+                    std::vector<std::string> extensions = std::vector<std::string>();
+                    extensions.push_back("mat");
+                    DisplayResources(lodGroup, extensions, j, i);
+
+                    ImGui::EndCombo();
+                }
+                ImGui::PopID();
+            }
+
+            ImGui::DragFloat("MaxDistance", &lod.MaxDistance, 1.0f, 0.0f, 1000.0f);
+
+            ImGui::PopID();
+            i++;
+        }
+
+        if (ImGui::Button("Add New LOD"))
+        {
+            LOD newLOD = lodGroup->m_LODs[lodGroup->m_LODs.size() - 1];
+            newLOD.Level += 1;
+            lodGroup->m_LODs.push_back(newLOD);
+
+        }
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
     if (auto light = m_Actor->GetComponent<Light>())
@@ -339,7 +403,7 @@ void ActorDetailsPanel::Render()
             {
                 std::vector<std::string> extensions = std::vector<std::string>();
                 extensions.push_back("png");
-                DisplayResources(extensions);
+                DisplayResources(skyLight, extensions);
 
                 ImGui::EndCombo();
             }
@@ -404,7 +468,7 @@ void ActorDetailsPanel::Render()
         {
             std::vector<std::string> extensions = std::vector<std::string>();
             extensions.push_back("png");
-            DisplayResources(extensions);
+            DisplayResources(image, extensions);
 
             ImGui::EndCombo();
         }
@@ -442,7 +506,7 @@ void ActorDetailsPanel::Render()
         {
             std::vector<std::string> extensions = std::vector<std::string>();
             extensions.push_back("png");
-            DisplayResources(extensions);
+            DisplayResources(button, extensions);
 
             ImGui::EndCombo();
         }
@@ -486,6 +550,7 @@ void ActorDetailsPanel::Render()
     bool staticMesh = false;
     bool instanceRenderedMesh = false;
     bool skeletalMesh = false;
+    bool lodGroup = false;
     bool dirLight = false;
     bool pointLight = false;
     bool spotLight = false;
@@ -508,6 +573,7 @@ void ActorDetailsPanel::Render()
                 ImGui::MenuItem("Static Mesh", "", &staticMesh);
                 ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
                 ImGui::MenuItem("Skeletal Mesh", "", &skeletalMesh);
+                ImGui::MenuItem("LOD Group", "", &lodGroup);
                 if (ImGui::BeginMenu("Light"))
                 {
                     ImGui::MenuItem("Directional Light", "", &dirLight);
@@ -562,6 +628,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<StaticMeshComponent>();
     if (skeletalMesh)
         m_Actor->AddComponent<SkeletalMeshComponent>();
+    if (lodGroup)
+        m_Actor->AddComponent<LODGroupComponent>();
     if (dirLight)
         m_Actor->AddComponent<DirectionalLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
     if (pointLight)
@@ -571,12 +639,12 @@ void ActorDetailsPanel::Render()
     if (skyLight)
     {
         std::vector<std::string> defaultPaths;
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/px.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/nx.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/py.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/ny.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/nz.png"));
-        defaultPaths.push_back(ContentHelper::GetAssetPath("Textures/Sky/Default/pz.png"));
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/px.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/nx.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/py.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/ny.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/nz.png");
+        defaultPaths.push_back("../../../Content/Textures/Sky/Default/pz.png");
 
         auto sk = m_Actor->AddComponent<SkyLight>(defaultPaths);
         m_Actor->GetScene()->m_SkyLight = sk;
@@ -608,9 +676,9 @@ void ActorDetailsPanel::Render()
 	ImGui::End();
 }
 
-void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, int index)
+void ActorDetailsPanel::DisplayResources(Ref<Component> component, std::vector<std::string> extensions, int index, int lod)
 {
-    for (auto& p : std::filesystem::recursive_directory_iterator(ContentHelper::GetAssetPath("")))
+    for (auto& p : std::filesystem::recursive_directory_iterator(AssetManager::ContentDirectory))
     {
         std::stringstream ss;
         ss << p.path();
@@ -628,29 +696,32 @@ void ActorDetailsPanel::DisplayResources(std::vector<std::string> extensions, in
                 {
                     if (ext == "obj" || ext == "fbx" || ext == "3ds" || ext == "dae")
                     {
-                        if (auto mesh = m_Actor->GetComponent<MeshComponent>())
+                        if (auto mesh = Cast<MeshComponent>(component))
                             mesh->ChangeMesh(path);
+
+                        if (auto lodGroup = Cast<LODGroupComponent>(component))
+                            lodGroup->m_LODs[lod].Model = AssetManager::LoadModel(path);
+
                     }
                     else if (ext == "mat")
                     {
-                        if (auto mesh = m_Actor->GetComponent<MeshComponent>())
+                        if (auto mesh = Cast<MeshComponent>(component))
                             mesh->ChangeMaterial(index, path);
-                    }
-                    else if (ext == "hdr")
-                    {
 
+                        if (auto lodGroup = Cast<LODGroupComponent>(component))
+                            lodGroup->m_LODs[lod].Materials[index] = AssetManager::LoadMaterial(path);
                     }
                     else if (ext == "png")
                     {
-                        if (auto image = m_Actor->GetComponent<ImageComponent>())
+                        if (auto image = Cast<ImageComponent>(component))
                         {
                             image->ChangeImage(path);
                         }
-                        if (auto button = m_Actor->GetComponent<ButtonComponent>())
+                        if (auto button = Cast<ButtonComponent>(component))
                         {
                             button->ChangeImage(path);
                         }
-                        if (auto skyLight = m_Actor->GetComponent<SkyLight>())
+                        if (auto skyLight = Cast<SkyLight>(component))
                         {
                             //skyLight->Load(path);
 
@@ -677,5 +748,5 @@ void ActorDetailsPanel::CorrectPath(std::string& path)
         path.replace(index, 2, "/");
     }
 
-    path = path.substr(ContentHelper::GetAssetPath("").size());
+    path = path.substr(AssetManager::ContentDirectory.size());
 }

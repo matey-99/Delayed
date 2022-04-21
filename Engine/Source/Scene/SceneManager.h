@@ -1,19 +1,13 @@
 #pragma once
 
-#include "typedefs.h"
+#include "Core.h"
+#include "Patterns/Singleton.h"
+
 #include "Scene.h"
 
-class SceneManager
+class SceneManager : public Singleton<SceneManager>
 {
 public:
-	SceneManager();
-	~SceneManager();
-
-	SceneManager(SceneManager& other) = delete;
-	void operator=(const SceneManager&) = delete;
-
-	static Ref<SceneManager> GetInstance();
-
 	Ref<Scene> CreateScene(std::string name);
 	Ref<Scene> LoadScene(std::string path);
 

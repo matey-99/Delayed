@@ -1,7 +1,7 @@
 Material: Red
 ID: 374772153
 BlendMode: 0
-Shader: Standard
+Shader: Opaque
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: false

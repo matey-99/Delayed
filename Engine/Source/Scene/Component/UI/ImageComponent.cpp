@@ -1,15 +1,15 @@
 #include "ImageComponent.h"
 
 #include "Scene/Actor.h"
-#include "Content/ContentHelper.h"
 #include "Material/ShaderLibrary.h"
 #include "Renderer/RenderTools.h"
 #include "Renderer/RenderPass/UIPass.h"
+#include "Assets/AssetManager.h"
 
 ImageComponent::ImageComponent(Actor* owner)
 	: UIComponent(owner)
 {
-	m_Image = Texture::Create("Textures/Default/UI.png");
+	m_Image = AssetManager::LoadTexture("Textures/Default/UI.png");
 	m_Color = glm::vec4(1.0f);
 }
 
@@ -45,5 +45,5 @@ void ImageComponent::Destroy()
 
 void ImageComponent::ChangeImage(std::string path)
 {
-	m_Image = Texture::Create(path);
+	m_Image = AssetManager::LoadTexture(path);
 }

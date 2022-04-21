@@ -113,14 +113,14 @@ void Input::Process()
 				}
 			}
 		}
+	}
 
-		if (m_Mode == InputMode::UI || m_Mode == InputMode::PlayerAndUI)
-		{
-			if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == (int)InputEvent::Press)
-				OnLeftMouseButtonPressed.Broadcast();
-			else if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == (int)InputEvent::Release)
-				OnLeftMouseButtonReleased.Broadcast();
-		}
+	if (m_Mode == InputMode::UI || m_Mode == InputMode::PlayerAndUI)
+	{
+		if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == (int)InputEvent::Press)
+			OnLeftMouseButtonPressed.Broadcast();
+		else if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == (int)InputEvent::Release)
+			OnLeftMouseButtonReleased.Broadcast();
 	}
 }
 

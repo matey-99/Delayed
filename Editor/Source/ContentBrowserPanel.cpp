@@ -7,7 +7,7 @@
 #include "Material/Material.h"
 #include "Material/MaterialSerializer.h"
 #include "Importer/MaterialImporter.h"
-#include "Content/ContentHelper.h"
+#include "Assets/AssetManager.h"
 
 ContentBrowserPanel::ContentBrowserPanel(Ref<Editor> editor, Ref<Scene> scene) : m_Editor(editor), m_Scene(scene)
 {
@@ -16,7 +16,7 @@ ContentBrowserPanel::ContentBrowserPanel(Ref<Editor> editor, Ref<Scene> scene) :
 	m_SupportedFileFormats.push_back("fbx");
 	m_SupportedFileFormats.push_back("mat");
 
-	m_DisplayedDirectory = ContentHelper::GetAssetPath("");
+	m_DisplayedDirectory = AssetManager::ContentDirectory;
 
 	m_IsCreateMaterialWindowDisplayed = false;
 	m_NewMaterialName = "New Material";
@@ -26,7 +26,7 @@ void ContentBrowserPanel::Render()
 {
 	ImGui::Begin("Content Browser");
 
-	if (m_DisplayedDirectory != ContentHelper::GetAssetPath(""))
+	if (m_DisplayedDirectory != AssetManager::ContentDirectory)
 	{
 		bool selected = false;
 		ImGui::Selectable("..", &selected);
@@ -86,7 +86,7 @@ void ContentBrowserPanel::Render()
 		if (ImGui::Button("Save"))
 		{
 			m_IsCreateMaterialWindowDisplayed = false;
-			Material::Create(m_NewMaterialName, "Standard");
+			AssetManager::CreateNewMaterial(m_NewMaterialName, m_DisplayedDirectory + "/" + m_NewMaterialName + ".mat");
 		}
 		if (ImGui::Button("Exit"))
 		{
@@ -102,7 +102,7 @@ void ContentBrowserPanel::MakeAction(std::string path, std::string extension)
 {
 	if (extension == "mat")
 	{
-		Ref<Material> material = MaterialImporter::GetInstance()->ImportMaterial(path);
+		Ref<Material> material = AssetManager::LoadMaterial(path);
 		m_Editor->ShowMaterialEditor(material);
 	}
 	else if (extension == "obj" || extension == "fbx" || extension == "3ds" || extension == "dae")
@@ -144,5 +144,5 @@ void ContentBrowserPanel::CorrectPath(std::string& path)
 		path = path.substr(1);
 	}
 
-	path = path.substr(ContentHelper::GetAssetPath("").size());
+	path = path.substr(AssetManager::ContentDirectory.size());
 }

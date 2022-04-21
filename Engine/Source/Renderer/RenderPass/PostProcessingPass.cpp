@@ -119,7 +119,7 @@ void PostProcessingPass::Render(uint32_t input)
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, (i == 0) ? m_DownscaleRenderTargets[1]->GetTargets()[0] : m_BlurRenderTargets[1]->GetTargets()[0]);
 
-			auto blurShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "BlurHorizontal");
+			auto blurShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "GaussianBlurHorizontal");
 			blurShader->Use();
 			blurShader->SetInt("u_SourceTexture", 0);
 			for (int i = 0; i < GAUSSIAN_BLUR_KERNEL_SIZE; i++)
@@ -135,7 +135,7 @@ void PostProcessingPass::Render(uint32_t input)
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, m_BlurRenderTargets[0]->GetTargets()[0]);
 
-			blurShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "BlurVertical");
+			blurShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::PostProcessing, "GaussianBlurVertical");
 			blurShader->Use();
 			blurShader->SetInt("u_SourceTexture", 0);
 			for (int i = 0; i < GAUSSIAN_BLUR_KERNEL_SIZE; i++)

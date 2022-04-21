@@ -1,26 +1,23 @@
 #include "Texture.h"
 
 #include <glad/glad.h>
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
 
 #include "Renderer/Renderer.h"
-#include "Content/ContentHelper.h"
 
-Texture::Texture(std::string path, TextureRange range) 
-	: m_Path(path)
+Texture::Texture(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data)
+	: m_Path(path), m_Width(width), m_Height(height), m_ComponentsCount(componentsCount)
 {
 	m_ID = 0;
 
-	switch (range)
-	{
-	case TextureRange::LDR:
-		Load(path);
-		break;
-	case TextureRange::HDR:
-		LoadHDR(path);
-		break;
-	}
+	Load(data);
+}
+
+Texture::Texture(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, float* data)
+	: m_Path(path), m_Width(width), m_Height(height), m_ComponentsCount(componentsCount)
+{
+	m_ID = 0;
+
+	LoadHDR(data);
 }
 
 Texture::~Texture()
@@ -28,77 +25,56 @@ Texture::~Texture()
 	glDeleteTextures(1, &m_ID);
 }
 
-Ref<Texture> Texture::Create(std::string path, TextureRange range)
+Ref<Texture> Texture::Create(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data)
 {
-	return CreateRef<Texture>(path, range);
+	return CreateRef<Texture>(path, width, height, componentsCount, data);
 }
 
-void Texture::Load(std::string path)
+Ref<Texture> Texture::CreateHDR(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, float* data)
 {
-	m_Path = path;
+	return CreateRef<Texture>(path, width, height, componentsCount, data);
+}
 
+void Texture::Load(uint8_t* data)
+{
 	if (m_ID)
 	{
 		glDeleteTextures(1, &m_ID);
 	}
 
-	stbi_set_flip_vertically_on_load(true);
-	int width, height, nrComponents;
-	unsigned char* data = stbi_load(ContentHelper::GetAssetPath(path).c_str(), &width, &height, &nrComponents, 0);
-	if (data)
-	{
-		glGenTextures(1, &m_ID);
-		glBindTexture(GL_TEXTURE_2D, m_ID);
+	glGenTextures(1, &m_ID);
+	glBindTexture(GL_TEXTURE_2D, m_ID);
 
-		if (nrComponents == 1)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
-		else if (nrComponents == 3)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		else if (nrComponents == 4)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	if (m_ComponentsCount == 1)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, m_Width, m_Height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+	else if (m_ComponentsCount == 3)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	else if (m_ComponentsCount == 4)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-		glGenerateMipmap(GL_TEXTURE_2D);
+	glGenerateMipmap(GL_TEXTURE_2D);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-	else
-	{
-		std::cout << "Failed to load texture from: " << path << std::endl;
-	}
-
-	stbi_image_free(data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
 
-void Texture::LoadHDR(std::string path)
+void Texture::LoadHDR(float* data)
 {
-	m_Path = path;
-
 	if (m_ID)
 	{
 		glDeleteTextures(1, &m_ID);
 	}
 
-	stbi_set_flip_vertically_on_load(true);
-	int width, height, nrComponents;
-	float* data = stbi_loadf(ContentHelper::GetAssetPath(path).c_str(), &width, &height, &nrComponents, 0);
-	if (data)
-	{
-		glGenTextures(1, &m_ID);
-		glBindTexture(GL_TEXTURE_2D, m_ID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, data);
+	glGenTextures(1, &m_ID);
+	glBindTexture(GL_TEXTURE_2D, m_ID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, data);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
-	else
-	{
-		std::cout << "Failed to load HDR texture from: " << path << std::endl;
-	}
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 void Texture::Bind(uint32_t index)

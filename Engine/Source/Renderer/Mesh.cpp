@@ -1,36 +1,68 @@
 #include "Mesh.h"
 
 #include <glad/glad.h>
-#include <glm/gtc/type_ptr.hpp>
 
-Mesh::Mesh(std::vector<uint32_t> indices)
-	: m_Indices(indices)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices)
+	: m_Vertices(vertices), MeshBase(indices)
 {
+	SetupMesh();
+	CreateBounds(m_Vertices);
 }
 
-void Mesh::CreateBounds(std::vector<Vertex> vertices)
+void Mesh::SetupMesh()
 {
-	std::vector<glm::vec3> points;
-	for (auto vertex : vertices)
-		points.push_back(vertex.Position);
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_EBO);
+	glGenBuffers(1, &m_TransformationVBO);
 
-	m_BoundingBox = BoundingBox(points);
-	m_BoundingSphere = BoundingSphere(points);
-}
-
-void Mesh::Render()
-{
 	glBindVertexArray(m_VAO);
-	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-}
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
-void Mesh::RenderInstanced(uint32_t instancesCount, std::vector<glm::mat4> modelMatrices)
-{
+	glBufferData(GL_ARRAY_BUFFER, m_Vertices.size() * sizeof(Vertex), &m_Vertices[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int), &m_Indices[0], GL_STATIC_DRAW);
+
+	// Vertex positions
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+	// Vertex normals
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+
+	// Vertex texture coords
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+
+	// Tangent
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
+
+	// Bitangent
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
+
+	// Transformation Buffer
 	glBindBuffer(GL_ARRAY_BUFFER, m_TransformationVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * instancesCount, &modelMatrices[0], GL_DYNAMIC_DRAW);
 
-	glBindVertexArray(m_VAO);
-	glDrawElementsInstanced(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0, instancesCount);
+	glEnableVertexAttribArray(5);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+
+	glEnableVertexAttribArray(7);
+	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+
+	glEnableVertexAttribArray(8);
+	glVertexAttribPointer(8, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+
+	glVertexAttribDivisor(5, 1);
+	glVertexAttribDivisor(6, 1);
+	glVertexAttribDivisor(7, 1);
+	glVertexAttribDivisor(8, 1);
+
 	glBindVertexArray(0);
 }

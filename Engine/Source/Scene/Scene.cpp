@@ -183,7 +183,7 @@ void Scene::SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents)
 		{
 			if (meshComponent->GetMaterials().size() > i)
 			{
-				Ref<Mesh> mesh = meshComponent->GetMeshes()[i];
+				Ref<MeshBase> mesh = meshComponent->GetMeshes()[i];
 				Ref<Material> material = meshComponent->GetMaterials()[i];
 
 				glm::mat4 transformation = meshComponent->GetOwner()->GetTransform()->GetWorldModelMatrix();

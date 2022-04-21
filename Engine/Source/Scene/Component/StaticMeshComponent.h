@@ -4,7 +4,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "Renderer/StaticMesh.h"
+#include "Assets/Model.h"
 #include "Material/Material.h"
 #include "Material/ShaderLibrary.h"
 #include "Scene/Component/MeshComponent.h"
@@ -18,15 +18,17 @@ public:
 
 	virtual void LoadMesh(std::string path) override;
 	virtual void ChangeMesh(std::string path) override;
+	virtual void ChangeModel(Ref<ModelBase> modelBase) override;
+	virtual Ref<ModelBase> GetModel() const override;
 
 	virtual void UpdateBoundingBox() override;
 	virtual void UpdateBoundingSphere() override;
 
 	virtual void Render(Material::BlendMode blendMode) override;
 
-	virtual std::vector<Ref<Mesh>> GetMeshes() const override;
+	virtual std::vector<Ref<MeshBase>> GetMeshes() const override;
 	virtual uint32_t GetRenderedVerticesCount() override;
 
 private:
-	std::vector<Ref<StaticMesh>> m_Meshes;
+	Ref<Model> m_Model;
 };

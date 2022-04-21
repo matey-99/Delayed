@@ -5,7 +5,7 @@
 SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> vertices,
 	std::vector<uint32_t> indices,
 	uint32_t boneCounter)
-	: m_Vertices(vertices), Mesh(indices), m_BoneCounter(boneCounter)
+	: m_Vertices(vertices), MeshBase(indices), m_BoneCounter(boneCounter)
 {
 	std::vector<Vertex> v;
 	for (auto skinnedVertex : m_Vertices)

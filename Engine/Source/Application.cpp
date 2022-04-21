@@ -11,7 +11,6 @@
 #include "Renderer/RenderTools.h"
 #include "Scene/SceneManager.h"
 #include "Camera/CameraManager.h"
-#include "Content/ContentHelper.h"
 #include "Analysis/Profiler.h"
 
 Ref<Application> Application::s_Instance{};
