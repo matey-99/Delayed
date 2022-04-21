@@ -25,15 +25,15 @@ public:
 	{
 		FindSkeletalMeshComponent();
 
-		// [DEBUG] Load animation
-		m_Animations.push_back(CreateRef<Animation>());
-
 		m_CurrentTime = 0.0;
 
 		m_FinalBoneMatrices.reserve(100);
 
 		for (int i = 0; i < 100; i++)
 			m_FinalBoneMatrices.push_back(glm::mat4(1.0f));
+
+		if (m_Animations.size() > 0)
+			m_CurrentAnimation = m_Animations[0];
 	}
 
 	virtual void Start() override
@@ -51,6 +51,8 @@ public:
 			m_CurrentTime = fmod(m_CurrentTime, m_CurrentAnimation->GetDuration());
 			ComputeBoneTransforms(&m_CurrentAnimation->GetRootNode(), glm::mat4(1.0f));
 		}
+
+		std::cout << ":" << m_FinalBoneMatrices.size() << ":";
 
 		m_SkeletalMeshComponent->SetBonesPositionInSkeletalModel(m_FinalBoneMatrices);
 
@@ -92,13 +94,26 @@ public:
 			return false;
 	}
 
+	void DebugDisplayAnimationNames()
+	{
+		for (auto& animation : m_Animations)
+			animation->DebugDisplayAnimationNames();
+	}
+
 	void FindSkeletalMeshComponent()
 	{
 		m_SkeletalMeshComponent = m_Owner->GetComponent<SkeletalMeshComponent>();
+
+		m_Animations = m_SkeletalMeshComponent->GetAnimations();
+
+		if (m_Animations.size() > 0)
+			m_CurrentAnimation = m_Animations[0];
 	}
 
 	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);
 
 	std::vector<glm::mat4> GetFinalBoneMatrices() { return m_FinalBoneMatrices; }
+
+
 
 };

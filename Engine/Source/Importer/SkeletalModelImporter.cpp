@@ -1,6 +1,7 @@
 #include "SkeletalModelImporter.h"
 
 #include "Math/AssimpGLMHelper.h"
+#include "Scene/Component/Animation/Animation.h"
 #include "Assets/AssetManager.h"
 
 SkeletalModelImporter::SkeletalModelImporter()
@@ -21,17 +22,21 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 		return nullptr;
 	}
 
-	//m_AnimationCounter = scene->mNumAnimations;
-	// Import animations
-	
-
 	std::vector<Ref<SkeletalMesh>> meshes;
 	ProcessNode(scene->mRootNode, scene, meshes);
 
 	std::string relativePath = path.substr(AssetManager::ContentDirectory.size() + 1);
 	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes);
 
+	// Load animations and save them to SkeletalModel
+	for (auto& mesh : meshes)
+		importedSkeletalModel->LoadAnimation(CreateRef<Animation>(scene, mesh));
+
 	m_ImportedSkeletalModels.insert({ path, importedSkeletalModel });
+
+	//m_AnimationCounter = scene->mNumAnimations;
+	// Import animations
+
 	return importedSkeletalModel;
 }
 
@@ -112,7 +117,7 @@ Ref<SkeletalMesh> SkeletalModelImporter::ProcessMesh(aiMesh* mesh, const aiScene
 		ExtractBoneWeightForVertices(vertices, mesh, scene, boneCounter);
 	}
 
-	return CreateRef<SkeletalMesh>(vertices, indices, boneCounter);
+	return CreateRef<SkeletalMesh>(vertices, indices, boneCounter, m_BoneInfoMap);
 }
 
 void SkeletalModelImporter::SetVertexBoneData(SkinnedVertex& vertex, int boneID, float weight)

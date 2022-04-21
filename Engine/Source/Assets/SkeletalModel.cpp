@@ -1,4 +1,5 @@
 #include "SkeletalModel.h"
+#include "../Renderer/SkeletalMesh.h"
 
 SkeletalModel::SkeletalModel(const std::string& path, std::vector<Ref<SkeletalMesh>> meshes)
 	: ModelBase(path), m_Meshes(meshes)
@@ -16,5 +17,13 @@ Ref<SkeletalModel> SkeletalModel::Create(const std::string& path, std::vector<Re
 
 void SkeletalModel::SetBoneMatrices(std::vector<glm::mat4> boneMatrices)
 {
-	m_BoneMatrices = boneMatrices;
+	// set for itself
+	m_BoneMatrices = std::vector<glm::mat4>(boneMatrices);
+	
+	// set into SkeletalMesh
+	for (auto& skelMesh : m_Meshes)
+	{
+		skelMesh->SetBoneMatrices(m_BoneMatrices);
+	}
+
 }

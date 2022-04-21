@@ -25,6 +25,9 @@ void Time::Tick(Ref<Scene> scene)
 	if (m_DeltaTime > m_MaximumDeltaTime)
 		m_DeltaTime = m_MaximumDeltaTime;
 
+	// even first should update animation
+	scene->UpdateAnimation(m_DeltaTime);
+
 	// physics & collisions should be calculated first
 	scene->Update(m_DeltaTime);
 	m_ElapsedTime += m_DeltaTime;

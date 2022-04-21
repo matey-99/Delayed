@@ -4,8 +4,9 @@
 
 SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> vertices,
 	std::vector<uint32_t> indices,
-	uint32_t boneCounter)
-	: m_Vertices(vertices), MeshBase(indices), m_BoneCounter(boneCounter)
+	uint32_t boneCounter,
+	std::unordered_map<std::string, BoneInfo> boneInfoMap)
+	: m_Vertices(vertices), MeshBase(indices), m_BoneCounter(boneCounter), m_BoneInfoMap(boneInfoMap)
 {
 	std::vector<Vertex> v;
 	for (auto skinnedVertex : m_Vertices)
@@ -13,6 +14,11 @@ SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> vertices,
 
 	SetupMesh();
 	CreateBounds(v);
+}
+
+void SkeletalMesh::SetBoneMatrices(std::vector<glm::mat4> boneMatrices)
+{
+	m_BoneMatrices = std::vector<glm::mat4>(boneMatrices);
 }
 
 void SkeletalMesh::SetupMesh()

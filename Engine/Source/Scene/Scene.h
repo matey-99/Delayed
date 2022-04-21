@@ -11,6 +11,7 @@
 class MeshBase;
 class MeshComponent;
 class SkyLight;
+class Animator;
 
 struct MaterialMesh
 {
@@ -27,6 +28,7 @@ public:
 
 	void Start();
 	void Update(float deltaTime);
+	void UpdateAnimation(float deltaTime);
 	void FixedUpdate();
 	void PreRender();
 	void Render(Material::BlendMode blendMode = Material::BlendMode::Opaque);
@@ -151,6 +153,7 @@ private:
 	std::vector<Ref<Actor>> m_Actors;
 	Ref<CameraComponent> m_CurrentCamera;
 	Ref<SkyLight> m_SkyLight;
+	std::vector<Ref<Animator>> m_Animators;
 
 	std::vector<Ref<Actor>> m_ActorsAddedRuntime;
 	std::vector<Actor*> m_ActorsDestroyedRuntime;

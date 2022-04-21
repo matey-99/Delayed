@@ -25,6 +25,7 @@ public:
 
 	virtual std::vector<Ref<MeshBase>> GetMeshes() const override;
 	virtual uint32_t GetRenderedVerticesCount() override;
+	std::vector<Ref<Animation>> GetAnimations();
 
 	// Sets Bones Position to SkeletalModel
 	void SetBonesPositionInSkeletalModel(std::vector<glm::mat4> boneMatrices);

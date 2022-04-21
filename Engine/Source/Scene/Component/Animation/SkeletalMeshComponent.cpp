@@ -20,7 +20,7 @@ SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path)
 	LoadMesh(path);
 
 	for (int i = 0; i < m_SkeletalModel->GetMeshes().size(); i++)
-		LoadMaterial("Materials/Default.mat");
+		LoadMaterial("Materials/MSK_Default.mat");
 }
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPaths)
@@ -55,6 +55,11 @@ uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
 	}
 
 	return vertices;
+}
+
+std::vector<Ref<Animation>> SkeletalMeshComponent::GetAnimations()
+{
+	return m_SkeletalModel->GetAnimations();
 }
 
 void SkeletalMeshComponent::SetBonesPositionInSkeletalModel(std::vector<glm::mat4> boneMatrices)

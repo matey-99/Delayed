@@ -2,6 +2,9 @@
 #version 450 core
 
 #define MAX_SPOT_LIGHTS 16
+const int MAX_BONES = 100;
+const int MAX_BONE_INFLUENCE = 4;
+uniform mat4 finalBonesMatrices[MAX_BONES];
 
 layout (location = 0) in vec3 a_Position;
 layout (location = 1) in vec3 a_Normal;
@@ -18,10 +21,6 @@ layout (location = 1) out vec3 v_Normal;
 layout (location = 2) out vec2 v_TexCoord;
 layout (location = 3) out vec4 v_ViewPosition;
 layout (location = 4) out vec4[MAX_SPOT_LIGHTS] v_SpotLightSpacePositions;
-
-const int MAX_BONES = 100;
-const int MAX_BONE_INFLUENCE = 4;
-uniform mat4 finalBonesMatrices[MAX_BONES];
 
 struct Material
 {
@@ -56,7 +55,7 @@ void main()
     {
         if(a_BoneIds[i] == -1) 
             continue;
-        if(a_BoneIds[i] >=MAX_BONES) 
+        if(a_BoneIds[i] >=MAX_BONES)
         {
             totalPosition = vec4(a_Position, 1.0f);
             break;

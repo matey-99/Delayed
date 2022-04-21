@@ -176,7 +176,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Blue.mat
+              Path: Materials/Gray.mat
       - LODGroup:
           LODs:
             - Level: 0
@@ -1461,3 +1461,20 @@ Actors:
           Size: [1, 1, 1]
       - Button:
           Platform: 1880114162
+  - Actor: 38564003
+    ID: 38564003
+    Name: New Actor
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [24.1122322, 3.860888, -27.6139526]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SkeletalMesh:
+          SkeletalMesh: Models/defaults/Skeletal/SK_Walking.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/MSK_Default.mat
+      - Animator:
+          {}

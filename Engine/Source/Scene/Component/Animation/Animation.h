@@ -12,18 +12,28 @@ class Animation
 public:
 	Animation() = default;
 
-	Animation(const std::string & animationPath, Ref<SkeletalMesh> model)
+	Animation(const aiScene* scene, Ref<SkeletalMesh> model)
 	{
-		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(animationPath, aiProcess_Triangulate);
 		assert(scene && scene->mRootNode);
-		auto animation = scene->mAnimations[0];  // Here read animation properly
-		m_Duration = animation->mDuration;
-		m_TicksPerSecond = animation->mTicksPerSecond;
-		aiMatrix4x4 globalTransformation = scene->mRootNode->mTransformation;
-		globalTransformation = globalTransformation.Inverse();
-		ReadHierarchyData(m_RootNode, scene->mRootNode);
-		ReadMissingBones(animation, model);
+		if (scene->HasAnimations())
+		{
+			auto animation = scene->mAnimations[0];  // Here read animation properly
+			m_Duration = animation->mDuration;
+			m_TicksPerSecond = animation->mTicksPerSecond;
+			aiMatrix4x4 globalTransformation = scene->mRootNode->mTransformation;
+			globalTransformation = globalTransformation.Inverse();
+			ReadHierarchyData(m_RootNode, scene->mRootNode);
+			ReadMissingBones(animation, model);
+		}
+		
+		// Set animation names to vector
+		for (int i = 0; i < scene->mNumAnimations; i++)
+		{
+			auto animation = scene->mAnimations[i];
+
+			m_Names.push_back(animation->mName.C_Str());
+		}
+		
 	}
 
 	~Animation() { }
@@ -46,6 +56,12 @@ public:
 	inline const std::unordered_map<std::string, BoneInfo>& GetBoneIDMap()
 	{
 		return m_BoneInfoMap;
+	}
+
+	void DebugDisplayAnimationNames()
+	{
+		for (auto& name : m_Names)
+			std::cout << name << "\n";
 	}
 
 private:
@@ -94,6 +110,7 @@ private:
 	AssimpNodeData m_RootNode;
 	std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;
 	std::vector<Bone> m_Bones;  // could be somehow abstracted
+	std::vector<std::string> m_Names;
 	float m_Duration;
 	int m_TicksPerSecond;
 
