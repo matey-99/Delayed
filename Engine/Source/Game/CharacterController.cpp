@@ -11,6 +11,7 @@ CharacterController::CharacterController(Actor* owner)
 	m_Velocity = glm::vec3(0.0f);
 	m_DistanceToGround = 2.25f;
 	m_MoveSmoothness = 0.89f;
+	m_RotateSmoothness = 0.89f;
 	m_IsGrounded = false;
 
 	m_JumpHeight = 0.5f;

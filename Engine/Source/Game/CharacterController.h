@@ -21,6 +21,7 @@ private:
 	glm::vec3 m_Velocity;
 	float m_DistanceToGround;
 	float m_MoveSmoothness;
+	float m_RotateSmoothness;
 	bool m_IsGrounded;
 
 	float m_JumpHeight;

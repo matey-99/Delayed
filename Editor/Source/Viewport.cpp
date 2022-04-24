@@ -170,7 +170,7 @@ void Viewport::RenderGizmos()
 
             glDisable(GL_DEPTH_TEST);
 
-            glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(selectedActor->GetTransform()->GetWorldRotation())));
+            glm::mat4 rotation = glm::toMat4(selectedActor->GetTransform()->GetWorldRotation());
             glm::mat4 model = glm::translate(glm::mat4(1.0f), selectedActor->GetTransform()->GetWorldPosition()) * rotation * glm::scale(glm::mat4(1.0f), glm::vec3(0.05f, 0.05f, 0.2f));
 
             m_DirectionArrowShader->Use();

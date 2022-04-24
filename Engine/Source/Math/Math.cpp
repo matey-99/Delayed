@@ -97,6 +97,11 @@ float Math::Lerp(float a, float b, float alpha)
 	return a + alpha * (b - a);
 }
 
+glm::vec3 Math::Lerp(glm::vec3 a, glm::vec3 b, float alpha)
+{
+	return a + alpha * (b - a);
+}
+
 float Math::Magnitude(const glm::vec3& v)
 {
 	return glm::sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z));

@@ -4,6 +4,28 @@ RendererSettings:
   FXAA: true
   DepthOfField: false
 Actors:
+  - Actor: 485961876
+    ID: 485961876
+    Name: Camera Controller
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [40.7099991, 4.46899986, -18.9169998]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - CameraController:
+          Target: 1503310902
+  - Actor: 763440954
+    ID: 763440954
+    Name: Pivot
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 2.5, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 485961876
   - Actor: 14968050
     ID: 14968050
     Name: platform (5)
@@ -176,7 +198,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Blue.mat
+              Path: Materials/Gray.mat
       - LODGroup:
           LODs:
             - Level: 0
@@ -891,7 +913,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 6.68288755, -13.2750196]
+          LocalPosition: [40.7097855, 4.4688468, -18.9174252]
           LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -943,10 +965,10 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 1.63999999, 0]
-          LocalRotation: [0, 90, 0]
+          LocalPosition: [0, 0, -10]
+          LocalRotation: [0, 180, 0]
           LocalScale: [1, 1, 1]
-          Parent: 1503310902
+          Parent: 763440954
       - Camera:
           AspectRatio: [16, 9]
           FieldOfView: 60
@@ -1461,3 +1483,18 @@ Actors:
           Size: [1, 1, 1]
       - Button:
           Platform: 1880114162
+  - Actor: 628242585
+    ID: 628242585
+    Name: Character
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [2, 4, 2]
+          Parent: 1503310902
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat

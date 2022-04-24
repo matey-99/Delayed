@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include <glm/gtx/rotate_vector.hpp>
+
 #include "Scene/Actor.h"
 #include "Input/Input.h"
 #include "Math/Math.h"
@@ -37,8 +39,8 @@ void Player::Start()
 
 	input->BindAxis("Player_MoveForward", &Player::MoveForward, this);
 	input->BindAxis("Player_MoveRight", &Player::MoveRight, this);
-	input->BindAxis("Player_Turn", &Player::Turn, this);
-	input->BindAxis("Player_LookUp", &Player::LookUp, this);
+	//input->BindAxis("Player_Turn", &Player::Turn, this);
+	//input->BindAxis("Player_LookUp", &Player::LookUp, this);
 
 	input->BindAction("Jump", InputEvent::Press, &Player::Jump, this);
 	input->BindAction("Jump", InputEvent::Release, &Player::AllowJumping, this);
@@ -63,23 +65,36 @@ void Player::Start()
 void Player::Update(float deltaTime)
 {
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
+	{
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
+
+		/*glm::quat lookRotation = glm::quatLookAt(m_MoveDirection, Math::UpVector);
+		printf("look [%f, %f, %f, %f] \n", lookRotation.x, lookRotation.y, lookRotation.z, lookRotation.w);
+
+		glm::quat localRotation = glm::quat(glm::radians(m_Owner->GetTransform()->GetLocalRotation()));
+
+		glm::quat targetRotation = glm::mix(localRotation, lookRotation, Time::GetInstance()->GetDeltaTime() * 5.0f);
+		glm::vec3 euler = glm::eulerAngles(targetRotation);
+		m_Owner->GetTransform()->SetLocalRotation(m_Owner->GetTransform()->GetLocalRotation() + euler);*/
+	}
+
+
 
 	// Player move
 	m_MovementSpeed = m_IsRunning ? m_RunSpeed : m_WalkSpeed;
 	m_CharacterController->Move(m_MoveDirection * m_MovementSpeed * deltaTime);
 
 	// Player rotation
-	glm::vec3 newRotation = m_Owner->GetTransform()->GetLocalRotation();
-	newRotation.y += m_Rotation.y * m_RotateSpeed * deltaTime;
-	m_Owner->GetTransform()->SetLocalRotation(newRotation);
+	//glm::vec3 newRotation = m_Owner->GetTransform()->GetLocalRotation();
+	//newRotation.y += m_Rotation.y * m_RotateSpeed * deltaTime;
+	//m_Owner->GetTransform()->SetLocalRotation(newRotation);
 
 	// Camera rotation
-	auto cameraTransform = m_Camera->GetOwner()->GetTransform();
-	glm::vec3 newCameraRotation = cameraTransform->GetLocalRotation();
-	newCameraRotation.x -= m_Rotation.x * m_RotateSpeed * deltaTime;
-	newCameraRotation.x = glm::clamp(newCameraRotation.x, -m_LookUpLimit, m_LookUpLimit);
-	cameraTransform->SetLocalRotation(newCameraRotation);
+	//auto cameraTransform = m_Camera->GetOwner()->GetTransform();
+	//glm::vec3 newCameraRotation = cameraTransform->GetLocalRotation();
+	//newCameraRotation.x -= m_Rotation.x * m_RotateSpeed * deltaTime;
+	//newCameraRotation.x = glm::clamp(newCameraRotation.x, -m_LookUpLimit, m_LookUpLimit);
+	//cameraTransform->SetLocalRotation(newCameraRotation);
 
 	// Reset move direction & rotation
 	m_MoveDirection = glm::vec3(0.0f);
