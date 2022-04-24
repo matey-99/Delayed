@@ -4,7 +4,6 @@
 #include "Component.h"
 
 #include <glm/glm.hpp>
-#include <Camera/Frustum.h>
 
 class CameraComponent : public Camera, public Component
 {
@@ -31,7 +30,7 @@ public:
 
 	inline void SetAspectRatio(glm::vec2 aspectRatio) override { m_AspectRatio = aspectRatio; }
 
-    Ref<Frustum> GetFrustum();
+    virtual Ref<Frustum> GetFrustum() override;
 
 private:
 	glm::vec3 CalculateFrontVector();

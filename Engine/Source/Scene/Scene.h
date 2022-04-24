@@ -88,6 +88,18 @@ public:
 	}
 
 	template<typename T>
+	Ref<T> GetComponent(uint64_t ownerID)
+	{
+		Ref<Actor> actor = FindActor(ownerID);
+		if (!actor)
+		{
+			DEBUG_LOG("Actor with ID: " + std::to_string(ownerID) + " doesn't exist!");
+			return nullptr;
+		}
+		return actor->GetComponent<T>();
+	}
+
+	template<typename T>
 	std::vector<Ref<T>> GetComponents()
 	{
 		std::vector<Ref<T>> components;

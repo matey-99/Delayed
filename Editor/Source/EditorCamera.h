@@ -56,6 +56,8 @@ public:
 	virtual glm::mat4 GetProjectionMatrix() override;
 	virtual glm::mat4 GetViewProjectionMatrix() override;
 
+	virtual Ref<Frustum> GetFrustum() override;
+
 	inline void SetAspectRatio(glm::vec2 aspectRatio) override { AspectRactio = aspectRatio; }
 
 private:
@@ -66,6 +68,8 @@ private:
 	float m_MovementSpeed;
 	float m_RotateSpeed;
 	Scene* m_Scene;
+
+	Ref<Frustum> m_Frustum;
 
 	friend class ImGuiRenderer;
 };

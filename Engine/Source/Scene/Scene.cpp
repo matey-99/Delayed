@@ -165,7 +165,9 @@ std::vector<Actor*> Scene::CullActors(std::vector<Actor*>& actors) {
     std::vector<Actor*> output;
     for (auto actor : actors) {
         if (auto a = actor->GetComponent<MeshComponent>()) {
-            if (m_CurrentCamera->GetFrustum()->BoxInFrustum(a->GetBoundingBox())) {
+
+			auto camera = CameraManager::GetInstance()->GetMainCamera();
+            if (camera->GetFrustum()->BoxInFrustum(a->GetBoundingBox())) {
                 output.push_back(actor);
             }
         }
@@ -430,6 +432,7 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 			return actor;
 	}
 
+	DEBUG_LOG("Actor with ID: " + std::to_string(id) + " doesn't exist!");
 	return Ref<Actor>();
 }
 
