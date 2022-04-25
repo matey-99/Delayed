@@ -3,6 +3,7 @@
 #include "GameComponent.h"
 
 class CharacterController;
+class Checkpoint;
 class CameraComponent;
 class BoxColliderComponent;
 
@@ -13,6 +14,9 @@ public:
 
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
+
+	void SetLastCheckpoint(Checkpoint* checkpoint);
+	void BackToLastCheckpoint();
 
 private:
 	void MoveForward(float value);
@@ -32,6 +36,8 @@ private:
 	/* References */
 	Ref<CharacterController> m_CharacterController;
 	Ref<CameraComponent> m_Camera;
+	
+	glm::vec3 m_LastCheckpointPosition;
 
 	/* Inputs */
 	glm::vec3 m_MoveDirection;
@@ -58,4 +64,5 @@ private:
 #pragma endregion
 
 	friend class SceneSerializer;
+	friend class ActorDetailsPanel;
 };

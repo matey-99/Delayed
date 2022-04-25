@@ -23,6 +23,8 @@
 #include "Game/CameraController.h"
 #include "Game/Button.h"
 #include "Game/Ghost.h"
+#include "Game/DeathArea.h"
+#include "Game/Checkpoint.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -382,6 +384,16 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						auto g = a->AddComponent<Ghost>();
 						g->m_PlayerID = playerActorID;
 					}
+
+					if (auto deathArea = component["DeathArea"])
+					{
+						a->AddComponent<DeathArea>();
+					}
+
+					if (auto checkpoint = component["Checkpoint"])
+					{
+						a->AddComponent<Checkpoint>();
+					}
 				}
 			}
 		}
@@ -694,7 +706,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Button";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Platform" << YAML::Value << button->m_Platform->GetOwner()->GetID();
+		out << YAML::Key << "Platform" << YAML::Value << button->m_PlatformID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -717,6 +729,24 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Ghost";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Player" << YAML::Value << ghost->m_PlayerActor->GetID();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto deathArea = actor->GetComponent<DeathArea>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "DeathArea";
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto checkpoint = actor->GetComponent<Checkpoint>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Checkpoint";
+		out << YAML::BeginMap;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

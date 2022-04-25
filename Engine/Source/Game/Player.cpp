@@ -15,6 +15,7 @@
 #include "Physics/Physics.h"
 #include "CharacterController.h"
 #include "GhostPathElement.h"
+#include "Checkpoint.h"
 
 Player::Player(Actor* owner)
 	: GameComponent(owner)
@@ -60,6 +61,7 @@ void Player::Start()
 	}
 	m_Camera = cameraActor->GetComponent<CameraComponent>();
 
+	m_LastCheckpointPosition = m_Owner->GetTransform()->GetWorldPosition();
 }
 
 void Player::Update(float deltaTime)
@@ -101,6 +103,19 @@ void Player::Update(float deltaTime)
 	m_Rotation = glm::vec3(0.0f);
 
 	//m_Owner->GetScene()->SpawnActor<GhostPathElement>(m_Owner->GetTransform()->GetWorldPosition());
+}
+
+void Player::SetLastCheckpoint(Checkpoint* checkpoint)
+{
+	m_LastCheckpointPosition = checkpoint->GetOwner()->GetTransform()->GetWorldPosition();
+}
+
+void Player::BackToLastCheckpoint()
+{
+	auto newPosition = m_LastCheckpointPosition;
+	newPosition.y += m_Owner->GetComponent<BoxColliderComponent>()->GetBoundingBox().Extents.y;
+
+	m_Owner->GetTransform()->SetWorldPosition(newPosition);
 }
 
 void Player::MoveForward(float value)
