@@ -105,7 +105,6 @@ void TransformBaseComponent::RemoveChild(TransformBaseComponent* child)
 void TransformBaseComponent::CalculateWorldModelMatrix()
 {
 	CalculateLocalModelMatrix();
-	OnTransformChanged.Broadcast();
 
 	if (m_Parent)
 		m_WorldModelMatrix = m_Parent->GetWorldModelMatrix() * m_LocalModelMatrix;
@@ -118,6 +117,8 @@ void TransformBaseComponent::CalculateWorldModelMatrix()
 
 	m_Forward = Math::Transform(Math::ForwardVector, m_WorldRotation);
 	m_Right = Math::Transform(Math::RightVector, m_WorldRotation);
+
+	OnTransformChanged.Broadcast();
 
 	for (auto child : m_Children)
 	{
