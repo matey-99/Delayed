@@ -44,8 +44,6 @@ void TransformBaseComponent::SetLocalPosition(glm::vec3 position)
 	m_LocalPosition = position;
 	CalculateWorldModelMatrix();
 
-	OnTransformChanged.Broadcast();
-
 	m_Owner->GetScene()->SetChangedSinceLastFrame(true);
 }
 
@@ -54,8 +52,6 @@ void TransformBaseComponent::SetLocalRotation(glm::vec3 rotation)
 	m_LocalRotation = rotation;
 	CalculateWorldModelMatrix();
 
-	OnTransformChanged.Broadcast();
-
 	m_Owner->GetScene()->SetChangedSinceLastFrame(true);
 }
 
@@ -63,8 +59,6 @@ void TransformBaseComponent::SetLocalScale(glm::vec3 scale)
 {
 	m_LocalScale = scale;
 	CalculateWorldModelMatrix();
-
-	OnTransformChanged.Broadcast();
 
 	m_Owner->GetScene()->SetChangedSinceLastFrame(true);
 }
@@ -111,6 +105,7 @@ void TransformBaseComponent::RemoveChild(TransformBaseComponent* child)
 void TransformBaseComponent::CalculateWorldModelMatrix()
 {
 	CalculateLocalModelMatrix();
+	OnTransformChanged.Broadcast();
 
 	if (m_Parent)
 		m_WorldModelMatrix = m_Parent->GetWorldModelMatrix() * m_LocalModelMatrix;

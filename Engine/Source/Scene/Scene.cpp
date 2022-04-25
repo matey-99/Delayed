@@ -222,7 +222,7 @@ void Scene::UpdateMeshesRenderList()
 	std::vector<Actor*> actors;
 	GetEnabledActors(m_Root.get(), actors);
 
-	//actors = CullActors(actors);
+	actors = CullActors(actors);
 
 	// Set order of rendering actors
 	auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
