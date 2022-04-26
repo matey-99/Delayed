@@ -1,6 +1,8 @@
 #pragma once
 
 #include <glm/glm.hpp>
+
+#include "Camera/Frustum.h"
 #include "Math/Ray.h"
 
 class Camera
@@ -21,6 +23,8 @@ public:
 	virtual glm::mat4 GetViewMatrix() = 0;
 	virtual glm::mat4 GetProjectionMatrix() = 0;
 	virtual glm::mat4 GetViewProjectionMatrix() = 0;
+
+	virtual Ref<Frustum> GetFrustum() = 0;
 
 	virtual void SetAspectRatio(glm::vec2) = 0;
 

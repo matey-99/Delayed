@@ -7,6 +7,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
+#include <Scene/Component/Collider/SphereColliderComponent.h>
+#include <Scene/Component/Collider/BoxColliderComponent.h>
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderPass/ShadowsPass.h"
 #include "Component/TransformComponent.h"
@@ -159,6 +161,20 @@ void Scene::SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, b
 		});
 }
 
+std::vector<Actor*> Scene::CullActors(std::vector<Actor*>& actors) {
+    std::vector<Actor*> output;
+    for (auto actor : actors) {
+        if (auto a = actor->GetComponent<MeshComponent>()) {
+
+			auto camera = CameraManager::GetInstance()->GetMainCamera();
+            if (camera->GetFrustum()->BoxInFrustum(a->GetBoundingBox())) {
+                output.push_back(actor);
+            }
+        }
+    }
+    return output;
+}
+
 void Scene::SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents)
 {
 	m_MeshesRenderList.clear();
@@ -206,8 +222,7 @@ void Scene::UpdateMeshesRenderList()
 	std::vector<Actor*> actors;
 	GetEnabledActors(m_Root.get(), actors);
 
-	// TO DO: Distance Culling
-	// TO DO: Frustum Culling
+	actors = CullActors(actors);
 
 	// Set order of rendering actors
 	auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
@@ -417,6 +432,7 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 			return actor;
 	}
 
+	DEBUG_LOG("Actor with ID: " + std::to_string(id) + " doesn't exist!");
 	return Ref<Actor>();
 }
 

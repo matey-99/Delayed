@@ -1,5 +1,10 @@
 #include "Camera.h"
 
+Ref<Frustum> Camera::GetFrustum()
+{
+	return Ref<Frustum>();
+}
+
 Ray Camera::ScreenPointToRay(glm::vec2 position)
 {
 	glm::mat4 inversedViewProjection = glm::inverse(GetViewProjectionMatrix());
