@@ -8,10 +8,12 @@
 #include "fmod_errors.h"
 
 struct Implementation {
-    Implementation() = default;
-    ~Implementation() = default;
+    Implementation();
+    ~Implementation();
 
     void Update(float deltaTime);
+
+    void LoadSound(int soundId);
 
     FMOD::System* system;
 

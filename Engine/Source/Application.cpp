@@ -112,9 +112,10 @@ void Application::Run()
 
     // AUDIO
     auto audioSystem = AudioSystem::GetInstance();
-
-    SimpleAudio simpleAudio("../../../Content/Audio/music.mp3");
-    simpleAudio.Play();
+    audioSystem->Init();
+    audioSystem->PlaySound("../../../Content/Audio/music.mp3", glm::vec3(0.0f, -10.0f, 10.0f), 1.0f);
+//    SimpleAudio simpleAudio("../../../Content/Audio/music.mp3");
+//    simpleAudio.Play();
 
     time->SetLastFrameTime(glfwGetTime());
     while (!glfwWindowShouldClose(m_Window))
@@ -144,6 +145,9 @@ void Application::Run()
 
         // ANALYSIS
         profiler->Update();
+
+        //AUDIO
+        audioSystem->Update(Time::GetInstance()->GetDeltaTime());
 
         glfwSwapBuffers(m_Window);
     }

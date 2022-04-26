@@ -68,6 +68,16 @@ void AudioSystem::UnregisterSound(int soundId) {
 
 }
 
+Implementation::Implementation() {
+    FMOD::System_Create(&system);
+    system->init(128, FMOD_INIT_NORMAL, nullptr);
+    nextChannelId = 0;
+}
+
+Implementation::~Implementation() {
+    system->close();
+}
+
 void Implementation::Update(float deltaTime) {
     std::vector<ChannelMap::iterator> stoppedChannels;
     for (auto it = channels.begin(), itEnd = channels.end(); it != itEnd; ++it) {
@@ -81,4 +91,8 @@ void Implementation::Update(float deltaTime) {
         channels.erase(it);
     }
     system->update();
+}
+
+void Implementation::LoadSound(int soundId) {
+
 }
