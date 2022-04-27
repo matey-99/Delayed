@@ -67,5 +67,6 @@ private:
 	glm::vec2 m_GaussianBlurHorizontalCache[GAUSSIAN_BLUR_KERNEL_SIZE];
 	glm::vec2 m_GaussianBlurVerticalCache[GAUSSIAN_BLUR_KERNEL_SIZE];
 
+	friend class SceneSerializer;
 	friend class RendererSettingsPanel;
 };

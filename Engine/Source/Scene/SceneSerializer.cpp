@@ -18,6 +18,13 @@
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 
+#include "Renderer/RenderPass/SSAOPass.h"
+#include "Renderer/RenderPass/DepthFogPass.h"
+#include "Renderer/RenderPass/PostProcessingPass.h"
+#include "Renderer/RenderPass/FXAAPass.h"
+#include "Renderer/RenderPass/VignettePass.h"
+#include "Renderer/RenderPass/DepthOfFieldPass.h"
+
 #include "Game/MainMenu.h"
 #include "Game/Player.h"
 #include "Game/Button.h"
@@ -32,9 +39,58 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "Scene" << YAML::Value << scene->m_Name;
 	out << YAML::Key << "CurrentCamera" << YAML::Value << scene->m_CurrentCamera->GetOwner()->GetID();
 
+	auto renderer = Renderer::GetInstance();
 	out << YAML::Key << "RendererSettings" << YAML::Value << YAML::BeginMap;
-	out << YAML::Key << "FXAA" << YAML::Value << Renderer::GetInstance()->GetSettings().FXAAEnabled;
-	out << YAML::Key << "DepthOfField" << YAML::Value << Renderer::GetInstance()->GetSettings().DepthOfFieldEnabled;
+
+	out << YAML::Key << "DepthFog" << YAML::Value << renderer->GetSettings().DepthFogEnabled;
+	out << YAML::Key << "PostProcessing" << YAML::Value << renderer->GetSettings().PostProcessingEnabled;
+	out << YAML::Key << "FXAA" << YAML::Value << renderer->GetSettings().FXAAEnabled;
+	out << YAML::Key << "Vignette" << YAML::Value << renderer->GetSettings().VignetteEnabled;
+	out << YAML::Key << "DepthOfField" << YAML::Value << renderer->GetSettings().DepthOfFieldEnabled;
+
+	out << YAML::Key << "SSAOSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "Intensity" << YAML::Value << renderer->m_SSAOPass->m_Settings.Intensity;
+	out << YAML::Key << "KernelSize" << YAML::Value << renderer->m_SSAOPass->m_Settings.KernelSize;
+	out << YAML::Key << "Radius" << YAML::Value << renderer->m_SSAOPass->m_Settings.Radius;
+	out << YAML::Key << "Bias" << YAML::Value << renderer->m_SSAOPass->m_Settings.Bias;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "DepthFogSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "MinDistance" << YAML::Value << renderer->m_DepthFogPass->m_Settings.MinDistance;
+	out << YAML::Key << "MaxDistance" << YAML::Value << renderer->m_DepthFogPass->m_Settings.MaxDistance;
+	out << YAML::Key << "Density" << YAML::Value << renderer->m_DepthFogPass->m_Settings.Density;
+	out << YAML::Key << "Color" << YAML::Value << renderer->m_DepthFogPass->m_Settings.Color;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "PostProcessingSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "Gamma" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Gamma;
+	out << YAML::Key << "Gain" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Gain;
+	out << YAML::Key << "Lift" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Lift;
+	out << YAML::Key << "Offset" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Offset;
+	out << YAML::Key << "Exposure" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Exposure;
+	out << YAML::Key << "Contrast" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Contrast;
+	out << YAML::Key << "ContrastPivot" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.ContrastPivot;
+	out << YAML::Key << "BloomEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomEnabled;
+	out << YAML::Key << "BloomThreshold" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomThreshold;
+	out << YAML::Key << "BloomLimit" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomLimit;
+	out << YAML::Key << "BloomIntensity" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomIntensity;
+	out << YAML::Key << "BloomBlurSigma" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomBlurSigma;
+	out << YAML::Key << "Saturation" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Saturation;
+	out << YAML::Key << "Temperature" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Temperature;
+	out << YAML::Key << "Hue" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Hue;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "VignetteSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "Intensity" << YAML::Value << renderer->m_VignettePass->m_Settings.Intensity;
+	out << YAML::Key << "Size" << YAML::Value << renderer->m_VignettePass->m_Settings.Size;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "DepthOfFieldSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "MinDistance" << YAML::Value << renderer->m_DepthOfFieldPass->m_Settings.MinDistance;
+	out << YAML::Key << "MaxDistance" << YAML::Value << renderer->m_DepthOfFieldPass->m_Settings.MaxDistance;
+	out << YAML::Key << "Size" << YAML::Value << renderer->m_DepthOfFieldPass->m_Settings.Size;
+	out << YAML::EndMap;
+
 	out << YAML::EndMap;
 
 	out << YAML::Key << "Actors" << YAML::Value << YAML::BeginSeq;
@@ -68,14 +124,103 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	std::string sceneName = data["Scene"].as<std::string>();
 	scene->m_Name = sceneName;
 
+	auto renderer = Renderer::GetInstance();
+
+#pragma region Renderer
+
+	/* Renderer settings */
+	bool depthFog = data["RendererSettings"]["DepthFog"].as<bool>();
+	bool postProcessing = data["RendererSettings"]["PostProcessing"].as<bool>();
 	bool fxaa = data["RendererSettings"]["FXAA"].as<bool>();
+	bool vignette = data["RendererSettings"]["Vignette"].as<bool>();
 	bool depthOfField = data["RendererSettings"]["DepthOfField"].as<bool>();
 
-	Renderer::RendererSettings settings;
-	settings.FXAAEnabled = fxaa;
-	settings.DepthOfFieldEnabled = depthOfField;
+	/* SSAO settings */
+	float ssaoIntensity = data["RendererSettings"]["SSAOSettings"]["Intensity"].as<float>();
+	float ssaoKernelSize = data["RendererSettings"]["SSAOSettings"]["KernelSize"].as<int>();
+	float ssaoRadius = data["RendererSettings"]["SSAOSettings"]["Radius"].as<float>();
+	float ssaoBias = data["RendererSettings"]["SSAOSettings"]["Bias"].as<float>();
 
-	Renderer::GetInstance()->SetSettings(settings);
+	/* Depth Fog settings */
+	float dfMinDistance = data["RendererSettings"]["DepthFogSettings"]["MinDistance"].as<float>();
+	float dfMaxDistance = data["RendererSettings"]["DepthFogSettings"]["MaxDistance"].as<float>();
+	float dfDensity = data["RendererSettings"]["DepthFogSettings"]["Density"].as<float>();
+	glm::vec3 dfColor = data["RendererSettings"]["DepthFogSettings"]["Color"].as<glm::vec3>();
+
+	/* Post Processing settings */
+	float gamma = data["RendererSettings"]["PostProcessingSettings"]["Gamma"].as<float>();
+	float gain = data["RendererSettings"]["PostProcessingSettings"]["Gain"].as<float>();
+	float lift = data["RendererSettings"]["PostProcessingSettings"]["Lift"].as<float>();
+	float offset = data["RendererSettings"]["PostProcessingSettings"]["Offset"].as<float>();
+	float exposure = data["RendererSettings"]["PostProcessingSettings"]["Exposure"].as<float>();
+	float contrast = data["RendererSettings"]["PostProcessingSettings"]["Contrast"].as<float>();
+	float contrastPivot = data["RendererSettings"]["PostProcessingSettings"]["ContrastPivot"].as<float>();
+	bool bloomEnabled = data["RendererSettings"]["PostProcessingSettings"]["BloomEnabled"].as<bool>();
+	float bloomThreshold = data["RendererSettings"]["PostProcessingSettings"]["BloomThreshold"].as<float>();
+	float bloomLimit = data["RendererSettings"]["PostProcessingSettings"]["BloomLimit"].as<float>();
+	float bloomIntensity = data["RendererSettings"]["PostProcessingSettings"]["BloomIntensity"].as<float>();
+	float bloomBlurSigma = data["RendererSettings"]["PostProcessingSettings"]["BloomBlurSigma"].as<float>();
+	float saturation = data["RendererSettings"]["PostProcessingSettings"]["Saturation"].as<float>();
+	float temperature = data["RendererSettings"]["PostProcessingSettings"]["Temperature"].as<float>();
+	float hue = data["RendererSettings"]["PostProcessingSettings"]["Hue"].as<float>();
+
+	/* Vignette settings */
+	float vignetteIntensity = data["RendererSettings"]["VignetteSettings"]["Intensity"].as<float>();
+	float vignetteSize = data["RendererSettings"]["VignetteSettings"]["Size"].as<float>();
+
+	/* Depth Of Field settings */
+	float dofMinDistance = data["RendererSettings"]["DepthOfFieldSettings"]["MinDistance"].as<float>();
+	float dofMaxDistance = data["RendererSettings"]["DepthOfFieldSettings"]["MaxDistance"].as<float>();
+	float dofSize = data["RendererSettings"]["DepthOfFieldSettings"]["Size"].as<int>();
+
+	/* Setup Renderer settings */
+	Renderer::RendererSettings settings;
+	settings.DepthFogEnabled = depthFog;
+	settings.PostProcessingEnabled = postProcessing;
+	settings.FXAAEnabled = fxaa;
+	settings.VignetteEnabled = vignette;
+	settings.DepthOfFieldEnabled = depthOfField;
+	renderer->SetSettings(settings);
+
+	/* Setup SSAO settings */
+	renderer->m_SSAOPass->m_Settings.Intensity = ssaoIntensity;
+	renderer->m_SSAOPass->m_Settings.KernelSize = ssaoKernelSize;
+	renderer->m_SSAOPass->m_Settings.Radius = ssaoRadius;
+	renderer->m_SSAOPass->m_Settings.Bias = ssaoBias;
+
+	/* Setup Depth Fog settings */
+	renderer->m_DepthFogPass->m_Settings.MinDistance = dfMinDistance;
+	renderer->m_DepthFogPass->m_Settings.MaxDistance = dfMaxDistance;
+	renderer->m_DepthFogPass->m_Settings.Density = dfDensity;
+	renderer->m_DepthFogPass->m_Settings.Color = dfColor;
+
+	/* Setup Post Processing settings */
+	renderer->m_PostProcessingPass->m_Settings.Gamma = gamma;
+	renderer->m_PostProcessingPass->m_Settings.Gain = gain;
+	renderer->m_PostProcessingPass->m_Settings.Lift = lift;
+	renderer->m_PostProcessingPass->m_Settings.Offset = offset;
+	renderer->m_PostProcessingPass->m_Settings.Exposure = exposure;
+	renderer->m_PostProcessingPass->m_Settings.Contrast = contrast;
+	renderer->m_PostProcessingPass->m_Settings.ContrastPivot = contrastPivot;
+	renderer->m_PostProcessingPass->m_Settings.BloomEnabled = bloomEnabled;
+	renderer->m_PostProcessingPass->m_Settings.BloomThreshold = bloomThreshold;
+	renderer->m_PostProcessingPass->m_Settings.BloomLimit = bloomLimit;
+	renderer->m_PostProcessingPass->m_Settings.BloomIntensity = bloomIntensity;
+	renderer->m_PostProcessingPass->m_Settings.BloomBlurSigma = bloomBlurSigma;
+	renderer->m_PostProcessingPass->m_Settings.Saturation = saturation;
+	renderer->m_PostProcessingPass->m_Settings.Temperature = temperature;
+	renderer->m_PostProcessingPass->m_Settings.Hue = hue;
+
+	/* Setup Vignette settings */
+	renderer->m_VignettePass->m_Settings.Intensity = vignetteIntensity;
+	renderer->m_VignettePass->m_Settings.Size = vignetteSize;
+
+	/* Setup Depth Of Field settings */
+	renderer->m_DepthOfFieldPass->m_Settings.MinDistance = dofMinDistance;
+	renderer->m_DepthOfFieldPass->m_Settings.MaxDistance = dofMaxDistance;
+	renderer->m_DepthOfFieldPass->m_Settings.Size = dofSize;
+
+#pragma endregion
 
 	YAML::Node actors = data["Actors"];
 	if (actors)

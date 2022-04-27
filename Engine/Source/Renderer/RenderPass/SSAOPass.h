@@ -35,5 +35,6 @@ private:
 
 	uint32_t m_NoiseTexture;
 
+	friend class SceneSerializer;
 	friend class RendererSettingsPanel;
 };
