@@ -7,25 +7,6 @@
 #include "fmod.hpp"
 #include "fmod_errors.h"
 
-struct Implementation {
-    Implementation();
-    ~Implementation();
-
-    void Update(float deltaTime);
-
-    void LoadSound(int soundId);
-
-    FMOD::System* system;
-
-    int nextChannelId;
-
-    typedef std::map<std::string, FMOD::Sound*> SoundMap;
-    typedef std::map<int, FMOD::Channel*> ChannelMap;
-
-    SoundMap sounds;
-    ChannelMap channels;
-};
-
 class AudioSystem : public Singleton<AudioSystem> {
 public:
     void Init();
@@ -56,6 +37,14 @@ public:
     bool IsPlaying (int channelId) const;
 
 private:
-    Ref<Implementation> m_Implementation;
+    FMOD::System* m_System;
+
+    int m_NextChannelId;
+
+    typedef std::map<std::string, FMOD::Sound*> SoundMap;
+    typedef std::map<int, FMOD::Channel*> ChannelMap;
+
+    SoundMap m_Sounds;
+    ChannelMap m_Channels;
 
 };

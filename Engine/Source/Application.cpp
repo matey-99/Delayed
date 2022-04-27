@@ -113,7 +113,8 @@ void Application::Run()
     // AUDIO
     auto audioSystem = AudioSystem::GetInstance();
     audioSystem->Init();
-    audioSystem->PlaySound("../../../Content/Audio/music.mp3", glm::vec3(0.0f, -10.0f, 10.0f), 1.0f);
+    audioSystem->PlaySound("../../../Content/Audio/Music/music.mp3");
+    audioSystem->PlaySound("../../../Content/Audio/Ambient/wind.wav");
 //    SimpleAudio simpleAudio("../../../Content/Audio/music.mp3");
 //    simpleAudio.Play();
 
