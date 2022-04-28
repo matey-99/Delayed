@@ -22,8 +22,8 @@ RendererSettings:
     Lift: 0
     Offset: 0
     Exposure: 0.899999976
-    Contrast: 1.29999995
-    ContrastPivot: 0.600000024
+    Contrast: 1.14999998
+    ContrastPivot: 0.800000012
     BloomEnabled: true
     BloomThreshold: 2
     BloomLimit: 20
@@ -31,7 +31,7 @@ RendererSettings:
     BloomBlurSigma: 3.5999999
     Saturation: 1.10000002
     Temperature: 75
-    Hue: 191
+    Hue: 180
   VignetteSettings:
     Intensity: 10.5
     Size: 0.174999997
@@ -212,7 +212,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Red.mat
+              Path: Materials/Gray.mat
       - LODGroup:
           LODs:
             - Level: 0
@@ -1452,7 +1452,7 @@ Actors:
             4: Textures/Sky/Default/nz.png
             5: Textures/Sky/Default/pz.png
           Color: [0.612312555, 0.788460791, 0.911764681]
-          Intensity: 0.5
+          Intensity: 1
   - Actor: 65361196
     ID: 65361196
     Name: SmallPlatform2
