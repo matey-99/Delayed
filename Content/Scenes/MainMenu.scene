@@ -1,8 +1,44 @@
 Scene: MainMenu
 CurrentCamera: 968085101
 RendererSettings:
+  DepthFog: true
+  PostProcessing: true
   FXAA: true
+  Vignette: true
   DepthOfField: false
+  SSAOSettings:
+    Intensity: 1.5
+    KernelSize: 64
+    Radius: 0.5
+    Bias: 0.449999988
+  DepthFogSettings:
+    MinDistance: 15
+    MaxDistance: 125
+    Density: 0.150000006
+    Color: [0.470588237, 0.662745118, 0.87843138]
+  PostProcessingSettings:
+    Gamma: -1
+    Gain: 0.5
+    Lift: 0
+    Offset: 0
+    Exposure: 0.899999976
+    Contrast: 1.14999998
+    ContrastPivot: 0.800000012
+    BloomEnabled: true
+    BloomThreshold: 2
+    BloomLimit: 20
+    BloomIntensity: 0.800000012
+    BloomBlurSigma: 3.5999999
+    Saturation: 1.10000002
+    Temperature: 75
+    Hue: 180
+  VignetteSettings:
+    Intensity: 10.5
+    Size: 0.174999997
+  DepthOfFieldSettings:
+    MinDistance: 1.5
+    MaxDistance: 64
+    Size: 2
 Actors:
   - Actor: 968295101
     ID: 968295101
