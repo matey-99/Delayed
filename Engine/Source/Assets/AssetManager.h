@@ -34,6 +34,7 @@ public:
 	static Ref<Material> LoadMaterial(std::string assetPath);
 
 	static void CreateNewMaterial(std::string name, std::string destinationPath, std::string shaderName = "Opaque");
+	static void SaveMaterial(Ref<Material> material);
 
 	static const std::string ContentDirectory;
 
