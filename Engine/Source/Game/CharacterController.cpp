@@ -36,7 +36,7 @@ void CharacterController::Move(glm::vec3 motion)
 	if (m_IsGrounded && !m_IsJumping)
 		m_Velocity.y = 0.0f;
 	else if (!m_IsGrounded && m_Velocity.y < 0.0f)
-		m_Velocity.y += m_Gravity * 2.0f * Time::GetInstance()->GetDeltaTime();
+		m_Velocity.y += m_Gravity * 4.0f * Time::GetInstance()->GetDeltaTime();
 	else
 		m_Velocity.y += m_Gravity * Time::GetInstance()->GetDeltaTime();
 

@@ -90,6 +90,18 @@ public:
 	}
 
 	template<typename T>
+	Ref<T> GetComponent(uint64_t ownerID)
+	{
+		Ref<Actor> actor = FindActor(ownerID);
+		if (!actor)
+		{
+			DEBUG_LOG("Actor with ID: " + std::to_string(ownerID) + " doesn't exist!");
+			return nullptr;
+		}
+		return actor->GetComponent<T>();
+	}
+
+	template<typename T>
 	std::vector<Ref<T>> GetComponents()
 	{
 		std::vector<Ref<T>> components;
@@ -142,6 +154,7 @@ private:
 	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
 	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
 	void SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents);
+    std::vector<Actor*> CullActors(std::vector<Actor*>& actors);
 	void UpdateMeshesRenderList();
 	void RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode);
 

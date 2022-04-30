@@ -30,6 +30,8 @@ public:
 
 	inline void SetAspectRatio(glm::vec2 aspectRatio) override { m_AspectRatio = aspectRatio; }
 
+    virtual Ref<Frustum> GetFrustum() override;
+
 private:
 	glm::vec3 CalculateFrontVector();
 	glm::vec3 CalculateRightVector();
@@ -43,6 +45,8 @@ private:
 	glm::vec3 m_Front;
 	glm::vec3 m_Up;
 	glm::vec3 m_Right;
+
+    Ref<Frustum> m_Frustum;
 
 	friend class SceneSerializer;
 	friend class ActorDetailsPanel;

@@ -17,12 +17,16 @@ EditorCamera::EditorCamera(Scene* scene, glm::vec3 position, glm::vec3 front, gl
 
 	m_MovementSpeed = 50.0f;
 	m_RotateSpeed = 50.0f;
+
+	m_Frustum = CreateRef<Frustum>();
 }
 
 void EditorCamera::Update()
 {
 	Front = CalculateFrontVector();
 	Right = CalculateRightVector();
+
+	m_Frustum->UpdateFrustum(GetViewProjectionMatrix());
 }
 
 void EditorCamera::Move(CameraMovement movementDirection, float deltaTime)
@@ -115,6 +119,11 @@ glm::mat4 EditorCamera::GetProjectionMatrix()
 glm::mat4 EditorCamera::GetViewProjectionMatrix()
 {
 	return GetProjectionMatrix() * GetViewMatrix();
+}
+
+Ref<Frustum> EditorCamera::GetFrustum()
+{
+	return m_Frustum;
 }
 
 glm::vec3 EditorCamera::CalculateFrontVector()

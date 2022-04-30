@@ -17,6 +17,7 @@ ContentBrowserPanel::ContentBrowserPanel(Ref<Editor> editor, Ref<Scene> scene) :
 	m_SupportedFileFormats.push_back("mat");
 
 	m_DisplayedDirectory = AssetManager::ContentDirectory;
+	m_ContentDisplayedDirectory = "";
 
 	m_IsCreateMaterialWindowDisplayed = false;
 	m_NewMaterialName = "New Material";
@@ -33,6 +34,10 @@ void ContentBrowserPanel::Render()
 		if (selected)
 		{
 			m_DisplayedDirectory = m_DisplayedDirectory.substr(0, m_DisplayedDirectory.find_last_of("/"));
+			if (m_DisplayedDirectory == AssetManager::ContentDirectory)
+				m_ContentDisplayedDirectory = "";
+			else
+				m_ContentDisplayedDirectory = m_DisplayedDirectory.substr(AssetManager::ContentDirectory.size() + 1);
 		}
 	}
 
@@ -51,6 +56,7 @@ void ContentBrowserPanel::Render()
 			if (p.is_directory())
 			{
 				m_DisplayedDirectory += "/" + name;
+				m_ContentDisplayedDirectory = m_DisplayedDirectory.substr(AssetManager::ContentDirectory.size() + 1);
 			}
 			else
 			{
@@ -86,7 +92,7 @@ void ContentBrowserPanel::Render()
 		if (ImGui::Button("Save"))
 		{
 			m_IsCreateMaterialWindowDisplayed = false;
-			AssetManager::CreateNewMaterial(m_NewMaterialName, m_DisplayedDirectory + "/" + m_NewMaterialName + ".mat");
+			AssetManager::CreateNewMaterial(m_NewMaterialName, m_ContentDisplayedDirectory + "/" + m_NewMaterialName + ".mat");
 		}
 		if (ImGui::Button("Exit"))
 		{

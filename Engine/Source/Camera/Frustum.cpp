@@ -1,104 +1,50 @@
 #include "Frustum.h"
 
-void Frustum::SetCamInternals(float angle, float ratio, float nearDistance, float farDistance) {
-    m_Ratio = ratio;
-    m_FOV = angle;
-    m_Tan = (float) tan(glm::radians(angle) * 0.5f);
-    m_NearDistance = nearDistance;
-    m_FarDistance = farDistance;
+void Frustum::UpdateFrustum(const glm::mat4 &viewProjection) {
 
-    m_NearHeight = nearDistance * m_Tan;
-    m_NearWidth = m_NearHeight * m_Ratio;
-    m_FarHeight = farDistance * m_Tan;
-    m_FarWidth = m_FarHeight * m_Ratio;
-}
-
-void Frustum::SetCamDef(const glm::vec3 &p, const glm::vec3 &front, const glm::vec3 &up) {
-
-    glm::vec3 nearCenter, farCenter, X, Y, Z;
-    Z = -front;
-    X = glm::cross(up, Z);
-    Y = glm::cross(Z, X);
-
-    nearCenter = p - Z * m_NearDistance;
-    farCenter = p - Z * m_FarDistance;
-
-    m_NearTopLeft = nearCenter + Y * m_NearHeight - X * m_NearWidth;
-    m_NearTopRight = nearCenter + Y * m_NearHeight + X * m_NearWidth;
-    m_NearBottomLeft = nearCenter - Y * m_NearHeight - X * m_NearWidth;
-    m_NearBottomRight = nearCenter - Y * m_NearHeight + X * m_NearWidth;
-
-    m_FarTopLeft = farCenter + Y * m_FarHeight - X * m_NearWidth;
-    m_FarTopRight = farCenter + Y * m_FarHeight + X * m_NearWidth;
-    m_FarBottomLeft = farCenter - Y * m_FarHeight - X * m_NearWidth;
-    m_FarBottomRight = farCenter - Y * m_FarHeight + X * m_NearWidth;
-
-    m_Planes[4].SetNormalAndPoint(-Z, nearCenter);
-    m_Planes[5].SetNormalAndPoint(Z, farCenter);
-
-    glm::vec3 aux, normal;
-
-    aux = (nearCenter + Y * m_NearHeight) - p;
-    aux = glm::normalize(aux);
-    normal = aux * X;
-    m_Planes[0].SetNormalAndPoint(normal, nearCenter + Y * m_NearHeight);
-
-    aux = (nearCenter - Y * m_NearHeight) - p;
-    aux = glm::normalize(aux);
-    normal = X * aux;
-    m_Planes[1].SetNormalAndPoint(normal, nearCenter - Y * m_NearHeight);
-
-    aux = (nearCenter - X * m_NearWidth) - p;
-    aux = glm::normalize(aux);
-    normal = aux * Y;
-    m_Planes[2].SetNormalAndPoint(normal, nearCenter - X * m_NearWidth);
-
-    aux = (nearCenter + X * m_NearWidth) - p;
-    aux = glm::normalize(aux);
-    normal = Y * aux;
-    m_Planes[3].SetNormalAndPoint(normal, nearCenter + X * m_NearWidth);
+    for (int i = 0; i < 4; i++) m_Planes[0][i] = viewProjection[i][3] + viewProjection[i][0];
+    for (int i = 0; i < 4; i++) m_Planes[1][i] = viewProjection[i][3] - viewProjection[i][0];
+    for (int i = 0; i < 4; i++) m_Planes[2][i] = viewProjection[i][3] + viewProjection[i][1];
+    for (int i = 0; i < 4; i++) m_Planes[3][i] = viewProjection[i][3] - viewProjection[i][1];
+    for (int i = 0; i < 4; i++) m_Planes[4][i] = viewProjection[i][3] + viewProjection[i][2];
+    for (int i = 0; i < 4; i++) m_Planes[5][i] = viewProjection[i][3] - viewProjection[i][2];
 
 }
 
-int Frustum::PointInFrustum(const glm::vec3 &p) {
-    int result = INSIDE;
-    for(auto m_Plane : m_Planes) {
-        if (m_Plane.Distance(p) < 0)
-            return OUTSIDE;
+bool Frustum::PointInFrustum(const glm::vec3 &p) {
+    for (auto &plane: m_Planes) {
+        glm::vec3 tmp(plane[0], plane[1], plane[2]);
+        float dist = glm::dot(p, tmp) + plane[3];
+        if (dist < 0) return false;
     }
-    return result;
+    return true;
 }
 
-int Frustum::SphereInFrustum(const BoundingSphere &s) {
-    float distance;
-    int result = INSIDE;
-    for(auto & m_Plane : m_Planes) {
-        distance = m_Plane.Distance(s.Center);
-        if (distance < -s.Radius)
-            return OUTSIDE;
-        else if (distance < s.Radius)
-            result =  INTERSECT;
+bool Frustum::SphereInFrustum(const BoundingSphere &s) {
+    for (auto &plane: m_Planes) {
+        glm::vec3 tmp(plane[0], plane[1], plane[2]);
+        float dist = glm::dot(s.Center, tmp) + plane[3] + s.Radius;
+        if (dist < 0) return false;
     }
-    return result;
+    return true;
 }
 
-int Frustum::BoxInFrustum(BoundingBox b) {
-    int result = INSIDE, out,in;
+bool Frustum::BoxInFrustum(const BoundingBox &b) {
+    float x = b.Center.x;
+    float y = b.Center.y;
+    float z = b.Center.z;
+    float size = glm::length(b.Extents);
 
-    // for each plane do ...
-    for(auto & m_Plane : m_Planes) {
-
-        out=0;in=0;
-        for (int k = 0; k < 8 && (in==0 || out==0); k++) {
-            if (m_Plane.Distance(b.GetPoints()[k]) < 0)
-                out++;
-            else
-                in++;
-        }
-        if (!in)
-            return (OUTSIDE);
-        else if (out)
-            result = INTERSECT;
+    for (auto &plane: m_Planes) {
+        if (plane[0] * (x - size) + plane[1] * (y - size) + plane[2] * (z - size) + plane[3] > 0) continue;
+        if (plane[0] * (x + size) + plane[1] * (y - size) + plane[2] * (z - size) + plane[3] > 0) continue;
+        if (plane[0] * (x - size) + plane[1] * (y + size) + plane[2] * (z - size) + plane[3] > 0) continue;
+        if (plane[0] * (x + size) + plane[1] * (y + size) + plane[2] * (z - size) + plane[3] > 0) continue;
+        if (plane[0] * (x - size) + plane[1] * (y - size) + plane[2] * (z + size) + plane[3] > 0) continue;
+        if (plane[0] * (x + size) + plane[1] * (y - size) + plane[2] * (z + size) + plane[3] > 0) continue;
+        if (plane[0] * (x - size) + plane[1] * (y + size) + plane[2] * (z + size) + plane[3] > 0) continue;
+        if (plane[0] * (x + size) + plane[1] * (y + size) + plane[2] * (z + size) + plane[3] > 0) continue;
+        return false;
     }
-    return result;
+    return true;
 }

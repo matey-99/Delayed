@@ -29,5 +29,6 @@ private:
 
 	DepthOfFieldSettings m_Settings;
 
+	friend class SceneSerializer;
 	friend class RendererSettingsPanel;
 };

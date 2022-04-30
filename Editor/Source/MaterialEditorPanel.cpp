@@ -108,7 +108,7 @@ void MaterialEditorPanel::Render()
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     if (ImGui::Button("Save"))
-        MaterialSerializer::Serialize(m_Material, "../../../Content/Materials/");
+        AssetManager::SaveMaterial(m_Material);
 
     if (ImGui::Button("Close"))
         m_Editor->HideMaterialEditor();

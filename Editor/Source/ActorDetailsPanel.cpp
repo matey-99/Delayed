@@ -18,10 +18,18 @@
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 
 #include "Game/Player.h"
+#include "Game/CharacterController.h"
+#include "Game/CameraController.h"
+#include "Game/Platform.h"
+#include "Game/Ghost.h"
+#include "Game/Button.h"
+#include "Game/Checkpoint.h"
+#include "Game/DeathArea.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/RigidBodyComponent.h>
+
 
 bool Equals(float arr[3], glm::vec3 vec)
 {
@@ -50,6 +58,11 @@ void ActorDetailsPanel::Render()
     char* name = (char*)m_Actor->m_Name.c_str();
     ImGui::InputText("##Name", name, maxSize);
     m_Actor->m_Name = name;
+
+    ImGui::Text("ID: ");
+    ImGui::SameLine();
+    ImGui::Text(std::to_string(m_Actor->GetID()).c_str());
+
     ImGui::Checkbox("Dynamic", &m_Actor->m_Dynamic);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
@@ -474,8 +487,78 @@ void ActorDetailsPanel::Render()
     if (auto player = m_Actor->GetComponent<Player>())
     {
         ImGui::Text("Player");
+        ImGui::DragFloat("Walk Speed", &player->m_WalkSpeed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Run Speed", &player->m_RunSpeed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Rotate Speed", &player->m_RotateSpeed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Look Up Limit", &player->m_LookUpLimit, 0.5f, 0.0f, 90.0f);
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
+
+    if (auto cc = m_Actor->GetComponent<CharacterController>())
+    {
+        ImGui::Text("Character Controller");
+        ImGui::DragFloat("Jump Height", &cc->m_JumpHeight, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Jump Max Height Time", &cc->m_JumpMaxHeightTime, 0.5f, 0.0f, 100.0f);
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto platform = m_Actor->GetComponent<Platform>())
+    {
+        ImGui::Text("Platform");
+        ImGui::DragFloat3("Move Direction", glm::value_ptr(platform->m_Direction), 0.1f, 0.0f, 1.0f);
+        ImGui::DragFloat("Move Distance", &platform->m_Distance, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Move Speed", &platform->m_Speed, 0.5f, 0.0f, 100.0f);
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto button = m_Actor->GetComponent<Button>())
+    {
+        ImGui::Text("Button");
+
+        size_t maxSize = 128;
+        std::string idStr = std::to_string(button->m_PlatformID);
+        char* id = (char*)idStr.c_str();
+        ImGui::InputText("Connected Platform ID", id, maxSize);
+        button->m_PlatformID = std::atoll(id);
+
+        int i = 0;
+        for (auto& connectedButtonID : button->m_ConnectedButtonsIDs)
+        {
+            ImGui::PushID(i);
+            size_t maxSize = 128;
+            std::string buttonIDStr = std::to_string(connectedButtonID);
+            char* buttonIDText = (char*)buttonIDStr.c_str();
+            ImGui::InputText("Connected Button ID", buttonIDText, maxSize);
+            connectedButtonID = std::atoll(buttonIDText);
+            ImGui::PopID();
+
+            i++;
+        }
+        if (ImGui::Button("Add new Connected Button"))
+            button->m_ConnectedButtonsIDs.push_back(0);
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto ghost = m_Actor->GetComponent<Ghost>())
+    {
+        ImGui::Text("Ghost");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto checkpoint = m_Actor->GetComponent<Checkpoint>())
+    {
+        ImGui::Text("Checkpoint");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto deathArea = m_Actor->GetComponent<DeathArea>())
+    {
+        ImGui::Text("Death Area");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+
     if (auto image = m_Actor->GetComponent<ImageComponent>())
     {
         ImGui::Text("Image");
@@ -575,13 +658,21 @@ void ActorDetailsPanel::Render()
     bool spotLight = false;
     bool skyLight = false;
     bool particleSystem = false;
-    bool player = false;
     bool camera = false;
     bool image = false;
-    bool button = false;
+    bool buttonUI = false;
     bool boxCollider = false;
     bool sphereCollider = false;
     bool rigidBody = false;
+
+    bool player = false;
+    bool characterController = false;
+    bool cameraController = false;
+    bool platform = false;
+    bool button = false;
+    bool ghost = false;
+    bool checkpoint = false;
+    bool deathArea = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -604,7 +695,6 @@ void ActorDetailsPanel::Render()
                     ImGui::EndMenu();
                 }
                 ImGui::MenuItem("Particle System", "", &particleSystem);
-                ImGui::MenuItem("Player", "", &player);
                 ImGui::MenuItem("Camera", "", &camera);
 
                 if (ImGui::BeginMenu("Collider"))
@@ -616,6 +706,20 @@ void ActorDetailsPanel::Render()
                 }
 
                 ImGui::MenuItem("RigidBody", "", &rigidBody);
+
+                if (ImGui::BeginMenu("Game Components"))
+                {
+                    ImGui::MenuItem("Player", "", &player);
+                    ImGui::MenuItem("Character Controller", "", &characterController);
+                    ImGui::MenuItem("Camera Controller", "", &cameraController);
+                    ImGui::MenuItem("Platform", "", &platform);
+                    ImGui::MenuItem("Button", "", &button);
+                    ImGui::MenuItem("Ghost", "", &ghost);
+                    ImGui::MenuItem("Checkpoint", "", &checkpoint);
+                    ImGui::MenuItem("Death Area", "", &deathArea);
+
+                    ImGui::EndMenu();
+                }
 
                 ImGui::EndMenu();
             }
@@ -632,7 +736,7 @@ void ActorDetailsPanel::Render()
                 if (ImGui::BeginMenu("UI"))
                 {
                     ImGui::MenuItem("Image", "", &image);
-                    ImGui::MenuItem("Button", "", &button);
+                    ImGui::MenuItem("Button", "", &buttonUI);
 
                     ImGui::EndMenu();
                 }
@@ -681,13 +785,11 @@ void ActorDetailsPanel::Render()
     }
     if (particleSystem)
         m_Actor->AddComponent<ParticleSystemComponent>();
-    if (player)
-        m_Actor->AddComponent<Player>();
     if (camera)
         m_Actor->AddComponent<CameraComponent>();
     if (image)
         m_Actor->AddComponent<ImageComponent>();
-    if (button)
+    if (buttonUI)
         m_Actor->AddComponent<ButtonComponent>();
     if (boxCollider)
         m_Actor->AddComponent<BoxColliderComponent>();
@@ -695,6 +797,24 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<SphereColliderComponent>();
     if (rigidBody)
         m_Actor->AddComponent<RigidBodyComponent>();
+
+    if (player)
+        m_Actor->AddComponent<Player>();
+    if (characterController)
+        m_Actor->AddComponent<CharacterController>();
+    if (cameraController)
+        m_Actor->AddComponent<CameraController>();
+    if (platform)
+        m_Actor->AddComponent<Platform>();
+    if (button)
+        m_Actor->AddComponent<Button>();
+    if (ghost)
+        m_Actor->AddComponent<Ghost>();
+    if (checkpoint)
+        m_Actor->AddComponent<Checkpoint>();
+    if (deathArea)
+        m_Actor->AddComponent<DeathArea>();
+
 
     if (ImGui::Button("Close"))
     {

@@ -11,6 +11,7 @@ private:
 	Ref<Scene> m_Scene;
 	std::vector<std::string> m_SupportedFileFormats;
 	std::string m_DisplayedDirectory;
+	std::string m_ContentDisplayedDirectory;
 	bool m_IsCreateMaterialWindowDisplayed;
 	std::string m_NewMaterialName;
 

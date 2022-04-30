@@ -110,15 +110,17 @@ void StaticMeshComponent::UpdateBoundingSphere() {
 	glm::vec3 d;
 	float dist2, dist, r;
 
+    float scale = glm::max(glm::max(m_Owner->GetTransform()->GetWorldScale().x, m_Owner->GetTransform()->GetWorldScale().y), m_Owner->GetTransform()->GetWorldScale().z);
+
 	s.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s.Center, 1.0f);
-	s.Radius *= m_Owner->GetTransform()->GetWorldScale().x;
+	s.Radius *= scale;
 
 	for (auto mesh : m_Model->GetMeshes())
 	{
 		s0 = s;
 		s1 = mesh->GetBoundingSphere();
 		s1.Center = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(s1.Center, 1.0f);
-		s1.Radius *= m_Owner->GetTransform()->GetWorldScale().x;
+		s1.Radius *= scale;
 
 		d = s1.Center - s0.Center;
 		dist2 = glm::dot(d, d);
