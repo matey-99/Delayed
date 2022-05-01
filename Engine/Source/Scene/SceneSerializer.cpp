@@ -10,7 +10,7 @@
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
-#include "Scene/Component/ParticleSystemComponent.h"
+#include "Scene/Component/Particle/ParticleSystemComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/RigidBodyComponent.h>
@@ -381,15 +381,13 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto particle = component["ParticleSystem"])
 					{
 						int count = particle["ParticlesCount"].as<int>();
-						float radius = particle["SphereRadius"].as<float>();
 						glm::vec3 minVelocity = particle["MinVelocity"].as<glm::vec3>();
 						glm::vec3 maxVelocity = particle["MaxVelocity"].as<glm::vec3>();
 
 						auto p = a->AddComponent<ParticleSystemComponent>();
-						p->m_ParticlesCount = count;
-						p->m_Radius = radius;
-						p->m_MinVelocity = minVelocity;
-						p->m_MaxVelocity = maxVelocity;
+						p->m_MaxParticles = count;
+						p->m_MinParticleVelocity = minVelocity;
+						p->m_MaxParticleVelocity = maxVelocity;
 
 						p->Reset();
 					}
@@ -720,10 +718,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "ParticleSystem";
 		out << YAML::BeginMap;
-		out << YAML::Key << "ParticlesCount" << YAML::Value << particleSystem->m_ParticlesCount;
-		out << YAML::Key << "SphereRadius" << YAML::Value << particleSystem->m_Radius;
-		out << YAML::Key << "MinVelocity" << YAML::Value << particleSystem->m_MinVelocity;
-		out << YAML::Key << "MaxVelocity" << YAML::Value << particleSystem->m_MaxVelocity;
+		out << YAML::Key << "ParticlesCount" << YAML::Value << particleSystem->m_MaxParticles;
+		out << YAML::Key << "MinVelocity" << YAML::Value << particleSystem->m_MinParticleVelocity;
+		out << YAML::Key << "MaxVelocity" << YAML::Value << particleSystem->m_MaxParticleVelocity;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

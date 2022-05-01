@@ -10,7 +10,7 @@
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
-#include "Scene/Component/ParticleSystemComponent.h"
+#include "Scene/Component/Particle/ParticleSystemComponent.h"
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
@@ -432,35 +432,30 @@ void ActorDetailsPanel::Render()
     if (auto particles = m_Actor->GetComponent<ParticleSystemComponent>())
     {
         ImGui::Text("Particle System");
-        int count = particles->m_ParticlesCount;
+        int count = particles->m_MaxParticles;
         ImGui::DragInt("Particles Count", &count, 100, 0, 100000);
-        if (count != particles->m_ParticlesCount)
+        if (count != particles->m_MaxParticles)
             particles->SetParticlesCount(count);
 
-        float lifeTime = particles->m_ParticleLifeTime;
+        float lifeTime = particles->m_MinParticleLifeTime;
         ImGui::DragFloat("Particle Life Time", &lifeTime, 0.01f, 0.01f, 10.0f);
-        if (lifeTime != particles->m_ParticleLifeTime)
+        if (lifeTime != particles->m_MinParticleLifeTime)
             particles->SetParticleLifeTime(lifeTime);
 
-        float radius = particles->m_Radius;
-        ImGui::DragFloat("Sphere Radius", &radius, 1.0f, 1.0f, 1000.0f);
-        if (radius != particles->m_Radius)
-            particles->SetRadius(radius);
-
-        glm::vec3 minVel = particles->m_MinVelocity;
+        glm::vec3 minVel = particles->m_MinParticleVelocity;
         ImGui::DragFloat3("Min Velocity", glm::value_ptr(minVel), 0.01f, 0.0f, 1.0f);
-        if (minVel != particles->m_MinVelocity &&
-            (minVel.x <= particles->m_MaxVelocity.x &&
-             minVel.y <= particles->m_MaxVelocity.y &&
-             minVel.z <= particles->m_MaxVelocity.z))
+        if (minVel != particles->m_MinParticleVelocity &&
+            (minVel.x <= particles->m_MaxParticleVelocity.x &&
+             minVel.y <= particles->m_MaxParticleVelocity.y &&
+             minVel.z <= particles->m_MaxParticleVelocity.z))
             particles->SetMinVelocity(minVel);
 
-        glm::vec3 maxVel = particles->m_MaxVelocity;
+        glm::vec3 maxVel = particles->m_MaxParticleVelocity;
         ImGui::DragFloat3("Max Velocity", glm::value_ptr(maxVel), 0.01f, 0.0f, 1.0f);
-        if (maxVel != particles->m_MaxVelocity &&
-            (maxVel.x >= particles->m_MinVelocity.x &&
-             maxVel.y >= particles->m_MinVelocity.y &&
-             maxVel.z >= particles->m_MinVelocity.z))
+        if (maxVel != particles->m_MaxParticleVelocity &&
+            (maxVel.x >= particles->m_MinParticleVelocity.x &&
+             maxVel.y >= particles->m_MinParticleVelocity.y &&
+             maxVel.z >= particles->m_MinParticleVelocity.z))
             particles->SetMaxVelocity(maxVel);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
