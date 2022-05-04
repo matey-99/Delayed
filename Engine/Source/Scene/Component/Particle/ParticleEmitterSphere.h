@@ -14,4 +14,7 @@ public:
 
 private:
 	float m_Radius;
+
+	friend class SceneSerializer;
+	friend class ActorDetailsPanel;
 };

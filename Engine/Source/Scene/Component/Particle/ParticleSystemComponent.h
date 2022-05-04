@@ -47,11 +47,9 @@ public:
 	void Initialize();
 	void Reset();
 
-	void SetParticlesCount(uint32_t count);
-	void SetParticleLifeTime(float lifeTime);
-	void SetRadius(float radius);
-	void SetMinVelocity(glm::vec3 minVelocity);
-	void SetMaxVelocity(glm::vec3 maxVelocity);
+	void ChangeSprite(std::string path);
+
+	void SetMaxParticles(uint32_t count);
 
 private:
 	int FindUnusedParticle();
@@ -60,6 +58,7 @@ private:
 private:
 	float m_Duration;
 	bool m_Looping;
+	Ref<Texture> m_Sprite;
 	float m_EmissionRateOverTime;
 	Ref<ParticleEmitterShape> m_EmitterShape;
 	uint32_t m_MaxParticles;
@@ -68,6 +67,7 @@ private:
 	float m_EndParticleSize;
 	glm::vec3 m_MinParticleVelocity;
 	glm::vec3 m_MaxParticleVelocity;
+	glm::vec3 m_EndParticleVelocity;
 	float m_MinParticleLifeTime;
 	float m_MaxParticleLifeTime;
 	glm::vec4 m_StartParticleColor;

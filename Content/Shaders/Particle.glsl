@@ -17,8 +17,6 @@ layout (std140, binding = 0) uniform u_VertexCamera
     mat4 u_Projection;
 };
 
-layout (location = 0) uniform mat4 u_Model;
-
 void main()
 {
     vec3 viewRight = vec3(u_View[0][0], u_View[1][0], u_View[2][0]);
@@ -40,7 +38,13 @@ layout (location = 2) in vec4 v_ParticleColor;
 
 layout (location = 0) out vec4 f_Color;
 
+layout (location = 0) uniform sampler2D u_Sprite;
+layout (location = 1) uniform float u_EmissionStrength;
+
 void main()
 {
-    f_Color = v_ParticleColor;
+    vec4 sprite = texture(u_Sprite, v_TexCoord);
+    sprite = vec4(pow(sprite.rgb, vec3(1.0 / 2.2)), sprite.a);
+
+    f_Color = sprite * v_ParticleColor;
 }

@@ -1507,18 +1507,30 @@ Actors:
           Size: [1, 1, 1]
       - Button:
           Platform: 1880114162
-  - Actor: 589032180
-    ID: 589032180
-    Name: Particles
+  - Actor: 405188416
+    ID: 405188416
+    Name: Particle System
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [33.9674339, 4.85316372, -21.8577881]
+          LocalPosition: [43.6667252, 4.95965385, -17.7849979]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
       - ParticleSystem:
-          ParticlesCount: 100
-          SphereRadius: 2
-          MinVelocity: [0, 0.100000001, 0]
-          MaxVelocity: [0, 0.5, 0]
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 1
+          MaxParticles: 100
+          MinParticleSize: 0.100000001
+          MaxParticleSize: 0.300000012
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0.5, 0]
+          EndParticleVelocity: [0, 0, 0.5]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [0, 11.3973398, 12, 0.5]
+          EndParticleColor: [0, 1.07262754, 6, 0.25]

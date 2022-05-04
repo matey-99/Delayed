@@ -11,6 +11,8 @@
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
 #include "Scene/Component/Particle/ParticleSystemComponent.h"
+#include "Scene/Component/Particle/ParticleEmitterBox.h"
+#include "Scene/Component/Particle/ParticleEmitterSphere.h"
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
@@ -431,34 +433,98 @@ void ActorDetailsPanel::Render()
 
     if (auto particles = m_Actor->GetComponent<ParticleSystemComponent>())
     {
+        ImGui::PushID(particles.get());
+
         ImGui::Text("Particle System");
-        int count = particles->m_MaxParticles;
-        ImGui::DragInt("Particles Count", &count, 100, 0, 100000);
-        if (count != particles->m_MaxParticles)
-            particles->SetParticlesCount(count);
 
-        float lifeTime = particles->m_MinParticleLifeTime;
-        ImGui::DragFloat("Particle Life Time", &lifeTime, 0.01f, 0.01f, 10.0f);
-        if (lifeTime != particles->m_MinParticleLifeTime)
-            particles->SetParticleLifeTime(lifeTime);
+        if (ImGui::TreeNodeEx("Particle System", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            ImGui::DragFloat("Duration", &particles->m_Duration, 1.0f, 0.0f, 1000.0f);
+            ImGui::Checkbox("Looping", &particles->m_Looping);
 
-        glm::vec3 minVel = particles->m_MinParticleVelocity;
-        ImGui::DragFloat3("Min Velocity", glm::value_ptr(minVel), 0.01f, 0.0f, 1.0f);
-        if (minVel != particles->m_MinParticleVelocity &&
-            (minVel.x <= particles->m_MaxParticleVelocity.x &&
-             minVel.y <= particles->m_MaxParticleVelocity.y &&
-             minVel.z <= particles->m_MaxParticleVelocity.z))
-            particles->SetMinVelocity(minVel);
+            std::string path = particles->m_Sprite->GetPath();
+            std::string name = path.substr(path.find_last_of("/") + 1);
+            if (ImGui::BeginCombo("Sprite", name.c_str()))
+            {
+                std::vector<std::string> extensions;
+                extensions.push_back("png");
+                DisplayResources(particles, extensions);
 
-        glm::vec3 maxVel = particles->m_MaxParticleVelocity;
-        ImGui::DragFloat3("Max Velocity", glm::value_ptr(maxVel), 0.01f, 0.0f, 1.0f);
-        if (maxVel != particles->m_MaxParticleVelocity &&
-            (maxVel.x >= particles->m_MinParticleVelocity.x &&
-             maxVel.y >= particles->m_MinParticleVelocity.y &&
-             maxVel.z >= particles->m_MinParticleVelocity.z))
-            particles->SetMaxVelocity(maxVel);
+                ImGui::EndCombo();
+            }
+
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNodeEx("Emission", ImGuiTreeNodeFlags_OpenOnArrow))
+        {
+            int maxParticles = particles->m_MaxParticles;
+            ImGui::DragInt("Max Particles", &maxParticles, 10, 0, 10000);
+            if (maxParticles != particles->m_MaxParticles)
+                particles->SetMaxParticles(maxParticles);
+
+            ImGui::DragFloat("Rate Over Time", &particles->m_EmissionRateOverTime, 0.1f, 0.0f, 100.0f);
+
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNodeEx("Emitter Shape", ImGuiTreeNodeFlags_OpenOnArrow))
+        {
+            const char* shapeName = "";
+            if (Cast<ParticleEmitterBox>(particles->m_EmitterShape))
+                shapeName = "Box";
+            if (Cast<ParticleEmitterSphere>(particles->m_EmitterShape))
+                shapeName = "Sphere";
+
+            if (ImGui::BeginCombo("Shape", shapeName))
+            {
+                if (ImGui::Selectable("Box"))
+                    particles->m_EmitterShape = CreateRef<ParticleEmitterBox>();
+                if (ImGui::Selectable("Sphere"))
+                    particles->m_EmitterShape = CreateRef<ParticleEmitterSphere>();
+
+                ImGui::EndCombo();
+            }
+
+            if (auto box = Cast<ParticleEmitterBox>(particles->m_EmitterShape))
+                ImGui::DragFloat3("Size", glm::value_ptr(box->m_Size), 0.1f, 0.0f, 50.0f);
+            if (auto sphere = Cast<ParticleEmitterSphere>(particles->m_EmitterShape))
+                ImGui::DragFloat("Radius", &sphere->m_Radius, 0.1f, 0.0f, 50.0f);
+
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNodeEx("Life Time", ImGuiTreeNodeFlags_OpenOnArrow))
+        {
+            ImGui::DragFloat("Min Life Time", &particles->m_MinParticleLifeTime, 0.1f, 0.0f, 100.0f);
+            ImGui::DragFloat("Max Life Time", &particles->m_MaxParticleLifeTime, 0.1f, 0.0f, 100.0f);
+
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNodeEx("Velocity Over Life Time", ImGuiTreeNodeFlags_OpenOnArrow))
+        {
+            ImGui::DragFloat3("Min Velocity", glm::value_ptr(particles->m_MinParticleVelocity), 0.1f, 0.0f, 100.0f);
+            ImGui::DragFloat3("Max Velocity", glm::value_ptr(particles->m_MaxParticleVelocity), 0.1f, 0.0f, 100.0f);
+            ImGui::DragFloat3("End Velocity", glm::value_ptr(particles->m_EndParticleVelocity), 0.1f, 0.0f, 100.0f);
+
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNodeEx("Color Over Life Time", ImGuiTreeNodeFlags_OpenOnArrow))
+        {
+            ImGui::ColorPicker4("Start Color", glm::value_ptr(particles->m_StartParticleColor), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_HDR | ImGuiColorEditFlags_AlphaBar);
+            ImGui::ColorPicker4("End Color", glm::value_ptr(particles->m_EndParticleColor), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_HDR | ImGuiColorEditFlags_AlphaBar);
+
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNodeEx("Size Over Life Time", ImGuiTreeNodeFlags_OpenOnArrow))
+        {
+            ImGui::DragFloat("Min Size", &particles->m_MinParticleSize, 0.1f, 0.0f, 100.0f);
+            ImGui::DragFloat("Max Size", &particles->m_MaxParticleSize, 0.1f, 0.0f, 100.0f);
+            ImGui::DragFloat("End Size", &particles->m_EndParticleSize, 0.1f, 0.0f, 100.0f);
+
+            ImGui::TreePop();
+        }
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+        ImGui::PopID();
     }
 
     if (auto player = m_Actor->GetComponent<Player>())
@@ -839,7 +905,10 @@ void ActorDetailsPanel::DisplayResources(Ref<Component> component, std::vector<s
                         if (auto skyLight = Cast<SkyLight>(component))
                         {
                             //skyLight->Load(path);
-
+                        }
+                        if (auto particles = Cast<ParticleSystemComponent>(component))
+                        {
+                            particles->ChangeSprite(path);
                         }
                     }
                 }

@@ -18,6 +18,7 @@ ParticleSystemComponent::ParticleSystemComponent(Actor* owner)
 
 	m_Duration = 5.0f;
 	m_Looping = true;
+	m_Sprite = AssetManager::LoadTexture("Textures/Default/Particle.png");
 	m_EmissionRateOverTime = 10.0f;
 	m_EmitterShape = CreateRef<ParticleEmitterSphere>();
 	m_MaxParticles = 100;
@@ -26,6 +27,7 @@ ParticleSystemComponent::ParticleSystemComponent(Actor* owner)
 	m_EndParticleSize = 0.0f;
 	m_MinParticleVelocity = glm::vec3(0.0f, 0.1f, 0.0f);
 	m_MaxParticleVelocity = glm::vec3(0.0f, 0.5f, 0.0f);
+	m_EndParticleVelocity = glm::vec3(0.0f, 0.0f, 0.5f);
 	m_MinParticleLifeTime = 1.0f;
 	m_MaxParticleLifeTime = 2.0f;
 	m_StartParticleColor = glm::vec4(1.0f);
@@ -60,7 +62,9 @@ void ParticleSystemComponent::Update(float deltaTime)
 		if (m_EmissionTime > 1.0f / m_EmissionRateOverTime)
 		{
 			int index = FindUnusedParticle();
-			EmitParticle(index);
+
+			if (index != -1)
+				EmitParticle(index);
 
 			m_EmissionTime = 0.0f;
 		}
@@ -71,9 +75,10 @@ void ParticleSystemComponent::Update(float deltaTime)
 		Particle& particle = m_Particles[i];
 		if (particle.CurrentLifeTime > 0.0f)
 		{
+			particle.CurrentVelocity = Math::Lerp(particle.CurrentVelocity, m_EndParticleVelocity, 1 / particle.InitialLifeTime * deltaTime);
 			particle.Position += particle.CurrentVelocity * deltaTime;
-			particle.CurrentSize = Math::Lerp(particle.CurrentSize, m_EndParticleSize, particle.InitialLifeTime * deltaTime);
-			particle.Color = Math::Lerp(particle.Color, m_EndParticleColor, particle.InitialLifeTime * deltaTime);
+			particle.CurrentSize = Math::Lerp(particle.CurrentSize, m_EndParticleSize, 1 / particle.InitialLifeTime * deltaTime);
+			particle.Color = Math::Lerp(particle.Color, m_EndParticleColor, 1 / particle.InitialLifeTime * deltaTime);
 			particle.CurrentLifeTime -= deltaTime;
 
 			m_ParticlesPositions[i] = glm::vec4(particle.Position, particle.CurrentSize);
@@ -105,11 +110,16 @@ void ParticleSystemComponent::Render(Material::BlendMode blendMode)
 
 	glDisable(GL_CULL_FACE);
 
+	m_Sprite->Bind(0);
+
 	m_Shader->Use();
+	m_Shader->SetInt("u_Sprite", 0);
 
 	glBindVertexArray(m_VAO);
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, m_MaxParticles);
 	glBindVertexArray(0);
+
+	m_Sprite->Unbind();
 
 	glEnable(GL_CULL_FACE);
 }
@@ -145,7 +155,7 @@ void ParticleSystemComponent::Initialize()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
 
@@ -172,29 +182,15 @@ void ParticleSystemComponent::Reset()
 	}
 }
 
-void ParticleSystemComponent::SetParticlesCount(uint32_t count)
+void ParticleSystemComponent::ChangeSprite(std::string path)
+{
+	m_Sprite = AssetManager::LoadTexture(path);
+}
+
+void ParticleSystemComponent::SetMaxParticles(uint32_t count)
 {
 	m_MaxParticles = count;
 	Reset();
-}
-
-void ParticleSystemComponent::SetParticleLifeTime(float lifeTime)
-{
-	m_MinParticleLifeTime = lifeTime;
-}
-
-void ParticleSystemComponent::SetRadius(float radius)
-{
-}
-
-void ParticleSystemComponent::SetMinVelocity(glm::vec3 minVelocity)
-{
-	m_MinParticleVelocity = minVelocity;
-}
-
-void ParticleSystemComponent::SetMaxVelocity(glm::vec3 maxVelocity)
-{
-	m_MaxParticleVelocity = maxVelocity;
 }
 
 int ParticleSystemComponent::FindUnusedParticle()
@@ -217,7 +213,7 @@ int ParticleSystemComponent::FindUnusedParticle()
 		}
 	}
 
-	return 0;
+	return -1;
 }
 
 void ParticleSystemComponent::EmitParticle(int index)

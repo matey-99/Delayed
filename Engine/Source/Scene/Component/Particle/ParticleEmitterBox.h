@@ -14,4 +14,7 @@ public:
 
 private:
 	glm::vec3 m_Size;
+
+	friend class SceneSerializer;
+	friend class ActorDetailsPanel;
 };
