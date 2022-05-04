@@ -11,6 +11,7 @@
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/Animation/Animator.h"
 #include "Scene/Component/LODGroupComponent.h"
+#include "Scene/Component/Particle/ParticleSystemComponent.h"
 #include "Scene/Component/UI/UIComponent.h"
 #include "Input/Input.h"
 
@@ -129,6 +130,12 @@ void Editor::Update(float deltaTime)
 	for (auto collider : colliders)
 	{
 		collider->Update(deltaTime);
+	}
+
+	auto particleSystems = m_Scene->GetComponents<ParticleSystemComponent>();
+	for (auto particleSystem : particleSystems)
+	{
+		particleSystem->Update(deltaTime);
 	}
 
 	if (m_IsCameraComponentViewport)
