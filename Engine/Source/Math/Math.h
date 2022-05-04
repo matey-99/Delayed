@@ -18,6 +18,10 @@ namespace Math
 
 	float Lerp(float a, float b, float alpha);
 
+	glm::vec3 Lerp(glm::vec3 a, glm::vec3 b, float alpha);
+
+	glm::vec4 Lerp(glm::vec4 a, glm::vec4 b, float alpha);
+
 	float Magnitude(const glm::vec3& v);
 
 	float Distance(const glm::vec3& a, const glm::vec3& b);

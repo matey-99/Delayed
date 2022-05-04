@@ -135,7 +135,7 @@ void main()
     float opacity;
     vec3 emissive;
     if (u_Material.isAlbedoMap)
-        albedo = pow(texture(u_Material.albedoMap, v_TexCoord).rgb, vec3(2.2));
+        albedo = pow(texture(u_Material.albedoMap, v_TexCoord).rgb, vec3(1 / 2.2));
     else
         albedo = u_Material.albedo;
     

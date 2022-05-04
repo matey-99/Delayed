@@ -2,7 +2,7 @@
 
 #include "Editor.h"
 #include "Scene/Component/StaticMeshComponent.h"
-#include "Scene/Component/ParticleSystemComponent.h"
+#include "Scene/Component/Particle/ParticleSystemComponent.h"
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
 

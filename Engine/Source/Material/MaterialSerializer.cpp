@@ -63,7 +63,7 @@ void MaterialSerializer::Serialize(Ref<Material> material, std::string destinati
 	out << YAML::EndSeq;
 	out << YAML::EndMap;
 
-	std::ofstream file(destinationPath + material->GetName() + ".mat");
+	std::ofstream file(destinationPath);
 	file << out.c_str();
 	file.close();
 }

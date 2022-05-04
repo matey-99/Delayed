@@ -75,3 +75,10 @@ void AssetManager::CreateNewMaterial(std::string name, std::string destinationPa
 	MaterialSerializer::Serialize(material, fullPath);
 	GetInstance()->m_MaterialImporter->AddMaterial(fullPath, material);
 }
+
+void AssetManager::SaveMaterial(Ref<Material> material)
+{
+	std::string fullPath = ContentDirectory + material->GetPath();
+
+	MaterialSerializer::Serialize(material, fullPath);
+}

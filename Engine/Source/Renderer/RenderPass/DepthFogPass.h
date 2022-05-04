@@ -30,5 +30,6 @@ private:
 
     Ref<RenderTarget> m_RenderTarget;
 
+    friend class SceneSerializer;
     friend class RendererSettingsPanel;
 };

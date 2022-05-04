@@ -10,13 +10,22 @@
 #include "Scene/Component/Light/PointLight.h"
 #include "Scene/Component/Light/SpotLight.h"
 #include "Scene/Component/Light/SkyLight.h"
-#include "Scene/Component/ParticleSystemComponent.h"
+#include "Scene/Component/Particle/ParticleSystemComponent.h"
+#include "Scene/Component/Particle/ParticleEmitterSphere.h"
+#include "Scene/Component/Particle/ParticleEmitterBox.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/RigidBodyComponent.h>
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
+
+#include "Renderer/RenderPass/SSAOPass.h"
+#include "Renderer/RenderPass/DepthFogPass.h"
+#include "Renderer/RenderPass/PostProcessingPass.h"
+#include "Renderer/RenderPass/FXAAPass.h"
+#include "Renderer/RenderPass/VignettePass.h"
+#include "Renderer/RenderPass/DepthOfFieldPass.h"
 
 #include "Game/MainMenu.h"
 #include "Game/Player.h"
@@ -32,9 +41,58 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "Scene" << YAML::Value << scene->m_Name;
 	out << YAML::Key << "CurrentCamera" << YAML::Value << scene->m_CurrentCamera->GetOwner()->GetID();
 
+	auto renderer = Renderer::GetInstance();
 	out << YAML::Key << "RendererSettings" << YAML::Value << YAML::BeginMap;
-	out << YAML::Key << "FXAA" << YAML::Value << Renderer::GetInstance()->GetSettings().FXAAEnabled;
-	out << YAML::Key << "DepthOfField" << YAML::Value << Renderer::GetInstance()->GetSettings().DepthOfFieldEnabled;
+
+	out << YAML::Key << "DepthFog" << YAML::Value << renderer->GetSettings().DepthFogEnabled;
+	out << YAML::Key << "PostProcessing" << YAML::Value << renderer->GetSettings().PostProcessingEnabled;
+	out << YAML::Key << "FXAA" << YAML::Value << renderer->GetSettings().FXAAEnabled;
+	out << YAML::Key << "Vignette" << YAML::Value << renderer->GetSettings().VignetteEnabled;
+	out << YAML::Key << "DepthOfField" << YAML::Value << renderer->GetSettings().DepthOfFieldEnabled;
+
+	out << YAML::Key << "SSAOSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "Intensity" << YAML::Value << renderer->m_SSAOPass->m_Settings.Intensity;
+	out << YAML::Key << "KernelSize" << YAML::Value << renderer->m_SSAOPass->m_Settings.KernelSize;
+	out << YAML::Key << "Radius" << YAML::Value << renderer->m_SSAOPass->m_Settings.Radius;
+	out << YAML::Key << "Bias" << YAML::Value << renderer->m_SSAOPass->m_Settings.Bias;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "DepthFogSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "MinDistance" << YAML::Value << renderer->m_DepthFogPass->m_Settings.MinDistance;
+	out << YAML::Key << "MaxDistance" << YAML::Value << renderer->m_DepthFogPass->m_Settings.MaxDistance;
+	out << YAML::Key << "Density" << YAML::Value << renderer->m_DepthFogPass->m_Settings.Density;
+	out << YAML::Key << "Color" << YAML::Value << renderer->m_DepthFogPass->m_Settings.Color;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "PostProcessingSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "Gamma" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Gamma;
+	out << YAML::Key << "Gain" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Gain;
+	out << YAML::Key << "Lift" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Lift;
+	out << YAML::Key << "Offset" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Offset;
+	out << YAML::Key << "Exposure" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Exposure;
+	out << YAML::Key << "Contrast" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Contrast;
+	out << YAML::Key << "ContrastPivot" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.ContrastPivot;
+	out << YAML::Key << "BloomEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomEnabled;
+	out << YAML::Key << "BloomThreshold" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomThreshold;
+	out << YAML::Key << "BloomLimit" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomLimit;
+	out << YAML::Key << "BloomIntensity" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomIntensity;
+	out << YAML::Key << "BloomBlurSigma" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.BloomBlurSigma;
+	out << YAML::Key << "Saturation" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Saturation;
+	out << YAML::Key << "Temperature" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Temperature;
+	out << YAML::Key << "Hue" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Hue;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "VignetteSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "Intensity" << YAML::Value << renderer->m_VignettePass->m_Settings.Intensity;
+	out << YAML::Key << "Size" << YAML::Value << renderer->m_VignettePass->m_Settings.Size;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "DepthOfFieldSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "MinDistance" << YAML::Value << renderer->m_DepthOfFieldPass->m_Settings.MinDistance;
+	out << YAML::Key << "MaxDistance" << YAML::Value << renderer->m_DepthOfFieldPass->m_Settings.MaxDistance;
+	out << YAML::Key << "Size" << YAML::Value << renderer->m_DepthOfFieldPass->m_Settings.Size;
+	out << YAML::EndMap;
+
 	out << YAML::EndMap;
 
 	out << YAML::Key << "Actors" << YAML::Value << YAML::BeginSeq;
@@ -68,14 +126,103 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	std::string sceneName = data["Scene"].as<std::string>();
 	scene->m_Name = sceneName;
 
+	auto renderer = Renderer::GetInstance();
+
+#pragma region Renderer
+
+	/* Renderer settings */
+	bool depthFog = data["RendererSettings"]["DepthFog"].as<bool>();
+	bool postProcessing = data["RendererSettings"]["PostProcessing"].as<bool>();
 	bool fxaa = data["RendererSettings"]["FXAA"].as<bool>();
+	bool vignette = data["RendererSettings"]["Vignette"].as<bool>();
 	bool depthOfField = data["RendererSettings"]["DepthOfField"].as<bool>();
 
-	Renderer::RendererSettings settings;
-	settings.FXAAEnabled = fxaa;
-	settings.DepthOfFieldEnabled = depthOfField;
+	/* SSAO settings */
+	float ssaoIntensity = data["RendererSettings"]["SSAOSettings"]["Intensity"].as<float>();
+	float ssaoKernelSize = data["RendererSettings"]["SSAOSettings"]["KernelSize"].as<int>();
+	float ssaoRadius = data["RendererSettings"]["SSAOSettings"]["Radius"].as<float>();
+	float ssaoBias = data["RendererSettings"]["SSAOSettings"]["Bias"].as<float>();
 
-	Renderer::GetInstance()->SetSettings(settings);
+	/* Depth Fog settings */
+	float dfMinDistance = data["RendererSettings"]["DepthFogSettings"]["MinDistance"].as<float>();
+	float dfMaxDistance = data["RendererSettings"]["DepthFogSettings"]["MaxDistance"].as<float>();
+	float dfDensity = data["RendererSettings"]["DepthFogSettings"]["Density"].as<float>();
+	glm::vec3 dfColor = data["RendererSettings"]["DepthFogSettings"]["Color"].as<glm::vec3>();
+
+	/* Post Processing settings */
+	float gamma = data["RendererSettings"]["PostProcessingSettings"]["Gamma"].as<float>();
+	float gain = data["RendererSettings"]["PostProcessingSettings"]["Gain"].as<float>();
+	float lift = data["RendererSettings"]["PostProcessingSettings"]["Lift"].as<float>();
+	float offset = data["RendererSettings"]["PostProcessingSettings"]["Offset"].as<float>();
+	float exposure = data["RendererSettings"]["PostProcessingSettings"]["Exposure"].as<float>();
+	float contrast = data["RendererSettings"]["PostProcessingSettings"]["Contrast"].as<float>();
+	float contrastPivot = data["RendererSettings"]["PostProcessingSettings"]["ContrastPivot"].as<float>();
+	bool bloomEnabled = data["RendererSettings"]["PostProcessingSettings"]["BloomEnabled"].as<bool>();
+	float bloomThreshold = data["RendererSettings"]["PostProcessingSettings"]["BloomThreshold"].as<float>();
+	float bloomLimit = data["RendererSettings"]["PostProcessingSettings"]["BloomLimit"].as<float>();
+	float bloomIntensity = data["RendererSettings"]["PostProcessingSettings"]["BloomIntensity"].as<float>();
+	float bloomBlurSigma = data["RendererSettings"]["PostProcessingSettings"]["BloomBlurSigma"].as<float>();
+	float saturation = data["RendererSettings"]["PostProcessingSettings"]["Saturation"].as<float>();
+	float temperature = data["RendererSettings"]["PostProcessingSettings"]["Temperature"].as<float>();
+	float hue = data["RendererSettings"]["PostProcessingSettings"]["Hue"].as<float>();
+
+	/* Vignette settings */
+	float vignetteIntensity = data["RendererSettings"]["VignetteSettings"]["Intensity"].as<float>();
+	float vignetteSize = data["RendererSettings"]["VignetteSettings"]["Size"].as<float>();
+
+	/* Depth Of Field settings */
+	float dofMinDistance = data["RendererSettings"]["DepthOfFieldSettings"]["MinDistance"].as<float>();
+	float dofMaxDistance = data["RendererSettings"]["DepthOfFieldSettings"]["MaxDistance"].as<float>();
+	float dofSize = data["RendererSettings"]["DepthOfFieldSettings"]["Size"].as<int>();
+
+	/* Setup Renderer settings */
+	Renderer::RendererSettings settings;
+	settings.DepthFogEnabled = depthFog;
+	settings.PostProcessingEnabled = postProcessing;
+	settings.FXAAEnabled = fxaa;
+	settings.VignetteEnabled = vignette;
+	settings.DepthOfFieldEnabled = depthOfField;
+	renderer->SetSettings(settings);
+
+	/* Setup SSAO settings */
+	renderer->m_SSAOPass->m_Settings.Intensity = ssaoIntensity;
+	renderer->m_SSAOPass->m_Settings.KernelSize = ssaoKernelSize;
+	renderer->m_SSAOPass->m_Settings.Radius = ssaoRadius;
+	renderer->m_SSAOPass->m_Settings.Bias = ssaoBias;
+
+	/* Setup Depth Fog settings */
+	renderer->m_DepthFogPass->m_Settings.MinDistance = dfMinDistance;
+	renderer->m_DepthFogPass->m_Settings.MaxDistance = dfMaxDistance;
+	renderer->m_DepthFogPass->m_Settings.Density = dfDensity;
+	renderer->m_DepthFogPass->m_Settings.Color = dfColor;
+
+	/* Setup Post Processing settings */
+	renderer->m_PostProcessingPass->m_Settings.Gamma = gamma;
+	renderer->m_PostProcessingPass->m_Settings.Gain = gain;
+	renderer->m_PostProcessingPass->m_Settings.Lift = lift;
+	renderer->m_PostProcessingPass->m_Settings.Offset = offset;
+	renderer->m_PostProcessingPass->m_Settings.Exposure = exposure;
+	renderer->m_PostProcessingPass->m_Settings.Contrast = contrast;
+	renderer->m_PostProcessingPass->m_Settings.ContrastPivot = contrastPivot;
+	renderer->m_PostProcessingPass->m_Settings.BloomEnabled = bloomEnabled;
+	renderer->m_PostProcessingPass->m_Settings.BloomThreshold = bloomThreshold;
+	renderer->m_PostProcessingPass->m_Settings.BloomLimit = bloomLimit;
+	renderer->m_PostProcessingPass->m_Settings.BloomIntensity = bloomIntensity;
+	renderer->m_PostProcessingPass->m_Settings.BloomBlurSigma = bloomBlurSigma;
+	renderer->m_PostProcessingPass->m_Settings.Saturation = saturation;
+	renderer->m_PostProcessingPass->m_Settings.Temperature = temperature;
+	renderer->m_PostProcessingPass->m_Settings.Hue = hue;
+
+	/* Setup Vignette settings */
+	renderer->m_VignettePass->m_Settings.Intensity = vignetteIntensity;
+	renderer->m_VignettePass->m_Settings.Size = vignetteSize;
+
+	/* Setup Depth Of Field settings */
+	renderer->m_DepthOfFieldPass->m_Settings.MinDistance = dofMinDistance;
+	renderer->m_DepthOfFieldPass->m_Settings.MaxDistance = dofMaxDistance;
+	renderer->m_DepthOfFieldPass->m_Settings.Size = dofSize;
+
+#pragma endregion
 
 	YAML::Node actors = data["Actors"];
 	if (actors)
@@ -235,16 +382,53 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto particle = component["ParticleSystem"])
 					{
-						int count = particle["ParticlesCount"].as<int>();
-						float radius = particle["SphereRadius"].as<float>();
-						glm::vec3 minVelocity = particle["MinVelocity"].as<glm::vec3>();
-						glm::vec3 maxVelocity = particle["MaxVelocity"].as<glm::vec3>();
+						float duration = particle["Duration"].as<float>();
+						bool looping = particle["Looping"].as<bool>();
+						std::string spritePath = particle["Sprite"].as<std::string>();
+						int emitterShape = particle["EmitterShape"].as<int>();
+						uint32_t maxParticles = particle["MaxParticles"].as<uint32_t>();
+						float minParticleSize = particle["MinParticleSize"].as<float>();
+						float maxParticleSize = particle["MaxParticleSize"].as<float>();
+						float endParticleSize = particle["EndParticleSize"].as<float>();
+						glm::vec3 minParticleVelocity = particle["MinParticleVelocity"].as<glm::vec3>();
+						glm::vec3 maxParticleVelocity = particle["MaxParticleVelocity"].as<glm::vec3>();
+						glm::vec3 endParticleVelocity = particle["EndParticleVelocity"].as<glm::vec3>();
+						float minParticleLifeTime = particle["MinParticleLifeTime"].as<float>();
+						float maxParticleLifeTime = particle["MaxParticleLifeTime"].as<float>();
+						glm::vec4 startParticleColor = particle["StartParticleColor"].as<glm::vec4>();
+						glm::vec4 endParticleColor = particle["EndParticleColor"].as<glm::vec4>();
 
 						auto p = a->AddComponent<ParticleSystemComponent>();
-						p->m_ParticlesCount = count;
-						p->m_Radius = radius;
-						p->m_MinVelocity = minVelocity;
-						p->m_MaxVelocity = maxVelocity;
+						p->m_Duration = duration;
+						p->m_Looping = looping;
+						p->m_Sprite = AssetManager::LoadTexture(spritePath);
+
+						if (emitterShape == 0)
+						{
+							auto sphere = CreateRef<ParticleEmitterSphere>();
+							sphere->m_Radius = particle["EmitterSphereRadius"].as<float>();
+							p->m_EmitterShape = sphere;
+						}
+						else if (emitterShape == 1)
+						{
+							auto box = CreateRef<ParticleEmitterBox>();
+							box->m_Size = particle["EmitterBoxSize"].as<glm::vec3>();
+							p->m_EmitterShape = box;
+						}
+						else
+							DEBUG_LOG("Unknown emitter shape in Particle System with ID: " + p->GetOwner()->GetID());
+
+						p->m_MaxParticles = maxParticles;
+						p->m_MinParticleSize = minParticleSize;
+						p->m_MaxParticleSize = maxParticleSize;
+						p->m_EndParticleSize = endParticleSize;
+						p->m_EndParticleVelocity = minParticleVelocity;
+						p->m_MaxParticleVelocity = maxParticleVelocity;
+						p->m_EndParticleVelocity = endParticleVelocity;
+						p->m_MinParticleLifeTime = minParticleLifeTime;
+						p->m_MaxParticleLifeTime = maxParticleLifeTime;
+						p->m_StartParticleColor = startParticleColor;
+						p->m_EndParticleColor = endParticleColor;
 
 						p->Reset();
 					}
@@ -575,10 +759,32 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "ParticleSystem";
 		out << YAML::BeginMap;
-		out << YAML::Key << "ParticlesCount" << YAML::Value << particleSystem->m_ParticlesCount;
-		out << YAML::Key << "SphereRadius" << YAML::Value << particleSystem->m_Radius;
-		out << YAML::Key << "MinVelocity" << YAML::Value << particleSystem->m_MinVelocity;
-		out << YAML::Key << "MaxVelocity" << YAML::Value << particleSystem->m_MaxVelocity;
+		out << YAML::Key << "Duration" << YAML::Value << particleSystem->m_Duration;
+		out << YAML::Key << "Looping" << YAML::Value << particleSystem->m_Looping;
+		out << YAML::Key << "Sprite" << YAML::Value << particleSystem->m_Sprite->GetPath();
+
+		if (auto sphere = Cast<ParticleEmitterSphere>(particleSystem->m_EmitterShape))
+		{
+			out << YAML::Key << "EmitterShape" << YAML::Value << 0;
+			out << YAML::Key << "EmitterSphereRadius" << YAML::Value << sphere->m_Radius;
+		}
+		else if (auto box = Cast<ParticleEmitterBox>(particleSystem->m_EmitterShape))
+		{
+			out << YAML::Key << "EmitterShape" << YAML::Value << 1;
+			out << YAML::Key << "EmitterBoxSize" << YAML::Value << box->m_Size;
+		}
+
+		out << YAML::Key << "MaxParticles" << YAML::Value << particleSystem->m_MaxParticles;
+		out << YAML::Key << "MinParticleSize" << YAML::Value << particleSystem->m_MinParticleSize;
+		out << YAML::Key << "MaxParticleSize" << YAML::Value << particleSystem->m_MaxParticleSize;
+		out << YAML::Key << "EndParticleSize" << YAML::Value << particleSystem->m_EndParticleSize;
+		out << YAML::Key << "MinParticleVelocity" << YAML::Value << particleSystem->m_MinParticleVelocity;
+		out << YAML::Key << "MaxParticleVelocity" << YAML::Value << particleSystem->m_MaxParticleVelocity;
+		out << YAML::Key << "EndParticleVelocity" << YAML::Value << particleSystem->m_EndParticleVelocity;
+		out << YAML::Key << "MinParticleLifeTime" << YAML::Value << particleSystem->m_MinParticleLifeTime;
+		out << YAML::Key << "MaxParticleLifeTime" << YAML::Value << particleSystem->m_MaxParticleLifeTime;
+		out << YAML::Key << "StartParticleColor" << YAML::Value << particleSystem->m_StartParticleColor;
+		out << YAML::Key << "EndParticleColor" << YAML::Value << particleSystem->m_EndParticleColor;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

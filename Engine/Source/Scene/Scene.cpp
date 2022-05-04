@@ -14,6 +14,7 @@
 #include "Component/TransformComponent.h"
 #include "Component/Light/SkyLight.h"
 #include "Component/UI/RectTransformComponent.h"
+#include "Component/Particle/ParticleSystemComponent.h"
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
 
@@ -93,6 +94,9 @@ void Scene::PreRender()
 
 void Scene::Render(Material::BlendMode blendMode)
 {
+	if (m_SkyLight)
+		m_SkyLight->Render(blendMode);
+
 	MeshesRenderList meshesList;
 	for (auto& mesh : m_MeshesRenderList)
 	{
@@ -102,8 +106,8 @@ void Scene::Render(Material::BlendMode blendMode)
 
 	RenderMeshes(meshesList, blendMode);
 
-	if (m_SkyLight)
-		m_SkyLight->Render(blendMode);
+	for (auto& particleSystem : GetComponents<ParticleSystemComponent>())
+		particleSystem->Render(blendMode);
 }
 
 void Scene::Render(Ref<Shader> shader)

@@ -1,57 +1,50 @@
 #SHADER VERTEX
 #version 450 core
 
-layout (location = 0) out vec2 v_TexCoord;
+layout (location = 0) in vec3 a_Position;
+layout (location = 1) in vec2 a_TexCoord;
+layout (location = 2) in vec4 a_ParticlePosition;
+layout (location = 3) in vec4 a_ParticleColor;
+
+layout (location = 0) out vec3 v_Position;
+layout (location = 1) out vec2 v_TexCoord;
+layout (location = 2) out vec4 v_ParticleColor;
 
 layout (std140, binding = 0) uniform u_VertexCamera
 {
     mat4 u_ViewProjection;
+    mat4 u_View;
+    mat4 u_Projection;
 };
-
-layout (std140, binding = 1) buffer Position
-{
-    vec4 positions[];
-};
-
-layout (location = 0) uniform mat4 u_Model;
-layout (location = 1) uniform mat4 u_View;
-layout (location = 2) uniform mat4 u_Projection;
-layout (location = 3) uniform vec2 u_SpriteSize;
 
 void main()
 {
-    int particleID = gl_VertexID >> 2;
-    vec4 particlePos = positions[particleID];
+    vec3 viewRight = vec3(u_View[0][0], u_View[1][0], u_View[2][0]);
+    vec3 viewUp = vec3(u_View[0][1], u_View[1][1], u_View[2][1]);
+    v_Position = viewRight * a_Position.x * a_ParticlePosition.w + viewUp * a_Position.y * a_ParticlePosition.w + a_ParticlePosition.xyz; 
 
-    /*  
-        gl_VertexID = 0: x = 1.0, y = 0.0
-        gl_VertexID = 1: x = 0.0, y = 0.0
-        gl_VertexID = 2: x = 0.0, y = 1.0
-        gl_VertexID = 3: x = 1.0, y = 1.0
-     */
-    vec2 quadPos = vec2(((gl_VertexID - 1) & 2) >> 1, (gl_VertexID & 2) >> 1);
+    v_TexCoord = a_TexCoord;
+    v_ParticleColor = a_ParticleColor;
 
-    vec4 particlePosEye = u_View * u_Model * particlePos;
-    vec4 vertexPosEye = particlePosEye + vec4((quadPos * 2.0 - 1.0) * u_SpriteSize, 0, 0);
-
-    v_TexCoord = quadPos;
-    gl_Position = u_Projection * vertexPosEye;
+    gl_Position = u_ViewProjection * vec4(v_Position, 1.0);
 }
 
 #SHADER FRAGMENT
 #version 450 core
 
-layout (location = 0) in vec2 v_TexCoord;
+layout (location = 0) in vec3 v_Position;
+layout (location = 1) in vec2 v_TexCoord;
+layout (location = 2) in vec4 v_ParticleColor;
 
 layout (location = 0) out vec4 f_Color;
 
-layout (location = 4) uniform bool u_IsSprite;
-layout (location = 5) uniform sampler2D u_Sprite; 
-layout (location = 6) uniform vec4 u_Color;
+layout (location = 0) uniform sampler2D u_Sprite;
+layout (location = 1) uniform float u_EmissionStrength;
 
 void main()
 {
-    vec4 color = u_IsSprite ? texture(u_Sprite, v_TexCoord) : u_Color;
+    vec4 sprite = texture(u_Sprite, v_TexCoord);
+    sprite = vec4(pow(sprite.rgb, vec3(1.0 / 2.2)), sprite.a);
 
-    f_Color = color;
+    f_Color = sprite * v_ParticleColor;
 }
