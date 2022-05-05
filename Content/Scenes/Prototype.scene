@@ -212,7 +212,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Gray.mat
+              Path: Materials/Red.mat
       - LODGroup:
           LODs:
             - Level: 0
@@ -867,7 +867,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [16.2399998, -14.4399996, -16.4699993]
+          LocalPosition: [16.2399998, -14.3608265, -16.4699993]
           LocalRotation: [0, 0, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -876,6 +876,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [2, 2, 2]
+      - Checkpoint:
+          {}
   - Actor: 1416485425
     ID: 1416485425
     Name: checkpoint1 (2)
@@ -1534,3 +1540,15 @@ Actors:
           MaxParticleLifeTime: 2
           StartParticleColor: [0, 11.3973398, 12, 0.5]
           EndParticleColor: [0, 1.07262754, 6, 0.25]
+  - Actor: 600320104
+    ID: 600320104
+    Name: Death_Area
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [31.1595821, -8.73255539, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [38.9430656, 1, 76.626152]
+          Parent: 0
+      - DeathArea:
+          {}
