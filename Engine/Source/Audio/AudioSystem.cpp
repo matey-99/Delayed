@@ -1,82 +1,155 @@
 #include "AudioSystem.h"
 
-void AudioSystem::Init() {
-    FMOD::System_Create(&m_System);
-    m_System->init(128, FMOD_INIT_NORMAL, nullptr);
-    m_NextChannelId = 0;
+Implementation::Implementation() {
+    m_System = nullptr;
+    AudioSystem::ErrorCheck(FMOD::System_Create(&m_System));
+    AudioSystem::ErrorCheck(m_System->init(128, FMOD_INIT_NORMAL, nullptr));
+
 }
 
-void AudioSystem::Update(float deltaTime) {
+Implementation::~Implementation() {
+    AudioSystem::ErrorCheck(m_System->close());
+}
+
+void Implementation::Update() {
     std::vector<ChannelMap::iterator> stoppedChannels;
-    for (auto it = m_Channels.begin(), itEnd = m_Channels.end(); it != itEnd; ++it) {
+    for (auto it = m_Channels.begin(), itEnd = m_Channels.end(); it != itEnd; ++it){
         bool isPlaying = false;
         it->second->isPlaying(&isPlaying);
         if (!isPlaying) {
             stoppedChannels.push_back(it);
         }
     }
-    for (auto &it: stoppedChannels) {
+    for (auto &it : stoppedChannels) {
         m_Channels.erase(it);
     }
-    m_System->update();
+    AudioSystem::ErrorCheck(m_System->update());
 }
 
-void AudioSystem::Shutdown() {
-    m_System->close();
+Implementation* m_Implementation = nullptr;
+
+void AudioSystem::Initialize() {
+    m_Implementation = new Implementation;
 }
 
-void AudioSystem::LoadSound(const std::string &soundName, bool is3d, bool isLooping, bool isStream) {
-    auto foundIt = m_Sounds.find(soundName);
-    if (foundIt != m_Sounds.end())
+void AudioSystem::Update(float deltaTime) {
+    m_Implementation->Update();
+}
+
+void AudioSystem::LoadSound(const std::string &soundName, bool b3d, bool bLooping, bool bStream) {
+
+    auto tFoundIt = m_Implementation->m_Sounds.find(soundName);
+    if (tFoundIt != m_Implementation->m_Sounds.end())
         return;
+
     FMOD_MODE mode = FMOD_DEFAULT;
-    mode |= is3d ? FMOD_3D : FMOD_2D;
-    mode |= isLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
-    mode |= isStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
-    FMOD::Sound *pSound = nullptr;
-    FMOD_RESULT result = m_System->createSound(soundName.c_str(), mode, nullptr, &pSound);
-    if (result != FMOD_OK) {
-        printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
-    }
-    if (pSound) {
-        m_Sounds[soundName] = pSound;
+    mode |= b3d ? FMOD_3D : FMOD_2D;
+    mode |= bLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+    mode |= bStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
+
+    FMOD::Sound* sound = nullptr;
+    AudioSystem::ErrorCheck(m_Implementation->m_System->createSound(soundName.c_str(), mode, nullptr, &sound));
+    if (sound){
+        m_Implementation->m_Sounds[soundName] = sound;
     }
 }
 
 void AudioSystem::UnLoadSound(const std::string &soundName) {
-    auto foundIt = m_Sounds.find(soundName);
-    if (foundIt == m_Sounds.end())
+    auto tFoundIt = m_Implementation->m_Sounds.find(soundName);
+    if (tFoundIt != m_Implementation->m_Sounds.end())
         return;
-    foundIt->second->release();
-    m_Sounds.erase(foundIt);
+
+    AudioSystem::ErrorCheck(tFoundIt->second->release());
+    m_Implementation->m_Sounds.erase(tFoundIt);
 }
 
-int AudioSystem::PlaySound(const std::string &soundName, const glm::vec3 &position, float volume) {
-    int channelId = m_NextChannelId++;
-    auto foundIt = m_Sounds.find(soundName);
-    if (foundIt == m_Sounds.end()) {
-        LoadSound(soundName);
-        foundIt = m_Sounds.find(soundName);
-        if (foundIt == m_Sounds.end()) {
+void AudioSystem::Set3dListener(const glm::vec3 &position, const glm::vec3 &forward, const glm::vec3 &up) {
+    FMOD_VECTOR pos = Vec3ToFmod(position);
+    FMOD_VECTOR fwd = Vec3ToFmod(forward);
+    FMOD_VECTOR upv = Vec3ToFmod(up);
+    AudioSystem::ErrorCheck(m_Implementation->m_System->set3DListenerAttributes(0, &pos, nullptr, &fwd, &upv));
+}
+
+int AudioSystem::PlaySound(const std::string &soundName, float volume, bool isLooping, bool is3d, const glm::vec3 &position) {
+    int channelId = m_Implementation->m_NextChannelId++;
+    auto tFoundIt = m_Implementation->m_Sounds.find(soundName);
+    if (tFoundIt == m_Implementation->m_Sounds.end())
+    {
+        LoadSound(soundName, is3d, isLooping);
+        tFoundIt = m_Implementation->m_Sounds.find(soundName);
+        if (tFoundIt == m_Implementation->m_Sounds.end())
+        {
             return channelId;
         }
     }
-    FMOD::Channel *pChannel = nullptr;
-    m_System->playSound(foundIt->second, nullptr, true, &pChannel);
-    if (pChannel) {
-        FMOD_VECTOR pos = {position.x, position.y, position.z};
-        pChannel->set3DAttributes(&pos, nullptr);
-        pChannel->setVolume(volume);
-        pChannel->setPaused(false);
-        m_Channels[channelId] = pChannel;
+    FMOD::Channel* pChannel = nullptr;
+    AudioSystem::ErrorCheck(m_Implementation->m_System->playSound(tFoundIt->second, nullptr, true, &pChannel));
+    if (pChannel)
+    {
+        FMOD_MODE currMode;
+        tFoundIt->second->getMode(&currMode);
+        if (currMode & FMOD_3D){
+            FMOD_VECTOR pos = Vec3ToFmod(position);
+            AudioSystem::ErrorCheck(pChannel->set3DAttributes(&pos, nullptr));
+        }
+        AudioSystem::ErrorCheck(pChannel->setVolume(volume));
+        AudioSystem::ErrorCheck(pChannel->setPaused(false));
+        m_Implementation->m_Channels[channelId] = pChannel;
     }
     return channelId;
 }
 
-int AudioSystem::RegisterSound(const AudioSystem::SoundDefinition &soundDefinition, bool load) {
+void AudioSystem::StopChannel(int channelId) {
+
+}
+
+void AudioSystem::StopAllChannels() {
+
+}
+
+void AudioSystem::SetChannel3dPosition(int channelId, const glm::vec3 &position) {
+    auto tFoundIt = m_Implementation->m_Channels.find(channelId);
+    if (tFoundIt == m_Implementation->m_Channels.end())
+        return;
+
+    FMOD_VECTOR pos = Vec3ToFmod(position);
+    AudioSystem::ErrorCheck(tFoundIt->second->set3DAttributes(&pos, nullptr));
+}
+
+void AudioSystem::SetChannelVolume(int channelId, float volume) {
+    auto tFoundIt = m_Implementation->m_Channels.find(channelId);
+    if (tFoundIt == m_Implementation->m_Channels.end())
+        return;
+
+    AudioSystem::ErrorCheck(tFoundIt->second->setVolume(volume));
+}
+
+bool AudioSystem::IsPlaying(int channelId) const {
+    auto tFoundIt = m_Implementation->m_Channels.find(channelId);
+    if (tFoundIt == m_Implementation->m_Channels.end())
+        return false;
+
+    bool isPlaying = false;
+    AudioSystem::ErrorCheck(tFoundIt->second->isPlaying(&isPlaying));
+    return isPlaying;
+}
+
+FMOD_VECTOR AudioSystem::Vec3ToFmod(const glm::vec3 &vec3) {
+    FMOD_VECTOR vec;
+    vec.x = vec3.x;
+    vec.y = vec3.y;
+    vec.z = vec3.z;
+    return vec;
+}
+
+int AudioSystem::ErrorCheck(FMOD_RESULT result) {
+    if (result != FMOD_OK) {
+        printf("FMOD ERROR %d\n", result);
+        return 1;
+    }
     return 0;
 }
 
-void AudioSystem::UnregisterSound(int soundId) {
-
+void AudioSystem::Shutdown() {
+    delete m_Implementation;
 }

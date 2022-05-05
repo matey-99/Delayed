@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "Audio/AudioSystem.h"
 
 class AudioListenerComponent : public Component {
 
@@ -12,6 +13,10 @@ public:
     void Update(float deltaTime) override;
 
     void Destroy() override;
+
+private:
+
+    Ref<AudioSystem> m_AudioSystem;
 
 };
 

@@ -12,7 +12,6 @@
 #include "Scene/SceneManager.h"
 #include "Camera/CameraManager.h"
 #include "Analysis/Profiler.h"
-#include "Audio/SimpleAudio.h"
 #include "Audio/AudioSystem.h"
 
 Ref<Application> Application::s_Instance{};
@@ -112,11 +111,9 @@ void Application::Run()
 
     // AUDIO
     auto audioSystem = AudioSystem::GetInstance();
-    audioSystem->Init();
-    audioSystem->PlaySound("../../../Content/Audio/Music/music.mp3");
-    audioSystem->PlaySound("../../../Content/Audio/Ambient/wind.wav");
-//    SimpleAudio simpleAudio("../../../Content/Audio/music.mp3");
-//    simpleAudio.Play();
+    audioSystem->Initialize();
+    audioSystem->PlaySound("../../../Content/Audio/Music/music.mp3", 0.1f, true, false);
+//    audioSystem->PlaySound("../../../Content/Audio/Ambient/wind.wav");
 
     time->SetLastFrameTime(glfwGetTime());
     while (!glfwWindowShouldClose(m_Window))
