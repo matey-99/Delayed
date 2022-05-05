@@ -19,6 +19,7 @@ public:
     virtual bool IsIntersect(const glm::vec3& point) = 0;
 
     inline bool IsTrigger() const { return m_IsTrigger; }
+    inline void SetTrigger(bool isTrigger) { m_IsTrigger = isTrigger; }
 
 protected:
     bool m_IsTrigger;

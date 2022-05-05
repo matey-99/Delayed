@@ -1552,3 +1552,38 @@ Actors:
           Parent: 0
       - DeathArea:
           {}
+  - Actor: 508492295
+    ID: 508492295
+    Name: Block
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [13.2278233, 3.45881987, -18.9695301]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3, 3, 3]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_Ghost.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 799658361
+    ID: 799658361
+    Name: Block Trigger
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 508492295
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - BlockTrigger:
+          {}

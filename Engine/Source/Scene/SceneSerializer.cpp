@@ -33,6 +33,7 @@
 #include "Game/Ghost.h"
 #include "Game/DeathArea.h"
 #include "Game/Checkpoint.h"
+#include "Game/BlockTrigger.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -568,6 +569,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto checkpoint = component["Checkpoint"])
 					{
 						a->AddComponent<Checkpoint>();
+					}
+
+					if (auto blockTrigger = component["BlockTrigger"])
+					{
+						a->AddComponent<BlockTrigger>();
 					}
 				}
 			}
