@@ -13,8 +13,11 @@ void WorldSettingsPanel::Render()
 {
     ImGui::Begin("World Settings");
 
-    auto bg = &m_Scene->m_BackgroundColor;
-    ImGui::ColorEdit3("Background color", (float*)bg);
+    size_t maxSize = 128;
+    std::string cameraIDStr = std::to_string(m_Scene->m_CurrentCamera->GetOwner()->GetID());
+    char* id = (char*)cameraIDStr.c_str();
+    ImGui::InputText("Current Camera ID", id, maxSize);
+    m_Scene->m_CurrentCamera->GetOwner()->SetID(std::atoll(id));
 
     if (ImGui::Button("Save scene"))
         SceneSerializer::Serialize(m_Scene, "../../../Content/" + SceneManager::GetInstance()->GetCurrentScenePath());

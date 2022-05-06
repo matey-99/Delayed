@@ -36,6 +36,7 @@ private:
 #pragma region Serialization
 
 	uint64_t m_TargetID;
+	uint64_t m_CameraID;
 
 #pragma endregion
 

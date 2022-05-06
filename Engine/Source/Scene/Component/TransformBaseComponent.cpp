@@ -66,19 +66,16 @@ void TransformBaseComponent::SetLocalScale(glm::vec3 scale)
 glm::vec3 TransformBaseComponent::GetWorldPosition()
 {
 	return m_WorldPosition;
-	//return m_LocalPosition + (m_Parent ? m_Parent->GetWorldPosition() : glm::vec3(0.0f));
 }
 
 glm::quat TransformBaseComponent::GetWorldRotation()
 {
 	return m_WorldRotation;
-	//return m_LocalRotation + (m_Parent ? m_Parent->GetWorldRotation() : glm::vec3(0.0f));
 }
 
 glm::vec3 TransformBaseComponent::GetWorldScale()
 {
 	return m_WorldScale;
-	//return m_LocalScale * (m_Parent ? m_Parent->GetWorldScale() : glm::vec3(1.0f));
 }
 
 void TransformBaseComponent::SetWorldPosition(glm::vec3 position)

@@ -29,7 +29,13 @@ void CameraController::Start()
 
 	m_Target = m_Owner->GetScene()->GetComponent<TransformComponent>(m_TargetID);
 
-	m_Camera = Cast<CameraComponent>(CameraManager::GetInstance()->GetMainCamera());
+	m_Camera = m_Owner->GetScene()->GetComponent<CameraComponent>(m_CameraID);
+	if (!m_Camera)
+	{
+		m_Owner->GetScene()->DestroyActor(m_Owner);
+		return;
+	}
+
 	m_Pivot = (TransformComponent*)m_Camera->GetOwner()->GetTransform()->GetParent();
 }
 

@@ -4,16 +4,12 @@
 
 class CameraComponent;
 class BoxColliderComponent;
+struct CharacterMovementParams;
 
-struct CharacterMovementParams
-{
-	bool IsRunning = false;
-};
-
-class CharacterController : public GameComponent
+class TPPCharacterController : public GameComponent
 {
 public:
-	CharacterController(Actor* owner);
+	TPPCharacterController(Actor* owner);
 
 	virtual void FixedUpdate() override;
 
