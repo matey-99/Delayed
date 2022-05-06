@@ -9,7 +9,7 @@ void AudioListenerComponent::Start() {
 }
 
 void AudioListenerComponent::Update(float deltaTime) {
-    m_AudioSystem->Set3dListener(m_Owner->GetTransform()->GetWorldPosition(), m_Owner->GetTransform()->GetForward(), glm::cross(m_Owner->GetTransform()->GetRight(), m_Owner->GetTransform()->GetForward()));
+    m_AudioSystem->Set3dListener(m_Owner->GetTransform()->GetWorldPosition(), m_Owner->GetTransform()->GetForward(), glm::normalize(glm::cross(m_Owner->GetTransform()->GetRight(), m_Owner->GetTransform()->GetForward())));
 }
 
 void AudioListenerComponent::Destroy() {

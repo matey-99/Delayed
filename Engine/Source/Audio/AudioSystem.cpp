@@ -2,9 +2,9 @@
 
 Implementation::Implementation() {
     m_System = nullptr;
+    m_NextChannelId = 0;
     AudioSystem::ErrorCheck(FMOD::System_Create(&m_System));
     AudioSystem::ErrorCheck(m_System->init(128, FMOD_INIT_NORMAL, nullptr));
-
 }
 
 Implementation::~Implementation() {
@@ -100,11 +100,17 @@ int AudioSystem::PlaySound(const std::string &soundName, float volume, bool isLo
 }
 
 void AudioSystem::StopChannel(int channelId) {
+    auto tFoundIt = m_Implementation->m_Channels.find(channelId);
+    if (tFoundIt == m_Implementation->m_Channels.end())
+        return;
 
+    tFoundIt->second->stop();
 }
 
 void AudioSystem::StopAllChannels() {
-
+    for (auto channel : m_Implementation->m_Channels) {
+        channel.second->stop();
+    }
 }
 
 void AudioSystem::SetChannel3dPosition(int channelId, const glm::vec3 &position) {

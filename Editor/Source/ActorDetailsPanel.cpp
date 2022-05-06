@@ -17,6 +17,8 @@
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
+#include "Scene/Component/AudioSourceComponent.h"
+#include "Scene/Component/AudioListenerComponent.h"
 
 #include "Game/Player.h"
 #include "Game/CharacterController.h"
@@ -601,7 +603,6 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
-
     if (auto image = m_Actor->GetComponent<ImageComponent>())
     {
         ImGui::Text("Image");
@@ -619,6 +620,7 @@ void ActorDetailsPanel::Render()
         ImGui::ColorEdit4("Image Color", glm::value_ptr(image->m_Color));
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
+
     if (auto button = m_Actor->GetComponent<ButtonComponent>())
     {
         const char* buttonState = "";
@@ -690,6 +692,36 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
+    if (auto audioListener = m_Actor->GetComponent<AudioListenerComponent>()) {
+        ImGui::Text("Audio Listener");
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    }
+
+    if (auto audioSource = m_Actor->GetComponent<AudioSourceComponent>()) {
+        ImGui::Text("Audio Source");
+        std::string path = audioSource->m_Sound;
+        std::string name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Sound", name.c_str()))
+        {
+            std::vector<std::string> extensions = std::vector<std::string>();
+            extensions.push_back("mp3");
+            extensions.push_back("wav");
+            extensions.push_back("ogg");
+            DisplayResources(audioSource, extensions);
+
+            ImGui::EndCombo();
+        }
+        ImGui::DragFloat("Volume", &audioSource->m_Volume);
+        ImGui::Checkbox("Is 3D", &audioSource->m_3d);
+        ImGui::Checkbox("Looping", &audioSource->m_Looping);
+        ImGui::Checkbox("Play on Start", &audioSource->m_PlayOnStart);
+        if (ImGui::Button("Play", ImVec2(60,20)))
+            audioSource->PlaySound();
+        if (ImGui::Button("Stop", ImVec2(60,20)))
+            audioSource->StopSound();
+
+    }
+
     bool addComponent = false;
     bool staticMesh = false;
     bool instanceRenderedMesh = false;
@@ -715,6 +747,8 @@ void ActorDetailsPanel::Render()
     bool ghost = false;
     bool checkpoint = false;
     bool deathArea = false;
+    bool audioSource = false;
+    bool audioListener = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -747,6 +781,9 @@ void ActorDetailsPanel::Render()
                 }
 
                 ImGui::MenuItem("RigidBody", "", &rigidBody);
+
+                ImGui::MenuItem("Audio Source", "", &audioSource);
+                ImGui::MenuItem("Audio Listener", "", &audioListener);
 
                 if (ImGui::BeginMenu("Game Components"))
                 {
@@ -846,6 +883,10 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<Checkpoint>();
     if (deathArea)
         m_Actor->AddComponent<DeathArea>();
+    if (audioSource)
+        m_Actor->AddComponent<AudioSourceComponent>();
+    if (audioListener)
+        m_Actor->AddComponent<AudioListenerComponent>();
 
 
     if (ImGui::Button("Close"))
@@ -909,6 +950,13 @@ void ActorDetailsPanel::DisplayResources(Ref<Component> component, std::vector<s
                         if (auto particles = Cast<ParticleSystemComponent>(component))
                         {
                             particles->ChangeSprite(path);
+                        }
+                    }
+                    else if (ext == "mp3" || ext == "wav" || ext == "ogg")
+                    {
+                        if (auto audio = Cast<AudioSourceComponent>(component))
+                        {
+                            audio->ChangeSound(path);
                         }
                     }
                 }

@@ -12,6 +12,7 @@
 #include "Scene/Component/Particle/ParticleSystemComponent.h"
 #include "Scene/Component/UI/UIComponent.h"
 #include "Input/Input.h"
+#include "Audio/AudioSystem.h"
 
 #define UPDATE_UI 1
 
@@ -94,6 +95,8 @@ void Editor::Start()
 	}
 
 	Input::GetInstance()->SetInputMode(InputMode::UI);
+
+    AudioSystem::GetInstance()->Initialize();
 }
 
 void Editor::Update(float deltaTime)
