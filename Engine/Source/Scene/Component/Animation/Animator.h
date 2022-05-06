@@ -18,7 +18,7 @@ class Animator : public Component
 	float m_DeltaTime;
 
 	Ref<SkeletalMeshComponent> m_SkeletalMeshComponent;
-	std::vector<Ref<Animation>> m_Animations;
+	//std::vector<Ref<Animation>> m_Animations;
 
 public:
 	Animator(Actor* owner) : Component(owner)
@@ -32,8 +32,8 @@ public:
 		for (int i = 0; i < 100; i++)
 			m_FinalBoneMatrices.push_back(glm::mat4(1.0f));
 
-		if (m_Animations.size() > 0)
-			m_CurrentAnimation = m_Animations[0];
+		if (m_SkeletalMeshComponent->GetAnimations().size() > 0)
+			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimations()[0];
 	}
 
 	virtual void Start() override
@@ -55,7 +55,7 @@ public:
 
 	uint32_t HowManyAnimationsAreThere()
 	{
-		return m_Animations.size();
+		return m_SkeletalMeshComponent->GetAnimations().size();
 	}
 
 	float GetCurrentAnimationTime()
@@ -73,7 +73,7 @@ public:
 
 	void DebugDisplayAnimationNames()
 	{
-		for (auto& animation : m_Animations)
+		for (auto& animation : m_SkeletalMeshComponent->GetAnimations())
 			animation->DebugDisplayAnimationNames();
 	}
 
@@ -81,10 +81,10 @@ public:
 	{
 		m_SkeletalMeshComponent = m_Owner->GetComponent<SkeletalMeshComponent>();
 
-		m_Animations = m_SkeletalMeshComponent->GetAnimations();
+		//m_Animations = m_SkeletalMeshComponent->GetAnimations();
 
-		if (m_Animations.size() > 0)
-			m_CurrentAnimation = m_Animations[0];
+		if (m_SkeletalMeshComponent->GetAnimations().size() > 0)
+			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimations()[0];
 	}
 
 	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);

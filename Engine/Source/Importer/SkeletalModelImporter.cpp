@@ -29,8 +29,16 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes);
 
 	// Load animations and save them to SkeletalModel
-	for (auto& mesh : meshes)
-		importedSkeletalModel->LoadAnimation(CreateRef<Animation>(scene, mesh));
+	for (int index = 0; index < scene->mNumAnimations; index++)
+	{
+		auto _animation = CreateRef<Animation>(scene, index, meshes[0]);
+
+		std::cout << "Added animation to Skeletal Model, its name: " << _animation->GetAnimationName() << "\n";
+
+		importedSkeletalModel->AddAnimation(_animation);
+	}
+	/*for (auto& mesh : meshes)
+		importedSkeletalModel->LoadAnimation(CreateRef<Animation>(scene, mesh));*/
 
 	m_ImportedSkeletalModels.insert({ path, importedSkeletalModel });
 
@@ -63,6 +71,9 @@ Ref<SkeletalMesh> SkeletalModelImporter::ProcessMesh(aiMesh* mesh, const aiScene
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		SkinnedVertex vertex;
+		SetVertexBoneDataToDefault(vertex);
+		/*vertex.Position = AssimpGLMHelpers::GetGLMVec(mesh->mVertices[i]);
+		vertex.Normal = AssimpGLMHelpers::GetGLMVec(mesh->mNormals[i]);*/
 
 		glm::vec3 vector;
 		vector.x = mesh->mVertices[i].x;
@@ -128,6 +139,7 @@ void SkeletalModelImporter::SetVertexBoneData(SkinnedVertex& vertex, int boneID,
 		{
 			vertex.Weights[i] = weight;
 			vertex.BoneIDs[i] = boneID;
+
 			break;
 		}
 	}
@@ -156,6 +168,7 @@ void SkeletalModelImporter::ExtractBoneWeightForVertices(
 	{
 		int boneID = -1;
 		std::string boneName = mesh->mBones[boneIndex]->mName.C_Str();
+
 		if (boneInfoMap.find(boneName) == boneInfoMap.end())
 		{
 			BoneInfo newBoneInfo;

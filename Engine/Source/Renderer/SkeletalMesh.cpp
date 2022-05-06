@@ -85,4 +85,9 @@ void SkeletalMesh::SetupMesh()
 	glVertexAttribDivisor(8, 1);
 
 	glBindVertexArray(0);
+
+	/*for (auto& vert : m_Vertices)
+	{
+		std::cout << *vert.BoneIDs << " ";
+	}*/
 }

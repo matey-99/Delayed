@@ -17,7 +17,7 @@ public:
 
 	void SetBoneMatrices(std::vector<glm::mat4> boneMatrices);
 
-	void LoadAnimation(Ref<Animation> animation)
+	void AddAnimation(Ref<Animation> animation)
 	{
 		m_Animations.push_back(animation);
 	}
