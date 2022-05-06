@@ -14,7 +14,8 @@ void Animator::Update(float deltaTime)
 
 	//std::cout << ":" << m_FinalBoneMatrices.size() << ":";
 
-	m_SkeletalMeshComponent->SetBonesPositionInSkeletalModel(m_FinalBoneMatrices);
+	// TO ADD #WARNING
+	//m_SkeletalMeshComponent->SetBonesPositionInSkeletalModel(m_FinalBoneMatrices);
 
 	//// [DEBUG ONLY]
 	//for (auto& bone : m_FinalBoneMatrices)
@@ -28,27 +29,27 @@ void Animator::Update(float deltaTime)
 
 void Animator::ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform)
 {
-	std::string nodeName = node->name;
-	glm::mat4 nodeTransform = node->transformation;
+	//std::string nodeName = node->name;
+	//glm::mat4 nodeTransform = node->transformation;
 
-	Bone* Bone = m_CurrentAnimation->FindBone(nodeName);
+	//Bone* Bone = m_CurrentAnimation->FindBone(nodeName);  // Search for bone with specific name
 
-	if (Bone)
-	{
-		Bone->Update(m_CurrentTime);
-		nodeTransform = Bone->GetLocalTransform();
-	}
+	//if (Bone)
+	//{
+	//	Bone->Update(m_CurrentTime);
+	//	nodeTransform = Bone->GetLocalTransform();
+	//}
 
-	glm::mat4 globalTransformation = parentTransform * nodeTransform;
+	//glm::mat4 globalTransformation = parentTransform * nodeTransform;
 
-	auto boneInfoMap = m_CurrentAnimation->GetBoneIDMap();
-	if (boneInfoMap.find(nodeName) != boneInfoMap.end())
-	{
-		int index = boneInfoMap[nodeName].ID;
-		glm::mat4 offset = boneInfoMap[nodeName].Offset;
-		m_FinalBoneMatrices[index] = globalTransformation * offset;
-	}
+	//auto boneInfoMap = m_CurrentAnimation->GetBoneIDMap();
+	//if (boneInfoMap.find(nodeName) != boneInfoMap.end())
+	//{
+	//	int index = boneInfoMap[nodeName].ID;
+	//	glm::mat4 offset = boneInfoMap[nodeName].Offset;
+	//	m_FinalBoneMatrices[index] = globalTransformation * offset;
+	//}
 
-	for (int i = 0; i < node->childrenCount; i++)
-		ComputeBoneTransforms(&node->children[i], globalTransformation);
+	//for (int i = 0; i < node->childrenCount; i++)
+	//	ComputeBoneTransforms(&node->children[i], globalTransformation);
 }

@@ -3,6 +3,8 @@
 #include "Math/AssimpGLMHelper.h"
 #include "Scene/Component/Animation/Animation.h"
 #include "Assets/AssetManager.h"
+#include "Renderer/Bone.h"
+
 
 SkeletalModelImporter::SkeletalModelImporter()
 {
@@ -13,30 +15,39 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	if (m_ImportedSkeletalModels.find(path) != m_ImportedSkeletalModels.end())
 		return m_ImportedSkeletalModels.at(path);
 
+	// Load model with Assimp
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		std::cout << "Loading skeletal model failed: " << importer.GetErrorString() << std::endl;
 		return nullptr;
 	}
-
+	
+	// Specify Model requirements that need all meshes info to be constructed
+	Ref<Rig> rig = CreateRef<Rig>();
 	std::vector<Ref<SkeletalMesh>> meshes;
-	ProcessNode(scene->mRootNode, scene, meshes);
+
+	// Process loaded meshes
+	aiNode* root = scene->mRootNode;
+	ProcessNode(root, scene, meshes, rig);
+
+	std::cout << "rig->HowManyBones(): " << rig->HowManyBones() << "\n";
 
 	std::string relativePath = path.substr(AssetManager::ContentDirectory.size() + 1);
-	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes);
+	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes, rig);
+
+
 
 	// Load animations and save them to SkeletalModel
-	for (int index = 0; index < scene->mNumAnimations; index++)
+	/*for (int index = 0; index < scene->mNumAnimations; index++)
 	{
 		auto _animation = CreateRef<Animation>(scene, index, meshes[0]);
 
 		std::cout << "Added animation to Skeletal Model, its name: " << _animation->GetAnimationName() << "\n";
 
 		importedSkeletalModel->AddAnimation(_animation);
-	}
+	}*/
 	/*for (auto& mesh : meshes)
 		importedSkeletalModel->LoadAnimation(CreateRef<Animation>(scene, mesh));*/
 
@@ -48,32 +59,31 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	return importedSkeletalModel;
 }
 
-void SkeletalModelImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Ref<SkeletalMesh>>& meshes)
+void SkeletalModelImporter::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Ref<SkeletalMesh>>& meshes, Ref<Rig> rig)
 {
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(ProcessMesh(mesh, scene));
+		meshes.push_back(ProcessMesh(mesh, scene, rig));
 	}
-
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
-		ProcessNode(node->mChildren[i], scene, meshes);
+		ProcessNode(node->mChildren[i], scene, meshes, rig);
 	}
 }
 
-Ref<SkeletalMesh> SkeletalModelImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+Ref<SkeletalMesh> SkeletalModelImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene, Ref<Rig> rig)
 {
 	std::vector<SkinnedVertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
 
+	unsigned int totalBones = mesh->mNumBones;
+
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		SkinnedVertex vertex;
 		SetVertexBoneDataToDefault(vertex);
-		/*vertex.Position = AssimpGLMHelpers::GetGLMVec(mesh->mVertices[i]);
-		vertex.Normal = AssimpGLMHelpers::GetGLMVec(mesh->mNormals[i]);*/
 
 		glm::vec3 vector;
 		vector.x = mesh->mVertices[i].x;
@@ -120,15 +130,12 @@ Ref<SkeletalMesh> SkeletalModelImporter::ProcessMesh(aiMesh* mesh, const aiScene
 		}
 	}
 
-	uint32_t boneCounter = 0;
-	std::unordered_map<std::string, BoneInfo> boneInfoMap;
-
 	if (mesh->HasBones())
 	{
-		ExtractBoneWeightForVertices(vertices, mesh, scene, boneCounter);
+		ProcessMeshBones(vertices, mesh, rig);
 	}
 
-	return CreateRef<SkeletalMesh>(vertices, indices, boneCounter, m_BoneInfoMap);
+	return CreateRef<SkeletalMesh>(vertices, indices);
 }
 
 void SkeletalModelImporter::SetVertexBoneData(SkinnedVertex& vertex, int boneID, float weight)
@@ -156,36 +163,33 @@ void SkeletalModelImporter::SetVertexBoneDataToDefault(SkinnedVertex& vertex)
 	}
 }
 
-void SkeletalModelImporter::ExtractBoneWeightForVertices(
-	std::vector<SkinnedVertex>& vertices,
-	aiMesh* mesh,
-	const aiScene* scene,
-	uint32_t& boneCounter)
+void SkeletalModelImporter::ProcessMeshBones(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, Ref<Rig> rig)
 {
-	auto& boneInfoMap = m_BoneInfoMap;
-
-	for (int boneIndex = 0; boneIndex < mesh->mNumBones; ++boneIndex)
+	// Loop through every bone
+	for (int boneIndex = 0; boneIndex < mesh->mNumBones; boneIndex++)
 	{
-		int boneID = -1;
-		std::string boneName = mesh->mBones[boneIndex]->mName.C_Str();
+		aiBone* assimpBone = mesh->mBones[boneIndex];
+		std::string boneName	 = assimpBone->mName.C_Str();
+		glm::mat4 offsetMatrix	 = AssimpGLMHelpers::ConvertMatrixToGLMFormat(assimpBone->mOffsetMatrix);
 
-		if (boneInfoMap.find(boneName) == boneInfoMap.end())
+		// Assign bones to rig
+		Ref<Bone> bone = rig->FindBone(boneName);
+		int boneID = -1;
+		if (bone == nullptr)  // Add new bone
 		{
-			BoneInfo newBoneInfo;
-			newBoneInfo.ID = boneCounter;
-			newBoneInfo.Offset = AssimpGLMHelpers::ConvertMatrixToGLMFormat(mesh->mBones[boneIndex]->mOffsetMatrix);
-			boneInfoMap[boneName] = newBoneInfo;
-			boneID = boneCounter;
-			boneCounter++;
+			Ref<Bone> _bone = CreateRef<Bone>(boneName, rig->HowManyBones(), offsetMatrix);
+			rig->AddBone(_bone);
+			boneID = rig->HowManyBones() - 1;
 		}
 		else
 		{
-			boneID = boneInfoMap[boneName].ID;
+			boneID = bone->GetBoneID();
 		}
-		assert(boneID != -1);
+		assert(boneID != -1);  // just debug checking
+
+		// Assign weights and boneID to vertices
 		auto weights = mesh->mBones[boneIndex]->mWeights;
 		int numWeights = mesh->mBones[boneIndex]->mNumWeights;
-
 		for (int weightIndex = 0; weightIndex < numWeights; ++weightIndex)
 		{
 			int vertexId = weights[weightIndex].mVertexId;
@@ -193,6 +197,5 @@ void SkeletalModelImporter::ExtractBoneWeightForVertices(
 			assert(vertexId <= vertices.size());
 			SetVertexBoneData(vertices[vertexId], boneID, weight);
 		}
-
 	}
 }

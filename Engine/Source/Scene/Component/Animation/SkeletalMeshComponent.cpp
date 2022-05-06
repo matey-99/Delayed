@@ -3,6 +3,7 @@
 #include "Assets/AssetManager.h"
 #include "Importer/MaterialImporter.h"
 #include "Camera/CameraManager.h"
+#include "Scene/Component/Animation/Rig.h"
 
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
@@ -62,21 +63,17 @@ std::vector<Ref<Animation>> SkeletalMeshComponent::GetAnimations()
 	return m_SkeletalModel->GetAnimations();
 }
 
-void SkeletalMeshComponent::SetBonesPositionInSkeletalModel(std::vector<glm::mat4> boneMatrices)
-{
-	// No hard copy?
-	m_SkeletalModel->SetBoneMatrices(boneMatrices);
-}
-
 uint32_t SkeletalMeshComponent::GetBoneCount()
 {
-	uint32_t bones = 0;
+	return m_SkeletalModel->GetRig()->HowManyBones();
+
+	/*uint32_t bones = 0;
 	for (auto mesh : m_SkeletalModel->GetMeshes())
 	{
 		bones += mesh->GetBoneCount();
 	}
 
-	return bones;
+	return bones;*/
 }
 
 void SkeletalMeshComponent::LoadMesh(std::string path)

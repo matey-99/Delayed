@@ -27,9 +27,6 @@ public:
 	virtual uint32_t GetRenderedVerticesCount() override;
 	std::vector<Ref<Animation>> GetAnimations();
 
-	// Sets Bones Position to SkeletalModel
-	void SetBonesPositionInSkeletalModel(std::vector<glm::mat4> boneMatrices);
-
 	// Details
 	uint32_t GetBoneCount();
 

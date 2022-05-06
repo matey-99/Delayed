@@ -252,7 +252,7 @@ float CalculateDirectionalLightShadow(vec3 position, vec3 normal)
 }
 
 void main()
-{    
+{
     vec3 position = texture(u_GBufferPosition, v_TexCoord).rgb;
     vec3 normal = texture(u_GBufferNormal, v_TexCoord).rgb;
     vec3 color = texture(u_GBufferColorAO, v_TexCoord).rgb;

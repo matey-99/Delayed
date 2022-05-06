@@ -3,10 +3,8 @@
 #include <glad/glad.h>
 
 SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> vertices,
-	std::vector<uint32_t> indices,
-	uint32_t boneCounter,
-	std::unordered_map<std::string, BoneInfo> boneInfoMap)
-	: m_Vertices(vertices), MeshBase(indices), m_BoneCounter(boneCounter), m_BoneInfoMap(boneInfoMap)
+	std::vector<uint32_t> indices)
+	: m_Vertices(vertices), MeshBase(indices)
 {
 	std::vector<Vertex> v;
 	for (auto skinnedVertex : m_Vertices)
@@ -16,10 +14,10 @@ SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> vertices,
 	CreateBounds(v);
 }
 
-void SkeletalMesh::SetBoneMatrices(std::vector<glm::mat4> boneMatrices)
-{
-	m_BoneMatrices = std::vector<glm::mat4>(boneMatrices);
-}
+//void SkeletalMesh::SetBoneMatrices(std::vector<glm::mat4> boneMatrices)
+//{
+//	m_BoneMatrices = std::vector<glm::mat4>(boneMatrices);
+//}
 
 void SkeletalMesh::SetupMesh()
 {
@@ -86,8 +84,4 @@ void SkeletalMesh::SetupMesh()
 
 	glBindVertexArray(0);
 
-	/*for (auto& vert : m_Vertices)
-	{
-		std::cout << *vert.BoneIDs << " ";
-	}*/
 }

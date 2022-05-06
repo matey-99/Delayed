@@ -2,6 +2,7 @@
 
 #include "Core.h"
 #include "ModelBase.h"
+#include "Scene/Component/Animation/Rig.h"
 
 class Animation;
 class SkeletalMesh;
@@ -9,13 +10,18 @@ class SkeletalMesh;
 class SkeletalModel : public ModelBase
 {
 public:
-	SkeletalModel(const std::string& path, std::vector<Ref<SkeletalMesh>> meshes);
+	SkeletalModel(const std::string& path, std::vector<Ref<SkeletalMesh>> meshes, Ref<Rig> rig);
 
-	static Ref<SkeletalModel> Create(const std::string& path, std::vector<Ref<SkeletalMesh>> meshes);
+	static Ref<SkeletalModel> Create(const std::string& path,
+		std::vector<Ref<SkeletalMesh>> meshes,
+		Ref<Rig> rig
+		);
 
 	inline std::vector<Ref<SkeletalMesh>> GetMeshes() const { return m_Meshes; }
 
-	void SetBoneMatrices(std::vector<glm::mat4> boneMatrices);
+	Ref<Rig> GetRig() const { return m_Rig; }
+
+	//void SetBoneMatrices(std::vector<glm::mat4> boneMatrices);
 
 	void AddAnimation(Ref<Animation> animation)
 	{
@@ -30,7 +36,8 @@ public:
 private:
 	std::vector<Ref<SkeletalMesh>> m_Meshes;
 	std::vector<Ref<Animation>> m_Animations;
+	Ref<Rig> m_Rig;
 
 	// Positions of bones sent to vertex shader and sent from Animator[Component]
-	std::vector<glm::mat4> m_BoneMatrices;
+	//std::vector<glm::mat4> m_BoneMatrices;
 };
