@@ -29,6 +29,7 @@
 
 #include "Game/MainMenu.h"
 #include "Game/Player.h"
+#include "Game/CameraController.h"
 #include "Game/Button.h"
 #include "Game/Ghost.h"
 #include "Game/DeathArea.h"
@@ -533,6 +534,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						p->m_CameraID = cameraActorID;
 					}
 
+					if (auto camera = component["CameraController"])
+					{
+						uint64_t targetID = camera["Target"].as<uint64_t>();
+
+						auto c = a->AddComponent<CameraController>();
+						c->m_TargetID = targetID;
+					}
+
 					if (auto button = component["Button"])
 					{
 						uint64_t platformActorID = button["Platform"].as<uint64_t>();
@@ -890,6 +899,16 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Player";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Camera" << YAML::Value << player->m_Camera->GetOwner()->GetID();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto camera = actor->GetComponent<CameraController>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "CameraController";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Target" << YAML::Value << camera->m_Target->GetOwner()->GetID();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
