@@ -935,6 +935,8 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 2, 1]
+      - AudioListener:
+          {}
       - Player:
           Camera: 1541634381
   - Actor: 1503775902
@@ -1533,4 +1535,24 @@ Actors:
           MinParticleLifeTime: 1
           MaxParticleLifeTime: 2
           StartParticleColor: [0, 11.3973398, 12, 0.5]
-          EndParticleColor: [0, 1.07262754, 6, 0.25]
+          EndParticleColor: [0, 1.07262754, 6, 0.25]          EndParticleColor: [0, 1.07262754, 6, 0.25]
+    ID: 95099974
+    Name: Test Audio
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [40.3581734, 8.74123859, -28.7212582]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Music/music.mp3
+          Volume: 0.5
+          3d: true
+          Looping: true
+          PlayOnStart: true

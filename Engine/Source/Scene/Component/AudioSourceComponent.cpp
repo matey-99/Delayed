@@ -17,7 +17,8 @@ void AudioSourceComponent::Start() {
 }
 
 void AudioSourceComponent::Update(float deltaTime) {
-    m_AudioSystem->SetChannel3dPosition(m_ChannelId, m_Owner->GetTransform()->GetWorldPosition());
+    if (m_3d)
+        m_AudioSystem->SetChannel3dPosition(m_ChannelId, m_Owner->GetTransform()->GetWorldPosition());
 }
 
 void AudioSourceComponent::Destroy() {
@@ -29,12 +30,26 @@ void AudioSourceComponent::ChangeSound(std::string path) {
 }
 
 void AudioSourceComponent::PlaySound() {
-    if (m_AudioSystem->IsPlaying(m_ChannelId))
-        return;
-    m_ChannelId = m_AudioSystem->PlaySound(m_Sound, m_Volume, m_Looping, m_3d, m_Owner->GetTransform()->GetWorldPosition());
+    if (IsPlaying())
+        StopSound();
+    m_ChannelId = m_AudioSystem->PlaySound(m_Sound, m_Volume, m_Looping, m_3d,
+                                           m_Owner->GetTransform()->GetWorldPosition());
 }
 
 void AudioSourceComponent::StopSound() {
-    if (m_AudioSystem->IsPlaying(m_ChannelId))
+    if (IsPlaying())
         m_AudioSystem->StopChannel(m_ChannelId);
+}
+
+bool AudioSourceComponent::IsPlaying() {
+    return m_AudioSystem->IsPlaying(m_ChannelId);
+}
+
+void AudioSourceComponent::SetVolume(float volume) {
+    m_Volume = volume;
+    m_AudioSystem->SetChannelVolume(m_ChannelId, m_Volume);
+}
+
+void AudioSourceComponent::UpdateMode() {
+    m_AudioSystem->SetChannelMode(m_ChannelId, m_3d, m_Looping);
 }

@@ -21,6 +21,10 @@ public:
 
     void StopSound();
 
+    bool IsPlaying();
+
+    void SetVolume(float volume);
+
 private:
     std::string m_Sound;
     float m_Volume;
@@ -32,7 +36,10 @@ private:
 
     Ref<AudioSystem> m_AudioSystem;
 
+    void UpdateMode();
+
     friend class SceneSerializer;
+
     friend class ActorDetailsPanel;
 };
 

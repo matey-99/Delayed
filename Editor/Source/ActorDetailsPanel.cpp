@@ -711,9 +711,12 @@ void ActorDetailsPanel::Render()
 
             ImGui::EndCombo();
         }
-        ImGui::DragFloat("Volume", &audioSource->m_Volume);
-        ImGui::Checkbox("Is 3D", &audioSource->m_3d);
-        ImGui::Checkbox("Looping", &audioSource->m_Looping);
+        if (ImGui::DragFloat("Volume", &audioSource->m_Volume, 0.01f, 0.0f, 1.0f))
+            audioSource->SetVolume(audioSource->m_Volume);
+        if (ImGui::Checkbox("Is 3D", &audioSource->m_3d))
+            audioSource->UpdateMode();
+        if (ImGui::Checkbox("Looping", &audioSource->m_Looping))
+            audioSource->UpdateMode();
         ImGui::Checkbox("Play on Start", &audioSource->m_PlayOnStart);
         if (ImGui::Button("Play", ImVec2(60,20)))
             audioSource->PlaySound();
@@ -956,7 +959,7 @@ void ActorDetailsPanel::DisplayResources(Ref<Component> component, std::vector<s
                     {
                         if (auto audio = Cast<AudioSourceComponent>(component))
                         {
-                            audio->ChangeSound(path);
+                            audio->ChangeSound(AssetManager::ContentDirectory + path);
                         }
                     }
                 }

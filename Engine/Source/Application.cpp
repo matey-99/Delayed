@@ -112,8 +112,6 @@ void Application::Run()
     // AUDIO
     auto audioSystem = AudioSystem::GetInstance();
     audioSystem->Initialize();
-    audioSystem->PlaySound("../../../Content/Audio/Music/music.mp3", 0.1f, true, false);
-//    audioSystem->PlaySound("../../../Content/Audio/Ambient/wind.wav");
 
     time->SetLastFrameTime(glfwGetTime());
     while (!glfwWindowShouldClose(m_Window))
@@ -149,6 +147,8 @@ void Application::Run()
 
         glfwSwapBuffers(m_Window);
     }
+
+    audioSystem->Shutdown();
 
     glfwDestroyWindow(m_Window);
     glfwTerminate();

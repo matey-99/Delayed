@@ -19,6 +19,8 @@
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
+#include "Scene/Component/AudioSourceComponent.h"
+#include "Scene/Component/AudioListenerComponent.h"
 
 #include "Renderer/RenderPass/SSAOPass.h"
 #include "Renderer/RenderPass/DepthFogPass.h"
@@ -510,6 +512,25 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						b->m_DisabledColor = disabledColor;
 					}
 
+                    if (auto audioSource = component["AudioSource"]) {
+                        std::string path = audioSource["SoundPath"].as<std::string>();
+                        float volume = audioSource["Volume"].as<float>();
+                        bool is3d = audioSource["3d"].as<bool>();
+                        bool looping = audioSource["Looping"].as<bool>();
+                        bool playOnStart = audioSource["PlayOnStart"].as<bool>();
+
+                        auto as = a->AddComponent<AudioSourceComponent>();
+                        as->m_Sound = path;
+                        as->m_Volume = volume;
+                        as->m_3d = is3d;
+                        as->m_Looping = looping;
+                        as->m_PlayOnStart = playOnStart;
+                    }
+
+                    if (auto audioListener = component["AudioListener"]) {
+                        a->AddComponent<AudioListenerComponent>();
+                    }
+
 					/* --- GAME COMPONENTS --- */
 
 					if (auto menu = component["MainMenu"])
@@ -863,6 +884,27 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
+
+    if (auto audioSource = actor->GetComponent<AudioSourceComponent>()) {
+        out << YAML::BeginMap;
+        out << YAML::Key << "AudioSource";
+        out << YAML::BeginMap;
+        out << YAML::Key << "SoundPath" << YAML::Value << audioSource->m_Sound;
+        out << YAML::Key << "Volume" << YAML::Value << audioSource->m_Volume;
+        out << YAML::Key << "3d" << YAML::Value << audioSource->m_3d;
+        out << YAML::Key << "Looping" << YAML::Value << audioSource->m_Looping;
+        out << YAML::Key << "PlayOnStart" << YAML::Value << audioSource->m_PlayOnStart;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
+
+    if (auto audioListener = actor->GetComponent<AudioListenerComponent>()) {
+        out << YAML::BeginMap;
+        out << YAML::Key << "AudioListener";
+        out << YAML::BeginMap;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
 
 	/* --- GAME COMPONENTS --- */
 
