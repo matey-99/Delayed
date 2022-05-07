@@ -1536,6 +1536,7 @@ Actors:
           MaxParticleLifeTime: 2
           StartParticleColor: [0, 11.3973398, 12, 0.5]
           EndParticleColor: [0, 1.07262754, 6, 0.25]          EndParticleColor: [0, 1.07262754, 6, 0.25]
+  - Actor: 95099974
     ID: 95099974
     Name: Test Audio
     Dynamic: false
