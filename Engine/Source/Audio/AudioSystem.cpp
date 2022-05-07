@@ -4,7 +4,7 @@ Implementation::Implementation() {
     m_System = nullptr;
     m_NextChannelId = 0;
     AudioSystem::ErrorCheck(FMOD::System_Create(&m_System));
-    AudioSystem::ErrorCheck(m_System->init(128, FMOD_INIT_NORMAL, nullptr));
+    AudioSystem::ErrorCheck(m_System->init(128, FMOD_INIT_3D_RIGHTHANDED, nullptr));
 }
 
 Implementation::~Implementation() {
