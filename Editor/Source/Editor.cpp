@@ -196,7 +196,12 @@ void Editor::ShowDetails(Ref<Actor> actor)
 	if (m_SelectedCameraComponent = actor->GetComponent<CameraComponent>())
 		m_IsCameraComponentViewport = true;
 	else
-		m_IsCameraComponentViewport = false;
+	{
+		if (!m_CameraComponentViewport->IsLocked())
+			m_IsCameraComponentViewport = false;
+	}
+
+
 }
 
 void Editor::HideDetails()

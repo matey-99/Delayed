@@ -31,10 +31,13 @@
 
 #include "Game/MainMenu.h"
 #include "Game/Player.h"
+#include "Game/CameraController.h"
 #include "Game/Button.h"
 #include "Game/Ghost.h"
 #include "Game/DeathArea.h"
 #include "Game/Checkpoint.h"
+#include "Game/BlockTrigger.h"
+#include "Game/TPPPlayer.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -251,6 +254,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							a->SetDynamic(dynamic.as<bool>());
 						else
 							a->SetDynamic(false);
+
+						if (auto enabled = actor["Enabled"])
+							a->SetEnabled(enabled.as<bool>());
+						else
+							a->SetEnabled(true);
 
 						auto t = a->GetComponent<TransformComponent>();
 						t->SetLocalPosition(transform["LocalPosition"].as<glm::vec3>());
@@ -553,6 +561,21 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						p->m_CameraID = cameraActorID;
 					}
 
+					if (auto tppPlayer = component["TPPPlayer"])
+					{
+						auto p = a->AddComponent<TPPPlayer>();
+					}
+
+					if (auto camera = component["CameraController"])
+					{
+						uint64_t targetID = camera["Target"].as<uint64_t>();
+						uint64_t cameraID = camera["Camera"].as<uint64_t>();
+
+						auto c = a->AddComponent<CameraController>();
+						c->m_TargetID = targetID;
+						c->m_CameraID = cameraID;
+					}
+
 					if (auto button = component["Button"])
 					{
 						uint64_t platformActorID = button["Platform"].as<uint64_t>();
@@ -590,6 +613,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						a->AddComponent<Checkpoint>();
 					}
+
+					if (auto blockTrigger = component["BlockTrigger"])
+					{
+						a->AddComponent<BlockTrigger>();
+					}
 				}
 			}
 		}
@@ -617,6 +645,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	out << YAML::Key << "Actor" << YAML::Value << actor->GetID();
 	out << YAML::Key << "ID" << YAML::Value << actor->GetID();
 	out << YAML::Key << "Name" << YAML::Value << actor->GetName();
+	out << YAML::Key << "Enabled" << YAML::Value << actor->IsEnabled();
 	out << YAML::Key << "Dynamic" << YAML::Value << actor->IsDynamic();
 
 	out << YAML::Key << "Components" << YAML::Value << YAML::BeginSeq;
@@ -913,9 +942,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "MainMenu";
 		out << YAML::BeginMap;
-		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButton->GetOwner()->GetID();
-		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButton->GetOwner()->GetID();
-		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButton->GetOwner()->GetID();
+		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButtonID;
+		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButtonID;
+		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButtonID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -925,7 +954,27 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Player";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Camera" << YAML::Value << player->m_Camera->GetOwner()->GetID();
+		out << YAML::Key << "Camera" << YAML::Value << player->m_CameraID;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto tppPlayer = actor->GetComponent<TPPPlayer>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "TPPPlayer";
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto camera = actor->GetComponent<CameraController>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "CameraController";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Target" << YAML::Value << camera->m_TargetID;
+		out << YAML::Key << "Camera" << YAML::Value << camera->m_CameraID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

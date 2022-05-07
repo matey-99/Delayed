@@ -2,7 +2,9 @@
 
 #include "Component.h"
 
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 #include "Patterns/Event.h"
 
@@ -26,7 +28,7 @@ public:
 
 	// WORLD
 	virtual glm::vec3 GetWorldPosition();
-	virtual glm::vec3 GetWorldRotation();
+	virtual glm::quat GetWorldRotation();
 	virtual glm::vec3 GetWorldScale();
 
 	virtual void SetWorldPosition(glm::vec3 position);
@@ -34,6 +36,8 @@ public:
 	// SCENE HIERARCHY
 	virtual inline TransformBaseComponent* GetParent() const { return m_Parent; }
 	virtual inline std::vector<TransformBaseComponent*> GetChildren() const { return m_Children; }
+
+	virtual inline Ref<TransformBaseComponent> GetParentRef() const { return Ref<TransformBaseComponent>(m_Parent); }
 
 	virtual void SetParent(TransformBaseComponent* parent);
 	virtual void RemoveChild(TransformBaseComponent* child);
@@ -55,6 +59,10 @@ protected:
 	glm::vec3 m_LocalPosition;
 	glm::vec3 m_LocalRotation;
 	glm::vec3 m_LocalScale;
+
+	glm::vec3 m_WorldPosition;
+	glm::quat m_WorldRotation;
+	glm::vec3 m_WorldScale;
 
 	TransformBaseComponent* m_Parent;
 	std::vector<TransformBaseComponent*> m_Children;

@@ -532,16 +532,17 @@ void ActorDetailsPanel::Render()
     if (auto player = m_Actor->GetComponent<Player>())
     {
         ImGui::Text("Player");
-        ImGui::DragFloat("Walk Speed", &player->m_WalkSpeed, 0.5f, 0.0f, 100.0f);
-        ImGui::DragFloat("Run Speed", &player->m_RunSpeed, 0.5f, 0.0f, 100.0f);
-        ImGui::DragFloat("Rotate Speed", &player->m_RotateSpeed, 0.5f, 0.0f, 100.0f);
-        ImGui::DragFloat("Look Up Limit", &player->m_LookUpLimit, 0.5f, 0.0f, 90.0f);
+
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
     if (auto cc = m_Actor->GetComponent<CharacterController>())
     {
         ImGui::Text("Character Controller");
+        ImGui::DragFloat("Walk Speed", &cc->m_WalkSpeed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Run Speed", &cc->m_RunSpeed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Rotate Speed", &cc->m_RotateSpeed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Look Up Limit", &cc->m_LookUpLimit, 0.5f, 0.0f, 90.0f);
         ImGui::DragFloat("Jump Height", &cc->m_JumpHeight, 0.5f, 0.0f, 100.0f);
         ImGui::DragFloat("Jump Max Height Time", &cc->m_JumpMaxHeightTime, 0.5f, 0.0f, 100.0f);
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -588,6 +589,13 @@ void ActorDetailsPanel::Render()
     if (auto ghost = m_Actor->GetComponent<Ghost>())
     {
         ImGui::Text("Ghost");
+
+        size_t maxSize = 128;
+        std::string playerIDStr = std::to_string(ghost->m_PlayerID);
+        char* id = (char*)playerIDStr.c_str();
+        ImGui::InputText("Player ID", id, maxSize);
+        ghost->m_PlayerID = std::atoll(id);
+
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
