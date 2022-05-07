@@ -347,29 +347,47 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto dirLight = component["DirectionalLight"])
 					{
 						glm::vec3 color = dirLight["Color"].as<glm::vec3>();
+						float intensity = dirLight["Intensity"].as<float>();
 
 						auto l = a->AddComponent<DirectionalLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
-						l->SetColor(color);
+						l->m_Color = color;
+						l->m_Intensity = intensity;
 					}
 
 					if (auto pointLight = component["PointLight"])
 					{
 						glm::vec3 color = pointLight["Color"].as<glm::vec3>();
+						float intensity = pointLight["Intensity"].as<float>();
+						float radius = pointLight["Radius"].as<float>();
+						float falloffExponent = pointLight["FalloffExponent"].as<float>();
+						bool useInverseSquaredFaloff = pointLight["UseInverseSquaredFalloff"].as<bool>();
 
 						auto l = a->AddComponent<PointLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
-						l->SetColor(color);
+						l->m_Color = color;
+						l->m_Intensity = intensity;
+						l->m_Radius = radius;
+						l->m_FalloffExponent = falloffExponent;
+						l->m_UseInverseSquaredFalloff = useInverseSquaredFaloff;
 					}
 
 					if (auto spotLight = component["SpotLight"])
 					{
+						glm::vec3 color = spotLight["Color"].as<glm::vec3>();
+						float intensity = spotLight["Intensity"].as<float>();
+						float radius = spotLight["Radius"].as<float>();
+						float falloffExponent = spotLight["FalloffExponent"].as<float>();
+						bool useInverseSquaredFaloff = spotLight["UseInverseSquaredFalloff"].as<bool>();
 						float innerCutOff = spotLight["InnerCutOff"].as<float>();
 						float outerCutOff = spotLight["OuterCutOff"].as<float>();
-						glm::vec3 color = spotLight["Color"].as<glm::vec3>();
 
 						auto l = a->AddComponent<SpotLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
-						l->SetInnerCutOff(innerCutOff);
-						l->SetOuterCutOff(outerCutOff);
-						l->SetColor(color);
+						l->m_Color = color;
+						l->m_Intensity = intensity;
+						l->m_Radius = radius;
+						l->m_FalloffExponent = falloffExponent;
+						l->m_UseInverseSquaredFalloff = useInverseSquaredFaloff;
+						l->m_InnerCutOff = innerCutOff;
+						l->m_OuterCutOff = outerCutOff;
 					}
 
 					if (auto skyLight = component["SkyLight"])
@@ -739,7 +757,8 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "DirectionalLight";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Color" << YAML::Value << dirLight->GetColor();
+		out << YAML::Key << "Color" << YAML::Value << dirLight->m_Color;
+		out << YAML::Key << "Intensity" << YAML::Value << dirLight->m_Intensity;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -748,7 +767,11 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "PointLight";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Color" << YAML::Value << pointLight->GetColor();
+		out << YAML::Key << "Color" << YAML::Value << pointLight->m_Color;
+		out << YAML::Key << "Intensity" << YAML::Value << pointLight->m_Intensity;
+		out << YAML::Key << "Radius" << YAML::Value << pointLight->m_Radius;
+		out << YAML::Key << "FalloffExponent" << YAML::Value << pointLight->m_FalloffExponent;
+		out << YAML::Key << "UseInverseSquaredFalloff" << YAML::Value << pointLight->m_UseInverseSquaredFalloff;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -757,9 +780,13 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "SpotLight";
 		out << YAML::BeginMap;
-		out << YAML::Key << "InnerCutOff" << YAML::Value << spotLight->GetInnerCutOff();
-		out << YAML::Key << "OuterCutOff" << YAML::Value << spotLight->GetOuterCutOff();
-		out << YAML::Key << "Color" << YAML::Value << spotLight->GetColor();
+		out << YAML::Key << "Color" << YAML::Value << spotLight->m_Color;
+		out << YAML::Key << "Intensity" << YAML::Value << spotLight->m_Intensity;
+		out << YAML::Key << "Radius" << YAML::Value << spotLight->m_Radius;
+		out << YAML::Key << "FalloffExponent" << YAML::Value << spotLight->m_FalloffExponent;
+		out << YAML::Key << "UseInverseSquaredFalloff" << YAML::Value << spotLight->m_UseInverseSquaredFalloff;
+		out << YAML::Key << "InnerCutOff" << YAML::Value << spotLight->m_InnerCutOff;
+		out << YAML::Key << "OuterCutOff" << YAML::Value << spotLight->m_OuterCutOff;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

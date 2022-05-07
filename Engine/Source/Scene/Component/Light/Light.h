@@ -16,8 +16,8 @@
 #define GLSL_MAT4_SIZE 64
 
 #define GLSL_DIRECTIONAL_LIGHT_SIZE 32
-#define GLSL_POINT_LIGHT_SIZE 32
-#define GLSL_SPOT_LIGHT_SIZE 64
+#define GLSL_POINT_LIGHT_SIZE 48
+#define GLSL_SPOT_LIGHT_SIZE 80
 
 #define GLSL_LIGHTS_COUNTS_OFFSET 0
 #define GLSL_DIRECTIONAL_LIGHT_OFFSET 16
@@ -53,6 +53,7 @@ protected:
 	Ref<UniformBuffer> m_FragmentUniformBuffer;
 
 	glm::vec3 m_Color;
+	float m_Intensity;
 
 	bool m_ShadowsEnabled;
 	glm::mat4 m_LightSpace;
