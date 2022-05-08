@@ -18,6 +18,7 @@ class LightingPass;
 class ShadowsPass;
 class ForwardPass;
 class SSAOPass;
+class SSRPass;
 class PostProcessingPass;
 class FXAAPass;
 class VignettePass;
@@ -37,6 +38,7 @@ public:
 	Ref<GBufferPass> m_GBufferPass;
 	Ref<ShadowsPass> m_ShadowsPass;
 	Ref<SSAOPass> m_SSAOPass;
+	Ref<SSRPass> m_SSRPass;
 	Ref<LightingPass> m_LightingPass;
 	Ref<ForwardPass> m_ForwardPass;
 	Ref<PostProcessingPass> m_PostProcessingPass;
@@ -51,6 +53,7 @@ public:
 		bool DepthFogEnabled = true;
 		bool PostProcessingEnabled = true;
 		bool FXAAEnabled = true;
+		bool SSREnabled = true;
 		bool VignetteEnabled = true;
 		bool DepthOfFieldEnabled = true;
 	};

@@ -12,6 +12,7 @@
 #include "RenderPass/GBufferPass.h"
 #include "RenderPass/ShadowsPass.h"
 #include "RenderPass/SSAOPass.h"
+#include "RenderPass/SSRPass.h"
 #include "RenderPass/LightingPass.h"
 #include "RenderPass/ForwardPass.h"
 #include "RenderPass/PostProcessingPass.h"
@@ -52,6 +53,7 @@ void Renderer::Initialize()
 	m_GBufferPass = CreateRef<GBufferPass>();
 	m_ShadowsPass = CreateRef<ShadowsPass>();
 	m_SSAOPass = CreateRef<SSAOPass>();
+	m_SSRPass = CreateRef<SSRPass>();
 	m_LightingPass = CreateRef<LightingPass>();
 	m_ForwardPass = CreateRef<ForwardPass>();
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
@@ -74,6 +76,7 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	m_CameraVertexUniformBuffer->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(camera->GetViewProjectionMatrix()));
 	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE, sizeof(glm::mat4), glm::value_ptr(camera->GetViewMatrix()));
 	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 2, sizeof(glm::mat4), glm::value_ptr(camera->GetProjectionMatrix()));
+	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 3, sizeof(glm::mat4), glm::value_ptr(glm::inverse(camera->GetViewMatrix())));
 	m_CameraVertexUniformBuffer->Unbind();
 
 	m_CameraFragmentUniformBuffer->Bind();
@@ -97,12 +100,19 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	PROFILER_START("SSAO Pass");
 	m_SSAOPass->Render();
 	PROFILER_STOP();
-		
+
 	// Lighting
 	PROFILER_START("Lighting Pass");
 	m_LightingPass->Render(scene);
 	PROFILER_STOP();
 	m_Output[outputIndex] = m_LightingPass->GetRenderTarget()->GetTargets()[0];
+
+	// SSR
+	if (m_Settings.SSREnabled)
+	{
+		m_SSRPass->Render(m_Output[outputIndex]);
+		m_Output[outputIndex] = m_SSRPass->GetRenderTarget()->GetTargets()[0];
+	}
 
 	// Depth Fog
 	if (m_Settings.DepthFogEnabled)
@@ -129,6 +139,7 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 		m_Output[outputIndex] = m_FXAAPass->GetRenderTarget()->GetTargets()[0];
 	}
 
+	// Vignette
 	if (m_Settings.VignetteEnabled)
 	{
 		m_VignettePass->Render(m_Output[outputIndex]);
@@ -187,6 +198,9 @@ void Renderer::ResizeWindow(uint32_t width, uint32_t height)
 
 	// Depth Fog
 	m_DepthFogPass->UpdateRenderTarget(width, height);
+
+	// SSR
+	m_SSRPass->UpdateRenderTargets(width, height);
 
 	// Post Processing
 	m_PostProcessingPass->UpdateRenderTargets(width, height);
