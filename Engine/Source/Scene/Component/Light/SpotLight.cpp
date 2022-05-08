@@ -9,13 +9,10 @@ SpotLight::SpotLight(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<U
 {
 	m_Index = owner->GetScene()->GetComponentsCount<SpotLight>();
 
-	m_Radius = 10.0f;
-	m_FalloffExponent = 8.0f;
-	m_UseInverseSquaredFalloff = false;
 	m_InnerCutOff = 0.91f;
 	m_OuterCutOff = 0.82f;
 
-	/*m_FarPlane = 250.0f;
+	m_FarPlane = 250.0f;
 
 	const uint32_t shadowWidth = 1024, shadowHeight = 1024;
 
@@ -26,7 +23,7 @@ SpotLight::SpotLight(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<U
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);*/
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 SpotLight::~SpotLight()
@@ -43,12 +40,8 @@ void SpotLight::Use()
 	m_FragmentUniformBuffer->SetUniform(offset, sizeof(glm::vec3), glm::value_ptr(m_Owner->GetTransform()->GetWorldPosition()));
 	m_FragmentUniformBuffer->SetUniform(offset + GLSL_VEC3_SIZE, sizeof(glm::vec3), glm::value_ptr(direction));
 	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 2), sizeof(glm::vec3), glm::value_ptr(m_Color));
-	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) - GLSL_SCALAR_SIZE, sizeof(float), &m_Intensity);
-	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3), sizeof(float), &m_Radius);
-	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) + GLSL_SCALAR_SIZE, sizeof(float), &m_FalloffExponent);
-	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) + GLSL_SCALAR_SIZE * 2, sizeof(float), &m_InnerCutOff);
-	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) + GLSL_SCALAR_SIZE * 3, sizeof(float), &m_OuterCutOff);
-	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) + GLSL_SCALAR_SIZE * 4, sizeof(bool), &m_UseInverseSquaredFalloff);
+	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3) - GLSL_SCALAR_SIZE, sizeof(float), &m_InnerCutOff);
+	m_FragmentUniformBuffer->SetUniform(offset + (GLSL_VEC3_SIZE * 3), sizeof(float), &m_OuterCutOff);
 	m_FragmentUniformBuffer->Unbind();
 
 	glm::vec3 position = m_Owner->GetTransform()->GetWorldPosition();

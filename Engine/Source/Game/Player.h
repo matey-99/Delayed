@@ -48,6 +48,15 @@ private:
 	bool m_IsJumping;
 	bool m_CanJump;
 
+	/* Movement properties */
+	float m_MovementSpeed;
+	float m_WalkSpeed;
+	float m_RunSpeed;
+
+	/* Camera */
+	float m_RotateSpeed;
+	float m_LookUpLimit;
+
 #pragma region Serialization
 
 	uint64_t m_CameraID;

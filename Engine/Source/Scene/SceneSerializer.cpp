@@ -30,13 +30,10 @@
 
 #include "Game/MainMenu.h"
 #include "Game/Player.h"
-#include "Game/CameraController.h"
 #include "Game/Button.h"
 #include "Game/Ghost.h"
 #include "Game/DeathArea.h"
 #include "Game/Checkpoint.h"
-#include "Game/BlockTrigger.h"
-#include "Game/TPPPlayer.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -254,11 +251,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						else
 							a->SetDynamic(false);
 
-						if (auto enabled = actor["Enabled"])
-							a->SetEnabled(enabled.as<bool>());
-						else
-							a->SetEnabled(true);
-
 						auto t = a->GetComponent<TransformComponent>();
 						t->SetLocalPosition(transform["LocalPosition"].as<glm::vec3>());
 						t->SetLocalRotation(transform["LocalRotation"].as<glm::vec3>());
@@ -352,47 +344,29 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto dirLight = component["DirectionalLight"])
 					{
 						glm::vec3 color = dirLight["Color"].as<glm::vec3>();
-						float intensity = dirLight["Intensity"].as<float>();
 
 						auto l = a->AddComponent<DirectionalLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
-						l->m_Color = color;
-						l->m_Intensity = intensity;
+						l->SetColor(color);
 					}
 
 					if (auto pointLight = component["PointLight"])
 					{
 						glm::vec3 color = pointLight["Color"].as<glm::vec3>();
-						float intensity = pointLight["Intensity"].as<float>();
-						float radius = pointLight["Radius"].as<float>();
-						float falloffExponent = pointLight["FalloffExponent"].as<float>();
-						bool useInverseSquaredFaloff = pointLight["UseInverseSquaredFalloff"].as<bool>();
 
 						auto l = a->AddComponent<PointLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
-						l->m_Color = color;
-						l->m_Intensity = intensity;
-						l->m_Radius = radius;
-						l->m_FalloffExponent = falloffExponent;
-						l->m_UseInverseSquaredFalloff = useInverseSquaredFaloff;
+						l->SetColor(color);
 					}
 
 					if (auto spotLight = component["SpotLight"])
 					{
-						glm::vec3 color = spotLight["Color"].as<glm::vec3>();
-						float intensity = spotLight["Intensity"].as<float>();
-						float radius = spotLight["Radius"].as<float>();
-						float falloffExponent = spotLight["FalloffExponent"].as<float>();
-						bool useInverseSquaredFaloff = spotLight["UseInverseSquaredFalloff"].as<bool>();
 						float innerCutOff = spotLight["InnerCutOff"].as<float>();
 						float outerCutOff = spotLight["OuterCutOff"].as<float>();
+						glm::vec3 color = spotLight["Color"].as<glm::vec3>();
 
 						auto l = a->AddComponent<SpotLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
-						l->m_Color = color;
-						l->m_Intensity = intensity;
-						l->m_Radius = radius;
-						l->m_FalloffExponent = falloffExponent;
-						l->m_UseInverseSquaredFalloff = useInverseSquaredFaloff;
-						l->m_InnerCutOff = innerCutOff;
-						l->m_OuterCutOff = outerCutOff;
+						l->SetInnerCutOff(innerCutOff);
+						l->SetOuterCutOff(outerCutOff);
+						l->SetColor(color);
 					}
 
 					if (auto skyLight = component["SkyLight"])
@@ -563,21 +537,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						p->m_CameraID = cameraActorID;
 					}
 
-					if (auto tppPlayer = component["TPPPlayer"])
-					{
-						auto p = a->AddComponent<TPPPlayer>();
-					}
-
-					if (auto camera = component["CameraController"])
-					{
-						uint64_t targetID = camera["Target"].as<uint64_t>();
-						uint64_t cameraID = camera["Camera"].as<uint64_t>();
-
-						auto c = a->AddComponent<CameraController>();
-						c->m_TargetID = targetID;
-						c->m_CameraID = cameraID;
-					}
-
 					if (auto button = component["Button"])
 					{
 						uint64_t platformActorID = button["Platform"].as<uint64_t>();
@@ -615,11 +574,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						a->AddComponent<Checkpoint>();
 					}
-
-					if (auto blockTrigger = component["BlockTrigger"])
-					{
-						a->AddComponent<BlockTrigger>();
-					}
 				}
 			}
 		}
@@ -647,7 +601,6 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	out << YAML::Key << "Actor" << YAML::Value << actor->GetID();
 	out << YAML::Key << "ID" << YAML::Value << actor->GetID();
 	out << YAML::Key << "Name" << YAML::Value << actor->GetName();
-	out << YAML::Key << "Enabled" << YAML::Value << actor->IsEnabled();
 	out << YAML::Key << "Dynamic" << YAML::Value << actor->IsDynamic();
 
 	out << YAML::Key << "Components" << YAML::Value << YAML::BeginSeq;
@@ -770,8 +723,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "DirectionalLight";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Color" << YAML::Value << dirLight->m_Color;
-		out << YAML::Key << "Intensity" << YAML::Value << dirLight->m_Intensity;
+		out << YAML::Key << "Color" << YAML::Value << dirLight->GetColor();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -780,11 +732,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "PointLight";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Color" << YAML::Value << pointLight->m_Color;
-		out << YAML::Key << "Intensity" << YAML::Value << pointLight->m_Intensity;
-		out << YAML::Key << "Radius" << YAML::Value << pointLight->m_Radius;
-		out << YAML::Key << "FalloffExponent" << YAML::Value << pointLight->m_FalloffExponent;
-		out << YAML::Key << "UseInverseSquaredFalloff" << YAML::Value << pointLight->m_UseInverseSquaredFalloff;
+		out << YAML::Key << "Color" << YAML::Value << pointLight->GetColor();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -793,13 +741,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "SpotLight";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Color" << YAML::Value << spotLight->m_Color;
-		out << YAML::Key << "Intensity" << YAML::Value << spotLight->m_Intensity;
-		out << YAML::Key << "Radius" << YAML::Value << spotLight->m_Radius;
-		out << YAML::Key << "FalloffExponent" << YAML::Value << spotLight->m_FalloffExponent;
-		out << YAML::Key << "UseInverseSquaredFalloff" << YAML::Value << spotLight->m_UseInverseSquaredFalloff;
-		out << YAML::Key << "InnerCutOff" << YAML::Value << spotLight->m_InnerCutOff;
-		out << YAML::Key << "OuterCutOff" << YAML::Value << spotLight->m_OuterCutOff;
+		out << YAML::Key << "InnerCutOff" << YAML::Value << spotLight->GetInnerCutOff();
+		out << YAML::Key << "OuterCutOff" << YAML::Value << spotLight->GetOuterCutOff();
+		out << YAML::Key << "Color" << YAML::Value << spotLight->GetColor();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -940,9 +884,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "MainMenu";
 		out << YAML::BeginMap;
-		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButtonID;
-		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButtonID;
-		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButtonID;
+		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButton->GetOwner()->GetID();
+		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButton->GetOwner()->GetID();
+		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButton->GetOwner()->GetID();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -952,27 +896,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Player";
 		out << YAML::BeginMap;
-		out << YAML::Key << "Camera" << YAML::Value << player->m_CameraID;
-		out << YAML::EndMap;
-		out << YAML::EndMap;
-	}
-
-	if (auto tppPlayer = actor->GetComponent<TPPPlayer>())
-	{
-		out << YAML::BeginMap;
-		out << YAML::Key << "TPPPlayer";
-		out << YAML::BeginMap;
-		out << YAML::EndMap;
-		out << YAML::EndMap;
-	}
-
-	if (auto camera = actor->GetComponent<CameraController>())
-	{
-		out << YAML::BeginMap;
-		out << YAML::Key << "CameraController";
-		out << YAML::BeginMap;
-		out << YAML::Key << "Target" << YAML::Value << camera->m_TargetID;
-		out << YAML::Key << "Camera" << YAML::Value << camera->m_CameraID;
+		out << YAML::Key << "Camera" << YAML::Value << player->m_Camera->GetOwner()->GetID();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

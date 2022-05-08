@@ -1,7 +1,5 @@
 #include "Player.h"
 
-#include <glm/gtx/rotate_vector.hpp>
-
 #include "Scene/Actor.h"
 #include "Input/Input.h"
 #include "Math/Math.h"
@@ -25,6 +23,13 @@ Player::Player(Actor* owner)
 
 	m_IsRunning = false;
 	m_CanJump = true;
+
+	m_MovementSpeed = 0.0f;
+	m_WalkSpeed = 15.0f;
+	m_RunSpeed = 25.0f;
+
+	m_RotateSpeed = 8.0f;
+	m_LookUpLimit = 80.0f;
 }
 
 void Player::Start()
@@ -45,7 +50,14 @@ void Player::Start()
 	input->SetInputMode(InputMode::Player);
 
 	m_CharacterController = m_Owner->AddComponent<CharacterController>();
-	m_Camera = m_Owner->GetScene()->GetComponent<CameraComponent>(m_CameraID);
+
+	auto cameraActor = m_Owner->GetScene()->FindActor(m_CameraID);
+	if (!cameraActor)
+	{
+		DEBUG_LOG("Camera is null!");
+		return;
+	}
+	m_Camera = cameraActor->GetComponent<CameraComponent>();
 
 	m_LastCheckpointPosition = m_Owner->GetTransform()->GetWorldPosition();
 }
@@ -55,15 +67,27 @@ void Player::Update(float deltaTime)
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
 
-	CharacterMovementParams params;
-	params.IsRunning = m_IsRunning;
+	// Player move
+	m_MovementSpeed = m_IsRunning ? m_RunSpeed : m_WalkSpeed;
+	m_CharacterController->Move(m_MoveDirection * m_MovementSpeed * deltaTime);
 
-	m_CharacterController->Move(m_MoveDirection, params, deltaTime);
-	m_CharacterController->Rotate(m_Camera, m_Rotation, deltaTime);
+	// Player rotation
+	glm::vec3 newRotation = m_Owner->GetTransform()->GetLocalRotation();
+	newRotation.y += m_Rotation.y * m_RotateSpeed * deltaTime;
+	m_Owner->GetTransform()->SetLocalRotation(newRotation);
+
+	// Camera rotation
+	auto cameraTransform = m_Camera->GetOwner()->GetTransform();
+	glm::vec3 newCameraRotation = cameraTransform->GetLocalRotation();
+	newCameraRotation.x -= m_Rotation.x * m_RotateSpeed * deltaTime;
+	newCameraRotation.x = glm::clamp(newCameraRotation.x, -m_LookUpLimit, m_LookUpLimit);
+	cameraTransform->SetLocalRotation(newCameraRotation);
 
 	// Reset move direction & rotation
 	m_MoveDirection = glm::vec3(0.0f);
 	m_Rotation = glm::vec3(0.0f);
+
+	//m_Owner->GetScene()->SpawnActor<GhostPathElement>(m_Owner->GetTransform()->GetWorldPosition());
 }
 
 void Player::SetLastCheckpoint(Checkpoint* checkpoint)
@@ -81,12 +105,20 @@ void Player::BackToLastCheckpoint()
 
 void Player::MoveForward(float value)
 {
-	AddMovementInput(m_Owner->GetTransform()->GetForward(), value);
+	glm::vec3 newDirection = m_Owner->GetTransform()->GetForward();
+	newDirection.x *= -1.0f;
+	newDirection.y *= -1.0f;
+
+	AddMovementInput(newDirection, value);
 }
 
 void Player::MoveRight(float value)
 {
-	AddMovementInput(m_Owner->GetTransform()->GetRight(), value);
+	glm::vec3 newDirection = m_Owner->GetTransform()->GetRight();
+	newDirection.x *= -1.0f;
+	newDirection.y *= -1.0f;
+
+	AddMovementInput(newDirection, value);
 }
 
 void Player::Turn(float value)

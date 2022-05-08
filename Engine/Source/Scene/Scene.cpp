@@ -62,15 +62,10 @@ void Scene::UpdateAnimation(float deltaTime)
 
 void Scene::Update(float deltaTime)
 {
-	std::vector<Actor*> actors;
-	GetEnabledActors(m_Root.get(), actors);
-	for (auto actor : actors)
+	for (auto actor : m_Actors)
+	{
 		actor->Update(deltaTime);
-
-	std::vector<Actor*> uiActors;
-	GetEnabledActors(m_UIRoot.get(), uiActors);
-	for (auto uiActor : uiActors)
-		uiActor->Update(deltaTime);
+	}
 
 	for (auto actor : m_ActorsAddedRuntime)
 		m_Actors.push_back(actor);

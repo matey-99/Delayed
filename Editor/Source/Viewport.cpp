@@ -12,7 +12,6 @@
 #include "Assets/Model.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/SpotLight.h"
-#include "Scene/Component/Light/PointLight.h"
 #include "Renderer/RenderTools.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
@@ -171,7 +170,7 @@ void Viewport::RenderGizmos()
 
             glDisable(GL_DEPTH_TEST);
 
-            glm::mat4 rotation = glm::toMat4(selectedActor->GetTransform()->GetWorldRotation());
+            glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(selectedActor->GetTransform()->GetWorldRotation())));
             glm::mat4 model = glm::translate(glm::mat4(1.0f), selectedActor->GetTransform()->GetWorldPosition()) * rotation * glm::scale(glm::mat4(1.0f), glm::vec3(0.05f, 0.05f, 0.2f));
 
             m_DirectionArrowShader->Use();
@@ -227,23 +226,6 @@ void Viewport::RenderGizmos()
             m_ColliderShader->SetVec3("u_Color", glm::vec3(0.0f, 1.0f, 0.0f));
 
             RenderTools::GetInstance()->RenderBoundingSphere(c->GetBoundingSphere());
-
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glEnable(GL_DEPTH_TEST);
-        }
-
-        if (auto p = selectedActor->GetComponent<PointLight>())
-        {
-            isGizmos = true;
-
-            glDisable(GL_DEPTH_TEST);
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-            m_ColliderShader->Use();
-            m_ColliderShader->SetVec3("u_Color", glm::vec3(1.0f, 1.0f, 1.0f));
-
-            BoundingSphere sphere(p->GetOwner()->GetTransform()->GetWorldPosition(), p->GetRadius());
-            RenderTools::GetInstance()->RenderBoundingSphere(sphere);
 
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             glEnable(GL_DEPTH_TEST);

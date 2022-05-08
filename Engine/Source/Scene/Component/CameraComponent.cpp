@@ -96,7 +96,7 @@ Ref<Frustum> CameraComponent::GetFrustum() {
 
 glm::vec3 CameraComponent::CalculateFrontVector()
 {
-	/*glm::vec3 rotation = m_Owner->GetTransform()->GetWorldRotation();
+	glm::vec3 rotation = m_Owner->GetTransform()->GetWorldRotation();
 	float pitch = rotation.x;
 	float yaw = rotation.y;
 
@@ -104,9 +104,7 @@ glm::vec3 CameraComponent::CalculateFrontVector()
 	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	direction.y = sin(glm::radians(pitch));
 	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	return glm::normalize(direction);*/
-
-	return m_Owner->GetTransform()->GetForward();
+	return glm::normalize(direction);
 }
 
 glm::vec3 CameraComponent::CalculateRightVector()

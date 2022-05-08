@@ -18,9 +18,9 @@ AxisInputBindings:
   - Name: Player_MoveForward
     InputType: Keyboard
     Inputs:
-      - Input: W
-        Value: 1.0
       - Input: S
+        Value: 1.0
+      - Input: W
         Value: -1.0
   - Name: Player_MoveRight
     InputType: Keyboard

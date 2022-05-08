@@ -25,5 +25,4 @@ private:
 #pragma endregion
 
 	friend class SceneSerializer;
-	friend class ActorDetailsPanel;
 };

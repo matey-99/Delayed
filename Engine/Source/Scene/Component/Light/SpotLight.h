@@ -7,11 +7,8 @@ class SpotLight : public Light
 private:
 	int m_Index;
 
-	float m_Radius;
-	float m_FalloffExponent;
 	float m_InnerCutOff;
 	float m_OuterCutOff;
-	bool m_UseInverseSquaredFalloff;
 
 	uint32_t m_ShadowMap;
 	float m_FarPlane;
@@ -33,6 +30,5 @@ public:
 	void SetInnerCutOff(float innerCutOff);
 	void SetOuterCutOff(float outerCutOff);
 
-	friend class SceneSerializer;
 	friend class ActorDetailsPanel;
 };

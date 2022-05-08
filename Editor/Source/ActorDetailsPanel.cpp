@@ -365,7 +365,9 @@ void ActorDetailsPanel::Render()
     {
         ImGui::Text("Light");
 
+        ImGui::Text("Light Type: ");
         const char* type = "";
+
         if (Cast<DirectionalLight>(light))
             type = "Directional";
         else if (Cast<PointLight>(light))
@@ -373,9 +375,10 @@ void ActorDetailsPanel::Render()
         else if (Cast<SpotLight>(light))
             type = "Spot";
 
-        if (ImGui::BeginCombo("Type", type))
+        ImGui::SameLine();
+        if (ImGui::BeginMenu(type))
         {
-            if (ImGui::Selectable("Directional"))
+            if (ImGui::MenuItem("Directional"))
             {
                 if (!Cast<DirectionalLight>(light))
                 {
@@ -383,7 +386,7 @@ void ActorDetailsPanel::Render()
                     m_Actor->AddComponent<DirectionalLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
                 }
             }
-            if (ImGui::Selectable("Point"))
+            if (ImGui::MenuItem("Point"))
             {
                 if (!Cast<PointLight>(light))
                 {
@@ -391,7 +394,7 @@ void ActorDetailsPanel::Render()
                     m_Actor->AddComponent<PointLight>(m_Actor->m_Scene->m_LightsVertexUniformBuffer, m_Actor->m_Scene->m_LightsFragmentUniformBuffer);
                 }
             }
-            if (ImGui::Selectable("Spot"))
+            if (ImGui::MenuItem("Spot"))
             {
                 if (!Cast<SpotLight>(light))
                 {
@@ -400,30 +403,24 @@ void ActorDetailsPanel::Render()
                 }
             }
 
-            ImGui::EndCombo();
+            ImGui::EndMenu();
         }
 
-        ImGui::ColorPicker3("Color", glm::value_ptr(light->m_Color));
-        ImGui::DragFloat("Intensity", &light->m_Intensity, 0.5f, 0.0f, 10000.0f);
-
-        if (auto pointLight = m_Actor->GetComponent<PointLight>())
-        {
-            ImGui::DragFloat("Radius", &pointLight->m_Radius, 0.5f, 0.0f, 10000.0f);
-            ImGui::DragFloat("FalloffExponent", &pointLight->m_FalloffExponent, 0.1f, 1.0f, 16.0f);
-            ImGui::Checkbox("UseInverseSquaredFalloff", &pointLight->m_UseInverseSquaredFalloff);
-        }
+        ImGui::DragFloat3("Color", (float*)&light->m_Color, 0.1f, 0.0f, 100.0f);
+        ImGui::Checkbox("Cast Shadows", &light->m_ShadowsEnabled);
 
         if (auto spotLight = m_Actor->GetComponent<SpotLight>())
         {
-            ImGui::DragFloat("Radius", &spotLight->m_Radius, 0.5f, 0.0f, 10000.0f);
-            ImGui::DragFloat("FalloffExponent", &spotLight->m_FalloffExponent, 0.1f, 1.0f, 16.0f);
-            ImGui::Checkbox("UseInverseSquaredFalloff", &spotLight->m_UseInverseSquaredFalloff);
-            ImGui::DragFloat("Inner Cut Off", &spotLight->m_InnerCutOff, 0.01f, 0.0f, 1.0f);
-            ImGui::DragFloat("Outer Cut Off", &spotLight->m_OuterCutOff, 0.01f, 0.0f, 1.0f);
+            float temp = spotLight->m_InnerCutOff;
+            ImGui::DragFloat("Inner Cut Off", &temp, 0.01f, 0.0f, 1.0f);
+            if (temp != spotLight->m_InnerCutOff)
+                spotLight->SetInnerCutOff(temp);
+
+            temp = spotLight->m_OuterCutOff;
+            ImGui::DragFloat("Outer Cut Off", &temp, 0.01f, 0.0f, 1.0f);
+            if (temp != spotLight->m_OuterCutOff)
+                spotLight->SetOuterCutOff(temp);
         }
-
-        ImGui::Checkbox("Cast Shadows", &light->m_ShadowsEnabled);
-
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
@@ -551,17 +548,16 @@ void ActorDetailsPanel::Render()
     if (auto player = m_Actor->GetComponent<Player>())
     {
         ImGui::Text("Player");
-
+        ImGui::DragFloat("Walk Speed", &player->m_WalkSpeed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Run Speed", &player->m_RunSpeed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Rotate Speed", &player->m_RotateSpeed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Look Up Limit", &player->m_LookUpLimit, 0.5f, 0.0f, 90.0f);
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 
     if (auto cc = m_Actor->GetComponent<CharacterController>())
     {
         ImGui::Text("Character Controller");
-        ImGui::DragFloat("Walk Speed", &cc->m_WalkSpeed, 0.5f, 0.0f, 100.0f);
-        ImGui::DragFloat("Run Speed", &cc->m_RunSpeed, 0.5f, 0.0f, 100.0f);
-        ImGui::DragFloat("Rotate Speed", &cc->m_RotateSpeed, 0.5f, 0.0f, 100.0f);
-        ImGui::DragFloat("Look Up Limit", &cc->m_LookUpLimit, 0.5f, 0.0f, 90.0f);
         ImGui::DragFloat("Jump Height", &cc->m_JumpHeight, 0.5f, 0.0f, 100.0f);
         ImGui::DragFloat("Jump Max Height Time", &cc->m_JumpMaxHeightTime, 0.5f, 0.0f, 100.0f);
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -608,13 +604,6 @@ void ActorDetailsPanel::Render()
     if (auto ghost = m_Actor->GetComponent<Ghost>())
     {
         ImGui::Text("Ghost");
-
-        size_t maxSize = 128;
-        std::string playerIDStr = std::to_string(ghost->m_PlayerID);
-        char* id = (char*)playerIDStr.c_str();
-        ImGui::InputText("Player ID", id, maxSize);
-        ghost->m_PlayerID = std::atoll(id);
-
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
     }
 

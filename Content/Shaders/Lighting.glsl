@@ -37,17 +37,12 @@ struct DirectionalLight
 {
     vec3 direction;
     vec3 color;
-    float intensity;
 };
 
 struct PointLight
 {
     vec3 position;
     vec3 color;
-    float intensity;
-    float radius;
-    float falloffExponent;
-    bool useInverseSquaredFalloff;
 };
 
 struct SpotLight
@@ -55,12 +50,8 @@ struct SpotLight
     vec3 position;
     vec3 direction;
     vec3 color;
-    float intensity;
-    float radius;
-    float falloffExponent;
     float innerCutOff;
     float outerCutOff;
-    bool useInverseSquaredFalloff;
 };
 
 layout (std140, binding = 0) uniform u_VertexCamera
@@ -172,7 +163,7 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 V, vec3 albedo, vec3
 {
     vec3 L = normalize(-light.direction);
 
-    return CalculateLight(L, V, albedo, N, metallic, roughness) * light.color * light.intensity;
+    return CalculateLight(L, V, albedo, N, metallic, roughness) * light.color;
 }
 
 vec3 CalculatePointLight(PointLight light, vec3 position, vec3 V, vec3 albedo, vec3 N, float metallic, float roughness)
@@ -183,16 +174,8 @@ vec3 CalculatePointLight(PointLight light, vec3 position, vec3 V, vec3 albedo, v
     vec3 L = normalize(light.position - position);
 
     float dist = length(light.position - position);
-    float attenuation = 1.0;
-    if (light.useInverseSquaredFalloff)
-        attenuation = 1.0 / (dist * dist);
-    else
-    {
-        attenuation = clamp(1.0 - (dist * dist) / (light.radius * light.radius), 0.0, 1.0);
-        attenuation = pow(attenuation, light.falloffExponent);
-    }
-
-    vec3 radiance = light.color * light.intensity * attenuation;
+    float attenuation = 1.0 / (dist * dist);
+    vec3 radiance = light.color * attenuation;
 
     return CalculateLight(L, V, albedo, N, metallic, roughness) * radiance;
 }
@@ -205,16 +188,8 @@ vec3 CalculateSpotLight(SpotLight light, vec3 position, vec3 V, vec3 albedo, vec
     vec3 L = normalize(light.position - position);
 
     float dist = length(light.position - position);
-    float attenuation = 1.0;
-    if (light.useInverseSquaredFalloff)
-        attenuation = 1.0 / (dist * dist);
-    else
-    {
-        attenuation = clamp(1.0 - (dist * dist) / (light.radius * light.radius), 0.0, 1.0);
-        attenuation = pow(attenuation, light.falloffExponent);
-    }
-
-    vec3 radiance = light.color * light.intensity * attenuation;
+    float attenuation = 1.0 / (dist * dist);
+    vec3 radiance = light.color * attenuation;
 
     float theta = dot(L, normalize(-light.direction));
     float epsilon = light.innerCutOff - light.outerCutOff;
@@ -302,17 +277,9 @@ void main()
     Lo *= (1 - shadow);
 
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
-    {
-        float dist = length(u_PointLights[i].position - position);
-        if (dist < u_PointLights[i].radius)
-            Lo += CalculatePointLight(u_PointLights[i], position, V, color, normal, metallic, roughness);
-    }
+        Lo += CalculatePointLight(u_PointLights[i], position, V, color, normal, metallic, roughness);
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
-    {
-        float dist = length(u_SpotLights[i].position - position);
-        if (dist < u_SpotLights[i].radius)
-            Lo += CalculateSpotLight(u_SpotLights[i], position, V, color, normal, metallic, roughness);
-    }
+        Lo += CalculateSpotLight(u_SpotLights[i], position, V, color, normal, metallic, roughness);
 
     vec3 ambient = u_SkyLightColor * u_SkyLightIntensity * color * ao;
 
