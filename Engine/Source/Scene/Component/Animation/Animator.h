@@ -88,7 +88,7 @@ public:
 
 	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);
 
-	std::vector<glm::mat4> GetFinalBoneMatrices() { return m_FinalBoneMatrices; }
+	//std::vector<glm::mat4> GetFinalBoneMatrices() { return m_FinalBoneMatrices; }
 
 
 
