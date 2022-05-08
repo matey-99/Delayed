@@ -20,5 +20,6 @@ private:
 	std::vector<float> m_ShadowCascadeLevels;
 	std::vector<glm::mat4> m_LightSpaceMatrices;
 
+	friend class SceneSerializer;
 	friend class ActorDetailsPanel;
 };

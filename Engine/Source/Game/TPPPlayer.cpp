@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "TPPPlayer.h"
 
 #include <glm/gtx/rotate_vector.hpp>
 
@@ -14,10 +14,11 @@
 #include "Scene/Component/RigidBodyComponent.h"
 #include "Physics/Physics.h"
 #include "CharacterController.h"
+#include "TPPCharacterController.h"
 #include "GhostPathElement.h"
 #include "Checkpoint.h"
 
-Player::Player(Actor* owner)
+TPPPlayer::TPPPlayer(Actor* owner)
 	: GameComponent(owner)
 {
 	m_MoveDirection = glm::vec3(0.0f);
@@ -27,30 +28,27 @@ Player::Player(Actor* owner)
 	m_CanJump = true;
 }
 
-void Player::Start()
+void TPPPlayer::Start()
 {
 	auto input = Input::GetInstance();
 
-	input->BindAxis("Player_MoveForward", &Player::MoveForward, this);
-	input->BindAxis("Player_MoveRight", &Player::MoveRight, this);
-	input->BindAxis("Player_Turn", &Player::Turn, this);
-	input->BindAxis("Player_LookUp", &Player::LookUp, this);
+	input->BindAxis("Player_MoveForward", &TPPPlayer::MoveForward, this);
+	input->BindAxis("Player_MoveRight", &TPPPlayer::MoveRight, this);
 
-	input->BindAction("Jump", InputEvent::Press, &Player::Jump, this);
-	input->BindAction("Jump", InputEvent::Release, &Player::AllowJumping, this);
+	input->BindAction("Jump", InputEvent::Press, &TPPPlayer::Jump, this);
+	input->BindAction("Jump", InputEvent::Release, &TPPPlayer::AllowJumping, this);
 
-	input->BindAction("Run", InputEvent::Press, &Player::RunOn, this);
-	input->BindAction("Run", InputEvent::Release, &Player::RunOff, this);
+	input->BindAction("Run", InputEvent::Press, &TPPPlayer::RunOn, this);
+	input->BindAction("Run", InputEvent::Release, &TPPPlayer::RunOff, this);
 
 	input->SetInputMode(InputMode::Player);
 
-	m_CharacterController = m_Owner->AddComponent<CharacterController>();
-	m_Camera = m_Owner->GetScene()->GetComponent<CameraComponent>(m_CameraID);
+	m_CharacterController = m_Owner->AddComponent<TPPCharacterController>();
 
 	m_LastCheckpointPosition = m_Owner->GetTransform()->GetWorldPosition();
 }
 
-void Player::Update(float deltaTime)
+void TPPPlayer::Update(float deltaTime)
 {
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
@@ -66,12 +64,12 @@ void Player::Update(float deltaTime)
 	m_Rotation = glm::vec3(0.0f);
 }
 
-void Player::SetLastCheckpoint(Checkpoint* checkpoint)
+void TPPPlayer::SetLastCheckpoint(Checkpoint* checkpoint)
 {
 	m_LastCheckpointPosition = checkpoint->GetOwner()->GetTransform()->GetWorldPosition();
 }
 
-void Player::BackToLastCheckpoint()
+void TPPPlayer::BackToLastCheckpoint()
 {
 	auto newPosition = m_LastCheckpointPosition;
 	newPosition.y += m_Owner->GetComponent<BoxColliderComponent>()->GetBoundingBox().Extents.y;
@@ -79,27 +77,27 @@ void Player::BackToLastCheckpoint()
 	m_Owner->GetTransform()->SetWorldPosition(newPosition);
 }
 
-void Player::MoveForward(float value)
+void TPPPlayer::MoveForward(float value)
 {
 	AddMovementInput(m_Owner->GetTransform()->GetForward(), value);
 }
 
-void Player::MoveRight(float value)
+void TPPPlayer::MoveRight(float value)
 {
 	AddMovementInput(m_Owner->GetTransform()->GetRight(), value);
 }
 
-void Player::Turn(float value)
+void TPPPlayer::Turn(float value)
 {
 	m_Rotation.y += value;
 }
 
-void Player::LookUp(float value)
+void TPPPlayer::LookUp(float value)
 {
 	m_Rotation.x += value;
 }
 
-void Player::Jump()
+void TPPPlayer::Jump()
 {
 	if (m_CanJump)
 	{
@@ -107,22 +105,22 @@ void Player::Jump()
 	}
 }
 
-void Player::AllowJumping()
+void TPPPlayer::AllowJumping()
 {
 	m_CanJump = true;
 }
 
-void Player::RunOn()
+void TPPPlayer::RunOn()
 {
 	m_IsRunning = true;
 }
 
-void Player::RunOff()
+void TPPPlayer::RunOff()
 {
 	m_IsRunning = false;
 }
 
-void Player::AddMovementInput(glm::vec3 direction, float value)
+void TPPPlayer::AddMovementInput(glm::vec3 direction, float value)
 {
 	m_MoveDirection += (direction * value);
 }

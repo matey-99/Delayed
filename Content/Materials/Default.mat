@@ -23,7 +23,7 @@ Float Parameters:
   - Name: u_Material.ao
     Value: 1
   - Name: u_Material.roughness
-    Value: 0.5
+    Value: 0.949999988
   - Name: u_Material.emissiveStrength
     Value: 0
   - Name: u_Material.opacity

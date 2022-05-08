@@ -2,15 +2,15 @@
 
 #include "GameComponent.h"
 
-class CharacterController;
+class TPPCharacterController;
 class Checkpoint;
 class CameraComponent;
 class BoxColliderComponent;
 
-class Player : public GameComponent
+class TPPPlayer : public GameComponent
 {
 public:
-	Player(Actor* owner);
+	TPPPlayer(Actor* owner);
 
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
@@ -34,7 +34,7 @@ private:
 
 private:
 	/* References */
-	Ref<CharacterController> m_CharacterController;
+	Ref<TPPCharacterController> m_CharacterController;
 	Ref<CameraComponent> m_Camera;
 	
 	glm::vec3 m_LastCheckpointPosition;
@@ -47,12 +47,6 @@ private:
 	bool m_IsRunning;
 	bool m_IsJumping;
 	bool m_CanJump;
-
-#pragma region Serialization
-
-	uint64_t m_CameraID;
-
-#pragma endregion
 
 	friend class SceneSerializer;
 	friend class ActorDetailsPanel;

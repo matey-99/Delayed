@@ -17,6 +17,8 @@ namespace Math
 	glm::vec3 Direction(const glm::vec3& a, const glm::vec3& b);
 
 	float Lerp(float a, float b, float alpha);
+	
+	glm::vec3 Lerp(glm::vec3 a, glm::vec3 b, float alpha);
 
 	glm::vec3 Lerp(glm::vec3 a, glm::vec3 b, float alpha);
 

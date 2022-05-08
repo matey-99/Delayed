@@ -94,10 +94,8 @@ public:
 	{
 		Ref<Actor> actor = FindActor(ownerID);
 		if (!actor)
-		{
-			DEBUG_LOG("Actor with ID: " + std::to_string(ownerID) + " doesn't exist!");
 			return nullptr;
-		}
+
 		return actor->GetComponent<T>();
 	}
 

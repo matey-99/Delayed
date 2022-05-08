@@ -1,5 +1,5 @@
 Scene: Main
-CurrentCamera: 1541634381
+CurrentCamera: 1541634382
 RendererSettings:
   DepthFog: true
   PostProcessing: true
@@ -40,9 +40,35 @@ RendererSettings:
     MaxDistance: 64
     Size: 2
 Actors:
+  - Actor: 485961876
+    ID: 485961876
+    Name: Camera Controller
+    Enabled: false
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [40.7099991, 4.46899986, -18.9169998]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - CameraController:
+          Target: 1503310902
+          Camera: 1541634381
+  - Actor: 763440954
+    ID: 763440954
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 2.5, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 485961876
   - Actor: 14968050
     ID: 14968050
     Name: platform (5)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -58,6 +84,7 @@ Actors:
   - Actor: 37042750
     ID: 37042750
     Name: Cube (54)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -73,6 +100,7 @@ Actors:
   - Actor: 69931302
     ID: 69931302
     Name: Cube (52)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -88,6 +116,7 @@ Actors:
   - Actor: 81772972
     ID: 81772972
     Name: Cube (31)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -103,6 +132,7 @@ Actors:
   - Actor: 87819590
     ID: 87819590
     Name: Cube (33)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -118,6 +148,7 @@ Actors:
   - Actor: 96575779
     ID: 96575779
     Name: Cube (16)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -137,6 +168,7 @@ Actors:
   - Actor: 101983686
     ID: 101983686
     Name: Cube (49)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -152,6 +184,7 @@ Actors:
   - Actor: 137376933
     ID: 137376933
     Name: Cube (23)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -171,6 +204,7 @@ Actors:
   - Actor: 170675663
     ID: 170675663
     Name: button_frame (2)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -186,6 +220,7 @@ Actors:
   - Actor: 190988655
     ID: 190988655
     Name: button_frame (11)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -201,6 +236,7 @@ Actors:
   - Actor: 221467947
     ID: 221467947
     Name: Cube (1)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -240,6 +276,7 @@ Actors:
   - Actor: 258264437
     ID: 258264437
     Name: Directional Light
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -252,6 +289,7 @@ Actors:
   - Actor: 272686924
     ID: 272686924
     Name: button_frame (10)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -267,6 +305,7 @@ Actors:
   - Actor: 299840539
     ID: 299840539
     Name: Cube (64)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -282,6 +321,7 @@ Actors:
   - Actor: 325632044
     ID: 325632044
     Name: Cube (51)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -297,6 +337,7 @@ Actors:
   - Actor: 326927117
     ID: 326927117
     Name: Cube (3)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -312,6 +353,7 @@ Actors:
   - Actor: 356231740
     ID: 356231740
     Name: button_frame (7)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -327,6 +369,7 @@ Actors:
   - Actor: 375961630
     ID: 375961630
     Name: Cube (53)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -342,6 +385,7 @@ Actors:
   - Actor: 484586166
     ID: 484586166
     Name: Cube (29)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -357,6 +401,7 @@ Actors:
   - Actor: 497045508
     ID: 497045508
     Name: button (8)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -372,6 +417,7 @@ Actors:
   - Actor: 512593397
     ID: 512593397
     Name: checkpoint1 (5)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -387,6 +433,7 @@ Actors:
   - Actor: 519652268
     ID: 519652268
     Name: button_frame (4)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -402,6 +449,7 @@ Actors:
   - Actor: 530211519
     ID: 530211519
     Name: button_frame (6)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -417,6 +465,7 @@ Actors:
   - Actor: 561580789
     ID: 561580789
     Name: button (10)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -432,6 +481,7 @@ Actors:
   - Actor: 623242758
     ID: 623242758
     Name: checkpoint1 (1)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -447,6 +497,7 @@ Actors:
   - Actor: 666758769
     ID: 666758769
     Name: Cube (24)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -466,6 +517,7 @@ Actors:
   - Actor: 676977960
     ID: 676977960
     Name: Cube (27)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -481,6 +533,7 @@ Actors:
   - Actor: 677171003
     ID: 677171003
     Name: Cube (55)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -496,6 +549,7 @@ Actors:
   - Actor: 696296241
     ID: 696296241
     Name: Cube (40)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -511,6 +565,7 @@ Actors:
   - Actor: 725570442
     ID: 725570442
     Name: Cube (2)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -526,6 +581,7 @@ Actors:
   - Actor: 776712540
     ID: 776712540
     Name: Cube (25)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -541,6 +597,7 @@ Actors:
   - Actor: 798348825
     ID: 798348825
     Name: platform (6)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -556,6 +613,7 @@ Actors:
   - Actor: 844519343
     ID: 844519343
     Name: button (6)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -571,6 +629,7 @@ Actors:
   - Actor: 888747913
     ID: 888747913
     Name: Cube (32)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -586,6 +645,7 @@ Actors:
   - Actor: 894584272
     ID: 894584272
     Name: Cube
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -605,6 +665,7 @@ Actors:
   - Actor: 898368555
     ID: 898368555
     Name: Cube (42)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -624,6 +685,7 @@ Actors:
   - Actor: 905694676
     ID: 905694676
     Name: button (7)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -639,6 +701,7 @@ Actors:
   - Actor: 906644891
     ID: 906644891
     Name: button (3)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -654,6 +717,7 @@ Actors:
   - Actor: 911918084
     ID: 911918084
     Name: button_frame (3)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -669,6 +733,7 @@ Actors:
   - Actor: 928121183
     ID: 928121183
     Name: platform (1)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -688,6 +753,7 @@ Actors:
   - Actor: 962530030
     ID: 962530030
     Name: Cube (21)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -707,6 +773,7 @@ Actors:
   - Actor: 1037621198
     ID: 1037621198
     Name: platform (4)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -722,6 +789,7 @@ Actors:
   - Actor: 1055560003
     ID: 1055560003
     Name: platform (2)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -737,6 +805,7 @@ Actors:
   - Actor: 1204042721
     ID: 1204042721
     Name: platform (8)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -752,6 +821,7 @@ Actors:
   - Actor: 1215650438
     ID: 1215650438
     Name: checkpoints
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -762,6 +832,7 @@ Actors:
   - Actor: 1219860120
     ID: 1219860120
     Name: Cube (41)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -781,6 +852,7 @@ Actors:
   - Actor: 1247332933
     ID: 1247332933
     Name: Cube (43)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -800,6 +872,7 @@ Actors:
   - Actor: 1285539109
     ID: 1285539109
     Name: Cube (22)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -819,6 +892,7 @@ Actors:
   - Actor: 1297352485
     ID: 1297352485
     Name: Cube (59)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -834,6 +908,7 @@ Actors:
   - Actor: 1345027004
     ID: 1345027004
     Name: button (5)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -849,6 +924,7 @@ Actors:
   - Actor: 1368133747
     ID: 1368133747
     Name: Cube (58)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -864,10 +940,11 @@ Actors:
   - Actor: 1401607988
     ID: 1401607988
     Name: checkpoint1
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [16.2399998, -14.4399996, -16.4699993]
+          LocalPosition: [16.2399998, -14.3608265, -16.4699993]
           LocalRotation: [0, 0, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -876,9 +953,16 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [2, 2, 2]
+      - Checkpoint:
+          {}
   - Actor: 1416485425
     ID: 1416485425
     Name: checkpoint1 (2)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -894,6 +978,7 @@ Actors:
   - Actor: 1420258014
     ID: 1420258014
     Name: interactable_object
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -909,6 +994,7 @@ Actors:
   - Actor: 1423792074
     ID: 1423792074
     Name: interactable_object (1)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -923,11 +1009,12 @@ Actors:
               Path: Materials/Default.mat
   - Actor: 1503310902
     ID: 1503310902
-    Name: Player
+    Name: TPP Player
+    Enabled: false
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 6.68288755, -13.2750196]
+          LocalPosition: [40.7097855, 4.4688468, -18.9174252]
           LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -935,11 +1022,29 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 2, 1]
+      - TPPPlayer:
+          {}
+  - Actor: 1503310903
+    ID: 1503310903
+    Name: Player
+    Enabled: true
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [40.7097855, 4.4688468, -26.2239761]
+          LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 2, 1]
       - Player:
-          Camera: 1541634381
+          Camera: 1541634382
   - Actor: 1503775902
     ID: 1503775902
     Name: Ghost
+    Enabled: true
     Dynamic: true
     Components:
       - Transform:
@@ -957,10 +1062,11 @@ Actors:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
       - Ghost:
-          Player: 1503310902
+          Player: 1503310903
   - Actor: 1526879318
     ID: 1526879318
     Name: Cube (63)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -975,14 +1081,31 @@ Actors:
               Path: Materials/Default.mat
   - Actor: 1541634381
     ID: 1541634381
+    Name: TPP Camera
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, -10]
+          LocalRotation: [0, 180, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 763440954
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 60
+          NearClipPlane: 0.300000012
+          FarClipPlane: 1000
+  - Actor: 1541634382
+    ID: 1541634382
     Name: Camera
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
           LocalPosition: [0, 1.63999999, 0]
-          LocalRotation: [0, 90, 0]
+          LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
-          Parent: 1503310902
+          Parent: 1503310903
       - Camera:
           AspectRatio: [16, 9]
           FieldOfView: 60
@@ -991,6 +1114,7 @@ Actors:
   - Actor: 1545929933
     ID: 1545929933
     Name: button (1)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1006,6 +1130,7 @@ Actors:
   - Actor: 1546630572
     ID: 1546630572
     Name: Cube (18)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1021,6 +1146,7 @@ Actors:
   - Actor: 1572287337
     ID: 1572287337
     Name: Cube (44)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1040,6 +1166,7 @@ Actors:
   - Actor: 1572592382
     ID: 1572592382
     Name: platform (9)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1063,6 +1190,7 @@ Actors:
   - Actor: 1579695555
     ID: 1579695555
     Name: Cube (47)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1082,6 +1210,7 @@ Actors:
   - Actor: 1639903156
     ID: 1639903156
     Name: platform (7)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1097,6 +1226,7 @@ Actors:
   - Actor: 1675715437
     ID: 1675715437
     Name: checkpoint1 (3)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1112,6 +1242,7 @@ Actors:
   - Actor: 1702171050
     ID: 1702171050
     Name: Cube (62)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1127,6 +1258,7 @@ Actors:
   - Actor: 1706265962
     ID: 1706265962
     Name: button (11)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1142,6 +1274,7 @@ Actors:
   - Actor: 1706929148
     ID: 1706929148
     Name: Cube (26)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1157,6 +1290,7 @@ Actors:
   - Actor: 1814395459
     ID: 1814395459
     Name: button (2)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1172,6 +1306,7 @@ Actors:
   - Actor: 1821581833
     ID: 1821581833
     Name: button (9)
+    Enabled: true
     Dynamic: true
     Components:
       - Transform:
@@ -1193,6 +1328,7 @@ Actors:
   - Actor: 1848602139
     ID: 1848602139
     Name: checkpoint1 (4)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1208,6 +1344,7 @@ Actors:
   - Actor: 1856852524
     ID: 1856852524
     Name: button_frame (8)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1223,6 +1360,7 @@ Actors:
   - Actor: 1872416054
     ID: 1872416054
     Name: button (4)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1238,6 +1376,7 @@ Actors:
   - Actor: 1880114162
     ID: 1880114162
     Name: SmallPlatform1
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1261,6 +1400,7 @@ Actors:
   - Actor: 1887690212
     ID: 1887690212
     Name: Cube (38)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1276,6 +1416,7 @@ Actors:
   - Actor: 1900032299
     ID: 1900032299
     Name: Cube (56)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1291,6 +1432,7 @@ Actors:
   - Actor: 1902536977
     ID: 1902536977
     Name: Cube (61)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1306,6 +1448,7 @@ Actors:
   - Actor: 1925190633
     ID: 1925190633
     Name: button_frame (5)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1321,6 +1464,7 @@ Actors:
   - Actor: 1944101418
     ID: 1944101418
     Name: interactable_object (2)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1336,6 +1480,7 @@ Actors:
   - Actor: 1958722577
     ID: 1958722577
     Name: button_frame (1)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1351,6 +1496,7 @@ Actors:
   - Actor: 1966400437
     ID: 1966400437
     Name: Cube (57)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1366,6 +1512,7 @@ Actors:
   - Actor: 1994573034
     ID: 1994573034
     Name: platform (3)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1381,6 +1528,7 @@ Actors:
   - Actor: 2066250755
     ID: 2066250755
     Name: Cube (28)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1396,6 +1544,7 @@ Actors:
   - Actor: 2104677190
     ID: 2104677190
     Name: Cube (39)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1411,6 +1560,7 @@ Actors:
   - Actor: 2124779504
     ID: 2124779504
     Name: button_frame (9)
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1426,6 +1576,7 @@ Actors:
   - Actor: 2141099751
     ID: 2141099751
     Name: platforms
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1436,6 +1587,7 @@ Actors:
   - Actor: 57376655
     ID: 57376655
     Name: Sky Light
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1456,6 +1608,7 @@ Actors:
   - Actor: 65361196
     ID: 65361196
     Name: SmallPlatform2
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1475,6 +1628,7 @@ Actors:
   - Actor: 765667130
     ID: 765667130
     Name: Icon
+    Enabled: true
     Dynamic: false
     Components:
       - RectTransform:
@@ -1489,6 +1643,7 @@ Actors:
   - Actor: 963697696
     ID: 963697696
     Name: button_test
+    Enabled: true
     Dynamic: true
     Components:
       - Transform:
@@ -1510,6 +1665,7 @@ Actors:
   - Actor: 405188416
     ID: 405188416
     Name: Particle System
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1534,3 +1690,67 @@ Actors:
           MaxParticleLifeTime: 2
           StartParticleColor: [0, 11.3973398, 12, 0.5]
           EndParticleColor: [0, 1.07262754, 6, 0.25]
+  - Actor: 600320104
+    ID: 600320104
+    Name: Death_Area
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [31.1595821, -8.73255539, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [38.9430656, 1, 76.626152]
+          Parent: 0
+      - DeathArea:
+          {}
+  - Actor: 508492295
+    ID: 508492295
+    Name: Block
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [13.2278233, 3.45881987, -18.9695301]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3, 3, 3]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_Ghost.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 799658361
+    ID: 799658361
+    Name: Block Trigger
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 508492295
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 628242585
+    ID: 628242585
+    Name: Character
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [2, 4, 2]
+          Parent: 1503310902
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat

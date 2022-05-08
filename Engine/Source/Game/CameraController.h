@@ -3,6 +3,7 @@
 #include "GameComponent.h"
 
 class CameraComponent;
+class TransformComponent;
 
 class CameraController : public GameComponent
 {
@@ -11,15 +12,31 @@ public:
 
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
+	virtual void FixedUpdate() override;
+
+private:
+	void FollowTarget(float speed);
+
+	void Turn(float value);
+	void LookUp(float value);
 
 private:
 	Ref<CameraComponent> m_Camera;
-	Ref<Actor> m_Pivot;
+	TransformComponent* m_Pivot;
+
+	Ref<TransformComponent> m_Target;
+
+	float m_CameraSpeed;
+	float m_FollowSpeed;
+	float m_LookUpLimit;
+
+	float m_LookUpRotation;
+	float m_TurnRotation;
 
 #pragma region Serialization
 
+	uint64_t m_TargetID;
 	uint64_t m_CameraID;
-	uint64_t m_PivotID;
 
 #pragma endregion
 

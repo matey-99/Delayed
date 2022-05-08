@@ -1,11 +1,12 @@
-#include "CharacterController.h"
+#include "TPPCharacterController.h"
 
 #include "Scene/Actor.h"
 #include "Math/Math.h"
 #include "Physics/Physics.h"
 #include "Time/Time.h"
+#include "CharacterController.h"
 
-CharacterController::CharacterController(Actor* owner)
+TPPCharacterController::TPPCharacterController(Actor* owner)
 	: GameComponent(owner)
 {
 	m_Velocity = glm::vec3(0.0f);
@@ -27,13 +28,13 @@ CharacterController::CharacterController(Actor* owner)
 	m_IsJumping = false;
 }
 
-void CharacterController::FixedUpdate()
+void TPPCharacterController::FixedUpdate()
 {
 	Ray ray(m_Owner->GetTransform()->GetWorldPosition(), -Math::UpVector);
 	m_IsGrounded = Physics::RayCast(ray, m_DistanceToGround, false, m_Owner);
 }
 
-void CharacterController::Move(glm::vec3 direction, const CharacterMovementParams& params, float deltaTime)
+void TPPCharacterController::Move(glm::vec3 direction, const CharacterMovementParams& params, float deltaTime)
 {
 	float movementSpeed = params.IsRunning ? m_RunSpeed : m_WalkSpeed;
 
@@ -57,20 +58,11 @@ void CharacterController::Move(glm::vec3 direction, const CharacterMovementParam
 	m_Owner->GetTransform()->SetLocalPosition(newPosition);
 }
 
-void CharacterController::Rotate(Ref<CameraComponent> camera, glm::vec3 rotation, float deltaTime)
+void TPPCharacterController::Rotate(Ref<CameraComponent> camera, glm::vec3 rotation, float deltaTime)
 {
-	glm::vec3 newRotation = m_Owner->GetTransform()->GetLocalRotation();
-	newRotation.y -= rotation.y * m_RotateSpeed * deltaTime;
-	m_Owner->GetTransform()->SetLocalRotation(newRotation);
-
-	auto cameraTransform = camera->GetOwner()->GetTransform();
-	glm::vec3 newCameraRotation = cameraTransform->GetLocalRotation();
-	newCameraRotation.x -= rotation.x * m_RotateSpeed * deltaTime;
-	newCameraRotation.x = glm::clamp(newCameraRotation.x, -m_LookUpLimit, m_LookUpLimit);
-	cameraTransform->SetLocalRotation(newCameraRotation);
 }
 
-void CharacterController::Jump()
+void TPPCharacterController::Jump()
 {
 	if (m_IsGrounded)
 	{
