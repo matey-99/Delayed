@@ -30,12 +30,12 @@ layout (std140, binding = 0) uniform u_VertexCamera
 
 layout (std140, binding = 1) uniform u_VertexLights
 {
-    // Directional Light
+// Directional Light
     mat4 u_DirectionalLightSpaceMatrices[16];
     int u_CascadeCount;
     float u_CascadeClipPlaneDistances[4];
 
-    // Spot Light
+// Spot Light
     mat4[MAX_SPOT_LIGHTS] u_SpotLightSpaceMatrices;
 };
 
@@ -62,13 +62,13 @@ void main()
     }
 
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
-        v_SpotLightSpacePositions[i] = u_SpotLightSpaceMatrices[i] * vec4(v_Position, 1.0);
+    v_SpotLightSpacePositions[i] = u_SpotLightSpaceMatrices[i] * vec4(v_Position, 1.0);
 
     gl_Position = u_ViewProjection * vec4(v_Position, 1.0);
 }
 
-#SHADER FRAGMENT
-#version 450 core
+    #SHADER FRAGMENT
+    #version 450 core
 
 layout (location = 0) out vec4 f_Position;
 layout (location = 1) out vec4 f_Normal;
@@ -139,42 +139,42 @@ void main()
     float opacity;
     vec3 emissive;
     if (u_Material.isAlbedoMap)
-        albedo = pow(texture(u_Material.albedoMap, v_TexCoord).rgb, vec3(1 / 2.2));
+    albedo = pow(texture(u_Material.albedoMap, v_TexCoord).rgb, vec3(1 / 2.2));
     else
-        albedo = u_Material.albedo;
-    
+    albedo = u_Material.albedo;
+
     if (u_Material.isNormalMap)
-        N = GetNormalFromNormalMap();
+    N = GetNormalFromNormalMap();
     else
-        N = normalize(v_Normal);
-    
+    N = normalize(v_Normal);
+
     if (u_Material.isMetallicMap)
-        metallic = texture(u_Material.metallicMap, v_TexCoord).r;
+    metallic = texture(u_Material.metallicMap, v_TexCoord).r;
     else
-        metallic = u_Material.metallic;
+    metallic = u_Material.metallic;
 
     if (u_Material.isRoughnessMap)
-        roughness = texture(u_Material.roughnessMap, v_TexCoord).r;
+    roughness = texture(u_Material.roughnessMap, v_TexCoord).r;
     else
-        roughness = u_Material.roughness;
+    roughness = u_Material.roughness;
 
     if (u_Material.isAOMap)
-        ao = texture(u_Material.aoMap, v_TexCoord).r;
+    ao = texture(u_Material.aoMap, v_TexCoord).r;
     else
-        ao = u_Material.ao;
+    ao = u_Material.ao;
 
     if (u_Material.isOpacityMap)
-        opacity = texture(u_Material.opacityMap, v_TexCoord).r;
+    opacity = texture(u_Material.opacityMap, v_TexCoord).r;
     else
-        opacity = u_Material.opacity;
+    opacity = u_Material.opacity;
 
     if (u_Material.isEmissiveMap)
-        emissive = texture(u_Material.emissiveMap, v_TexCoord).rgb;
+    emissive = texture(u_Material.emissiveMap, v_TexCoord).rgb;
     else
-        emissive = u_Material.emissive;
+    emissive = u_Material.emissive;
 
     if (opacity < 0.1)
-        discard;
+    discard;
 
     // OUTPUT
     f_Position = vec4(v_Position, 1.0);

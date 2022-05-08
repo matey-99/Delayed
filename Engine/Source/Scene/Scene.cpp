@@ -11,12 +11,14 @@
 #include <Scene/Component/Collider/BoxColliderComponent.h>
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderPass/ShadowsPass.h"
+#include "Renderer/RenderPass/WaterPass.h"
 #include "Component/TransformComponent.h"
 #include "Component/Light/SkyLight.h"
 #include "Component/UI/RectTransformComponent.h"
 #include "Component/Particle/ParticleSystemComponent.h"
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
+#include "Time/Time.h"
 
 Scene::Scene()
 {
@@ -274,6 +276,10 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 				material->GetShader()->SetFloat("u_SkyLightIntensity", 0.03f);
 			}
 		}
+
+        if (material->GetName() == "Water") {
+            material->GetShader()->SetFloat("u_FrameTime", Time::GetInstance()->GetCurrentFrameTime());
+        }
 
 		std::vector<glm::mat4> transformations;
 		uint32_t instancesCount = 0;
