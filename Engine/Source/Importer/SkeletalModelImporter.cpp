@@ -28,11 +28,10 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	Ref<Rig> rig = CreateRef<Rig>();
 	std::vector<Ref<SkeletalMesh>> meshes;
 
-	// Process loaded meshes
-	aiNode* root = scene->mRootNode;
-	ProcessNode(root, scene, meshes, rig);
+	// Process loaded meshes from all nodes
+	ProcessNode(scene->mRootNode, scene, meshes, rig);
 
-	std::cout << "rig->HowManyBones(): " << rig->HowManyBones() << "\n";
+	std::cout << "rig->HowManyBones(): " << rig->HowManyBones() << "\n";  // Debug-only
 
 	std::string relativePath = path.substr(AssetManager::ContentDirectory.size() + 1);
 	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes, rig);
@@ -52,9 +51,6 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 		importedSkeletalModel->LoadAnimation(CreateRef<Animation>(scene, mesh));*/
 
 	m_ImportedSkeletalModels.insert({ path, importedSkeletalModel });
-
-	//m_AnimationCounter = scene->mNumAnimations;
-	// Import animations
 
 	return importedSkeletalModel;
 }

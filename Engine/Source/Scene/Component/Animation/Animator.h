@@ -13,12 +13,11 @@
 class Animator : public Component
 {
 	Ref<Animation> m_CurrentAnimation;
-	std::vector<glm::mat4> m_FinalBoneMatrices;
+	//std::vector<glm::mat4> m_FinalBoneMatrices;
 	float m_CurrentTime;
 	float m_DeltaTime;
 
 	Ref<SkeletalMeshComponent> m_SkeletalMeshComponent;
-	//std::vector<Ref<Animation>> m_Animations;
 
 public:
 	Animator(Actor* owner) : Component(owner)
@@ -27,10 +26,10 @@ public:
 
 		m_CurrentTime = 0.0;
 
-		m_FinalBoneMatrices.reserve(100);
+		//m_FinalBoneMatrices.reserve(100);
 
-		for (int i = 0; i < 100; i++)
-			m_FinalBoneMatrices.push_back(glm::mat4(1.0f));
+		//for (int i = 0; i < 100; i++)
+		//	m_FinalBoneMatrices.push_back(glm::mat4(1.0f));
 
 		if (m_SkeletalMeshComponent->GetAnimations().size() > 0)
 			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimations()[0];

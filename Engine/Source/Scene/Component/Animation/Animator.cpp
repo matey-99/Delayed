@@ -27,6 +27,7 @@ void Animator::Update(float deltaTime)
 
 }
 
+// This should be somewhere else
 void Animator::ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform)
 {
 	//std::string nodeName = node->name;

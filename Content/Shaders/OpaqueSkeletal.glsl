@@ -53,7 +53,7 @@ void main()
     vec4 totalPosition = vec4(0.0f);
     for(int i = 0 ; i < MAX_BONE_INFLUENCE ; i++)
     {
-        if(a_BoneIds[i] == -1) 
+        if(a_BoneIds[i] == -1)
             continue;
         if(a_BoneIds[i] >=MAX_BONES)
         {
