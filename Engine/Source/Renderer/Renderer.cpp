@@ -20,7 +20,6 @@
 #include "RenderPass/DepthOfFieldPass.h"
 #include "RenderPass/UIPass.h"
 #include "RenderPass/DepthFogPass.h"
-#include "RenderPass/WaterPass.h"
 #include "RenderTools.h"
 #include "Analysis/Profiler.h"
 
@@ -61,7 +60,6 @@ void Renderer::Initialize()
 	m_DepthOfFieldPass = CreateRef<DepthOfFieldPass>();
 	m_UIPass = CreateRef<UIPass>();
     m_DepthFogPass = CreateRef<DepthFogPass>();
-    m_WaterPass = CreateRef<WaterPass>();
 
 	m_Output[0] = 0;
 	m_Output[1] = 0;
@@ -112,9 +110,6 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 		m_DepthFogPass->Render(m_Output[outputIndex]);
 		m_Output[outputIndex] = m_DepthFogPass->GetRenderTarget()->GetTargets()[0];
 	}
-
-    // Water
-    m_WaterPass->Render(scene);
 
 	// Forward
 	Ref<RenderTarget> previousRT = m_Settings.DepthFogEnabled ? m_DepthFogPass->GetRenderTarget() : m_LightingPass->GetRenderTarget();

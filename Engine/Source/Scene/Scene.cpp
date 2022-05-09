@@ -11,7 +11,6 @@
 #include <Scene/Component/Collider/BoxColliderComponent.h>
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderPass/ShadowsPass.h"
-#include "Renderer/RenderPass/WaterPass.h"
 #include "Component/TransformComponent.h"
 #include "Component/Light/SkyLight.h"
 #include "Component/UI/RectTransformComponent.h"

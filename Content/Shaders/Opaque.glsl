@@ -41,15 +41,11 @@ layout (std140, binding = 1) uniform u_VertexLights
 
 layout (location = 0) uniform Material u_MaterialVS;
 
-layout (location = 1) uniform vec4 u_Plane;
-
 void main()
 {
     v_Position = vec3(a_Model * vec4(a_Position, 1.0));
     v_ViewPosition = u_View * vec4(v_Position, 1.0);
     v_Normal = mat3(transpose(inverse(a_Model))) * a_Normal;
-
-    gl_ClipDistance[0] = dot(a_Model * vec4(a_Position, 1.0), u_Plane);
 
     if (u_MaterialVS.flipVerticallyUV)
     {
