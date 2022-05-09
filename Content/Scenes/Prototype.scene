@@ -286,6 +286,7 @@ Actors:
           Parent: 0
       - DirectionalLight:
           Color: [1, 0.910000026, 0.629999995]
+          Intensity: 1
   - Actor: 272686924
     ID: 272686924
     Name: button_frame (10)
