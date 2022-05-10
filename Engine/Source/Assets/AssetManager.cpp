@@ -2,6 +2,7 @@
 
 #include "Importer/ModelImporter.h"
 #include "Importer/SkeletalModelImporter.h"
+#include "Importer/AnimationImporter.h"
 #include "Importer/TextureImporter.h"
 #include "Importer/SceneImporter.h"
 #include "Importer/MaterialImporter.h"
@@ -35,6 +36,12 @@ Ref<SkeletalModel> AssetManager::LoadSkeletalModel(std::string assetPath)
 {
 	std::string fullPath = ContentDirectory + assetPath;
 	return GetInstance()->m_SkeletalModelImporter->ImportSkeletalModel(fullPath);
+}
+
+std::vector<Ref<Animation>> AssetManager::LoadAnimations(std::string assetPath, Ref<Rig> rig)
+{
+	std::string fullPath = ContentDirectory + assetPath;
+	return GetInstance()->m_AnimationImporter->ImportAnimations(fullPath, rig);
 }
 
 Ref<Texture> AssetManager::LoadTexture(std::string assetPath)

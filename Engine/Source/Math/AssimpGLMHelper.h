@@ -5,6 +5,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
+// aiNodeAnim helper
 struct AssimpNodeData
 {
 	glm::mat4 transformation;

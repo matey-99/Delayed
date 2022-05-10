@@ -13,8 +13,9 @@ public:
 	// Add bone to rig
 	// It will automatically assign new ID if didn't found such bone (based on name)
 	void AddBone(Ref<Bone> bone);
+	void CompleteBone(std::string boneName, aiNodeAnim* channel);
 
-	inline uint32_t HowManyBones() const { return m_Bones.size(); }
+	inline size_t HowManyBones() const { return m_Bones.size(); }
 
 	Ref<Bone> GetBone(uint32_t index) const;
 	Ref<Bone> FindBone(std::string name) const;  // it's now basically a BoneInfo structure
@@ -22,5 +23,5 @@ public:
 
 private:
 	std::vector<Ref<Bone>> m_Bones;
-	glm::mat4 finalBoneMatrices;  // matrix that is sent to Vertex Shader
+	glm::mat4 finalBoneMatrices;  // matrix that is sent to Vertex Shader, where is it computed?
 };

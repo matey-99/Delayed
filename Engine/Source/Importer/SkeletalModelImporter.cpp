@@ -1,7 +1,7 @@
 #include "SkeletalModelImporter.h"
 
 #include "Math/AssimpGLMHelper.h"
-#include "Scene/Component/Animation/Animation.h"
+//#include "Scene/Component/Animation/Animation.h"
 #include "Assets/AssetManager.h"
 #include "Renderer/Bone.h"
 
@@ -36,6 +36,8 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	std::string relativePath = path.substr(AssetManager::ContentDirectory.size() + 1);
 	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes, rig);
 
+	// Read Animation
+		
 
 
 	// Load animations and save them to SkeletalModel

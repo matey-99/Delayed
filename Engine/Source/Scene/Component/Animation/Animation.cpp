@@ -2,22 +2,20 @@
 #include "Assets/SkeletalModel.h"
 
 
-Animation::Animation(const aiScene* scene, int index, Ref<SkeletalModel> model)
-	: m_Duration(0.f), m_TicksPerSecond(0)
+//Animation::Animation(const aiNode* root, int index, Ref<SkeletalModel> model)
+Animation::Animation(const aiNode* root, const aiAnimation* animation, Ref<Rig> rig)
 {
-	assert(scene && scene->mRootNode);
-	if (scene->HasAnimations())
-	{
-		auto animation = scene->mAnimations[index];  // Here read animation properly
-		m_Duration = animation->mDuration;
-		m_TicksPerSecond = animation->mTicksPerSecond;
-		aiMatrix4x4 globalTransformation = scene->mRootNode->mTransformation;
-		globalTransformation = globalTransformation.Inverse();
-		ReadHierarchyData(m_RootNode, scene->mRootNode);
-		ReadMissingBones(animation, model);
+	m_Name			 = animation->mName.C_Str();
+	m_Duration		 = animation->mDuration;
+	m_NumChannels	 = animation->mNumChannels;
+	m_TicksPerSecond = animation->mTicksPerSecond;
+	ReadHierarchyData(m_RootNode, root);
+	ReadMissingBones(animation, rig);
 
-		m_Name = animation->mName.C_Str();
-	}
+	// Code below does nothing but was originally here -- maybe should inverse a reference? idk
+	//aiMatrix4x4 globalTransformation = scene->mRootNode->mTransformation;  // is necessery?
+	//globalTransformation = globalTransformation.Inverse();
+
 }
 
 //Bone* Animation::FindBone(const std::string& name)
@@ -32,13 +30,37 @@ Animation::Animation(const aiScene* scene, int index, Ref<SkeletalModel> model)
 //	else return &(*iter);
 //}
 
-void Animation::ReadMissingBones(const aiAnimation* animation, Ref<SkeletalModel> model)
+//void Animation::ReadMissingBones(const aiAnimation* animation, Ref<SkeletalModel> model)
+void Animation::ReadMissingBones(const aiAnimation* animation, Ref<Rig> rig)
 {
-	//int size = animation->mNumChannels;
+	uint32_t boneCount = rig->HowManyBones();
+
+	for (int i = 0; i < m_NumChannels; i++)
+	{
+		auto channel = animation->mChannels[i];
+		std::string boneName = channel->mNodeName.data;
+
+		if (rig->FindBone(boneName) == nullptr)
+		{
+			std::cout << "Animation.cpp: Found missing bone with name: " << boneName << '\n';  // Debug
+			// Here add the missing bone
+			//rig->AddBone(CreateRef<Bone>());
+		}
+		else
+		{
+			std::cout << "Animation.cpp: Completed bone with name: " << boneName << '\n';  // Debug
+			rig->CompleteBone(boneName, channel);
+		}
+
+	}
+
+
+	//// old:
+	////int size = animation->mNumChannels; // use m_NumChannels instead
 	//auto& boneInfoMap = model->GetBoneInfoMap(); //getting m_BoneInfoMap from Model class
 	//uint32_t& boneCount = model->m_BoneCounter;  //getting the m_BoneCounter from Model class
 	////reading channels(bones engaged in an animation and their keyframes)
-	//for (int i = 0; i < size; i++)
+	//for (int i = 0; i < m_NumChannels; i++)
 	//{
 	//	auto channel = animation->mChannels[i];
 	//	std::string boneName = channel->mNodeName.data;

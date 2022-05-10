@@ -27,9 +27,17 @@ public:
 	virtual uint32_t GetRenderedVerticesCount() override;
 	std::vector<Ref<Animation>> GetAnimations();
 
+	//void AddAnimation()
+	//{
+	//	// [...]
+	//	Ref<Animation> animation = CreateRef<Animation>(...);
+	//	m_Animations.push_back(animation);
+	//}
+
 	// Details
 	uint32_t GetBoneCount();
 
 private:
 	Ref<SkeletalModel> m_SkeletalModel;
+	std::vector<Ref<Animation>> m_Animations;
 };

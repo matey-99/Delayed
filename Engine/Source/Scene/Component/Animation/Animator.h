@@ -48,11 +48,11 @@ public:
 
 	void PlayAnimation(Ref<Animation> animationToPlay)
 	{
-		m_CurrentAnimation = animationToPlay;
-		m_CurrentTime = 0.0f;
+		//m_CurrentAnimation = animationToPlay;
+		//m_CurrentTime = 0.0f;
 	}
 
-	uint32_t HowManyAnimationsAreThere()
+	size_t HowManyAnimationsAreThere()
 	{
 		return m_SkeletalMeshComponent->GetAnimations().size();
 	}

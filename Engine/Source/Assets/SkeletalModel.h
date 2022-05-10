@@ -23,19 +23,13 @@ public:
 
 	//void SetBoneMatrices(std::vector<glm::mat4> boneMatrices);
 
-	void AddAnimation(Ref<Animation> animation)
-	{
-		m_Animations.push_back(animation);
-	}
+	/*void AddAnimation(Ref<Animation> animation) { m_Animations.push_back(animation); }
 
-	std::vector<Ref<Animation>> GetAnimations()
-	{
-		return m_Animations;
-	}
+	std::vector<Ref<Animation>> GetAnimations() const { return m_Animations; }*/
 
 private:
 	std::vector<Ref<SkeletalMesh>> m_Meshes;
-	std::vector<Ref<Animation>> m_Animations;
+	//std::vector<Ref<Animation>> m_Animations;
 	Ref<Rig> m_Rig;
 
 	// Positions of bones sent to vertex shader and sent from Animator[Component]

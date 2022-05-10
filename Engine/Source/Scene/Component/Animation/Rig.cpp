@@ -9,6 +9,14 @@ void Rig::AddBone(Ref<Bone> bone)
 	}
 }
 
+void Rig::CompleteBone(std::string boneName, aiNodeAnim* channel)
+{
+	auto bone = FindBone(boneName);
+	if (bone != nullptr)
+		bone->ReadDataFromAnimation(channel);
+
+}
+
 Ref<Bone> Rig::GetBone(uint32_t index) const
 {
 	if (index < HowManyBones() && index >= 0)

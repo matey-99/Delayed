@@ -64,7 +64,7 @@ void Bone::Update(float animationTime)
 
 int Bone::GetPositionIndex(float animationTime)
 {
-	for (int index = 0; index < m_NumPositions - 1; ++index)
+	for (int index = 0; index < m_NumPositions - 1; ++index)  // should it really be ++index?
 	{
 		if (animationTime < m_Positions[index + 1].timeStamp)
 			return index;

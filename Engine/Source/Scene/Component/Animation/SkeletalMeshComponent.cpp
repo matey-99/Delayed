@@ -60,26 +60,20 @@ uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
 
 std::vector<Ref<Animation>> SkeletalMeshComponent::GetAnimations()
 {
-	return m_SkeletalModel->GetAnimations();
+	return m_Animations;
 }
 
 uint32_t SkeletalMeshComponent::GetBoneCount()
 {
 	return m_SkeletalModel->GetRig()->HowManyBones();
-
-	/*uint32_t bones = 0;
-	for (auto mesh : m_SkeletalModel->GetMeshes())
-	{
-		bones += mesh->GetBoneCount();
-	}
-
-	return bones;*/
 }
 
 void SkeletalMeshComponent::LoadMesh(std::string path)
 {
 	m_Path = path;
+	// Below should be loading only once from the path, but it reads twice
 	m_SkeletalModel = AssetManager::LoadSkeletalModel(path);
+	//m_Animations	= AssetManager::LoadAnimations(path, m_SkeletalModel->GetRig());
 }
 
 void SkeletalMeshComponent::ChangeMesh(std::string path)
@@ -95,6 +89,7 @@ void SkeletalMeshComponent::ChangeMesh(std::string path)
 
 void SkeletalMeshComponent::ChangeModel(Ref<ModelBase> modelBase)
 {
+	// Is it enough?
 	if (auto model = StaticCast<SkeletalModel>(modelBase))
 		m_SkeletalModel = model;
 }
