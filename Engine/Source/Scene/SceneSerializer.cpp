@@ -34,6 +34,7 @@
 #include "Game/Ghost.h"
 #include "Game/DeathArea.h"
 #include "Game/Checkpoint.h"
+#include "Game/Trail.h"
 #include "Game/BlockTrigger.h"
 #include "Game/TPPPlayer.h"
 
@@ -413,6 +414,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						std::string spritePath = particle["Sprite"].as<std::string>();
 						int emitterShape = particle["EmitterShape"].as<int>();
 						uint32_t maxParticles = particle["MaxParticles"].as<uint32_t>();
+						float emissionRateOverTime = particle["EmissionRateOverTime"].as<float>();
 						float minParticleSize = particle["MinParticleSize"].as<float>();
 						float maxParticleSize = particle["MaxParticleSize"].as<float>();
 						float endParticleSize = particle["EndParticleSize"].as<float>();
@@ -445,6 +447,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							DEBUG_LOG("Unknown emitter shape in Particle System with ID: " + p->GetOwner()->GetID());
 
 						p->m_MaxParticles = maxParticles;
+						p->m_EmissionRateOverTime = emissionRateOverTime;
 						p->m_MinParticleSize = minParticleSize;
 						p->m_MaxParticleSize = maxParticleSize;
 						p->m_EndParticleSize = endParticleSize;
@@ -553,9 +556,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto player = component["Player"])
 					{
 						uint64_t cameraActorID = player["Camera"].as<uint64_t>();
+						uint64_t trailActorID = player["Trail"].as<uint64_t>();
 
 						auto p = a->AddComponent<Player>();
 						p->m_CameraID = cameraActorID;
+						p->m_TrailID = trailActorID;
 					}
 
 					if (auto tppPlayer = component["TPPPlayer"])
@@ -614,6 +619,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto blockTrigger = component["BlockTrigger"])
 					{
 						a->AddComponent<BlockTrigger>();
+					}
+
+					if (auto trail = component["Trail"])
+					{
+						a->AddComponent<Trail>();
 					}
 				}
 			}
@@ -831,6 +841,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		}
 
 		out << YAML::Key << "MaxParticles" << YAML::Value << particleSystem->m_MaxParticles;
+		out << YAML::Key << "EmissionRateOverTime" << YAML::Value << particleSystem->m_EmissionRateOverTime;
 		out << YAML::Key << "MinParticleSize" << YAML::Value << particleSystem->m_MinParticleSize;
 		out << YAML::Key << "MaxParticleSize" << YAML::Value << particleSystem->m_MaxParticleSize;
 		out << YAML::Key << "EndParticleSize" << YAML::Value << particleSystem->m_EndParticleSize;
@@ -940,6 +951,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Player";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Camera" << YAML::Value << player->m_CameraID;
+		out << YAML::Key << "Trail" << YAML::Value << player->m_TrailID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1009,6 +1021,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	{
 		out << YAML::BeginMap;
 		out << YAML::Key << "Checkpoint";
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto trail = actor->GetComponent<Trail>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Trail";
 		out << YAML::BeginMap;
 		out << YAML::EndMap;
 		out << YAML::EndMap;

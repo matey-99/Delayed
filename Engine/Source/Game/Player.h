@@ -6,6 +6,7 @@ class CharacterController;
 class Checkpoint;
 class CameraComponent;
 class BoxColliderComponent;
+class Trail;
 
 class Player : public GameComponent
 {
@@ -36,6 +37,7 @@ private:
 	/* References */
 	Ref<CharacterController> m_CharacterController;
 	Ref<CameraComponent> m_Camera;
+	Ref<Trail> m_Trail;
 	
 	glm::vec3 m_LastCheckpointPosition;
 
@@ -51,6 +53,7 @@ private:
 #pragma region Serialization
 
 	uint64_t m_CameraID;
+	uint64_t m_TrailID;
 
 #pragma endregion
 

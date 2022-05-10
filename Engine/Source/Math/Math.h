@@ -28,6 +28,8 @@ namespace Math
 
 	float Distance(const glm::vec3& a, const glm::vec3& b);
 
+	bool IsNearlyEqual(float a, float b, float errorTolerance = 0.001f);
+
 	bool IsNearlyEqual(const glm::vec3& a, const glm::vec3& b, float errorTolerance = 0.001f);
 
 	glm::vec3 Normalize(const glm::vec3& v);

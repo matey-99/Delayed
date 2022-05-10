@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene/Component/RenderComponent.h"
+#include "Math/Math.h"
 
 class ParticleEmitterShape;
 
@@ -19,6 +20,12 @@ private:
 			CurrentSize = 0.0f;
 			InitialLifeTime = 0.0f;
 			CurrentLifeTime = 0.0f;
+			DistanceFromCamera = 0.0f;
+		}
+
+		bool operator<(Particle& other)
+		{
+			return DistanceFromCamera > other.DistanceFromCamera;
 		}
 
 		glm::vec3 Position;
@@ -33,6 +40,8 @@ private:
 
 		float InitialLifeTime;
 		float CurrentLifeTime;
+
+		float DistanceFromCamera;
 	};
 
 public:
@@ -50,6 +59,8 @@ public:
 	void ChangeSprite(std::string path);
 
 	void SetMaxParticles(uint32_t count);
+
+	inline void SetEmissionRateOverTime(float rateOverTime) { m_EmissionRateOverTime = rateOverTime; }
 
 private:
 	int FindUnusedParticle();

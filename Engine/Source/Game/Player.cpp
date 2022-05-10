@@ -14,7 +14,7 @@
 #include "Scene/Component/RigidBodyComponent.h"
 #include "Physics/Physics.h"
 #include "CharacterController.h"
-#include "GhostPathElement.h"
+#include "Trail.h"
 #include "Checkpoint.h"
 
 Player::Player(Actor* owner)
@@ -46,6 +46,7 @@ void Player::Start()
 
 	m_CharacterController = m_Owner->AddComponent<CharacterController>();
 	m_Camera = m_Owner->GetScene()->GetComponent<CameraComponent>(m_CameraID);
+	m_Trail = m_Owner->GetScene()->GetComponent<Trail>(m_TrailID);
 
 	m_LastCheckpointPosition = m_Owner->GetTransform()->GetWorldPosition();
 }
@@ -53,7 +54,13 @@ void Player::Start()
 void Player::Update(float deltaTime)
 {
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
+	{
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
+
+		m_Trail->EnableTrailParticlesEmission(true);
+	}
+	else
+		m_Trail->EnableTrailParticlesEmission(false);
 
 	CharacterMovementParams params;
 	params.IsRunning = m_IsRunning;

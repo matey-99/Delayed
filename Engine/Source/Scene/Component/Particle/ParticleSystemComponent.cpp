@@ -5,6 +5,7 @@
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
 #include "Math/Math.h"
+#include "Camera/CameraManager.h"
 
 #include "ParticleEmitterSphere.h"
 #include "ParticleEmitterBox.h"
@@ -70,6 +71,8 @@ void ParticleSystemComponent::Update(float deltaTime)
 		}
 	}
 
+	std::sort(m_Particles.begin(), m_Particles.end());
+
 	for (int i = 0; i < m_MaxParticles; i++)
 	{
 		Particle& particle = m_Particles[i];
@@ -80,6 +83,8 @@ void ParticleSystemComponent::Update(float deltaTime)
 			particle.CurrentSize = Math::Lerp(particle.CurrentSize, m_EndParticleSize, 1 / particle.InitialLifeTime * deltaTime);
 			particle.Color = Math::Lerp(particle.Color, m_EndParticleColor, 1 / particle.InitialLifeTime * deltaTime);
 			particle.CurrentLifeTime -= deltaTime;
+
+			particle.DistanceFromCamera = Math::Distance(particle.Position, CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition());
 
 			m_ParticlesPositions[i] = glm::vec4(particle.Position, particle.CurrentSize);
 			m_ParticlesColors[i] = particle.Color;
@@ -236,6 +241,8 @@ void ParticleSystemComponent::EmitParticle(int index)
 
 	particle.InitialLifeTime = m_MinParticleLifeTime + ((float)rand() / (RAND_MAX / (m_MaxParticleLifeTime - m_MinParticleLifeTime)));
 	particle.CurrentLifeTime = particle.InitialLifeTime;
+
+	particle.DistanceFromCamera = Math::Distance(particle.Position, CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition());
 
 	m_Particles[index] = particle;
 	m_ParticlesPositions[index] = glm::vec4(particle.Position, particle.CurrentSize);

@@ -248,7 +248,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Gray.mat
+              Path: Materials/Red.mat
       - LODGroup:
           LODs:
             - Level: 0
@@ -1042,6 +1042,7 @@ Actors:
           Size: [1, 2, 1]
       - Player:
           Camera: 1541634382
+          Trail: 405188416
   - Actor: 1503775902
     ID: 1503775902
     Name: Ghost
@@ -1665,32 +1666,35 @@ Actors:
           Platform: 1880114162
   - Actor: 405188416
     ID: 405188416
-    Name: Particle System
+    Name: Trail
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [43.6667252, 4.95965385, -17.7849979]
+          LocalPosition: [0, 0.000557899475, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
-          Parent: 0
+          Parent: 1503310903
       - ParticleSystem:
           Duration: 5
           Looping: true
           Sprite: Textures/Default/Particle.png
           EmitterShape: 0
-          EmitterSphereRadius: 1
-          MaxParticles: 100
-          MinParticleSize: 0.100000001
-          MaxParticleSize: 0.300000012
+          EmitterSphereRadius: 0.25
+          MaxParticles: 200
+          EmissionRateOverTime: 50
+          MinParticleSize: 0.25
+          MaxParticleSize: 0.25
           EndParticleSize: 0
           MinParticleVelocity: [0, 0.100000001, 0]
-          MaxParticleVelocity: [0, 0.5, 0]
-          EndParticleVelocity: [0, 0, 0.5]
-          MinParticleLifeTime: 1
-          MaxParticleLifeTime: 2
-          StartParticleColor: [0, 11.3973398, 12, 0.5]
-          EndParticleColor: [0, 1.07262754, 6, 0.25]
+          MaxParticleVelocity: [0, 0, 0]
+          EndParticleVelocity: [0, 0, 0]
+          MinParticleLifeTime: 3.5
+          MaxParticleLifeTime: 3.5
+          StartParticleColor: [0, 1.89944363, 2, 0.5]
+          EndParticleColor: [0, 0.950000525, 1, 0]
+      - Trail:
+          {}
   - Actor: 600320104
     ID: 600320104
     Name: Death_Area
@@ -1702,6 +1706,10 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [38.9430656, 1, 76.626152]
           Parent: 0
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1000, 1, 1000]
       - DeathArea:
           {}
   - Actor: 508492295

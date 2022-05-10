@@ -4,7 +4,6 @@
 #include "Game/Player.h"
 #include "Game/Ghost.h"
 #include "Scene/Scene.h"
-#include "Game/block.h"
 #include "Scene/Component/StaticMeshComponent.h"
 
 BlockTrigger::BlockTrigger(Actor* owner)
