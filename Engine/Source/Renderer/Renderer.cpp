@@ -107,13 +107,6 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	PROFILER_STOP();
 	m_Output[outputIndex] = m_LightingPass->GetRenderTarget()->GetTargets()[0];
 
-	// SSR
-	if (m_Settings.SSREnabled)
-	{
-		m_SSRPass->Render(m_Output[outputIndex]);
-		m_Output[outputIndex] = m_SSRPass->GetRenderTarget()->GetTargets()[0];
-	}
-
 	// Depth Fog
 	if (m_Settings.DepthFogEnabled)
 	{
@@ -124,6 +117,13 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	// Forward
 	Ref<RenderTarget> previousRT = m_Settings.DepthFogEnabled ? m_DepthFogPass->GetRenderTarget() : m_LightingPass->GetRenderTarget();
 	m_ForwardPass->Render(scene, previousRT);
+
+	// SSR
+	if (m_Settings.SSREnabled)
+	{
+		m_SSRPass->Render(m_Output[outputIndex]);
+		//m_Output[outputIndex] = m_SSRPass->GetRenderTarget()->GetTargets()[0];
+	}
 
 	// Post Processing
 	if (m_Settings.PostProcessingEnabled)

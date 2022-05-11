@@ -13,32 +13,32 @@ RendererSettings:
     Bias: 0.449999988
   DepthFogSettings:
     MinDistance: 15
-    MaxDistance: 125
-    Density: 0.150000006
+    MaxDistance: 132.5
+    Density: 1
     Color: [0.470588237, 0.662745118, 0.87843138]
   PostProcessingSettings:
-    Gamma: -1
-    Gain: 0.5
+    Gamma: -1.39999998
+    Gain: 0.479999989
     Lift: 0
-    Offset: 0
+    Offset: 0.0450000018
     Exposure: 0.899999976
-    Contrast: 1.14999998
-    ContrastPivot: 0.800000012
+    Contrast: 1.38
+    ContrastPivot: 1
     BloomEnabled: true
     BloomThreshold: 2
     BloomLimit: 20
-    BloomIntensity: 0.800000012
+    BloomIntensity: 1.5
     BloomBlurSigma: 3.5999999
-    Saturation: 1.10000002
-    Temperature: 75
-    Hue: 180
+    Saturation: 0.699999988
+    Temperature: 70
+    Hue: 184
   VignetteSettings:
-    Intensity: 10.5
-    Size: 0.174999997
+    Intensity: 14.8000002
+    Size: 0.075000003
   DepthOfFieldSettings:
-    MinDistance: 1.5
-    MaxDistance: 64
-    Size: 2
+    MinDistance: 15.3000002
+    MaxDistance: 81.3000031
+    Size: 1
 Actors:
   - Actor: 14968050
     ID: 14968050
@@ -204,7 +204,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-4.01817322, 5.81999254, -70.8545227]
+          LocalPosition: [-6.06541061, 3.75340366, -59.7367592]
           LocalRotation: [0, 0, 0]
           LocalScale: [12.467474, 17.0135517, 13.2789354]
           Parent: 2141099751
@@ -212,7 +212,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Gray.mat
+              Path: Materials/Red.mat
       - LODGroup:
           LODs:
             - Level: 0
@@ -943,7 +943,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 6.73608208, -13.0490322]
+          LocalPosition: [39.6697083, 5.23823023, -19.7367725]
           LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
           LocalScale: [2, 4, 2]
           Parent: 0
@@ -1513,7 +1513,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [43.6667252, 4.95965385, -17.7849979]
+          LocalPosition: [42.8533478, 4.95965385, -19.9841843]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -1523,14 +1523,54 @@ Actors:
           Sprite: Textures/Default/Particle.png
           EmitterShape: 0
           EmitterSphereRadius: 1
-          MaxParticles: 100
+          MaxParticles: 500
           MinParticleSize: 0.100000001
           MaxParticleSize: 0.300000012
           EndParticleSize: 0
           MinParticleVelocity: [0, 0.100000001, 0]
           MaxParticleVelocity: [0, 0.5, 0]
           EndParticleVelocity: [0, 0, 0.5]
-          MinParticleLifeTime: 1
-          MaxParticleLifeTime: 2
-          StartParticleColor: [0, 11.3973398, 12, 0.5]
-          EndParticleColor: [0, 1.07262754, 6, 0.25]
+          MinParticleLifeTime: 0
+          MaxParticleLifeTime: 11.3000002
+          StartParticleColor: [12, 0, 7.80722809, 0.5]
+          EndParticleColor: [0, 6, 1.66264915, 0.25]
+  - Actor: 836159668
+    ID: 836159668
+    Name: SKELETON
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [24.9424229, 6.96056032, -21.3994217]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 632141559
+    ID: 632141559
+    Name: New Actor
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [40.6688881, 2.07469845, -19.1278267]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [19.2808838, 1, 18.4625378]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Green.mat
+  - Actor: 427294514
+    ID: 427294514
+    Name: New Actor (1)
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [40.5732651, 2.91938353, -22.0699387]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_sphere.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat

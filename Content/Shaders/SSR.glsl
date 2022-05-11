@@ -64,9 +64,9 @@ void main()
         discard;
 
     //vec3 viewNormal = vec3(texture2D(u_GBufferNormal, v_TexCoord));
-    vec3 viewNormal = vec3(texture2D(u_GBufferNormal, v_TexCoord) * u_View);  // (originally invView) - transforms world space normal vector to view space
+    vec3 viewNormal = vec3(texture2D(u_GBufferNormal, v_TexCoord) * inverse(u_View));  // (originally invView) - transforms world space normal vector to view space
     //vec3 viewPos = vec3(texture2D(u_GBufferViewPosition, v_TexCoord));
-    vec3 viewPos = textureLod(u_GBufferViewPosition, v_TexCoord, 2).xyz;
+    vec3 viewPos = texture(u_GBufferViewPosition, v_TexCoord).xyz;
     vec3 albedo = texture(u_Screen, v_TexCoord).rgb;
 
     float spec = texture(u_GBufferMetallicRoughness, v_TexCoord).g;  // float spec = texture(ColorBuffer, TexCoords).w;
@@ -83,7 +83,7 @@ void main()
  
     // f_Color = vec4(reflected, 1.0);  // visualize reflections
 
-    vec3 wp = vec3(vec4(viewPos, 1.0) * u_View);  // originally invView
+    vec3 wp = vec3(vec4(viewPos, 1.0) * inverse(u_View));  // originally invView
     vec3 jitt = mix(vec3(0.0), vec3(hash(wp)), spec);
     vec4 coords = RayMarch((vec3(jitt) + reflected * max(u_MinRayStep, -viewPos.z)), hitPos, dDepth);
  
