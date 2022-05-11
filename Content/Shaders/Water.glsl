@@ -173,9 +173,9 @@ const float PI = 3.14159265359;
 
 const float timeScale = 0.01;
 
-vec3 GetNormalFromNormalMap()
+vec3 GetNormalFromNormalMap(vec2 flow)
 {
-    vec3 tangentNormal = texture(u_Material.normalMap, v_TexCoord).xyz * 2.0 - 1.0;
+    vec3 tangentNormal = texture(u_Material.normalMap, v_TexCoord + flow).xyz * 2.0 - 1.0;
 
     vec3 Q1 = dFdx(v_Position);
     vec3 Q2 = dFdy(v_Position);
@@ -366,7 +366,7 @@ void main()
     albedo = u_Material.albedo;
 
     if (u_Material.isNormalMap)
-    N = GetNormalFromNormalMap();
+    N = GetNormalFromNormalMap(flow);
     else
     N = normalize(v_Normal);
 
