@@ -556,11 +556,15 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto player = component["Player"])
 					{
 						uint64_t cameraActorID = player["Camera"].as<uint64_t>();
+						uint64_t ghostActorID = player["Ghost"].as<uint64_t>();
 						uint64_t trailActorID = player["Trail"].as<uint64_t>();
+						uint64_t staminaBarActorID = player["StaminaBar"].as<uint64_t>();
 
 						auto p = a->AddComponent<Player>();
 						p->m_CameraID = cameraActorID;
+						p->m_GhostID = ghostActorID;
 						p->m_TrailID = trailActorID;
+						p->m_StaminaBarID = staminaBarActorID;
 					}
 
 					if (auto tppPlayer = component["TPPPlayer"])
@@ -951,7 +955,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Player";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Camera" << YAML::Value << player->m_CameraID;
+		out << YAML::Key << "Ghost" << YAML::Value << player->m_GhostID;
 		out << YAML::Key << "Trail" << YAML::Value << player->m_TrailID;
+		out << YAML::Key << "StaminaBar" << YAML::Value << player->m_StaminaBarID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

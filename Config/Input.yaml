@@ -8,6 +8,12 @@ ActionInputBindings:
   - Name: Run
     InputType: Keyboard
     Input: LeftShift
+  - Name: Dash
+    InputType: Keyboard
+    Input: V
+  - Name: Teleport
+    InputType: Keyboard
+    Input: R
   - Name: Exit
     InputType: Keyboard
     Input: Escape

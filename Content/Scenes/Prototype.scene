@@ -248,7 +248,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Red.mat
+              Path: Materials/Blue.mat
       - LODGroup:
           LODs:
             - Level: 0
@@ -1042,7 +1042,9 @@ Actors:
           Size: [1, 2, 1]
       - Player:
           Camera: 1541634382
+          Ghost: 1503775902
           Trail: 405188416
+          StaminaBar: 765667130
   - Actor: 1503775902
     ID: 1503775902
     Name: Ghost
@@ -1629,18 +1631,18 @@ Actors:
           Size: [1, 1, 1]
   - Actor: 765667130
     ID: 765667130
-    Name: Icon
+    Name: Stamina Bar
     Enabled: true
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 7
-          LocalPosition: [129, 128, 0]
+          Anchor: 2
+          LocalPosition: [0, 100, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [100, 100, 1]
+          LocalScale: [300, 10, 1]
           Parent: 1
       - Image:
-          Path: Textures/HUD_placeholder.png
+          Path: Textures/Default/UI.png
           Color: [1, 1, 1, 1]
   - Actor: 963697696
     ID: 963697696
