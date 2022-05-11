@@ -1040,6 +1040,8 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 2, 1]
+      - AudioListener:
+          {}
       - Player:
           Camera: 1541634382
           Ghost: 1503775902
@@ -1765,3 +1767,25 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+  - Actor: 224373491
+    ID: 224373491
+    Name: Test Audio
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [57.712059, 3.54694319, -34.6842499]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Music/music.mp3
+          Volume: 0.25
+          3d: true
+          Looping: true
+          PlayOnStart: true

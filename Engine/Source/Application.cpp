@@ -12,6 +12,7 @@
 #include "Scene/SceneManager.h"
 #include "Camera/CameraManager.h"
 #include "Analysis/Profiler.h"
+#include "Audio/AudioSystem.h"
 
 Ref<Application> Application::s_Instance{};
 
@@ -108,6 +109,10 @@ void Application::Run()
     // CAMERA
     auto cameraManager = CameraManager::GetInstance();
 
+    // AUDIO
+    auto audioSystem = AudioSystem::GetInstance();
+    audioSystem->Initialize();
+
     time->SetLastFrameTime(glfwGetTime());
     while (!glfwWindowShouldClose(m_Window))
     {
@@ -137,8 +142,13 @@ void Application::Run()
         // ANALYSIS
         profiler->Update();
 
+        //AUDIO
+        audioSystem->Update(Time::GetInstance()->GetDeltaTime());
+
         glfwSwapBuffers(m_Window);
     }
+
+    audioSystem->Shutdown();
 
     glfwDestroyWindow(m_Window);
     glfwTerminate();

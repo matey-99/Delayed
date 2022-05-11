@@ -1,6 +1,8 @@
 #include "Editor.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <Scene/Component/AudioSourceComponent.h>
+#include <Scene/Component/AudioListenerComponent.h>
 
 #include "Camera/CameraManager.h"
 #include "Scene/Component/Light/Light.h"
@@ -94,6 +96,8 @@ void Editor::Start()
 	}
 
 	Input::GetInstance()->SetInputMode(InputMode::UI);
+
+    AudioSystem::GetInstance()->StopAllChannels();
 }
 
 void Editor::Update(float deltaTime)
@@ -129,6 +133,18 @@ void Editor::Update(float deltaTime)
 		if (m_SelectedCameraComponent)
 			m_SelectedCameraComponent->Update(deltaTime);
 	}
+
+    auto audioSources = m_Scene->GetComponents<AudioSourceComponent>();
+    for (auto audioSource : audioSources) {
+        audioSource->Update(deltaTime);
+    }
+
+    auto audioListeners = m_Scene->GetComponents<AudioListenerComponent>();
+    for (auto audioListener : audioListeners) {
+        audioListener->Update(deltaTime);
+    }
+
+    AudioSystem::GetInstance()->Update(deltaTime);
 
 #if UPDATE_UI
 

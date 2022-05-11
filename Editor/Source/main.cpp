@@ -29,6 +29,7 @@
 #include "Scene/SceneManager.h"
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
+#include "Audio/AudioSystem.h"
 
 #define FPS 60.0f
 #define MS_PER_UPDATE 1 / FPS
@@ -275,6 +276,8 @@ int main(int, char**)
         printf("FMOD error! (%d) $s\n", result, FMOD_ErrorString(result));
         return 1;
     }
+
+    AudioSystem::GetInstance()->Initialize();
 
     Renderer::GetInstance()->Initialize();
 
