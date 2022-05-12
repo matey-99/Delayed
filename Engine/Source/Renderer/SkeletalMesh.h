@@ -7,7 +7,6 @@
 #include "Math/BoundingSphere.h"
 #include <vector>
 #include <unordered_map>
-//#include "Bone.h"
 #include "Mesh.h"
 
 #define MAX_BONES_INFLUENCE 4
@@ -31,17 +30,16 @@ public:
 	//uint32_t GetBoneCount() { return m_BoneCounter; }
 	//std::unordered_map<std::string, BoneInfo> GetBoneInfoMap() { return m_BoneInfoMap; }
 
-	//void SetBoneMatrices(std::vector<glm::mat4> boneMatrices);
-	/*std::vector<glm::mat4> GetBoneMatrices()
-	{
-		return m_BoneMatrices;
-	}*/
+	void SetBoneMatrices(std::vector<glm::mat4> boneMatrices);
+	std::vector<glm::mat4> GetBoneMatrices() { return m_BoneMatrices; }
+
 
 private:
 	void SetupMesh();
 
 public:
 	std::vector<SkinnedVertex> m_Vertices;
+	std::vector<glm::mat4> m_BoneMatrices;
 	//uint32_t m_BoneCounter = 0;
 	//std::vector<glm::mat4> m_BoneMatrices;
 	//std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map

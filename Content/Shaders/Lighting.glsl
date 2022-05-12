@@ -33,6 +33,7 @@ layout (location = 6) uniform sampler2D u_SSAO;
 layout (location = 7) uniform vec3 u_SkyLightColor;
 layout (location = 8) uniform float u_SkyLightIntensity;
 layout (location = 10) uniform sampler2D u_SSR;
+layout (location = 11) uniform samplerCube u_Skybox;
 
 struct DirectionalLight
 {
@@ -258,7 +259,7 @@ void main()
     vec3 normal = texture(u_GBufferNormal, v_TexCoord).rgb;
     vec3 color = texture(u_GBufferColorAO, v_TexCoord).rgb;
     float ao = texture(u_GBufferColorAO, v_TexCoord).a * texture(u_SSAO, v_TexCoord).r; // EXPERIMENTAL
-    vec3 ssr = ao * texture(u_SSR, v_TexCoord).rgb;
+    vec4 ssr = texture(u_SSR, v_TexCoord);
     vec3 emissive = texture(u_GBufferEmissive, v_TexCoord).rgb;
     float metallic = texture(u_GBufferMetallicRoughness, v_TexCoord).r;
     float roughness = texture(u_GBufferMetallicRoughness, v_TexCoord).g;
@@ -283,7 +284,12 @@ void main()
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         Lo += CalculateSpotLight(u_SpotLights[i], position, V, color, normal, metallic, roughness);
 
-    vec3 ambient = u_SkyLightColor * u_SkyLightIntensity * color * ssr;
+    vec3 ambient = u_SkyLightColor * u_SkyLightIntensity * color * ao;
+    
+    if (ssr.a < 0.01)
+        ambient += ssr.rgb;
+    else
+        ambient *= ssr.rgb;
 
     vec3 lighting = ambient + Lo + emissive;
     f_Color = vec4(lighting, 1.0);

@@ -21,7 +21,7 @@ public:
 
 	Ref<Rig> GetRig() const { return m_Rig; }
 
-	//void SetBoneMatrices(std::vector<glm::mat4> boneMatrices);
+	void PropagateBoneTransforms(std::vector<glm::mat4> boneMatrices);
 
 	/*void AddAnimation(Ref<Animation> animation) { m_Animations.push_back(animation); }
 

@@ -18,6 +18,7 @@ AssetManager::AssetManager()
 {
 	m_ModelImporter = CreateRef<ModelImporter>();
 	m_SkeletalModelImporter = CreateRef<SkeletalModelImporter>();
+	m_AnimationImporter = CreateRef<AnimationImporter>();
 	m_TextureImporter = CreateRef<TextureImporter>();
 	m_ShaderImporter = CreateRef<ShaderImporter>();
 	m_ComputeShaderImporter = CreateRef<ComputeShaderImporter>();

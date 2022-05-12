@@ -4,7 +4,7 @@ RendererSettings:
   DepthFog: true
   PostProcessing: true
   FXAA: true
-  Vignette: true
+  Vignette: false
   DepthOfField: false
   SSAOSettings:
     Intensity: 1.5
@@ -212,7 +212,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Red.mat
+              Path: Materials/Gray.mat
       - LODGroup:
           LODs:
             - Level: 0
@@ -345,9 +345,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-71.5999985, 2.55999994, 116.980003]
+          LocalPosition: [-79.2371063, 10.9687576, 133.013123]
           LocalRotation: [0, -0.094977133, 0]
-          LocalScale: [21.2350769, 53.482666, 18.6044827]
+          LocalScale: [56.7999992, 53.482666, 18.6044827]
           Parent: 2141099751
       - StaticMesh:
           Mesh: Models/defaults/default_cube.obj
@@ -943,7 +943,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [39.6697083, 5.23823023, -19.7367725]
+          LocalPosition: [26.6689873, 3.8098681, -20.7411976]
           LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
           LocalScale: [2, 4, 2]
           Parent: 0
@@ -1513,7 +1513,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [42.8533478, 4.95965385, -19.9841843]
+          LocalPosition: [31.2936516, 4.95965385, -19.9841843]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -1540,10 +1540,15 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [24.9424229, 6.96056032, -21.3994217]
+          LocalPosition: [21.238739, 3.44028711, -17.6910915]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [0.0299999993, 0.0299999993, 0.0299999993]
           Parent: 0
+      - SkeletalMesh:
+          SkeletalMesh: Models/Skeletal/SK_VampireThree.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/MSK_Default.mat
   - Actor: 632141559
     ID: 632141559
     Name: New Actor
@@ -1565,9 +1570,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [40.5732651, 2.91938353, -22.0699387]
+          LocalPosition: [44.9629364, 3.07397008, -16.4915161]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [1.37, 1.37, 1.37]
           Parent: 0
       - StaticMesh:
           Mesh: Models/defaults/default_sphere.obj

@@ -23,6 +23,8 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 		std::cout << "Loading skeletal model failed: " << importer.GetErrorString() << std::endl;
 		return nullptr;
 	}
+
+	scene->mRootNode->mTransformation;
 	
 	// Specify Model requirements that need all meshes info to be constructed
 	Ref<Rig> rig = CreateRef<Rig>();
@@ -36,21 +38,6 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	std::string relativePath = path.substr(AssetManager::ContentDirectory.size() + 1);
 	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes, rig);
 
-	// Read Animation
-		
-
-
-	// Load animations and save them to SkeletalModel
-	/*for (int index = 0; index < scene->mNumAnimations; index++)
-	{
-		auto _animation = CreateRef<Animation>(scene, index, meshes[0]);
-
-		std::cout << "Added animation to Skeletal Model, its name: " << _animation->GetAnimationName() << "\n";
-
-		importedSkeletalModel->AddAnimation(_animation);
-	}*/
-	/*for (auto& mesh : meshes)
-		importedSkeletalModel->LoadAnimation(CreateRef<Animation>(scene, mesh));*/
 
 	m_ImportedSkeletalModels.insert({ path, importedSkeletalModel });
 
@@ -167,8 +154,8 @@ void SkeletalModelImporter::ProcessMeshBones(std::vector<SkinnedVertex>& vertice
 	for (int boneIndex = 0; boneIndex < mesh->mNumBones; boneIndex++)
 	{
 		aiBone* assimpBone = mesh->mBones[boneIndex];
-		std::string boneName	 = assimpBone->mName.C_Str();
-		glm::mat4 offsetMatrix	 = AssimpGLMHelpers::ConvertMatrixToGLMFormat(assimpBone->mOffsetMatrix);
+		std::string boneName   = assimpBone->mName.C_Str();
+		glm::mat4 offsetMatrix = AssimpGLMHelpers::ConvertMatrixToGLMFormat(assimpBone->mOffsetMatrix);
 
 		// Assign bones to rig
 		Ref<Bone> bone = rig->FindBone(boneName);
@@ -181,7 +168,7 @@ void SkeletalModelImporter::ProcessMeshBones(std::vector<SkinnedVertex>& vertice
 		}
 		else
 		{
-			boneID = bone->GetBoneID();
+			boneID = bone->GetID();
 		}
 		assert(boneID != -1);  // just debug checking
 

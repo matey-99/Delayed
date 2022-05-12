@@ -96,7 +96,7 @@ void main()
                 -reflected.z;
 
     // Get color
-    vec3 SSR = textureLod(u_Screen, coords.xy, 0).rgb * clamp(ReflectionMultiplier, 0.0, 0.9) * Fresnel;  
+    vec3 SSR = textureLod(u_Screen, coords.xy, 0).rgb * clamp(ReflectionMultiplier, 0.0, 0.9) * Fresnel;
 
     f_Color = vec4(SSR, Metallic);
     
@@ -149,7 +149,7 @@ vec4 RayMarch(vec3 dir, inout vec3 hitCoord, out float dDepth)
         projectedCoord.xy /= projectedCoord.w;
         projectedCoord.xy = projectedCoord.xy * 0.5 + 0.5;
  
-        depth = textureLod(u_GBufferViewPosition, projectedCoord.xy, 2).z;
+        depth = texture(u_GBufferViewPosition, projectedCoord.xy, 2).z;
         if(depth > 1000.0)
             continue;
  

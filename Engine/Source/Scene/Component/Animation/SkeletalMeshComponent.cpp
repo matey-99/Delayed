@@ -4,6 +4,7 @@
 #include "Importer/MaterialImporter.h"
 #include "Camera/CameraManager.h"
 #include "Scene/Component/Animation/Rig.h"
+#include "Scene/Component/Animation/Animation.h"
 
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
@@ -11,8 +12,9 @@
 #include <glad/glad.h>
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner)
-	: SkeletalMeshComponent(owner, "Models/Skeletal/SK_VampireTwo.fbx")
+	: SkeletalMeshComponent(owner, "Models/Skeletal/SK_VampireThree.fbx")
 {
+
 }
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path)
@@ -58,12 +60,25 @@ uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
 	return vertices;
 }
 
-std::vector<Ref<Animation>> SkeletalMeshComponent::GetAnimations()
+Ref<Animation> SkeletalMeshComponent::GetAnimation(int index)
 {
-	return m_Animations;
+	if (index < m_Animations.size() && index >= 0)
+	{
+		return m_Animations[index];
+	}
+	else
+	{
+		return nullptr;
+	}
+		
 }
 
-uint32_t SkeletalMeshComponent::GetBoneCount()
+void SkeletalMeshComponent::PropagateBoneTransforms(std::vector<glm::mat4> boneMatrices)
+{
+	m_SkeletalModel->PropagateBoneTransforms(boneMatrices);
+}
+
+uint32_t SkeletalMeshComponent::GetBoneCount() const
 {
 	return m_SkeletalModel->GetRig()->HowManyBones();
 }
@@ -71,9 +86,9 @@ uint32_t SkeletalMeshComponent::GetBoneCount()
 void SkeletalMeshComponent::LoadMesh(std::string path)
 {
 	m_Path = path;
-	// Below should be loading only once from the path, but it reads twice
+	// Below assimp could be loading only once from the path, but it reads twice
 	m_SkeletalModel = AssetManager::LoadSkeletalModel(path);
-	//m_Animations	= AssetManager::LoadAnimations(path, m_SkeletalModel->GetRig());
+	m_Animations	= AssetManager::LoadAnimations(path, m_SkeletalModel->GetRig());
 }
 
 void SkeletalMeshComponent::ChangeMesh(std::string path)

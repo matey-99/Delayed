@@ -12,12 +12,11 @@
 
 class Animator : public Component
 {
+	Ref<SkeletalMeshComponent> m_SkeletalMeshComponent;
 	Ref<Animation> m_CurrentAnimation;
-	//std::vector<glm::mat4> m_FinalBoneMatrices;
+	std::vector<glm::mat4> m_FinalBoneMatrices;  // To feed shader with
 	float m_CurrentTime;
 	float m_DeltaTime;
-
-	Ref<SkeletalMeshComponent> m_SkeletalMeshComponent;
 
 public:
 	Animator(Actor* owner) : Component(owner)
@@ -25,14 +24,15 @@ public:
 		FindSkeletalMeshComponent();
 
 		m_CurrentTime = 0.0;
+		m_DeltaTime = 0.0f;
 
-		//m_FinalBoneMatrices.reserve(100);
+		m_FinalBoneMatrices.reserve(100);
+		for (int i = 0; i < 100; i++)
+			m_FinalBoneMatrices.push_back(glm::mat4(1.0f));
 
-		//for (int i = 0; i < 100; i++)
-		//	m_FinalBoneMatrices.push_back(glm::mat4(1.0f));
+		if (m_SkeletalMeshComponent->HowManyAnimations() > 0)
+			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(1);
 
-		if (m_SkeletalMeshComponent->GetAnimations().size() > 0)
-			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimations()[0];
 	}
 
 	virtual void Start() override
@@ -54,13 +54,15 @@ public:
 
 	size_t HowManyAnimationsAreThere()
 	{
-		return m_SkeletalMeshComponent->GetAnimations().size();
+		return m_SkeletalMeshComponent->HowManyAnimations();
 	}
 
 	float GetCurrentAnimationTime()
 	{
 		return m_CurrentTime;
 	}
+
+	std::string GetCurrentAnimationName() { return m_CurrentAnimation->GetAnimationName(); }
 
 	bool HasSkeletalMeshComponent()
 	{
@@ -72,24 +74,23 @@ public:
 
 	void DebugDisplayAnimationNames()
 	{
-		for (auto& animation : m_SkeletalMeshComponent->GetAnimations())
-			animation->DebugDisplayAnimationNames();
+		for (int index = 0; index < m_SkeletalMeshComponent->HowManyAnimations(); index++)
+		{
+			m_SkeletalMeshComponent->GetAnimation(index)->DebugDisplayAnimationName();
+		}
 	}
 
 	void FindSkeletalMeshComponent()
 	{
 		m_SkeletalMeshComponent = m_Owner->GetComponent<SkeletalMeshComponent>();
 
-		//m_Animations = m_SkeletalMeshComponent->GetAnimations();
-
-		if (m_SkeletalMeshComponent->GetAnimations().size() > 0)
-			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimations()[0];
+		if (m_SkeletalMeshComponent->HowManyAnimations() > 0)
+			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(1);  // winowajca
 	}
 
 	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);
 
 	//std::vector<glm::mat4> GetFinalBoneMatrices() { return m_FinalBoneMatrices; }
-
 
 
 };

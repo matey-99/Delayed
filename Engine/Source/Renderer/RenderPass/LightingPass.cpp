@@ -13,7 +13,6 @@ LightingPass::LightingPass()
 	lightingConfig.Attachment = RenderTarget::Attachment::Color;
 	lightingConfig.Type = RenderTarget::Type::Texture2D;
 	lightingConfig.ColorInternalFormat = RenderTarget::ColorInternalFormat::RGBA16F;
-
 	m_RenderTarget = RenderTarget::Create(lightingConfig, 1920, 1080);
 }
 
@@ -47,6 +46,9 @@ void LightingPass::Render(Ref<Scene> scene)
 
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, g->GetRenderTarget()->GetTargets()[4]);
+
+	// Load Cubemap
+
 
 	auto s = Renderer::GetInstance()->m_ShadowsPass;
 

@@ -307,7 +307,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					}
 					if (auto animator = component["Animator"])
 					{
-						
+						//a->AddComponent<Animator>();
 					}
 
 					if (auto lodGroup = component["LODGroup"])

@@ -287,14 +287,14 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 		Ref<SkeletalMesh> skelMesh = Cast<SkeletalMesh>(mesh);
 		if (skelMesh)
 		{
-			std::cout << "WARNING: Scene.cpp line: 290 <- here bone matrices should be given to vertex shader";
-			//std::vector<glm::mat4> transforms = skelMesh->GetBoneMatrices();
+			//std::cout << "WARNING: Scene.cpp line: 290 <- here bone matrices should be given to vertex shader";
+			std::vector<glm::mat4> transforms = skelMesh->GetBoneMatrices();
 			//std::cout << transforms.size();
-			//for (int i = 0; i < transforms.size(); i++)
-			//{
-			//	material->GetShader()->SetMat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
-			//	//std::cout << transforms[i][0][0] << transforms[i][0][1] << "\n";
-			//}
+			for (int i = 0; i < transforms.size(); i++)
+			{
+				material->GetShader()->SetMat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+				//std::cout << transforms[i][0][0] << transforms[i][0][1] << "\n";
+			}
 		}
 
 		//for (int i = 0; i < transforms.size(); i++)

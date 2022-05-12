@@ -5,12 +5,13 @@
 //Animation::Animation(const aiNode* root, int index, Ref<SkeletalModel> model)
 Animation::Animation(const aiNode* root, const aiAnimation* animation, Ref<Rig> rig)
 {
+	m_Rig = rig;
 	m_Name			 = animation->mName.C_Str();
 	m_Duration		 = animation->mDuration;
 	m_NumChannels	 = animation->mNumChannels;
 	m_TicksPerSecond = animation->mTicksPerSecond;
-	ReadHierarchyData(m_RootNode, root);
-	ReadMissingBones(animation, rig);
+	ReadHierarchyData(animation, m_RootNode, root);
+	ReadMissingBones(animation);
 
 	// Code below does nothing but was originally here -- maybe should inverse a reference? idk
 	//aiMatrix4x4 globalTransformation = scene->mRootNode->mTransformation;  // is necessery?
@@ -31,27 +32,27 @@ Animation::Animation(const aiNode* root, const aiAnimation* animation, Ref<Rig> 
 //}
 
 //void Animation::ReadMissingBones(const aiAnimation* animation, Ref<SkeletalModel> model)
-void Animation::ReadMissingBones(const aiAnimation* animation, Ref<Rig> rig)
+void Animation::ReadMissingBones(const aiAnimation* animation)
 {
-	uint32_t boneCount = rig->HowManyBones();
+	uint32_t boneCount = m_Rig->HowManyBones();
 
 	for (int i = 0; i < m_NumChannels; i++)
 	{
 		auto channel = animation->mChannels[i];
 		std::string boneName = channel->mNodeName.data;
 
-		if (rig->FindBone(boneName) == nullptr)
+		if (m_Rig->FindBone(boneName) == nullptr)
 		{
 			std::cout << "Animation.cpp: Found missing bone with name: " << boneName << '\n';  // Debug
 			// Here add the missing bone
-			//rig->AddBone(CreateRef<Bone>());
+			//m_Rig->AddBone(CreateRef<Bone>());
+			//boneCount = m_Rig->HowManyBones();
 		}
 		else
 		{
-			std::cout << "Animation.cpp: Completed bone with name: " << boneName << '\n';  // Debug
-			rig->CompleteBone(boneName, channel);
+			std::cout << "Animation.cpp: Completed bone with name: " << boneName << "\n";  // Debug
+			m_Rig->CompleteBone(boneName, channel);
 		}
-
 	}
 
 
@@ -75,7 +76,7 @@ void Animation::ReadMissingBones(const aiAnimation* animation, Ref<Rig> rig)
 	//m_BoneInfoMap = boneInfoMap;
 }
 
-void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
+void Animation::ReadHierarchyData(const aiAnimation* animation, AssimpNodeData& dest, const aiNode* src)
 {
 	assert(src);
 
@@ -83,10 +84,24 @@ void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
 	dest.transformation = AssimpGLMHelpers::ConvertMatrixToGLMFormat(src->mTransformation);
 	dest.childrenCount = src->mNumChildren;
 
+	//std::cout << "AssimpNodeData mName: " << dest.name << "\n";
+
 	for (int i = 0; i < src->mNumChildren; i++)
 	{
+		// There we should traverse bones looking for some transformation from animation (1:37:00)
+		//for (int index = 0; index < animation->mNumChannels; index++)
+		//{
+		//	const aiNodeAnim* nodeAnim = animation->mChannels[index];
+
+		//	if (std::string(nodeAnim->mNodeName.data) == src->mName.C_Str())
+		//	{
+		//		// Calculate transformation matrix
+		//		this->
+		//	}
+		//}
+
 		AssimpNodeData newData;
-		ReadHierarchyData(newData, src->mChildren[i]);
+		ReadHierarchyData(animation, newData, src->mChildren[i]);
 		dest.children.push_back(newData);
 	}
 }

@@ -39,7 +39,8 @@ class Bone
 public:
 	glm::mat4 GetLocalTransform() { return m_LocalTransform; }
 	std::string GetBoneName() const { return m_Name; }
-	int GetBoneID() { return m_ID; }
+	int GetID() { return m_ID; }
+	glm::mat4 GetOffset() { return m_OffsetMatrix; }
 	bool IsComplete() { return isComplete; }
 
 	//Bone(const std::string& name, int ID, const aiNodeAnim* channel);

@@ -14,10 +14,10 @@ SkeletalMesh::SkeletalMesh(std::vector<SkinnedVertex> vertices,
 	CreateBounds(v);
 }
 
-//void SkeletalMesh::SetBoneMatrices(std::vector<glm::mat4> boneMatrices)
-//{
-//	m_BoneMatrices = std::vector<glm::mat4>(boneMatrices);
-//}
+void SkeletalMesh::SetBoneMatrices(std::vector<glm::mat4> boneMatrices)
+{
+	m_BoneMatrices = std::vector<glm::mat4>(boneMatrices);
+}
 
 void SkeletalMesh::SetupMesh()
 {
