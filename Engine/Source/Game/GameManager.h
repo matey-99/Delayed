@@ -1,21 +1,9 @@
 #pragma once
 
-#include <mutex>
+#include "Core.h"
+#include "GameComponent.h"
 
-#include "typedefs.h"
-
-class GameManager
+class GameManager : public GameComponent
 {
-public:
-	GameManager();
-	~GameManager();
 
-	GameManager(GameManager& other) = delete;
-	void operator=(const GameManager&) = delete;
-
-	static Ref<GameManager> GetInstance();
-
-private:
-	static Ref<GameManager> s_Instance;
-	static std::mutex s_Mutex;
 };

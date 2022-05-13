@@ -149,5 +149,6 @@ Ref<Material> MaterialSerializer::Deserialize(std::string path)
 		}
 	}
 
+	file.close();
 	return material;
 }

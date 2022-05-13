@@ -2,6 +2,7 @@
 
 #include "Scene/Actor.h"
 #include "Player.h"
+#include "SaveManager.h"
 
 Checkpoint::Checkpoint(Actor* owner)
 	: GameComponent(owner)
@@ -23,5 +24,8 @@ void Checkpoint::Start()
 void Checkpoint::OnTriggerEnter(Ref<ColliderComponent> other)
 {
 	if (auto player = other->GetOwner()->GetComponent<Player>())
+	{
 		player->SetLastCheckpoint(this);
+		SaveManager::GetInstance()->SaveGame();
+	}
 }

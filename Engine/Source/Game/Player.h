@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameComponent.h"
+#include "Saveable.h"
 
 class CharacterController;
 class Checkpoint;
@@ -8,13 +9,16 @@ class CameraComponent;
 class BoxColliderComponent;
 class Trail;
 
-class Player : public GameComponent
+class Player : public GameComponent, public Saveable
 {
 public:
 	Player(Actor* owner);
 
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
+
+	virtual const SaveData Save() override;
+	virtual void Load(const SaveData& data) override;
 
 	void SetLastCheckpoint(Checkpoint* checkpoint);
 	void BackToLastCheckpoint();

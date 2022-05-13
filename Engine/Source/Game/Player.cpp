@@ -115,6 +115,22 @@ void Player::Update(float deltaTime)
 	m_Rotation = glm::vec3(0.0f);
 }
 
+const SaveData Player::Save()
+{
+	SaveData data;
+	data.ActorID = m_Owner->GetID();
+	data.Vector3Fields.insert({ "LastCheckpointPosition", m_LastCheckpointPosition });
+
+	return data;
+}
+
+void Player::Load(const SaveData& data)
+{
+	m_LastCheckpointPosition = data.Vector3Fields.find("LastCheckpointPosition")->second;
+
+	m_Owner->GetTransform()->SetWorldPosition(m_LastCheckpointPosition);
+}
+
 void Player::SetLastCheckpoint(Checkpoint* checkpoint)
 {
 	m_LastCheckpointPosition = checkpoint->GetOwner()->GetTransform()->GetWorldPosition();

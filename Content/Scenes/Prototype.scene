@@ -248,7 +248,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Blue.mat
+              Path: Materials/Red.mat
       - LODGroup:
           LODs:
             - Level: 0
@@ -945,7 +945,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [16.2399998, -14.3608265, -16.4699993]
+          LocalPosition: [16.2399998, -14.2312775, -16.4699993]
           LocalRotation: [0, 0, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -957,7 +957,7 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
-          Size: [2, 2, 2]
+          Size: [1, 1, 1]
       - Checkpoint:
           {}
   - Actor: 1416485425
@@ -1789,3 +1789,16 @@ Actors:
           3d: true
           Looping: true
           PlayOnStart: true
+  - Actor: 493161876
+    ID: 493161876
+    Name: Save Manager
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SaveManager:
+          {}

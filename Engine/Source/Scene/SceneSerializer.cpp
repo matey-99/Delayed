@@ -39,6 +39,7 @@
 #include "Game/Trail.h"
 #include "Game/BlockTrigger.h"
 #include "Game/TPPPlayer.h"
+#include "Game/SaveManager.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -650,6 +651,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						a->AddComponent<Trail>();
 					}
+
+					if (auto saveManager = component["SaveManager"])
+					{
+						a->AddComponent<SaveManager>();
+					}
 				}
 			}
 		}
@@ -1078,6 +1084,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	{
 		out << YAML::BeginMap;
 		out << YAML::Key << "Trail";
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto saveManager = actor->GetComponent<SaveManager>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "SaveManager";
 		out << YAML::BeginMap;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
