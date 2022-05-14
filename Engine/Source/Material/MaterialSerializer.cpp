@@ -51,9 +51,7 @@ void MaterialSerializer::Serialize(Ref<Material> material, std::string destinati
 
 		if (param.second)
 		{
-			std::string fullPath = param.second->GetPath();
-			std::string path = fullPath.substr(fullPath.find_last_of("Content/"));
-			out << YAML::Key << "Path" << YAML::Value << path;
+			out << YAML::Key << "Path" << YAML::Value << param.second->GetPath();
 		}
 		else
 			out << YAML::Key << "Path" << YAML::Value << "null";
