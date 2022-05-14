@@ -14,12 +14,12 @@ CharacterController::CharacterController(Actor* owner)
 	m_RotateSmoothness = 0.89f;
 	m_IsGrounded = false;
 
-	m_WalkSpeed = 15.0f;
-	m_RunSpeed = 55.0f;
+	m_WalkSpeed = 10.0f;
+	m_RunSpeed = 18.0f;
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
-	m_JumpHeight = 0.5f;
-	m_JumpMaxHeightTime = 1.0f;
+	m_JumpHeight = 0.4f;
+	m_JumpMaxHeightTime = 1.1f;
 	m_DashDistance = 4.0f;
 	m_MaxStamina = 100.0f;
 	m_StaminaRestorePerSecond = 2.0f;
@@ -50,7 +50,7 @@ void CharacterController::Move(glm::vec3 direction, const CharacterMovementParam
 	float movementSpeed = running ? m_RunSpeed : m_WalkSpeed;
 
 	m_Gravity = -2.0f * m_JumpHeight / (m_JumpMaxHeightTime * m_JumpMaxHeightTime);
-	m_InitialSpeed = 2.0f * m_JumpHeight / m_JumpMaxHeightTime;
+	m_InitialSpeed = 1.5f * m_JumpHeight / m_JumpMaxHeightTime;
 
 	if (m_IsGrounded && !m_IsJumping)
 		m_Velocity.y = 0.0f;
