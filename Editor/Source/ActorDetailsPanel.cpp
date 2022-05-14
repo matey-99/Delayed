@@ -57,6 +57,8 @@ void ActorDetailsPanel::Render()
 {
 	ImGui::Begin("Details");
 
+    int componentIndex = 0;
+
     size_t maxSize = 128;
     char* name = (char*)m_Actor->m_Name.c_str();
     ImGui::InputText("##Name", name, maxSize);
@@ -196,17 +198,27 @@ void ActorDetailsPanel::Render()
 
     if (auto camera = m_Actor->GetComponent<CameraComponent>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Camera");
 
         ImGui::DragFloat2("Aspect Ratio", (float*)&camera->m_AspectRatio, 1.0f, 1.0f, 30.0f);
         ImGui::DragFloat("Field Of View", &camera->m_FieldOfView, 1.0f, 1.0f, 180.0f);
         ImGui::DragFloat("Near Clip Plane", &camera->m_NearClipPlane, 0.1f, 0.1f, 1000.0f);
         ImGui::DragFloat("Far Clip Plane", &camera->m_FarClipPlane, 0.1f, 0.1f, 1000.0f);
+
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto mesh = m_Actor->GetComponent<StaticMeshComponent>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Static Mesh");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<StaticMeshComponent>();
 
         std::string path = mesh->GetModel()->GetPath();
         std::string name = path.substr(path.find_last_of("/") + 1);
@@ -241,11 +253,18 @@ void ActorDetailsPanel::Render()
         }
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto mesh = m_Actor->GetComponent<SkeletalMeshComponent>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Skeletal Mesh");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<SkeletalMeshComponent>();
 
         std::string path = mesh->GetModel()->GetPath();
         std::string name = path.substr(path.find_last_of("/") + 1);
@@ -284,11 +303,19 @@ void ActorDetailsPanel::Render()
         ImGui::Text("Bones: %i", mesh->GetBoneCount());
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto lodGroup = m_Actor->GetComponent<LODGroupComponent>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("LOD Group");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<LODGroupComponent>();
+
         ImGui::Text(("Current LOD: " + std::to_string(lodGroup->GetCurrentLOD().Level)).c_str());
 
         int i = 0;
@@ -343,11 +370,18 @@ void ActorDetailsPanel::Render()
         }
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto light = m_Actor->GetComponent<Light>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Light");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Light>();
 
         const char* type = "";
         if (Cast<DirectionalLight>(light))
@@ -409,11 +443,18 @@ void ActorDetailsPanel::Render()
         ImGui::Checkbox("Cast Shadows", &light->m_ShadowsEnabled);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto skyLight = m_Actor->GetComponent<SkyLight>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Sky Light");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<SkyLight>();
 
         std::vector<std::string> paths = skyLight->GetPaths();
         for (auto path : paths)
@@ -434,6 +475,8 @@ void ActorDetailsPanel::Render()
         ImGui::DragFloat("Intensity", &skyLight->m_Intensity, 0.01f, 0.0f, 1.0f);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto particles = m_Actor->GetComponent<ParticleSystemComponent>())
@@ -441,6 +484,9 @@ void ActorDetailsPanel::Render()
         ImGui::PushID(particles.get());
 
         ImGui::Text("Particle System");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<ParticleSystemComponent>();
 
         if (ImGui::TreeNodeEx("Particle System", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen))
         {
@@ -530,18 +576,33 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
         ImGui::PopID();
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto player = m_Actor->GetComponent<Player>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Player");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Player>();
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto cc = m_Actor->GetComponent<CharacterController>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Character Controller");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<CharacterController>();
+
         ImGui::DragFloat("Walk Speed", &cc->m_WalkSpeed, 0.5f, 0.0f, 100.0f);
         ImGui::DragFloat("Run Speed", &cc->m_RunSpeed, 0.5f, 0.0f, 100.0f);
         ImGui::DragFloat("Rotate Speed", &cc->m_RotateSpeed, 0.5f, 0.0f, 100.0f);
@@ -549,20 +610,35 @@ void ActorDetailsPanel::Render()
         ImGui::DragFloat("Jump Height", &cc->m_JumpHeight, 0.5f, 0.0f, 100.0f);
         ImGui::DragFloat("Jump Max Height Time", &cc->m_JumpMaxHeightTime, 0.5f, 0.0f, 100.0f);
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto platform = m_Actor->GetComponent<Platform>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Platform");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Platform>();
+
         ImGui::DragFloat3("Move Direction", glm::value_ptr(platform->m_Direction), 0.1f, 0.0f, 1.0f);
         ImGui::DragFloat("Move Distance", &platform->m_Distance, 0.5f, 0.0f, 100.0f);
         ImGui::DragFloat("Move Speed", &platform->m_Speed, 0.5f, 0.0f, 100.0f);
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto button = m_Actor->GetComponent<Button>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Button");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Button>();
 
         size_t maxSize = 128;
         std::string idStr = std::to_string(button->m_PlatformID);
@@ -587,11 +663,18 @@ void ActorDetailsPanel::Render()
             button->m_ConnectedButtonsIDs.push_back(0);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto ghost = m_Actor->GetComponent<Ghost>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Ghost");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Ghost>();
 
         size_t maxSize = 128;
         std::string playerIDStr = std::to_string(ghost->m_PlayerID);
@@ -600,23 +683,46 @@ void ActorDetailsPanel::Render()
         ghost->m_PlayerID = std::atoll(id);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto checkpoint = m_Actor->GetComponent<Checkpoint>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Checkpoint");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Checkpoint>();
+
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto deathArea = m_Actor->GetComponent<DeathArea>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Death Area");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<DeathArea>();
+
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto image = m_Actor->GetComponent<ImageComponent>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Image");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<ImageComponent>();
 
         std::string path = image->m_Image->GetPath();
         std::string name = path.substr(path.find_last_of("/") + 1);
@@ -630,10 +736,14 @@ void ActorDetailsPanel::Render()
         }
         ImGui::ColorEdit4("Image Color", glm::value_ptr(image->m_Color));
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto button = m_Actor->GetComponent<ButtonComponent>())
     {
+        ImGui::PushID(componentIndex);
+
         const char* buttonState = "";
         switch (button->m_CurrentState)
         {
@@ -652,6 +762,9 @@ void ActorDetailsPanel::Render()
         }
 
         ImGui::Text("Button");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<ButtonComponent>();
 
         ImGui::Checkbox("Enabled", &button->m_Enabled);
         ImGui::Text("Current State: ");
@@ -673,43 +786,83 @@ void ActorDetailsPanel::Render()
         ImGui::ColorEdit4("Pressed Color", glm::value_ptr(button->m_PressedColor));
         ImGui::ColorEdit4("Disabled Color", glm::value_ptr(button->m_DisabledColor));
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto boxCollider = m_Actor->GetComponent<BoxColliderComponent>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Box Collider");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<BoxColliderComponent>();
+
         ImGui::PushID(1);
         ImGui::Checkbox("Is Trigger", &boxCollider->m_IsTrigger);
         ImGui::DragFloat3("Center", glm::value_ptr(boxCollider->m_Center), 0.05f, -100.0f, 100.0f);
         ImGui::DragFloat3("Size", glm::value_ptr(boxCollider->m_Size), 0.05f, 0.0f, 100.0f);
         ImGui::PopID();
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto sphereCollider = m_Actor->GetComponent<SphereColliderComponent>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Sphere Collider");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<SphereColliderComponent>();
+
         ImGui::PushID(2);
         ImGui::Checkbox("Is Trigger", &sphereCollider->m_IsTrigger);
         ImGui::DragFloat3("Center", glm::value_ptr(sphereCollider->m_Center), 0.05f, -100.0f, 100.0f);
         ImGui::DragFloat("Size", &sphereCollider->m_Size);
         ImGui::PopID();
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto rigidBody = m_Actor->GetComponent<RigidBodyComponent>())
     {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("RigidBody");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<RigidBodyComponent>();
+
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto audioListener = m_Actor->GetComponent<AudioListenerComponent>()) {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Audio Listener");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<AudioListenerComponent>();
+
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
     }
 
     if (auto audioSource = m_Actor->GetComponent<AudioSourceComponent>()) {
+        ImGui::PushID(componentIndex);
+
         ImGui::Text("Audio Source");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<AudioSourceComponent>();
+
         std::string path = audioSource->m_Sound;
         std::string name = path.substr(path.find_last_of("/") + 1);
         if (ImGui::BeginCombo("Sound", name.c_str()))
@@ -734,6 +887,8 @@ void ActorDetailsPanel::Render()
         if (ImGui::Button("Stop", ImVec2(60,20)))
             audioSource->StopSound();
 
+        ImGui::PopID();
+        componentIndex++;
     }
 
     bool addComponent = false;
