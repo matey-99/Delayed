@@ -9,11 +9,74 @@
 SceneHierarchyPanel::SceneHierarchyPanel(Ref<Editor> editor, Ref<Scene> scene) : m_Editor(editor), m_Scene(scene)
 {
 	m_SelectedActor = Ref<Actor>();
+	m_SearchActor = "";
 }
 
 void SceneHierarchyPanel::Render()
 {
 	ImGui::Begin("Scene Hierarchy");
+
+	size_t maxSize = 128;
+	char* buf = (char*)m_SearchActor.c_str();
+	ImGui::InputText("Search", buf, maxSize);
+	m_SearchActor = buf;
+
+	if (!m_SearchActor.empty())
+	{
+		int i = 0;
+		for (auto& actor : m_Scene->GetActors())
+		{
+			std::string name = actor->GetName();
+
+			std::string lowerCaseName = name;
+			std::string upperCaseName = name;
+			std::transform(name.begin(), name.end(), lowerCaseName.begin(), [] (unsigned char c) { return std::tolower(c); });
+			std::transform(name.begin(), name.end(), upperCaseName.begin(), [] (unsigned char c) { return std::toupper(c); });
+
+			if (lowerCaseName.find(m_SearchActor) != std::string::npos || upperCaseName.find(m_SearchActor) != std::string::npos)
+			{
+				ImGui::PushID(i);
+				bool enable = actor->IsEnabled();
+				if (ImGui::Checkbox("", &enable))
+					actor->SetEnabled(enable);
+
+				ImGui::PopID();
+
+				ImGui::SameLine();
+
+				bool open = false;
+				open = ImGui::TreeNodeEx(actor->GetName().c_str(), ImGuiTreeNodeFlags_Leaf);
+
+				if (ImGui::IsItemClicked())
+				{
+					SelectActor(actor);
+				}
+
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("actor"))
+					{
+						Ref<Actor>* childActor = static_cast<Ref<Actor>*>(payload->Data);
+						childActor->get()->GetTransform()->SetParent(actor->GetTransform().get());
+					}
+					ImGui::EndDragDropTarget();
+				}
+
+				if (ImGui::BeginDragDropSource())
+				{
+					ImGui::SetDragDropPayload("actor", &actor, sizeof(Actor));
+					ImGui::Text(actor->GetName().c_str());
+					ImGui::EndDragDropSource();
+				}
+
+				ImGui::TreePop();
+			}
+		}
+
+		ImGui::End();
+		return;
+	}
+
 
 	if (ImGui::TreeNodeEx("Root", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_DefaultOpen))
 	{
