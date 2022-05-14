@@ -72,7 +72,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-3.27000046, 8.88106632, -8.86060524]
+          LocalPosition: [-3.27000046, 8.88106632, -8.89532089]
           LocalRotation: [90, -0, 0]
           LocalScale: [0.230000004, 0.230000004, 0.230000004]
           Parent: 2141099751
@@ -120,7 +120,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Blue.mat
+              Path: Materials/Gray.mat
       - LODGroup:
           LODs:
             - Level: 0
