@@ -68,7 +68,11 @@ void Renderer::Initialize()
 void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex)
 {
 	// Pre-Render
+	PROFILER_START("Pre-Render Time");
 	scene->PreRender();
+	PROFILER_STOP();
+
+	PROFILER_START("Render Time");
 
 	m_CameraVertexUniformBuffer->Bind();
 	m_CameraVertexUniformBuffer->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(camera->GetViewProjectionMatrix()));
@@ -145,6 +149,8 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	// UI
 	m_UIPass->Render(scene, m_Output[outputIndex]);
 	m_Output[outputIndex] = m_UIPass->GetRenderTarget()->GetTargets()[0];
+
+	PROFILER_STOP();
 }
 
 void Renderer::Display()

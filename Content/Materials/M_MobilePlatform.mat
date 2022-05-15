@@ -1,5 +1,5 @@
-Material: m_platformBig00
-ID: 853585389
+Material: M_MobilePlatform
+ID: 789302944
 BlendMode: 0
 Shader: Opaque
 Bool Parameters:
@@ -12,7 +12,7 @@ Bool Parameters:
   - Name: u_Material.isAlbedoMap
     Value: true
   - Name: u_Material.isEmissiveMap
-    Value: false
+    Value: true
   - Name: u_Material.isNormalMap
     Value: false
   - Name: u_MaterialVS.flipVerticallyUV
@@ -25,7 +25,7 @@ Float Parameters:
   - Name: u_Material.roughness
     Value: 1
   - Name: u_Material.emissiveStrength
-    Value: 0
+    Value: 10
   - Name: u_Material.opacity
     Value: 1
   - Name: u_Material.metallic
@@ -41,11 +41,11 @@ Texture Parameters:
   - Name: u_Material.metallicMap
     Path: "null"
   - Name: u_Material.albedoMap
-    Path: Textures/PlatformBig00/platformBig00_mdl_cube_NewUVs_default_BaseMap.png
+    Path: Textures/MobilePlatform/platformMobile_mdl_default_BaseMap.png
   - Name: u_Material.aoMap
     Path: "null"
   - Name: u_Material.emissiveMap
-    Path: "null"
+    Path: Textures/MobilePlatform/platformMobile_mdl_default_Emissive.png
   - Name: u_Material.normalMap
     Path: "null"
   - Name: u_Material.roughnessMap

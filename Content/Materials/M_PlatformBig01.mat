@@ -1,5 +1,5 @@
-Material: m_platformBig00
-ID: 853585389
+Material: M_PlatformBig01
+ID: 833269156
 BlendMode: 0
 Shader: Opaque
 Bool Parameters:
@@ -41,7 +41,7 @@ Texture Parameters:
   - Name: u_Material.metallicMap
     Path: "null"
   - Name: u_Material.albedoMap
-    Path: Textures/PlatformBig00/platformBig00_mdl_cube_NewUVs_default_BaseMap.png
+    Path: Textures/PlatformBig01/platformBig01_mdl_BaseMap.png
   - Name: u_Material.aoMap
     Path: "null"
   - Name: u_Material.emissiveMap

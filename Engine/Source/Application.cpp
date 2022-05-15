@@ -116,6 +116,8 @@ void Application::Run()
     time->SetLastFrameTime(glfwGetTime());
     while (!glfwWindowShouldClose(m_Window))
     {
+        PROFILER_START("Frame Time");
+
         // INPUTS
         glfwPollEvents();
         input->Process();
@@ -124,6 +126,9 @@ void Application::Run()
         time->SetCurrentFrameTime(glfwGetTime());
         scene = sceneManager->GetCurrentScene();
         time->Tick(scene);
+
+        //AUDIO
+        audioSystem->Update(time->GetDeltaTime());
 
         // Check if window has changed
         int windowWidth, windowHeight;
@@ -139,11 +144,10 @@ void Application::Run()
         renderer->Render(scene, cameraManager->GetMainCamera());
         renderer->Display();
 
+        PROFILER_STOP();
+
         // ANALYSIS
         profiler->Update();
-
-        //AUDIO
-        audioSystem->Update(Time::GetInstance()->GetDeltaTime());
 
         glfwSwapBuffers(m_Window);
     }
