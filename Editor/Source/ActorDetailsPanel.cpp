@@ -473,6 +473,7 @@ void ActorDetailsPanel::Render()
         ImGui::Checkbox("Sky Visibility", &skyLight->m_SkyVisibility);
         ImGui::ColorEdit3("Color", glm::value_ptr(skyLight->m_Color), ImGuiColorEditFlags_Float);
         ImGui::DragFloat("Intensity", &skyLight->m_Intensity, 0.01f, 0.0f, 1.0f);
+        ImGui::DragFloat("Weight", &skyLight->m_Weight, 0.01f, 0.0f, 1.0f);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();

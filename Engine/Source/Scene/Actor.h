@@ -26,9 +26,19 @@ public:
 	void Destroy();
 
 	template<typename T, typename ... Args>
+	Ref<T> CreateComponent(Args&& ... args)
+	{
+		Ref<T> comp = CreateRef<T>(this, std::forward<Args>(args)...);
+		m_Components.push_back(comp);
+
+		return comp;
+	}
+
+	template<typename T, typename ... Args>
 	Ref<T> AddComponent(Args&& ... args)
 	{
 		Ref<T> comp = CreateRef<T>(this, std::forward<Args>(args)...);
+		comp->Start();
 		m_Components.push_back(comp);
 
 		return comp;

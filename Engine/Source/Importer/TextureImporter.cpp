@@ -3,14 +3,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-#include "Renderer/Texture.h"
 #include "Assets/AssetManager.h"
 
 TextureImporter::TextureImporter()
 {
 }
 
-Ref<Texture> TextureImporter::ImportTexture(std::string path)
+Ref<Texture> TextureImporter::ImportTexture(std::string path, Texture::Type type)
 {
 	if (m_ImportedTextures.find(path) != m_ImportedTextures.end())
 		return m_ImportedTextures.at(path);
@@ -25,7 +24,7 @@ Ref<Texture> TextureImporter::ImportTexture(std::string path)
 		uint8_t* data = stbi_load(path.c_str(), &width, &height, &componentsCount, 0);
 		if (data)
 		{
-			importedTexture = Texture::Create(relativePath, width, height, componentsCount, data);
+			importedTexture = Texture::Create(relativePath, type, width, height, componentsCount, data);
 		}
 		else
 		{

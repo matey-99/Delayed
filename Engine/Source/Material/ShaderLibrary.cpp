@@ -70,6 +70,12 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> skybox = AssetManager::LoadShader("Shaders/Skybox.glsl");
 	m_SkyboxShaders.insert({ skybox->GetName(), skybox });
 
+	Ref<Shader> irradiance = AssetManager::LoadShader("Shaders/Irradiance.glsl");
+	m_SkyboxShaders.insert({ irradiance->GetName(), irradiance });
+
+	Ref<Shader> prefilter = AssetManager::LoadShader("Shaders/Prefilter.glsl");
+	m_SkyboxShaders.insert({ prefilter->GetName(), prefilter });
+
 	/* Calculation Shaders */
 
 	Ref<Shader> lighting = AssetManager::LoadShader("Shaders/Lighting.glsl");

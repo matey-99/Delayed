@@ -302,7 +302,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						{
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
-						a->AddComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
+						a->CreateComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
 					}
 
 					if (auto mesh = component["SkeletalMesh"])
@@ -314,12 +314,12 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						{
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
-						a->AddComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
+						a->CreateComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
 					}
 
 					if (auto lodGroup = component["LODGroup"])
 					{
-						auto lodGroupComponent = a->AddComponent<LODGroupComponent>();
+						auto lodGroupComponent = a->CreateComponent<LODGroupComponent>();
 
 						YAML::Node lods = lodGroup["LODs"];
 						for (auto lod : lods)
@@ -353,7 +353,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						glm::vec3 color = dirLight["Color"].as<glm::vec3>();
 						float intensity = dirLight["Intensity"].as<float>();
 
-						auto l = a->AddComponent<DirectionalLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
+						auto l = a->CreateComponent<DirectionalLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
 						l->m_Color = color;
 						l->m_Intensity = intensity;
 					}
@@ -366,7 +366,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						float falloffExponent = pointLight["FalloffExponent"].as<float>();
 						bool useInverseSquaredFaloff = pointLight["UseInverseSquaredFalloff"].as<bool>();
 
-						auto l = a->AddComponent<PointLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
+						auto l = a->CreateComponent<PointLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
 						l->m_Color = color;
 						l->m_Intensity = intensity;
 						l->m_Radius = radius;
@@ -384,7 +384,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						float innerCutOff = spotLight["InnerCutOff"].as<float>();
 						float outerCutOff = spotLight["OuterCutOff"].as<float>();
 
-						auto l = a->AddComponent<SpotLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
+						auto l = a->CreateComponent<SpotLight>(scene->m_LightsVertexUniformBuffer, scene->m_LightsFragmentUniformBuffer);
 						l->m_Color = color;
 						l->m_Intensity = intensity;
 						l->m_Radius = radius;
@@ -404,10 +404,12 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 						glm::vec3 color = skyLight["Color"].as<glm::vec3>();
 						float intensity = skyLight["Intensity"].as<float>();
+						float weight = skyLight["Weight"].as<float>();
 
-						auto l = a->AddComponent<SkyLight>(paths);
+						auto l = a->CreateComponent<SkyLight>(paths);
 						l->m_Color = color;
 						l->m_Intensity = intensity;
+						l->m_Weight = weight;
 					}
 
 					if (auto particle = component["ParticleSystem"])
@@ -429,7 +431,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						glm::vec4 startParticleColor = particle["StartParticleColor"].as<glm::vec4>();
 						glm::vec4 endParticleColor = particle["EndParticleColor"].as<glm::vec4>();
 
-						auto p = a->AddComponent<ParticleSystemComponent>();
+						auto p = a->CreateComponent<ParticleSystemComponent>();
 						p->m_Duration = duration;
 						p->m_Looping = looping;
 						p->m_Sprite = AssetManager::LoadTexture(spritePath);
@@ -472,7 +474,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						float nearClipPlane = camera["NearClipPlane"].as<float>();
 						float farClipPlane = camera["FarClipPlane"].as<float>();
 
-						auto c = a->AddComponent<CameraComponent>();
+						auto c = a->CreateComponent<CameraComponent>();
 						c->m_AspectRatio = aspectRatio;
 						c->m_FieldOfView = fieldOfView;
 						c->m_NearClipPlane = nearClipPlane;
@@ -485,7 +487,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						glm::vec3 center = boxCollider["Center"].as<glm::vec3>();
 						glm::vec3 size = boxCollider["Size"].as<glm::vec3>();
 
-						auto b = a->AddComponent<BoxColliderComponent>();
+						auto b = a->CreateComponent<BoxColliderComponent>();
 						b->m_IsTrigger = isTrigger;
 						b->m_Center = center;
 						b->m_Size = size;
@@ -496,7 +498,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         glm::vec3 center = sphereCollider["Center"].as<glm::vec3>();
                         float size = sphereCollider["Size"].as<float>();
 
-                        auto b = a->AddComponent<SphereColliderComponent>();
+                        auto b = a->CreateComponent<SphereColliderComponent>();
 						b->m_IsTrigger = isTrigger;
                         b->m_Center = center;
                         b->m_Size = size;
@@ -508,7 +510,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         float mass = rigidBody["Mass"].as<float>();
                         float drag = rigidBody["Drag"].as<float>();
 
-                        auto r = a->AddComponent<RigidBodyComponent>();
+                        auto r = a->CreateComponent<RigidBodyComponent>();
                         r->m_Gravity = gravity;
                         r->m_Mass = mass;
                         r->m_Drag = drag;
@@ -519,7 +521,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						std::string path = image["Path"].as<std::string>();
 						glm::vec4 color = image["Color"].as<glm::vec4>();
 
-						auto i = a->AddComponent<ImageComponent>();
+						auto i = a->CreateComponent<ImageComponent>();
 						i->m_Image = AssetManager::LoadTexture(path);
 						i->m_Color = color;
 					}
@@ -533,7 +535,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						glm::vec4 pressedColor = button["PressedColor"].as<glm::vec4>();
 						glm::vec4 disabledColor = button["DisabledColor"].as<glm::vec4>();
 
-						auto b = a->AddComponent<ButtonComponent>();
+						auto b = a->CreateComponent<ButtonComponent>();
 						b->m_Enabled = enabled;
 						b->m_Image = AssetManager::LoadTexture(path);
 						b->m_NormalColor = normalColor;
@@ -549,7 +551,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         bool looping = audioSource["Looping"].as<bool>();
                         bool playOnStart = audioSource["PlayOnStart"].as<bool>();
 
-                        auto as = a->AddComponent<AudioSourceComponent>();
+                        auto as = a->CreateComponent<AudioSourceComponent>();
                         as->m_Sound = path;
                         as->m_Volume = volume;
                         as->m_3d = is3d;
@@ -558,7 +560,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                     }
 
                     if (auto audioListener = component["AudioListener"]) {
-                        a->AddComponent<AudioListenerComponent>();
+                        a->CreateComponent<AudioListenerComponent>();
                     }
 
 					/* --- GAME COMPONENTS --- */
@@ -569,7 +571,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						uint64_t optionsButtonActorID = menu["OptionsButton"].as<uint64_t>();
 						uint64_t exitButtonActorID = menu["ExitButton"].as<uint64_t>();
 
-						auto m = a->AddComponent<MainMenu>();
+						auto m = a->CreateComponent<MainMenu>();
 						m->m_PlayButtonID = playButtonActorID;
 						m->m_OptionsButtonID = optionsButtonActorID;
 						m->m_ExitButtonID = exitButtonActorID;
@@ -582,7 +584,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						uint64_t trailActorID = player["Trail"].as<uint64_t>();
 						uint64_t staminaBarActorID = player["StaminaBar"].as<uint64_t>();
 
-						auto p = a->AddComponent<Player>();
+						auto p = a->CreateComponent<Player>();
 						p->m_CameraID = cameraActorID;
 						p->m_GhostID = ghostActorID;
 						p->m_TrailID = trailActorID;
@@ -591,7 +593,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto tppPlayer = component["TPPPlayer"])
 					{
-						auto p = a->AddComponent<TPPPlayer>();
+						auto p = a->CreateComponent<TPPPlayer>();
 					}
 
 					if (auto camera = component["CameraController"])
@@ -599,7 +601,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						uint64_t targetID = camera["Target"].as<uint64_t>();
 						uint64_t cameraID = camera["Camera"].as<uint64_t>();
 
-						auto c = a->AddComponent<CameraController>();
+						auto c = a->CreateComponent<CameraController>();
 						c->m_TargetID = targetID;
 						c->m_CameraID = cameraID;
 					}
@@ -610,7 +612,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						Ref<Material> normalMaterial = AssetManager::LoadMaterial(button["NormalMaterial"].as<std::string>());
 						Ref<Material> pressedMaterial = AssetManager::LoadMaterial(button["PressedMaterial"].as<std::string>());
 
-						auto b = a->AddComponent<Button>();
+						auto b = a->CreateComponent<Button>();
 						b->m_PlatformID = platformActorID;
 						b->m_NormalMaterial = normalMaterial;
 						b->m_PressedMaterial = pressedMaterial;
@@ -622,7 +624,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						float distance = platform["Distance"].as<float>();
 						float speed = platform["Speed"].as<float>();
 
-						auto p = a->AddComponent<Platform>();
+						auto p = a->CreateComponent<Platform>();
 						p->m_Direction = direction;
 						p->m_Distance = distance;
 						p->m_Speed = speed;
@@ -632,33 +634,33 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						uint64_t playerActorID = ghost["Player"].as<uint64_t>();
 
-						auto g = a->AddComponent<Ghost>();
+						auto g = a->CreateComponent<Ghost>();
 						g->m_PlayerID = playerActorID;
 					}
 
 					if (auto deathArea = component["DeathArea"])
 					{
-						a->AddComponent<DeathArea>();
+						a->CreateComponent<DeathArea>();
 					}
 
 					if (auto checkpoint = component["Checkpoint"])
 					{
-						a->AddComponent<Checkpoint>();
+						a->CreateComponent<Checkpoint>();
 					}
 
 					if (auto blockTrigger = component["BlockTrigger"])
 					{
-						a->AddComponent<BlockTrigger>();
+						a->CreateComponent<BlockTrigger>();
 					}
 
 					if (auto trail = component["Trail"])
 					{
-						a->AddComponent<Trail>();
+						a->CreateComponent<Trail>();
 					}
 
 					if (auto saveManager = component["SaveManager"])
 					{
-						a->AddComponent<SaveManager>();
+						a->CreateComponent<SaveManager>();
 					}
 				}
 			}
@@ -850,6 +852,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 
 		out << YAML::Key << "Color" << YAML::Value << skyLight->m_Color;
 		out << YAML::Key << "Intensity" << YAML::Value << skyLight->m_Intensity;
+		out << YAML::Key << "Weight" << YAML::Value << skyLight->m_Weight;
 
 		out << YAML::EndMap;
 		out << YAML::EndMap;

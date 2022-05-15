@@ -13,8 +13,10 @@ layout (location = 5) in mat4 a_Model;
 layout (location = 0) out vec3 v_Position;
 layout (location = 1) out vec3 v_Normal;
 layout (location = 2) out vec2 v_TexCoord;
-layout (location = 3) out vec4 v_ViewPosition;
-layout (location = 4) out vec4[MAX_SPOT_LIGHTS] v_SpotLightSpacePositions;
+layout (location = 3) out vec3 v_Tangent;
+layout (location = 4) out vec3 v_Bitangent;
+layout (location = 5) out vec4 v_ViewPosition;
+layout (location = 6) out vec4[MAX_SPOT_LIGHTS] v_SpotLightSpacePositions;
 
 struct Material
 {
@@ -57,6 +59,9 @@ void main()
         v_TexCoord = a_TexCoord;
     }
 
+    v_Tangent = a_Tangent;
+    v_Bitangent = a_Bitangent;
+
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         v_SpotLightSpacePositions[i] = u_SpotLightSpaceMatrices[i] * vec4(v_Position, 1.0);
 
@@ -76,7 +81,9 @@ layout (location = 5) out vec4 f_ViewSpacePosition;
 layout (location = 0) in vec3 v_Position;
 layout (location = 1) in vec3 v_Normal;
 layout (location = 2) in vec2 v_TexCoord;
-layout (location = 3) in vec4 v_ViewPosition;
+layout (location = 3) in vec3 v_Tangent;
+layout (location = 4) in vec3 v_Bitangent;
+layout (location = 5) in vec4 v_ViewPosition;
 
 struct Material
 {
@@ -110,19 +117,8 @@ layout (location = 2) uniform Material u_Material;
 
 vec3 GetNormalFromNormalMap()
 {
-    vec3 tangentNormal = texture(u_Material.normalMap, v_TexCoord).xyz * 2.0 - 1.0;
-
-    vec3 Q1 = dFdx(v_Position);
-    vec3 Q2 = dFdy(v_Position);
-    vec2 st1 = dFdx(v_TexCoord);
-    vec2 st2 = dFdy(v_TexCoord);
-
-    vec3 N = normalize(v_Normal);
-    vec3 T = normalize(Q1 * st2.t - Q2 * st1.t);
-    vec3 B = -normalize(cross(N, T));
-    mat3 TBN = mat3(T, B, N);
-
-    return normalize(TBN * tangentNormal);
+    mat3 TBN = mat3(v_Tangent, v_Bitangent, normalize(v_Normal));
+    return normalize(TBN * (texture(u_Material.normalMap, v_TexCoord).rgb * 2.0 - 1.0));
 }
 
 void main()

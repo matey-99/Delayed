@@ -30,8 +30,13 @@ layout (location = 3) uniform sampler2D u_GBufferEmissive;
 layout (location = 4) uniform sampler2D u_GBufferMetallicRoughness;
 layout (location = 5) uniform sampler2DArray u_DirectionalLightShadowMaps;
 layout (location = 6) uniform sampler2D u_SSAO;
-layout (location = 7) uniform vec3 u_SkyLightColor;
-layout (location = 8) uniform float u_SkyLightIntensity;
+layout (location = 7) uniform samplerCube u_IrradianceMap;
+layout (location = 8) uniform samplerCube u_PrefilterMap;
+layout (location = 9) uniform sampler2D u_BRDF;
+layout (location = 10) uniform float u_SkyLightIntensity;
+layout (location = 11) uniform float u_SkyLightWeight;
+layout (location = 12) uniform bool u_SkyLightEnabled;
+layout (location = 13) uniform vec3 u_SkyLightColor;
 
 struct DirectionalLight
 {
@@ -287,6 +292,7 @@ void main()
     float roughness = texture(u_GBufferMetallicRoughness, v_TexCoord).g;
 
     vec3 V = normalize(u_ViewPosition - position);
+    vec3 R = reflect(-V, normal);
 
     vec3 F0 = vec3(0.04);
     F0 = mix(F0, color, metallic);
@@ -314,7 +320,35 @@ void main()
             Lo += CalculateSpotLight(u_SpotLights[i], position, V, color, normal, metallic, roughness);
     }
 
-    vec3 ambient = u_SkyLightColor * u_SkyLightIntensity * color * ao;
+    vec3 F = FresnelSchlickRoughness(max(dot(normal, V), 0.0), F0, roughness);
+    vec3 kS = F;
+    vec3 kD = 1.0 - kS;
+    kD *= 1.0 - metallic;
+
+    vec3 diffuse, specular;
+    if (u_SkyLightEnabled)
+    {
+        vec3 irradiance = texture(u_IrradianceMap, normal).rgb;
+        //diffuse = irradiance * color * u_SkyLightIntensity;
+
+        float w1 = u_SkyLightWeight;
+        float w2 = 1.0 - u_SkyLightWeight;
+        
+        diffuse = irradiance * w1 + color * w2;
+        diffuse *= u_SkyLightIntensity;
+
+        const float MAX_REFLECTION_LOD = 4.0;
+        vec3 prefilteredColor = textureLod(u_PrefilterMap, R, roughness * MAX_REFLECTION_LOD).rgb;
+        vec2 brdf = texture(u_BRDF, vec2(max(dot(normal, V), 0.0), roughness)).rg;
+        specular = prefilteredColor * (F * brdf.x + brdf.y);
+    }
+    else
+    {
+        diffuse = vec3(0.0);
+        specular = vec3(0.0);
+    }
+
+    vec3 ambient = (kD * diffuse + specular) * ao;
 
     vec3 lighting = ambient + Lo + emissive;
     f_Color = vec4(lighting, 1.0);

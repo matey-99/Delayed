@@ -293,7 +293,7 @@ Ref<Actor> Scene::AddRoot()
 		return m_Root;
 
 	Ref<Actor> root = Actor::Create(this, 0, "Root");
-	root->AddComponent<TransformComponent>();
+	root->CreateComponent<TransformComponent>();
 
 	m_Root = root;
 	m_Actors.push_back(root);
@@ -307,7 +307,7 @@ Ref<Actor> Scene::AddUIRoot()
 		return m_UIRoot;
 
 	Ref<Actor> uiRoot = Actor::Create(this, 1, "UI Root");
-	uiRoot->AddComponent<RectTransformComponent>();
+	uiRoot->CreateComponent<RectTransformComponent>();
 
 	m_UIRoot = uiRoot;
 	m_Actors.push_back(uiRoot);
@@ -319,9 +319,11 @@ Ref<Actor> Scene::AddActor(std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
 
-	auto transform = actor->AddComponent<TransformComponent>();
+	auto transform = actor->CreateComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->SetTransform(transform);
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -332,9 +334,11 @@ Ref<Actor> Scene::AddActor(uint64_t id, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, id, name);
 
-	auto transform = actor->AddComponent<TransformComponent>();
+	auto transform = actor->CreateComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->SetTransform(transform);
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -345,11 +349,13 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
 
-	auto transform = actor->AddComponent<TransformComponent>();
+	auto transform = actor->CreateComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->SetTransform(transform);
 
-	actor->AddComponent<StaticMeshComponent>(path.c_str());
+	actor->CreateComponent<StaticMeshComponent>(path.c_str());
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -360,11 +366,13 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name, Ref<Actor> parent
 {
 	Ref<Actor> actor = Actor::Create(this, name);
 
-	auto transform = actor->AddComponent<TransformComponent>();
+	auto transform = actor->CreateComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->SetTransform(transform);
 
-	actor->AddComponent<StaticMeshComponent>(path.c_str());
+	actor->CreateComponent<StaticMeshComponent>(path.c_str());
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -380,9 +388,11 @@ Ref<Actor> Scene::AddUIActor(std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
 
-	auto transform = actor->AddComponent<RectTransformComponent>();
+	auto transform = actor->CreateComponent<RectTransformComponent>();
 	transform->SetParent(m_UIRoot->GetComponent<RectTransformComponent>().get());
 	actor->SetTransform(transform);
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -393,9 +403,11 @@ Ref<Actor> Scene::AddUIActor(uint64_t id, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, id, name);
 
-	auto transform = actor->AddComponent<RectTransformComponent>();
+	auto transform = actor->CreateComponent<RectTransformComponent>();
 	transform->SetParent(m_UIRoot->GetComponent<RectTransformComponent>().get());
 	actor->SetTransform(transform);
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -443,6 +455,28 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 
 	DEBUG_LOG("Actor with ID: " + std::to_string(id) + " doesn't exist!");
 	return Ref<Actor>();
+}
+
+Ref<Actor> Scene::SpawnActor(const glm::vec3& position, const glm::vec3& rotation, Ref<Actor> parent)
+{
+	Ref<Actor> actor = Actor::Create(this, "SpawnedActor" + std::to_string(m_Actors.size()));
+
+	auto transform = actor->CreateComponent<TransformComponent>();
+	if (parent)
+		transform->SetParent(parent->GetTransform().get());
+	else
+		transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
+	actor->SetTransform(transform);
+
+	actor->GetTransform()->SetLocalPosition(position);
+	actor->GetTransform()->SetLocalRotation(rotation);
+
+	actor->Start();
+
+	m_ActorsAddedRuntime.push_back(actor);
+
+	return actor;
 }
 
 void Scene::DestroyActor(Actor* actor)

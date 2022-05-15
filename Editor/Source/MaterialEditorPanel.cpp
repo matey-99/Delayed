@@ -139,7 +139,21 @@ void MaterialEditorPanel::DisplayTextures(std::string name)
                 const bool isSelected = false;
                 if (ImGui::Selectable(shaderName.c_str(), &isSelected))
                 {
-                    auto texture = AssetManager::LoadTexture(path);
+                    Texture::Type type = Texture::Type::BaseColor;
+                    if (name == "u_Material.normalMap")
+                        type = Texture::Type::Normal;
+                    else if (name == "u_Material.roughnessMap")
+                        type = Texture::Type::Roughness;
+                    else if (name == "u_Material.metallicMap")
+                        type = Texture::Type::Metallic;
+                    else if (name == "u_Material.aoMap")
+                        type = Texture::Type::AO;
+                    else if (name == "u_Material.emissiveMap")
+                        type = Texture::Type::Emissive;
+                    else if (name == "u_Material.opacityMap")
+                        type = Texture::Type::Opacity;
+
+                    auto texture = AssetManager::LoadTexture(path, type);
                     m_Material->m_Texture2DParameters.find(name)->second = texture;
                 }
             }

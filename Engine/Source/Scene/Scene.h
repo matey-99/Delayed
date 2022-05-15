@@ -50,30 +50,8 @@ public:
 	Ref<Actor> FindActor(std::string name);
 	Ref<Actor> FindActor(uint64_t id);
 
+	Ref<Actor> SpawnActor(const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), Ref<Actor> parent = nullptr);
 	void DestroyActor(Actor* actor);
-
-	template <class T>
-	Ref<Actor> SpawnActor(const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), Ref<Actor> parent = nullptr)
-	{
-		Ref<Actor> actor = Actor::Create(this, "SpawnedActor" + std::to_string(m_Actors.size()));
-
-		auto transform = actor->AddComponent<TransformComponent>();
-		if (parent)
-			transform->SetParent(parent->GetTransform().get());
-		else
-			transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
-
-		actor->SetTransform(transform);
-
-		actor->GetTransform()->SetLocalPosition(position);
-		actor->GetTransform()->SetLocalRotation(rotation);
-		
-		actor->AddComponent<T>();
-
-		m_ActorsAddedRuntime.push_back(actor);
-
-		return actor;
-	}
 
 	template<typename T>
 	Ref<T> FindComponent()

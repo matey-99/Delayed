@@ -37,10 +37,10 @@ Ref<SkeletalModel> AssetManager::LoadSkeletalModel(std::string assetPath)
 	return GetInstance()->m_SkeletalModelImporter->ImportSkeletalModel(fullPath);
 }
 
-Ref<Texture> AssetManager::LoadTexture(std::string assetPath)
+Ref<Texture> AssetManager::LoadTexture(std::string assetPath, Texture::Type type)
 {
 	std::string fullPath = ContentDirectory + assetPath;
-	return GetInstance()->m_TextureImporter->ImportTexture(fullPath);
+	return GetInstance()->m_TextureImporter->ImportTexture(fullPath, type);
 }
 
 Ref<Shader> AssetManager::LoadShader(const std::string& path)

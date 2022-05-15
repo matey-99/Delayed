@@ -819,6 +819,7 @@ Actors:
             5: Textures/Sky/Default/pz.png
           Color: [0.612312555, 0.788460791, 0.911764681]
           Intensity: 1
+          Weight: 0.22
   - Actor: 65361196
     ID: 65361196
     Name: SmallPlatform2

@@ -2,10 +2,10 @@
 
 #include "Core.h"
 #include "Patterns/Singleton.h"
+#include "Renderer/Texture.h"
 
 class Model;
 class SkeletalModel;
-class Texture;
 class Shader;
 class ComputeShader;
 class Scene;
@@ -26,7 +26,7 @@ public:
 
 	static Ref<Model> LoadModel(std::string assetPath);
 	static Ref<SkeletalModel> LoadSkeletalModel(std::string assetPath);
-	static Ref<Texture> LoadTexture(std::string assetPath);
+	static Ref<Texture> LoadTexture(std::string assetPath, Texture::Type type = Texture::Type::BaseColor);
 	static Ref<Shader> LoadShader(const std::string& path);
 	static Ref<ComputeShader> LoadComputeShader(const std::string& path);
 

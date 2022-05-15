@@ -69,13 +69,31 @@ void LightingPass::Render(Ref<Scene> scene)
 
 	if (auto skyLight = scene->FindComponent<SkyLight>())
 	{
+		glActiveTexture(GL_TEXTURE7);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyLight->GetIrradianceMap());
+
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyLight->GetPrefilterMap());
+
+		skyLight->GetBRDF()->Bind(9);
+
+		shader->SetInt("u_IrradianceMap", 7);
+		shader->SetInt("u_PrefilterMap", 8);
+		shader->SetInt("u_BRDF", 9);
+
 		shader->SetVec3("u_SkyLightColor", skyLight->GetColor());
 		shader->SetFloat("u_SkyLightIntensity", skyLight->GetIntensity());
+		shader->SetFloat("u_SkyLightWeight", skyLight->GetWeight());
+
+		shader->SetBool("u_SkyLightEnabled", skyLight->GetOwner()->IsEnabled());
 	}
 	else
 	{
 		shader->SetVec3("u_SkyLightColor", glm::vec3(1.0f));
 		shader->SetFloat("u_SkyLightIntensity", 0.03f);
+		shader->SetFloat("u_SkyLightWeight", 0.0f);
+
+		shader->SetBool("u_SkyLightEnabled", false);
 	}
 
 	RenderTools::GetInstance()->RenderQuad();

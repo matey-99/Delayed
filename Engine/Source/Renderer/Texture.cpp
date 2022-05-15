@@ -4,12 +4,12 @@
 
 #include "Renderer/Renderer.h"
 
-Texture::Texture(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data)
-	: m_Path(path), m_Width(width), m_Height(height), m_ComponentsCount(componentsCount)
+Texture::Texture(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data)
+	: m_Path(path), m_Type(type), m_Width(width), m_Height(height), m_ComponentsCount(componentsCount)
 {
 	m_ID = 0;
 
-	Load(data);
+	Load(data, type);
 }
 
 Texture::Texture(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, float* data)
@@ -25,9 +25,9 @@ Texture::~Texture()
 	glDeleteTextures(1, &m_ID);
 }
 
-Ref<Texture> Texture::Create(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data)
+Ref<Texture> Texture::Create(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data)
 {
-	return CreateRef<Texture>(path, width, height, componentsCount, data);
+	return CreateRef<Texture>(path, type, width, height, componentsCount, data);
 }
 
 Ref<Texture> Texture::CreateHDR(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, float* data)
@@ -35,7 +35,7 @@ Ref<Texture> Texture::CreateHDR(std::string path, uint16_t width, uint16_t heigh
 	return CreateRef<Texture>(path, width, height, componentsCount, data);
 }
 
-void Texture::Load(uint8_t* data)
+void Texture::Load(uint8_t* data, Type type)
 {
 	if (m_ID)
 	{
@@ -45,12 +45,30 @@ void Texture::Load(uint8_t* data)
 	glGenTextures(1, &m_ID);
 	glBindTexture(GL_TEXTURE_2D, m_ID);
 
+	uint32_t internalFormat;
+	if (type == Type::BaseColor)
+	{
+		if (m_ComponentsCount == 4)
+			internalFormat = GL_SRGB_ALPHA;
+		else
+			internalFormat = GL_SRGB;
+	}
+	else
+	{
+		if (m_ComponentsCount == 4)
+			internalFormat = GL_RGBA;
+		else
+			internalFormat = GL_RGB;
+	}
+
 	if (m_ComponentsCount == 1)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, m_Width, m_Height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+	else if (m_ComponentsCount == 2)
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, GL_RG, GL_UNSIGNED_BYTE, data);
 	else if (m_ComponentsCount == 3)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	else if (m_ComponentsCount == 4)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 

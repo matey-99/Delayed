@@ -1,15 +1,14 @@
 #pragma once
 
 #include "Core.h"
-
-class Texture;
+#include "Renderer/Texture.h"
 
 class TextureImporter
 {
 public:
 	TextureImporter();
 
-	Ref<Texture> ImportTexture(std::string path);
+	Ref<Texture> ImportTexture(std::string path, Texture::Type type);
 
 private:
 	std::unordered_map<std::string, Ref<Texture>> m_ImportedTextures;
