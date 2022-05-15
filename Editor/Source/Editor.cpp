@@ -102,6 +102,10 @@ void Editor::Start()
 
 void Editor::Update(float deltaTime)
 {
+	std::vector<Actor*> actors;
+	m_Scene->FindEnabledActors(m_Scene->GetRoot().get(), actors);
+	m_Scene->SetEnabledActors(actors);
+
 	m_Camera->Update();
 
 	auto meshes = m_Scene->GetComponents<StaticMeshComponent>();

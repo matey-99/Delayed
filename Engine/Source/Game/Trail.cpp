@@ -12,7 +12,7 @@ void Trail::Start()
 {
 	m_ParticleSystem = m_Owner->GetComponent<ParticleSystemComponent>();
 	if (!m_ParticleSystem)
-		DEBUG_LOG("No Particle System Component in Actor with Trail Game Component!");
+		WARN("No Particle System Component in Actor with Trail Game Component!");
 }
 
 void Trail::EnableTrailParticlesEmission(bool enabled)

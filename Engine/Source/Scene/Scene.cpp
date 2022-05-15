@@ -52,13 +52,14 @@ void Scene::Start()
 
 void Scene::Update(float deltaTime)
 {
-	std::vector<Actor*> actors;
-	GetEnabledActors(m_Root.get(), actors);
-	for (auto actor : actors)
+	m_EnabledActors.clear();
+	FindEnabledActors(m_Root.get(), m_EnabledActors);
+
+	for (auto actor : m_EnabledActors)
 		actor->Update(deltaTime);
 
 	std::vector<Actor*> uiActors;
-	GetEnabledActors(m_UIRoot.get(), uiActors);
+	FindEnabledActors(m_UIRoot.get(), uiActors);
 	for (auto uiActor : uiActors)
 		uiActor->Update(deltaTime);
 
@@ -73,7 +74,7 @@ void Scene::Update(float deltaTime)
 
 void Scene::FixedUpdate()
 {
-	for (auto actor : m_Actors)
+	for (auto actor : m_EnabledActors)
 		actor->FixedUpdate();
 }
 
@@ -89,7 +90,7 @@ void Scene::PreRender()
 	m_LightsFragmentUniformBuffer->SetUniform(GLSL_SCALAR_SIZE, GLSL_SCALAR_SIZE, &spotLightsCount);
 	m_LightsFragmentUniformBuffer->Unbind();
 
-	for (auto actor : m_Actors)
+	for (auto actor : m_EnabledActors)
 	{
 		actor->PreRender();
 	}
@@ -139,7 +140,7 @@ void Scene::Destroy()
 {
 }
 
-void Scene::GetEnabledActors(Actor* actor, std::vector<Actor*>& output)
+void Scene::FindEnabledActors(Actor* actor, std::vector<Actor*>& output)
 {
 	if (!actor->IsEnabled())
 	{
@@ -155,7 +156,7 @@ void Scene::GetEnabledActors(Actor* actor, std::vector<Actor*>& output)
 	{
 		for (auto child : actor->GetTransform()->GetChildren())
 		{
-			GetEnabledActors(child->GetOwner(), output);
+			FindEnabledActors(child->GetOwner(), output);
 		}
 	}
 }
@@ -228,8 +229,7 @@ void Scene::SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents)
 
 void Scene::UpdateMeshesRenderList()
 {
-	std::vector<Actor*> actors;
-	GetEnabledActors(m_Root.get(), actors);
+	std::vector<Actor*> actors = m_EnabledActors;
 
 	actors = CullActors(actors);
 
@@ -453,7 +453,7 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 			return actor;
 	}
 
-	DEBUG_LOG("Actor with ID: " + std::to_string(id) + " doesn't exist!");
+	WARN("Actor with ID: " + std::to_string(id) + " doesn't exist!");
 	return Ref<Actor>();
 }
 

@@ -449,7 +449,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							p->m_EmitterShape = box;
 						}
 						else
-							DEBUG_LOG("Unknown emitter shape in Particle System with ID: " + p->GetOwner()->GetID());
+							WARN("Unknown emitter shape in Particle System with ID: " + p->GetOwner()->GetID());
 
 						p->m_MaxParticles = maxParticles;
 						p->m_EmissionRateOverTime = emissionRateOverTime;
@@ -1084,6 +1084,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	{
 		out << YAML::BeginMap;
 		out << YAML::Key << "Checkpoint";
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto blockTrigger = actor->GetComponent<BlockTrigger>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "BlockTrigger";
 		out << YAML::BeginMap;
 		out << YAML::EndMap;
 		out << YAML::EndMap;

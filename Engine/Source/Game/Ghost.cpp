@@ -19,7 +19,7 @@ void Ghost::Start()
 	m_PlayerActor = m_Owner->GetScene()->FindActor(m_PlayerID);
 	if (!m_PlayerActor)
 	{
-		DEBUG_LOG("PlayerActor is null!");
+		WARN("PlayerActor is null!");
 		return;
 	}
 

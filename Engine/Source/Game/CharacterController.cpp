@@ -18,8 +18,8 @@ CharacterController::CharacterController(Actor* owner)
 	m_RunSpeed = 18.0f;
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
-	m_JumpHeight = 0.4f;
-	m_JumpMaxHeightTime = 1.1f;
+	m_JumpHeight = 0.15f;
+	m_JumpMaxHeightTime = 0.6f;
 	m_DashDistance = 4.0f;
 	m_MaxStamina = 100.0f;
 	m_StaminaRestorePerSecond = 2.0f;
@@ -55,9 +55,10 @@ void CharacterController::Move(glm::vec3 direction, const CharacterMovementParam
 	if (m_IsGrounded && !m_IsJumping)
 		m_Velocity.y = 0.0f;
 	else if (!m_IsGrounded && m_Velocity.y < 0.0f)
-		m_Velocity.y += m_Gravity * 3.0f * Time::GetInstance()->GetDeltaTime();
+		m_Velocity.y += m_Gravity * 1.5f * deltaTime;
 	else
-		m_Velocity.y += m_Gravity * Time::GetInstance()->GetDeltaTime();
+		m_Velocity.y += m_Gravity * deltaTime;
+
 
 	if (m_IsGrounded)
 	{
@@ -73,7 +74,8 @@ void CharacterController::Move(glm::vec3 direction, const CharacterMovementParam
 	m_Stamina = glm::clamp(m_Stamina, 0.0f, m_MaxStamina);
 
 	glm::vec3 motion = direction * movementSpeed * deltaTime;
-	m_Velocity = motion * (1.0f - m_MoveSmoothness) + m_Velocity * m_MoveSmoothness;
+	m_Velocity.x = motion.x * (1.0f - m_MoveSmoothness) + m_Velocity.x * m_MoveSmoothness;
+	m_Velocity.z = motion.z * (1.0f - m_MoveSmoothness) + m_Velocity.z * m_MoveSmoothness;
 
 	glm::vec3 newPosition = m_Owner->GetTransform()->GetLocalPosition();
 	newPosition += m_Velocity;
