@@ -7,6 +7,8 @@
 #include "Platform.h"
 #include "Patterns/Singleton.h"
 
+class Material;
+
 class Button : public GameComponent
 {
 public:
@@ -21,9 +23,18 @@ public:
 	virtual void OnTriggerExit(Ref<ColliderComponent> other) override;
 
 private:
+	void Handle();
+	
+	void Press();
+	void Release();
+
+private:
 	Ref<Platform> m_Platform;
 	std::vector<Ref<Button>> m_ConnectedButtons;
 	int m_TriggeringActorsCount;
+
+	Ref<Material> m_NormalMaterial;
+	Ref<Material> m_PressedMaterial;
 
 	bool m_IsPressed;
 

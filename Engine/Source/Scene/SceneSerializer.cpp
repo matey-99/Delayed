@@ -607,9 +607,13 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto button = component["Button"])
 					{
 						uint64_t platformActorID = button["Platform"].as<uint64_t>();
+						Ref<Material> normalMaterial = AssetManager::LoadMaterial(button["NormalMaterial"].as<std::string>());
+						Ref<Material> pressedMaterial = AssetManager::LoadMaterial(button["PressedMaterial"].as<std::string>());
 
 						auto b = a->AddComponent<Button>();
 						b->m_PlatformID = platformActorID;
+						b->m_NormalMaterial = normalMaterial;
+						b->m_PressedMaterial = pressedMaterial;
 					}
 
 					if (auto platform = component["Platform"])
@@ -1036,6 +1040,8 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Button";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Platform" << YAML::Value << button->m_PlatformID;
+		out << YAML::Key << "NormalMaterial" << YAML::Value << button->m_NormalMaterial->GetPath();
+		out << YAML::Key << "PressedMaterial" << YAML::Value << button->m_PressedMaterial->GetPath();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

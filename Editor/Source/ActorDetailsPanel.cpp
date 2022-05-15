@@ -801,8 +801,17 @@ void ActorDetailsPanel::Render()
 
         ImGui::PushID(1);
         ImGui::Checkbox("Is Trigger", &boxCollider->m_IsTrigger);
-        ImGui::DragFloat3("Center", glm::value_ptr(boxCollider->m_Center), 0.05f, -100.0f, 100.0f);
-        ImGui::DragFloat3("Size", glm::value_ptr(boxCollider->m_Size), 0.05f, 0.0f, 100.0f);
+
+        glm::vec3 center = boxCollider->m_Center;
+        ImGui::DragFloat3("Center", glm::value_ptr(center), 0.05f, -100.0f, 100.0f);
+        if (center != boxCollider->m_Center)
+            boxCollider->SetCenter(center);
+
+        glm::vec3 size = boxCollider->m_Size;
+        ImGui::DragFloat3("Size", glm::value_ptr(size), 0.05f, 0.0f, 100.0f);
+        if (size != boxCollider->m_Size)
+            boxCollider->SetSize(size);
+
         ImGui::PopID();
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();
@@ -820,8 +829,17 @@ void ActorDetailsPanel::Render()
 
         ImGui::PushID(2);
         ImGui::Checkbox("Is Trigger", &sphereCollider->m_IsTrigger);
-        ImGui::DragFloat3("Center", glm::value_ptr(sphereCollider->m_Center), 0.05f, -100.0f, 100.0f);
+        
+        glm::vec3 center = sphereCollider->m_Center;
+        ImGui::DragFloat3("Center", glm::value_ptr(center), 0.05f, -100.0f, 100.0f);
+        if (center != sphereCollider->m_Center)
+            sphereCollider->SetCenter(center);
+
+        float size = sphereCollider->m_Size;
         ImGui::DragFloat("Size", &sphereCollider->m_Size);
+        if (size != sphereCollider->m_Size)
+            sphereCollider->SetSize(size);
+
         ImGui::PopID();
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();

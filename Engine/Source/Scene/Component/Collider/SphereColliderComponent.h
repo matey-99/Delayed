@@ -20,6 +20,11 @@ public:
     virtual bool IsIntersect(const glm::vec3& point) override;
 
     inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
+    inline glm::vec3 GetCenter() const { return m_Center; }
+    inline float GetSize() const { return m_Size; }
+
+    void SetCenter(const glm::vec3& center);
+    void SetSize(const float& size);
 
 protected:
     virtual bool CheckCollisions() override;

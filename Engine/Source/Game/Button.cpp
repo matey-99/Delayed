@@ -4,6 +4,7 @@
 #include "Game/Player.h"
 #include "Game/Ghost.h"
 #include "Scene/Scene.h"
+#include "Scene/Component/StaticMeshComponent.h"
 
 Button::Button(Actor* owner)
 	: GameComponent(owner)
@@ -35,13 +36,6 @@ void Button::Start()
 
 void Button::Update(float deltaTime)
 {
-	if (m_ConnectedButtons.empty())
-	{
-		if (m_TriggeringActorsCount > 0)
-			m_Platform->SetActive(true);
-		else
-			m_Platform->SetActive(false);
-	}
 }
 
 void Button::Destroy()
@@ -53,6 +47,7 @@ void Button::OnTriggerEnter(Ref<ColliderComponent> other)
 	if (other->GetOwner()->GetComponent<Player>() || other->GetOwner()->GetComponent<Ghost>())
 	{
 		m_TriggeringActorsCount++;
+		Handle();
 	}
 }
 
@@ -61,5 +56,34 @@ void Button::OnTriggerExit(Ref<ColliderComponent> other)
 	if (other->GetOwner()->GetComponent<Player>() || other->GetOwner()->GetComponent<Ghost>())
 	{
 		m_TriggeringActorsCount--;
+		Handle();
 	}
+}
+
+void Button::Handle()
+{
+	if (m_TriggeringActorsCount > 0)
+		Press();
+	else
+		Release();
+}
+
+void Button::Press()
+{
+	m_IsPressed = true;
+
+	if (auto mesh = m_Owner->GetComponent<StaticMeshComponent>())
+		mesh->ChangeMaterial(0, m_PressedMaterial);
+
+	m_Platform->SetActive(true);
+}
+
+void Button::Release()
+{
+	m_IsPressed = false;
+
+	if (auto mesh = m_Owner->GetComponent<StaticMeshComponent>())
+		mesh->ChangeMaterial(0, m_NormalMaterial);
+
+	m_Platform->SetActive(false);
 }

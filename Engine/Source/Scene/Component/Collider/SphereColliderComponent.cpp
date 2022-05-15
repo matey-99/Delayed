@@ -54,6 +54,18 @@ glm::vec3 SphereColliderComponent::ClosestPoint(glm::vec3 point) {
     return m_BoundingSphere.Center + (glm::normalize(t) * m_BoundingSphere.Radius);
 }
 
+void SphereColliderComponent::SetCenter(const glm::vec3& center)
+{
+    m_Center = center;
+    UpdateBoundingSphere();
+}
+
+void SphereColliderComponent::SetSize(const float& size)
+{
+    m_Size = size;
+    UpdateBoundingSphere();
+}
+
 //FIXME jittery collisions
 bool SphereColliderComponent::CheckCollisions() {
     auto scene = m_Owner->GetScene();

@@ -19,6 +19,7 @@ public:
 
 	void LoadMaterial(std::string path);
 	void ChangeMaterial(int index, std::string path);
+	void ChangeMaterial(int index, Ref<Material> material);
 	void ChangeMaterials(std::vector<Ref<Material>> materials);
 
 	virtual void LoadMesh(std::string path) = 0;
