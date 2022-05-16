@@ -21,7 +21,13 @@ SkyLight::SkyLight(Actor* owner)
     m_Intensity = 1.0f;
     m_Weight = 1.0f;
 
-    m_BRDF = AssetManager::LoadTexture("Textures/Sky/Default/brdf/brdf_lut.png");
+    RenderTarget::Config brdfConfig;
+    brdfConfig.Attachment = RenderTarget::Attachment::Color;
+    brdfConfig.Type = RenderTarget::Type::Texture2D;
+    brdfConfig.ColorInternalFormat = RenderTarget::ColorInternalFormat::RG16F;
+    brdfConfig.Filter = RenderTarget::Filter::Linear;
+
+    m_BRDFRenderTarget = RenderTarget::Create(brdfConfig, 512, 512);
 
     glGenFramebuffers(1, &m_CaptureFBO);
 }
@@ -37,7 +43,13 @@ SkyLight::SkyLight(Actor* owner, std::vector<std::string> paths)
     m_Intensity = 1.0f;
     m_Weight = 1.0f;
 
-    m_BRDF = AssetManager::LoadTexture("Textures/Sky/Default/brdf/brdf_lut.png");
+    RenderTarget::Config brdfConfig;
+    brdfConfig.Attachment = RenderTarget::Attachment::Color;
+    brdfConfig.Type = RenderTarget::Type::Texture2D;
+    brdfConfig.ColorInternalFormat = RenderTarget::ColorInternalFormat::RG16F;
+    brdfConfig.Filter = RenderTarget::Filter::Linear;
+
+    m_BRDFRenderTarget = RenderTarget::Create(brdfConfig, 512, 512);
 
     glGenFramebuffers(1, &m_CaptureFBO);
 
@@ -225,4 +237,11 @@ void SkyLight::Load(std::vector<std::string> paths)
 
     glDepthFunc(GL_LESS);
     glDisable(GL_DEPTH_TEST);
+
+    m_BRDFRenderTarget->Bind();
+    auto brdfShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "BRDF");
+    brdfShader->Use();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    RenderTools::GetInstance()->RenderQuad();
+    m_BRDFRenderTarget->Unbind();
 }

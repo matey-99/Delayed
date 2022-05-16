@@ -81,6 +81,9 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> lighting = AssetManager::LoadShader("Shaders/Lighting.glsl");
 	m_CalculationShaders.insert({ lighting->GetName(), lighting });
 
+	Ref<Shader> brdf = AssetManager::LoadShader("Shaders/BRDF.glsl");
+	m_CalculationShaders.insert({ brdf->GetName(), brdf });
+
 	Ref<Shader> sceneDepth = AssetManager::LoadShader("Shaders/SceneDepth.glsl");
 	m_CalculationShaders.insert({ sceneDepth->GetName(), sceneDepth });
 

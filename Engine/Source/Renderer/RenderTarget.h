@@ -27,6 +27,7 @@ public:
 		R16 = GL_R16,
 		RG8 = GL_RG8,
 		RG16 = GL_RG16,
+		RG16F = GL_RG16F,
 		RGB8 = GL_RGB8,
 		RGB12 = GL_RGB12,
 		RGBA8 = GL_RGBA8,

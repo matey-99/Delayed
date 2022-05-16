@@ -15,7 +15,7 @@ private:
 	uint32_t m_IrradianceMap;
 	uint32_t m_PrefilterMap;
 	
-	Ref<Texture> m_BRDF;
+	Ref<RenderTarget> m_BRDFRenderTarget;
 
 	uint32_t m_CaptureFBO;
 
@@ -47,7 +47,7 @@ public:
 	inline uint32_t GetID() const { return m_ID; }
 	inline uint32_t GetIrradianceMap() const { return m_IrradianceMap; }
 	inline uint32_t GetPrefilterMap() const { return m_PrefilterMap; }
-	inline Ref<Texture> GetBRDF() const { return m_BRDF; }
+	inline uint32_t GetBRDF() const { return m_BRDFRenderTarget->GetTargets()[0]; }
 
 private:
 	void SetupMesh();

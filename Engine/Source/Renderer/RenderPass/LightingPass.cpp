@@ -82,7 +82,8 @@ void LightingPass::Render(Ref<Scene> scene)
 		glActiveTexture(GL_TEXTURE8);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skyLight->GetPrefilterMap());
 
-		skyLight->GetBRDF()->Bind(9);
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_2D, skyLight->GetBRDF());
 
 		shader->SetInt("u_IrradianceMap", 7);
 		shader->SetInt("u_PrefilterMap", 8);

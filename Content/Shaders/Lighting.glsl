@@ -333,12 +333,7 @@ void main()
     if (u_SkyLightEnabled)
     {
         vec3 irradiance = texture(u_IrradianceMap, normal).rgb;
-        //diffuse = irradiance * color * u_SkyLightIntensity;
-
-        float w1 = u_SkyLightWeight;
-        float w2 = 1.0 - u_SkyLightWeight;
-        
-        diffuse = irradiance * w1 + color * w2;
+        diffuse = mix(color, irradiance, u_SkyLightWeight);
         diffuse *= u_SkyLightIntensity;
 
         const float MAX_REFLECTION_LOD = 4.0;
