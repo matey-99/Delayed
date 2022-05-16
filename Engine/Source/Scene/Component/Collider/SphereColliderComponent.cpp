@@ -67,11 +67,15 @@ void SphereColliderComponent::SetSize(const float& size)
 }
 
 //FIXME jittery collisions
-bool SphereColliderComponent::CheckCollisions() {
+bool SphereColliderComponent::CheckCollisions() 
+{
+    if (!m_Owner->IsDynamic())
+        return false;
+
     auto scene = m_Owner->GetScene();
-    auto actors = scene->GetActors();
-    for (auto actor: actors) {
-        if (actor.get() == m_Owner)
+    auto actors = scene->GetEnabledActors();
+    for (auto actor : actors) {
+        if (actor == m_Owner)
             continue;
 
         if (auto collider = actor->GetComponent<SphereColliderComponent>()) {
@@ -80,9 +84,7 @@ bool SphereColliderComponent::CheckCollisions() {
                 glm::vec3 v = glm::normalize(d) *
                               (collider->GetBoundingSphere().Radius + m_BoundingSphere.Radius - glm::length(d));
 
-                if (m_Owner->IsDynamic()) {
-                    m_Owner->GetTransform()->SetWorldPosition(m_Owner->GetTransform()->GetWorldPosition() + v);
-                }
+                m_Owner->GetTransform()->SetWorldPosition(m_Owner->GetTransform()->GetWorldPosition() + v);
             }
         }
     }

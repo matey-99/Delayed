@@ -51,6 +51,7 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	auto renderer = Renderer::GetInstance();
 	out << YAML::Key << "RendererSettings" << YAML::Value << YAML::BeginMap;
 
+	out << YAML::Key << "SSAO" << YAML::Value << renderer->GetSettings().SSAOEnabled;
 	out << YAML::Key << "DepthFog" << YAML::Value << renderer->GetSettings().DepthFogEnabled;
 	out << YAML::Key << "PostProcessing" << YAML::Value << renderer->GetSettings().PostProcessingEnabled;
 	out << YAML::Key << "FXAA" << YAML::Value << renderer->GetSettings().FXAAEnabled;
@@ -138,6 +139,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 #pragma region Renderer
 
 	/* Renderer settings */
+	bool ssao = data["RendererSettings"]["SSAO"].as<bool>();
 	bool depthFog = data["RendererSettings"]["DepthFog"].as<bool>();
 	bool postProcessing = data["RendererSettings"]["PostProcessing"].as<bool>();
 	bool fxaa = data["RendererSettings"]["FXAA"].as<bool>();
@@ -184,6 +186,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 	/* Setup Renderer settings */
 	Renderer::RendererSettings settings;
+	settings.SSAOEnabled = ssao;
 	settings.DepthFogEnabled = depthFog;
 	settings.PostProcessingEnabled = postProcessing;
 	settings.FXAAEnabled = fxaa;

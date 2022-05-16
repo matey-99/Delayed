@@ -98,9 +98,12 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	PROFILER_STOP();
 
 	// SSAO
-	PROFILER_START("SSAO Pass");
-	m_SSAOPass->Render();
-	PROFILER_STOP();
+	if (m_Settings.SSAOEnabled)
+	{
+		PROFILER_START("SSAO Pass");
+		m_SSAOPass->Render();
+		PROFILER_STOP();
+	}
 		
 	// Lighting
 	PROFILER_START("Lighting Pass");
@@ -111,43 +114,57 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	// Depth Fog
 	if (m_Settings.DepthFogEnabled)
 	{
+		PROFILER_START("Depth Fog Pass");
 		m_DepthFogPass->Render(m_Output[outputIndex]);
+		PROFILER_STOP();
 		m_Output[outputIndex] = m_DepthFogPass->GetRenderTarget()->GetTargets()[0];
 	}
 
 	// Forward
+	PROFILER_START("Forward Pass");
 	Ref<RenderTarget> previousRT = m_Settings.DepthFogEnabled ? m_DepthFogPass->GetRenderTarget() : m_LightingPass->GetRenderTarget();
 	m_ForwardPass->Render(scene, previousRT);
+	PROFILER_STOP();
 
 	// Post Processing
 	if (m_Settings.PostProcessingEnabled)
 	{
+		PROFILER_START("Post Processing Pass");
 		m_PostProcessingPass->Render(m_Output[outputIndex]);
+		PROFILER_STOP();
 		m_Output[outputIndex] = m_PostProcessingPass->GetMainRenderTarget()->GetTargets()[0];
 	}
 
 	// FXAA
 	if (m_Settings.FXAAEnabled)
 	{
+		PROFILER_START("FXAA Pass");
 		m_FXAAPass->Render(m_Output[outputIndex]);
+		PROFILER_STOP();
 		m_Output[outputIndex] = m_FXAAPass->GetRenderTarget()->GetTargets()[0];
 	}
 
 	if (m_Settings.VignetteEnabled)
 	{
+		PROFILER_START("Vignette Pass");
 		m_VignettePass->Render(m_Output[outputIndex]);
+		PROFILER_STOP();
 		m_Output[outputIndex] = m_VignettePass->GetRenderTarget()->GetTargets()[0];
 	}
 
 	// Depth Of Field
 	if (m_Settings.DepthOfFieldEnabled)
 	{
+		PROFILER_START("Depth Of Field Pass");
 		m_DepthOfFieldPass->Render(m_Output[outputIndex]);
+		PROFILER_STOP();
 		m_Output[outputIndex] = m_DepthOfFieldPass->GetFinalRenderTarget()->GetTargets()[0];
 	}
 
 	// UI
+	PROFILER_START("UI Pass");
 	m_UIPass->Render(scene, m_Output[outputIndex]);
+	PROFILER_STOP();
 	m_Output[outputIndex] = m_UIPass->GetRenderTarget()->GetTargets()[0];
 
 	PROFILER_STOP();

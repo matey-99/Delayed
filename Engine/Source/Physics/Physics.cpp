@@ -78,6 +78,9 @@ bool Physics::RayCast(Ray ray, float distance, bool allowTriggers, Actor* ignore
             if (collider->IsIntersect(ray.Origin + ray.Direction * step))
                 return true;
         }
+
+        if (collider->IsIntersect(ray.Origin + ray.Direction * distance))
+            return true;
     }
 
     return false;
@@ -153,10 +156,18 @@ bool Physics::RayCast(Ray ray, RayCastHit& hit, float distance, bool allowTrigge
             if (collider->IsIntersect(ray.Origin + ray.Direction * step))
             {
                 hit.Collider = collider;
-                hit.Distance = Math::Distance(ray.Origin, ray.Direction * step);
+                hit.Distance = step;
 
                 return true;
             }
+        }
+
+        if (collider->IsIntersect(ray.Origin + ray.Direction * distance))
+        {
+            hit.Collider = collider;
+            hit.Distance = distance;
+
+            return true;
         }
     }
 

@@ -19,8 +19,8 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Destroy() override;
 
-	virtual void OnTriggerEnter(Ref<ColliderComponent> other) override;
-	virtual void OnTriggerExit(Ref<ColliderComponent> other) override;
+	virtual void OnTriggerEnter(ColliderComponent* other) override;
+	virtual void OnTriggerExit(ColliderComponent* other) override;
 
 private:
 	void Handle();

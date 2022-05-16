@@ -49,4 +49,4 @@ Texture Parameters:
   - Name: u_Material.aoMap
     Path: "null"
   - Name: u_Material.emissiveMap
-    Path: Textures/MobilePlatform/platformMobile_mdl_default_Emissive.png
+    Path: Textures/MobilePlatform_tex/1K/platformMobile_mdl_Emissive.png

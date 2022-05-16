@@ -42,7 +42,7 @@ void Button::Destroy()
 {
 }
 
-void Button::OnTriggerEnter(Ref<ColliderComponent> other)
+void Button::OnTriggerEnter(ColliderComponent* other)
 {
 	if (other->GetOwner()->GetComponent<Player>() || other->GetOwner()->GetComponent<Ghost>())
 	{
@@ -51,7 +51,7 @@ void Button::OnTriggerEnter(Ref<ColliderComponent> other)
 	}
 }
 
-void Button::OnTriggerExit(Ref<ColliderComponent> other)
+void Button::OnTriggerExit(ColliderComponent* other)
 {
 	if (other->GetOwner()->GetComponent<Player>() || other->GetOwner()->GetComponent<Ghost>())
 	{

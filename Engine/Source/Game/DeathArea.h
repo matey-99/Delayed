@@ -15,7 +15,7 @@ public:
 
 	virtual void Start() override;
 
-	virtual void OnTriggerEnter(Ref<ColliderComponent> other) override;
+	virtual void OnTriggerEnter(ColliderComponent* other) override;
 
 private:
 

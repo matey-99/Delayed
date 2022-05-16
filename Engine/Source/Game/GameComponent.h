@@ -14,7 +14,7 @@ public:
 	virtual void FixedUpdate() override {};
 	virtual void Destroy() override {};
 
-	virtual void OnTriggerEnter(Ref<ColliderComponent> other) {};
-	virtual void OnTriggerStay(Ref<ColliderComponent> other) {};
-	virtual void OnTriggerExit(Ref<ColliderComponent> other) {};
+	virtual void OnTriggerEnter(ColliderComponent* other) {};
+	virtual void OnTriggerStay(ColliderComponent* other) {};
+	virtual void OnTriggerExit(ColliderComponent* other) {};
 };

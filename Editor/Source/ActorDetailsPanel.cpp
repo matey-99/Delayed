@@ -577,7 +577,6 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
         ImGui::PopID();
-        ImGui::PopID();
         componentIndex++;
     }
 

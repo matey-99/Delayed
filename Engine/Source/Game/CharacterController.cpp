@@ -9,7 +9,7 @@ CharacterController::CharacterController(Actor* owner)
 	: GameComponent(owner)
 {
 	m_Velocity = glm::vec3(0.0f);
-	m_DistanceToGround = 2.25f;
+	m_DistanceToGround = 1.1f;
 	m_MoveSmoothness = 0.89f;
 	m_RotateSmoothness = 0.89f;
 	m_IsGrounded = false;
@@ -18,11 +18,11 @@ CharacterController::CharacterController(Actor* owner)
 	m_RunSpeed = 18.0f;
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
-	m_JumpHeight = 0.15f;
-	m_JumpMaxHeightTime = 0.6f;
+	m_JumpHeight = 0.075f;
+	m_JumpMaxHeightTime = 0.35f;
 	m_DashDistance = 4.0f;
 	m_MaxStamina = 100.0f;
-	m_StaminaRestorePerSecond = 2.0f;
+	m_StaminaRestorePerSecond = 15.0f;
 	m_StaminaUsagePerJump = 5.0f;
 	m_StaminaUsagePerRunSecond = 2.5f;
 	m_StaminaUsagePerDash = 5.0f;
@@ -50,12 +50,12 @@ void CharacterController::Move(glm::vec3 direction, const CharacterMovementParam
 	float movementSpeed = running ? m_RunSpeed : m_WalkSpeed;
 
 	m_Gravity = -2.0f * m_JumpHeight / (m_JumpMaxHeightTime * m_JumpMaxHeightTime);
-	m_InitialSpeed = 1.5f * m_JumpHeight / m_JumpMaxHeightTime;
+	m_InitialSpeed = 2.0f * m_JumpHeight / m_JumpMaxHeightTime;
 
 	if (m_IsGrounded && !m_IsJumping)
 		m_Velocity.y = 0.0f;
 	else if (!m_IsGrounded && m_Velocity.y < 0.0f)
-		m_Velocity.y += m_Gravity * 1.5f * deltaTime;
+		m_Velocity.y += m_Gravity * 1.25f * deltaTime;
 	else
 		m_Velocity.y += m_Gravity * deltaTime;
 

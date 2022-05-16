@@ -20,7 +20,7 @@ void DeathArea::Start()
 	}
 }
 
-void DeathArea::OnTriggerEnter(Ref<ColliderComponent> other)
+void DeathArea::OnTriggerEnter(ColliderComponent* other)
 {
 	if (auto player = other->GetOwner()->GetComponent<Player>())
 		player->BackToLastCheckpoint();

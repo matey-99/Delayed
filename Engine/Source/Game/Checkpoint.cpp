@@ -21,7 +21,7 @@ void Checkpoint::Start()
 	}
 }
 
-void Checkpoint::OnTriggerEnter(Ref<ColliderComponent> other)
+void Checkpoint::OnTriggerEnter(ColliderComponent* other)
 {
 	if (auto player = other->GetOwner()->GetComponent<Player>())
 	{
