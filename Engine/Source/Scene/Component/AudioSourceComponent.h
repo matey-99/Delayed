@@ -27,6 +27,7 @@ public:
 
 private:
     std::string m_Sound;
+    CHANNEL_GROUP m_Channel;
     float m_Volume;
     bool m_3d;
     bool m_Looping;

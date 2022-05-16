@@ -7,6 +7,10 @@
 #include "fmod.hpp"
 #include "fmod_errors.h"
 
+enum CHANNEL_GROUP {
+    MASTER, MUSIC, SFX
+};
+
 struct Implementation {
     Implementation();
 
@@ -20,9 +24,13 @@ struct Implementation {
 
     typedef std::map<std::string, FMOD::Sound *> SoundMap;
     typedef std::map<int, FMOD::Channel *> ChannelMap;
+    typedef std::map<CHANNEL_GROUP, FMOD::ChannelGroup *> ChannelGroupMap;
+    typedef std::map<CHANNEL_GROUP, float> VolumeMap;
 
     SoundMap m_Sounds;
     ChannelMap m_Channels;
+    ChannelGroupMap m_ChannelGroups;
+    VolumeMap m_ChannelVolumes;
 };
 
 class AudioSystem : public Singleton<AudioSystem> {
@@ -41,8 +49,8 @@ public:
 
     void Set3dListener(const glm::vec3 &position, const glm::vec3 &forward, const glm::vec3 &up);
 
-    int PlaySound(const std::string &soundName, float volume = 0.5f, bool isLooping = false, bool is3d = false,
-                  const glm::vec3 &position = glm::vec3(0.0f));
+    int PlaySound(const std::string &soundName, CHANNEL_GROUP channelGroup, float volume = 0.5f, bool isLooping = false,
+                  bool is3d = false, const glm::vec3 &position = glm::vec3(0.0f));
 
     void StopChannel(int channelId);
 
@@ -51,6 +59,8 @@ public:
     void SetChannel3dPosition(int channelId, const glm::vec3 &position);
 
     void SetChannelVolume(int channelId, float volume);
+
+    void SetChannelGroupVolume(CHANNEL_GROUP channelGroup, float volume);
 
     void SetChannelMode(int channelId, bool is3d, bool looping);
 

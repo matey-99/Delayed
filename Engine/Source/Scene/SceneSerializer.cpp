@@ -546,6 +546,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
                     if (auto audioSource = component["AudioSource"]) {
                         std::string path = audioSource["SoundPath"].as<std::string>();
+                        int channel = audioSource["Channel"].as<int>();
                         float volume = audioSource["Volume"].as<float>();
                         bool is3d = audioSource["3d"].as<bool>();
                         bool looping = audioSource["Looping"].as<bool>();
@@ -553,6 +554,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
                         auto as = a->CreateComponent<AudioSourceComponent>();
                         as->m_Sound = path;
+                        as->m_Channel = static_cast<CHANNEL_GROUP>(channel);
                         as->m_Volume = volume;
                         as->m_3d = is3d;
                         as->m_Looping = looping;
@@ -974,6 +976,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "AudioSource";
         out << YAML::BeginMap;
         out << YAML::Key << "SoundPath" << YAML::Value << audioSource->m_Sound;
+        out << YAML::Key << "Channel" << YAML::Value << static_cast<int>(audioSource->m_Channel);
         out << YAML::Key << "Volume" << YAML::Value << audioSource->m_Volume;
         out << YAML::Key << "3d" << YAML::Value << audioSource->m_3d;
         out << YAML::Key << "Looping" << YAML::Value << audioSource->m_Looping;
