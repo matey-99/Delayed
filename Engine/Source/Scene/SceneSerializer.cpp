@@ -23,6 +23,7 @@
 #include "Scene/Component/AudioListenerComponent.h"
 
 #include "Renderer/RenderPass/SSAOPass.h"
+#include "Renderer/RenderPass/SSRPass.h"
 #include "Renderer/RenderPass/DepthFogPass.h"
 #include "Renderer/RenderPass/PostProcessingPass.h"
 #include "Renderer/RenderPass/FXAAPass.h"
@@ -52,6 +53,7 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "RendererSettings" << YAML::Value << YAML::BeginMap;
 
 	out << YAML::Key << "SSAO" << YAML::Value << renderer->GetSettings().SSAOEnabled;
+	out << YAML::Key << "SSR" << YAML::Value << renderer->GetSettings().SSREnabled;
 	out << YAML::Key << "DepthFog" << YAML::Value << renderer->GetSettings().DepthFogEnabled;
 	out << YAML::Key << "PostProcessing" << YAML::Value << renderer->GetSettings().PostProcessingEnabled;
 	out << YAML::Key << "FXAA" << YAML::Value << renderer->GetSettings().FXAAEnabled;
@@ -63,6 +65,14 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "KernelSize" << YAML::Value << renderer->m_SSAOPass->m_Settings.KernelSize;
 	out << YAML::Key << "Radius" << YAML::Value << renderer->m_SSAOPass->m_Settings.Radius;
 	out << YAML::Key << "Bias" << YAML::Value << renderer->m_SSAOPass->m_Settings.Bias;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "SSRSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "MaxSteps" << YAML::Value << renderer->m_SSRPass->m_Settings.MaxSteps;
+	out << YAML::Key << "MinRayStep" << YAML::Value << renderer->m_SSRPass->m_Settings.MinRayStep;
+	out << YAML::Key << "RayStep" << YAML::Value << renderer->m_SSRPass->m_Settings.RayStep;
+	out << YAML::Key << "NumBinarySearchSteps" << YAML::Value << renderer->m_SSRPass->m_Settings.NumBinarySearchSteps;
+	out << YAML::Key << "ReflectionSpecularFalloffExponent" << YAML::Value << renderer->m_SSRPass->m_Settings.ReflectionSpecularFalloffExponent;
 	out << YAML::EndMap;
 
 	out << YAML::Key << "DepthFogSettings" << YAML::Value << YAML::BeginMap;
@@ -140,6 +150,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 	/* Renderer settings */
 	bool ssao = data["RendererSettings"]["SSAO"].as<bool>();
+	bool ssr = data["RendererSettings"]["SSR"].as<bool>();
 	bool depthFog = data["RendererSettings"]["DepthFog"].as<bool>();
 	bool postProcessing = data["RendererSettings"]["PostProcessing"].as<bool>();
 	bool fxaa = data["RendererSettings"]["FXAA"].as<bool>();
@@ -151,6 +162,13 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	float ssaoKernelSize = data["RendererSettings"]["SSAOSettings"]["KernelSize"].as<int>();
 	float ssaoRadius = data["RendererSettings"]["SSAOSettings"]["Radius"].as<float>();
 	float ssaoBias = data["RendererSettings"]["SSAOSettings"]["Bias"].as<float>();
+
+	/* SSR settings */
+	float ssrMaxSteps = data["RendererSettings"]["SSRSettings"]["MaxSteps"].as<int>();
+	float ssrMinRayStep = data["RendererSettings"]["SSRSettings"]["MinRayStep"].as<float>();
+	float ssrRayStep = data["RendererSettings"]["SSRSettings"]["RayStep"].as<float>();
+	float ssrReflectionSpecularFalloffExponent = data["RendererSettings"]["SSRSettings"]["ReflectionSpecularFalloffExponent"].as<float>();
+	float ssrNumBinarySearchSteps = data["RendererSettings"]["SSRSettings"]["NumBinarySearchSteps"].as<int>();
 
 	/* Depth Fog settings */
 	float dfMinDistance = data["RendererSettings"]["DepthFogSettings"]["MinDistance"].as<float>();
@@ -187,6 +205,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	/* Setup Renderer settings */
 	Renderer::RendererSettings settings;
 	settings.SSAOEnabled = ssao;
+	settings.SSREnabled = ssr;
 	settings.DepthFogEnabled = depthFog;
 	settings.PostProcessingEnabled = postProcessing;
 	settings.FXAAEnabled = fxaa;
@@ -199,6 +218,13 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	renderer->m_SSAOPass->m_Settings.KernelSize = ssaoKernelSize;
 	renderer->m_SSAOPass->m_Settings.Radius = ssaoRadius;
 	renderer->m_SSAOPass->m_Settings.Bias = ssaoBias;
+
+	/* Setup SSR settings */
+	renderer->m_SSRPass->m_Settings.MaxSteps = ssrMaxSteps;
+	renderer->m_SSRPass->m_Settings.RayStep = ssrRayStep;
+	renderer->m_SSRPass->m_Settings.MinRayStep = ssrMinRayStep;
+	renderer->m_SSRPass->m_Settings.NumBinarySearchSteps = ssrNumBinarySearchSteps;
+	renderer->m_SSRPass->m_Settings.ReflectionSpecularFalloffExponent = ssrReflectionSpecularFalloffExponent;
 
 	/* Setup Depth Fog settings */
 	renderer->m_DepthFogPass->m_Settings.MinDistance = dfMinDistance;

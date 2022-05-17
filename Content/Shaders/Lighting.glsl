@@ -39,6 +39,7 @@ layout (location = 12) uniform bool u_SkyLightEnabled;
 layout (location = 13) uniform vec3 u_SkyLightColor;
 layout (location = 14) uniform bool u_SSAOEnabled;
 layout (location = 15) uniform sampler2D u_SSR;
+layout (location = 16) uniform bool u_SSREnabled;
 
 struct DirectionalLight
 {
@@ -351,10 +352,15 @@ void main()
 
     vec3 ambient = (kD * diffuse + specular) * ao;
 
+
+    // SSR
     //if (ssr.a > 0.01)
+    if (u_SSREnabled)
+    {
         ambient += ssr.rgb;
-    //else
-    //    ambient *= ssr.rgb;
+        //ambient *= ssr.rgb;
+    }
+    
 
     vec3 lighting = ambient + Lo + emissive;
     f_Color = vec4(lighting, 1.0);

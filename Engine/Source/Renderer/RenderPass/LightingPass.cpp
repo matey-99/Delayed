@@ -63,10 +63,13 @@ void LightingPass::Render(Ref<Scene> scene)
 		glBindTexture(GL_TEXTURE_2D, ssao->GetFinalRenderTarget()->GetTargets()[0]);
 	}
 
-	auto ssr = Renderer::GetInstance()->m_SSRPass;
+	if (renderer->GetSettings().SSREnabled)
+	{
+		auto ssr = Renderer::GetInstance()->m_SSRPass;
 
-	glActiveTexture(GL_TEXTURE15);
-	glBindTexture(GL_TEXTURE_2D, ssr->GetRenderTarget()->GetTargets()[0]);
+		glActiveTexture(GL_TEXTURE15);
+		glBindTexture(GL_TEXTURE_2D, ssr->GetRenderTarget()->GetTargets()[0]);
+	}
 
 
 	auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "Lighting");
@@ -80,6 +83,7 @@ void LightingPass::Render(Ref<Scene> scene)
 	shader->SetInt("u_SSAO", 6);
 	shader->SetBool("u_SSAOEnabled", renderer->GetSettings().SSAOEnabled);
 	shader->SetInt("u_SSR", 15);
+	shader->SetBool("u_SSREnabled", renderer->GetSettings().SSREnabled);
 
 	if (auto skyLight = scene->FindComponent<SkyLight>())
 	{

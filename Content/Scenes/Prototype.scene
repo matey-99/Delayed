@@ -2,6 +2,7 @@ Scene: Main
 CurrentCamera: 1541634382
 RendererSettings:
   SSAO: true
+  SSR: true
   DepthFog: true
   PostProcessing: true
   FXAA: true
@@ -12,6 +13,12 @@ RendererSettings:
     KernelSize: 64
     Radius: 0.5
     Bias: 0.449999988
+  SSRSettings:
+    MaxSteps: 200
+    MinRayStep: 0.0299999993
+    RayStep: 0.0299999993
+    NumBinarySearchSteps: 20
+    ReflectionSpecularFalloffExponent: 8
   DepthFogSettings:
     MinDistance: 15
     MaxDistance: 125
@@ -1811,10 +1818,10 @@ Actors:
       - Transform:
           LocalPosition: [28.641489, 3.58936357, -37.1865349]
           LocalRotation: [0, 0, 0]
-          LocalScale: [9.12397575, 0.327697903, 6.26765251]
+          LocalScale: [1, 1, 1]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/defaults/default_plane.obj
           Materials:
             - Material: 0
               Path: Materials/M_Reflective.mat
@@ -1825,7 +1832,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [26.7607727, 4.44212723, -36.8121376]
+          LocalPosition: [26.7607727, 6.19925928, -36.8121376]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1.83250093, 2.0561502]
           Parent: 0
