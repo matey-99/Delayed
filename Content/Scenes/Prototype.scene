@@ -34,8 +34,8 @@ RendererSettings:
     Temperature: 75
     Hue: 180
   VignetteSettings:
-    Intensity: 10.5
-    Size: 0.174999997
+    Intensity: 19.3999996
+    Size: 0.0900000036
   DepthOfFieldSettings:
     MinDistance: 1.5
     MaxDistance: 64
@@ -1802,3 +1802,35 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+  - Actor: 392620082
+    ID: 392620082
+    Name: ReflectanceActor
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [28.641489, 3.58936357, -37.1865349]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [9.12397575, 0.327697903, 6.26765251]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_Reflective.mat
+  - Actor: 639488987
+    ID: 639488987
+    Name: ReflectedActor
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [26.7607727, 4.44212723, -36.8121376]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1.83250093, 2.0561502]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat

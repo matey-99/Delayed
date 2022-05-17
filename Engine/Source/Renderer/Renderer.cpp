@@ -16,6 +16,7 @@
 #include "RenderPass/ForwardPass.h"
 #include "RenderPass/PostProcessingPass.h"
 #include "RenderPass/FXAAPass.h"
+#include "RenderPass/SSRPass.h"
 #include "RenderPass/VignettePass.h"
 #include "RenderPass/DepthOfFieldPass.h"
 #include "RenderPass/UIPass.h"
@@ -52,6 +53,7 @@ void Renderer::Initialize()
 	m_GBufferPass = CreateRef<GBufferPass>();
 	m_ShadowsPass = CreateRef<ShadowsPass>();
 	m_SSAOPass = CreateRef<SSAOPass>();
+	m_SSRPass = CreateRef<SSRPass>();
 	m_LightingPass = CreateRef<LightingPass>();
 	m_ForwardPass = CreateRef<ForwardPass>();
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
@@ -125,6 +127,13 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	Ref<RenderTarget> previousRT = m_Settings.DepthFogEnabled ? m_DepthFogPass->GetRenderTarget() : m_LightingPass->GetRenderTarget();
 	m_ForwardPass->Render(scene, previousRT);
 	PROFILER_STOP();
+
+	// SSR
+	if (m_Settings.SSREnabled)
+	{
+		m_SSRPass->Render(m_Output[outputIndex]);
+		//m_Output[outputIndex] = m_SSRPass->GetRenderTarget()->GetTargets()[0];
+	}
 
 	// Post Processing
 	if (m_Settings.PostProcessingEnabled)
@@ -210,6 +219,9 @@ void Renderer::ResizeWindow(uint32_t width, uint32_t height)
 
 	// Depth Fog
 	m_DepthFogPass->UpdateRenderTarget(width, height);
+
+	// SSR
+	m_SSRPass->UpdateRenderTargets(width, height);
 
 	// Post Processing
 	m_PostProcessingPass->UpdateRenderTargets(width, height);

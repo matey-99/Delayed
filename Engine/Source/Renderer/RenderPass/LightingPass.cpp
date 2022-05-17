@@ -3,6 +3,7 @@
 #include "GBufferPass.h"
 #include "ShadowsPass.h"
 #include "SSAOPass.h"
+#include "SSRPass.h"
 #include "Renderer/RenderTools.h"
 #include "Scene/Component/Light/SkyLight.h"
 
@@ -62,6 +63,11 @@ void LightingPass::Render(Ref<Scene> scene)
 		glBindTexture(GL_TEXTURE_2D, ssao->GetFinalRenderTarget()->GetTargets()[0]);
 	}
 
+	auto ssr = Renderer::GetInstance()->m_SSRPass;
+
+	glActiveTexture(GL_TEXTURE15);
+	glBindTexture(GL_TEXTURE_2D, ssr->GetRenderTarget()->GetTargets()[0]);
+
 
 	auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "Lighting");
 	shader->Use();
@@ -73,6 +79,7 @@ void LightingPass::Render(Ref<Scene> scene)
 	shader->SetInt("u_DirectionalLightShadowMaps", 5);
 	shader->SetInt("u_SSAO", 6);
 	shader->SetBool("u_SSAOEnabled", renderer->GetSettings().SSAOEnabled);
+	shader->SetInt("u_SSR", 15);
 
 	if (auto skyLight = scene->FindComponent<SkyLight>())
 	{

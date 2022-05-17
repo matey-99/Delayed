@@ -2,6 +2,7 @@
 
 #include "Renderer/RenderPass/PostProcessingPass.h"
 #include "Renderer/RenderPass/SSAOPass.h"
+#include "Renderer/RenderPass/SSRPass.h"
 #include "Renderer/RenderPass/DepthOfFieldPass.h"
 #include "Renderer/RenderPass/UIPass.h"
 #include "Renderer/RenderPass/DepthFogPass.h"
@@ -23,6 +24,7 @@ void RendererSettingsPanel::Render()
     ImGui::Checkbox("Post Processing Enabled", &m_Renderer->m_Settings.PostProcessingEnabled);
     ImGui::Checkbox("FXAA Enabled", &m_Renderer->m_Settings.FXAAEnabled);
     ImGui::Checkbox("Vignette Enabled", &m_Renderer->m_Settings.VignetteEnabled);
+    ImGui::Checkbox("SSR Enabled", &m_Renderer->m_Settings.SSREnabled);
     ImGui::Checkbox("Depth Of Field Enabled", &m_Renderer->m_Settings.DepthOfFieldEnabled);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -32,6 +34,15 @@ void RendererSettingsPanel::Render()
     ImGui::DragInt("Kernel Size", &m_Renderer->m_SSAOPass->m_Settings.KernelSize, 1, 2, 256);
     ImGui::DragFloat("Radius", &m_Renderer->m_SSAOPass->m_Settings.Radius, 0.1f, 0.1f, 20.0f);
     ImGui::DragFloat("Bias", &m_Renderer->m_SSAOPass->m_Settings.Bias, 0.001f, 0.0f, 1.0f);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("Screen Space Reflections");
+    ImGui::DragFloat("Ray Step", &m_Renderer->m_SSRPass->m_Settings.RayStep, 0.01f, 0.1f, 1.0f);
+    ImGui::DragFloat("Min Ray Step", &m_Renderer->m_SSRPass->m_Settings.MinRayStep, 0.01f, 0.1f, 1.0f);
+    ImGui::DragInt("Max Steps", &m_Renderer->m_SSRPass->m_Settings.MaxSteps, 1, 1, 100);
+    ImGui::DragInt("Binary Search Steps", &m_Renderer->m_SSRPass->m_Settings.NumBinarySearchSteps, 1, 1, 20);
+    ImGui::DragFloat("Reflection Falloff", &m_Renderer->m_SSRPass->m_Settings.ReflectionSpecularFalloffExponent, 0.1f, 0.0f, 10.0f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 

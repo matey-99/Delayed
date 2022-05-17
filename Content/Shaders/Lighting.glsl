@@ -38,6 +38,7 @@ layout (location = 11) uniform float u_SkyLightWeight;
 layout (location = 12) uniform bool u_SkyLightEnabled;
 layout (location = 13) uniform vec3 u_SkyLightColor;
 layout (location = 14) uniform bool u_SSAOEnabled;
+layout (location = 15) uniform sampler2D u_SSR;
 
 struct DirectionalLight
 {
@@ -288,6 +289,7 @@ void main()
     vec3 normal = texture(u_GBufferNormal, v_TexCoord).rgb;
     vec3 color = texture(u_GBufferColorAO, v_TexCoord).rgb;
     float ao = texture(u_GBufferColorAO, v_TexCoord).a;
+    vec4 ssr = texture(u_SSR, v_TexCoord);
     vec3 emissive = texture(u_GBufferEmissive, v_TexCoord).rgb;
     float metallic = texture(u_GBufferMetallicRoughness, v_TexCoord).r;
     float roughness = texture(u_GBufferMetallicRoughness, v_TexCoord).g;
@@ -348,6 +350,11 @@ void main()
     }
 
     vec3 ambient = (kD * diffuse + specular) * ao;
+
+    //if (ssr.a > 0.01)
+        ambient += ssr.rgb;
+    //else
+    //    ambient *= ssr.rgb;
 
     vec3 lighting = ambient + Lo + emissive;
     f_Color = vec4(lighting, 1.0);

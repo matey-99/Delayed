@@ -29,6 +29,9 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> ssao = AssetManager::LoadShader("Shaders/SSAO.glsl");
 	m_PostProcessingShaders.insert({ ssao->GetName(), ssao });
 
+	Ref<Shader> ssr = AssetManager::LoadShader("Shaders/SSR.glsl");
+	m_PostProcessingShaders.insert({ ssr->GetName(), ssr });
+
 	Ref<Shader> ssaoBlur = AssetManager::LoadShader("Shaders/SSAOBlur.glsl");
 	m_PostProcessingShaders.insert({ ssaoBlur->GetName(), ssaoBlur });
 
