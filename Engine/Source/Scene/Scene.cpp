@@ -100,7 +100,7 @@ void Scene::PreRender()
 
 void Scene::Render(Material::BlendMode blendMode)
 {
-	if (m_SkyLight)
+	if (m_SkyLight && m_SkyLight->GetOwner()->IsEnabled())
 		m_SkyLight->Render(blendMode);
 
 	MeshesRenderList meshesList;
@@ -113,7 +113,10 @@ void Scene::Render(Material::BlendMode blendMode)
 	RenderMeshes(meshesList, blendMode);
 
 	for (auto& particleSystem : GetComponents<ParticleSystemComponent>())
-		particleSystem->Render(blendMode);
+	{
+		if (particleSystem->GetOwner()->IsEnabled())
+			particleSystem->Render(blendMode);
+	}
 }
 
 void Scene::Render(Ref<Shader> shader)

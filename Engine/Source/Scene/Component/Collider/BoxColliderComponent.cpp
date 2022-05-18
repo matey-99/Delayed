@@ -186,7 +186,7 @@ bool BoxColliderComponent::CheckCollisions()
                         OnTriggerExitDelegate.Broadcast(collider.get());
 
                     if (collider->IsTrigger())
-                        OnTriggerExitDelegate.Broadcast(this);
+                        collider->OnTriggerExitDelegate.Broadcast(this);
                 }
             }
         }
@@ -235,7 +235,7 @@ bool BoxColliderComponent::CheckCollisions()
                         OnTriggerExitDelegate.Broadcast(collider.get());
 
                     if (collider->IsTrigger())
-                        OnTriggerExitDelegate.Broadcast(this);
+                        collider->OnTriggerExitDelegate.Broadcast(this);
                 }
             }
         }

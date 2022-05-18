@@ -6,11 +6,16 @@
 #include "Saveable.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 
-class Checkpoint : public GameComponent, public Saveable
+enum class SkillType
+{
+	DoubleJump, Dash, Teleport
+};
+
+class PickableSkill : public GameComponent, public Saveable
 {
 public:
-	Checkpoint(Actor* owner);
-	~Checkpoint();
+	PickableSkill(Actor* owner);
+	~PickableSkill();
 
 	virtual void Start() override;
 
@@ -19,9 +24,8 @@ public:
 	virtual const SaveData Save() override;
 	virtual void Load(const SaveData& data) override;
 
-#pragma region Serialization
-
-#pragma endregion
+private:
+	SkillType m_SkillType;
 
 	friend class SceneSerializer;
 	friend class ActorDetailsPanel;

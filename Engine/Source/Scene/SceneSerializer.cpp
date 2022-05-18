@@ -40,6 +40,7 @@
 #include "Game/BlockTrigger.h"
 #include "Game/TPPPlayer.h"
 #include "Game/SaveManager.h"
+#include "Game/PickableSkill.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -665,6 +666,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						a->CreateComponent<SaveManager>();
 					}
+
+					if (auto skill = component["PickableSkill"])
+					{
+						int skillType = skill["SkillType"].as<int>();
+
+						auto s = a->CreateComponent<PickableSkill>();
+						s->m_SkillType = (SkillType)skillType;
+					}
 				}
 			}
 		}
@@ -1115,6 +1124,16 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "SaveManager";
 		out << YAML::BeginMap;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto skill = actor->GetComponent<PickableSkill>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "PickableSkill";
+		out << YAML::BeginMap;
+		out << YAML::Key << "SkillType" << YAML::Value << (int)skill->m_SkillType;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

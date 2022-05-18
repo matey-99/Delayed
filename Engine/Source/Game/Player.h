@@ -8,6 +8,7 @@ class Checkpoint;
 class CameraComponent;
 class BoxColliderComponent;
 class Trail;
+enum class SkillType;
 
 class Player : public GameComponent, public Saveable
 {
@@ -22,6 +23,8 @@ public:
 
 	void SetLastCheckpoint(Checkpoint* checkpoint);
 	void BackToLastCheckpoint();
+
+	void AddSkill(SkillType skill);
 
 private:
 	void MoveForward(float value);
@@ -70,6 +73,9 @@ private:
 	bool m_CanJump;
 	bool m_CanDash;
 	bool m_CanTeleport;
+	bool m_HasDoubleJumpSkill;
+	bool m_HasDashSkill;
+	bool m_HasTeleportSkill;
 
 	/* Others */
 	glm::vec3 m_LastCheckpointPosition;

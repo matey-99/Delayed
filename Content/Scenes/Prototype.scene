@@ -122,20 +122,124 @@ Actors:
           Intensity: 1
   - Actor: 326927117
     ID: 326927117
-    Name: Cube (3)
+    Name: Skill_DoubleJump
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-45.968174, 22.4599934, -5.734519]
+          LocalPosition: [-34.6309319, 9.48730373, -40.1398277]
           LocalRotation: [0, 0, 0]
-          LocalScale: [0.981901288, 1.06210196, 1.22148561]
+          LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/defaults/default_sphere.obj
           Materials:
             - Material: 0
               Path: Materials/Blue.mat
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 1.5
+          MaxParticles: 1000
+          EmissionRateOverTime: 100
+          MinParticleSize: 0.00999999978
+          MaxParticleSize: 0.100000001
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0.5, 0]
+          EndParticleVelocity: [0, 0, 0]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [0, 1, 0.986174822, 0.5]
+          EndParticleColor: [0.302745879, 0.995391726, 0.909209967, 0]
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [2, 2, 2]
+      - PickableSkill:
+          SkillType: 0
+  - Actor: 326927227
+    ID: 326927227
+    Name: Skill_Dash
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-34.6309319, 9.74896431, -50.1398277]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_sphere.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Blue.mat
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 1.5
+          MaxParticles: 1000
+          EmissionRateOverTime: 100
+          MinParticleSize: 0.00999999978
+          MaxParticleSize: 0.100000001
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0.5, 0]
+          EndParticleVelocity: [0, 0, 0]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [0, 1, 0.986174822, 0.5]
+          EndParticleColor: [0.302745879, 0.995391726, 0.909209967, 0]
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [2, 2, 2]
+      - PickableSkill:
+          SkillType: 1
+  - Actor: 326927337
+    ID: 326927337
+    Name: Skill_Teleport
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-34.6309319, 9.97365856, -60.1398277]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_sphere.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Blue.mat
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 1.5
+          MaxParticles: 1000
+          EmissionRateOverTime: 100
+          MinParticleSize: 0.00999999978
+          MaxParticleSize: 0.100000001
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0.5, 0]
+          EndParticleVelocity: [0, 0, 0]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [0, 1, 0.986174822, 0.5]
+          EndParticleColor: [0.302745879, 0.995391726, 0.909209967, 0]
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [2, 2, 2]
+      - PickableSkill:
+          SkillType: 2
   - Actor: 484586166
     ID: 484586166
     Name: Cube (29)
@@ -416,7 +520,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [16.2399998, -14.2312775, -16.4699993]
+          LocalPosition: [16.2399998, -12.2280855, -20.5323238]
           LocalRotation: [0, 0, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -1801,4 +1905,4 @@ Actors:
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [1, 0.99000001, 1]

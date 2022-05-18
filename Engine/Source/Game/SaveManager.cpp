@@ -18,7 +18,9 @@ void SaveManager::Start()
 		s_Instance = this;
 
 	GetAllSaveables();
-	LoadGame();
+
+	if (!LoadGame())
+		SaveGame();
 }
 
 void SaveManager::SaveGame()

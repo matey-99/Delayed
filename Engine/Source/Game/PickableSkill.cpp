@@ -1,38 +1,38 @@
-#include "Checkpoint.h"
+#include "PickableSkill.h"
 
 #include "Scene/Actor.h"
 #include "Player.h"
 #include "SaveManager.h"
+#include "Scene/Scene.h"
 
-Checkpoint::Checkpoint(Actor* owner)
+PickableSkill::PickableSkill(Actor* owner)
 	: GameComponent(owner)
 {
+	m_SkillType = SkillType::DoubleJump;
 }
 
-Checkpoint::~Checkpoint()
+PickableSkill::~PickableSkill()
 {
 }
 
-void Checkpoint::Start()
+void PickableSkill::Start()
 {
 	if (auto collider = m_Owner->GetComponent<ColliderComponent>())
 	{
-		collider->OnTriggerEnterDelegate.Add(&Checkpoint::OnTriggerEnter, this);
+		collider->OnTriggerEnterDelegate.Add(&PickableSkill::OnTriggerEnter, this);
 	}
 }
 
-void Checkpoint::OnTriggerEnter(ColliderComponent* other)
+void PickableSkill::OnTriggerEnter(ColliderComponent* other)
 {
 	if (auto player = other->GetOwner()->GetComponent<Player>())
 	{
-		player->SetLastCheckpoint(this);
+		player->AddSkill(m_SkillType);
 		m_Owner->SetEnabled(false);
-
-		SaveManager::GetInstance()->SaveGame();
 	}
 }
 
-const SaveData Checkpoint::Save()
+const SaveData PickableSkill::Save()
 {
 	SaveData data;
 	data.ActorID = m_Owner->GetID();
@@ -41,7 +41,7 @@ const SaveData Checkpoint::Save()
 	return data;
 }
 
-void Checkpoint::Load(const SaveData& data)
+void PickableSkill::Load(const SaveData& data)
 {
 	bool enabled = data.BoolFields.find("Enabled")->second;
 

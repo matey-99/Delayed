@@ -2,6 +2,7 @@
 
 #include "Scene/Actor.h"
 #include "Player.h"
+#include "SaveManager.h"
 
 DeathArea::DeathArea(Actor* owner)
 	: GameComponent(owner)
@@ -23,5 +24,5 @@ void DeathArea::Start()
 void DeathArea::OnTriggerEnter(ColliderComponent* other)
 {
 	if (auto player = other->GetOwner()->GetComponent<Player>())
-		player->BackToLastCheckpoint();
+		SaveManager::GetInstance()->LoadGame();
 }
