@@ -21,6 +21,9 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> transparentSkeletal = AssetManager::LoadShader("Shaders/TransparentSkeletal.glsl");
 	m_MaterialShaders.insert({ transparentSkeletal->GetName(), transparentSkeletal });
 
+    Ref<Shader> grass = AssetManager::LoadShader("Shaders/Grass.glsl");
+	m_MaterialShaders.insert({ grass->GetName(), grass });
+
 	/* Post-Processing Shaders */
 
 	Ref<Shader> viewport = AssetManager::LoadShader("Shaders/Viewport.glsl");

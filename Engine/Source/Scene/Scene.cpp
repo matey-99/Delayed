@@ -17,6 +17,7 @@
 #include "Component/Particle/ParticleSystemComponent.h"
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
+#include "Time/Time.h"
 
 Scene::Scene()
 {
@@ -277,6 +278,10 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 				material->GetShader()->SetFloat("u_SkyLightIntensity", 0.03f);
 			}
 		}
+
+        if (material->GetName() == "Grass") {
+            material->GetShader()->SetFloat("u_Time", Time::GetInstance()->GetElapsedTime());
+        }
 
 		std::vector<glm::mat4> transformations;
 		uint32_t instancesCount = 0;

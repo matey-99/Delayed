@@ -1906,3 +1906,19 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 0.99000001, 1]
+  - Actor: 357951001
+    ID: 357951001
+    Name: tmp_Grass_Mesh
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 2.22953391, -41.1706581]
+          LocalRotation: [-90.015419, -0, 0]
+          LocalScale: [0.0100000501, 0.0100000491, 0.0100000491]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/tmp_Grass_Mesh.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Grass.mat
