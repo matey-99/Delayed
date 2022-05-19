@@ -16,26 +16,26 @@ RendererSettings:
     MinDistance: 15
     MaxDistance: 125
     Density: 0.150000006
-    Color: [0.470588237, 0.662745118, 0.87843138]
+    Color: [0.432333678, 0.65241313, 0.84803921]
   PostProcessingSettings:
-    Gamma: -1
+    Gamma: -1.5
     Gain: 0.5
     Lift: 0
     Offset: 0
-    Exposure: 0.899999976
-    Contrast: 1.14999998
-    ContrastPivot: 0.800000012
+    Exposure: 1.20000005
+    Contrast: 1.29999995
+    ContrastPivot: 1
     BloomEnabled: true
-    BloomThreshold: 2
-    BloomLimit: 20
-    BloomIntensity: 0.800000012
-    BloomBlurSigma: 3.5999999
+    BloomThreshold: 3.0999999
+    BloomLimit: 15
+    BloomIntensity: 0.699999988
+    BloomBlurSigma: 2.5
     Saturation: 1.10000002
-    Temperature: 75
-    Hue: 180
+    Temperature: 70
+    Hue: 185
   VignetteSettings:
-    Intensity: 10.5
-    Size: 0.174999997
+    Intensity: 11
+    Size: 0.140000001
   DepthOfFieldSettings:
     MinDistance: 1.5
     MaxDistance: 64
@@ -775,7 +775,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-12.1340981, -3.83713961, 176.123764]
+          LocalPosition: [-13.8956413, -3.83713961, 178.524612]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.119999997, 0.119999997, 0.119999997]
           Parent: 2141099751
@@ -1704,7 +1704,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-44.9744682, 21.8186531, 175.805557]
+          LocalPosition: [-44.9744682, 20.8574409, 175.805557]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
