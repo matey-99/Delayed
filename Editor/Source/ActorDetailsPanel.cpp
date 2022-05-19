@@ -893,6 +893,22 @@ void ActorDetailsPanel::Render()
 
             ImGui::EndCombo();
         }
+        switch (audioSource->m_Channel) {
+            case MUSIC:
+                name = "Music";
+                break;
+            case SFX:
+                name = "SFX";
+                break;
+        }
+        if (ImGui::BeginCombo("Channel", name.c_str()))
+        {
+            if (ImGui::Selectable("Music"))
+                audioSource->m_Channel = CHANNEL_GROUP::MUSIC;
+            if (ImGui::Selectable("SFX"))
+                audioSource->m_Channel = CHANNEL_GROUP::SFX;
+            ImGui::EndCombo();
+        }
         if (ImGui::DragFloat("Volume", &audioSource->m_Volume, 0.01f, 0.0f, 1.0f))
             audioSource->SetVolume(audioSource->m_Volume);
         if (ImGui::Checkbox("Is 3D", &audioSource->m_3d))
