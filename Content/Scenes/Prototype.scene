@@ -575,7 +575,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 10.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 11.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 0
@@ -682,7 +682,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 928121183
@@ -795,7 +795,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [1.68175888, 12.0347528, 100.459038]
+          LocalPosition: [1.68175888, 12.092823, 100.459038]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -806,7 +806,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 1055560003
@@ -886,7 +886,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 1572592382
@@ -1095,7 +1095,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 83962599
@@ -1547,7 +1547,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.12, 1]
       - Button:
           Platform: 85858339
@@ -1571,7 +1571,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 772960022
@@ -1595,7 +1595,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 772960022
@@ -1619,7 +1619,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 442381772
@@ -1643,7 +1643,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 442381772
@@ -1667,7 +1667,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 488783937
@@ -1691,7 +1691,7 @@ Actors:
               Path: Materials/M_PressurePlatform.mat
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 5, 0]
+          Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 281502313
@@ -1922,3 +1922,158 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Grass.mat
+  - Actor: 302285347
+    ID: 302285347
+    Name: New Actor
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0.3060112, 0.6120224]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1814395459
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 35228266
+    ID: 35228266
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [1.31679153, 12.5682516, 101.545723]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 276739457
+    ID: 276739457
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-11.6008644, 17.7980328, 130.176483]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 630809981
+    ID: 630809981
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-60.8450546, 26.8722248, 150.10199]
+          LocalRotation: [90, 76.8532104, -179.999954]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 82438936
+    ID: 82438936
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-63.6327705, 26.456152, 148.179184]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 297116503
+    ID: 297116503
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-65.3950043, 30.5362511, 87.8851089]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 216901292
+    ID: 216901292
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-78.4733963, 30.1292095, 87.1068878]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 437177972
+    ID: 437177972
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-56.90522, 16.2353745, 10.9850607]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
