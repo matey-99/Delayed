@@ -5,6 +5,7 @@
 #include "yaml/yaml.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
+#include "Scene/Component/Animation/Animator.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
@@ -344,6 +345,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
 						a->CreateComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
+					}
+
+					if (auto animator = component["Animator"])
+					{
+						a->AddComponent<Animator>();
 					}
 
 					if (auto lodGroup = component["LODGroup"])
@@ -795,6 +801,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		}
 		out << YAML::EndSeq;
 		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto animator = actor->GetComponent<Animator>())
+	{
+		out << YAML::BeginMap;
+
+		out << YAML::Key << "Animator";
+
 		out << YAML::EndMap;
 	}
 

@@ -12,6 +12,8 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderPass/ShadowsPass.h"
 #include "Component/TransformComponent.h"
+#include "Component/Animation/SkeletalMeshComponent.h"
+#include "Component/Animation/Animator.h"
 #include "Component/Light/SkyLight.h"
 #include "Component/UI/RectTransformComponent.h"
 #include "Component/Particle/ParticleSystemComponent.h"
@@ -49,6 +51,14 @@ void Scene::Start()
 
 	m_SkyLight = FindComponent<SkyLight>();
 }
+
+//void Scene::UpdateAnimation(float deltaTime)
+//{
+//	for (auto animator : m_Animators)
+//	{
+//		animator->Update(deltaTime);
+//	}
+//}
 
 void Scene::Update(float deltaTime)
 {
@@ -274,6 +284,22 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 				material->GetShader()->SetFloat("u_SkyLightIntensity", 0.03f);
 			}
 		}
+
+
+		// ANIMATION SKELETAL MESH BONES
+		//std::vector<glm::mat4> transforms = mesh->GetBoneMatrices();
+		// transforms is always zero, so this below will not invoke
+		Ref<SkeletalMesh> skelMesh = Cast<SkeletalMesh>(mesh);
+		if (skelMesh)
+		{
+			std::vector<glm::mat4> transforms = skelMesh->GetBoneMatrices();
+			for (int i = 0; i < transforms.size(); i++)
+			{
+				material->GetShader()->SetMat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+				//std::cout << transforms[i][0][0] << transforms[i][0][1] << "\n";
+			}
+		}
+
 
 		std::vector<glm::mat4> transformations;
 		uint32_t instancesCount = 0;

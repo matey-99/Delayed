@@ -6,6 +6,8 @@
 
 class Model;
 class SkeletalModel;
+class Rig;
+class Animation;
 class Shader;
 class ComputeShader;
 class Scene;
@@ -13,6 +15,7 @@ class Material;
 
 class ModelImporter;
 class SkeletalModelImporter;
+class AnimationImporter;
 class TextureImporter;
 class ShaderImporter;
 class ComputeShaderImporter;
@@ -26,6 +29,7 @@ public:
 
 	static Ref<Model> LoadModel(std::string assetPath);
 	static Ref<SkeletalModel> LoadSkeletalModel(std::string assetPath);
+	static std::vector<Ref<Animation>> LoadAnimations(std::string assetPath, Ref<Rig> rig);
 	static Ref<Texture> LoadTexture(std::string assetPath, Texture::Type type = Texture::Type::BaseColor);
 	static Ref<Shader> LoadShader(const std::string& path);
 	static Ref<ComputeShader> LoadComputeShader(const std::string& path);
@@ -41,6 +45,7 @@ public:
 private:
 	Ref<ModelImporter> m_ModelImporter;
 	Ref<SkeletalModelImporter> m_SkeletalModelImporter;
+	Ref<AnimationImporter> m_AnimationImporter;
 	Ref<TextureImporter> m_TextureImporter;
 	Ref<ShaderImporter> m_ShaderImporter;
 	Ref<ComputeShaderImporter> m_ComputeShaderImporter;

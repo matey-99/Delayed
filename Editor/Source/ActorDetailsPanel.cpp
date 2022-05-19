@@ -5,6 +5,7 @@
 #include "Assets/AssetManager.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
+#include "Scene/Component/Animation/Animator.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
@@ -305,6 +306,23 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();
         componentIndex++;
+    }
+
+    if (auto animator = m_Actor->GetComponent<Animator>())
+    {
+        ImGui::Text("Animator Component");
+
+        ImGui::Text("Animations available: %i", animator->HowManyAnimationsAreThere());
+
+        ImGui::Text("Animation current time: %f", animator->GetCurrentAnimationTime());
+
+        if (ImGui::Button("Debug display animation names"))
+        {
+            animator->DebugDisplayAnimationNames();
+        }
+
+        ImGui::Dummy(ImVec2(0.0, 10.0));
+        // [...]
     }
 
     if (auto lodGroup = m_Actor->GetComponent<LODGroupComponent>())
@@ -913,6 +931,7 @@ void ActorDetailsPanel::Render()
     bool staticMesh = false;
     bool instanceRenderedMesh = false;
     bool skeletalMesh = false;
+    bool animator = false;
     bool lodGroup = false;
     bool dirLight = false;
     bool pointLight = false;
@@ -946,6 +965,7 @@ void ActorDetailsPanel::Render()
                 ImGui::MenuItem("Static Mesh", "", &staticMesh);
                 ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
                 ImGui::MenuItem("Skeletal Mesh", "", &skeletalMesh);
+                ImGui::MenuItem("Animator", "", &animator);
                 ImGui::MenuItem("LOD Group", "", &lodGroup);
                 if (ImGui::BeginMenu("Light"))
                 {
@@ -1017,6 +1037,13 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<StaticMeshComponent>();
     if (skeletalMesh)
         m_Actor->AddComponent<SkeletalMeshComponent>();
+    if (animator)
+    {
+        if (m_Actor->GetComponent<SkeletalMeshComponent>() == nullptr)
+            m_Actor->AddComponent<SkeletalMeshComponent>();
+
+        m_Actor->AddComponent<Animator>();
+    }
     if (lodGroup)
         m_Actor->AddComponent<LODGroupComponent>();
     if (dirLight)

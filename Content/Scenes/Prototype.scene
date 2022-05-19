@@ -1832,7 +1832,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [26.7607727, 6.19925928, -36.8121376]
+          LocalPosition: [26.7607727, 4.49884701, -36.8121376]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1.83250093, 2.0561502]
           Parent: 0
@@ -1841,3 +1841,19 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+  - Actor: 948736133
+    ID: 948736133
+    Name: Vampire
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [31.2270279, 0.64780885, -38.6025963]
+          LocalRotation: [180, -82.6051178, 180]
+          LocalScale: [0.0299999993, 0.0299999993, 0.0299999993]
+          Parent: 0
+      - SkeletalMesh:
+          SkeletalMesh: Models/Skeletal/SK_VampireThree.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/MSK_Default.mat

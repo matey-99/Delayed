@@ -3,6 +3,8 @@
 #include "Assets/AssetManager.h"
 #include "Importer/MaterialImporter.h"
 #include "Camera/CameraManager.h"
+#include "Scene/Component/Animation/Rig.h"
+#include "Scene/Component/Animation/Animation.h"
 
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
@@ -10,8 +12,9 @@
 #include <glad/glad.h>
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner)
-	: SkeletalMeshComponent(owner, "Models/defaults/Skeletal/SK_Walking.fbx")
+	: SkeletalMeshComponent(owner, "Models/Skeletal/SK_VampireThree.fbx")
 {
+
 }
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path)
@@ -20,7 +23,7 @@ SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path)
 	LoadMesh(path);
 
 	for (int i = 0; i < m_SkeletalModel->GetMeshes().size(); i++)
-		LoadMaterial("Materials/Default.mat");
+		LoadMaterial("Materials/MSK_Default.mat");
 }
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPaths)
@@ -48,6 +51,7 @@ std::vector<Ref<MeshBase>> SkeletalMeshComponent::GetMeshes() const
 uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
 {
 	uint32_t vertices = 0;
+
 	for (auto mesh : m_SkeletalModel->GetMeshes())
 	{
 		vertices += mesh->GetVertices().size();
@@ -56,21 +60,35 @@ uint32_t SkeletalMeshComponent::GetRenderedVerticesCount()
 	return vertices;
 }
 
-uint32_t SkeletalMeshComponent::GetBoneCount()
+Ref<Animation> SkeletalMeshComponent::GetAnimation(int index)
 {
-	uint32_t bones = 0;
-	for (auto mesh : m_SkeletalModel->GetMeshes())
+	if (index < m_Animations.size() && index >= 0)
 	{
-		bones += mesh->GetBoneCount();
+		return m_Animations[index];
+	}
+	else
+	{
+		return nullptr;
 	}
 
-	return bones;
+}
+
+void SkeletalMeshComponent::PropagateBoneTransforms(std::vector<glm::mat4> boneMatrices)
+{
+	m_SkeletalModel->PropagateBoneTransforms(boneMatrices);
+}
+
+uint32_t SkeletalMeshComponent::GetBoneCount() const
+{
+	return m_SkeletalModel->GetRig()->HowManyBones();
 }
 
 void SkeletalMeshComponent::LoadMesh(std::string path)
 {
 	m_Path = path;
+	// Below assimp could be loading only once from the path, but it reads twice
 	m_SkeletalModel = AssetManager::LoadSkeletalModel(path);
+	m_Animations = AssetManager::LoadAnimations(path, m_SkeletalModel->GetRig());
 }
 
 void SkeletalMeshComponent::ChangeMesh(std::string path)
@@ -81,11 +99,12 @@ void SkeletalMeshComponent::ChangeMesh(std::string path)
 	m_MaterialsPaths.clear();
 
 	for (int i = 0; i < m_SkeletalModel->GetMeshes().size(); i++)
-		LoadMaterial("Materials/Default.mat");
+		LoadMaterial("Materials/MSK_Default.mat");
 }
 
 void SkeletalMeshComponent::ChangeModel(Ref<ModelBase> modelBase)
 {
+	// Is it enough?
 	if (auto model = StaticCast<SkeletalModel>(modelBase))
 		m_SkeletalModel = model;
 }
