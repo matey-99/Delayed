@@ -127,7 +127,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-34.6309319, 9.48730373, -40.1398277]
+          LocalPosition: [-44.206131, 26.6298122, -1.59637356]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -267,7 +267,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-50.5970268, -8.59000111, 67.8444061]
+          LocalPosition: [-50.5978851, -4.12466049, 68.3879242]
           LocalRotation: [0, -0.0910694152, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -276,6 +276,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 623242758
     ID: 623242758
     Name: checkpoint1 (1)
@@ -283,7 +289,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [16.2399998, -10.7399998, 31.7199993]
+          LocalPosition: [16.2399998, -9.23703384, 31.7199993]
           LocalRotation: [0, 0, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -542,7 +548,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [31.1207256, -7.42172909, 104.260002]
+          LocalPosition: [31.1207256, -5.42579937, 104.260002]
           LocalRotation: [0, 0, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -551,6 +557,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 1503310902
     ID: 1503310902
     Name: TPP Player
@@ -759,7 +771,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-9.5, -0.609999657, 192.899994]
+          LocalPosition: [-9.5, 1.4882164, 192.899994]
           LocalRotation: [0, 0.3985295, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -768,6 +780,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 1706929148
     ID: 1706929148
     Name: Cube (26)
@@ -819,7 +837,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-50.5961075, 6.63800049, 125.723671]
+          LocalPosition: [-50.6026764, 7.94331551, 129.860138]
           LocalRotation: [0, -0.0910694152, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -828,6 +846,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 1902536977
     ID: 1902536977
     Name: Cube (61)
@@ -1383,12 +1407,12 @@ Actors:
           Size: [1, 1, 1]
   - Actor: 133460300
     ID: 133460300
-    Name: Block
+    Name: Block1
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-26.3460484, 24.9711666, 122.462143]
+          LocalPosition: [-26.3460484, 24.0889931, 123.135971]
           LocalRotation: [0, 0, 0]
           LocalScale: [3, 3, 3]
           Parent: 0
@@ -1397,14 +1421,18 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_Ghost.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 797203606
     ID: 797203606
-    Name: Block
+    Name: Block2
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-24.5124435, 9.18942738, 65.2357254]
+          LocalPosition: [-22.1664581, 9.17877483, 66.7449875]
           LocalRotation: [0, 0, 0]
           LocalScale: [3, 3, 3]
           Parent: 0
@@ -1413,9 +1441,13 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_Ghost.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 819808775
     ID: 819808775
-    Name: Block
+    Name: Block3
     Enabled: true
     Dynamic: false
     Components:
@@ -1429,6 +1461,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_Ghost.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 814558808
     ID: 814558808
     Name: Cube (42)
@@ -1843,7 +1879,7 @@ Actors:
           Speed: 25
   - Actor: 646690098
     ID: 646690098
-    Name: Block_trigger
+    Name: Block_trigger1
     Enabled: true
     Dynamic: false
     Components:
@@ -1855,10 +1891,12 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [0.5, 0.5, 0.5]
+      - BlockTrigger:
+          {}
   - Actor: 373446215
     ID: 373446215
-    Name: Block_trigger
+    Name: Block_trigger2
     Enabled: true
     Dynamic: false
     Components:
@@ -1870,10 +1908,12 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [0.5, 0.5, 0.5]
+      - BlockTrigger:
+          {}
   - Actor: 865256449
     ID: 865256449
-    Name: New Actor (1)
+    Name: Block_trigger3
     Enabled: true
     Dynamic: false
     Components:
@@ -1885,7 +1925,9 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [0.5, 0.5, 0.5]
+      - BlockTrigger:
+          {}
   - Actor: 264513819
     ID: 264513819
     Name: Cube (21)
