@@ -20,6 +20,8 @@ public:
 	Ref<Bone> GetBone(uint32_t index) const;
 	Ref<Bone> FindBone(std::string name) const;  // it's now basically a BoneInfo structure
 
+	Ref<Rig> Clone();
+
 
 private:
 	std::vector<Ref<Bone>> m_Bones;

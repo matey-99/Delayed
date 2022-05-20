@@ -9,6 +9,10 @@ Bone::Bone(const std::string& name, int ID, glm::mat4 offsetMatrix)
 	m_LocalTransform(1.0f),
 	m_OffsetMatrix(offsetMatrix)
 {
+	m_NumPositions = 0;
+	m_NumRotations = 0;
+	m_NumScalings  = 0;
+
 	isComplete = false;
 }
 
@@ -107,6 +111,9 @@ float Bone::GetScaleFactor(float lastTimeStamp, float nextTimeStamp, float anima
 
 glm::mat4 Bone::InterpolatePosition(float animationTime)
 {
+	if (0 == m_NumPositions)
+		return glm::mat4(1.0f);
+
 	if (1 == m_NumPositions)
 		return glm::translate(glm::mat4(1.0f), m_Positions[0].position);
 
@@ -121,6 +128,9 @@ glm::mat4 Bone::InterpolatePosition(float animationTime)
 
 glm::mat4 Bone::InterpolateRotation(float animationTime)
 {
+	if (0 == m_NumRotations)
+		return glm::mat4(1.0f);
+
 	if (1 == m_NumRotations)
 	{
 		auto rotation = glm::normalize(m_Rotations[0].orientation);
@@ -139,6 +149,9 @@ glm::mat4 Bone::InterpolateRotation(float animationTime)
 
 glm::mat4 Bone::InterpolateScaling(float animationTime)
 {
+	if (0 == m_NumScalings)
+		return glm::mat4(1.0f);
+
 	if (1 == m_NumScalings)
 		return glm::scale(glm::mat4(1.0f), m_Scales[0].scale);
 

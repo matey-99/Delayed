@@ -35,3 +35,17 @@ Ref<Bone> Rig::FindBone(std::string name) const
 
 	return nullptr;
 }
+
+Ref<Rig> Rig::Clone()
+{
+	Ref<Rig> rig;
+
+	// Deep copy:
+	for (int index = 0; index < HowManyBones(); index++)
+	{
+		Ref<Bone> bone = CreateRef<Bone>(m_Bones[index]->GetBoneName(), HowManyBones(), m_Bones[index]->GetOffset());
+		rig->AddBone(bone);
+	}
+
+	return rig;
+}

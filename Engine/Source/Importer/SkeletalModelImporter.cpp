@@ -22,7 +22,11 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 		std::cout << "Loading skeletal model failed: " << importer.GetErrorString() << std::endl;
 		return nullptr;
 	}
-
+	if (scene->HasAnimations() == false)
+	{
+		std::cout << "Provided model must have animations to be a Skeletal Model. Add Static Mesh instead" << std::endl;
+		return nullptr;
+	}
 	scene->mRootNode->mTransformation;
 
 	// Specify Model requirements that need all meshes info to be constructed

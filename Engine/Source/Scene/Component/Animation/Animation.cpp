@@ -3,15 +3,17 @@
 
 
 //Animation::Animation(const aiNode* root, int index, Ref<SkeletalModel> model)
-Animation::Animation(const aiNode* root, const aiAnimation* animation, Ref<Rig> rig)
+Animation::Animation(const aiNode* root, aiAnimation* animation, Ref<Rig> rig)
 {
+	m_AiAnimation = animation;
+
 	m_Rig = rig;
 	m_Name = animation->mName.C_Str();
 	m_Duration = animation->mDuration;
 	m_NumChannels = animation->mNumChannels;
 	m_TicksPerSecond = animation->mTicksPerSecond;
-	ReadHierarchyData(animation, m_RootNode, root);
-	ReadMissingBones(animation);
+	ReadHierarchyData(m_RootNode, root);
+	UpdateRig();
 
 	// Code below does nothing but was originally here -- maybe should inverse a reference? idk
 	//aiMatrix4x4 globalTransformation = scene->mRootNode->mTransformation;  // is necessery?
@@ -32,13 +34,13 @@ Animation::Animation(const aiNode* root, const aiAnimation* animation, Ref<Rig> 
 //}
 
 //void Animation::ReadMissingBones(const aiAnimation* animation, Ref<SkeletalModel> model)
-void Animation::ReadMissingBones(const aiAnimation* animation)
+void Animation::UpdateRig()
 {
 	uint32_t boneCount = m_Rig->HowManyBones();
 
 	for (int i = 0; i < m_NumChannels; i++)
 	{
-		auto channel = animation->mChannels[i];
+		auto channel = m_AiAnimation->mChannels[i];
 		std::string boneName = channel->mNodeName.data;
 
 		if (m_Rig->FindBone(boneName) == nullptr)
@@ -76,7 +78,7 @@ void Animation::ReadMissingBones(const aiAnimation* animation)
 	//m_BoneInfoMap = boneInfoMap;
 }
 
-void Animation::ReadHierarchyData(const aiAnimation* animation, AssimpNodeData& dest, const aiNode* src)
+void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
 {
 	assert(src);
 
@@ -101,7 +103,7 @@ void Animation::ReadHierarchyData(const aiAnimation* animation, AssimpNodeData& 
 		//}
 
 		AssimpNodeData newData;
-		ReadHierarchyData(animation, newData, src->mChildren[i]);
+		ReadHierarchyData(newData, src->mChildren[i]);
 		dest.children.push_back(newData);
 	}
 }

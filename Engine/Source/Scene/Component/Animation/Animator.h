@@ -31,7 +31,7 @@ public:
 			m_FinalBoneMatrices.push_back(glm::mat4(1.0f));
 
 		if (m_SkeletalMeshComponent->HowManyAnimations() > 0)
-			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(1);
+			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(0);
 
 	}
 
@@ -85,7 +85,7 @@ public:
 		m_SkeletalMeshComponent = m_Owner->GetComponent<SkeletalMeshComponent>();
 
 		if (m_SkeletalMeshComponent->HowManyAnimations() > 0)
-			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(1);  // winowajca
+			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(0);  // winowajca
 	}
 
 	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);

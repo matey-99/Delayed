@@ -15,7 +15,7 @@ class Animation
 {
 public:
 	Animation() = default;
-	Animation(const aiNode* root, const aiAnimation* animation, Ref<Rig> rig);
+	Animation(const aiNode* root, aiAnimation* animation, Ref<Rig> rig);
 	~Animation() { }
 
 	inline double GetTicksPerSecond() { return m_TicksPerSecond; }
@@ -28,11 +28,11 @@ public:
 		std::cout << m_Name << "  dur: " << m_Duration << "  tps: " << m_TicksPerSecond << "\n";
 	}
 
-	void ReadMissingBones(const aiAnimation* animation);
+	void UpdateRig();
 
 
 private:
-	void ReadHierarchyData(const aiAnimation* animation, AssimpNodeData& dest, const aiNode* src);
+	void ReadHierarchyData(AssimpNodeData& dest, const aiNode* src);
 
 	AssimpNodeData m_RootNode;
 	std::string m_Name;
@@ -40,8 +40,12 @@ private:
 	double m_TicksPerSecond;
 	uint32_t m_NumChannels;
 	Ref<Rig> m_Rig;
+	//std::vector<Ref<Bone>> m_Bones;  // internal -- send to Rig on animation change
 	//std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;
 	//std::vector<Bone> m_Bones;  // could be somehow abstracted
+	//aiScene* scene;
+	aiAnimation* m_AiAnimation;
+
 
 	friend SkeletalMesh;
 };
