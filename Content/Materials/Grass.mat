@@ -1,6 +1,6 @@
 Material: Grass
 ID: 765108644
-BlendMode: 1
+BlendMode: 0
 Shader: Grass
 Bool Parameters:
   - Name: u_Material.isAOMap
