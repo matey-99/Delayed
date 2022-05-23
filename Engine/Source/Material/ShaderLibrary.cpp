@@ -24,6 +24,9 @@ ShaderLibrary::ShaderLibrary()
     Ref<Shader> grass = AssetManager::LoadShader("Shaders/Grass.glsl");
 	m_MaterialShaders.insert({ grass->GetName(), grass });
 
+    Ref<Shader> fogPlane = AssetManager::LoadShader("Shaders/FogPlane.glsl");
+    m_MaterialShaders.insert({ fogPlane->GetName(), fogPlane });
+
 	/* Post-Processing Shaders */
 
 	Ref<Shader> viewport = AssetManager::LoadShader("Shaders/Viewport.glsl");

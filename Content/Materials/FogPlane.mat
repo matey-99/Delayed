@@ -1,0 +1,15 @@
+Material: FogPlane
+ID: 253608149
+BlendMode: 1
+Shader: FogPlane
+Bool Parameters:
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: false
+Float Parameters:
+  - Name: u_Material.fogDensity
+    Value: 0.3
+Vec3 Parameters:
+  - Name: u_Material.fogColor
+    Value: [0.843882143, 0.995098054, 0.990650535]
+Texture Parameters:
+  []
