@@ -14,12 +14,12 @@ CharacterController::CharacterController(Actor* owner)
 	m_RotateSmoothness = 0.89f;
 	m_IsGrounded = false;
 
-	m_WalkSpeed = 10.0f;
-	m_RunSpeed = 18.0f;
+	m_WalkSpeed = 9.0f;
+	m_RunSpeed = 13.0f;
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
-	m_JumpHeight = 0.075f;
-	m_JumpMaxHeightTime = 0.35f;
+	m_JumpHeight = 0.04f;
+	m_JumpMaxHeightTime = 0.4f;
 	m_DashDistance = 4.0f;
 	m_MaxStamina = 100.0f;
 	m_StaminaRestorePerSecond = 15.0f;
