@@ -2,28 +2,35 @@
 #include "Core.h"
 #include "Renderer/Bone.h"
 
+struct BoneMap
+{
+	BoneMap(uint32_t id, std::string boneName, glm::mat4 offsetMatrix)
+		:
+		ID(id), Name(boneName), OffsetMatrix(offsetMatrix)
+	{ }
+
+	std::string Name;
+	glm::mat4 OffsetMatrix;
+	uint32_t ID;
+};
+
 class Rig
 {
 public:
-	Rig(std::vector<Ref<Bone>> bones)
-		: m_Bones(bones) { }
 	Rig() = default;
 	//~Rig();
 
-	// Add bone to rig
-	// It will automatically assign new ID if didn't found such bone (based on name)
-	void AddBone(Ref<Bone> bone);
-	void CompleteBone(std::string boneName, aiNodeAnim* channel);
 
-	inline size_t HowManyBones() const { return m_Bones.size(); }
+	bool AddBone(std::string boneName, glm::mat4 offsetMatrix);
+	inline size_t HowManyBones() const { return m_BoneMapping.size(); }
 
-	Ref<Bone> GetBone(uint32_t index) const;
-	Ref<Bone> FindBone(std::string name) const;  // it's now basically a BoneInfo structure
-
-	Ref<Rig> Clone();
+	Ref<BoneMap> FindBone(std::string boneName) const;
+	std::string GetName(uint32_t id) const;
+	glm::mat4 GetOffsetMatrix(uint32_t id) const;
+	glm::mat4 GetOffsetMatrix(std::string boneName) const;
 
 
 private:
-	std::vector<Ref<Bone>> m_Bones;
-	glm::mat4 finalBoneMatrices;  // matrix that is sent to Vertex Shader, where is it computed?
+	std::vector<Ref<BoneMap>> m_BoneMapping;
+
 };

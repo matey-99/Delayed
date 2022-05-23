@@ -317,9 +317,10 @@ void ActorDetailsPanel::Render()
         ImGui::Text("Animation current time: %f", animator->GetCurrentAnimationTime());
 
         if (ImGui::Button("Debug display animation names"))
-        {
             animator->DebugDisplayAnimationNames();
-        }
+
+        if (ImGui::Button("Switch animation"))
+            animator->DebugSwitchAnimation();
 
         ImGui::Dummy(ImVec2(0.0, 10.0));
         // [...]

@@ -18,6 +18,7 @@ class Animator : public Component
 	float m_CurrentTime;
 	float m_DeltaTime;
 
+
 public:
 	Animator(Actor* owner) : Component(owner)
 	{
@@ -79,6 +80,10 @@ public:
 			m_SkeletalMeshComponent->GetAnimation(index)->DebugDisplayAnimationName();
 		}
 	}
+	void DebugSwitchAnimation()
+	{
+		m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(1);
+	}
 
 	void FindSkeletalMeshComponent()
 	{
@@ -86,9 +91,12 @@ public:
 
 		if (m_SkeletalMeshComponent->HowManyAnimations() > 0)
 			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(0);  // winowajca
+			
 	}
 
 	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);
+
+
 
 	//std::vector<glm::mat4> GetFinalBoneMatrices() { return m_FinalBoneMatrices; }
 

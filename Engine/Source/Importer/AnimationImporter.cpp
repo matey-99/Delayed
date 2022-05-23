@@ -20,7 +20,7 @@ std::vector<Ref<Animation>> AnimationImporter::ImportAnimations(std::string path
 	assert(scene && scene->mRootNode);
 
 	if (scene->HasAnimations())
-		for (int index = scene->mNumAnimations - 1; index >= 0; index--)
+		for (int index = 0; index < scene->mNumAnimations; index++)
 		{
 			aiAnimation* animation = scene->mAnimations[index];
 			const aiNode* root = scene->mRootNode;

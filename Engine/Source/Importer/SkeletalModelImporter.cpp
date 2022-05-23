@@ -4,6 +4,7 @@
 #include "Assets/AssetManager.h"
 #include "Renderer/Bone.h"
 
+#define SKELETAL_JOINTS_MAX 4
 
 SkeletalModelImporter::SkeletalModelImporter()
 {
@@ -128,7 +129,7 @@ Ref<SkeletalMesh> SkeletalModelImporter::ProcessMesh(aiMesh* mesh, const aiScene
 
 void SkeletalModelImporter::SetVertexBoneData(SkinnedVertex& vertex, int boneID, float weight)
 {
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < SKELETAL_JOINTS_MAX; ++i)
 	{
 		if (vertex.BoneIDs[i] < 0)
 		{
@@ -160,20 +161,22 @@ void SkeletalModelImporter::ProcessMeshBones(std::vector<SkinnedVertex>& vertice
 		std::string boneName = assimpBone->mName.C_Str();
 		glm::mat4 offsetMatrix = AssimpGLMHelpers::ConvertMatrixToGLMFormat(assimpBone->mOffsetMatrix);
 
-		// Assign bones to rig
-		Ref<Bone> bone = rig->FindBone(boneName);
+
+		// Assign mapping for bones
 		int boneID = -1;
-		if (bone == nullptr)  // Add new bone
+		Ref<BoneMap> bone = rig->FindBone(boneName);
+
+		if (bone == nullptr)  // Not found: add new bone
 		{
-			Ref<Bone> _bone = CreateRef<Bone>(boneName, rig->HowManyBones(), offsetMatrix);
-			rig->AddBone(_bone);
+			rig->AddBone(boneName, offsetMatrix);
 			boneID = rig->HowManyBones() - 1;
 		}
-		else
+		else  // Found bone: get id
 		{
-			boneID = bone->GetID();
+			boneID = bone->ID;
 		}
-		assert(boneID != -1);  // just debug checking
+		assert(boneID != -1);  // Debug-only
+
 
 		// Assign weights and boneID to vertices
 		auto weights = mesh->mBones[boneIndex]->mWeights;
@@ -186,4 +189,5 @@ void SkeletalModelImporter::ProcessMeshBones(std::vector<SkinnedVertex>& vertice
 			SetVertexBoneData(vertices[vertexId], boneID, weight);
 		}
 	}
+
 }

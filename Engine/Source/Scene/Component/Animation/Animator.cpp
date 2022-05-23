@@ -28,11 +28,12 @@ void Animator::Update(float deltaTime)
 // This should be somewhere else
 void Animator::ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform)
 {
+	// New, with BoneMap:
 	std::string nodeName = node->name;
 	glm::mat4 nodeTransform = node->transformation;
-	Ref<Bone> bone = m_SkeletalMeshComponent->FindBoneInRig(nodeName);
-
 	glm::mat4 globalTransformation;
+
+	Ref<Bone> bone = m_CurrentAnimation->FindBone(nodeName);
 
 	if (bone != nullptr)
 	{
@@ -52,6 +53,30 @@ void Animator::ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTrans
 		ComputeBoneTransforms(&node->children[i], globalTransformation);
 	}
 
+
+	// Older:
+	//std::string nodeName = node->name;
+	//glm::mat4 nodeTransform = node->transformation;
+	//Ref<Bone> bone = m_SkeletalMeshComponent->FindBoneInRig(nodeName);
+	//glm::mat4 globalTransformation;
+	//if (bone != nullptr)
+	//{
+	//	bone->Update(m_CurrentTime);
+	//	nodeTransform = bone->GetLocalTransform();
+	//	globalTransformation = parentTransform * nodeTransform;
+	//	m_FinalBoneMatrices[bone->GetID()] = globalTransformation * bone->GetOffset(); // * m_GlobalInverseTransform (1:35:00 ogl)
+	//}
+	//else
+	//{
+	//	globalTransformation = parentTransform * nodeTransform;
+	//}
+	//for (int i = 0; i < node->childrenCount; i++)
+	//{
+	//	ComputeBoneTransforms(&node->children[i], globalTransformation);
+	//}
+
+
+
 	// Old stuff:
 	//std::string nodeName = node->name;
 	//glm::mat4 nodeTransform = node->transformation;
@@ -62,7 +87,6 @@ void Animator::ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTrans
 	//	nodeTransform = Bone->GetLocalTransform();
 	//}
 	//glm::mat4 globalTransformation = parentTransform * nodeTransform;
-
 	//auto boneInfoMap = m_CurrentAnimation->GetBoneIDMap();
 	//if (boneInfoMap.find(nodeName) != boneInfoMap.end())
 	//{

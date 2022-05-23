@@ -1,22 +1,23 @@
 #include "Rig.h"
 
 
-void Rig::AddBone(Ref<Bone> bone)
-{
-	if (FindBone(bone->GetBoneName()) == nullptr)
-	{
-		m_Bones.push_back(bone);
-	}
-}
+//void Rig::AddBone(Ref<Bone> bone)
+//{
+//	if (FindBone(bone->GetBoneName()) == nullptr)
+//	{
+//		m_Bones.push_back(bone);
+//	}
+//}
 
-void Rig::CompleteBone(std::string boneName, aiNodeAnim* channel)
-{
-	auto bone = FindBone(boneName);
-	if (bone != nullptr)
-		bone->ReadDataFromAnimation(channel);
+//void Rig::CompleteBone(std::string boneName, aiNodeAnim* channel)
+//{
+//	auto bone = FindBone(boneName);
+//	if (bone != nullptr)
+//		bone->ReadDataFromAnimation(channel);
+//
+//}
 
-}
-
+/*
 Ref<Bone> Rig::GetBone(uint32_t index) const
 {
 	if (index < HowManyBones() && index >= 0)
@@ -24,7 +25,6 @@ Ref<Bone> Rig::GetBone(uint32_t index) const
 
 	assert(0);  // Attempt to get bone with index that does not exist
 }
-
 Ref<Bone> Rig::FindBone(std::string name) const
 {
 	for (auto& bone : m_Bones)
@@ -35,7 +35,6 @@ Ref<Bone> Rig::FindBone(std::string name) const
 
 	return nullptr;
 }
-
 Ref<Rig> Rig::Clone()
 {
 	Ref<Rig> rig;
@@ -48,4 +47,54 @@ Ref<Rig> Rig::Clone()
 	}
 
 	return rig;
+}
+*/
+
+bool Rig::AddBone(std::string boneName, glm::mat4 offsetMatrix)
+{
+	if (FindBone(boneName) == nullptr)
+	{
+		m_BoneMapping.push_back(CreateRef<BoneMap>(HowManyBones(), boneName, offsetMatrix));
+		
+		return true;
+	}
+
+	return false;
+}
+
+Ref<BoneMap> Rig::FindBone(std::string boneName) const
+{
+	for (auto& bone : m_BoneMapping)
+	{
+		if (bone->Name == boneName)
+			return bone;
+	}
+
+	return nullptr;
+}
+
+std::string Rig::GetName(uint32_t id) const
+{
+	if (id >= 0 && id < HowManyBones())
+		return m_BoneMapping[id]->Name;
+
+	return "";
+}
+
+glm::mat4 Rig::GetOffsetMatrix(uint32_t id) const
+{
+	if (id >= 0 && id < HowManyBones())
+		return m_BoneMapping[id]->OffsetMatrix;
+}
+
+glm::mat4 Rig::GetOffsetMatrix(std::string boneName) const
+{
+	Ref<BoneMap> boneMap = FindBone(boneName);
+
+	if (boneMap->ID >= 0)
+	{
+		return m_BoneMapping[boneMap->ID]->OffsetMatrix;
+	}
+	
+	return glm::mat4(-1.0);  // not found
 }

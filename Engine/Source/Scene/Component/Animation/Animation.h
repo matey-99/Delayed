@@ -23,12 +23,15 @@ public:
 	inline AssimpNodeData& GetRootNode() { return m_RootNode; }
 	std::string GetAnimationName() { return m_Name; }
 
+	uint32_t HowManyBones() const { return m_Bones.size(); }
+	Ref<Bone> FindBone(std::string boneName);
+
 	void DebugDisplayAnimationName()
 	{
 		std::cout << m_Name << "  dur: " << m_Duration << "  tps: " << m_TicksPerSecond << "\n";
 	}
 
-	void UpdateRig();
+	void UpdateRig(aiAnimation* animation);
 
 
 private:
@@ -40,12 +43,7 @@ private:
 	double m_TicksPerSecond;
 	uint32_t m_NumChannels;
 	Ref<Rig> m_Rig;
-	//std::vector<Ref<Bone>> m_Bones;  // internal -- send to Rig on animation change
-	//std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;
-	//std::vector<Bone> m_Bones;  // could be somehow abstracted
-	//aiScene* scene;
-	aiAnimation* m_AiAnimation;
-
+	std::vector<Ref<Bone>> m_Bones;  // internal -- send to Rig on animation change
 
 	friend SkeletalMesh;
 };

@@ -31,6 +31,7 @@ private:
 	//std::vector<Ref<Animation>> m_Animations;
 	Ref<Rig> m_Rig;
 
+
 	// Positions of bones sent to vertex shader and sent from Animator[Component]
 	//std::vector<glm::mat4> m_BoneMatrices;
 };

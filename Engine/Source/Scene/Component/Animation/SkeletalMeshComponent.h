@@ -29,7 +29,7 @@ public:
 	uint32_t GetBoneCount() const;
 	uint32_t HowManyAnimations() { return m_Animations.size(); }
 
-	Ref<Bone> FindBoneInRig(std::string boneName)
+	Ref<BoneMap> FindBoneInRig(std::string boneName)
 	{
 		return m_SkeletalModel->GetRig()->FindBone(boneName);
 	}
