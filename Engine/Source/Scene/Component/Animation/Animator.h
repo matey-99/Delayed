@@ -17,6 +17,7 @@ class Animator : public Component
 	std::vector<glm::mat4> m_FinalBoneMatrices;  // To feed shader with
 	float m_CurrentTime;
 	float m_DeltaTime;
+	int m_CurrentAnimationNumber = 0;
 
 
 public:
@@ -82,7 +83,8 @@ public:
 	}
 	void DebugSwitchAnimation()
 	{
-		m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(1);
+		m_CurrentAnimationNumber++;
+		m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(m_CurrentAnimationNumber % m_SkeletalMeshComponent->HowManyAnimations());
 	}
 
 	void FindSkeletalMeshComponent()
