@@ -4,8 +4,8 @@ Implementation::Implementation() {
     m_System = nullptr;
     m_NextChannelId = 0;
     m_ChannelVolumes[MASTER] = 0.5f;
-    m_ChannelVolumes[MUSIC] = 0.5f;
-    m_ChannelVolumes[SFX] = 0.5f;
+    m_ChannelVolumes[MUSIC] = 1.0f;
+    m_ChannelVolumes[SFX] = 1.0f;
     AudioSystem::ErrorCheck(FMOD::System_Create(&m_System));
     AudioSystem::ErrorCheck(m_System->init(128, FMOD_INIT_3D_RIGHTHANDED, nullptr));
     AudioSystem::ErrorCheck(m_System->createChannelGroup("Music", &m_ChannelGroups[MUSIC]));

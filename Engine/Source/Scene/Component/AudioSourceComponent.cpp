@@ -8,7 +8,7 @@ AudioSourceComponent::AudioSourceComponent(Actor *owner) : Component(owner) {
     m_3d = false;
     m_Looping = false;
     m_PlayOnStart = false;
-    m_ChannelId = 0;
+    m_ChannelId = -1;
 }
 
 void AudioSourceComponent::Start() {
@@ -38,8 +38,7 @@ void AudioSourceComponent::PlaySound() {
 }
 
 void AudioSourceComponent::StopSound() {
-    if (IsPlaying())
-        m_AudioSystem->StopChannel(m_ChannelId);
+    m_AudioSystem->StopChannel(m_ChannelId);
 }
 
 bool AudioSourceComponent::IsPlaying() {
