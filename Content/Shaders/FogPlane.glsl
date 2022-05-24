@@ -100,21 +100,15 @@ layout (location = 2) uniform Material u_Material;
 layout (location = 23) uniform sampler2DArray u_DirectionalLightShadowMaps;
 layout (location = 24) uniform vec3 u_SkyLightColor;
 layout (location = 25) uniform float u_SkyLightIntensity;
-
-float EyeDepth()
-{
-    float z_ndc = 2.0 * gl_FragCoord.z - 1.0;
-    float A = u_Projection[2][2];
-    float B = u_Projection[3][2];
-    return B / (A + z_ndc);
-}
+layout (location = 26) uniform sampler2D u_SceneDepth;
 
 void main()
 {
-    float eyeDepth = EyeDepth();
+    float eyeDepth = texture(u_SceneDepth, v_TexCoord).z;
     float fog = eyeDepth - gl_FragCoord.w;
+    fog = abs(fog);
     fog *= u_Material.fogDensity;
     fog = clamp(fog, 0.0, 1.0);
     vec3 color = u_Material.fogColor;
-    f_Color = vec4(color, fog);
+    f_Color = vec4(texture(u_SceneDepth, v_TexCoord).rgb, 1.0);
 }

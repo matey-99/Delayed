@@ -25,7 +25,7 @@ RendererSettings:
     Exposure: 1.20000005
     Contrast: 1.29999995
     ContrastPivot: 1
-    BloomEnabled: true
+    BloomEnabled: false
     BloomThreshold: 3.0999999
     BloomLimit: 15
     BloomIntensity: 0.699999988
@@ -2067,3 +2067,19 @@ Actors:
           MaxParticleLifeTime: 20
           StartParticleColor: [1, 1, 1, 1]
           EndParticleColor: [0.467870355, 0.68671304, 0.905555546, 0]
+  - Actor: 420953741
+    ID: 420953741
+    Name: Fog Plane
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [2.69138163e-05, 16.6538181, 307.858002]
+          LocalRotation: [90, 180, 0]
+          LocalScale: [10, 1, 10]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_plane.obj
+          Materials:
+            - Material: 0
+              Path: Materials/FogPlane.mat
