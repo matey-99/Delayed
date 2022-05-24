@@ -618,10 +618,18 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						Ref<Material> normalMaterial = AssetManager::LoadMaterial(button["NormalMaterial"].as<std::string>());
 						Ref<Material> pressedMaterial = AssetManager::LoadMaterial(button["PressedMaterial"].as<std::string>());
 
+						std::vector<uint64_t> connectedButtonsIDs;
+						YAML::Node connectedButtons = button["ConnectedButtons"];
+						for (auto button : connectedButtons)
+						{
+							connectedButtonsIDs.push_back(button["ID"].as<uint64_t>());
+						}
+
 						auto b = a->CreateComponent<Button>();
 						b->m_PlatformID = platformActorID;
 						b->m_NormalMaterial = normalMaterial;
 						b->m_PressedMaterial = pressedMaterial;
+						b->m_ConnectedButtonsIDs = connectedButtonsIDs;
 					}
 
 					if (auto platform = component["Platform"])
@@ -1060,6 +1068,14 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Platform" << YAML::Value << button->m_PlatformID;
 		out << YAML::Key << "NormalMaterial" << YAML::Value << button->m_NormalMaterial->GetPath();
 		out << YAML::Key << "PressedMaterial" << YAML::Value << button->m_PressedMaterial->GetPath();
+		out << YAML::Key << "ConnectedButtons" << YAML::Value << YAML::BeginSeq;
+		for (int i = 0; i < button->m_ConnectedButtonsIDs.size(); i++)
+		{
+			out << YAML::BeginMap;
+			out << YAML::Key << "ID" << YAML::Value << button->m_ConnectedButtonsIDs[i];
+			out << YAML::EndMap;
+		}
+		out << YAML::EndSeq;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

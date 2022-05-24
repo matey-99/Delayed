@@ -687,6 +687,8 @@ Actors:
           Platform: 928121183
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 1546630572
     ID: 1546630572
     Name: Cube (18)
@@ -817,6 +819,8 @@ Actors:
           Platform: 1055560003
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 1848602139
     ID: 1848602139
     Name: checkpoint1 (4)
@@ -910,6 +914,8 @@ Actors:
           Platform: 1572592382
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 2141099751
     ID: 2141099751
     Name: platforms
@@ -1099,6 +1105,8 @@ Actors:
           Platform: 83962599
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 786071119
     ID: 786071119
     Name: SmallPlatform2
@@ -1463,6 +1471,8 @@ Actors:
           Platform: 85858339
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 901968064
     ID: 901968064
     Name: button (2)
@@ -1487,6 +1497,8 @@ Actors:
           Platform: 772960022
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            - ID: 922891651
   - Actor: 922891651
     ID: 922891651
     Name: button (2)
@@ -1511,6 +1523,8 @@ Actors:
           Platform: 772960022
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            - ID: 901968064
   - Actor: 670220481
     ID: 670220481
     Name: button (2)
@@ -1535,6 +1549,8 @@ Actors:
           Platform: 442381772
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 612835070
     ID: 612835070
     Name: button (2)
@@ -1559,6 +1575,8 @@ Actors:
           Platform: 442381772
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 60737776
     ID: 60737776
     Name: button (2)
@@ -1583,6 +1601,8 @@ Actors:
           Platform: 488783937
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 14017580
     ID: 14017580
     Name: button (2)
@@ -1607,6 +1627,8 @@ Actors:
           Platform: 281502313
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 85858339
     ID: 85858339
     Name: platform (2)

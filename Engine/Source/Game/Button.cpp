@@ -35,6 +35,11 @@ void Button::Start()
 	m_Platform = platformActor->GetComponent<Platform>();
 
 	m_AudioSource = GetOwner()->GetComponent<AudioSourceComponent>();
+
+	for (auto& connectedButtonID : m_ConnectedButtonsIDs)
+	{
+		m_ConnectedButtons.push_back(m_Owner->GetScene()->GetComponent<Button>(connectedButtonID));
+	}
 }
 
 void Button::Update(float deltaTime)
@@ -84,7 +89,14 @@ void Button::Press()
 		m_AudioSource->PlaySound();
 	}
 
-	m_Platform->SetActive(true);
+	bool shouldPlatformBeActive = true;
+	for (auto& connectedButton : m_ConnectedButtons)
+	{
+		if (!connectedButton->IsPressed())
+			shouldPlatformBeActive = false;
+	}
+
+	m_Platform->SetActive(shouldPlatformBeActive);
 }
 
 void Button::Release()
@@ -100,5 +112,12 @@ void Button::Release()
 		m_AudioSource->PlaySound();
 	}
 
-	m_Platform->SetActive(false);
+	bool shouldPlatformBeActive = false;
+	for (auto& connectedButton : m_ConnectedButtons)
+	{
+		if (connectedButton->IsPressed())
+			shouldPlatformBeActive = true;
+	}
+
+	m_Platform->SetActive(shouldPlatformBeActive);
 }

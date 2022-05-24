@@ -22,6 +22,8 @@ public:
 	virtual void OnTriggerEnter(ColliderComponent* other) override;
 	virtual void OnTriggerExit(ColliderComponent* other) override;
 
+	inline bool IsPressed() const { return m_IsPressed; }
+
 private:
 	void Handle();
 	
