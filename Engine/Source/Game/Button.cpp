@@ -5,6 +5,7 @@
 #include "Game/Ghost.h"
 #include "Scene/Scene.h"
 #include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/AudioSourceComponent.h"
 
 Button::Button(Actor* owner)
 	: GameComponent(owner)
@@ -32,6 +33,8 @@ void Button::Start()
 		return;
 	}
 	m_Platform = platformActor->GetComponent<Platform>();
+
+	m_AudioSource = GetOwner()->GetComponent<AudioSourceComponent>();
 }
 
 void Button::Update(float deltaTime)
@@ -75,6 +78,12 @@ void Button::Press()
 	if (auto mesh = m_Owner->GetComponent<StaticMeshComponent>())
 		mesh->ChangeMaterial(0, m_PressedMaterial);
 
+	if (m_AudioSource)
+	{
+		m_AudioSource->ChangeSound("../../../Content/Audio/Placeholders/platform_up_placeholder.wav");
+		m_AudioSource->PlaySound();
+	}
+
 	m_Platform->SetActive(true);
 }
 
@@ -84,6 +93,12 @@ void Button::Release()
 
 	if (auto mesh = m_Owner->GetComponent<StaticMeshComponent>())
 		mesh->ChangeMaterial(0, m_NormalMaterial);
+
+	if (m_AudioSource)
+	{
+		m_AudioSource->ChangeSound("../../../Content/Audio/Placeholders/platform_down_placeholder.wav");
+		m_AudioSource->PlaySound();
+	}
 
 	m_Platform->SetActive(false);
 }

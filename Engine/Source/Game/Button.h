@@ -5,9 +5,9 @@
 #include "GameComponent.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Platform.h"
-#include "Patterns/Singleton.h"
 
 class Material;
+class AudioSourceComponent;
 
 class Button : public GameComponent
 {
@@ -35,6 +35,8 @@ private:
 
 	Ref<Material> m_NormalMaterial;
 	Ref<Material> m_PressedMaterial;
+
+	Ref<AudioSourceComponent> m_AudioSource;
 
 	bool m_IsPressed;
 

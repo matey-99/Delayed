@@ -602,6 +602,13 @@ Actors:
           IsTrigger: true
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Placeholders/ghost_ambient_placeholder.wav
+          Channel: 2
+          Volume: 1
+          3d: true
+          Looping: true
+          PlayOnStart: true
       - Ghost:
           Player: 1503310903
   - Actor: 1526879318
@@ -892,6 +899,13 @@ Actors:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Placeholders/platform_up_placeholder.wav
+          Channel: 2
+          Volume: 3
+          3d: true
+          Looping: false
+          PlayOnStart: false
       - Button:
           Platform: 1572592382
           NormalMaterial: Materials/M_PressurePlatform.mat
