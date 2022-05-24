@@ -311,6 +311,7 @@ void ActorDetailsPanel::Render()
     if (auto animator = m_Actor->GetComponent<Animator>())
     {
         ImGui::Text("Animator Component");
+        ImGui::Dummy(ImVec2(0.0, 5.0));
 
         ImGui::Text("Animations available: %i", animator->HowManyAnimationsAreThere());
 
@@ -321,6 +322,9 @@ void ActorDetailsPanel::Render()
 
         if (ImGui::Button("Switch animation"))
             animator->DebugSwitchAnimation();
+
+        ImGui::DragFloat("Blend Factor", &animator->m_BlendFactor, 0.02f, 0.0f, 1.0f);
+
 
         ImGui::Dummy(ImVec2(0.0, 10.0));
         // [...]

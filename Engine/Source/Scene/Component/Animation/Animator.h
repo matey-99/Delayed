@@ -19,6 +19,8 @@ class Animator : public Component
 	float m_DeltaTime;
 	int m_CurrentAnimationNumber = 0;
 
+	Ref<Animation> m_Animations[2];  // Animations to blend between. Uses m_BlendFactor. Use this instead of m_CurrentAnimation.
+
 
 public:
 	Animator(Actor* owner) : Component(owner)
@@ -32,15 +34,9 @@ public:
 		for (int i = 0; i < 100; i++)
 			m_FinalBoneMatrices.push_back(glm::mat4(1.0f));
 
-		if (m_SkeletalMeshComponent->HowManyAnimations() > 0)
-			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(0);
-
 	}
 
-	virtual void Start() override
-	{
-		// Load default animation file here
-	}
+	virtual void Start() override { };
 
 	virtual void Update(float deltaTime) override;
 
@@ -54,15 +50,9 @@ public:
 		//m_CurrentTime = 0.0f;
 	}
 
-	size_t HowManyAnimationsAreThere()
-	{
-		return m_SkeletalMeshComponent->HowManyAnimations();
-	}
+	size_t HowManyAnimationsAreThere() { return m_SkeletalMeshComponent->HowManyAnimations(); }
 
-	float GetCurrentAnimationTime()
-	{
-		return m_CurrentTime;
-	}
+	float GetCurrentAnimationTime() { return m_CurrentTime; }
 
 	std::string GetCurrentAnimationName() { return m_CurrentAnimation->GetAnimationName(); }
 
@@ -91,16 +81,28 @@ public:
 	{
 		m_SkeletalMeshComponent = m_Owner->GetComponent<SkeletalMeshComponent>();
 
+		// Set animation for one-animation-mode
 		if (m_SkeletalMeshComponent->HowManyAnimations() > 0)
 			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(0);  // winowajca
-			
+
+		// Set animation for blend-mode
+		// To fix: to make it more dynamic m_Animations might be a vector
+		if (m_SkeletalMeshComponent->HowManyAnimations() > 1)
+		{
+			int animationsToBlend = 2;  // hard-coded, might be: HowManyAnimations()
+
+			for (int index = 0; index < animationsToBlend; index++)
+				m_Animations[index] = m_SkeletalMeshComponent->GetAnimation(index);
+		}
 	}
 
 	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);
+	void BlendAnimations(Ref<Animation> pAnim, Ref<Animation> lAnim);
+	void ComputeBlendedBoneTransforms(
+		Ref<Animation> pAnim, const AssimpNodeData* pNode,
+		Ref<Animation> lAnim, const AssimpNodeData* lNode,
+		const float pCurrentTime, const float lCurrentTime,
+		glm::mat4 parentTransform );
 
-
-
-	//std::vector<glm::mat4> GetFinalBoneMatrices() { return m_FinalBoneMatrices; }
-
-
+	float m_BlendFactor = 0.f;
 };

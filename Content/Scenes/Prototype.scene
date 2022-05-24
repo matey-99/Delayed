@@ -1853,7 +1853,7 @@ Actors:
           LocalScale: [0.0299999993, 0.0299999993, 0.0299999993]
           Parent: 0
       - SkeletalMesh:
-          SkeletalMesh: Models/character/Run.fbx
+          SkeletalMesh: Models/Skeletal/SK_VampireNaruto.fbx
           Materials:
             - Material: 0
               Path: Materials/MSK_Default.mat

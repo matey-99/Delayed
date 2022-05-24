@@ -143,9 +143,7 @@ void SkeletalModelImporter::SetVertexBoneData(SkinnedVertex& vertex, int boneID,
 
 void SkeletalModelImporter::SetVertexBoneDataToDefault(SkinnedVertex& vertex)
 {
-	const int MAX_BONE_INFLUENCE = 4;
-
-	for (int i = 0; i < MAX_BONE_INFLUENCE; i++)
+	for (int i = 0; i < SKELETAL_JOINTS_MAX; i++)
 	{
 		vertex.BoneIDs[i] = -1;
 		vertex.Weights[i] = 0.0f;
