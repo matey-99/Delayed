@@ -567,7 +567,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 11.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 0
@@ -1660,7 +1660,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-66.6568451, 18.9390602, 133.753876]
+          LocalPosition: [-66.6568451, 16.7910614, 133.753876]
           LocalRotation: [-90, 31.8891869, -6.0332286e-06]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -2038,7 +2038,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [32.966507, -1.63418698, -34.3450775]
+          LocalPosition: [32.966507, -1.63418698, -32.7315102]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -2048,14 +2048,14 @@ Actors:
           Sprite: Textures/Default/Particle.png
           EmitterShape: 1
           EmitterBoxSize: [45, 25, 45]
-          MaxParticles: 200
-          EmissionRateOverTime: 20
+          MaxParticles: 1000
+          EmissionRateOverTime: 100
           MinParticleSize: 0.0199999996
           MaxParticleSize: 0.0799999982
           EndParticleSize: 0
           MinParticleVelocity: [0, 0.100000001, 0]
-          MaxParticleVelocity: [0, 0.5, 0]
-          EndParticleVelocity: [0, 0, 0.5]
+          MaxParticleVelocity: [0, 0.150000006, 0]
+          EndParticleVelocity: [0, 0, 1.5]
           MinParticleLifeTime: 5
           MaxParticleLifeTime: 20
           StartParticleColor: [1, 1, 1, 1]
@@ -2077,14 +2077,14 @@ Actors:
           Sprite: Textures/Default/Particle.png
           EmitterShape: 1
           EmitterBoxSize: [45, 25, 45]
-          MaxParticles: 200
-          EmissionRateOverTime: 20
+          MaxParticles: 1000
+          EmissionRateOverTime: 50
           MinParticleSize: 0.0199999996
           MaxParticleSize: 0.0799999982
           EndParticleSize: 0
           MinParticleVelocity: [0, 0.100000001, 0]
-          MaxParticleVelocity: [0, 0.5, 0]
-          EndParticleVelocity: [0, 0, 0.5]
+          MaxParticleVelocity: [0, 0.150000006, 0]
+          EndParticleVelocity: [0, 0, 1.5]
           MinParticleLifeTime: 5
           MaxParticleLifeTime: 20
           StartParticleColor: [1, 1, 1, 1]

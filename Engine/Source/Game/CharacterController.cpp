@@ -18,8 +18,8 @@ CharacterController::CharacterController(Actor* owner)
 	m_RunSpeed = 13.0f;
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
-	m_JumpHeight = 0.04f;
-	m_JumpMaxHeightTime = 0.4f;
+	m_JumpHeight = 0.05f;
+	m_JumpMaxHeightTime = 0.43f;
 	m_DashDistance = 4.0f;
 	m_MaxStamina = 100.0f;
 	m_StaminaRestorePerSecond = 15.0f;
