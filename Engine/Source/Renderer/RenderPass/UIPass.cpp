@@ -50,7 +50,8 @@ void UIPass::Render(Ref<Scene> scene, uint32_t input)
 	auto uiComponents = scene->GetComponents<UIComponent>();
 	for (auto comp : uiComponents)
 	{
-		comp->Render();
+		if (comp->GetOwner()->IsEnabled())
+			comp->Render();
 	}
 
 	glDisable(GL_BLEND);

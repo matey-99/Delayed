@@ -50,7 +50,7 @@ public:
 	Ref<Actor> FindActor(std::string name);
 	Ref<Actor> FindActor(uint64_t id);
 
-	Ref<Actor> SpawnActor(const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), Ref<Actor> parent = nullptr);
+	Ref<Actor> SpawnActor(const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), Actor* parent = nullptr);
 	void DestroyActor(Actor* actor);
 
 	void FindEnabledActors(Actor* actor, std::vector<Actor*>& output);

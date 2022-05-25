@@ -28,6 +28,8 @@
 #include "Game/Button.h"
 #include "Game/Checkpoint.h"
 #include "Game/DeathArea.h"
+#include "Game/Obelisks/Obelisk.h"
+#include "Game/PostProcessingVolume.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -594,6 +596,43 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto postFX = m_Actor->GetComponent<PostProcessingVolume>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Post Processing Volume");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<PostProcessingVolume>();
+
+        ImGui::Text("Bloom");
+        ImGui::Checkbox("Bloom Enabled", &postFX->m_Settings.BloomEnabled);
+        ImGui::DragFloat("Bloom Threshold", &postFX->m_Settings.BloomThreshold, 0.1f, 0.1f, 20.0f);
+        ImGui::DragFloat("Bloom Limit", &postFX->m_Settings.BloomLimit, 1.0f, 1.0f, 100.0f);
+        ImGui::DragFloat("Bloom Bloom Intensity", &postFX->m_Settings.BloomIntensity, 0.1f, 0.1f, 20.0f);
+        ImGui::DragFloat("Bloom Blur Sigma", &postFX->m_Settings.BloomBlurSigma, 0.1f, 0.1f, 20.0f);
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+        ImGui::Text("General");
+        ImGui::DragFloat("Gamma", &postFX->m_Settings.Gamma, 0.01f, 0.0f, 10.0f);
+        ImGui::DragFloat("Gain", &postFX->m_Settings.Gain, 0.01f, -1.0f, 1.f);
+        ImGui::DragFloat("Exposure (inactive)", &postFX->m_Settings.Exposure, 0.1f, 0.0f, 10.0f);
+        ImGui::DragFloat("Contrast", &postFX->m_Settings.Contrast, 0.01f, 0.0f, 1.9f);
+        ImGui::DragFloat("Contrast Pivot", &postFX->m_Settings.ContrastPivot, 0.01f, 0.0f, 1.0f);
+        ImGui::DragFloat("Offset", &postFX->m_Settings.Offset, 0.005f, -0.1f, 0.1f);
+        ImGui::DragFloat("Lift", &postFX->m_Settings.Lift, 0.005f, -0.1f, 0.1f);
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+        ImGui::Text("Color Grading");
+        ImGui::DragFloat("Saturation", &postFX->m_Settings.Saturation, 0.1f, 0.0f, 2.0f);
+        ImGui::DragFloat("Temperature", &postFX->m_Settings.Temperature, 1.f, 15.0f, 150.0f);
+        ImGui::DragFloat("Hue", &postFX->m_Settings.Hue, 1.0f, 0.0f, 360.0f);
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto cc = m_Actor->GetComponent<CharacterController>())
     {
         ImGui::PushID(componentIndex);
@@ -695,6 +734,26 @@ void ActorDetailsPanel::Render()
         ImGui::SameLine();
         if (ImGui::Button("X"))
             m_Actor->RemoveComponent<Checkpoint>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
+    if (auto obelisk = m_Actor->GetComponent<Obelisk>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Obelisk");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Obelisk>();
+
+        size_t maxSize = 128;
+        std::string idStr = std::to_string(obelisk->m_PostFXID);
+        char* id = (char*)idStr.c_str();
+        ImGui::InputText("Post FX Image ID", id, maxSize);
+        obelisk->m_PostFXID = std::atoll(id);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();
@@ -836,7 +895,7 @@ void ActorDetailsPanel::Render()
             sphereCollider->SetCenter(center);
 
         float size = sphereCollider->m_Size;
-        ImGui::DragFloat("Size", &sphereCollider->m_Size);
+        ImGui::DragFloat("Size", &size);
         if (size != sphereCollider->m_Size)
             sphereCollider->SetSize(size);
 
@@ -948,8 +1007,10 @@ void ActorDetailsPanel::Render()
     bool platform = false;
     bool button = false;
     bool ghost = false;
+    bool obelisk = false;
     bool checkpoint = false;
     bool deathArea = false;
+    bool postFX = false;
     bool audioSource = false;
     bool audioListener = false;
 
@@ -998,6 +1059,8 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Ghost", "", &ghost);
                     ImGui::MenuItem("Checkpoint", "", &checkpoint);
                     ImGui::MenuItem("Death Area", "", &deathArea);
+                    ImGui::MenuItem("Obelisk", "", &obelisk);
+                    ImGui::MenuItem("Post Processing Volume", "", &postFX);
 
                     ImGui::EndMenu();
                 }
@@ -1082,10 +1145,14 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<Button>();
     if (ghost)
         m_Actor->AddComponent<Ghost>();
+    if (obelisk)
+        m_Actor->AddComponent<Obelisk>();
     if (checkpoint)
         m_Actor->AddComponent<Checkpoint>();
     if (deathArea)
         m_Actor->AddComponent<DeathArea>();
+    if (postFX)
+        m_Actor->AddComponent<PostProcessingVolume>();
     if (audioSource)
         m_Actor->AddComponent<AudioSourceComponent>();
     if (audioListener)

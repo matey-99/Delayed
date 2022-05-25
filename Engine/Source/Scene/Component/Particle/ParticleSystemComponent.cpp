@@ -198,6 +198,19 @@ void ParticleSystemComponent::SetMaxParticles(uint32_t count)
 	Reset();
 }
 
+void ParticleSystemComponent::SetEmitterShape(EmitterShape shape)
+{
+	switch (shape)
+	{
+	case EmitterShape::Box:
+		m_EmitterShape = CreateRef<ParticleEmitterBox>();
+		break;
+	case EmitterShape::Sphere:
+		m_EmitterShape = CreateRef<ParticleEmitterSphere>();
+		break;
+	}
+}
+
 int ParticleSystemComponent::FindUnusedParticle()
 {
 	for (int i = m_LastUsedParticleIndex; i < m_MaxParticles; i++)

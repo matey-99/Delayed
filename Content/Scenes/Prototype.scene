@@ -567,7 +567,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 11.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 0
@@ -972,7 +972,7 @@ Actors:
   - Actor: 765667130
     ID: 765667130
     Name: Stamina Bar
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - RectTransform:
@@ -2089,3 +2089,80 @@ Actors:
           MaxParticleLifeTime: 20
           StartParticleColor: [1, 1, 1, 1]
           EndParticleColor: [0.467870355, 0.68671304, 0.905555546, 0]
+  - Actor: 346397310
+    ID: 346397310
+    Name: ObeliskArea
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [10.3274002, 3.77669883, -72.2735901]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SphereCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: 15
+      - Obelisk:
+          PostFX: 238169961
+  - Actor: 346402549
+    ID: 346402549
+    Name: ObeliskParticle
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 1.12828088, -1.94470978]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 346397310
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 0.5
+          MaxParticles: 1000
+          EmissionRateOverTime: 60
+          MinParticleSize: 0.0500000007
+          MaxParticleSize: 0.100000001
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0.5, 0]
+          EndParticleVelocity: [0, 0, 0.5]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [20, 0, 0, 0.75]
+          EndParticleColor: [1, 0, 0, 0.25]
+  - Actor: 656672101
+    ID: 656672101
+    Name: ObeliskModel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0.391741514, -1.96244049]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 3, 1]
+          Parent: 346397310
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 238169961
+    ID: 238169961
+    Name: Obelisk PostFX
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1920, 1080, 1]
+          Parent: 1
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 0.34117648]

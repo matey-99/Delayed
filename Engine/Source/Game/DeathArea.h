@@ -4,8 +4,6 @@
 
 #include "GameComponent.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
-#include "Platform.h"
-#include "Patterns/Singleton.h"
 
 class DeathArea : public GameComponent
 {

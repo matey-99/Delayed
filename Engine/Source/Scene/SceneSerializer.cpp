@@ -41,6 +41,8 @@
 #include "Game/TPPPlayer.h"
 #include "Game/SaveManager.h"
 #include "Game/PickableSkill.h"
+#include "Game/Obelisks/Obelisk.h"
+#include "Game/PostProcessingVolume.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -284,6 +286,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							a->SetDynamic(dynamic.as<bool>());
 						else
 							a->SetDynamic(false);
+
+						if (auto enabled = actor["Enabled"])
+							a->SetEnabled(enabled.as<bool>());
+						else
+							a->SetEnabled(true);
 
 						auto t = a->GetComponent<RectTransformComponent>();
 						t->SetAnchor((AnchorType)rectTransform["Anchor"].as<uint16_t>());
@@ -683,6 +690,37 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 						auto s = a->CreateComponent<PickableSkill>();
 						s->m_SkillType = (SkillType)skillType;
+					}
+
+					if (auto obelisk = component["Obelisk"])
+					{
+						uint64_t postFXID = obelisk["PostFX"].as<uint64_t>();
+
+						auto o = a->CreateComponent<Obelisk>();
+						o->m_PostFXID = postFXID;
+					}
+
+					if (auto postFX = component["PostProcessingVolume"])
+					{
+						PostProcessingPass::PostProcessingSettings settings;
+						settings.Gamma = postFX["Gamma"].as<float>();
+						settings.Gain = postFX["Gain"].as<float>();
+						settings.Lift = postFX["Lift"].as<float>();
+						settings.Offset = postFX["Offset"].as<float>();
+						settings.Exposure = postFX["Exposure"].as<float>();
+						settings.Contrast = postFX["Contrast"].as<float>();
+						settings.ContrastPivot = postFX["ContrastPivot"].as<float>();
+						settings.BloomEnabled = postFX["BloomEnabled"].as<bool>();
+						settings.BloomThreshold = postFX["BloomThreshold"].as<float>();
+						settings.BloomLimit = postFX["BloomLimit"].as<float>();
+						settings.BloomIntensity = postFX["BloomIntensity"].as<float>();
+						settings.BloomBlurSigma = postFX["BloomBlurSigma"].as<float>();
+						settings.Saturation = postFX["Saturation"].as<float>();
+						settings.Temperature = postFX["Temperature"].as<float>();
+						settings.Hue = postFX["Hue"].as<float>();
+
+						auto comp = a->CreateComponent<PostProcessingVolume>();
+						comp->m_Settings = settings;
 					}
 				}
 			}
@@ -1153,6 +1191,40 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "PickableSkill";
 		out << YAML::BeginMap;
 		out << YAML::Key << "SkillType" << YAML::Value << (int)skill->m_SkillType;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto obelisk = actor->GetComponent<Obelisk>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Obelisk";
+		out << YAML::BeginMap;
+		out << YAML::Key << "PostFX" << YAML::Value << obelisk->m_PostFXID;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto postFX = actor->GetComponent<PostProcessingVolume>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "PostProcessingVolume";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Gamma" << YAML::Value << postFX->m_Settings.Gamma;
+		out << YAML::Key << "Gain" << YAML::Value << postFX->m_Settings.Gain;
+		out << YAML::Key << "Lift" << YAML::Value << postFX->m_Settings.Lift;
+		out << YAML::Key << "Offset" << YAML::Value << postFX->m_Settings.Offset;
+		out << YAML::Key << "Exposure" << YAML::Value << postFX->m_Settings.Exposure;
+		out << YAML::Key << "Contrast" << YAML::Value << postFX->m_Settings.Contrast;
+		out << YAML::Key << "ContrastPivot" << YAML::Value << postFX->m_Settings.ContrastPivot;
+		out << YAML::Key << "BloomEnabled" << YAML::Value << postFX->m_Settings.BloomEnabled;
+		out << YAML::Key << "BloomThreshold" << YAML::Value << postFX->m_Settings.BloomThreshold;
+		out << YAML::Key << "BloomLimit" << YAML::Value << postFX->m_Settings.BloomLimit;
+		out << YAML::Key << "BloomIntensity" << YAML::Value << postFX->m_Settings.BloomIntensity;
+		out << YAML::Key << "BloomBlurSigma" << YAML::Value << postFX->m_Settings.BloomBlurSigma;
+		out << YAML::Key << "Saturation" << YAML::Value << postFX->m_Settings.Saturation;
+		out << YAML::Key << "Temperature" << YAML::Value << postFX->m_Settings.Temperature;
+		out << YAML::Key << "Hue" << YAML::Value << postFX->m_Settings.Hue;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

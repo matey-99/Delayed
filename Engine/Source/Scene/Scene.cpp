@@ -465,7 +465,7 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 	return Ref<Actor>();
 }
 
-Ref<Actor> Scene::SpawnActor(const glm::vec3& position, const glm::vec3& rotation, Ref<Actor> parent)
+Ref<Actor> Scene::SpawnActor(const glm::vec3& position, const glm::vec3& rotation, Actor* parent)
 {
 	Ref<Actor> actor = Actor::Create(this, "SpawnedActor" + std::to_string(m_Actors.size()));
 
