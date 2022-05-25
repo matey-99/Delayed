@@ -3,6 +3,7 @@
 #include "Renderer/RenderPass/PostProcessingPass.h"
 #include "Renderer/RenderPass/SSAOPass.h"
 #include "Renderer/RenderPass/SSRPass.h"
+#include "Renderer/RenderPass/MotionBlurPass.h"
 #include "Renderer/RenderPass/DepthOfFieldPass.h"
 #include "Renderer/RenderPass/UIPass.h"
 #include "Renderer/RenderPass/DepthFogPass.h"
@@ -23,6 +24,7 @@ void RendererSettingsPanel::Render()
     ImGui::Checkbox("Depth Fog Enabled", &m_Renderer->m_Settings.DepthFogEnabled);
     ImGui::Checkbox("Post Processing Enabled", &m_Renderer->m_Settings.PostProcessingEnabled);
     ImGui::Checkbox("FXAA Enabled", &m_Renderer->m_Settings.FXAAEnabled);
+    ImGui::Checkbox("Motion Blur Enabled", &m_Renderer->m_Settings.MotionBlurEnabled);
     ImGui::Checkbox("Vignette Enabled", &m_Renderer->m_Settings.VignetteEnabled);
     ImGui::Checkbox("SSR Enabled", &m_Renderer->m_Settings.SSREnabled);
     ImGui::Checkbox("Depth Of Field Enabled", &m_Renderer->m_Settings.DepthOfFieldEnabled);
@@ -44,6 +46,11 @@ void RendererSettingsPanel::Render()
     ImGui::DragInt("Binary Search Steps", &m_Renderer->m_SSRPass->m_Settings.NumBinarySearchSteps, 1, 1, 20);
     ImGui::DragFloat("Reflection Falloff", &m_Renderer->m_SSRPass->m_Settings.ReflectionSpecularFalloffExponent, 0.1f, 0.0f, 10.0f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("Motion Blur");
+    ImGui::DragInt("Size", &m_Renderer->m_MotionBlurPass->m_Settings.Size, 1, 0, 50);
+    ImGui::DragFloat("Separation", &m_Renderer->m_MotionBlurPass->m_Settings.Separation, 0.02f, 0.f, 10.f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("Post Processing");

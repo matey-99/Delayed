@@ -18,6 +18,7 @@
 #include "RenderPass/FXAAPass.h"
 #include "RenderPass/SSRPass.h"
 #include "RenderPass/VignettePass.h"
+#include "RenderPass/MotionBlurPass.h"
 #include "RenderPass/DepthOfFieldPass.h"
 #include "RenderPass/UIPass.h"
 #include "RenderPass/DepthFogPass.h"
@@ -59,6 +60,7 @@ void Renderer::Initialize()
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
 	m_FXAAPass = CreateRef<FXAAPass>();
 	m_VignettePass = CreateRef<VignettePass>();
+	m_MotionBlurPass = CreateRef<MotionBlurPass>();
 	m_DepthOfFieldPass = CreateRef<DepthOfFieldPass>();
 	m_UIPass = CreateRef<UIPass>();
     m_DepthFogPass = CreateRef<DepthFogPass>();
@@ -80,7 +82,12 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	m_CameraVertexUniformBuffer->SetUniform(0, sizeof(glm::mat4), glm::value_ptr(camera->GetViewProjectionMatrix()));
 	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE, sizeof(glm::mat4), glm::value_ptr(camera->GetViewMatrix()));
 	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 2, sizeof(glm::mat4), glm::value_ptr(camera->GetProjectionMatrix()));
+	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 3, sizeof(glm::mat4), glm::value_ptr(m_PreviousViewMatrix));
+	m_CameraVertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 4, sizeof(glm::mat4), glm::value_ptr(m_PreviousViewProjectionMatrix));
 	m_CameraVertexUniformBuffer->Unbind();
+
+	m_PreviousViewMatrix = camera->GetViewMatrix();
+	m_PreviousViewProjectionMatrix = camera->GetProjectionMatrix();
 
 	m_CameraFragmentUniformBuffer->Bind();
 	m_CameraFragmentUniformBuffer->SetUniform(0, sizeof(glm::vec3), glm::value_ptr(camera->GetWorldPosition()));
@@ -153,6 +160,7 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 		m_Output[outputIndex] = m_FXAAPass->GetRenderTarget()->GetTargets()[0];
 	}
 
+	// Vignette
 	if (m_Settings.VignetteEnabled)
 	{
 		PROFILER_START("Vignette Pass");
@@ -168,6 +176,15 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 		m_DepthOfFieldPass->Render(m_Output[outputIndex]);
 		PROFILER_STOP();
 		m_Output[outputIndex] = m_DepthOfFieldPass->GetFinalRenderTarget()->GetTargets()[0];
+	}
+
+	// Motion Blur
+	if (m_Settings.MotionBlurEnabled)
+	{
+		PROFILER_START("Motion Blur Pass");
+		m_MotionBlurPass->Render(m_Output[outputIndex]);
+		PROFILER_STOP();
+		m_Output[outputIndex] = m_MotionBlurPass->GetRenderTarget()->GetTargets()[0];
 	}
 
 	// UI
@@ -228,6 +245,9 @@ void Renderer::ResizeWindow(uint32_t width, uint32_t height)
 
 	// FXAA
 	m_FXAAPass->UpdateRenderTarget(width, height);
+
+	// Motion Blur
+	m_MotionBlurPass->UpdateRenderTarget(width, height);
 
 	// Vignette
 	m_VignettePass->UpdateRenderTarget(width, height);

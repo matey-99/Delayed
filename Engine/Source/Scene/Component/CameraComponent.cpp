@@ -12,6 +12,9 @@ CameraComponent::CameraComponent(Actor* owner)
 	m_NearClipPlane = 0.1f;
 	m_FarClipPlane = 1000.0f;
 
+	//m_ViewMatrix = glm::mat4(1.0f);
+	//m_PreviousViewMatrix = glm::mat4(1.0);
+
 	m_Right = CalculateRightVector();
 	m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -27,6 +30,8 @@ void CameraComponent::Update(float deltaTime)
 	m_Front = CalculateFrontVector();
 	m_Right = CalculateRightVector();
 
+	m_PreviousViewMatrix = m_ViewMatrix;
+	m_PreviousViewProjectionMatrix = m_ViewProjectionMatrix;
 
     m_Frustum->UpdateFrustum(GetViewProjectionMatrix());
 }
@@ -77,7 +82,15 @@ float CameraComponent::GetFarClipPlane()
 
 glm::mat4 CameraComponent::GetViewMatrix()
 {
-	return glm::lookAt(m_Owner->GetTransform()->GetWorldPosition(), m_Owner->GetTransform()->GetWorldPosition() + m_Front, m_Up);
+	//m_PreviousViewMatrix = m_ViewMatrix;
+
+	m_ViewMatrix = glm::lookAt(m_Owner->GetTransform()->GetWorldPosition(), m_Owner->GetTransform()->GetWorldPosition() + m_Front, m_Up);
+	return m_ViewMatrix;
+}
+
+glm::mat4 CameraComponent::GetPreviousViewMatrix()
+{
+	return m_PreviousViewMatrix;
 }
 
 glm::mat4 CameraComponent::GetProjectionMatrix()
@@ -87,7 +100,15 @@ glm::mat4 CameraComponent::GetProjectionMatrix()
 
 glm::mat4 CameraComponent::GetViewProjectionMatrix()
 {
-	return GetProjectionMatrix() * GetViewMatrix();
+	//m_PreviousViewProjectionMatrix = m_ViewProjectionMatrix;
+	m_ViewProjectionMatrix = GetProjectionMatrix() * GetViewMatrix();
+
+	return m_ViewProjectionMatrix;
+}
+
+glm::mat4 CameraComponent::GetPreviousViewProjectionMatrix()
+{
+	return m_PreviousViewProjectionMatrix;
 }
 
 Ref<Frustum> CameraComponent::GetFrustum() {
