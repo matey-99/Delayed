@@ -14,7 +14,8 @@ CameraController::CameraController(Actor* owner)
 {
 	m_CameraSpeed = 8.0f;
 	m_FollowSpeed = 5.0f;
-	m_LookUpLimit = 35.0f;
+	m_LookUpLimit = 75.0f;
+	m_LookDownLimit = -25.0f;
 
 	m_TurnRotation = 0.0f;
 	m_LookUpRotation = 0.0f;
@@ -45,13 +46,13 @@ void CameraController::Update(float deltaTime)
 
 	// Turn Rotation
 	glm::vec3 newRotation = m_Owner->GetTransform()->GetLocalRotation();
-	newRotation.y += m_TurnRotation * deltaTime;
+	newRotation.y -= m_TurnRotation * deltaTime;
 	m_Owner->GetTransform()->SetLocalRotation(newRotation);
 
 	// Look Up Rotation
 	glm::vec3 newPivotRotation = m_Pivot->GetLocalRotation();
-	newPivotRotation.x -= m_LookUpRotation * deltaTime;
-	newPivotRotation.x = glm::clamp(newPivotRotation.x, -m_LookUpLimit, m_LookUpLimit);
+	newPivotRotation.x += m_LookUpRotation * deltaTime;
+	newPivotRotation.x = glm::clamp(newPivotRotation.x, m_LookDownLimit, m_LookUpLimit);
 	m_Pivot->SetLocalRotation(newPivotRotation);
 
 	// Reset angles

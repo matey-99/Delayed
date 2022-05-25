@@ -1,5 +1,5 @@
 Scene: Main
-CurrentCamera: 1541634382
+CurrentCamera: 1541634381
 RendererSettings:
   SSAO: true
   DepthFog: true
@@ -44,7 +44,7 @@ Actors:
   - Actor: 485961876
     ID: 485961876
     Name: Camera Controller
-    Enabled: false
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -546,28 +546,30 @@ Actors:
   - Actor: 1503310902
     ID: 1503310902
     Name: TPP Player
-    Enabled: false
+    Enabled: true
     Dynamic: true
     Components:
       - Transform:
           LocalPosition: [40.7097855, 4.4688468, -18.9174252]
-          LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
+          LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [1, 1, 1]
           Parent: 0
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
-          Size: [1, 2, 1]
+          Size: [0.5, 1, 0.5]
+      - AudioListener:
+          {}
       - TPPPlayer:
           {}
   - Actor: 1503310903
     ID: 1503310903
     Name: Player
-    Enabled: true
+    Enabled: false
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 11.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 0
@@ -610,7 +612,7 @@ Actors:
           Looping: true
           PlayOnStart: true
       - Ghost:
-          Player: 1503310903
+          Player: 1503310902
   - Actor: 1526879318
     ID: 1526879318
     Name: Cube (63)
@@ -1041,7 +1043,7 @@ Actors:
       - Transform:
           LocalPosition: [0, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [2, 4, 2]
+          LocalScale: [1, 2, 1]
           Parent: 1503310902
       - StaticMesh:
           Mesh: Models/defaults/default_cube.obj
