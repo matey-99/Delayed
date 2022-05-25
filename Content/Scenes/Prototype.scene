@@ -2166,3 +2166,223 @@ Actors:
       - Image:
           Path: Textures/Default/UI.png
           Color: [1, 1, 1, 0.34117648]
+  - Actor: 764755398
+    ID: 764755398
+    Name: Cube (21)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [40.1963463, -32.3487091, -7.75178623]
+          LocalRotation: [-89.9999924, 16.01614, -7.99426834e-06]
+          LocalScale: [0.200000003, 0.200000003, 0.200000003]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformBig01.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 826052903
+    ID: 826052903
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [43.3500557, 1.43114376, 7.05909443]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 815170497
+    ID: 815170497
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [42.3443336, 1.43114376, 24.6600685]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 435771667
+    ID: 435771667
+    Name: button_frame (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [45.1040306, 7.27610016, 18.152729]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+  - Actor: 92569162
+    ID: 92569162
+    Name: platform (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [47.2754021, -0.834220886, 34.7308502]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/mobilePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_MobilePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 432395837
+    ID: 432395837
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [53.0110664, 2.54691792, 44.2064667]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 782158052
+    ID: 782158052
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [65.9895935, 6.80806065, 40.7001572]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+  - Actor: 141076908
+    ID: 141076908
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [59.4377022, 6.80806065, 56.7610168]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 48731372
+    ID: 48731372
+    Name: button_frame (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [61.8685417, 12.6128511, 50.0958633]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+  - Actor: 886315206
+    ID: 886315206
+    Name: button_frame (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [63.8070869, 12.5054598, 34.1898575]
+          LocalRotation: [-90, 42.6053429, 1.159965e-05]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+  - Actor: 358775735
+    ID: 358775735
+    Name: platform (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [74.6208801, -0.550663471, 48.3749847]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/mobilePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_MobilePlatform.mat
+  - Actor: 898850923
+    ID: 898850923
+    Name: Cube (25)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [86.6140442, -13.1653519, 57.4643173]
+          LocalRotation: [89.9999542, -81.2614899, -179.999893]
+          LocalScale: [0.119999997, 0.119999997, 0.119999997]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformBig01.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
