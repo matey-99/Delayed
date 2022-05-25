@@ -4,6 +4,7 @@
 #include "Editor.h"
 #include "Assets/AssetManager.h"
 #include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/FoliageComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
@@ -303,6 +304,57 @@ void ActorDetailsPanel::Render()
         // Skeleton informations
         ImGui::Text("Skeleton informations");
         ImGui::Text("Bones: %i", mesh->GetBoneCount());
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
+    if (auto foliage = m_Actor->GetComponent<FoliageComponent>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Foliage");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<FoliageComponent>();
+
+        std::string path = foliage->GetModel()->GetPath();
+        std::string name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Model", name.c_str()))
+        {
+            std::vector<std::string> extensions = std::vector<std::string>();
+            extensions.push_back("obj");
+            extensions.push_back("fbx");
+            extensions.push_back("3ds");
+            extensions.push_back("dae");
+            DisplayResources(foliage, extensions);
+
+            ImGui::EndCombo();
+        }
+
+        path = foliage->GetMaterialPath();
+        name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Material", name.c_str()))
+        {
+            std::vector<std::string> extensions;
+            extensions.push_back("mat");
+            DisplayResources(foliage, extensions);
+
+            ImGui::EndCombo();
+        }
+
+        int instancesCount = foliage->m_InstancesCount;
+        ImGui::DragInt("Instances Count", &instancesCount, 1, 0, 1000);
+        if (instancesCount != foliage->m_InstancesCount)
+            foliage->SetInstancesCount(instancesCount);
+
+        ImGui::DragFloat("Radius", &foliage->m_Radius, 0.1f, 0.0f, 1000.0f);
+        ImGui::DragFloat("Min Instance Scale", &foliage->m_MinInstanceScale, 0.1f, 0.0f, 100.0f);
+        ImGui::DragFloat("Max Instance Scale", &foliage->m_MaxInstanceScale, 0.1f, 0.0f, 100.0f);
+
+        if (ImGui::Button("Generate"))
+            foliage->Generate();
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();
@@ -986,7 +1038,7 @@ void ActorDetailsPanel::Render()
 
     bool addComponent = false;
     bool staticMesh = false;
-    bool instanceRenderedMesh = false;
+    bool foliage = false;
     bool skeletalMesh = false;
     bool lodGroup = false;
     bool dirLight = false;
@@ -1021,7 +1073,7 @@ void ActorDetailsPanel::Render()
             if (ImGui::BeginMenu("Add Component"))
             {
                 ImGui::MenuItem("Static Mesh", "", &staticMesh);
-                ImGui::MenuItem("Instance Rendered Mesh", "", &instanceRenderedMesh);
+                ImGui::MenuItem("Foliage", "", &foliage);
                 ImGui::MenuItem("Skeletal Mesh", "", &skeletalMesh);
                 ImGui::MenuItem("LOD Group", "", &lodGroup);
                 if (ImGui::BeginMenu("Light"))
@@ -1094,6 +1146,8 @@ void ActorDetailsPanel::Render()
 
     if (staticMesh)
         m_Actor->AddComponent<StaticMeshComponent>();
+    if (foliage)
+        m_Actor->AddComponent<FoliageComponent>();
     if (skeletalMesh)
         m_Actor->AddComponent<SkeletalMeshComponent>();
     if (lodGroup)
@@ -1194,11 +1248,17 @@ void ActorDetailsPanel::DisplayResources(Ref<Component> component, std::vector<s
                         if (auto lodGroup = Cast<LODGroupComponent>(component))
                             lodGroup->m_LODs[lod].Model = AssetManager::LoadModel(path);
 
+                        if (auto foliage = Cast<FoliageComponent>(component))
+                            foliage->ChangeMesh(path);
+
                     }
                     else if (ext == "mat")
                     {
                         if (auto mesh = Cast<MeshComponent>(component))
                             mesh->ChangeMaterial(index, path);
+
+                        if (auto foliage = Cast<FoliageComponent>(component))
+                            foliage->ChangeMaterial(path);
 
                         if (auto lodGroup = Cast<LODGroupComponent>(component))
                             lodGroup->m_LODs[lod].Materials[index] = AssetManager::LoadMaterial(path);

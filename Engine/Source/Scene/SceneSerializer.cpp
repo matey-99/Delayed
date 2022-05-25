@@ -4,6 +4,7 @@
 
 #include "yaml/yaml.h"
 #include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/FoliageComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
@@ -326,6 +327,27 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
 						a->CreateComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
+					}
+
+					if (auto foliage = component["Foliage"])
+					{
+						std::string path = foliage["Model"].as<std::string>();
+						std::string materialPath = foliage["Material"].as<std::string>();
+						uint32_t instancesCount = foliage["InstancesCount"].as<uint32_t>();
+						float radius = foliage["Radius"].as<float>();
+						float minScale = foliage["MinInstanceScale"].as<float>();
+						float maxScale = foliage["MaxInstanceScale"].as<float>();
+						uint64_t seed = foliage["Seed"].as<uint64_t>();
+
+						auto f = a->CreateComponent<FoliageComponent>();
+						f->ChangeMesh(path);
+						f->ChangeMaterial(materialPath);
+						f->m_InstancesCount = instancesCount;
+						f->m_Radius = radius;
+						f->m_MinInstanceScale = minScale;
+						f->m_MaxInstanceScale = maxScale;
+						f->m_Seed = seed;
+						f->Generate();
 					}
 
 					if (auto lodGroup = component["LODGroup"])
@@ -825,6 +847,22 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 			out << YAML::EndMap;
 		}
 		out << YAML::EndSeq;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto foliage = actor->GetComponent<FoliageComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Foliage";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Model" << YAML::Value << foliage->m_Path;
+		out << YAML::Key << "Material" << YAML::Value << foliage->m_MaterialPath;
+		out << YAML::Key << "InstancesCount" << YAML::Value << foliage->m_InstancesCount;
+		out << YAML::Key << "Radius" << YAML::Value << foliage->m_Radius;
+		out << YAML::Key << "MinInstanceScale" << YAML::Value << foliage->m_MinInstanceScale;
+		out << YAML::Key << "MaxInstanceScale" << YAML::Value << foliage->m_MaxInstanceScale;
+		out << YAML::Key << "Seed" << YAML::Value << foliage->m_Seed;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

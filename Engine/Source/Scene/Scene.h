@@ -10,6 +10,7 @@
 
 class MeshBase;
 class MeshComponent;
+class FoliageComponent;
 class SkyLight;
 
 struct MaterialMesh
@@ -131,6 +132,7 @@ public:
 private:
 	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
 	void SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents);
+	void SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents);
     std::vector<Actor*> CullActors(std::vector<Actor*>& actors);
 	void UpdateMeshesRenderList();
 	void RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode);

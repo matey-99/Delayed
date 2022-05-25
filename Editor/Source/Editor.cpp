@@ -10,6 +10,7 @@
 #include "Renderer/RenderPass/LightingPass.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/FoliageComponent.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Particle/ParticleSystemComponent.h"
 #include "Scene/Component/UI/UIComponent.h"
@@ -81,6 +82,12 @@ void Editor::Start()
 	for (auto mesh : meshes)
 	{
 		mesh->Start();
+	}
+
+	auto foliages = m_Scene->GetComponents<FoliageComponent>();
+	for (auto foliage : foliages)
+	{
+		foliage->Start();
 	}
 
 	auto lods = m_Scene->GetComponents<LODGroupComponent>();
