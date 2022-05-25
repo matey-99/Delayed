@@ -110,6 +110,8 @@ private:
 	std::vector<glm::vec4> m_ParticlesPositions;
 	std::vector<glm::vec4> m_ParticlesColors;
 
+	float m_EmissionRateFractional;
+
 	friend class SceneSerializer;
 	friend class ActorDetailsPanel;
 };
