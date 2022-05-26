@@ -6,12 +6,16 @@
 #include "Scene/Scene.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/AudioSourceComponent.h"
+#include "Assets/AssetManager.h"
 
 Button::Button(Actor* owner)
 	: GameComponent(owner)
 {
 	m_IsPressed = false;
 	m_TriggeringActorsCount = 0;
+
+	m_NormalMaterial = AssetManager::LoadMaterial("Materials/Default.mat");
+	m_PressedMaterial = AssetManager::LoadMaterial("Materials/Default.mat");
 }
 
 Button::~Button()

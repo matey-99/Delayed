@@ -731,6 +731,27 @@ void ActorDetailsPanel::Render()
         if (ImGui::Button("X"))
             m_Actor->RemoveComponent<Button>();
 
+        std::string path = button->m_NormalMaterial->GetPath();
+        std::string name = path.substr(path.find_last_of("/") + 1);
+
+        if (ImGui::BeginCombo("Normal Material", name.c_str()))
+        {
+            std::vector<std::string> extensions;
+            extensions.push_back("mat");
+            DisplayResources(button, extensions, 0);
+
+            ImGui::EndCombo();
+        }
+
+        if (ImGui::BeginCombo("Pressed Material", name.c_str()))
+        {
+            std::vector<std::string> extensions;
+            extensions.push_back("mat");
+            DisplayResources(button, extensions, 1);
+
+            ImGui::EndCombo();
+        }
+
         size_t maxSize = 128;
         std::string idStr = std::to_string(button->m_PlatformID);
         char* id = (char*)idStr.c_str();
@@ -1262,6 +1283,15 @@ void ActorDetailsPanel::DisplayResources(Ref<Component> component, std::vector<s
 
                         if (auto lodGroup = Cast<LODGroupComponent>(component))
                             lodGroup->m_LODs[lod].Materials[index] = AssetManager::LoadMaterial(path);
+
+                        if (auto button = Cast<Button>(component))
+                        {
+                            if (index == 0)
+                                button->m_NormalMaterial = AssetManager::LoadMaterial(path);
+                            else if (index == 1)
+                                button->m_PressedMaterial = AssetManager::LoadMaterial(path);
+
+                        }
                     }
                     else if (ext == "png")
                     {

@@ -2242,6 +2242,16 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_PressurePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Button:
+          Platform: 92569162
+          NormalMaterial: Materials/Default.mat
+          PressedMaterial: Materials/Default.mat
+          ConnectedButtons:
+            []
   - Actor: 92569162
     ID: 92569162
     Name: platform (9)
@@ -2262,6 +2272,10 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 5
+          Speed: 5
   - Actor: 432395837
     ID: 432395837
     Name: SmallPlatform2
@@ -2334,6 +2348,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_PressurePlatform.mat
+      - Button:
+          Platform: 358775735
+          NormalMaterial: Materials/Default.mat
+          PressedMaterial: Materials/Default.mat
+          ConnectedButtons:
+            - ID: 886315206
   - Actor: 886315206
     ID: 886315206
     Name: button_frame (9)
@@ -2350,6 +2370,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_PressurePlatform.mat
+      - Button:
+          Platform: 358775735
+          NormalMaterial: Materials/Default.mat
+          PressedMaterial: Materials/Default.mat
+          ConnectedButtons:
+            - ID: 48731372
   - Actor: 358775735
     ID: 358775735
     Name: platform (9)
@@ -2366,6 +2392,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_MobilePlatform.mat
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 5
+          Speed: 5
   - Actor: 898850923
     ID: 898850923
     Name: Cube (25)
