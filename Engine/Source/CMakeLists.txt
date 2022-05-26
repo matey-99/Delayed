@@ -25,6 +25,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC "${STB_IMAGE_INCLUDE_DIR}")
 target_include_directories(${PROJECT_NAME} PUBLIC "${YAML_CPP_INCLUDE_DIR}")
 target_include_directories(${PROJECT_NAME} PUBLIC "${IMGUIZMO_INCLUDE_DIR}")
 target_include_directories(${PROJECT_NAME} PUBLIC "${FMOD_INCLUDE_DIR}")
+target_include_directories(${PROJECT_NAME} PUBLIC "${FREETYPE_INCLUDE_DIR}")
 
 target_link_libraries(${PROJECT_NAME} "${OPENGL_LIBRARY}")
 target_link_libraries(${PROJECT_NAME} "${ASSIMP_LIBRARY}")
@@ -35,6 +36,7 @@ target_link_libraries(${PROJECT_NAME} "${IMGUI_LIBRARY}"     "${CMAKE_DL_LIBS}")
 target_link_libraries(${PROJECT_NAME} "${IMGUIZMO_LIBRARY}"  "${CMAKE_DL_LIBS}")
 target_link_libraries(${PROJECT_NAME} "${STB_IMAGE_LIBRARY}" "${CMAKE_DL_LIBS}")
 target_link_libraries(${PROJECT_NAME} "${FMOD_LIBRARY}")
+target_link_libraries(${PROJECT_NAME} "${FREETYPE_LIBRARY}")
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
@@ -58,6 +60,7 @@ target_include_directories(${PROJECT_NAME}_Library PUBLIC "${STB_IMAGE_INCLUDE_D
 target_include_directories(${PROJECT_NAME}_Library PUBLIC "${YAML_CPP_INCLUDE_DIR}")
 target_include_directories(${PROJECT_NAME}_Library PUBLIC "${IMGUIZMO_INCLUDE_DIR}")
 target_include_directories(${PROJECT_NAME}_Library PUBLIC "${FMOD_INCLUDE_DIR}")
+target_include_directories(${PROJECT_NAME}_Library PUBLIC "${FREETYPE_INCLUDE_DIR}")
 
 target_link_libraries(${PROJECT_NAME}_Library "${OPENGL_LIBRARY}")
 target_link_libraries(${PROJECT_NAME}_Library "${ASSIMP_LIBRARY}")
@@ -68,6 +71,7 @@ target_link_libraries(${PROJECT_NAME}_Library "${IMGUI_LIBRARY}"     "${CMAKE_DL
 target_link_libraries(${PROJECT_NAME}_Library "${IMGUIZMO_LIBRARY}"  "${CMAKE_DL_LIBS}")
 target_link_libraries(${PROJECT_NAME}_Library "${STB_IMAGE_LIBRARY}" "${CMAKE_DL_LIBS}")
 target_link_libraries(${PROJECT_NAME}_Library "${FMOD_LIBRARY}")
+target_link_libraries(${PROJECT_NAME}_Library "${FREETYPE_LIBRARY}")
 
 target_precompile_headers(${PROJECT_NAME}_Library PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
@@ -80,6 +84,11 @@ target_compile_definitions(${PROJECT_NAME}_Library PRIVATE LIBRARY_SUFFIX="")
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 				   COMMAND ${CMAKE_COMMAND} -E copy_if_different
 				   		   ${FMOD_DLL}
+						   $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+				   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				   		   ${FREETYPE_DLL}
 						   $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 
 # Copy .exe to .. directory

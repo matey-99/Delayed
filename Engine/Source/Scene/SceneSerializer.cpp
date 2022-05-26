@@ -19,6 +19,7 @@
 #include <Scene/Component/RigidBodyComponent.h>
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
+#include "Scene/Component/UI/TextComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 #include "Scene/Component/AudioSourceComponent.h"
 #include "Scene/Component/AudioListenerComponent.h"
@@ -482,7 +483,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							p->m_EmitterShape = box;
 						}
 						else
-							WARN("Unknown emitter shape in Particle System with ID: " + p->GetOwner()->GetID());
+							ENGINE_WARN("Unknown emitter shape in Particle System with ID: " + p->GetOwner()->GetID());
 
 						p->m_MaxParticles = maxParticles;
 						p->m_EmissionRateOverTime = emissionRateOverTime;
@@ -557,6 +558,26 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						auto i = a->CreateComponent<ImageComponent>();
 						i->m_Image = AssetManager::LoadTexture(path);
 						i->m_Color = color;
+					}
+
+					if (auto textComp = component["Text"])
+					{
+						std::string fontPath = textComp["Font"].as<std::string>();
+						float fontSize = textComp["FontSize"].as<float>();
+						std::string text = textComp["Text"].as<std::string>();
+						glm::vec4 normalColor = textComp["NormalColor"].as<glm::vec4>();
+						glm::vec4 hoveredColor = textComp["HoveredColor"].as<glm::vec4>();
+						glm::vec4 pressedColor = textComp["PressedColor"].as<glm::vec4>();
+						glm::vec4 disabledColor = textComp["DisabledColor"].as<glm::vec4>();
+
+						auto t = a->CreateComponent<TextComponent>();
+						t->m_Font = AssetManager::LoadFont(fontPath);
+						t->m_FontSize = fontSize;
+						t->m_Text = text;
+						t->m_NormalColor = normalColor;
+						t->m_HoveredColor = hoveredColor;
+						t->m_PressedColor = pressedColor;
+						t->m_DisabledColor = disabledColor;
 					}
 
 					if (auto button = component["UIButton"])
@@ -1048,6 +1069,22 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Path" << YAML::Value << image->m_Image->GetPath();
 		out << YAML::Key << "Color" << YAML::Value << image->m_Color;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto textComp = actor->GetComponent<TextComponent>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Text";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Font" << YAML::Value << textComp->m_Font->GetPath();
+		out << YAML::Key << "FontSize" << YAML::Value << textComp->m_FontSize;
+		out << YAML::Key << "Text" << YAML::Value << textComp->m_Text;
+		out << YAML::Key << "NormalColor" << YAML::Value << textComp->m_NormalColor;
+		out << YAML::Key << "HoveredColor" << YAML::Value << textComp->m_HoveredColor;
+		out << YAML::Key << "PressedColor" << YAML::Value << textComp->m_PressedColor;
+		out << YAML::Key << "DisabledColor" << YAML::Value << textComp->m_DisabledColor;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

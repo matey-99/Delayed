@@ -521,7 +521,7 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 			return actor;
 	}
 
-	WARN("Actor with ID: " + std::to_string(id) + " doesn't exist!");
+	ENGINE_WARN("Actor with ID: " + std::to_string(id) + " doesn't exist!");
 	return Ref<Actor>();
 }
 

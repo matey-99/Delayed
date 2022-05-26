@@ -23,19 +23,19 @@ void MainMenu::Start()
 	auto playButtonActor = m_Owner->GetScene()->FindActor(m_PlayButtonID);
 	if (!playButtonActor)
 	{
-		WARN("PlayButton is null!");
+		ENGINE_WARN("PlayButton is null!");
 		return;
 	}
 	auto optionsButtonActor = m_Owner->GetScene()->FindActor(m_OptionsButtonID);
 	if (!optionsButtonActor)
 	{
-		WARN("OptionsButton is null!");
+		ENGINE_WARN("OptionsButton is null!");
 		return;
 	}
 	auto exitButtonActor = m_Owner->GetScene()->FindActor(m_ExitButtonID);
 	if (!exitButtonActor)
 	{
-		WARN("ExitButton is null!");
+		ENGINE_WARN("ExitButton is null!");
 		return;
 	}
 

@@ -28,7 +28,7 @@ void Obelisk::Start()
 
 	m_ParticleSystem = m_Owner->GetTransform()->GetChildren()[0]->GetOwner()->GetComponent<ParticleSystemComponent>();
 	if (!m_ParticleSystem)
-		WARN("There is no particle system attached to Obelisk");
+		ENGINE_WARN("There is no particle system attached to Obelisk");
 
 	m_PostFX = m_Owner->GetScene()->GetComponent<ImageComponent>(m_PostFXID);
 }

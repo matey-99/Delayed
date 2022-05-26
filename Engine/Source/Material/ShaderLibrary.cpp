@@ -109,6 +109,9 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> ui = AssetManager::LoadShader("Shaders/UI.glsl");
 	m_UIShaders.insert({ ui->GetName(), ui });
 
+	Ref<Shader> text = AssetManager::LoadShader("Shaders/Text.glsl");
+	m_UIShaders.insert({ text->GetName(), text });
+
 	/* Compute Shaders */
 
 	Ref<ComputeShader> computeParticles = AssetManager::LoadComputeShader("Shaders/ComputeShaders/Particle.comp");

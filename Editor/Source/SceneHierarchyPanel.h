@@ -28,4 +28,5 @@ public:
 
 private:
 	void TreeChildren(Ref<Actor> actor);
+	void ChangeParent(TransformBaseComponent* child, TransformBaseComponent* parent);
 };

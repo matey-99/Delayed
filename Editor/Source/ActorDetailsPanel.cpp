@@ -16,6 +16,7 @@
 #include "Scene/Component/Particle/ParticleEmitterSphere.h"
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
+#include "Scene/Component/UI/TextComponent.h"
 #include "Scene/Component/UI/RectTransformComponent.h"
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include "Scene/Component/AudioSourceComponent.h"
@@ -67,9 +68,9 @@ void ActorDetailsPanel::Render()
     ImGui::InputText("##Name", name, maxSize);
     m_Actor->m_Name = name;
 
-    ImGui::Text("ID: ");
-    ImGui::SameLine();
-    ImGui::Text(std::to_string(m_Actor->GetID()).c_str());
+    std::string idStr = std::to_string(m_Actor->m_ID);
+    char* id = (char*)idStr.c_str();
+    ImGui::InputText("ID", id, maxSize, ImGuiInputTextFlags_ReadOnly);
 
     ImGui::Checkbox("Dynamic", &m_Actor->m_Dynamic);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -872,6 +873,42 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto text = m_Actor->GetComponent<TextComponent>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Text");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<TextComponent>();
+
+        std::string path = text->m_Font->GetPath();
+        std::string name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Font", name.c_str()))
+        {
+            std::vector<std::string> extensions;
+            extensions.push_back("ttf");
+            DisplayResources(text, extensions);
+
+            ImGui::EndCombo();
+        }
+        ImGui::DragFloat("Font Size", &text->m_FontSize, 0.1f, 0.0f, 100.0f);
+
+        size_t maxSize = 2048;
+        char* displayedText = (char*)text->m_Text.c_str();
+        ImGui::InputText("Displayed Text", displayedText, maxSize, ImGuiInputTextFlags_CtrlEnterForNewLine);
+        text->m_Text = displayedText;
+
+        ImGui::ColorEdit4("Text Normal Color", glm::value_ptr(text->m_NormalColor));
+        ImGui::ColorEdit4("Text Hovered Color", glm::value_ptr(text->m_HoveredColor));
+        ImGui::ColorEdit4("Text Pressed Color", glm::value_ptr(text->m_PressedColor));
+        ImGui::ColorEdit4("Text Disabled Color", glm::value_ptr(text->m_DisabledColor));
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto button = m_Actor->GetComponent<ButtonComponent>())
     {
         ImGui::PushID(componentIndex);
@@ -879,16 +916,16 @@ void ActorDetailsPanel::Render()
         const char* buttonState = "";
         switch (button->m_CurrentState)
         {
-        case ButtonComponent::ButtonState::Normal:
+        case ButtonState::Normal:
             buttonState = "Normal";
             break;
-        case ButtonComponent::ButtonState::Hovered:
+        case ButtonState::Hovered:
             buttonState = "Hovered";
             break;
-        case ButtonComponent::ButtonState::Pressed:
+        case ButtonState::Pressed:
             buttonState = "Pressed";
             break;
-        case ButtonComponent::ButtonState::Disabled:
+        case ButtonState::Disabled:
             buttonState = "Disabled";
             break;
         }
@@ -1070,6 +1107,7 @@ void ActorDetailsPanel::Render()
     bool camera = false;
     bool image = false;
     bool buttonUI = false;
+    bool text = false;
     bool boxCollider = false;
     bool sphereCollider = false;
     bool rigidBody = false;
@@ -1154,6 +1192,7 @@ void ActorDetailsPanel::Render()
                 {
                     ImGui::MenuItem("Image", "", &image);
                     ImGui::MenuItem("Button", "", &buttonUI);
+                    ImGui::MenuItem("Text", "", &text);
 
                     ImGui::EndMenu();
                 }
@@ -1201,6 +1240,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<ImageComponent>();
     if (buttonUI)
         m_Actor->AddComponent<ButtonComponent>();
+    if (text)
+        m_Actor->AddComponent<TextComponent>();
     if (boxCollider)
         m_Actor->AddComponent<BoxColliderComponent>();
     if (sphereCollider)
@@ -1317,6 +1358,13 @@ void ActorDetailsPanel::DisplayResources(Ref<Component> component, std::vector<s
                         if (auto audio = Cast<AudioSourceComponent>(component))
                         {
                             audio->ChangeSound(AssetManager::ContentDirectory + path);
+                        }
+                    }
+                    else if (ext == "ttf")
+                    {
+                        if (auto text = Cast<TextComponent>(component))
+                        {
+                            text->ChangeFont(path);
                         }
                     }
                 }

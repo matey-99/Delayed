@@ -33,7 +33,7 @@ void Button::Start()
 	auto platformActor = m_Owner->GetScene()->FindActor(m_PlatformID);
 	if (!platformActor)
 	{
-		WARN("Platform is null!");
+		ENGINE_WARN("Platform is null!");
 		return;
 	}
 	m_Platform = platformActor->GetComponent<Platform>();
