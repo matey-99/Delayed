@@ -686,6 +686,8 @@ Actors:
           Platform: 928121183
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 1546630572
     ID: 1546630572
     Name: Cube (18)
@@ -816,6 +818,8 @@ Actors:
           Platform: 1055560003
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 1848602139
     ID: 1848602139
     Name: checkpoint1 (4)
@@ -909,6 +913,8 @@ Actors:
           Platform: 1572592382
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 2141099751
     ID: 2141099751
     Name: platforms
@@ -965,7 +971,7 @@ Actors:
   - Actor: 765667130
     ID: 765667130
     Name: Stamina Bar
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - RectTransform:
@@ -1098,6 +1104,8 @@ Actors:
           Platform: 83962599
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 786071119
     ID: 786071119
     Name: SmallPlatform2
@@ -1462,6 +1470,8 @@ Actors:
           Platform: 85858339
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 901968064
     ID: 901968064
     Name: button (2)
@@ -1486,6 +1496,8 @@ Actors:
           Platform: 772960022
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            - ID: 922891651
   - Actor: 922891651
     ID: 922891651
     Name: button (2)
@@ -1510,6 +1522,8 @@ Actors:
           Platform: 772960022
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            - ID: 901968064
   - Actor: 670220481
     ID: 670220481
     Name: button (2)
@@ -1534,6 +1548,8 @@ Actors:
           Platform: 442381772
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 612835070
     ID: 612835070
     Name: button (2)
@@ -1558,6 +1574,8 @@ Actors:
           Platform: 442381772
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 60737776
     ID: 60737776
     Name: button (2)
@@ -1582,6 +1600,8 @@ Actors:
           Platform: 488783937
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 14017580
     ID: 14017580
     Name: button (2)
@@ -1606,6 +1626,8 @@ Actors:
           Platform: 281502313
           NormalMaterial: Materials/M_PressurePlatform.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
+          ConnectedButtons:
+            []
   - Actor: 85858339
     ID: 85858339
     Name: platform (2)
@@ -1637,7 +1659,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-66.6568451, 18.9390602, 133.753876]
+          LocalPosition: [-66.6568451, 16.7910614, 133.753876]
           LocalRotation: [-90, 31.8891869, -6.0332286e-06]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -1999,7 +2021,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [32.966507, -1.63418698, -34.3450775]
+          LocalPosition: [32.966507, -1.63418698, -32.7315102]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -2009,14 +2031,14 @@ Actors:
           Sprite: Textures/Default/Particle.png
           EmitterShape: 1
           EmitterBoxSize: [45, 25, 45]
-          MaxParticles: 200
-          EmissionRateOverTime: 20
+          MaxParticles: 1000
+          EmissionRateOverTime: 100
           MinParticleSize: 0.0199999996
           MaxParticleSize: 0.0799999982
           EndParticleSize: 0
           MinParticleVelocity: [0, 0.100000001, 0]
-          MaxParticleVelocity: [0, 0.5, 0]
-          EndParticleVelocity: [0, 0, 0.5]
+          MaxParticleVelocity: [0, 0.150000006, 0]
+          EndParticleVelocity: [0, 0, 1.5]
           MinParticleLifeTime: 5
           MaxParticleLifeTime: 20
           StartParticleColor: [1, 1, 1, 1]
@@ -2038,18 +2060,345 @@ Actors:
           Sprite: Textures/Default/Particle.png
           EmitterShape: 1
           EmitterBoxSize: [45, 25, 45]
-          MaxParticles: 200
-          EmissionRateOverTime: 20
+          MaxParticles: 1000
+          EmissionRateOverTime: 50
           MinParticleSize: 0.0199999996
           MaxParticleSize: 0.0799999982
           EndParticleSize: 0
           MinParticleVelocity: [0, 0.100000001, 0]
-          MaxParticleVelocity: [0, 0.5, 0]
-          EndParticleVelocity: [0, 0, 0.5]
+          MaxParticleVelocity: [0, 0.150000006, 0]
+          EndParticleVelocity: [0, 0, 1.5]
           MinParticleLifeTime: 5
           MaxParticleLifeTime: 20
           StartParticleColor: [1, 1, 1, 1]
           EndParticleColor: [0.467870355, 0.68671304, 0.905555546, 0]
+  - Actor: 346397310
+    ID: 346397310
+    Name: ObeliskArea
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [10.3274002, 3.77669883, -72.2735901]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SphereCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: 15
+      - Obelisk:
+          PostFX: 238169961
+  - Actor: 346402549
+    ID: 346402549
+    Name: ObeliskParticle
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 1.12828088, -1.94470978]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 346397310
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 0.5
+          MaxParticles: 1000
+          EmissionRateOverTime: 60
+          MinParticleSize: 0.0500000007
+          MaxParticleSize: 0.100000001
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0.5, 0]
+          EndParticleVelocity: [0, 0, 0.5]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [20, 0, 0, 0.75]
+          EndParticleColor: [1, 0, 0, 0.25]
+  - Actor: 656672101
+    ID: 656672101
+    Name: ObeliskModel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0.391741514, -1.96244049]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 3, 1]
+          Parent: 346397310
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 238169961
+    ID: 238169961
+    Name: Obelisk PostFX
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1920, 1080, 1]
+          Parent: 1
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 0.34117648]
+  - Actor: 764755398
+    ID: 764755398
+    Name: Cube (21)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [40.1963463, -32.3487091, -7.75178623]
+          LocalRotation: [-89.9999924, 16.01614, -7.99426834e-06]
+          LocalScale: [0.200000003, 0.200000003, 0.200000003]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformBig01.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 826052903
+    ID: 826052903
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [43.3500557, 1.43114376, 7.05909443]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 815170497
+    ID: 815170497
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [42.3443336, 1.43114376, 24.6600685]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 435771667
+    ID: 435771667
+    Name: button_frame (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [45.1040306, 7.27610016, 18.152729]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Button:
+          Platform: 92569162
+          NormalMaterial: Materials/Default.mat
+          PressedMaterial: Materials/Default.mat
+          ConnectedButtons:
+            []
+  - Actor: 92569162
+    ID: 92569162
+    Name: platform (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [47.2754021, -0.834220886, 34.7308502]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/mobilePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_MobilePlatform.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 5
+          Speed: 5
+  - Actor: 432395837
+    ID: 432395837
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [53.0110664, 2.54691792, 44.2064667]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 782158052
+    ID: 782158052
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [65.9895935, 6.80806065, 40.7001572]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+  - Actor: 141076908
+    ID: 141076908
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [59.4377022, 6.80806065, 56.7610168]
+          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformSmall00.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 48731372
+    ID: 48731372
+    Name: button_frame (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [61.8685417, 12.6128511, 50.0958633]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - Button:
+          Platform: 358775735
+          NormalMaterial: Materials/Default.mat
+          PressedMaterial: Materials/Default.mat
+          ConnectedButtons:
+            - ID: 886315206
+  - Actor: 886315206
+    ID: 886315206
+    Name: button_frame (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [63.8070869, 12.5054598, 34.1898575]
+          LocalRotation: [-90, 42.6053429, 1.159965e-05]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PressurePlatform.mat
+      - Button:
+          Platform: 358775735
+          NormalMaterial: Materials/Default.mat
+          PressedMaterial: Materials/Default.mat
+          ConnectedButtons:
+            - ID: 48731372
+  - Actor: 358775735
+    ID: 358775735
+    Name: platform (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [74.6208801, -0.550663471, 48.3749847]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/mobilePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_MobilePlatform.mat
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 5
+          Speed: 5
+  - Actor: 898850923
+    ID: 898850923
+    Name: Cube (25)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [86.6140442, -13.1653519, 57.4643173]
+          LocalRotation: [89.9999542, -81.2614899, -179.999893]
+          LocalScale: [0.119999997, 0.119999997, 0.119999997]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_PlatformBig01.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 728671211
     ID: 728671211
     Name: default_sphere

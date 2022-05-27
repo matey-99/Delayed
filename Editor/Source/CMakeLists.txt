@@ -32,6 +32,11 @@ add_custom_command(TARGET ${EDITOR_PROJECT_NAME} POST_BUILD
 				   		   ${FMOD_DLL}
 						   $<TARGET_FILE_DIR:${EDITOR_PROJECT_NAME}>)
 
+add_custom_command(TARGET ${EDITOR_PROJECT_NAME} POST_BUILD
+				   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				   		   ${FREETYPE_DLL}
+						   $<TARGET_FILE_DIR:${EDITOR_PROJECT_NAME}>)
+
 # Copy .exe to .. directory
 add_custom_command(TARGET ${EDITOR_PROJECT_NAME} POST_BUILD
 				   COMMAND ${CMAKE_COMMAND} -E copy_if_different

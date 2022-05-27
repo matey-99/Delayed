@@ -6,12 +6,16 @@
 #include "Scene/Scene.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/AudioSourceComponent.h"
+#include "Assets/AssetManager.h"
 
 Button::Button(Actor* owner)
 	: GameComponent(owner)
 {
 	m_IsPressed = false;
 	m_TriggeringActorsCount = 0;
+
+	m_NormalMaterial = AssetManager::LoadMaterial("Materials/Default.mat");
+	m_PressedMaterial = AssetManager::LoadMaterial("Materials/Default.mat");
 }
 
 Button::~Button()
@@ -29,12 +33,17 @@ void Button::Start()
 	auto platformActor = m_Owner->GetScene()->FindActor(m_PlatformID);
 	if (!platformActor)
 	{
-		WARN("Platform is null!");
+		ENGINE_WARN("Platform is null!");
 		return;
 	}
 	m_Platform = platformActor->GetComponent<Platform>();
 
 	m_AudioSource = GetOwner()->GetComponent<AudioSourceComponent>();
+
+	for (auto& connectedButtonID : m_ConnectedButtonsIDs)
+	{
+		m_ConnectedButtons.push_back(m_Owner->GetScene()->GetComponent<Button>(connectedButtonID));
+	}
 }
 
 void Button::Update(float deltaTime)
@@ -84,7 +93,14 @@ void Button::Press()
 		m_AudioSource->PlaySound();
 	}
 
-	m_Platform->SetActive(true);
+	bool shouldPlatformBeActive = true;
+	for (auto& connectedButton : m_ConnectedButtons)
+	{
+		if (!connectedButton->IsPressed())
+			shouldPlatformBeActive = false;
+	}
+
+	m_Platform->SetActive(shouldPlatformBeActive);
 }
 
 void Button::Release()
@@ -100,5 +116,12 @@ void Button::Release()
 		m_AudioSource->PlaySound();
 	}
 
-	m_Platform->SetActive(false);
+	bool shouldPlatformBeActive = false;
+	for (auto& connectedButton : m_ConnectedButtons)
+	{
+		if (connectedButton->IsPressed())
+			shouldPlatformBeActive = true;
+	}
+
+	m_Platform->SetActive(shouldPlatformBeActive);
 }

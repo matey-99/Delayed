@@ -7,7 +7,7 @@
 
 class PostProcessingPass
 {
-private:
+public:
 	struct PostProcessingSettings
 	{
 		//glm::vec2 Resolution = glm::vec2(1920, 1080);
@@ -47,6 +47,7 @@ public:
 	void UpdateRenderTargets(uint32_t width, uint32_t height);
 
 	inline const PostProcessingSettings& GetSettings() const { return m_Settings; }
+	inline void SetSettings(const PostProcessingSettings& settings) { m_Settings = settings; }
 
 	inline Ref<RenderTarget> GetMainRenderTarget() const { return m_MainRenderTarget; }
 

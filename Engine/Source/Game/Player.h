@@ -26,6 +26,8 @@ public:
 
 	void AddSkill(SkillType skill);
 
+	inline Ref<Actor> GetGhost() const { return m_Ghost; }
+
 private:
 	void MoveForward(float value);
 	void MoveRight(float value);
