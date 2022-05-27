@@ -67,9 +67,8 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::EndMap;
 
 	out << YAML::Key << "DepthFogSettings" << YAML::Value << YAML::BeginMap;
-	out << YAML::Key << "MinDistance" << YAML::Value << renderer->m_DepthFogPass->m_Settings.MinDistance;
-	out << YAML::Key << "MaxDistance" << YAML::Value << renderer->m_DepthFogPass->m_Settings.MaxDistance;
 	out << YAML::Key << "Density" << YAML::Value << renderer->m_DepthFogPass->m_Settings.Density;
+    out << YAML::Key << "Height" << YAML::Value << renderer->m_DepthFogPass->m_Settings.Height;
 	out << YAML::Key << "Color" << YAML::Value << renderer->m_DepthFogPass->m_Settings.Color;
 	out << YAML::EndMap;
 
@@ -154,9 +153,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	float ssaoBias = data["RendererSettings"]["SSAOSettings"]["Bias"].as<float>();
 
 	/* Depth Fog settings */
-	float dfMinDistance = data["RendererSettings"]["DepthFogSettings"]["MinDistance"].as<float>();
-	float dfMaxDistance = data["RendererSettings"]["DepthFogSettings"]["MaxDistance"].as<float>();
 	float dfDensity = data["RendererSettings"]["DepthFogSettings"]["Density"].as<float>();
+    float dfHeight = data["RendererSettings"]["DepthFogSettings"]["Height"].as<float>();
 	glm::vec3 dfColor = data["RendererSettings"]["DepthFogSettings"]["Color"].as<glm::vec3>();
 
 	/* Post Processing settings */
@@ -202,9 +200,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	renderer->m_SSAOPass->m_Settings.Bias = ssaoBias;
 
 	/* Setup Depth Fog settings */
-	renderer->m_DepthFogPass->m_Settings.MinDistance = dfMinDistance;
-	renderer->m_DepthFogPass->m_Settings.MaxDistance = dfMaxDistance;
 	renderer->m_DepthFogPass->m_Settings.Density = dfDensity;
+	renderer->m_DepthFogPass->m_Settings.Height = dfHeight;
 	renderer->m_DepthFogPass->m_Settings.Color = dfColor;
 
 	/* Setup Post Processing settings */
