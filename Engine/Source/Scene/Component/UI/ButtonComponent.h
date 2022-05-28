@@ -4,14 +4,13 @@
 #include "Renderer/Texture.h"
 #include "Patterns/Event.h"
 
+enum class ButtonState
+{
+	Normal, Hovered, Pressed, Disabled
+};
+
 class ButtonComponent : public UIComponent
 {
-private:
-	enum class ButtonState
-	{
-		Normal, Hovered, Pressed, Disabled
-	};
-
 public:
 	ButtonComponent(Actor* owner);
 

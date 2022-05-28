@@ -10,6 +10,7 @@ class Shader;
 class ComputeShader;
 class Scene;
 class Material;
+class Font;
 
 class ModelImporter;
 class SkeletalModelImporter;
@@ -18,6 +19,7 @@ class ShaderImporter;
 class ComputeShaderImporter;
 class SceneImporter;
 class MaterialImporter;
+class FontImporter;
 
 class AssetManager : Singleton<AssetManager>
 {
@@ -27,6 +29,7 @@ public:
 	static Ref<Model> LoadModel(std::string assetPath);
 	static Ref<SkeletalModel> LoadSkeletalModel(std::string assetPath);
 	static Ref<Texture> LoadTexture(std::string assetPath, Texture::Type type = Texture::Type::BaseColor);
+	static Ref<Font> LoadFont(const std::string& assetPath);
 	static Ref<Shader> LoadShader(const std::string& path);
 	static Ref<ComputeShader> LoadComputeShader(const std::string& path);
 
@@ -42,6 +45,7 @@ private:
 	Ref<ModelImporter> m_ModelImporter;
 	Ref<SkeletalModelImporter> m_SkeletalModelImporter;
 	Ref<TextureImporter> m_TextureImporter;
+	Ref<FontImporter> m_FontImporter;
 	Ref<ShaderImporter> m_ShaderImporter;
 	Ref<ComputeShaderImporter> m_ComputeShaderImporter;
 	Ref<SceneImporter> m_SceneImporter;

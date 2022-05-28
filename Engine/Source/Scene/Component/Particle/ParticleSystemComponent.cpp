@@ -33,6 +33,7 @@ ParticleSystemComponent::ParticleSystemComponent(Actor* owner)
 	m_MaxParticleLifeTime = 2.0f;
 	m_StartParticleColor = glm::vec4(1.0f);
 	m_EndParticleColor = glm::vec4(0.0f);
+	m_EmissionRateFractional = 0.0f;
 
 	m_Shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Particle, "Particle");
 
@@ -62,10 +63,20 @@ void ParticleSystemComponent::Update(float deltaTime)
 		m_EmissionTime += deltaTime;
 		if (m_EmissionTime > 1.0f / m_EmissionRateOverTime)
 		{
-			int index = FindUnusedParticle();
+			float emissionRate = m_EmissionTime * m_EmissionRateOverTime;
+			float temp;
+			float fractional = glm::modf(emissionRate, temp);
 
-			if (index != -1)
-				EmitParticle(index);
+			int particlesEmissionCount = (int)(emissionRate + m_EmissionRateFractional);
+			m_EmissionRateFractional = fractional;
+
+			for (int i = 0; i < particlesEmissionCount; ++i)
+			{
+				int index = FindUnusedParticle();
+
+				if (index != -1)
+					EmitParticle(index);
+			}
 
 			m_EmissionTime = 0.0f;
 		}
@@ -196,6 +207,19 @@ void ParticleSystemComponent::SetMaxParticles(uint32_t count)
 {
 	m_MaxParticles = count;
 	Reset();
+}
+
+void ParticleSystemComponent::SetEmitterShape(EmitterShape shape)
+{
+	switch (shape)
+	{
+	case EmitterShape::Box:
+		m_EmitterShape = CreateRef<ParticleEmitterBox>();
+		break;
+	case EmitterShape::Sphere:
+		m_EmitterShape = CreateRef<ParticleEmitterSphere>();
+		break;
+	}
 }
 
 int ParticleSystemComponent::FindUnusedParticle()

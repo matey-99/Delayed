@@ -100,3 +100,11 @@ set(FMOD_LIBRARY "${FMOD_DIR}/lib/x64/fmod_vc.lib;${FMOD_DIR}/lib/x64/fmodL_vc.l
 
 set(FMOD_DLL "${FMOD_DIR}/lib/x64/fmod.dll"
 			 "${FMOD_DIR}/lib/x64/fmodL.dll")
+
+#freetype
+set(FREETYPE_DIR "${THIRDPARTY_DIR}/freetype")
+set(FREETYPE_INCLUDE_DIR "${FREETYPE_DIR}/include")
+
+set(FREETYPE_LIBRARY "${FREETYPE_DIR}/lib/win64/freetype.lib")
+
+set(FREETYPE_DLL "${FREETYPE_DIR}/lib/win64/freetype.dll")

@@ -80,15 +80,36 @@ void SceneHierarchyPanel::Render()
 
 	if (ImGui::TreeNodeEx("Root", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("actor"))
+			{
+				Ref<Actor>* childActor = static_cast<Ref<Actor>*>(payload->Data);
+				ChangeParent(childActor->get()->GetTransform().get(), m_Scene->GetRoot()->GetTransform().get());
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		if (ImGui::IsItemClicked())
 			m_Editor->ShowDetails(m_Scene->GetRoot());
 
 		TreeChildren(m_Scene->GetRoot());
+
 		ImGui::TreePop();
 	}
 
 	if (ImGui::TreeNodeEx("UI Root", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("actor"))
+			{
+				Ref<Actor>* childActor = static_cast<Ref<Actor>*>(payload->Data);
+				ChangeParent(childActor->get()->GetTransform().get(), m_Scene->GetUIRoot()->GetTransform().get());
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		if (ImGui::IsItemClicked())
 			m_Editor->ShowDetails(m_Scene->GetUIRoot());
 
@@ -237,7 +258,7 @@ void SceneHierarchyPanel::TreeChildren(Ref<Actor> actor)
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("actor"))
 			{
 				Ref<Actor>* childActor = static_cast<Ref<Actor>*>(payload->Data);
-				childActor->get()->GetTransform()->SetParent(children[i]);
+				ChangeParent(childActor->get()->GetTransform().get(), children[i]);
 			}
 			ImGui::EndDragDropTarget();
 		}
@@ -255,4 +276,16 @@ void SceneHierarchyPanel::TreeChildren(Ref<Actor> actor)
 			ImGui::TreePop();
 		}
 	}
+}
+
+void SceneHierarchyPanel::ChangeParent(TransformBaseComponent* child, TransformBaseComponent* parent)
+{
+
+	child->SetLocalPosition(child->GetLocalPosition() + child->GetParent()->GetLocalPosition());
+	child->SetLocalScale(child->GetLocalScale() * child->GetParent()->GetLocalScale());
+
+	child->SetParent(parent);
+
+	child->SetLocalPosition((child->GetLocalPosition() - parent->GetLocalPosition()) / parent->GetLocalScale());
+	child->SetLocalScale(child->GetLocalScale() / parent->GetLocalScale());
 }
