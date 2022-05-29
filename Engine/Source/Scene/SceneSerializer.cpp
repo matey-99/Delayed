@@ -649,7 +649,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto tppPlayer = component["TPPPlayer"])
 					{
+                        uint64_t cameraControllerID = tppPlayer["CameraController"].as<uint64_t>();
+
 						auto p = a->CreateComponent<TPPPlayer>();
+
+                        p->m_CameraControllerID = cameraControllerID;
 					}
 
 					if (auto camera = component["CameraController"])
@@ -1158,6 +1162,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "TPPPlayer";
 		out << YAML::BeginMap;
+        out << YAML::Key << "CameraController" << YAML::Value << tppPlayer->m_CameraControllerID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

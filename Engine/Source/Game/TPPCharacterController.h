@@ -2,7 +2,7 @@
 
 #include "GameComponent.h"
 
-class CameraComponent;
+class CameraController;
 class BoxColliderComponent;
 struct CharacterMovementParams;
 
@@ -14,7 +14,7 @@ public:
 	virtual void FixedUpdate() override;
 
 	void Move(glm::vec3 direction, const CharacterMovementParams& params, float deltaTime);
-	void Rotate(Ref<CameraComponent> camera, glm::vec3 rotation, float deltaTime);
+	void Rotate(Ref<CameraController> camera, glm::vec3 inputDirection, float deltaTime);
 	void Jump();
 
 	inline bool IsGrounded() const { return m_IsGrounded; }

@@ -16,6 +16,7 @@
 #include "CharacterController.h"
 #include "TPPCharacterController.h"
 #include "Checkpoint.h"
+#include "CameraController.h"
 
 TPPPlayer::TPPPlayer(Actor* owner)
 	: GameComponent(owner)
@@ -45,21 +46,26 @@ void TPPPlayer::Start()
 	m_CharacterController = m_Owner->AddComponent<TPPCharacterController>();
 
 	m_LastCheckpointPosition = m_Owner->GetTransform()->GetWorldPosition();
+
+    m_CameraController = m_Owner->GetScene()->GetComponent<CameraController>(m_CameraControllerID);
 }
 
 void TPPPlayer::Update(float deltaTime)
 {
-	if (Math::Magnitude(m_MoveDirection) > 0.0f)
-		m_MoveDirection = Math::Normalize(m_MoveDirection);
+	if (Math::Magnitude(m_MoveDirection) > 0.0f){
+        m_MoveDirection = Math::Normalize(m_MoveDirection);
+        m_CharacterController->Rotate(m_CameraController, m_InputDirection, deltaTime);
+    }
 
 	CharacterMovementParams params;
 	params.IsRunning = m_IsRunning;
 
 	m_CharacterController->Move(m_MoveDirection, params, deltaTime);
-	m_CharacterController->Rotate(m_Camera, m_Rotation, deltaTime);
+
 
 	// Reset move direction & rotation
 	m_MoveDirection = glm::vec3(0.0f);
+    m_InputDirection = glm::vec3(0.0f);
 	m_Rotation = glm::vec3(0.0f);
 }
 
@@ -78,12 +84,14 @@ void TPPPlayer::BackToLastCheckpoint()
 
 void TPPPlayer::MoveForward(float value)
 {
-	AddMovementInput(m_Owner->GetTransform()->GetForward(), value);
+    m_InputDirection += glm::normalize(glm::vec3(0, 0, value));
+	AddMovementInput(m_CameraController->GetOwner()->GetTransform()->GetForward(), -value);
 }
 
 void TPPPlayer::MoveRight(float value)
 {
-	AddMovementInput(m_Owner->GetTransform()->GetRight(), value);
+    m_InputDirection += glm::normalize(glm::vec3(value, 0, 0));
+	AddMovementInput(m_CameraController->GetOwner()->GetTransform()->GetRight(), -value);
 }
 
 void TPPPlayer::Turn(float value)

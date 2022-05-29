@@ -4,7 +4,7 @@
 
 class TPPCharacterController;
 class Checkpoint;
-class CameraComponent;
+class CameraController;
 class BoxColliderComponent;
 
 class TPPPlayer : public GameComponent
@@ -35,18 +35,25 @@ private:
 private:
 	/* References */
 	Ref<TPPCharacterController> m_CharacterController;
-	Ref<CameraComponent> m_Camera;
+	Ref<CameraController> m_CameraController;
 	
 	glm::vec3 m_LastCheckpointPosition;
 
 	/* Inputs */
 	glm::vec3 m_MoveDirection;
+    glm::vec3 m_InputDirection;
 	glm::vec3 m_Rotation;
 
 	/* Flags */
 	bool m_IsRunning;
 	bool m_IsJumping;
 	bool m_CanJump;
+
+#pragma region Serialization
+
+    uint64_t m_CameraControllerID;
+
+#pragma endregion
 
 	friend class SceneSerializer;
 	friend class ActorDetailsPanel;

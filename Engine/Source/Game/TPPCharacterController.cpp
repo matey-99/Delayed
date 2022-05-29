@@ -5,6 +5,7 @@
 #include "Physics/Physics.h"
 #include "Time/Time.h"
 #include "CharacterController.h"
+#include "CameraController.h"
 
 TPPCharacterController::TPPCharacterController(Actor* owner)
 	: GameComponent(owner)
@@ -58,8 +59,22 @@ void TPPCharacterController::Move(glm::vec3 direction, const CharacterMovementPa
 	m_Owner->GetTransform()->SetLocalPosition(newPosition);
 }
 
-void TPPCharacterController::Rotate(Ref<CameraComponent> camera, glm::vec3 rotation, float deltaTime)
+void TPPCharacterController::Rotate(Ref<CameraController> camera, glm::vec3 inputDirection, float deltaTime)
 {
+    glm::vec3 currentRotation = m_Owner->GetTransform()->GetLocalRotation();
+    glm::vec3 targetRotation = currentRotation;
+
+    // TODO: Fix jittering
+    if (inputDirection.z > 0.0f)
+        targetRotation = Math::Lerp(currentRotation, camera->GetOwner()->GetTransform()->GetLocalRotation() + glm::vec3(0, 180, 0), 0.4f);
+    else if (inputDirection.z == -1.0f)
+        targetRotation = Math::Lerp(currentRotation, camera->GetOwner()->GetTransform()->GetLocalRotation(), 0.3);
+    else if (inputDirection.x == 1.0f)
+        targetRotation = Math::Lerp(currentRotation, camera->GetOwner()->GetTransform()->GetLocalRotation() + glm::vec3(0, 90, 0), 0.3);
+    else if (inputDirection.x == -1.0f)
+        targetRotation = Math::Lerp(currentRotation, camera->GetOwner()->GetTransform()->GetLocalRotation() + glm::vec3(0, 270, 0), 0.3);
+
+    m_Owner->GetTransform()->SetLocalRotation(targetRotation);
 }
 
 void TPPCharacterController::Jump()

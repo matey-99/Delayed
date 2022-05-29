@@ -66,6 +66,57 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 485961876
+  - Actor: 1541634381
+    ID: 1541634381
+    Name: TPP Camera
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, -10]
+          LocalRotation: [0, 180, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 763440954
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 60
+          NearClipPlane: 0.300000012
+          FarClipPlane: 1000
+  - Actor: 1503310902
+    ID: 1503310902
+    Name: TPP Player
+    Enabled: true
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [40.7097855, 4.4688468, -18.9174252]
+          LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.5, 1, 0.5]
+      - AudioListener:
+          {}
+      - TPPPlayer:
+          CameraController: 485961876
+  - Actor: 628242585
+    ID: 628242585
+    Name: Character
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 2, 1]
+          Parent: 1503310902
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
   - Actor: 96575779
     ID: 96575779
     Name: Cube (16)
@@ -543,25 +594,6 @@ Actors:
           Size: [1, 1, 1]
       - Checkpoint:
           {}
-  - Actor: 1503310902
-    ID: 1503310902
-    Name: TPP Player
-    Enabled: true
-    Dynamic: true
-    Components:
-      - Transform:
-          LocalPosition: [40.7097855, 4.4688468, -18.9174252]
-          LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - BoxCollider:
-          IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [0.5, 1, 0.5]
-      - AudioListener:
-          {}
-      - TPPPlayer:
-          {}
   - Actor: 1503310903
     ID: 1503310903
     Name: Player
@@ -633,22 +665,6 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
-  - Actor: 1541634381
-    ID: 1541634381
-    Name: TPP Camera
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, -10]
-          LocalRotation: [0, 180, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 763440954
-      - Camera:
-          AspectRatio: [16, 9]
-          FieldOfView: 60
-          NearClipPlane: 0.300000012
-          FarClipPlane: 1000
   - Actor: 1541634382
     ID: 1541634382
     Name: Camera
@@ -1034,22 +1050,6 @@ Actors:
           Size: [1000, 1, 1000]
       - DeathArea:
           {}
-  - Actor: 628242585
-    ID: 628242585
-    Name: Character
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 2, 1]
-          Parent: 1503310902
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Default.mat
   - Actor: 493161876
     ID: 493161876
     Name: Save Manager
@@ -2418,3 +2418,19 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+  - Actor: 127847346
+    ID: 127847346
+    Name: New Actor (1)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0.400000006, -0.5]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.769999981, 0.170000002, 0.370000005]
+          Parent: 628242585
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Red.mat
