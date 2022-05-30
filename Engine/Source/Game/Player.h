@@ -25,6 +25,8 @@ public:
 	void BackToLastCheckpoint();
 
 	void AddSkill(SkillType skill);
+	void SlowDown();
+	void BackToNormal();
 
 	inline Ref<Actor> GetGhost() const { return m_Ghost; }
 
@@ -71,6 +73,7 @@ private:
 	/* Flags */
 	bool m_IsRunning;
 	bool m_IsJumping;
+	bool m_IsSlowedDown;
 	bool m_IsTeleporting;
 	bool m_CanJump;
 	bool m_CanDash;

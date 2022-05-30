@@ -29,6 +29,7 @@ Player::Player(Actor* owner)
 	m_Rotation = glm::vec3(0.0f);
 
 	m_IsRunning = false;
+	m_IsSlowedDown = false;
 	m_IsTeleporting = false;
 	m_CanJump = true;
 	m_CanDash = true;
@@ -106,6 +107,7 @@ void Player::Update(float deltaTime)
 	CharacterMovementParams params;
 	params.IsWalking = glm::abs(m_MoveDirection.x) > 0.1f || glm::abs(m_MoveDirection.z) > 0.1f;
 	params.IsRunning = m_IsRunning;
+	params.IsSlowedDown = m_IsSlowedDown;
 
 	m_CharacterController->Move(m_MoveDirection, params, deltaTime);
 	m_CharacterController->Rotate(m_Camera, m_Rotation, deltaTime);
@@ -168,6 +170,24 @@ void Player::AddSkill(SkillType skill)
 		m_HasTeleportSkill = true;
 		break;
 	}
+}
+
+void Player::SlowDown()
+{
+	m_IsSlowedDown = true;
+
+	m_CanJump = false;
+	m_CanDash = false;
+	m_CanTeleport = false;
+}
+
+void Player::BackToNormal()
+{
+	m_IsSlowedDown = false;
+
+	m_CanJump = true;
+	m_CanDash = m_HasDashSkill;
+	m_CanTeleport = m_HasTeleportSkill;
 }
 
 void Player::MoveForward(float value)

@@ -1,5 +1,6 @@
 #include "Time.h"
 #include "Analysis/Profiler.h"
+#include "TimerManager.h"
 
 Time::Time()
 {
@@ -34,4 +35,6 @@ void Time::Tick(Ref<Scene> scene)
 	PROFILER_START("Fixed Update Time");
 	scene->FixedUpdate();
 	PROFILER_STOP();
+
+	TimerManager::GetInstance()->Tick(m_DeltaTime);
 }
