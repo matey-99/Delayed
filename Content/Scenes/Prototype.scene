@@ -2387,3 +2387,19 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Ground.mat
+  - Actor: 165347971
+    ID: 165347971
+    Name: Water
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [23.6835442, 3.05400181, -43.737854]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_plane.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Water.mat
