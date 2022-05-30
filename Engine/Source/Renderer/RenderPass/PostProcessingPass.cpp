@@ -2,6 +2,7 @@
 
 #include "LightingPass.h"
 #include "Renderer/RenderTools.h"
+#include "Analysis/Profiler.h"
 
 PostProcessingPass::PostProcessingPass()
 {
@@ -56,7 +57,6 @@ void PostProcessingPass::Render(uint32_t input)
 	if (m_Settings.BloomEnabled)
 	{
 		// Threshold with downscale 1/2
-		m_ThresholdRenderTarget->Update(m_MainRenderTarget->GetWidth() / 2, m_MainRenderTarget->GetHeight() / 2);
 		m_ThresholdRenderTarget->Bind();
 
 		glDisable(GL_CULL_FACE);

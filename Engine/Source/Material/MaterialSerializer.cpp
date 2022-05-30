@@ -139,13 +139,31 @@ Ref<Material> MaterialSerializer::Deserialize(std::string path)
 
 			if (path != "null")
 			{
-				Ref<Texture> texture = AssetManager::LoadTexture(path);
 
 				if (material->m_Texture2DParameters.find(name) != material->m_Texture2DParameters.end())
+				{
+					Texture::Type type = Texture::Type::BaseColor;
+					if (name == "u_Material.normalMap")
+						type = Texture::Type::Normal;
+					else if (name == "u_Material.roughnessMap")
+						type = Texture::Type::Roughness;
+					else if (name == "u_Material.metallicMap")
+						type = Texture::Type::Metallic;
+					else if (name == "u_Material.aoMap")
+						type = Texture::Type::AO;
+					else if (name == "u_Material.emissiveMap")
+						type = Texture::Type::Emissive;
+					else if (name == "u_Material.opacityMap")
+						type = Texture::Type::Opacity;
+
+					Ref<Texture> texture = AssetManager::LoadTexture(path, type);
 					material->m_Texture2DParameters.find(name)->second = texture;
+				}
+					
 			}
 		}
 	}
 
+	file.close();
 	return material;
 }

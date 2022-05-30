@@ -16,6 +16,7 @@ CTestTestfile.cmake
 
 # ThirdParty
 Engine/ThirdParty/fmod/lib
+Engine/ThirdParty/freetype/lib
 
 # Other
 Analysis

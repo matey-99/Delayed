@@ -4,7 +4,6 @@
 #include "Game/Player.h"
 #include "Game/Ghost.h"
 #include "Scene/Scene.h"
-#include "Game/block.h"
 #include "Scene/Component/StaticMeshComponent.h"
 
 BlockTrigger::BlockTrigger(Actor* owner)
@@ -36,7 +35,7 @@ void BlockTrigger::Destroy()
 {
 }
 
-void BlockTrigger::OnTriggerEnter(Ref<ColliderComponent> other)
+void BlockTrigger::OnTriggerEnter(ColliderComponent* other)
 {
 	if (other->GetOwner()->GetComponent<Ghost>())
 	{
@@ -45,9 +44,9 @@ void BlockTrigger::OnTriggerEnter(Ref<ColliderComponent> other)
 	}
 }
 
-void BlockTrigger::OnTriggerExit(Ref<ColliderComponent> other)
+void BlockTrigger::OnTriggerExit(ColliderComponent* other)
 {
-	if ( other->GetOwner()->GetComponent<Ghost>())
+	if (other->GetOwner()->GetComponent<Ghost>())
 	{
 		m_ConnectedBlockCollider->SetTrigger(true);
 		m_ConnectedBlockCollider->GetOwner()->GetComponent<StaticMeshComponent>()->ChangeMaterial(0, "Materials/M_Ghost.mat");

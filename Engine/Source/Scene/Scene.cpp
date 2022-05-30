@@ -1,16 +1,19 @@
 #include "Scene.h"
 #include "Component/StaticMeshComponent.h"
+#include "Component/FoliageComponent.h"
 #include "Component/Light/DirectionalLight.h"
 #include "Component/Light/PointLight.h"
 #include "Component/Light/SpotLight.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 #include <glad/glad.h>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/Collider/BoxColliderComponent.h>
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderPass/ShadowsPass.h"
+#include "Renderer/RenderPass/GBufferPass.h"
 #include "Component/TransformComponent.h"
 #include "Component/Light/SkyLight.h"
 #include "Component/UI/RectTransformComponent.h"
@@ -53,13 +56,14 @@ void Scene::Start()
 
 void Scene::Update(float deltaTime)
 {
-	std::vector<Actor*> actors;
-	GetEnabledActors(m_Root.get(), actors);
-	for (auto actor : actors)
+	m_EnabledActors.clear();
+	FindEnabledActors(m_Root.get(), m_EnabledActors);
+
+	for (auto actor : m_EnabledActors)
 		actor->Update(deltaTime);
 
 	std::vector<Actor*> uiActors;
-	GetEnabledActors(m_UIRoot.get(), uiActors);
+	FindEnabledActors(m_UIRoot.get(), uiActors);
 	for (auto uiActor : uiActors)
 		uiActor->Update(deltaTime);
 
@@ -74,7 +78,7 @@ void Scene::Update(float deltaTime)
 
 void Scene::FixedUpdate()
 {
-	for (auto actor : m_Actors)
+	for (auto actor : m_EnabledActors)
 		actor->FixedUpdate();
 }
 
@@ -90,7 +94,7 @@ void Scene::PreRender()
 	m_LightsFragmentUniformBuffer->SetUniform(GLSL_SCALAR_SIZE, GLSL_SCALAR_SIZE, &spotLightsCount);
 	m_LightsFragmentUniformBuffer->Unbind();
 
-	for (auto actor : m_Actors)
+	for (auto actor : m_EnabledActors)
 	{
 		actor->PreRender();
 	}
@@ -100,7 +104,7 @@ void Scene::PreRender()
 
 void Scene::Render(Material::BlendMode blendMode)
 {
-	if (m_SkyLight)
+	if (m_SkyLight && m_SkyLight->GetOwner()->IsEnabled())
 		m_SkyLight->Render(blendMode);
 
 	MeshesRenderList meshesList;
@@ -113,7 +117,10 @@ void Scene::Render(Material::BlendMode blendMode)
 	RenderMeshes(meshesList, blendMode);
 
 	for (auto& particleSystem : GetComponents<ParticleSystemComponent>())
-		particleSystem->Render(blendMode);
+	{
+		if (particleSystem->GetOwner()->IsEnabled())
+			particleSystem->Render(blendMode);
+	}
 }
 
 void Scene::Render(Ref<Shader> shader)
@@ -140,7 +147,7 @@ void Scene::Destroy()
 {
 }
 
-void Scene::GetEnabledActors(Actor* actor, std::vector<Actor*>& output)
+void Scene::FindEnabledActors(Actor* actor, std::vector<Actor*>& output)
 {
 	if (!actor->IsEnabled())
 	{
@@ -156,7 +163,7 @@ void Scene::GetEnabledActors(Actor* actor, std::vector<Actor*>& output)
 	{
 		for (auto child : actor->GetTransform()->GetChildren())
 		{
-			GetEnabledActors(child->GetOwner(), output);
+			FindEnabledActors(child->GetOwner(), output);
 		}
 	}
 }
@@ -171,16 +178,19 @@ void Scene::SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, b
 		});
 }
 
-std::vector<Actor*> Scene::CullActors(std::vector<Actor*>& actors) {
+std::vector<Actor*> Scene::CullActors(std::vector<Actor*>& actors) 
+{
+	auto camera = CameraManager::GetInstance()->GetMainCamera();
+
     std::vector<Actor*> output;
     for (auto actor : actors) {
-        if (auto a = actor->GetComponent<MeshComponent>()) {
-
-			auto camera = CameraManager::GetInstance()->GetMainCamera();
-            if (camera->GetFrustum()->BoxInFrustum(a->GetBoundingBox())) {
-                output.push_back(actor);
-            }
+        if (auto a = actor->GetComponent<MeshComponent>()) 
+		{
+            if (camera->GetFrustum()->BoxInFrustum(a->GetBoundingBox())) 
+				output.push_back(actor);
         }
+		if (actor->GetComponent<FoliageComponent>())
+			output.push_back(actor);
     }
     return output;
 }
@@ -227,10 +237,58 @@ void Scene::SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents)
 	}
 }
 
+void Scene::SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents)
+{
+	for (auto foliageComponent : foliageComponents)
+	{
+		for (int i = 0; i < foliageComponent->GetMeshes().size(); i++)
+		{
+			if (auto material = foliageComponent->GetMaterial())
+			{
+				Ref<MeshBase> mesh = foliageComponent->GetMeshes()[i];
+
+				for (int j = 0; j < foliageComponent->GetInstancesCount(); j++)
+				{
+					glm::mat4 transformation = foliageComponent->GetInstancesTransformations()[j];
+					glm::vec3 worldPosition = foliageComponent->GetInstancesWorldPositions()[j];
+					BoundingBox boundingBox = foliageComponent->GetInstancesBoundingBoxes()[j];
+
+					auto camera = CameraManager::GetInstance()->GetMainCamera();
+					if (!camera->GetFrustum()->BoxInFrustum(boundingBox))
+						continue;
+
+					bool found = false;
+					for (auto& renderMesh : m_MeshesRenderList)
+					{
+						if (renderMesh.first->Mesh == mesh && renderMesh.first->Material == material)
+						{
+							found = true;
+							renderMesh.second.push_back(transformation);
+
+							break;
+						}
+					}
+					if (!found)
+					{
+						Ref<MaterialMesh> materialMesh = CreateRef<MaterialMesh>();
+						materialMesh->Mesh = mesh;
+						materialMesh->Material = material;
+
+						std::vector<glm::mat4> transformations;
+						transformations.push_back(transformation);
+
+						m_MeshesRenderList.insert({ materialMesh, transformations });
+					}
+				}
+				
+			}
+		}
+	}
+}
+
 void Scene::UpdateMeshesRenderList()
 {
-	std::vector<Actor*> actors;
-	GetEnabledActors(m_Root.get(), actors);
+	std::vector<Actor*> actors = m_EnabledActors;
 
 	actors = CullActors(actors);
 
@@ -239,12 +297,18 @@ void Scene::UpdateMeshesRenderList()
 	SortActorsByDistance(actors, cameraPosition, false);
 
 	std::vector<Ref<MeshComponent>> meshComponents;
+	std::vector<Ref<FoliageComponent>> foliageComponents;
 	for (auto actor : actors)
 	{
 		if (auto m = actor->GetComponent<MeshComponent>())
 			meshComponents.push_back(m);
+
+		if (auto f = actor->GetComponent<FoliageComponent>())
+			foliageComponents.push_back(f);
 	}
+
 	SortMeshes(meshComponents);
+	SortFoliages(foliageComponents);
 }
 
 void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
@@ -278,6 +342,16 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 
         if (material->GetName() == "Water") {
             material->GetShader()->SetFloat("u_FrameTime", Time::GetInstance()->GetCurrentFrameTime());
+		}
+		
+        if (material->GetName() == "Grass") {
+            material->GetShader()->SetFloat("u_Time", Time::GetInstance()->GetElapsedTime());
+        }
+
+        if (material->GetName() == "FogPlane") {
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_GBufferPass->GetRenderTarget()->GetDepthTarget());
+            material->GetShader()->SetInt("u_SceneDepth", 1);
         }
 
 		std::vector<glm::mat4> transformations;
@@ -298,7 +372,7 @@ Ref<Actor> Scene::AddRoot()
 		return m_Root;
 
 	Ref<Actor> root = Actor::Create(this, 0, "Root");
-	root->AddComponent<TransformComponent>();
+	root->CreateComponent<TransformComponent>();
 
 	m_Root = root;
 	m_Actors.push_back(root);
@@ -312,7 +386,7 @@ Ref<Actor> Scene::AddUIRoot()
 		return m_UIRoot;
 
 	Ref<Actor> uiRoot = Actor::Create(this, 1, "UI Root");
-	uiRoot->AddComponent<RectTransformComponent>();
+	uiRoot->CreateComponent<RectTransformComponent>();
 
 	m_UIRoot = uiRoot;
 	m_Actors.push_back(uiRoot);
@@ -324,9 +398,11 @@ Ref<Actor> Scene::AddActor(std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
 
-	auto transform = actor->AddComponent<TransformComponent>();
+	auto transform = actor->CreateComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->SetTransform(transform);
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -337,9 +413,11 @@ Ref<Actor> Scene::AddActor(uint64_t id, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, id, name);
 
-	auto transform = actor->AddComponent<TransformComponent>();
+	auto transform = actor->CreateComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->SetTransform(transform);
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -350,11 +428,13 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
 
-	auto transform = actor->AddComponent<TransformComponent>();
+	auto transform = actor->CreateComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->SetTransform(transform);
 
-	actor->AddComponent<StaticMeshComponent>(path.c_str());
+	actor->CreateComponent<StaticMeshComponent>(path.c_str());
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -365,11 +445,13 @@ Ref<Actor> Scene::AddActor(std::string path, std::string name, Ref<Actor> parent
 {
 	Ref<Actor> actor = Actor::Create(this, name);
 
-	auto transform = actor->AddComponent<TransformComponent>();
+	auto transform = actor->CreateComponent<TransformComponent>();
 	transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
 	actor->SetTransform(transform);
 
-	actor->AddComponent<StaticMeshComponent>(path.c_str());
+	actor->CreateComponent<StaticMeshComponent>(path.c_str());
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -385,9 +467,11 @@ Ref<Actor> Scene::AddUIActor(std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, name);
 
-	auto transform = actor->AddComponent<RectTransformComponent>();
+	auto transform = actor->CreateComponent<RectTransformComponent>();
 	transform->SetParent(m_UIRoot->GetComponent<RectTransformComponent>().get());
 	actor->SetTransform(transform);
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -398,9 +482,11 @@ Ref<Actor> Scene::AddUIActor(uint64_t id, std::string name)
 {
 	Ref<Actor> actor = Actor::Create(this, id, name);
 
-	auto transform = actor->AddComponent<RectTransformComponent>();
+	auto transform = actor->CreateComponent<RectTransformComponent>();
 	transform->SetParent(m_UIRoot->GetComponent<RectTransformComponent>().get());
 	actor->SetTransform(transform);
+
+	actor->Start();
 
 	m_Actors.push_back(actor);
 
@@ -446,8 +532,30 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 			return actor;
 	}
 
-	DEBUG_LOG("Actor with ID: " + std::to_string(id) + " doesn't exist!");
+	ENGINE_WARN("Actor with ID: " + std::to_string(id) + " doesn't exist!");
 	return Ref<Actor>();
+}
+
+Ref<Actor> Scene::SpawnActor(const glm::vec3& position, const glm::vec3& rotation, Actor* parent)
+{
+	Ref<Actor> actor = Actor::Create(this, "SpawnedActor" + std::to_string(m_Actors.size()));
+
+	auto transform = actor->CreateComponent<TransformComponent>();
+	if (parent)
+		transform->SetParent(parent->GetTransform().get());
+	else
+		transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
+
+	actor->SetTransform(transform);
+
+	actor->GetTransform()->SetLocalPosition(position);
+	actor->GetTransform()->SetLocalRotation(rotation);
+
+	actor->Start();
+
+	m_ActorsAddedRuntime.push_back(actor);
+
+	return actor;
 }
 
 void Scene::DestroyActor(Actor* actor)

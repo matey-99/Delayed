@@ -1,0 +1,52 @@
+Material: M_MobilePlatform
+ID: 789302944
+BlendMode: 0
+Shader: Opaque
+Bool Parameters:
+  - Name: u_Material.isRoughnessMap
+    Value: true
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: true
+  - Name: u_Material.isOpacityMap
+    Value: false
+  - Name: u_Material.isMetallicMap
+    Value: true
+  - Name: u_Material.isAlbedoMap
+    Value: true
+  - Name: u_Material.isNormalMap
+    Value: true
+  - Name: u_Material.isAOMap
+    Value: false
+  - Name: u_Material.isEmissiveMap
+    Value: true
+Float Parameters:
+  - Name: u_Material.opacity
+    Value: 1
+  - Name: u_Material.metallic
+    Value: 0
+  - Name: u_Material.emissiveStrength
+    Value: 10
+  - Name: u_Material.roughness
+    Value: 1
+  - Name: u_Material.ao
+    Value: 1
+Vec3 Parameters:
+  - Name: u_Material.albedo
+    Value: [0, 0, 0]
+  - Name: u_Material.emissive
+    Value: [0, 0, 0]
+Texture Parameters:
+  - Name: u_Material.opacityMap
+    Path: "null"
+  - Name: u_Material.metallicMap
+    Path: Textures/MobilePlatform_tex/1K/platformMobile_mdl_Metallic.png
+  - Name: u_Material.albedoMap
+    Path: Textures/MobilePlatform_tex/1K/platformMobile_mdl_BaseColor.png
+  - Name: u_Material.normalMap
+    Path: Textures/MobilePlatform_tex/1K/platformMobile_mdl_Normal.png
+  - Name: u_Material.roughnessMap
+    Path: Textures/MobilePlatform_tex/1K/platformMobile_mdl_Roughness.png
+  - Name: u_Material.aoMap
+    Path: "null"
+  - Name: u_Material.emissiveMap
+    Path: Textures/MobilePlatform_tex/1K/platformMobile_mdl_Emissive.png

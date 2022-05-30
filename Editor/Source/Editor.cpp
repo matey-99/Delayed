@@ -1,6 +1,8 @@
 #include "Editor.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <Scene/Component/AudioSourceComponent.h>
+#include <Scene/Component/AudioListenerComponent.h>
 
 #include "Camera/CameraManager.h"
 #include "Scene/Component/Light/Light.h"
@@ -8,6 +10,7 @@
 #include "Renderer/RenderPass/LightingPass.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/FoliageComponent.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Particle/ParticleSystemComponent.h"
 #include "Scene/Component/UI/UIComponent.h"
@@ -81,6 +84,12 @@ void Editor::Start()
 		mesh->Start();
 	}
 
+	auto foliages = m_Scene->GetComponents<FoliageComponent>();
+	for (auto foliage : foliages)
+	{
+		foliage->Start();
+	}
+
 	auto lods = m_Scene->GetComponents<LODGroupComponent>();
 	for (auto lod : lods)
 	{
@@ -94,10 +103,16 @@ void Editor::Start()
 	}
 
 	Input::GetInstance()->SetInputMode(InputMode::UI);
+
+    AudioSystem::GetInstance()->StopAllChannels();
 }
 
 void Editor::Update(float deltaTime)
 {
+	std::vector<Actor*> actors;
+	m_Scene->FindEnabledActors(m_Scene->GetRoot().get(), actors);
+	m_Scene->SetEnabledActors(actors);
+
 	m_Camera->Update();
 
 	auto meshes = m_Scene->GetComponents<StaticMeshComponent>();
@@ -129,6 +144,18 @@ void Editor::Update(float deltaTime)
 		if (m_SelectedCameraComponent)
 			m_SelectedCameraComponent->Update(deltaTime);
 	}
+
+    auto audioSources = m_Scene->GetComponents<AudioSourceComponent>();
+    for (auto audioSource : audioSources) {
+        audioSource->Update(deltaTime);
+    }
+
+    auto audioListeners = m_Scene->GetComponents<AudioListenerComponent>();
+    for (auto audioListener : audioListeners) {
+        audioListener->Update(deltaTime);
+    }
+
+    AudioSystem::GetInstance()->Update(deltaTime);
 
 #if UPDATE_UI
 

@@ -41,16 +41,18 @@ layout (location = 5) uniform float u_Exposure;
 void main()
 {    
     vec4 image = texture(u_Image, v_TexCoord);
-    image *= u_Color;
-
+    
     if (u_IsGammaCorrection)
     {
         vec3 mapped = vec3(1.0) - exp(vec3(-image) * u_Exposure); //EXPOSURE TONE MAPPING
         mapped = pow(mapped, vec3(1.0 / u_Gamma));        //GAMMA CORRECTION
 
-        f_Color = vec4(mapped, image.a);
-        return;
+        vec4 final = vec4(mapped * u_Color.rgb, image.a * u_Color.a);
+        f_Color = final;
     }
     else
+    {
+        image *= u_Color;
         f_Color = image;
+    }
 }

@@ -4,8 +4,6 @@
 
 #include "GameComponent.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
-#include "Platform.h"
-#include "Patterns/Singleton.h"
 
 class DeathArea : public GameComponent
 {
@@ -15,7 +13,7 @@ public:
 
 	virtual void Start() override;
 
-	virtual void OnTriggerEnter(Ref<ColliderComponent> other) override;
+	virtual void OnTriggerEnter(ColliderComponent* other) override;
 
 private:
 

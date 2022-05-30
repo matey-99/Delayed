@@ -24,6 +24,7 @@ void DirectionalLight::Use()
 	m_FragmentUniformBuffer->Bind();
 	m_FragmentUniformBuffer->SetUniform(offset, sizeof(glm::vec3), glm::value_ptr(direction));
 	m_FragmentUniformBuffer->SetUniform(offset + GLSL_VEC3_SIZE, sizeof(glm::vec3), glm::value_ptr(m_Color));
+	m_FragmentUniformBuffer->SetUniform(offset + GLSL_VEC3_SIZE * 2 - GLSL_SCALAR_SIZE, sizeof(float), &m_Intensity);
 	m_FragmentUniformBuffer->Unbind();
 
 	auto camera = CameraManager::GetInstance()->GetMainCamera();

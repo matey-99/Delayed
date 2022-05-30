@@ -15,7 +15,6 @@
 #include "Physics/Physics.h"
 #include "CharacterController.h"
 #include "TPPCharacterController.h"
-#include "GhostPathElement.h"
 #include "Checkpoint.h"
 
 TPPPlayer::TPPPlayer(Actor* owner)

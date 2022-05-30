@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene/Component/RenderComponent.h"
+#include "Math/Math.h"
 
 class ParticleEmitterShape;
 
@@ -19,6 +20,12 @@ private:
 			CurrentSize = 0.0f;
 			InitialLifeTime = 0.0f;
 			CurrentLifeTime = 0.0f;
+			DistanceFromCamera = 0.0f;
+		}
+
+		bool operator<(Particle& other)
+		{
+			return DistanceFromCamera > other.DistanceFromCamera;
 		}
 
 		glm::vec3 Position;
@@ -33,6 +40,13 @@ private:
 
 		float InitialLifeTime;
 		float CurrentLifeTime;
+
+		float DistanceFromCamera;
+	};
+
+	enum class EmitterShape
+	{
+		Box, Sphere
 	};
 
 public:
@@ -50,6 +64,14 @@ public:
 	void ChangeSprite(std::string path);
 
 	void SetMaxParticles(uint32_t count);
+	void SetEmitterShape(EmitterShape shape);
+
+	inline void SetDuration(float duration) { m_Duration = duration; }
+	inline void SetLooping(bool looping) { m_Looping = looping; }
+	inline void SetEmissionRateOverTime(float rateOverTime) { m_EmissionRateOverTime = rateOverTime; }
+	inline void SetMinParticleVelocity(glm::vec3 minParticleVelocity) { m_MinParticleVelocity = minParticleVelocity; }
+	inline void SetMaxParticleVelocity(glm::vec3 maxParticleVelocity) { m_MaxParticleVelocity = maxParticleVelocity; }
+	inline void SetEndParticleVelocity(glm::vec3 endParticleVelocity) { m_EndParticleVelocity = endParticleVelocity; }
 
 private:
 	int FindUnusedParticle();
@@ -87,6 +109,8 @@ private:
 
 	std::vector<glm::vec4> m_ParticlesPositions;
 	std::vector<glm::vec4> m_ParticlesColors;
+
+	float m_EmissionRateFractional;
 
 	friend class SceneSerializer;
 	friend class ActorDetailsPanel;

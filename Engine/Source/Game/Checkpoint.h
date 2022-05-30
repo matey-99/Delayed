@@ -3,11 +3,10 @@
 #include "Core.h"
 
 #include "GameComponent.h"
+#include "Saveable.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
-#include "Platform.h"
-#include "Patterns/Singleton.h"
 
-class Checkpoint : public GameComponent
+class Checkpoint : public GameComponent, public Saveable
 {
 public:
 	Checkpoint(Actor* owner);
@@ -15,7 +14,10 @@ public:
 
 	virtual void Start() override;
 
-	virtual void OnTriggerEnter(Ref<ColliderComponent> other) override;
+	virtual void OnTriggerEnter(ColliderComponent* other) override;
+
+	virtual const SaveData Save() override;
+	virtual void Load(const SaveData& data) override;
 
 #pragma region Serialization
 

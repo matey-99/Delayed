@@ -12,6 +12,9 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> transparent = AssetManager::LoadShader("Shaders/Transparent.glsl");
 	m_MaterialShaders.insert({ transparent->GetName(), transparent });
 
+	Ref<Shader> transparentFresnel = AssetManager::LoadShader("Shaders/TransparentFresnel.glsl");
+	m_MaterialShaders.insert({ transparentFresnel->GetName(), transparentFresnel });
+
 	Ref<Shader> opaqueSkeletal = AssetManager::LoadShader("Shaders/OpaqueSkeletal.glsl");
 	m_MaterialShaders.insert({ opaqueSkeletal->GetName(), opaqueSkeletal });
 
@@ -20,6 +23,12 @@ ShaderLibrary::ShaderLibrary()
 
     Ref<Shader> waterShader = AssetManager::LoadShader("Shaders/Water.glsl");
     m_MaterialShaders.insert({waterShader->GetName(), waterShader});
+	
+    Ref<Shader> grass = AssetManager::LoadShader("Shaders/Grass.glsl");
+	m_MaterialShaders.insert({ grass->GetName(), grass });
+
+    Ref<Shader> fogPlane = AssetManager::LoadShader("Shaders/FogPlane.glsl");
+    m_MaterialShaders.insert({ fogPlane->GetName(), fogPlane });
 
 	/* Post-Processing Shaders */
 
@@ -73,10 +82,19 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> skybox = AssetManager::LoadShader("Shaders/Skybox.glsl");
 	m_SkyboxShaders.insert({ skybox->GetName(), skybox });
 
+	Ref<Shader> irradiance = AssetManager::LoadShader("Shaders/Irradiance.glsl");
+	m_SkyboxShaders.insert({ irradiance->GetName(), irradiance });
+
+	Ref<Shader> prefilter = AssetManager::LoadShader("Shaders/Prefilter.glsl");
+	m_SkyboxShaders.insert({ prefilter->GetName(), prefilter });
+
 	/* Calculation Shaders */
 
 	Ref<Shader> lighting = AssetManager::LoadShader("Shaders/Lighting.glsl");
 	m_CalculationShaders.insert({ lighting->GetName(), lighting });
+
+	Ref<Shader> brdf = AssetManager::LoadShader("Shaders/BRDF.glsl");
+	m_CalculationShaders.insert({ brdf->GetName(), brdf });
 
 	Ref<Shader> sceneDepth = AssetManager::LoadShader("Shaders/SceneDepth.glsl");
 	m_CalculationShaders.insert({ sceneDepth->GetName(), sceneDepth });
@@ -93,6 +111,9 @@ ShaderLibrary::ShaderLibrary()
 	
 	Ref<Shader> ui = AssetManager::LoadShader("Shaders/UI.glsl");
 	m_UIShaders.insert({ ui->GetName(), ui });
+
+	Ref<Shader> text = AssetManager::LoadShader("Shaders/Text.glsl");
+	m_UIShaders.insert({ text->GetName(), text });
 
 	/* Compute Shaders */
 

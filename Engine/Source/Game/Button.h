@@ -5,7 +5,9 @@
 #include "GameComponent.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Platform.h"
-#include "Patterns/Singleton.h"
+
+class Material;
+class AudioSourceComponent;
 
 class Button : public GameComponent
 {
@@ -17,13 +19,26 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Destroy() override;
 
-	virtual void OnTriggerEnter(Ref<ColliderComponent> other) override;
-	virtual void OnTriggerExit(Ref<ColliderComponent> other) override;
+	virtual void OnTriggerEnter(ColliderComponent* other) override;
+	virtual void OnTriggerExit(ColliderComponent* other) override;
+
+	inline bool IsPressed() const { return m_IsPressed; }
+
+private:
+	void Handle();
+	
+	void Press();
+	void Release();
 
 private:
 	Ref<Platform> m_Platform;
 	std::vector<Ref<Button>> m_ConnectedButtons;
 	int m_TriggeringActorsCount;
+
+	Ref<Material> m_NormalMaterial;
+	Ref<Material> m_PressedMaterial;
+
+	Ref<AudioSourceComponent> m_AudioSource;
 
 	bool m_IsPressed;
 

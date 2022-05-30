@@ -5,6 +5,7 @@
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
 #include "Math/Math.h"
+#include "Camera/CameraManager.h"
 
 #include "ParticleEmitterSphere.h"
 #include "ParticleEmitterBox.h"
@@ -32,6 +33,7 @@ ParticleSystemComponent::ParticleSystemComponent(Actor* owner)
 	m_MaxParticleLifeTime = 2.0f;
 	m_StartParticleColor = glm::vec4(1.0f);
 	m_EndParticleColor = glm::vec4(0.0f);
+	m_EmissionRateFractional = 0.0f;
 
 	m_Shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Particle, "Particle");
 
@@ -61,14 +63,26 @@ void ParticleSystemComponent::Update(float deltaTime)
 		m_EmissionTime += deltaTime;
 		if (m_EmissionTime > 1.0f / m_EmissionRateOverTime)
 		{
-			int index = FindUnusedParticle();
+			float emissionRate = m_EmissionTime * m_EmissionRateOverTime;
+			float temp;
+			float fractional = glm::modf(emissionRate, temp);
 
-			if (index != -1)
-				EmitParticle(index);
+			int particlesEmissionCount = (int)(emissionRate + m_EmissionRateFractional);
+			m_EmissionRateFractional = fractional;
+
+			for (int i = 0; i < particlesEmissionCount; ++i)
+			{
+				int index = FindUnusedParticle();
+
+				if (index != -1)
+					EmitParticle(index);
+			}
 
 			m_EmissionTime = 0.0f;
 		}
 	}
+
+	std::sort(m_Particles.begin(), m_Particles.end());
 
 	for (int i = 0; i < m_MaxParticles; i++)
 	{
@@ -80,6 +94,8 @@ void ParticleSystemComponent::Update(float deltaTime)
 			particle.CurrentSize = Math::Lerp(particle.CurrentSize, m_EndParticleSize, 1 / particle.InitialLifeTime * deltaTime);
 			particle.Color = Math::Lerp(particle.Color, m_EndParticleColor, 1 / particle.InitialLifeTime * deltaTime);
 			particle.CurrentLifeTime -= deltaTime;
+
+			particle.DistanceFromCamera = Math::Distance(particle.Position, CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition());
 
 			m_ParticlesPositions[i] = glm::vec4(particle.Position, particle.CurrentSize);
 			m_ParticlesColors[i] = particle.Color;
@@ -193,6 +209,19 @@ void ParticleSystemComponent::SetMaxParticles(uint32_t count)
 	Reset();
 }
 
+void ParticleSystemComponent::SetEmitterShape(EmitterShape shape)
+{
+	switch (shape)
+	{
+	case EmitterShape::Box:
+		m_EmitterShape = CreateRef<ParticleEmitterBox>();
+		break;
+	case EmitterShape::Sphere:
+		m_EmitterShape = CreateRef<ParticleEmitterSphere>();
+		break;
+	}
+}
+
 int ParticleSystemComponent::FindUnusedParticle()
 {
 	for (int i = m_LastUsedParticleIndex; i < m_MaxParticles; i++)
@@ -236,6 +265,8 @@ void ParticleSystemComponent::EmitParticle(int index)
 
 	particle.InitialLifeTime = m_MinParticleLifeTime + ((float)rand() / (RAND_MAX / (m_MaxParticleLifeTime - m_MinParticleLifeTime)));
 	particle.CurrentLifeTime = particle.InitialLifeTime;
+
+	particle.DistanceFromCamera = Math::Distance(particle.Position, CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition());
 
 	m_Particles[index] = particle;
 	m_ParticlesPositions[index] = glm::vec4(particle.Position, particle.CurrentSize);

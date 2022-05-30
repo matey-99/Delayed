@@ -12,6 +12,7 @@
 #include "Scene/SceneManager.h"
 #include "Camera/CameraManager.h"
 #include "Analysis/Profiler.h"
+#include "Audio/AudioSystem.h"
 
 Ref<Application> Application::s_Instance{};
 
@@ -80,6 +81,10 @@ Ref<Application> Application::Create(std::string name)
         return Ref<Application>();
     }
 
+    auto vendor = glGetString(GL_VENDOR);
+    auto renderer = glGetString(GL_RENDERER);
+    std::cout << "VENDOR " << vendor << ", RENDERER: " << renderer << std::endl;
+
     s_Instance = app;
     return app;
 }
@@ -108,9 +113,15 @@ void Application::Run()
     // CAMERA
     auto cameraManager = CameraManager::GetInstance();
 
+    // AUDIO
+    auto audioSystem = AudioSystem::GetInstance();
+    audioSystem->Initialize();
+
     time->SetLastFrameTime(glfwGetTime());
     while (!glfwWindowShouldClose(m_Window))
     {
+        PROFILER_START("Frame Time");
+
         // INPUTS
         glfwPollEvents();
         input->Process();
@@ -119,6 +130,9 @@ void Application::Run()
         time->SetCurrentFrameTime(glfwGetTime());
         scene = sceneManager->GetCurrentScene();
         time->Tick(scene);
+
+        //AUDIO
+        audioSystem->Update(time->GetDeltaTime());
 
         // Check if window has changed
         int windowWidth, windowHeight;
@@ -134,11 +148,15 @@ void Application::Run()
         renderer->Render(scene, cameraManager->GetMainCamera());
         renderer->Display();
 
+        PROFILER_STOP();
+
         // ANALYSIS
         profiler->Update();
 
         glfwSwapBuffers(m_Window);
     }
+
+    audioSystem->Shutdown();
 
     glfwDestroyWindow(m_Window);
     glfwTerminate();

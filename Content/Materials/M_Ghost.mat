@@ -27,7 +27,7 @@ Float Parameters:
   - Name: u_Material.emissiveStrength
     Value: 2.55999994
   - Name: u_Material.opacity
-    Value: 0.600000024
+    Value: 0.300000012
   - Name: u_Material.metallic
     Value: 0
 Vec3 Parameters:

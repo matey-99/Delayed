@@ -12,6 +12,8 @@ private:
 	Ref<Scene> m_Scene;
 	Ref<Actor> m_SelectedActor;
 
+	std::string m_SearchActor;
+
 public:
 	SceneHierarchyPanel(Ref<Editor> editor, Ref<Scene> scene);
 	void Render();
@@ -26,4 +28,5 @@ public:
 
 private:
 	void TreeChildren(Ref<Actor> actor);
+	void ChangeParent(TransformBaseComponent* child, TransformBaseComponent* parent);
 };

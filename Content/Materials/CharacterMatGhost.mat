@@ -1,0 +1,58 @@
+Material: CharacterMatGhost
+ID: 451576698
+BlendMode: 1
+Shader: TransparentFresnel
+Bool Parameters:
+  - Name: u_Material.isAOMap
+    Value: false
+  - Name: u_Material.isMetallicMap
+    Value: false
+  - Name: u_Material.isOpacityMap
+    Value: false
+  - Name: u_Material.isAlbedoMap
+    Value: false
+  - Name: u_Material.isEmissiveMap
+    Value: false
+  - Name: u_Material.isNormalMap
+    Value: false
+  - Name: u_Material.isFresnelInversed
+    Value: true
+  - Name: u_Material.isRoughnessMap
+    Value: false
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: false
+Float Parameters:
+  - Name: u_Material.ao
+    Value: 0.610000014
+  - Name: u_Material.opacity
+    Value: 1
+  - Name: u_Material.metallic
+    Value: 0
+  - Name: u_Material.backgroundOpacity
+    Value: 0.0700000003
+  - Name: u_Material.roughness
+    Value: 0.100000001
+  - Name: u_Material.fresnelExponential
+    Value: 1.13
+  - Name: u_Material.emissiveStrength
+    Value: 7.19999981
+Vec3 Parameters:
+  - Name: u_Material.albedo
+    Value: [0.241013065, 0.833333313, 0.58943665]
+  - Name: u_Material.emissive
+    Value: [0.242887303, 0.65196079, 0.615866065]
+Texture Parameters:
+  - Name: u_Material.opacityMap
+    Path: "null"
+  - Name: u_Material.metallicMap
+    Path: "null"
+  - Name: u_Material.albedoMap
+    Path: "null"
+  - Name: u_Material.aoMap
+    Path: "null"
+  - Name: u_Material.emissiveMap
+    Path: "null"
+  - Name: u_Material.normalMap
+    Path: "null"
+  - Name: u_Material.roughnessMap
+    Path: "null"

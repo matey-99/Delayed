@@ -2,6 +2,7 @@
 
 #include "Scene/Actor.h"
 #include "Player.h"
+#include "SaveManager.h"
 
 Checkpoint::Checkpoint(Actor* owner)
 	: GameComponent(owner)
@@ -20,8 +21,29 @@ void Checkpoint::Start()
 	}
 }
 
-void Checkpoint::OnTriggerEnter(Ref<ColliderComponent> other)
+void Checkpoint::OnTriggerEnter(ColliderComponent* other)
 {
 	if (auto player = other->GetOwner()->GetComponent<Player>())
+	{
 		player->SetLastCheckpoint(this);
+		m_Owner->SetEnabled(false);
+
+		SaveManager::GetInstance()->SaveGame();
+	}
+}
+
+const SaveData Checkpoint::Save()
+{
+	SaveData data;
+	data.ActorID = m_Owner->GetID();
+	data.BoolFields.insert({ "Enabled", m_Owner->IsEnabled() });
+
+	return data;
+}
+
+void Checkpoint::Load(const SaveData& data)
+{
+	bool enabled = data.BoolFields.find("Enabled")->second;
+
+	m_Owner->SetEnabled(enabled);
 }

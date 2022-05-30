@@ -10,6 +10,7 @@
 
 class MeshBase;
 class MeshComponent;
+class FoliageComponent;
 class SkyLight;
 
 struct MaterialMesh
@@ -50,30 +51,10 @@ public:
 	Ref<Actor> FindActor(std::string name);
 	Ref<Actor> FindActor(uint64_t id);
 
+	Ref<Actor> SpawnActor(const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), Actor* parent = nullptr);
 	void DestroyActor(Actor* actor);
 
-	template <class T>
-	Ref<Actor> SpawnActor(const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), Ref<Actor> parent = nullptr)
-	{
-		Ref<Actor> actor = Actor::Create(this, "SpawnedActor" + std::to_string(m_Actors.size()));
-
-		auto transform = actor->AddComponent<TransformComponent>();
-		if (parent)
-			transform->SetParent(parent->GetTransform().get());
-		else
-			transform->SetParent(m_Root->GetComponent<TransformComponent>().get());
-
-		actor->SetTransform(transform);
-
-		actor->GetTransform()->SetLocalPosition(position);
-		actor->GetTransform()->SetLocalRotation(rotation);
-		
-		actor->AddComponent<T>();
-
-		m_ActorsAddedRuntime.push_back(actor);
-
-		return actor;
-	}
+	void FindEnabledActors(Actor* actor, std::vector<Actor*>& output);
 
 	template<typename T>
 	Ref<T> FindComponent()
@@ -142,14 +123,16 @@ public:
 	inline std::vector<Ref<Actor>> GetActors() const { return m_Actors; }
 	inline glm::vec4* GetBackgroundColor() { return &m_BackgroundColor; }
 	inline bool IsChangedSinceLastFrame() const { return m_ChangedSinceLastFrame; }
+	inline std::vector<Actor*> GetEnabledActors() const { return m_EnabledActors; }
 
 	inline void SetName(std::string name) { m_Name = name; }
 	inline void SetChangedSinceLastFrame(bool changed) { m_ChangedSinceLastFrame = changed; }
+	inline void SetEnabledActors(std::vector<Actor*> actors) { m_EnabledActors = actors; }
 
 private:
-	void GetEnabledActors(Actor* actor, std::vector<Actor*>& output);
 	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
 	void SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents);
+	void SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents);
     std::vector<Actor*> CullActors(std::vector<Actor*>& actors);
 	void UpdateMeshesRenderList();
 	void RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode);
@@ -160,6 +143,7 @@ private:
 	Ref<Actor> m_Root;
 	Ref<Actor> m_UIRoot;
 	std::vector<Ref<Actor>> m_Actors;
+	std::vector<Actor*> m_EnabledActors;
 	Ref<CameraComponent> m_CurrentCamera;
 	Ref<SkyLight> m_SkyLight;
 

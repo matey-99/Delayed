@@ -11,9 +11,9 @@ public:
     ColliderComponent(Actor *owner);
 
 public:
-    DelegateOneParam<Ref<ColliderComponent>> OnTriggerEnterDelegate;
-    DelegateOneParam<Ref<ColliderComponent>> OnTriggerStayDelegate;
-    DelegateOneParam<Ref<ColliderComponent>> OnTriggerExitDelegate;
+    DelegateOneParam<ColliderComponent*> OnTriggerEnterDelegate;
+    DelegateOneParam<ColliderComponent*> OnTriggerStayDelegate;
+    DelegateOneParam<ColliderComponent*> OnTriggerExitDelegate;
 
     virtual bool IsIntersect(const Ray& ray) = 0;
     virtual bool IsIntersect(const glm::vec3& point) = 0;

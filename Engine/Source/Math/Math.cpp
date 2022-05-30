@@ -117,6 +117,12 @@ float Math::Distance(const glm::vec3& a, const glm::vec3& b)
 	return glm::sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y) + (b.z - a.z) * (b.z - a.z));
 }
 
+bool Math::IsNearlyEqual(float a, float b, float errorTolerance)
+{
+	float c = glm::abs(a - b);
+	return c < errorTolerance;
+}
+
 bool Math::IsNearlyEqual(const glm::vec3& a, const glm::vec3& b, float errorTolerance)
 {
 	glm::vec3 c = glm::abs(a - b);

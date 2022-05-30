@@ -30,7 +30,9 @@ void LightingPass::Render(Ref<Scene> scene)
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 
-	auto g = Renderer::GetInstance()->m_GBufferPass;
+	auto renderer = Renderer::GetInstance();
+
+	auto g = renderer->m_GBufferPass;
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, g->GetRenderTarget()->GetTargets()[0]);
@@ -47,15 +49,19 @@ void LightingPass::Render(Ref<Scene> scene)
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, g->GetRenderTarget()->GetTargets()[4]);
 
-	auto s = Renderer::GetInstance()->m_ShadowsPass;
+	auto s = renderer->m_ShadowsPass;
 
 	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, s->GetDirectionalLightRenderTarget()->GetTargets()[0]);
 
-	auto ssao = Renderer::GetInstance()->m_SSAOPass;
+	if (renderer->GetSettings().SSAOEnabled)
+	{
+		auto& ssao = Renderer::GetInstance()->m_SSAOPass;
 
-	glActiveTexture(GL_TEXTURE6);
-	glBindTexture(GL_TEXTURE_2D, ssao->GetFinalRenderTarget()->GetTargets()[0]);
+		glActiveTexture(GL_TEXTURE6);
+		glBindTexture(GL_TEXTURE_2D, ssao->GetFinalRenderTarget()->GetTargets()[0]);
+	}
+
 
 	auto shader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "Lighting");
 	shader->Use();
@@ -66,16 +72,36 @@ void LightingPass::Render(Ref<Scene> scene)
 	shader->SetInt("u_GBufferMetallicRoughness", 4);
 	shader->SetInt("u_DirectionalLightShadowMaps", 5);
 	shader->SetInt("u_SSAO", 6);
+	shader->SetBool("u_SSAOEnabled", renderer->GetSettings().SSAOEnabled);
 
 	if (auto skyLight = scene->FindComponent<SkyLight>())
 	{
+		glActiveTexture(GL_TEXTURE7);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyLight->GetIrradianceMap());
+
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyLight->GetPrefilterMap());
+
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_2D, skyLight->GetBRDF());
+
+		shader->SetInt("u_IrradianceMap", 7);
+		shader->SetInt("u_PrefilterMap", 8);
+		shader->SetInt("u_BRDF", 9);
+
 		shader->SetVec3("u_SkyLightColor", skyLight->GetColor());
 		shader->SetFloat("u_SkyLightIntensity", skyLight->GetIntensity());
+		shader->SetFloat("u_SkyLightWeight", skyLight->GetWeight());
+
+		shader->SetBool("u_SkyLightEnabled", skyLight->GetOwner()->IsEnabled());
 	}
 	else
 	{
 		shader->SetVec3("u_SkyLightColor", glm::vec3(1.0f));
 		shader->SetFloat("u_SkyLightIntensity", 0.03f);
+		shader->SetFloat("u_SkyLightWeight", 0.0f);
+
+		shader->SetBool("u_SkyLightEnabled", false);
 	}
 
 	RenderTools::GetInstance()->RenderQuad();
