@@ -24,7 +24,7 @@ RendererSettings:
     Exposure: 1.20000005
     Contrast: 1.29999995
     ContrastPivot: 1
-    BloomEnabled: false
+    BloomEnabled: true
     BloomThreshold: 3.0999999
     BloomLimit: 15
     BloomIntensity: 0.699999988
@@ -604,7 +604,7 @@ Actors:
       - AudioSource:
           SoundPath: ../../../Content/Audio/Placeholders/ghost_ambient_placeholder.wav
           Channel: 2
-          Volume: 1
+          Volume: 0.1
           3d: true
           Looping: true
           PlayOnStart: true
@@ -684,8 +684,6 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 928121183
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
   - Actor: 1546630572
@@ -816,8 +814,6 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 1055560003
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
   - Actor: 1848602139
@@ -911,8 +907,6 @@ Actors:
           PlayOnStart: false
       - Button:
           Platform: 1572592382
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
   - Actor: 2141099751
@@ -1102,8 +1096,6 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 83962599
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
   - Actor: 786071119
@@ -1468,8 +1460,6 @@ Actors:
           Size: [1, 1.12, 1]
       - Button:
           Platform: 85858339
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
   - Actor: 901968064
@@ -1494,8 +1484,6 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 772960022
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             - ID: 922891651
   - Actor: 922891651
@@ -1520,8 +1508,6 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 772960022
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             - ID: 901968064
   - Actor: 670220481
@@ -1546,8 +1532,6 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 442381772
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
   - Actor: 612835070
@@ -1572,8 +1556,6 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 442381772
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
   - Actor: 60737776
@@ -1598,8 +1580,6 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 488783937
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
   - Actor: 14017580
@@ -1624,8 +1604,6 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 281502313
-          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
   - Actor: 85858339
@@ -2231,8 +2209,6 @@ Actors:
           Size: [1, 1, 1]
       - Button:
           Platform: 92569162
-          NormalMaterial: Materials/Default.mat
-          PressedMaterial: Materials/Default.mat
           ConnectedButtons:
             []
   - Actor: 92569162
@@ -2333,8 +2309,6 @@ Actors:
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - Button:
           Platform: 358775735
-          NormalMaterial: Materials/Default.mat
-          PressedMaterial: Materials/Default.mat
           ConnectedButtons:
             - ID: 886315206
   - Actor: 886315206
@@ -2355,8 +2329,6 @@ Actors:
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - Button:
           Platform: 358775735
-          NormalMaterial: Materials/Default.mat
-          PressedMaterial: Materials/Default.mat
           ConnectedButtons:
             - ID: 48731372
   - Actor: 358775735

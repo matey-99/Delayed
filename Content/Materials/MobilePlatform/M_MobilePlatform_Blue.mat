@@ -25,7 +25,7 @@ Float Parameters:
   - Name: u_Material.roughness
     Value: 1
   - Name: u_Material.emissiveStrength
-    Value: 10
+    Value: 1
   - Name: u_Material.opacity
     Value: 1
   - Name: u_Material.metallic
