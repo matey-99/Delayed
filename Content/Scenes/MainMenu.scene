@@ -13,9 +13,8 @@ RendererSettings:
     Radius: 0.5
     Bias: 0.449999988
   DepthFogSettings:
-    MinDistance: 15
-    MaxDistance: 125
     Density: 0.150000006
+    Height: 0.10
     Color: [0.470588237, 0.662745118, 0.87843138]
   PostProcessingSettings:
     Gamma: -1

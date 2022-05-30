@@ -13,6 +13,7 @@
 #include <Scene/Component/Collider/BoxColliderComponent.h>
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderPass/ShadowsPass.h"
+#include "Renderer/RenderPass/GBufferPass.h"
 #include "Component/TransformComponent.h"
 #include "Component/Light/SkyLight.h"
 #include "Component/UI/RectTransformComponent.h"
@@ -339,8 +340,18 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 			}
 		}
 
+        if (material->GetName() == "Water") {
+            material->GetShader()->SetFloat("u_FrameTime", Time::GetInstance()->GetElapsedTime());
+		}
+		
         if (material->GetName() == "Grass") {
             material->GetShader()->SetFloat("u_Time", Time::GetInstance()->GetElapsedTime());
+        }
+
+        if (material->GetName() == "FogPlane") {
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_GBufferPass->GetRenderTarget()->GetDepthTarget());
+            material->GetShader()->SetInt("u_SceneDepth", 1);
         }
 
 		std::vector<glm::mat4> transformations;

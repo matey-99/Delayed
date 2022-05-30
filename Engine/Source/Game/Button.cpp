@@ -85,7 +85,7 @@ void Button::Press()
 	m_IsPressed = true;
 
 	if (auto mesh = m_Owner->GetComponent<StaticMeshComponent>())
-		mesh->ChangeMaterial(0, m_PressedMaterial);
+		mesh->GetMaterials()[0]->GetShader()->SetBool("u_Material.isEmissiveMap", true);
 
 	if (m_AudioSource)
 	{
@@ -108,7 +108,7 @@ void Button::Release()
 	m_IsPressed = false;
 
 	if (auto mesh = m_Owner->GetComponent<StaticMeshComponent>())
-		mesh->ChangeMaterial(0, m_NormalMaterial);
+		mesh->GetMaterials()[0]->GetShader()->SetBool("u_Material.isEmissiveMap", false);
 
 	if (m_AudioSource)
 	{

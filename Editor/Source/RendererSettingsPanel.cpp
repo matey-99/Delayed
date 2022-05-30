@@ -51,9 +51,8 @@ void RendererSettingsPanel::Render()
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("Depth Fog");
-    ImGui::DragFloat("Fog Min Distance", &m_Renderer->m_DepthFogPass->m_Settings.MinDistance, 0.1f, 0.1f, 20.0f);
-    ImGui::DragFloat("Fog Max Distance", &m_Renderer->m_DepthFogPass->m_Settings.MaxDistance, 0.1f, 0.1f, 200.0f);
-    ImGui::DragFloat("Fog Density", &m_Renderer->m_DepthFogPass->m_Settings.Density, 0.01f, 0.01f, 1.0f);
+    ImGui::DragFloat("Fog Height", &m_Renderer->m_DepthFogPass->m_Settings.Height, 0.001f, 0.001f, 1.0f);
+    ImGui::DragFloat("Fog Density", &m_Renderer->m_DepthFogPass->m_Settings.Density, 0.001f, 0.001f, 1.0f);
     ImGui::ColorEdit3("Fog Color", glm::value_ptr(m_Renderer->m_DepthFogPass->m_Settings.Color));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 

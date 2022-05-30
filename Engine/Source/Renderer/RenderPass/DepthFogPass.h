@@ -7,9 +7,8 @@ class DepthFogPass {
 private:
 
     struct DepthFogSettings {
-        float MinDistance = 10.0f;
-        float MaxDistance = 100.0f;
         float Density = 0.2f;
+        float Height = 0.05f;
         glm::vec3 Color = glm::vec3(0.4f);
     };
 

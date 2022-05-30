@@ -1,0 +1,58 @@
+Material: Water
+ID: 636232864
+BlendMode: 0
+Shader: Water
+Bool Parameters:
+  - Name: u_Material.isAOMap
+    Value: false
+  - Name: u_Material.isOpacityMap
+    Value: false
+  - Name: u_Material.isMetallicMap
+    Value: false
+  - Name: u_Material.isAlbedoMap
+    Value: true
+  - Name: u_Material.isEmissiveMap
+    Value: false
+  - Name: u_Material.isNormalMap
+    Value: false
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: true
+  - Name: u_Material.isRoughnessMap
+    Value: false
+Float Parameters:
+  - Name: u_Material.ao
+    Value: 1
+  - Name: u_Material.roughness
+    Value: 0
+  - Name: u_Material.emissiveStrength
+    Value: 0
+  - Name: u_Material.opacity
+    Value: 1
+  - Name: u_Material.metallic
+    Value: 0
+  - Name: u_Material.waveStrength
+    Value: 0.0299999993
+  - Name: u_Material.waveSpeed
+    Value: 0.00999999978
+Vec3 Parameters:
+  - Name: u_Material.albedo
+    Value: [1, 1, 1]
+  - Name: u_Material.emissive
+    Value: [1, 1, 1]
+Texture Parameters:
+  - Name: u_Material.opacityMap
+    Path: "null"
+  - Name: u_Material.metallicMap
+    Path: "null"
+  - Name: u_Material.albedoMap
+    Path: Textures/Water/water.png
+  - Name: u_Material.aoMap
+    Path: "null"
+  - Name: u_Material.emissiveMap
+    Path: "null"
+  - Name: u_Material.flowMap
+    Path: Textures/Water/waterdudv2.jpg
+  - Name: u_Material.normalMap
+    Path: "null"
+  - Name: u_Material.roughnessMap
+    Path: "null"
