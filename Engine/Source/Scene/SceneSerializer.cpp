@@ -662,8 +662,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto button = component["Button"])
 					{
 						uint64_t platformActorID = button["Platform"].as<uint64_t>();
-						Ref<Material> normalMaterial = AssetManager::LoadMaterial(button["NormalMaterial"].as<std::string>());
-						Ref<Material> pressedMaterial = AssetManager::LoadMaterial(button["PressedMaterial"].as<std::string>());
+						//Ref<Material> normalMaterial = AssetManager::LoadMaterial(button["NormalMaterial"].as<std::string>());
+						//Ref<Material> pressedMaterial = AssetManager::LoadMaterial(button["PressedMaterial"].as<std::string>());
 
 						std::vector<uint64_t> connectedButtonsIDs;
 						YAML::Node connectedButtons = button["ConnectedButtons"];
@@ -674,8 +674,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 						auto b = a->CreateComponent<Button>();
 						b->m_PlatformID = platformActorID;
-						b->m_NormalMaterial = normalMaterial;
-						b->m_PressedMaterial = pressedMaterial;
+						//b->m_NormalMaterial = normalMaterial;
+						//b->m_PressedMaterial = pressedMaterial;
 						b->m_ConnectedButtonsIDs = connectedButtonsIDs;
 					}
 

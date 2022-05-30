@@ -80,7 +80,7 @@ Actors:
           Mesh: Models/platformBig00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/m_platformBig00.mat
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -100,7 +100,7 @@ Actors:
           Mesh: Models/platformBig00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/m_platformBig00.mat
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -254,7 +254,7 @@ Actors:
           Mesh: Models/platformBig01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformBig01.mat
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -318,7 +318,7 @@ Actors:
           Mesh: Models/platformBig00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/m_platformBig00.mat
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -338,7 +338,7 @@ Actors:
           Mesh: Models/platformBig00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/m_platformBig00.mat
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -374,7 +374,7 @@ Actors:
           Mesh: Models/platformBig01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformBig01.mat
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -394,7 +394,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -418,7 +418,7 @@ Actors:
           Mesh: Models/platformBig01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformBig01.mat
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -438,7 +438,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -473,7 +473,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -493,7 +493,7 @@ Actors:
           Mesh: Models/platformBig01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformBig01.mat
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -596,7 +596,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/M_Ghost.mat
+              Path: Materials/M_GhostObject.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -625,7 +625,7 @@ Actors:
           Mesh: Models/platformBig01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformBig01.mat
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -677,14 +677,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 928121183
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
@@ -703,7 +703,7 @@ Actors:
           Mesh: Models/platformBig00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/m_platformBig00.mat
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -723,7 +723,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -743,7 +743,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -789,7 +789,7 @@ Actors:
           Mesh: Models/platformBig01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformBig01.mat
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -809,14 +809,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 1055560003
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
@@ -857,7 +857,7 @@ Actors:
           Mesh: Models/platformBig00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/m_platformBig00.mat
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -877,7 +877,7 @@ Actors:
           Mesh: Models/platformBig00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/m_platformBig00.mat
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -897,7 +897,7 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -911,7 +911,7 @@ Actors:
           PlayOnStart: false
       - Button:
           Platform: 1572592382
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
@@ -963,7 +963,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1075,7 +1075,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1095,14 +1095,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 83962599
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
@@ -1121,7 +1121,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1141,7 +1141,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1161,7 +1161,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1181,7 +1181,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1201,7 +1201,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1221,7 +1221,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1241,7 +1241,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1261,7 +1261,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1281,7 +1281,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1301,7 +1301,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1321,7 +1321,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1341,7 +1341,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/M_Ghost.mat
+              Path: Materials/M_GhostObject.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -1361,7 +1361,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/M_Ghost.mat
+              Path: Materials/M_GhostObject.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -1381,7 +1381,7 @@ Actors:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/M_Ghost.mat
+              Path: Materials/M_GhostObject.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -1401,7 +1401,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1421,7 +1421,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1441,7 +1441,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1461,14 +1461,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.12, 1]
       - Button:
           Platform: 85858339
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
@@ -1487,14 +1487,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 772960022
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             - ID: 922891651
@@ -1513,14 +1513,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 772960022
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             - ID: 901968064
@@ -1539,14 +1539,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 442381772
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
@@ -1565,14 +1565,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 442381772
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
@@ -1591,14 +1591,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 488783937
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
@@ -1617,14 +1617,14 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 281502313
-          NormalMaterial: Materials/M_PressurePlatform.mat
+          NormalMaterial: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           PressedMaterial: Materials/M_PressurePlatform_Pressed.mat
           ConnectedButtons:
             []
@@ -1643,7 +1643,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1667,7 +1667,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1691,7 +1691,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1715,7 +1715,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1739,7 +1739,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1763,7 +1763,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1838,7 +1838,7 @@ Actors:
           Mesh: Models/platformBig01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformBig01.mat
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1889,7 +1889,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1909,7 +1909,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1929,7 +1929,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1949,7 +1949,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1969,7 +1969,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1989,7 +1989,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2009,7 +2009,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2164,7 +2164,7 @@ Actors:
           Mesh: Models/platformBig01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformBig01.mat
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2184,7 +2184,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2204,7 +2204,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2224,7 +2224,7 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2250,7 +2250,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2274,7 +2274,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2294,7 +2294,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
   - Actor: 141076908
     ID: 141076908
     Name: SmallPlatform2
@@ -2310,7 +2310,7 @@ Actors:
           Mesh: Models/platformSmall00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformSmall00.mat
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2330,7 +2330,7 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - Button:
           Platform: 358775735
           NormalMaterial: Materials/Default.mat
@@ -2352,7 +2352,7 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PressurePlatform.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - Button:
           Platform: 358775735
           NormalMaterial: Materials/Default.mat
@@ -2374,7 +2374,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_MobilePlatform.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
       - Platform:
           Direction: [0, 1, 0]
           Distance: 5
@@ -2394,7 +2394,7 @@ Actors:
           Mesh: Models/platformBig01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_PlatformBig01.mat
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
