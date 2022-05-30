@@ -341,7 +341,7 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 		}
 
         if (material->GetName() == "Water") {
-            material->GetShader()->SetFloat("u_FrameTime", Time::GetInstance()->GetCurrentFrameTime());
+            material->GetShader()->SetFloat("u_FrameTime", Time::GetInstance()->GetElapsedTime());
 		}
 		
         if (material->GetName() == "Grass") {

@@ -2422,7 +2422,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [10.5126143, 4.73177528, -35.4030151]
+          LocalPosition: [22.9256897, 2.75031281, -46.3857231]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
