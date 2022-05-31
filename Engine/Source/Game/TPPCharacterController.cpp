@@ -62,17 +62,29 @@ void TPPCharacterController::Move(glm::vec3 direction, const CharacterMovementPa
 void TPPCharacterController::Rotate(Ref<CameraController> camera, glm::vec3 inputDirection, float deltaTime)
 {
     glm::vec3 currentRotation = m_Owner->GetTransform()->GetLocalRotation();
-    glm::vec3 targetRotation = currentRotation;
+    glm::vec3 targetRotation = camera->GetOwner()->GetTransform()->GetLocalRotation();
+    glm::vec3 rotation = glm::vec3(0.0f);
 
-    // TODO: Fix jittering
-    if (inputDirection.z > 0.0f)
-        targetRotation = Math::Lerp(currentRotation, camera->GetOwner()->GetTransform()->GetLocalRotation() + glm::vec3(0, 180, 0), 0.4f);
-    else if (inputDirection.z == -1.0f)
-        targetRotation = Math::Lerp(currentRotation, camera->GetOwner()->GetTransform()->GetLocalRotation(), 0.3);
-    else if (inputDirection.x == 1.0f)
-        targetRotation = Math::Lerp(currentRotation, camera->GetOwner()->GetTransform()->GetLocalRotation() + glm::vec3(0, 90, 0), 0.3);
-    else if (inputDirection.x == -1.0f)
-        targetRotation = Math::Lerp(currentRotation, camera->GetOwner()->GetTransform()->GetLocalRotation() + glm::vec3(0, 270, 0), 0.3);
+    float turnSpeed = 10.0f;
+
+    // TODO: Fix fast 360 rotation
+    if (inputDirection.z == 1.0f)
+        rotation += glm::vec3(0,180,0);
+    if (inputDirection.x == 1.0f)
+        rotation += glm::vec3(0,90,0);
+    if (inputDirection.x == -1.0f)
+        rotation += glm::vec3(0,-90,0);
+    if (inputDirection.z == 1.0f && inputDirection.x == 1.0f)
+        rotation += glm::vec3(0,-135,0);
+    if (inputDirection.z == 1.0f && inputDirection.x == -1.0f)
+        rotation += glm::vec3(0,135,0);
+    if (inputDirection.z == -1.0f && inputDirection.x == 1.0f)
+        rotation += glm::vec3(0,-45,0);
+    if (inputDirection.z == -1.0f && inputDirection.x == -1.0f)
+        rotation += glm::vec3(0,45,0);
+
+    targetRotation = Math::Lerp(currentRotation, targetRotation + rotation, deltaTime * turnSpeed);
+
 
     m_Owner->GetTransform()->SetLocalRotation(targetRotation);
 }
