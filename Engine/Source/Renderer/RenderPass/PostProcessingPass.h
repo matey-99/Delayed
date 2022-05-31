@@ -37,6 +37,10 @@ public:
 		float Saturation = 1.0f;
 		float Temperature = 66.0f;
 		float Hue = 180.0f;
+
+        // Chromatic Aberration
+        bool AberrationEnabled = false;
+        glm::vec3 AberrationShift = glm::vec3(0.0f);
 	};
 
 public:

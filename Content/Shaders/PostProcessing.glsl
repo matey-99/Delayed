@@ -39,6 +39,9 @@ layout (location = 11) uniform float u_Gain;
 layout (location = 12) uniform float u_Contrast;
 layout (location = 13) uniform float u_ContrastPivot;
 
+layout (location = 14) uniform bool u_IsAberration;
+layout (location = 15) uniform vec3 u_AberrationShift;
+
 
 // https://gist.github.com/sugi-cho/6a01cae436acddd72bdf
 vec3 rgb2hsv(vec3 c)
@@ -99,8 +102,15 @@ vec3 LinearToSRGB(vec3 rgb)
 float Luma(vec3 color) { return dot(color, vec3(0.2126, 0.7152, 0.0722)); }
 
 void main()
-{    
-    vec3 col = texture(u_Screen, v_TexCoord).rgb;
+{
+    vec3 col;
+    if (u_IsAberration) {
+        col.r = texture(u_Screen, v_TexCoord + u_AberrationShift.x).r;
+        col.g = texture(u_Screen, v_TexCoord + u_AberrationShift.y).g;
+        col.b = texture(u_Screen, v_TexCoord + u_AberrationShift.z).b;
+    } else {
+        col = texture(u_Screen, v_TexCoord).rgb;
+    }
 
     // SATURATION
     col = sat(col);

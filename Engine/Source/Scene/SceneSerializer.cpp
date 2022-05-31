@@ -92,6 +92,8 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "Saturation" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Saturation;
 	out << YAML::Key << "Temperature" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Temperature;
 	out << YAML::Key << "Hue" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Hue;
+    out << YAML::Key << "AberrationEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationEnabled;
+    out << YAML::Key << "AberrationShift" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationShift;
 	out << YAML::EndMap;
 
 	out << YAML::Key << "VignetteSettings" << YAML::Value << YAML::BeginMap;
@@ -177,6 +179,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	float saturation = data["RendererSettings"]["PostProcessingSettings"]["Saturation"].as<float>();
 	float temperature = data["RendererSettings"]["PostProcessingSettings"]["Temperature"].as<float>();
 	float hue = data["RendererSettings"]["PostProcessingSettings"]["Hue"].as<float>();
+	bool aberration = data["RendererSettings"]["PostProcessingSettings"]["AberrationEnabled"].as<bool>();
+    glm::vec3 aberrationShift = data["RendererSettings"]["PostProcessingSettings"]["AberrationShift"].as<glm::vec3>();
 
 	/* Vignette settings */
 	float vignetteIntensity = data["RendererSettings"]["VignetteSettings"]["Intensity"].as<float>();
@@ -224,6 +228,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	renderer->m_PostProcessingPass->m_Settings.Saturation = saturation;
 	renderer->m_PostProcessingPass->m_Settings.Temperature = temperature;
 	renderer->m_PostProcessingPass->m_Settings.Hue = hue;
+	renderer->m_PostProcessingPass->m_Settings.AberrationEnabled = aberration;
+	renderer->m_PostProcessingPass->m_Settings.AberrationShift = aberrationShift;
 
 	/* Setup Vignette settings */
 	renderer->m_VignettePass->m_Settings.Intensity = vignetteIntensity;

@@ -212,6 +212,9 @@ void PostProcessingPass::Render(uint32_t input)
 	postProcessingShader->SetFloat("u_Contrast", m_Settings.Contrast);
 	postProcessingShader->SetFloat("u_ContrastPivot", m_Settings.ContrastPivot);
 
+    postProcessingShader->SetBool("u_IsAberration", m_Settings.AberrationEnabled);
+    postProcessingShader->SetVec3("u_AberrationShift", m_Settings.AberrationShift);
+
 	RenderTools::GetInstance()->RenderQuad();
 
 	glEnable(GL_DEPTH_TEST);
