@@ -32,6 +32,8 @@ RendererSettings:
     Saturation: 1.10000002
     Temperature: 75
     Hue: 180
+    AberrationEnabled: false
+    AberrationShift: [0.0120000001, -0.00800000038, -0.00200000009]
   VignetteSettings:
     Intensity: 10.5
     Size: 0.174999997
