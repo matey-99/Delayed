@@ -668,6 +668,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto button = component["Button"])
 					{
 						uint64_t platformActorID = button["Platform"].as<uint64_t>();
+						float platformDelayTime = button["PlatformDelayTime"].as<float>();
 
 						std::vector<uint64_t> connectedButtonsIDs;
 						YAML::Node connectedButtons = button["ConnectedButtons"];
@@ -677,6 +678,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						}
 
 						auto b = a->CreateComponent<Button>();
+						b->m_PlatformDelayTime = platformDelayTime;
 						b->m_PlatformID = platformActorID;
 						b->m_ConnectedButtonsIDs = connectedButtonsIDs;
 					}
@@ -1180,6 +1182,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Button";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Platform" << YAML::Value << button->m_PlatformID;
+		out << YAML::Key << "PlatformDelayTime" << YAML::Value << button->m_PlatformDelayTime;
 		out << YAML::Key << "ConnectedButtons" << YAML::Value << YAML::BeginSeq;
 		for (int i = 0; i < button->m_ConnectedButtonsIDs.size(); i++)
 		{

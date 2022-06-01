@@ -686,6 +686,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 928121183
+          PlatformDelayTime: 0
           ConnectedButtons:
             []
   - Actor: 1546630572
@@ -816,6 +817,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 1055560003
+          PlatformDelayTime: 0
           ConnectedButtons:
             []
   - Actor: 1848602139
@@ -909,6 +911,7 @@ Actors:
           PlayOnStart: false
       - Button:
           Platform: 1572592382
+          PlatformDelayTime: 0
           ConnectedButtons:
             []
   - Actor: 2141099751
@@ -1098,6 +1101,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 83962599
+          PlatformDelayTime: 0
           ConnectedButtons:
             []
   - Actor: 786071119
@@ -1462,6 +1466,7 @@ Actors:
           Size: [1, 1.12, 1]
       - Button:
           Platform: 85858339
+          PlatformDelayTime: 0
           ConnectedButtons:
             []
   - Actor: 901968064
@@ -1486,6 +1491,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 772960022
+          PlatformDelayTime: 1
           ConnectedButtons:
             - ID: 922891651
   - Actor: 922891651
@@ -1510,6 +1516,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 772960022
+          PlatformDelayTime: 1
           ConnectedButtons:
             - ID: 901968064
   - Actor: 670220481
@@ -1534,6 +1541,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 442381772
+          PlatformDelayTime: 1
           ConnectedButtons:
             []
   - Actor: 612835070
@@ -1558,6 +1566,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 442381772
+          PlatformDelayTime: 1
           ConnectedButtons:
             []
   - Actor: 60737776
@@ -1582,6 +1591,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 488783937
+          PlatformDelayTime: 0
           ConnectedButtons:
             []
   - Actor: 14017580
@@ -1606,6 +1616,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 281502313
+          PlatformDelayTime: 0
           ConnectedButtons:
             []
   - Actor: 85858339
@@ -2212,6 +2223,7 @@ Actors:
           Size: [1, 1, 1]
       - Button:
           Platform: 92569162
+          PlatformDelayTime: 0
           ConnectedButtons:
             []
   - Actor: 92569162
@@ -2312,6 +2324,7 @@ Actors:
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - Button:
           Platform: 358775735
+          PlatformDelayTime: 0
           ConnectedButtons:
             - ID: 886315206
   - Actor: 886315206
@@ -2332,6 +2345,7 @@ Actors:
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - Button:
           Platform: 358775735
+          PlatformDelayTime: 0
           ConnectedButtons:
             - ID: 48731372
   - Actor: 358775735

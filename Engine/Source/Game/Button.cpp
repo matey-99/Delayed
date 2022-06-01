@@ -19,6 +19,8 @@ Button::Button(Actor* owner)
 	m_EmissionTime = 0.2f;
 	m_EmissionTimer = 0.0f;
 
+	m_PlatformDelayTime = 0.0f;
+
 	m_Material = nullptr;
 }
 
@@ -150,5 +152,19 @@ void Button::Release()
 			shouldPlatformBeActive = true;
 	}
 
-	m_Platform->SetActive(shouldPlatformBeActive);
+	if (!shouldPlatformBeActive && m_PlatformDelayTime == 0.0f)
+	{
+		Event e;
+		e.Add(&Button::DeactivatePlatform, this);
+		m_PlatformDelayTimerHandle = TimerManager::GetInstance()->SetTimer(e, m_PlatformDelayTime, false);
+	}
+	else
+		m_Platform->SetActive(shouldPlatformBeActive);
+}
+
+void Button::DeactivatePlatform()
+{
+	m_Platform->SetActive(false);
+
+	TimerManager::GetInstance()->ClearTimer(m_PlatformDelayTimerHandle);
 }

@@ -732,6 +732,8 @@ void ActorDetailsPanel::Render()
         if (ImGui::Button("X"))
             m_Actor->RemoveComponent<Button>();
 
+
+        ImGui::DragFloat("Platform Delay", &button->m_PlatformDelayTime, 0.1f, 0.0f, 10.0f);
         size_t maxSize = 128;
         std::string idStr = std::to_string(button->m_PlatformID);
         char* id = (char*)idStr.c_str();
