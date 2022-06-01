@@ -736,9 +736,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto obelisk = component["Obelisk"])
 					{
+						int effect = obelisk["Effect"].as<int>();
 						uint64_t postFXID = obelisk["PostFX"].as<uint64_t>();
 
 						auto o = a->CreateComponent<Obelisk>();
+						o->m_Effect = (ObeliskEffect)effect;
 						o->m_PostFXID = postFXID;
 					}
 
@@ -1272,6 +1274,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Obelisk";
 		out << YAML::BeginMap;
+		out << YAML::Key << "Effect" << YAML::Value << (int)obelisk->m_Effect;
 		out << YAML::Key << "PostFX" << YAML::Value << obelisk->m_PostFXID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;

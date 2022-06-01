@@ -81,10 +81,6 @@ Ref<Application> Application::Create(std::string name)
         return Ref<Application>();
     }
 
-    auto vendor = glGetString(GL_VENDOR);
-    auto renderer = glGetString(GL_RENDERER);
-    std::cout << "VENDOR " << vendor << ", RENDERER: " << renderer << std::endl;
-
     s_Instance = app;
     return app;
 }

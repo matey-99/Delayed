@@ -29,6 +29,7 @@ public:
 	void BackToNormal();
 
 	inline Ref<Actor> GetGhost() const { return m_Ghost; }
+	inline Ref<Trail> GetTrail() const { return m_Trail; }
 
 private:
 	void MoveForward(float value);
@@ -86,6 +87,8 @@ private:
 	glm::vec3 m_LastCheckpointPosition;
 	glm::vec3 m_StaminaBarDefaultScale;
 	glm::vec3 m_TeleportDestinationPosition;
+	glm::vec3 m_LastPosition;
+	glm::vec3 m_MoveDirectionCopy;
 	float m_DashCooldownTimer;
 	float m_TeleportCooldownTimer;
 

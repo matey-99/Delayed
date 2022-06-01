@@ -10,11 +10,14 @@
 #include "Time/Time.h"
 #include "Time/TimerManager.h"
 #include "Game/Player.h"
+#include "Game/Ghost.h"
+#include "Game/PickableSkill.h"
 
 Obelisk::Obelisk(Actor* owner)
 	: GameComponent(owner)
 {
 	m_Used = false;
+	m_Effect = ObeliskEffect::Corrupt;
 	m_TimeToGetEffect = 3.0f;
 
 	m_PostFXID = 0;
@@ -109,6 +112,19 @@ void Obelisk::GetEffect()
 	
 	m_ParticleSystem->SetEmissionRateOverTime(0.0f);
 	m_PostFX->GetOwner()->SetEnabled(false);
+
+	switch (m_Effect)
+	{
+	case ObeliskEffect::Corrupt:
+		m_Player->GetGhost()->GetComponent<Ghost>()->Corrupt();
+		break;
+	case ObeliskEffect::Heal:
+		m_Player->GetGhost()->GetComponent<Ghost>()->Heal();
+		break;
+	case ObeliskEffect::GiveTeleportSkill:
+		m_Player->AddSkill(SkillType::Teleport);
+		break;
+	}
 
 	TimerManager::GetInstance()->ClearTimer(m_EffectTimerHandle);
 }

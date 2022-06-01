@@ -590,15 +590,15 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 6.73608208, -13.0490322]
-          LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
-          LocalScale: [1, 2, 1]
+          LocalPosition: [40.7097855, 4.06759262, -20.7312832]
+          LocalRotation: [-90, 0, -2.57860975e-05]
+          LocalScale: [0.0125000002, 0.0125000002, 0.0125000002]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/character/Idle.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_GhostObject.mat
+              Path: Materials/Character/M_Ghost.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -996,7 +996,7 @@ Actors:
           Sprite: Textures/Default/Particle.png
           EmitterShape: 0
           EmitterSphereRadius: 0.25
-          MaxParticles: 200
+          MaxParticles: 1000
           EmissionRateOverTime: 50
           MinParticleSize: 0.25
           MaxParticleSize: 0.25
@@ -2068,6 +2068,7 @@ Actors:
           Center: [0, 0, 0]
           Size: 15
       - Obelisk:
+          Effect: 0
           PostFX: 238169961
   - Actor: 346402549
     ID: 346402549

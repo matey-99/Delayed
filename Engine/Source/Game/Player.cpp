@@ -39,6 +39,9 @@ Player::Player(Actor* owner)
 
 	m_DashCooldownTimer = 0.0f;
 	m_TeleportCooldownTimer = 0.0f;
+
+	m_LastPosition = glm::vec3(0.0f);
+	m_MoveDirectionCopy = glm::vec3(0.0f);
 }
 
 void Player::Start()
@@ -96,11 +99,11 @@ void Player::Update(float deltaTime)
 	}
 
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
-	{
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
 
+	glm::vec3 currentPosition = m_Owner->GetTransform()->GetWorldPosition();
+	if (!Math::IsNearlyEqual(currentPosition, m_LastPosition, 0.01f))
 		m_Trail->EnableTrailParticlesEmission(true);
-	}
 	else
 		m_Trail->EnableTrailParticlesEmission(false);
 
@@ -115,6 +118,8 @@ void Player::Update(float deltaTime)
 
 	HandleSkillsCooldowns(deltaTime);
 	HandleHUD();
+
+	m_LastPosition = currentPosition;
 
 	// Reset move direction & rotation
 	m_MoveDirection = glm::vec3(0.0f);

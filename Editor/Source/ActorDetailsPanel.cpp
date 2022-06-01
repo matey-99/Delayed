@@ -802,6 +802,32 @@ void ActorDetailsPanel::Render()
         if (ImGui::Button("X"))
             m_Actor->RemoveComponent<Obelisk>();
 
+        const char* effectName = "";
+        switch (obelisk->m_Effect)
+        {
+        case ObeliskEffect::Corrupt:
+            effectName = "Corrupt";
+            break;
+        case ObeliskEffect::Heal:
+            effectName = "Heal";
+            break;
+        case ObeliskEffect::GiveTeleportSkill:
+            effectName = "Give Teleport Skill";
+            break;
+        }
+
+        if (ImGui::BeginCombo("Effect", effectName))
+        {
+            if (ImGui::Selectable("Corrupt"))
+                obelisk->m_Effect = ObeliskEffect::Corrupt;
+            if (ImGui::Selectable("Heal"))
+                obelisk->m_Effect = ObeliskEffect::Heal;
+            if (ImGui::Selectable("Give Teleport Skill"))
+                obelisk->m_Effect = ObeliskEffect::GiveTeleportSkill;
+
+            ImGui::EndCombo();
+        }
+
         size_t maxSize = 128;
         std::string idStr = std::to_string(obelisk->m_PostFXID);
         char* id = (char*)idStr.c_str();
