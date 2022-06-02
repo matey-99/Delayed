@@ -2,6 +2,7 @@ Scene: MainMenu
 CurrentCamera: 968085101
 RendererSettings:
   SSAO: false
+  SSR: true
   DepthFog: true
   PostProcessing: true
   FXAA: true
@@ -12,6 +13,12 @@ RendererSettings:
     KernelSize: 64
     Radius: 0.5
     Bias: 0.449999988
+  SSRSettings:
+    MaxSteps: 200
+    MinRayStep: 0.0299999993
+    RayStep: 0.0299999993
+    NumBinarySearchSteps: 20
+    ReflectionSpecularFalloffExponent: 8
   DepthFogSettings:
     MinDistance: 15
     MaxDistance: 125

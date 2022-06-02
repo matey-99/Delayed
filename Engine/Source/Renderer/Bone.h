@@ -3,17 +3,11 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include <vector>  // why sometimes I need to include it and sometimes not XD
+#include <vector>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
-
-//struct BoneInfo
-//{
-//	int ID;				// index in finalBoneMatrices (global bone id)
-//	glm::mat4 Offset;	// offset matrix transforms vertex from model space to bone space
-//};
 
 struct KeyPosition
 {
