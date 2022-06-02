@@ -17,6 +17,7 @@ SSRPass::SSRPass()
 
 SSRPass::~SSRPass()
 {
+
 }
 
 void SSRPass::Render(uint32_t input)

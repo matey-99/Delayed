@@ -44,6 +44,9 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> vignette = AssetManager::LoadShader("Shaders/Vignette.glsl");
 	m_PostProcessingShaders.insert({ vignette->GetName(), vignette });
 
+	Ref<Shader> motionBlur = AssetManager::LoadShader("Shaders/MotionBlur.glsl");
+	m_PostProcessingShaders.insert({ motionBlur->GetName(), motionBlur });
+
 	Ref<Shader> blur = AssetManager::LoadShader("Shaders/Blur.glsl");
 	m_PostProcessingShaders.insert({ blur->GetName(), blur });
 

@@ -53,8 +53,10 @@ public:
 	virtual float GetFarClipPlane() override;
 
 	virtual glm::mat4 GetViewMatrix() override;
+	virtual glm::mat4 GetPreviousViewMatrix() override;
 	virtual glm::mat4 GetProjectionMatrix() override;
 	virtual glm::mat4 GetViewProjectionMatrix() override;
+	virtual glm::mat4 GetPreviousViewProjectionMatrix() override;
 
 	virtual Ref<Frustum> GetFrustum() override;
 
@@ -65,6 +67,11 @@ private:
 	glm::vec3 CalculateRightVector();
 
 private:
+	glm::mat4 m_ViewMatrix;
+	glm::mat4 m_PreviousViewMatrix;
+	glm::mat4 m_ViewProjectionMatrix;
+	glm::mat4 m_PreviousViewProjectionMatrix;
+
 	float m_MovementSpeed;
 	float m_RotateSpeed;
 	Scene* m_Scene;
