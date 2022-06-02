@@ -19,7 +19,7 @@ class Animator : public Component
 	float m_DeltaTime;
 	int m_CurrentAnimationNumber = 0;
 
-	Ref<Animation> m_Animations[2];  // Animations to blend between. Uses m_BlendFactor. Use this instead of m_CurrentAnimation.
+	Ref<Animation> m_Animations[3];  // Animations to blend between. Uses m_BlendFactor. Use this instead of m_CurrentAnimation.
 
 
 public:
@@ -54,7 +54,7 @@ public:
 
 	float GetCurrentAnimationTime() { return m_CurrentTime; }
 
-	std::string GetCurrentAnimationName() { return m_CurrentAnimation->GetAnimationName(); }
+	//std::string GetCurrentAnimationName() { return m_Animations->GetAnimationName(); }
 
 	bool HasSkeletalMeshComponent()
 	{
@@ -87,17 +87,30 @@ public:
 
 		// Set animation for blend-mode
 		// To fix: to make it more dynamic m_Animations might be a vector
-		if (m_SkeletalMeshComponent->HowManyAnimations() > 1)
+		if (m_SkeletalMeshComponent->HowManyAnimations() > 2)
 		{
-			int animationsToBlend = 2;  // hard-coded, might be: HowManyAnimations()
+			int animationsToBlend = 3;  // hard-coded, might be: HowManyAnimations()
 
 			for (int index = 0; index < animationsToBlend; index++)
 				m_Animations[index] = m_SkeletalMeshComponent->GetAnimation(index);
 		}
 	}
 
+	std::vector<Ref<Animation>> GetAnimations() { return m_SkeletalMeshComponent->GetAnimations(); }
+	Ref<Animation> GetAnimation(int index) { return m_Animations[index]; }
+	void SetAnimation1(Ref<Animation> anim) { if (anim) m_Animations[0] = anim; }
+	void SetAnimation2(Ref<Animation> anim) { if (anim) m_Animations[1] = anim; }
+	void SetAnimation3(Ref<Animation> anim) { if (anim) m_Animations[2] = anim; }
+
+	// Jump
+	void ForceAnimation(float blendSpeed, Ref<Animation> animation)
+	{
+
+	};
+
+
 	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);
-	void BlendAnimations(Ref<Animation> pAnim, Ref<Animation> lAnim);
+	void BlendAnimations(Ref<Animation> pAnim, Ref<Animation> lAnim, Ref<Animation> aAnim);
 	void ComputeBlendedBoneTransforms(
 		Ref<Animation> pAnim, const AssimpNodeData* pNode,
 		Ref<Animation> lAnim, const AssimpNodeData* lNode,
@@ -105,4 +118,8 @@ public:
 		glm::mat4 parentTransform );
 
 	float m_BlendFactor = 0.f;
+	float m_BlendFactor2 = 0.f;
+
+	float m_PAnimSpeed = 1.0f;
+	float m_LAnimSpeed = 1.0f;
 };

@@ -320,11 +320,50 @@ void ActorDetailsPanel::Render()
         if (ImGui::Button("Debug display animation names"))
             animator->DebugDisplayAnimationNames();
 
+        // Lists: Begin
+        if (ImGui::BeginCombo("Animation No. 1", animator->GetAnimation(0)->GetAnimationName().c_str()))
+        {
+            for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
+            {
+                Ref<Animation> animation = animator->GetAnimations()[i];
+                if (ImGui::Selectable(animation->GetAnimationName().c_str()))
+                    animator->SetAnimation1(animation);
+            }
+            ImGui::EndCombo();
+        }
+
+        if (ImGui::BeginCombo("Animation No. 2", animator->GetAnimation(1)->GetAnimationName().c_str()))
+        {
+            for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
+            {
+                Ref<Animation> animation = animator->GetAnimations()[i];
+                if (ImGui::Selectable(animation->GetAnimationName().c_str()))
+                    animator->SetAnimation2(animation);
+            }
+            ImGui::EndCombo();
+        }
+
+        if (ImGui::BeginCombo("Animation No. 3 (Jump)", animator->GetAnimation(2)->GetAnimationName().c_str()))
+        {
+            for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
+            {
+                Ref<Animation> animation = animator->GetAnimations()[i];
+                if (ImGui::Selectable(animation->GetAnimationName().c_str()))
+                    animator->SetAnimation3(animation);
+            }
+            ImGui::EndCombo();
+        }
+        // Lists: End
+
         if (ImGui::Button("Switch animation"))
             animator->DebugSwitchAnimation();
 
         ImGui::DragFloat("Blend Factor", &animator->m_BlendFactor, 0.02f, 0.0f, 1.0f);
+        ImGui::DragFloat("Blend Factor 2", &animator->m_BlendFactor2, 0.02f, 0.0f, 1.0f);
 
+        ImGui::Dummy(ImVec2(0.0, 10.0));
+        ImGui::DragFloat("Animation 1 speed", &animator->m_PAnimSpeed, 0.02f, 0.0f, 1.0f);
+        ImGui::DragFloat("Animation 2 speed", &animator->m_LAnimSpeed, 0.02f, 0.0f, 1.0f);
 
         ImGui::Dummy(ImVec2(0.0, 10.0));
         // [...]
