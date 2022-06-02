@@ -168,7 +168,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-34.6309319, 9.74896431, -50.1398277]
+          LocalPosition: [83.2915802, 25.4182758, -96.5878067]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -568,7 +568,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 11.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 0
@@ -2070,14 +2070,14 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [10.3274002, 3.77669883, -72.2735901]
-          LocalRotation: [0, 0, 0]
+          LocalPosition: [130.509277, 9.85863972, 88.7048645]
+          LocalRotation: [-180, 70.3284225, -180]
           LocalScale: [1, 1, 1]
           Parent: 0
       - SphereCollider:
           IsTrigger: true
           Center: [0, 0, 0]
-          Size: 15
+          Size: 8
       - Obelisk:
           Effect: 0
           PostFX: 238169961
@@ -2188,7 +2188,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [42.3443336, 1.43114376, 24.6600685]
+          LocalPosition: [42.0251732, 1.41283131, 25.2519722]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -2218,9 +2218,9 @@ Actors:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
       - BoxCollider:
-          IsTrigger: false
+          IsTrigger: true
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [1, 1.10000002, 1]
       - Button:
           Platform: 92569162
           PlatformDelayTime: 0
@@ -2248,8 +2248,8 @@ Actors:
           Size: [1, 1, 1]
       - Platform:
           Direction: [0, 1, 0]
-          Distance: 5
-          Speed: 5
+          Distance: 10
+          Speed: 25
   - Actor: 432395837
     ID: 432395837
     Name: SmallPlatform2
@@ -2277,7 +2277,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [65.9895935, 6.80806065, 40.7001572]
+          LocalPosition: [65.9895935, 6.60459423, 40.7001572]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -2286,6 +2286,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 141076908
     ID: 141076908
     Name: SmallPlatform2
@@ -2293,7 +2297,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [59.4377022, 6.80806065, 56.7610168]
+          LocalPosition: [59.2626534, 6.75102568, 56.5559082]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -2322,9 +2326,13 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1.20000005, 1]
       - Button:
           Platform: 358775735
-          PlatformDelayTime: 0
+          PlatformDelayTime: 2
           ConnectedButtons:
             - ID: 886315206
   - Actor: 886315206
@@ -2343,9 +2351,13 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1.10000002, 1]
       - Button:
           Platform: 358775735
-          PlatformDelayTime: 0
+          PlatformDelayTime: 2
           ConnectedButtons:
             - ID: 48731372
   - Actor: 358775735
@@ -2364,10 +2376,14 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
       - Platform:
           Direction: [0, 1, 0]
-          Distance: 5
-          Speed: 5
+          Distance: 10
+          Speed: 25
   - Actor: 898850923
     ID: 898850923
     Name: Cube (25)
@@ -2540,6 +2556,10 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 10
+          Speed: 25
   - Actor: 490955063
     ID: 490955063
     Name: SmallPlatform2
@@ -2616,6 +2636,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 195124715
     ID: 195124715
     Name: platform (9)
@@ -2636,6 +2660,10 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 10
+          Speed: 25
   - Actor: 133514961
     ID: 133514961
     Name: SmallPlatform2
@@ -2663,7 +2691,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [141.92215, 15.4764996, 59.9215317]
+          LocalPosition: [141.92215, 14.9783783, 59.9215317]
           LocalRotation: [89.9999771, 81.585762, -9.33540068e-05]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
@@ -2696,22 +2724,6 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
-  - Actor: 857972053
-    ID: 857972053
-    Name: Cube (24)
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [137.407791, 15.3857307, 44.9206924]
-          LocalRotation: [89.9999771, 81.585762, -9.33540068e-05]
-          LocalScale: [0.200000003, 0.200000003, 0.200000003]
-          Parent: 2141099751
-      - StaticMesh:
-          Mesh: Models/platformBig00_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/Character/M_Ghost.mat
   - Actor: 774667136
     ID: 774667136
     Name: SmallPlatform2
@@ -2836,6 +2848,15 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1.10000002, 1]
+      - Button:
+          Platform: 507571002
+          PlatformDelayTime: 0
+          ConnectedButtons:
+            []
   - Actor: 507571002
     ID: 507571002
     Name: platform (9)
@@ -2852,6 +2873,14 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 10
+          Speed: 25
   - Actor: 1214374
     ID: 1214374
     Name: SmallPlatform2
@@ -2879,7 +2908,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [111.834808, 18.3472214, -56.2793007]
+          LocalPosition: [111.834808, 17.9681263, -56.2792931]
           LocalRotation: [-90.0005341, 0.86300844, 179.999344]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
@@ -2919,7 +2948,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [119.146118, 2.72163296, -72.5425186]
+          LocalPosition: [119.148239, 2.71496129, -72.3992386]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -2948,6 +2977,15 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Button:
+          Platform: 994578108
+          PlatformDelayTime: 0
+          ConnectedButtons:
+            []
   - Actor: 994578108
     ID: 994578108
     Name: platform (9)
@@ -2968,6 +3006,10 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 10
+          Speed: 25
   - Actor: 835194583
     ID: 835194583
     Name: SmallPlatform2
@@ -3044,6 +3086,15 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1.10000002, 1]
+      - Button:
+          Platform: 83703802
+          PlatformDelayTime: 0
+          ConnectedButtons:
+            []
   - Actor: 83703802
     ID: 83703802
     Name: platform (9)
@@ -3064,6 +3115,10 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 10
+          Speed: 25
   - Actor: 431555819
     ID: 431555819
     Name: SmallPlatform2
@@ -3132,6 +3187,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 434439619
     ID: 434439619
     Name: checkpoint1 (5)
@@ -3148,6 +3209,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 938966681
     ID: 938966681
     Name: checkpoint1 (5)
@@ -3164,6 +3231,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 522421780
     ID: 522421780
     Name: checkpoint1 (5)
@@ -3180,6 +3253,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 660383100
     ID: 660383100
     Name: checkpoint1 (5)
@@ -3196,6 +3275,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 10829950
     ID: 10829950
     Name: checkpoint1 (5)
@@ -3212,6 +3297,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 262401114
     ID: 262401114
     Name: checkpoint1 (5)
@@ -3228,6 +3319,12 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Checkpoint:
+          {}
   - Actor: 250563203
     ID: 250563203
     Name: button_frame (9)
@@ -3244,6 +3341,15 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1.10000002, 1]
+      - Button:
+          Platform: 489424962
+          PlatformDelayTime: 0
+          ConnectedButtons:
+            []
   - Actor: 374159688
     ID: 374159688
     Name: button_frame (9)
@@ -3260,6 +3366,15 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Button:
+          Platform: 195124715
+          PlatformDelayTime: 0
+          ConnectedButtons:
+            []
   - Actor: 215746037
     ID: 215746037
     Name: SmallPlatform2
@@ -3292,3 +3407,104 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+  - Actor: 404784879
+    ID: 404784879
+    Name: Block4
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [182.1716, -16.7300682, 56.2137909]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [10.4601831, 51.3616943, 10.4601831]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_GhostObject.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 757455461
+    ID: 757455461
+    Name: Block4_trigger
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 404784879
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_GhostObject.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 232882433
+    ID: 232882433
+    Name: Cube (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [76.426178, 25.745903, -91.6496201]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.1756382, 9.96623993, 5.19449568]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Red.mat
+  - Actor: 448595750
+    ID: 448595750
+    Name: ObeliskArea
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [182.503052, 9.85863972, 71.9422455]
+          LocalRotation: [-180, 70.3284225, -180]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SphereCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: 8
+      - Obelisk:
+          Effect: 1
+          PostFX: 0
+  - Actor: 320602394
+    ID: 320602394
+    Name: ObeliskModel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0.0219421387, 0.391710281, 0.0124359131]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 3, 1]
+          Parent: 448595750
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+  - Actor: 263009452
+    ID: 263009452
+    Name: ObeliskParticle
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0.542510986, 1.12821293, -0.770439148]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 448595750
