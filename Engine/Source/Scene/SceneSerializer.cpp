@@ -45,6 +45,7 @@
 #include "Game/PickableSkill.h"
 #include "Game/Obelisks/Obelisk.h"
 #include "Game/PostProcessingVolume.h"
+#include "Game/GameManager.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -623,6 +624,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                     }
 
 					/* --- GAME COMPONENTS --- */
+
+					if (auto gameManager = component["GameManager"])
+					{
+						uint64_t mainMenuID = gameManager["MainMenu"].as<uint64_t>();
+
+						auto g = a->CreateComponent<GameManager>();
+						g->m_MainMenuID = mainMenuID;
+					}
 
 					if (auto menu = component["MainMenu"])
 					{
@@ -1213,6 +1222,16 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Ghost";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Player" << YAML::Value << ghost->m_PlayerActor->GetID();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto gameManager = actor->GetComponent<GameManager>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "GameManager";
+		out << YAML::BeginMap;
+		out << YAML::Key << "MainMenu" << YAML::Value << gameManager->m_MainMenuID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

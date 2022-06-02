@@ -13,6 +13,8 @@ Time::Time()
 
 	m_LastFrameTime = 0.0f;
 	m_CurrentFrameTime = 0.0f;
+
+	m_TimeScale = 1.0f;
 }
 
 Time::~Time()
@@ -33,7 +35,11 @@ void Time::Tick(Ref<Scene> scene)
 	PROFILER_STOP();
 
 	PROFILER_START("Fixed Update Time");
-	scene->FixedUpdate();
+	while (m_FixedElapsedTime + m_FixedDeltaTime <= m_ElapsedTime)
+	{
+		scene->FixedUpdate();
+		m_FixedElapsedTime += m_FixedDeltaTime;
+	}
 	PROFILER_STOP();
 
 	TimerManager::GetInstance()->Tick(m_DeltaTime);

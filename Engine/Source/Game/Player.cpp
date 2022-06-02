@@ -17,6 +17,7 @@
 #include "Trail.h"
 #include "Checkpoint.h"
 #include "PickableSkill.h"
+#include "GameManager.h"
 
 Player::Player(Actor* owner)
 	: GameComponent(owner)
