@@ -42,6 +42,107 @@ RendererSettings:
     MaxDistance: 64
     Size: 2
 Actors:
+  - Actor: 493161976
+    ID: 493161976
+    Name: Game Manager
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - GameManager:
+          MainMenu: 902244052
+  - Actor: 902244052
+    ID: 902244052
+    Name: MainMenu
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+      - MainMenu:
+          PlayButton: 451190724
+          OptionsButton: 826052383
+          ExitButton: 334289216
+  - Actor: 504208015
+    ID: 504208015
+    Name: GameLogo
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 386.899078, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [467.5, 124, 1]
+          Parent: 902244052
+      - Image:
+          Path: Textures/Menu/Logo1.png
+          Color: [1, 1, 1, 1]
+  - Actor: 451190724
+    ID: 451190724
+    Name: PlayButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 150, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 64, 1]
+          Parent: 902244052
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Menu/PlayButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 826052383
+    ID: 826052383
+    Name: OptionsButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -50, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 902244052
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Menu/OptionsButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 334289216
+    ID: 334289216
+    Name: ExitButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -250, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 902244052
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Menu/ExitButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
   - Actor: 485961876
     ID: 485961876
     Name: Camera Controller
