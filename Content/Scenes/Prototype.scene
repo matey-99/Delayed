@@ -268,7 +268,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-49.6173592, -4.12466049, 70.1263046]
+          LocalPosition: [-49.6173592, -5.53182507, 70.1263046]
           LocalRotation: [0, -0.0910694152, 0]
           LocalScale: [2.06820011, 1, 2.06820011]
           Parent: 1215650438
@@ -2334,7 +2334,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [63.8070869, 12.5054598, 34.1898575]
+          LocalPosition: [63.5040932, 12.5054598, 33.8604012]
           LocalRotation: [-90, 42.6053429, 1.159965e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -2607,7 +2607,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [170.039627, 7.20499468, 102.10482]
+          LocalPosition: [170.073364, 5.86557388, 102.04184]
           LocalRotation: [93.0534363, -28.3334026, 1.93995197e-06]
           LocalScale: [0.180799976, 0.180800006, 0.180799991]
           Parent: 2141099751
@@ -3092,6 +3092,198 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [108.209808, 15.4180908, -84.5081711]
+          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+  - Actor: 848961114
+    ID: 848961114
+    Name: Cube (24)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-83.3987656, 10.282793, -78.1251678]
+          LocalRotation: [90.0026474, 89.2611313, 0.00264835241]
+          LocalScale: [0.209039986, 0.209039986, 0.209039956]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+  - Actor: 403182944
+    ID: 403182944
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-37.4381485, -7.72148609, 42.7913208]
+          LocalRotation: [0, -0.0910694152, 0]
+          LocalScale: [2.06820011, 1, 2.06820011]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Green.mat
+  - Actor: 434439619
+    ID: 434439619
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-37.3617783, 3.82468987, -5.22550917]
+          LocalRotation: [0, -0.0910694152, 0]
+          LocalScale: [2.06820011, 1, 2.06820011]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Green.mat
+  - Actor: 938966681
+    ID: 938966681
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [57.0605545, -8.57815933, 3.7129724]
+          LocalRotation: [0, -0.0910694152, 0]
+          LocalScale: [2.06820011, 1, 2.06820011]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Green.mat
+  - Actor: 522421780
+    ID: 522421780
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [106.401649, -6.91626453, 66.4062195]
+          LocalRotation: [0, -0.0910694152, 0]
+          LocalScale: [2.06820011, 1, 2.06820011]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Green.mat
+  - Actor: 660383100
+    ID: 660383100
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [159.249847, -6.19139576, 64.7243271]
+          LocalRotation: [0, -0.0910694152, 0]
+          LocalScale: [2.06820011, 1, 2.06820011]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Green.mat
+  - Actor: 10829950
+    ID: 10829950
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [124.036339, -4.05600357, 25.6544285]
+          LocalRotation: [0, -0.0910694152, 0]
+          LocalScale: [2.06820011, 1, 2.06820011]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Green.mat
+  - Actor: 262401114
+    ID: 262401114
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [132.591019, -3.89125729, -44.8177185]
+          LocalRotation: [0, -0.0910694152, 0]
+          LocalScale: [2.06820011, 1, 2.06820011]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Green.mat
+  - Actor: 250563203
+    ID: 250563203
+    Name: button_frame (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [118.830856, 9.88537598, 83.8981094]
+          LocalRotation: [-90, 42.6053429, 1.159965e-05]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+  - Actor: 374159688
+    ID: 374159688
+    Name: button_frame (9)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [167.09256, 12.9718857, 95.7530594]
+          LocalRotation: [-90, 42.6053429, 1.159965e-05]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+  - Actor: 215746037
+    ID: 215746037
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-97.7934723, 0.400898457, -77.2956161]
+          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+  - Actor: 809314739
+    ID: 809314739
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-116.515091, 0.569235325, -63.1360245]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
