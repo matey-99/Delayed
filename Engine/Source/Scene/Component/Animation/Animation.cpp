@@ -46,14 +46,14 @@ void Animation::UpdateRig(aiAnimation* animation)
 
 		if (boneMap == nullptr)  // Not found such bone
 		{
-			std::cout << "Animation.cpp: Found missing bone with name: " << boneName << '\n';  // Debug
+			//std::cout << "Animation.cpp: Found missing bone with name: " << boneName << '\n';  // Debug
 			// Here add the missing bone
 			/*Ref<Bone> bone = CreateRef<Bone>(boneName, );
 			m_Bones.push_back(bone);*/
 		}
 		else  // Found bone
 		{
-			std::cout << m_Name << " (Animation.cpp) found, added and completed bone with name: " << boneName << "\n";  // Debug
+			//std::cout << m_Name << " (Animation.cpp) found, added and completed bone with name: " << boneName << "\n";  // Debug
 
 			Ref<Bone> bone = CreateRef<Bone>(boneMap->Name, boneMap->ID, boneMap->OffsetMatrix);
 			m_Bones.push_back(bone);
