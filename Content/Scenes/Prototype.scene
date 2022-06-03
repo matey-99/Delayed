@@ -2,6 +2,7 @@ Scene: Main
 CurrentCamera: 1541634382
 RendererSettings:
   SSAO: true
+  SSR: true
   DepthFog: true
   PostProcessing: true
   FXAA: true
@@ -12,6 +13,12 @@ RendererSettings:
     KernelSize: 64
     Radius: 0.5
     Bias: 0.449999988
+  SSRSettings:
+    MaxSteps: 200
+    MinRayStep: 0.0299999993
+    RayStep: 0.0299999993
+    NumBinarySearchSteps: 20
+    ReflectionSpecularFalloffExponent: 8
   DepthFogSettings:
     Density: 0.00999999978
     Height: 0.0399999991
@@ -747,7 +754,7 @@ Actors:
           Mesh: Models/character/Idle.fbx
           Materials:
             - Material: 0
-              Path: Materials/Character/M_Ghost.mat
+              Path: Materials/M_CharacterGhost.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
