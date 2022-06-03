@@ -113,6 +113,13 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 		m_SSAOPass->Render();
 		PROFILER_STOP();
 	}
+
+	// SSR
+	if (m_Settings.SSREnabled)
+	{
+		m_SSRPass->Render(m_Output[outputIndex]);
+		//m_Output[outputIndex] = m_SSRPass->GetRenderTarget()->GetTargets()[0];
+	}
 		
 	// Lighting
 	PROFILER_START("Lighting Pass");
@@ -134,13 +141,6 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	Ref<RenderTarget> previousRT = m_Settings.DepthFogEnabled ? m_DepthFogPass->GetRenderTarget() : m_LightingPass->GetRenderTarget();
 	m_ForwardPass->Render(scene, previousRT);
 	PROFILER_STOP();
-
-	// SSR
-	if (m_Settings.SSREnabled)
-	{
-		m_SSRPass->Render(m_Output[outputIndex]);
-		//m_Output[outputIndex] = m_SSRPass->GetRenderTarget()->GetTargets()[0];
-	}
 
 	// Post Processing
 	if (m_Settings.PostProcessingEnabled)
