@@ -15,6 +15,9 @@ EditorCamera::EditorCamera(Scene* scene, glm::vec3 position, glm::vec3 front, gl
 	Near = 0.1f;
 	Far = 500.0f;
 
+	//m_ViewMatrix = glm::mat4(1.0f);
+	//m_PreviousViewMatrix = glm::mat4(1.0);
+
 	m_MovementSpeed = 50.0f;
 	m_RotateSpeed = 50.0f;
 
@@ -25,6 +28,9 @@ void EditorCamera::Update()
 {
 	Front = CalculateFrontVector();
 	Right = CalculateRightVector();
+
+	m_PreviousViewMatrix = m_ViewMatrix;
+	m_PreviousViewProjectionMatrix = m_ViewProjectionMatrix;
 
 	m_Frustum->UpdateFrustum(GetViewProjectionMatrix());
 }
@@ -108,7 +114,15 @@ float EditorCamera::GetFarClipPlane()
 
 glm::mat4 EditorCamera::GetViewMatrix()
 {
-	return glm::lookAt(Position, Position + Front, Up);
+	//m_PreviousViewMatrix = m_ViewMatrix;
+	m_ViewMatrix = glm::lookAt(Position, Position + Front, Up);
+
+	return m_ViewMatrix;
+}
+
+glm::mat4 EditorCamera::GetPreviousViewMatrix()
+{
+	return m_PreviousViewMatrix;
 }
 
 glm::mat4 EditorCamera::GetProjectionMatrix()
@@ -118,7 +132,15 @@ glm::mat4 EditorCamera::GetProjectionMatrix()
 
 glm::mat4 EditorCamera::GetViewProjectionMatrix()
 {
-	return GetProjectionMatrix() * GetViewMatrix();
+	//m_PreviousViewProjectionMatrix = m_ViewProjectionMatrix;
+	m_ViewProjectionMatrix = GetProjectionMatrix() * GetViewMatrix();
+
+	return m_ViewProjectionMatrix;
+}
+
+glm::mat4 EditorCamera::GetPreviousViewProjectionMatrix()
+{
+	return m_PreviousViewProjectionMatrix;
 }
 
 Ref<Frustum> EditorCamera::GetFrustum()

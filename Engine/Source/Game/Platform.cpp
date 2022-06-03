@@ -3,6 +3,8 @@
 #include "Scene/Actor.h"
 #include "Scene/Component/TransformComponent.h"
 #include "Math/Math.h"
+#include "Scene/Component/StaticMeshComponent.h"
+#include "Material/MaterialInstance.h"
 
 Platform::Platform(Actor* owner)
 	: GameComponent(owner)
@@ -21,6 +23,14 @@ Platform::~Platform()
 void Platform::Start()
 {
 	m_DefaultPosition = m_Owner->GetTransform()->GetWorldPosition();
+
+	if (auto mesh = m_Owner->GetComponent<StaticMeshComponent>())
+	{
+		Ref<Material> material = mesh->GetMaterials()[0];
+		m_Material = MaterialInstance::Create(material);
+
+		mesh->SetMaterial(0, m_Material);
+	}
 }
 
 void Platform::Update(float deltaTime)
@@ -31,6 +41,12 @@ void Platform::Update(float deltaTime)
 	{
 		if (!Math::IsNearlyEqual(currentPosition, m_DefaultPosition + (m_Direction * m_Distance), step))
 		{
+			if (m_Material)
+			{
+				float currentEmissive = m_Material->GetFloatParameter("u_Material.emissiveStrength");
+				m_Material->SetFloatParameter("u_Material.emissiveStrength", currentEmissive + step);
+			}
+
 			glm::vec3 newPosition = m_Owner->GetTransform()->GetLocalPosition();
 			newPosition += m_Direction * step;
 			m_Owner->GetTransform()->SetLocalPosition(newPosition);
@@ -40,6 +56,12 @@ void Platform::Update(float deltaTime)
 	{
 		if (!Math::IsNearlyEqual(currentPosition, m_DefaultPosition, step))
 		{
+			if (m_Material)
+			{
+				float currentEmissive = m_Material->GetFloatParameter("u_Material.emissiveStrength");
+				m_Material->SetFloatParameter("u_Material.emissiveStrength", currentEmissive - step);
+			}
+
 			glm::vec3 newPosition = m_Owner->GetTransform()->GetLocalPosition();
 			newPosition -= m_Direction * step;
 			m_Owner->GetTransform()->SetLocalPosition(newPosition);

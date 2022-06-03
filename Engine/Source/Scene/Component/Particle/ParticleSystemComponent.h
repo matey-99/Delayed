@@ -66,12 +66,17 @@ public:
 	void SetMaxParticles(uint32_t count);
 	void SetEmitterShape(EmitterShape shape);
 
+	inline glm::vec4 GetStartParticleColor() const { return m_StartParticleColor; }
+	inline glm::vec4 GetEndParticleColor() const { return m_EndParticleColor; }
+
 	inline void SetDuration(float duration) { m_Duration = duration; }
 	inline void SetLooping(bool looping) { m_Looping = looping; }
 	inline void SetEmissionRateOverTime(float rateOverTime) { m_EmissionRateOverTime = rateOverTime; }
 	inline void SetMinParticleVelocity(glm::vec3 minParticleVelocity) { m_MinParticleVelocity = minParticleVelocity; }
 	inline void SetMaxParticleVelocity(glm::vec3 maxParticleVelocity) { m_MaxParticleVelocity = maxParticleVelocity; }
 	inline void SetEndParticleVelocity(glm::vec3 endParticleVelocity) { m_EndParticleVelocity = endParticleVelocity; }
+	inline void SetStartParticleColor(const glm::vec4& startParticleColor) { m_StartParticleColor = startParticleColor; }
+	inline void SetEndParticleColor(const glm::vec4& endParticleColor) { m_EndParticleColor = endParticleColor; }
 
 private:
 	int FindUnusedParticle();

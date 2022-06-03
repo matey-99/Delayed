@@ -1,11 +1,67 @@
 #include "Bone.h"
 #include "Math/AssimpGLMHelper.h"
 
-Bone::Bone(const std::string& name, int ID, const aiNodeAnim* channel)
+
+Bone::Bone(const std::string& name, int ID, glm::mat4 offsetMatrix)
 	:
 	m_Name(name),
 	m_ID(ID),
-	m_LocalTransform(1.0f)
+	m_LocalTransform(1.0f),
+	m_OffsetMatrix(offsetMatrix)
+{
+	m_NumPositions = 0;
+	m_NumRotations = 0;
+	m_NumScalings  = 0;
+
+	isComplete = false;
+}
+
+void Bone::Update(float animationTime)
+{
+	glm::mat4 translation = InterpolatePosition(animationTime);
+	glm::mat4 rotation = InterpolateRotation(animationTime);
+	glm::mat4 scale = InterpolateScaling(animationTime);
+	m_LocalTransform = translation * rotation * scale;
+}
+
+int Bone::GetPositionIndex(float animationTime)
+{
+	for (int index = 0; index < m_Positions.size() - 1; ++index)  // should it really be ++index?
+	{
+		if (animationTime < m_Positions[index + 1].timeStamp)
+			return index;
+	}
+	return m_Positions.size() - 2;  // made on tape
+
+	assert(0);
+}
+
+int Bone::GetRotationIndex(float animationTime)
+{
+	for (int index = 0; index < m_NumRotations - 1; ++index)
+	{
+		if (animationTime < m_Rotations[index + 1].timeStamp)
+			return index;
+	}
+	return m_NumRotations - 2;  // Added to prevent animation from having no timeStamp
+
+	assert(0);
+}
+
+int Bone::GetScaleIndex(float animationTime)
+{
+	for (int index = 0; index < m_NumScalings - 1; ++index)
+	{
+		if (animationTime < m_Scales[index + 1].timeStamp)
+			return index;
+	}
+	return m_NumScalings - 2;  // Added to prevent animation from having no timeStamp
+
+	assert(0);
+}
+
+// Needs to be called at least once in a lifetime of a Bone
+void Bone::ReadDataFromAnimation(const aiNodeAnim* channel)
 {
 	m_NumPositions = channel->mNumPositionKeys;
 
@@ -40,44 +96,8 @@ Bone::Bone(const std::string& name, int ID, const aiNodeAnim* channel)
 		data.timeStamp = timeStamp;
 		m_Scales.push_back(data);
 	}
-}
 
-void Bone::Update(float animationTime)
-{
-	glm::mat4 translation = InterpolatePosition(animationTime);
-	glm::mat4 rotation = InterpolateRotation(animationTime);
-	glm::mat4 scale = InterpolateScaling(animationTime);
-	m_LocalTransform = translation * rotation * scale;
-}
-
-int Bone::GetPositionIndex(float animationTime)
-{
-	for (int index = 0; index < m_NumPositions - 1; ++index)
-	{
-		if (animationTime < m_Positions[index + 1].timeStamp)
-			return index;
-	}
-	assert(0);
-}
-
-int Bone::GetRotationIndex(float animationTime)
-{
-	for (int index = 0; index < m_NumRotations - 1; ++index)
-	{
-		if (animationTime < m_Rotations[index + 1].timeStamp)
-			return index;
-	}
-	assert(0);
-}
-
-int Bone::GetScaleIndex(float animationTime)
-{
-	for (int index = 0; index < m_NumScalings - 1; ++index)
-	{
-		if (animationTime < m_Scales[index + 1].timeStamp)
-			return index;
-	}
-	assert(0);
+	isComplete = true;
 }
 
 float Bone::GetScaleFactor(float lastTimeStamp, float nextTimeStamp, float animationTime)
@@ -91,6 +111,9 @@ float Bone::GetScaleFactor(float lastTimeStamp, float nextTimeStamp, float anima
 
 glm::mat4 Bone::InterpolatePosition(float animationTime)
 {
+	if (0 == m_NumPositions)
+		return glm::mat4(1.0f);
+
 	if (1 == m_NumPositions)
 		return glm::translate(glm::mat4(1.0f), m_Positions[0].position);
 
@@ -105,6 +128,9 @@ glm::mat4 Bone::InterpolatePosition(float animationTime)
 
 glm::mat4 Bone::InterpolateRotation(float animationTime)
 {
+	if (0 == m_NumRotations)
+		return glm::mat4(1.0f);
+
 	if (1 == m_NumRotations)
 	{
 		auto rotation = glm::normalize(m_Rotations[0].orientation);
@@ -123,6 +149,9 @@ glm::mat4 Bone::InterpolateRotation(float animationTime)
 
 glm::mat4 Bone::InterpolateScaling(float animationTime)
 {
+	if (0 == m_NumScalings)
+		return glm::mat4(1.0f);
+
 	if (1 == m_NumScalings)
 		return glm::scale(glm::mat4(1.0f), m_Scales[0].scale);
 

@@ -18,6 +18,8 @@ class LightingPass;
 class ShadowsPass;
 class ForwardPass;
 class SSAOPass;
+class SSRPass;
+class MotionBlurPass;
 class PostProcessingPass;
 class FXAAPass;
 class VignettePass;
@@ -37,10 +39,12 @@ public:
 	Ref<GBufferPass> m_GBufferPass;
 	Ref<ShadowsPass> m_ShadowsPass;
 	Ref<SSAOPass> m_SSAOPass;
+	Ref<SSRPass> m_SSRPass;
 	Ref<LightingPass> m_LightingPass;
 	Ref<ForwardPass> m_ForwardPass;
 	Ref<PostProcessingPass> m_PostProcessingPass;
 	Ref<FXAAPass> m_FXAAPass;
+	Ref<MotionBlurPass> m_MotionBlurPass;
 	Ref<VignettePass> m_VignettePass;
 	Ref<DepthOfFieldPass> m_DepthOfFieldPass;
 	Ref<UIPass> m_UIPass;
@@ -51,14 +55,19 @@ public:
 		bool SSAOEnabled = true;
 		bool DepthFogEnabled = true;
 		bool PostProcessingEnabled = true;
+		bool SSREnabled = true;
 		bool FXAAEnabled = true;
 		bool VignetteEnabled = true;
+		bool MotionBlurEnabled = false;
 		bool DepthOfFieldEnabled = true;
 	};
 
 private:
 	Ref<UniformBuffer> m_CameraVertexUniformBuffer;
 	Ref<UniformBuffer> m_CameraFragmentUniformBuffer;
+
+	glm::mat4 m_PreviousViewMatrix;
+	glm::mat4 m_PreviousViewProjectionMatrix;
 
 	RendererSettings m_Settings;
 

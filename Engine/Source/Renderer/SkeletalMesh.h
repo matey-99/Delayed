@@ -7,41 +7,40 @@
 #include "Math/BoundingSphere.h"
 #include <vector>
 #include <unordered_map>
-
 #include "Mesh.h"
 
 #define MAX_BONES_INFLUENCE 4
 
 
-struct BoneInfo
-{
-	int ID;				// index in finalBoneMatrices
-	glm::mat4 Offset;	// offset matrix transforms vertex from model space to bone space
-};
-
 struct SkinnedVertex : Vertex
 {
-	int BoneIDs[MAX_BONES_INFLUENCE];
-	float Weights[MAX_BONES_INFLUENCE];
+	int BoneIDs[MAX_BONES_INFLUENCE];  // global bone ids should be the same as in Rig class
+	float Weights[MAX_BONES_INFLUENCE];  // weights for each bone in this specific vertex
 };
 
 class SkeletalMesh : public MeshBase
 {
 public:
 	SkeletalMesh(std::vector<SkinnedVertex> vertices,
-		std::vector<uint32_t> indices,
-		uint32_t boneCounter);
+		std::vector<uint32_t> indices);
 
 	inline std::vector<SkinnedVertex> GetVertices() const { return m_Vertices; }
 	inline int const GetMaxBonesInfluence() const { return MAX_BONES_INFLUENCE; }
 
-	uint32_t GetBoneCount() { return m_BoneCounter; }
+	//uint32_t GetBoneCount() { return m_BoneCounter; }
+	//std::unordered_map<std::string, BoneInfo> GetBoneInfoMap() { return m_BoneInfoMap; }
+
+	void SetBoneMatrices(std::vector<glm::mat4> boneMatrices);
+	std::vector<glm::mat4> GetBoneMatrices() { return m_BoneMatrices; }
+
 
 private:
 	void SetupMesh();
 
-private:
+public:
 	std::vector<SkinnedVertex> m_Vertices;
-	uint32_t m_BoneCounter = 0;
+	std::vector<glm::mat4> m_BoneMatrices;
+	//uint32_t m_BoneCounter = 0;
+	//std::vector<glm::mat4> m_BoneMatrices;
 	//std::unordered_map<std::string, BoneInfo> m_BoneInfoMap;  // or map
 };

@@ -5,8 +5,9 @@
 #include "GameComponent.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Platform.h"
+#include "Time/TimerManager.h"
 
-class Material;
+class MaterialInstance;
 class AudioSourceComponent;
 
 class Button : public GameComponent
@@ -30,17 +31,24 @@ private:
 	void Press();
 	void Release();
 
+	void DeactivatePlatform();
+
 private:
 	Ref<Platform> m_Platform;
 	std::vector<Ref<Button>> m_ConnectedButtons;
 	int m_TriggeringActorsCount;
 
-	Ref<Material> m_NormalMaterial;
-	Ref<Material> m_PressedMaterial;
+	float m_EmissionStrength;
+	float m_EmissionTime;
+	float m_EmissionTimer;
 
+	Ref<MaterialInstance> m_Material;
 	Ref<AudioSourceComponent> m_AudioSource;
 
 	bool m_IsPressed;
+
+	float m_PlatformDelayTime;
+	TimerHandle m_PlatformDelayTimerHandle;
 
 #pragma region Serialization
 

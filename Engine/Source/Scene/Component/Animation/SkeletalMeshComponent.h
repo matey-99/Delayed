@@ -25,10 +25,21 @@ public:
 
 	virtual std::vector<Ref<MeshBase>> GetMeshes() const override;
 	virtual uint32_t GetRenderedVerticesCount() override;
+	Ref<Animation> GetAnimation(int index);
+	std::vector<Ref<Animation>> GetAnimations() { return m_Animations; }
+	uint32_t GetBoneCount() const;
+	uint32_t HowManyAnimations() { return m_Animations.size(); }
 
-	// Details
-	uint32_t GetBoneCount();
+	Ref<BoneMap> FindBoneInRig(std::string boneName)
+	{
+		return m_SkeletalModel->GetRig()->FindBone(boneName);
+	}
+
+	void PropagateBoneTransforms(std::vector<glm::mat4> boneMatrices);
+
 
 private:
 	Ref<SkeletalModel> m_SkeletalModel;
+	std::vector<Ref<Animation>> m_Animations;
+
 };

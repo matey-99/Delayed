@@ -6,6 +6,7 @@
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/FoliageComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
+#include "Scene/Component/Animation/Animator.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
@@ -309,6 +310,67 @@ void ActorDetailsPanel::Render()
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();
         componentIndex++;
+    }
+
+    if (auto animator = m_Actor->GetComponent<Animator>())
+    {
+        ImGui::Text("Animator Component");
+        ImGui::Dummy(ImVec2(0.0, 5.0));
+
+        ImGui::Text("Animations available: %i", animator->HowManyAnimationsAreThere());
+
+        ImGui::Text("Animation current time: %f", animator->GetCurrentAnimationTime());
+
+        if (ImGui::Button("Debug display animation names"))
+            animator->DebugDisplayAnimationNames();
+
+        // Lists: Begin
+        if (ImGui::BeginCombo("Animation No. 1", animator->GetAnimation(0)->GetAnimationName().c_str()))
+        {
+            for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
+            {
+                Ref<Animation> animation = animator->GetAnimations()[i];
+                if (ImGui::Selectable(animation->GetAnimationName().c_str()))
+                    animator->SetAnimation1(animation);
+            }
+            ImGui::EndCombo();
+        }
+
+        if (ImGui::BeginCombo("Animation No. 2", animator->GetAnimation(1)->GetAnimationName().c_str()))
+        {
+            for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
+            {
+                Ref<Animation> animation = animator->GetAnimations()[i];
+                if (ImGui::Selectable(animation->GetAnimationName().c_str()))
+                    animator->SetAnimation2(animation);
+            }
+            ImGui::EndCombo();
+        }
+
+        if (ImGui::BeginCombo("Animation No. 3 (Jump)", animator->GetAnimation(2)->GetAnimationName().c_str()))
+        {
+            for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
+            {
+                Ref<Animation> animation = animator->GetAnimations()[i];
+                if (ImGui::Selectable(animation->GetAnimationName().c_str()))
+                    animator->SetAnimation3(animation);
+            }
+            ImGui::EndCombo();
+        }
+        // Lists: End
+
+        if (ImGui::Button("Switch animation"))
+            animator->DebugSwitchAnimation();
+
+        ImGui::DragFloat("Blend Factor", &animator->m_BlendFactor, 0.02f, 0.0f, 1.0f);
+        ImGui::DragFloat("Blend Factor 2", &animator->m_BlendFactor2, 0.02f, 0.0f, 1.0f);
+
+        ImGui::Dummy(ImVec2(0.0, 10.0));
+        ImGui::DragFloat("Animation 1 speed", &animator->m_PAnimSpeed, 0.02f, 0.0f, 1.0f);
+        ImGui::DragFloat("Animation 2 speed", &animator->m_LAnimSpeed, 0.02f, 0.0f, 1.0f);
+
+        ImGui::Dummy(ImVec2(0.0, 10.0));
+        // [...]
     }
 
     if (auto foliage = m_Actor->GetComponent<FoliageComponent>())
@@ -732,27 +794,8 @@ void ActorDetailsPanel::Render()
         if (ImGui::Button("X"))
             m_Actor->RemoveComponent<Button>();
 
-        std::string path = button->m_NormalMaterial->GetPath();
-        std::string name = path.substr(path.find_last_of("/") + 1);
 
-        if (ImGui::BeginCombo("Normal Material", name.c_str()))
-        {
-            std::vector<std::string> extensions;
-            extensions.push_back("mat");
-            DisplayResources(button, extensions, 0);
-
-            ImGui::EndCombo();
-        }
-
-        if (ImGui::BeginCombo("Pressed Material", name.c_str()))
-        {
-            std::vector<std::string> extensions;
-            extensions.push_back("mat");
-            DisplayResources(button, extensions, 1);
-
-            ImGui::EndCombo();
-        }
-
+        ImGui::DragFloat("Platform Delay", &button->m_PlatformDelayTime, 0.1f, 0.0f, 10.0f);
         size_t maxSize = 128;
         std::string idStr = std::to_string(button->m_PlatformID);
         char* id = (char*)idStr.c_str();
@@ -822,6 +865,32 @@ void ActorDetailsPanel::Render()
         ImGui::SameLine();
         if (ImGui::Button("X"))
             m_Actor->RemoveComponent<Obelisk>();
+
+        const char* effectName = "";
+        switch (obelisk->m_Effect)
+        {
+        case ObeliskEffect::Corrupt:
+            effectName = "Corrupt";
+            break;
+        case ObeliskEffect::Heal:
+            effectName = "Heal";
+            break;
+        case ObeliskEffect::GiveTeleportSkill:
+            effectName = "Give Teleport Skill";
+            break;
+        }
+
+        if (ImGui::BeginCombo("Effect", effectName))
+        {
+            if (ImGui::Selectable("Corrupt"))
+                obelisk->m_Effect = ObeliskEffect::Corrupt;
+            if (ImGui::Selectable("Heal"))
+                obelisk->m_Effect = ObeliskEffect::Heal;
+            if (ImGui::Selectable("Give Teleport Skill"))
+                obelisk->m_Effect = ObeliskEffect::GiveTeleportSkill;
+
+            ImGui::EndCombo();
+        }
 
         size_t maxSize = 128;
         std::string idStr = std::to_string(obelisk->m_PostFXID);
@@ -1098,6 +1167,7 @@ void ActorDetailsPanel::Render()
     bool staticMesh = false;
     bool foliage = false;
     bool skeletalMesh = false;
+    bool animator = false;
     bool lodGroup = false;
     bool dirLight = false;
     bool pointLight = false;
@@ -1134,6 +1204,7 @@ void ActorDetailsPanel::Render()
                 ImGui::MenuItem("Static Mesh", "", &staticMesh);
                 ImGui::MenuItem("Foliage", "", &foliage);
                 ImGui::MenuItem("Skeletal Mesh", "", &skeletalMesh);
+                ImGui::MenuItem("Animator", "", &animator);
                 ImGui::MenuItem("LOD Group", "", &lodGroup);
                 if (ImGui::BeginMenu("Light"))
                 {
@@ -1210,6 +1281,13 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<FoliageComponent>();
     if (skeletalMesh)
         m_Actor->AddComponent<SkeletalMeshComponent>();
+    if (animator)
+    {
+        if (m_Actor->GetComponent<SkeletalMeshComponent>() == nullptr)
+            m_Actor->AddComponent<SkeletalMeshComponent>();
+
+        m_Actor->AddComponent<Animator>();
+    }
     if (lodGroup)
         m_Actor->AddComponent<LODGroupComponent>();
     if (dirLight)
@@ -1324,15 +1402,6 @@ void ActorDetailsPanel::DisplayResources(Ref<Component> component, std::vector<s
 
                         if (auto lodGroup = Cast<LODGroupComponent>(component))
                             lodGroup->m_LODs[lod].Materials[index] = AssetManager::LoadMaterial(path);
-
-                        if (auto button = Cast<Button>(component))
-                        {
-                            if (index == 0)
-                                button->m_NormalMaterial = AssetManager::LoadMaterial(path);
-                            else if (index == 1)
-                                button->m_PressedMaterial = AssetManager::LoadMaterial(path);
-
-                        }
                     }
                     else if (ext == "png")
                     {

@@ -2,6 +2,8 @@
 
 #include "Renderer/RenderPass/PostProcessingPass.h"
 #include "Renderer/RenderPass/SSAOPass.h"
+#include "Renderer/RenderPass/SSRPass.h"
+#include "Renderer/RenderPass/MotionBlurPass.h"
 #include "Renderer/RenderPass/DepthOfFieldPass.h"
 #include "Renderer/RenderPass/UIPass.h"
 #include "Renderer/RenderPass/DepthFogPass.h"
@@ -22,7 +24,9 @@ void RendererSettingsPanel::Render()
     ImGui::Checkbox("Depth Fog Enabled", &m_Renderer->m_Settings.DepthFogEnabled);
     ImGui::Checkbox("Post Processing Enabled", &m_Renderer->m_Settings.PostProcessingEnabled);
     ImGui::Checkbox("FXAA Enabled", &m_Renderer->m_Settings.FXAAEnabled);
+    ImGui::Checkbox("Motion Blur Enabled", &m_Renderer->m_Settings.MotionBlurEnabled);
     ImGui::Checkbox("Vignette Enabled", &m_Renderer->m_Settings.VignetteEnabled);
+    ImGui::Checkbox("SSR Enabled", &m_Renderer->m_Settings.SSREnabled);
     ImGui::Checkbox("Depth Of Field Enabled", &m_Renderer->m_Settings.DepthOfFieldEnabled);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -33,6 +37,20 @@ void RendererSettingsPanel::Render()
     ImGui::DragFloat("Radius", &m_Renderer->m_SSAOPass->m_Settings.Radius, 0.1f, 0.1f, 20.0f);
     ImGui::DragFloat("Bias", &m_Renderer->m_SSAOPass->m_Settings.Bias, 0.001f, 0.0f, 1.0f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("Screen Space Reflections");
+    ImGui::DragFloat("Ray Step", &m_Renderer->m_SSRPass->m_Settings.RayStep, 0.01f, 0.1f, 1.0f);
+    ImGui::DragFloat("Min Ray Step", &m_Renderer->m_SSRPass->m_Settings.MinRayStep, 0.01f, 0.1f, 1.0f);
+    ImGui::DragInt("Max Steps", &m_Renderer->m_SSRPass->m_Settings.MaxSteps, 1, 1, 100);
+    ImGui::DragInt("Binary Search Steps", &m_Renderer->m_SSRPass->m_Settings.NumBinarySearchSteps, 1, 1, 20);
+    ImGui::DragFloat("Reflection Falloff", &m_Renderer->m_SSRPass->m_Settings.ReflectionSpecularFalloffExponent, 0.1f, 0.0f, 10.0f);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("Motion Blur");
+    ImGui::DragInt("Size", &m_Renderer->m_MotionBlurPass->m_Settings.Size, 1, 0, 50);
+    ImGui::DragFloat("Separation", &m_Renderer->m_MotionBlurPass->m_Settings.Separation, 0.02f, 0.f, 10.f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("Post Processing");
@@ -75,7 +93,11 @@ void RendererSettingsPanel::Render()
     ImGui::DragFloat("Saturation", &m_Renderer->m_PostProcessingPass->m_Settings.Saturation, 0.1f, 0.0f, 2.0f);
     ImGui::DragFloat("Temperature", &m_Renderer->m_PostProcessingPass->m_Settings.Temperature, 1.f, 15.0f, 150.0f);
     ImGui::DragFloat("Hue", &m_Renderer->m_PostProcessingPass->m_Settings.Hue, 1.0f, 0.0f, 360.0f);
-    
+
+    ImGui::Text("Chromatic Aberration");
+    ImGui::Checkbox("Aberration Enabled", &m_Renderer->m_PostProcessingPass->m_Settings.AberrationEnabled);
+    ImGui::DragFloat3("Shift", glm::value_ptr(m_Renderer->m_PostProcessingPass->m_Settings.AberrationShift), 0.001f, -1.0f, 1.0f);
+
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("UI Post Processing");

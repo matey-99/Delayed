@@ -9,6 +9,12 @@
 class TransformComponent;
 class ParticleSystemComponent;
 class ImageComponent;
+class Player;
+
+enum class ObeliskEffect
+{
+	Corrupt, Heal, GiveTeleportSkill
+};
 
 class Obelisk : public GameComponent, public Saveable
 {
@@ -27,12 +33,18 @@ public:
 private:
 	void HandleParticles();
 	void HandlePostFX();
+	void GetEffect();
 
 private:
 	Ref<ParticleSystemComponent> m_ParticleSystem;
 	Ref<TransformComponent> m_PlayerTransform;
 	Ref<ImageComponent> m_PostFX;
-	bool m_IsPlayerInRange;
+	bool m_Used;
+	ObeliskEffect m_Effect;
+	float m_TimeToGetEffect;
+	TimerHandle m_EffectTimerHandle;
+
+	Ref<Player> m_Player;
 
 #pragma region Serialization
 

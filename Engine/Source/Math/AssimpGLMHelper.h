@@ -5,6 +5,15 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
+// aiNodeAnim helper
+struct AssimpNodeData
+{
+	glm::mat4 transformation;
+	std::string name;
+	int childrenCount;
+	std::vector<AssimpNodeData> children;
+};
+
 // Converts Assimp-type matrice to GLM-type
 class AssimpGLMHelpers
 {

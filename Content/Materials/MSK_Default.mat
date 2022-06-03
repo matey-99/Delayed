@@ -23,18 +23,18 @@ Float Parameters:
   - Name: u_Material.ao
     Value: 1
   - Name: u_Material.roughness
-    Value: 0.5
+    Value: 0.779999971
   - Name: u_Material.emissiveStrength
-    Value: 0
+    Value: 2.78999996
   - Name: u_Material.opacity
     Value: 1
   - Name: u_Material.metallic
-    Value: 0
+    Value: 0.709999979
 Vec3 Parameters:
   - Name: u_Material.albedo
     Value: [1, 1, 1]
   - Name: u_Material.emissive
-    Value: [0, 0, 0]
+    Value: [0.0462562591, 0.0701266602, 0.857843161]
 Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"

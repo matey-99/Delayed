@@ -6,6 +6,7 @@
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Scene/Component/FoliageComponent.h"
 #include "Scene/Component/Animation/SkeletalMeshComponent.h"
+#include "Scene/Component/Animation/Animator.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Light/DirectionalLight.h"
 #include "Scene/Component/Light/PointLight.h"
@@ -25,6 +26,7 @@
 #include "Scene/Component/AudioListenerComponent.h"
 
 #include "Renderer/RenderPass/SSAOPass.h"
+#include "Renderer/RenderPass/SSRPass.h"
 #include "Renderer/RenderPass/DepthFogPass.h"
 #include "Renderer/RenderPass/PostProcessingPass.h"
 #include "Renderer/RenderPass/FXAAPass.h"
@@ -45,6 +47,9 @@
 #include "Game/PickableSkill.h"
 #include "Game/Obelisks/Obelisk.h"
 #include "Game/PostProcessingVolume.h"
+#include "Game/GameManager.h"
+#include "Game/NotificationManager.h"
+#include "Game/TutorialManager.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -57,6 +62,7 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "RendererSettings" << YAML::Value << YAML::BeginMap;
 
 	out << YAML::Key << "SSAO" << YAML::Value << renderer->GetSettings().SSAOEnabled;
+	out << YAML::Key << "SSR" << YAML::Value << renderer->GetSettings().SSREnabled;
 	out << YAML::Key << "DepthFog" << YAML::Value << renderer->GetSettings().DepthFogEnabled;
 	out << YAML::Key << "PostProcessing" << YAML::Value << renderer->GetSettings().PostProcessingEnabled;
 	out << YAML::Key << "FXAA" << YAML::Value << renderer->GetSettings().FXAAEnabled;
@@ -68,6 +74,14 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "KernelSize" << YAML::Value << renderer->m_SSAOPass->m_Settings.KernelSize;
 	out << YAML::Key << "Radius" << YAML::Value << renderer->m_SSAOPass->m_Settings.Radius;
 	out << YAML::Key << "Bias" << YAML::Value << renderer->m_SSAOPass->m_Settings.Bias;
+	out << YAML::EndMap;
+
+	out << YAML::Key << "SSRSettings" << YAML::Value << YAML::BeginMap;
+	out << YAML::Key << "MaxSteps" << YAML::Value << renderer->m_SSRPass->m_Settings.MaxSteps;
+	out << YAML::Key << "MinRayStep" << YAML::Value << renderer->m_SSRPass->m_Settings.MinRayStep;
+	out << YAML::Key << "RayStep" << YAML::Value << renderer->m_SSRPass->m_Settings.RayStep;
+	out << YAML::Key << "NumBinarySearchSteps" << YAML::Value << renderer->m_SSRPass->m_Settings.NumBinarySearchSteps;
+	out << YAML::Key << "ReflectionSpecularFalloffExponent" << YAML::Value << renderer->m_SSRPass->m_Settings.ReflectionSpecularFalloffExponent;
 	out << YAML::EndMap;
 
 	out << YAML::Key << "DepthFogSettings" << YAML::Value << YAML::BeginMap;
@@ -92,6 +106,8 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "Saturation" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Saturation;
 	out << YAML::Key << "Temperature" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Temperature;
 	out << YAML::Key << "Hue" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Hue;
+    out << YAML::Key << "AberrationEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationEnabled;
+    out << YAML::Key << "AberrationShift" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationShift;
 	out << YAML::EndMap;
 
 	out << YAML::Key << "VignetteSettings" << YAML::Value << YAML::BeginMap;
@@ -144,6 +160,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 	/* Renderer settings */
 	bool ssao = data["RendererSettings"]["SSAO"].as<bool>();
+	bool ssr = data["RendererSettings"]["SSR"].as<bool>();
 	bool depthFog = data["RendererSettings"]["DepthFog"].as<bool>();
 	bool postProcessing = data["RendererSettings"]["PostProcessing"].as<bool>();
 	bool fxaa = data["RendererSettings"]["FXAA"].as<bool>();
@@ -155,6 +172,13 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	float ssaoKernelSize = data["RendererSettings"]["SSAOSettings"]["KernelSize"].as<int>();
 	float ssaoRadius = data["RendererSettings"]["SSAOSettings"]["Radius"].as<float>();
 	float ssaoBias = data["RendererSettings"]["SSAOSettings"]["Bias"].as<float>();
+
+	/* SSR settings */
+	float ssrMaxSteps = data["RendererSettings"]["SSRSettings"]["MaxSteps"].as<int>();
+	float ssrMinRayStep = data["RendererSettings"]["SSRSettings"]["MinRayStep"].as<float>();
+	float ssrRayStep = data["RendererSettings"]["SSRSettings"]["RayStep"].as<float>();
+	float ssrReflectionSpecularFalloffExponent = data["RendererSettings"]["SSRSettings"]["ReflectionSpecularFalloffExponent"].as<float>();
+	float ssrNumBinarySearchSteps = data["RendererSettings"]["SSRSettings"]["NumBinarySearchSteps"].as<int>();
 
 	/* Depth Fog settings */
 	float dfDensity = data["RendererSettings"]["DepthFogSettings"]["Density"].as<float>();
@@ -177,6 +201,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	float saturation = data["RendererSettings"]["PostProcessingSettings"]["Saturation"].as<float>();
 	float temperature = data["RendererSettings"]["PostProcessingSettings"]["Temperature"].as<float>();
 	float hue = data["RendererSettings"]["PostProcessingSettings"]["Hue"].as<float>();
+	bool aberration = data["RendererSettings"]["PostProcessingSettings"]["AberrationEnabled"].as<bool>();
+    glm::vec3 aberrationShift = data["RendererSettings"]["PostProcessingSettings"]["AberrationShift"].as<glm::vec3>();
 
 	/* Vignette settings */
 	float vignetteIntensity = data["RendererSettings"]["VignetteSettings"]["Intensity"].as<float>();
@@ -190,6 +216,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	/* Setup Renderer settings */
 	Renderer::RendererSettings settings;
 	settings.SSAOEnabled = ssao;
+	settings.SSREnabled = ssr;
 	settings.DepthFogEnabled = depthFog;
 	settings.PostProcessingEnabled = postProcessing;
 	settings.FXAAEnabled = fxaa;
@@ -202,6 +229,13 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	renderer->m_SSAOPass->m_Settings.KernelSize = ssaoKernelSize;
 	renderer->m_SSAOPass->m_Settings.Radius = ssaoRadius;
 	renderer->m_SSAOPass->m_Settings.Bias = ssaoBias;
+
+	/* Setup SSR settings */
+	renderer->m_SSRPass->m_Settings.MaxSteps = ssrMaxSteps;
+	renderer->m_SSRPass->m_Settings.RayStep = ssrRayStep;
+	renderer->m_SSRPass->m_Settings.MinRayStep = ssrMinRayStep;
+	renderer->m_SSRPass->m_Settings.NumBinarySearchSteps = ssrNumBinarySearchSteps;
+	renderer->m_SSRPass->m_Settings.ReflectionSpecularFalloffExponent = ssrReflectionSpecularFalloffExponent;
 
 	/* Setup Depth Fog settings */
 	renderer->m_DepthFogPass->m_Settings.Density = dfDensity;
@@ -224,6 +258,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	renderer->m_PostProcessingPass->m_Settings.Saturation = saturation;
 	renderer->m_PostProcessingPass->m_Settings.Temperature = temperature;
 	renderer->m_PostProcessingPass->m_Settings.Hue = hue;
+	renderer->m_PostProcessingPass->m_Settings.AberrationEnabled = aberration;
+	renderer->m_PostProcessingPass->m_Settings.AberrationShift = aberrationShift;
 
 	/* Setup Vignette settings */
 	renderer->m_VignettePass->m_Settings.Intensity = vignetteIntensity;
@@ -325,6 +361,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
 						a->CreateComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
+					}
+
+					if (auto animator = component["Animator"])
+					{
+						a->AddComponent<Animator>();
 					}
 
 					if (auto foliage = component["Foliage"])
@@ -618,6 +659,34 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					/* --- GAME COMPONENTS --- */
 
+					if (auto gameManager = component["GameManager"])
+					{
+						uint64_t mainMenuID = gameManager["MainMenu"].as<uint64_t>();
+
+						auto g = a->CreateComponent<GameManager>();
+						g->m_MainMenuID = mainMenuID;
+					}
+
+					if (auto notificationManager = component["NotificationManager"])
+					{
+						uint64_t notificationTextID = notificationManager["NotificationText"].as<uint64_t>();
+
+						auto n = a->CreateComponent<NotificationManager>();
+						n->m_NotificationTextID = notificationTextID;
+					}
+
+					if (auto tutorialManager = component["TutorialManager"])
+					{
+						uint64_t doubleJumpTutorialID = tutorialManager["DoubleJumpTutorial"].as<uint64_t>();
+						uint64_t dashTutorialID = tutorialManager["DashTutorial"].as<uint64_t>();
+						uint64_t teleportTutorialID = tutorialManager["TeleportTutorial"].as<uint64_t>();
+
+						auto t = a->CreateComponent<TutorialManager>();
+						t->m_DoubleJumpTutorialID = doubleJumpTutorialID;
+						t->m_DashTutorialID = dashTutorialID;
+						t->m_TeleportTutorialID = teleportTutorialID;
+					}
+
 					if (auto menu = component["MainMenu"])
 					{
 						uint64_t playButtonActorID = menu["PlayButton"].as<uint64_t>();
@@ -666,8 +735,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					if (auto button = component["Button"])
 					{
 						uint64_t platformActorID = button["Platform"].as<uint64_t>();
-						//Ref<Material> normalMaterial = AssetManager::LoadMaterial(button["NormalMaterial"].as<std::string>());
-						//Ref<Material> pressedMaterial = AssetManager::LoadMaterial(button["PressedMaterial"].as<std::string>());
+						float platformDelayTime = button["PlatformDelayTime"].as<float>();
 
 						std::vector<uint64_t> connectedButtonsIDs;
 						YAML::Node connectedButtons = button["ConnectedButtons"];
@@ -677,9 +745,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						}
 
 						auto b = a->CreateComponent<Button>();
+						b->m_PlatformDelayTime = platformDelayTime;
 						b->m_PlatformID = platformActorID;
-						//b->m_NormalMaterial = normalMaterial;
-						//b->m_PressedMaterial = pressedMaterial;
 						b->m_ConnectedButtonsIDs = connectedButtonsIDs;
 					}
 
@@ -738,9 +805,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto obelisk = component["Obelisk"])
 					{
+						int effect = obelisk["Effect"].as<int>();
 						uint64_t postFXID = obelisk["PostFX"].as<uint64_t>();
 
 						auto o = a->CreateComponent<Obelisk>();
+						o->m_Effect = (ObeliskEffect)effect;
 						o->m_PostFXID = postFXID;
 					}
 
@@ -870,6 +939,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		}
 		out << YAML::EndSeq;
 		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto animator = actor->GetComponent<Animator>())
+	{
+		out << YAML::BeginMap;
+
+		out << YAML::Key << "Animator";
+
 		out << YAML::EndMap;
 	}
 
@@ -1181,8 +1259,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Button";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Platform" << YAML::Value << button->m_PlatformID;
-		out << YAML::Key << "NormalMaterial" << YAML::Value << button->m_NormalMaterial->GetPath();
-		out << YAML::Key << "PressedMaterial" << YAML::Value << button->m_PressedMaterial->GetPath();
+		out << YAML::Key << "PlatformDelayTime" << YAML::Value << button->m_PlatformDelayTime;
 		out << YAML::Key << "ConnectedButtons" << YAML::Value << YAML::BeginSeq;
 		for (int i = 0; i < button->m_ConnectedButtonsIDs.size(); i++)
 		{
@@ -1213,6 +1290,38 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Ghost";
 		out << YAML::BeginMap;
 		out << YAML::Key << "Player" << YAML::Value << ghost->m_PlayerActor->GetID();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto gameManager = actor->GetComponent<GameManager>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "GameManager";
+		out << YAML::BeginMap;
+		out << YAML::Key << "MainMenu" << YAML::Value << gameManager->m_MainMenuID;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto notificationManager = actor->GetComponent<NotificationManager>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "NotificationManager";
+		out << YAML::BeginMap;
+		out << YAML::Key << "NotificationText" << YAML::Value << notificationManager->m_NotificationTextID;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto tutorialManager = actor->GetComponent<TutorialManager>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "TutorialManager";
+		out << YAML::BeginMap;
+		out << YAML::Key << "DoubleJumpTutorial" << YAML::Value << tutorialManager->m_DoubleJumpTutorialID;
+		out << YAML::Key << "DashTutorial" << YAML::Value << tutorialManager->m_DashTutorialID;
+		out << YAML::Key << "TeleportTutorial" << YAML::Value << tutorialManager->m_TeleportTutorialID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1277,6 +1386,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Obelisk";
 		out << YAML::BeginMap;
+		out << YAML::Key << "Effect" << YAML::Value << (int)obelisk->m_Effect;
 		out << YAML::Key << "PostFX" << YAML::Value << obelisk->m_PostFXID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;

@@ -25,8 +25,10 @@ public:
 	virtual float GetFarClipPlane() override;
 
 	virtual glm::mat4 GetViewMatrix() override;
+	virtual glm::mat4 GetPreviousViewMatrix() override;
 	virtual glm::mat4 GetProjectionMatrix() override;
 	virtual glm::mat4 GetViewProjectionMatrix() override;
+	virtual glm::mat4 GetPreviousViewProjectionMatrix() override;
 
 	inline void SetAspectRatio(glm::vec2 aspectRatio) override { m_AspectRatio = aspectRatio; }
 
@@ -41,6 +43,11 @@ private:
 	float m_FieldOfView;
 	float m_NearClipPlane;
 	float m_FarClipPlane;
+
+	glm::mat4 m_PreviousViewMatrix;
+	glm::mat4 m_ViewMatrix;
+	glm::mat4 m_ViewProjectionMatrix;
+	glm::mat4 m_PreviousViewProjectionMatrix;
 
 	glm::vec3 m_Front;
 	glm::vec3 m_Up;

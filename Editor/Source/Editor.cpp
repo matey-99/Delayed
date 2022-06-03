@@ -10,6 +10,8 @@
 #include "Renderer/RenderPass/LightingPass.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Scene/Component/StaticMeshComponent.h"
+#include "Scene/Component/Animation/SkeletalMeshComponent.h"
+#include "Scene/Component/Animation/Animator.h"
 #include "Scene/Component/FoliageComponent.h"
 #include "Scene/Component/LODGroupComponent.h"
 #include "Scene/Component/Particle/ParticleSystemComponent.h"
@@ -84,6 +86,12 @@ void Editor::Start()
 		mesh->Start();
 	}
 
+	auto skelMeshes = m_Scene->GetComponents<SkeletalMeshComponent>();
+	for (auto skelMesh : skelMeshes)
+	{
+		skelMesh->Start();
+	}
+	
 	auto foliages = m_Scene->GetComponents<FoliageComponent>();
 	for (auto foliage : foliages)
 	{
@@ -119,6 +127,12 @@ void Editor::Update(float deltaTime)
 	for (auto mesh : meshes)
 	{
 		mesh->Update(deltaTime);
+	}
+
+	auto animators = m_Scene->GetComponents<Animator>();
+	for (auto animator : animators)
+	{
+		animator->Update(deltaTime);
 	}
 
 	auto lods = m_Scene->GetComponents<LODGroupComponent>();

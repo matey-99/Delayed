@@ -65,12 +65,10 @@ public:
 
 	// Actions
 	std::vector<Ref<ActionInputBinding>> FindActionInputBindings(std::string name);
-	void MakeAction(Ref<ActionInputBinding> actionInputBinding);
 	void ClearAction(std::string actionName);
 
 	// Axes
 	std::vector<Ref<AxisInputBinding>> FindAxisInputBindings(std::string name);
-	void MakeAxis(Ref<AxisInputBinding> axisInputBinding, float value);
 	void ClearAxis(std::string axisName);
 
 	// Bindings

@@ -9,6 +9,7 @@ struct CharacterMovementParams
 {
 	bool IsWalking = false;
 	bool IsRunning = false;
+	bool IsSlowedDown = false;
 };
 
 class CharacterController : public GameComponent
@@ -38,6 +39,7 @@ private:
 
 	float m_WalkSpeed;
 	float m_RunSpeed;
+	float m_SlowedDownSpeed;
 	float m_RotateSpeed;
 	float m_LookUpLimit;
 	float m_JumpHeight;

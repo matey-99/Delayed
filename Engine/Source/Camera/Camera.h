@@ -22,7 +22,10 @@ public:
 
 	virtual glm::mat4 GetViewMatrix() = 0;
 	virtual glm::mat4 GetProjectionMatrix() = 0;
+	virtual glm::mat4 GetPreviousViewMatrix() = 0;
 	virtual glm::mat4 GetViewProjectionMatrix() = 0;
+	virtual glm::mat4 GetPreviousViewProjectionMatrix() = 0;
+
 
 	virtual Ref<Frustum> GetFrustum() = 0;
 

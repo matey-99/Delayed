@@ -49,6 +49,6 @@ void BlockTrigger::OnTriggerExit(ColliderComponent* other)
 	if (other->GetOwner()->GetComponent<Ghost>())
 	{
 		m_ConnectedBlockCollider->SetTrigger(true);
-		m_ConnectedBlockCollider->GetOwner()->GetComponent<StaticMeshComponent>()->ChangeMaterial(0, "Materials/M_Ghost.mat");
+		m_ConnectedBlockCollider->GetOwner()->GetComponent<StaticMeshComponent>()->ChangeMaterial(0, "Materials/M_GhostObject.mat");
 	}
 }

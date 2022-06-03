@@ -23,6 +23,7 @@ private:
 	BlendMode m_BlendMode;
 	Ref<Shader> m_Shader;
 
+protected:
 	std::unordered_map<std::string, bool> m_BoolParameters;
 	std::unordered_map<std::string, float> m_FloatParameters;
 	std::unordered_map<std::string, glm::vec3> m_Vec3Parameters;
@@ -44,6 +45,13 @@ public:
 	inline std::string GetPath() const { return m_Path; }
 	inline BlendMode GetBlendMode() const { return m_BlendMode; }
 	inline Ref<Shader> GetShader() const { return m_Shader; }
+
+	inline std::unordered_map<std::string, bool> GetBoolParameters() const { return m_BoolParameters; }
+	inline std::unordered_map<std::string, float> GetFloatParameters() const { return m_FloatParameters; }
+	inline std::unordered_map<std::string, glm::vec3> GetVec3Parameters() const { return m_Vec3Parameters; }
+	inline std::unordered_map<std::string, Ref<Texture>> GetTexture2DParameters() const { return m_Texture2DParameters; }
+
+	inline void SetBlendMode(BlendMode mode) { m_BlendMode = mode; }
 
 	friend class MaterialEditorPanel;
 	friend class MaterialSerializer;

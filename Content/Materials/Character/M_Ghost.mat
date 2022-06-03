@@ -29,11 +29,11 @@ Float Parameters:
   - Name: u_Material.metallic
     Value: 0
   - Name: u_Material.backgroundOpacity
-    Value: 0.0700000003
+    Value: 0.0599999987
   - Name: u_Material.roughness
-    Value: 0.100000001
+    Value: 0.730000019
   - Name: u_Material.fresnelExponential
-    Value: 1.13
+    Value: 0.0500000007
   - Name: u_Material.emissiveStrength
     Value: 7.19999981
 Vec3 Parameters:

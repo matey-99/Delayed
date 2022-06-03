@@ -2,6 +2,7 @@
 
 #include "Importer/ModelImporter.h"
 #include "Importer/SkeletalModelImporter.h"
+#include "Importer/AnimationImporter.h"
 #include "Importer/TextureImporter.h"
 #include "Importer/FontImporter.h"
 #include "Importer/SceneImporter.h"
@@ -18,6 +19,7 @@ AssetManager::AssetManager()
 {
 	m_ModelImporter = CreateRef<ModelImporter>();
 	m_SkeletalModelImporter = CreateRef<SkeletalModelImporter>();
+	m_AnimationImporter = CreateRef<AnimationImporter>();
 	m_TextureImporter = CreateRef<TextureImporter>();
 	m_FontImporter = CreateRef<FontImporter>();
 	m_ShaderImporter = CreateRef<ShaderImporter>();
@@ -37,6 +39,12 @@ Ref<SkeletalModel> AssetManager::LoadSkeletalModel(std::string assetPath)
 {
 	std::string fullPath = ContentDirectory + assetPath;
 	return GetInstance()->m_SkeletalModelImporter->ImportSkeletalModel(fullPath);
+}
+
+std::vector<Ref<Animation>> AssetManager::LoadAnimations(std::string assetPath, Ref<Rig> rig)
+{
+	std::string fullPath = ContentDirectory + assetPath;
+	return GetInstance()->m_AnimationImporter->ImportAnimations(fullPath, rig);
 }
 
 Ref<Texture> AssetManager::LoadTexture(std::string assetPath, Texture::Type type)
