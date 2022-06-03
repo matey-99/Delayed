@@ -61,32 +61,31 @@ void TPPCharacterController::Move(glm::vec3 direction, const CharacterMovementPa
 
 void TPPCharacterController::Rotate(Ref<CameraController> camera, glm::vec3 inputDirection, float deltaTime)
 {
-    glm::vec3 currentRotation = m_Owner->GetTransform()->GetLocalRotation();
-    glm::vec3 targetRotation = camera->GetOwner()->GetTransform()->GetLocalRotation();
-    glm::vec3 rotation = glm::vec3(0.0f);
+    glm::quat currentRotation = glm::quat(radians(m_Owner->GetTransform()->GetLocalRotation()));
+    glm::quat targetRotation = glm::quat(radians(camera->GetOwner()->GetTransform()->GetLocalRotation()));
+
+    float rotation = 0.0f;
 
     float turnSpeed = 10.0f;
 
-    // TODO: Fix fast 360 rotation
     if (inputDirection.z == 1.0f)
-        rotation += glm::vec3(0,180,0);
+        rotation += 180.0f;
     if (inputDirection.x == 1.0f)
-        rotation += glm::vec3(0,90,0);
+        rotation += 90.0f;
     if (inputDirection.x == -1.0f)
-        rotation += glm::vec3(0,-90,0);
+        rotation += -90.0f;
     if (inputDirection.z == 1.0f && inputDirection.x == 1.0f)
-        rotation += glm::vec3(0,-135,0);
+        rotation += -135.0f;
     if (inputDirection.z == 1.0f && inputDirection.x == -1.0f)
-        rotation += glm::vec3(0,135,0);
+        rotation += 135.0f;
     if (inputDirection.z == -1.0f && inputDirection.x == 1.0f)
-        rotation += glm::vec3(0,-45,0);
+        rotation += -45.0f;
     if (inputDirection.z == -1.0f && inputDirection.x == -1.0f)
-        rotation += glm::vec3(0,45,0);
+        rotation += 45.0f;
 
-    targetRotation = Math::Lerp(currentRotation, targetRotation + rotation, deltaTime * turnSpeed);
+    targetRotation = glm::slerp(currentRotation, glm::rotate(targetRotation, glm::radians(rotation), glm::vec3(0, 1, 0)), deltaTime * turnSpeed);
 
-
-    m_Owner->GetTransform()->SetLocalRotation(targetRotation);
+    m_Owner->GetTransform()->SetLocalRotation(glm::degrees(glm::eulerAngles(targetRotation)));
 }
 
 void TPPCharacterController::Jump()
