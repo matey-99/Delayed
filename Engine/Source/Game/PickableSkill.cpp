@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "SaveManager.h"
 #include "Scene/Scene.h"
+#include "NotificationManager.h"
+#include "TutorialManager.h"
 
 PickableSkill::PickableSkill(Actor* owner)
 	: GameComponent(owner)
@@ -28,6 +30,27 @@ void PickableSkill::OnTriggerEnter(ColliderComponent* other)
 	if (auto player = other->GetOwner()->GetComponent<Player>())
 	{
 		player->AddSkill(m_SkillType);
+
+		std::string skillName = "";
+		TutorialType tutorial = TutorialType::DoubleJump;
+		switch (m_SkillType)
+		{
+		case SkillType::DoubleJump:
+			skillName = "Double Jump";
+			tutorial = TutorialType::DoubleJump;
+			break;
+		case SkillType::Dash:
+			skillName = "Dash";
+			tutorial = TutorialType::Dash;
+			break;
+		case SkillType::Teleport:
+			skillName = "Teleportation to the Ghost";
+			tutorial = TutorialType::Teleport;
+			break;
+		}
+
+		NotificationManager::GetInstance()->Notify("You obtained a new skill: " + skillName);
+		TutorialManager::GetInstance()->DisplayTutorial(tutorial);
 		m_Owner->SetEnabled(false);
 	}
 }

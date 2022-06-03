@@ -19,6 +19,7 @@ public:
 
 	void ChangeFont(std::string path);
 
+	inline void SetText(const std::string& text) { m_Text = text; }
 	inline void SetNormalColor(const glm::vec4& color) { m_NormalColor = color; }
 
 private:

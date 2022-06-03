@@ -55,6 +55,54 @@ Actors:
           Parent: 0
       - GameManager:
           MainMenu: 902244052
+  - Actor: 493161986
+    ID: 493161986
+    Name: Notification Manager
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - NotificationManager:
+          NotificationText: 504209015
+  - Actor: 593161986
+    ID: 593161986
+    Name: Tutorial Manager
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - TutorialManager:
+          DoubleJumpTutorial: 397100653
+          DashTutorial: 789946083
+          TeleportTutorial: 840690078
+  - Actor: 504209015
+    ID: 504209015
+    Name: NotificationText
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 5
+          LocalPosition: [45, -90, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Notification
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [1, 1, 1, 1]
+          PressedColor: [1, 1, 1, 1]
+          DisabledColor: [1, 1, 1, 1]
   - Actor: 902244052
     ID: 902244052
     Name: MainMenu
@@ -669,7 +717,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 11.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 0
@@ -3609,3 +3657,99 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 448595750
+  - Actor: 528444467
+    ID: 528444467
+    Name: Double Jump Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-650, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 397100653
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Press 'Spacebar' while being in air to Double Jump
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 397100653
+    ID: 397100653
+    Name: Double Jump Tutorial
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+  - Actor: 789946083
+    ID: 789946083
+    Name: Dash Tutorial
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+  - Actor: 840690078
+    ID: 840690078
+    Name: Teleport Tutorial
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+  - Actor: 528544467
+    ID: 528544467
+    Name: Dash Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-123, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 789946083
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Press 'V' to Dash
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 528554467
+    ID: 528554467
+    Name: Teleport Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-517, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 840690078
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Press 'R' to Teleport Back to the Ghost
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]

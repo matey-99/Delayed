@@ -18,6 +18,7 @@
 #include "Checkpoint.h"
 #include "PickableSkill.h"
 #include "GameManager.h"
+#include "TutorialManager.h"
 
 Player::Player(Actor* owner)
 	: GameComponent(owner)
@@ -226,6 +227,13 @@ void Player::Jump()
 			m_CharacterController->Jump();
 			m_CanJump = false;
 		}
+
+		if (!isGrounded && m_HasDoubleJumpSkill)
+		{
+			auto tutorial = TutorialManager::GetInstance();
+			if (tutorial->IsTutorialDisplayed(TutorialType::DoubleJump))
+				tutorial->HideTutorial(TutorialType::DoubleJump);
+		}
 	}
 }
 
@@ -251,6 +259,10 @@ void Player::Dash()
 		m_CharacterController->Dash();
 		m_CanDash = false;
 		m_DashCooldownTimer = m_DashCooldown;
+
+		auto tutorial = TutorialManager::GetInstance();
+		if (tutorial->IsTutorialDisplayed(TutorialType::Dash))
+			tutorial->HideTutorial(TutorialType::Dash);
 	}
 }
 
@@ -267,6 +279,10 @@ void Player::Teleport()
 		m_CanTeleport = false;
 		m_TeleportCooldownTimer = m_TeleportCooldown;
 		m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition();
+
+		auto tutorial = TutorialManager::GetInstance();
+		if (tutorial->IsTutorialDisplayed(TutorialType::Teleport))
+			tutorial->HideTutorial(TutorialType::Teleport);
 	}
 }
 

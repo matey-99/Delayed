@@ -12,6 +12,7 @@
 #include "Game/Player.h"
 #include "Game/Ghost.h"
 #include "Game/PickableSkill.h"
+#include "Game/NotificationManager.h"
 
 Obelisk::Obelisk(Actor* owner)
 	: GameComponent(owner)
@@ -125,6 +126,22 @@ void Obelisk::GetEffect()
 		m_Player->AddSkill(SkillType::Teleport);
 		break;
 	}
+
+	std::string effectText = "";
+	switch (m_Effect)
+	{
+	case ObeliskEffect::Corrupt:
+		effectText = "Ghost was corrupted by the Corrupted Obelisk. Run!";
+		break;
+	case ObeliskEffect::Heal:
+		effectText = "Ghost was healed by the Healing Obelisk.";
+		break;
+	case ObeliskEffect::GiveTeleportSkill:
+		effectText = "You obtained a new skill: Teleportation to the Ghost.";
+		break;
+	}
+
+	NotificationManager::GetInstance()->Notify(effectText);
 
 	TimerManager::GetInstance()->ClearTimer(m_EffectTimerHandle);
 }

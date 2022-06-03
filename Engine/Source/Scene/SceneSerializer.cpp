@@ -46,6 +46,8 @@
 #include "Game/Obelisks/Obelisk.h"
 #include "Game/PostProcessingVolume.h"
 #include "Game/GameManager.h"
+#include "Game/NotificationManager.h"
+#include "Game/TutorialManager.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -631,6 +633,26 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 						auto g = a->CreateComponent<GameManager>();
 						g->m_MainMenuID = mainMenuID;
+					}
+
+					if (auto notificationManager = component["NotificationManager"])
+					{
+						uint64_t notificationTextID = notificationManager["NotificationText"].as<uint64_t>();
+
+						auto n = a->CreateComponent<NotificationManager>();
+						n->m_NotificationTextID = notificationTextID;
+					}
+
+					if (auto tutorialManager = component["TutorialManager"])
+					{
+						uint64_t doubleJumpTutorialID = tutorialManager["DoubleJumpTutorial"].as<uint64_t>();
+						uint64_t dashTutorialID = tutorialManager["DashTutorial"].as<uint64_t>();
+						uint64_t teleportTutorialID = tutorialManager["TeleportTutorial"].as<uint64_t>();
+
+						auto t = a->CreateComponent<TutorialManager>();
+						t->m_DoubleJumpTutorialID = doubleJumpTutorialID;
+						t->m_DashTutorialID = dashTutorialID;
+						t->m_TeleportTutorialID = teleportTutorialID;
 					}
 
 					if (auto menu = component["MainMenu"])
@@ -1232,6 +1254,28 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "GameManager";
 		out << YAML::BeginMap;
 		out << YAML::Key << "MainMenu" << YAML::Value << gameManager->m_MainMenuID;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto notificationManager = actor->GetComponent<NotificationManager>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "NotificationManager";
+		out << YAML::BeginMap;
+		out << YAML::Key << "NotificationText" << YAML::Value << notificationManager->m_NotificationTextID;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto tutorialManager = actor->GetComponent<TutorialManager>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "TutorialManager";
+		out << YAML::BeginMap;
+		out << YAML::Key << "DoubleJumpTutorial" << YAML::Value << tutorialManager->m_DoubleJumpTutorialID;
+		out << YAML::Key << "DashTutorial" << YAML::Value << tutorialManager->m_DashTutorialID;
+		out << YAML::Key << "TeleportTutorial" << YAML::Value << tutorialManager->m_TeleportTutorialID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
