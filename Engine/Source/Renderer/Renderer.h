@@ -58,7 +58,7 @@ public:
 		bool SSREnabled = true;
 		bool FXAAEnabled = true;
 		bool VignetteEnabled = true;
-		bool MotionBlurEnabled = true;
+		bool MotionBlurEnabled = false;
 		bool DepthOfFieldEnabled = true;
 	};
 

@@ -56,8 +56,7 @@ void main()
     f_Color = vec4(col, 1.0);
     return;
     */
-    
-    /*
+
     vec2 MetallicRoughness = texture2D(u_GBufferMetallicRoughness, v_TexCoord).rg;
     Metallic = MetallicRoughness.r;
 
@@ -100,17 +99,16 @@ void main()
     vec3 SSR = textureLod(u_Screen, coords.xy, 0).rgb * clamp(ReflectionMultiplier, 0.0, 0.9) * Fresnel;
     
     f_Color = vec4(SSR, Metallic);
-    */
 
     // Gaussian blur
     
+    /*
     vec2 pos = gl_FragCoord.xy/u_ScreenSize;
     pos.x = (pos.x * 2) - 1.0;
     pos.y = (pos.y * 2) - 1.0;
     float xs = u_ScreenSize.x;
     float ys = u_ScreenSize.y;
     float r = 15;
-
     float x,y,xx,yy,rr=r*r,dx,dy,w,w0;
     w0=0.3780/pow(r,1.975);
     vec2 p;
@@ -123,9 +121,10 @@ void main()
         col+=texture2D(u_Screen, p)*w;
         }}}
     
+
     //f_Color = vec4(position.x, position.y, 0.0, 1.0);
     f_Color = (texture2D(u_Screen, v_TexCoord).rg, 1.0, 1.0);
-    
+    */
 }
 
 
