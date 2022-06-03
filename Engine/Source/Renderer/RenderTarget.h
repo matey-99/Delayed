@@ -25,6 +25,7 @@ public:
 	{
 		R8 = GL_R8,
 		R16 = GL_R16,
+		R32F = GL_R32F,
 		RG8 = GL_RG8,
 		RG16 = GL_RG16,
 		RG16F = GL_RG16F,

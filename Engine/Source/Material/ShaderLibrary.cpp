@@ -21,6 +21,15 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> transparentSkeletal = AssetManager::LoadShader("Shaders/TransparentSkeletal.glsl");
 	m_MaterialShaders.insert({ transparentSkeletal->GetName(), transparentSkeletal });
 
+    Ref<Shader> waterShader = AssetManager::LoadShader("Shaders/Water.glsl");
+    m_MaterialShaders.insert({waterShader->GetName(), waterShader});
+	
+    Ref<Shader> grass = AssetManager::LoadShader("Shaders/Grass.glsl");
+	m_MaterialShaders.insert({ grass->GetName(), grass });
+
+    Ref<Shader> fogPlane = AssetManager::LoadShader("Shaders/FogPlane.glsl");
+    m_MaterialShaders.insert({ fogPlane->GetName(), fogPlane });
+
 	/* Post-Processing Shaders */
 
 	Ref<Shader> viewport = AssetManager::LoadShader("Shaders/Viewport.glsl");
@@ -108,6 +117,9 @@ ShaderLibrary::ShaderLibrary()
 	
 	Ref<Shader> ui = AssetManager::LoadShader("Shaders/UI.glsl");
 	m_UIShaders.insert({ ui->GetName(), ui });
+
+	Ref<Shader> text = AssetManager::LoadShader("Shaders/Text.glsl");
+	m_UIShaders.insert({ text->GetName(), text });
 
 	/* Compute Shaders */
 

@@ -122,6 +122,19 @@ void Application::Run()
         glfwPollEvents();
         input->Process();
 
+        // Check if window has changed or is minimalized
+        int windowWidth, windowHeight;
+        glfwGetWindowSize(m_Window, &windowWidth, &windowHeight);
+        if (windowWidth == 0 || windowHeight == 0)
+            continue;
+
+        if (windowWidth != renderer->GetWindowWidth() || windowHeight != renderer->GetWindowHeight())
+        {
+            renderer->ResizeWindow(windowWidth, windowHeight);
+            cameraManager->GetMainCamera()->SetAspectRatio(glm::vec2(windowWidth, windowHeight));
+            scene->GetUIRoot()->GetTransform()->CalculateWorldModelMatrix();
+        }
+
         // FIXED UPDATES & UPDATE
         time->SetCurrentFrameTime(glfwGetTime());
         scene = sceneManager->GetCurrentScene();
@@ -129,16 +142,6 @@ void Application::Run()
 
         //AUDIO
         audioSystem->Update(time->GetDeltaTime());
-
-        // Check if window has changed
-        int windowWidth, windowHeight;
-        glfwGetWindowSize(m_Window, &windowWidth, &windowHeight);
-        if (windowWidth != renderer->GetWindowWidth() || windowHeight != renderer->GetWindowHeight())
-        {
-            renderer->ResizeWindow(windowWidth, windowHeight);
-            cameraManager->GetMainCamera()->SetAspectRatio(glm::vec2(windowWidth, windowHeight));
-            scene->GetUIRoot()->GetTransform()->CalculateWorldModelMatrix();
-        }
 
         // RENDER
         renderer->Render(scene, cameraManager->GetMainCamera());

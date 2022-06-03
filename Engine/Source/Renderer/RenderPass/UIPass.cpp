@@ -48,9 +48,13 @@ void UIPass::Render(Ref<Scene> scene, uint32_t input)
 	RenderTools::GetInstance()->RenderQuad();
 
 	auto uiComponents = scene->GetComponents<UIComponent>();
-	for (auto comp : uiComponents)
+	std::vector<Actor*> uiActors;
+	scene->FindEnabledActors(scene->GetUIRoot().get(), uiActors);
+
+	for (auto uiActor : uiActors)
 	{
-		comp->Render();
+		if (auto comp = uiActor->GetComponent<UIComponent>())
+			comp->Render();
 	}
 
 	glDisable(GL_BLEND);

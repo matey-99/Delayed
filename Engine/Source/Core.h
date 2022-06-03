@@ -7,6 +7,7 @@
 #include <chrono>
 #include <ctime>
 #include <stack>
+#include <algorithm>
 
 /* Third Party */ 
 #include <glm/glm.hpp>

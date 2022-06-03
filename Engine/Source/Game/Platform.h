@@ -4,6 +4,8 @@
 
 #include "GameComponent.h"
 
+class MaterialInstance;
+
 class Platform : public GameComponent
 {
 public:
@@ -19,6 +21,8 @@ public:
 private:
 	bool m_Active;
 	glm::vec3 m_DefaultPosition;
+
+	Ref<MaterialInstance> m_Material;
 
 #pragma region Serialization
 

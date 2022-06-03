@@ -20,9 +20,8 @@ RendererSettings:
     NumBinarySearchSteps: 20
     ReflectionSpecularFalloffExponent: 8
   DepthFogSettings:
-    MinDistance: 15
-    MaxDistance: 125
     Density: 0.150000006
+    Height: 0.10
     Color: [0.470588237, 0.662745118, 0.87843138]
   PostProcessingSettings:
     Gamma: -1
@@ -40,6 +39,8 @@ RendererSettings:
     Saturation: 1.10000002
     Temperature: 75
     Hue: 180
+    AberrationEnabled: false
+    AberrationShift: [0.0120000001, -0.00800000038, -0.00200000009]
   VignetteSettings:
     Intensity: 10.5
     Size: 0.174999997

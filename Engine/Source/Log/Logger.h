@@ -13,8 +13,10 @@ class Logger
 {
 public:
 	static void Warn(std::string message, std::string location = LINE_OF_CODE);
+	static void Error(std::string message, std::string location = LINE_OF_CODE);
 };
 
 
 #define DEBUG_LOG(x, ...) printf(x, ...);
-#define WARN(x) Logger::Warn(x, LINE_OF_CODE);
+#define ENGINE_WARN(x) Logger::Warn(x, LINE_OF_CODE);
+#define ENGINE_ERROR(x) Logger::Error(x, LINE_OF_CODE);

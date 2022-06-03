@@ -5,9 +5,10 @@
 #include "GameComponent.h"
 #include "Scene/Component/Collider/ColliderComponent.h"
 #include "Platform.h"
-#include "Patterns/Singleton.h"
+#include "Time/TimerManager.h"
 
-class Material;
+class MaterialInstance;
+class AudioSourceComponent;
 
 class Button : public GameComponent
 {
@@ -22,21 +23,32 @@ public:
 	virtual void OnTriggerEnter(ColliderComponent* other) override;
 	virtual void OnTriggerExit(ColliderComponent* other) override;
 
+	inline bool IsPressed() const { return m_IsPressed; }
+
 private:
 	void Handle();
 	
 	void Press();
 	void Release();
 
+	void DeactivatePlatform();
+
 private:
 	Ref<Platform> m_Platform;
 	std::vector<Ref<Button>> m_ConnectedButtons;
 	int m_TriggeringActorsCount;
 
-	Ref<Material> m_NormalMaterial;
-	Ref<Material> m_PressedMaterial;
+	float m_EmissionStrength;
+	float m_EmissionTime;
+	float m_EmissionTimer;
+
+	Ref<MaterialInstance> m_Material;
+	Ref<AudioSourceComponent> m_AudioSource;
 
 	bool m_IsPressed;
+
+	float m_PlatformDelayTime;
+	TimerHandle m_PlatformDelayTimerHandle;
 
 #pragma region Serialization
 

@@ -1,16 +1,19 @@
 #include "Scene.h"
 #include "Component/StaticMeshComponent.h"
+#include "Component/FoliageComponent.h"
 #include "Component/Light/DirectionalLight.h"
 #include "Component/Light/PointLight.h"
 #include "Component/Light/SpotLight.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 #include <glad/glad.h>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/Collider/BoxColliderComponent.h>
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderPass/ShadowsPass.h"
+#include "Renderer/RenderPass/GBufferPass.h"
 #include "Component/TransformComponent.h"
 #include "Component/Animation/SkeletalMeshComponent.h"
 #include "Component/Animation/Animator.h"
@@ -19,6 +22,7 @@
 #include "Component/Particle/ParticleSystemComponent.h"
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
+#include "Time/Time.h"
 
 Scene::Scene()
 {
@@ -110,7 +114,7 @@ void Scene::PreRender()
 
 void Scene::Render(Material::BlendMode blendMode)
 {
-	if (m_SkyLight)
+	if (m_SkyLight && m_SkyLight->GetOwner()->IsEnabled())
 		m_SkyLight->Render(blendMode);
 
 	MeshesRenderList meshesList;
@@ -123,7 +127,10 @@ void Scene::Render(Material::BlendMode blendMode)
 	RenderMeshes(meshesList, blendMode);
 
 	for (auto& particleSystem : GetComponents<ParticleSystemComponent>())
-		particleSystem->Render(blendMode);
+	{
+		if (particleSystem->GetOwner()->IsEnabled())
+			particleSystem->Render(blendMode);
+	}
 }
 
 void Scene::Render(Ref<Shader> shader)
@@ -181,16 +188,19 @@ void Scene::SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, b
 		});
 }
 
-std::vector<Actor*> Scene::CullActors(std::vector<Actor*>& actors) {
+std::vector<Actor*> Scene::CullActors(std::vector<Actor*>& actors) 
+{
+	auto camera = CameraManager::GetInstance()->GetMainCamera();
+
     std::vector<Actor*> output;
     for (auto actor : actors) {
-        if (auto a = actor->GetComponent<MeshComponent>()) {
-
-			auto camera = CameraManager::GetInstance()->GetMainCamera();
-            if (camera->GetFrustum()->BoxInFrustum(a->GetBoundingBox())) {
-                output.push_back(actor);
-            }
+        if (auto a = actor->GetComponent<MeshComponent>()) 
+		{
+            if (camera->GetFrustum()->BoxInFrustum(a->GetBoundingBox())) 
+				output.push_back(actor);
         }
+		if (actor->GetComponent<FoliageComponent>())
+			output.push_back(actor);
     }
     return output;
 }
@@ -237,6 +247,55 @@ void Scene::SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents)
 	}
 }
 
+void Scene::SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents)
+{
+	for (auto foliageComponent : foliageComponents)
+	{
+		for (int i = 0; i < foliageComponent->GetMeshes().size(); i++)
+		{
+			if (auto material = foliageComponent->GetMaterial())
+			{
+				Ref<MeshBase> mesh = foliageComponent->GetMeshes()[i];
+
+				for (int j = 0; j < foliageComponent->GetInstancesCount(); j++)
+				{
+					glm::mat4 transformation = foliageComponent->GetInstancesTransformations()[j];
+					glm::vec3 worldPosition = foliageComponent->GetInstancesWorldPositions()[j];
+					BoundingBox boundingBox = foliageComponent->GetInstancesBoundingBoxes()[j];
+
+					auto camera = CameraManager::GetInstance()->GetMainCamera();
+					if (!camera->GetFrustum()->BoxInFrustum(boundingBox))
+						continue;
+
+					bool found = false;
+					for (auto& renderMesh : m_MeshesRenderList)
+					{
+						if (renderMesh.first->Mesh == mesh && renderMesh.first->Material == material)
+						{
+							found = true;
+							renderMesh.second.push_back(transformation);
+
+							break;
+						}
+					}
+					if (!found)
+					{
+						Ref<MaterialMesh> materialMesh = CreateRef<MaterialMesh>();
+						materialMesh->Mesh = mesh;
+						materialMesh->Material = material;
+
+						std::vector<glm::mat4> transformations;
+						transformations.push_back(transformation);
+
+						m_MeshesRenderList.insert({ materialMesh, transformations });
+					}
+				}
+				
+			}
+		}
+	}
+}
+
 void Scene::UpdateMeshesRenderList()
 {
 	std::vector<Actor*> actors = m_EnabledActors;
@@ -248,12 +307,18 @@ void Scene::UpdateMeshesRenderList()
 	SortActorsByDistance(actors, cameraPosition, false);
 
 	std::vector<Ref<MeshComponent>> meshComponents;
+	std::vector<Ref<FoliageComponent>> foliageComponents;
 	for (auto actor : actors)
 	{
 		if (auto m = actor->GetComponent<MeshComponent>())
 			meshComponents.push_back(m);
+
+		if (auto f = actor->GetComponent<FoliageComponent>())
+			foliageComponents.push_back(f);
 	}
+
 	SortMeshes(meshComponents);
+	SortFoliages(foliageComponents);
 }
 
 void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
@@ -300,6 +365,19 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 			}
 		}
 
+        if (material->GetName() == "Water") {
+            material->GetShader()->SetFloat("u_FrameTime", Time::GetInstance()->GetElapsedTime());
+		}
+		
+        if (material->GetName() == "Grass") {
+            material->GetShader()->SetFloat("u_Time", Time::GetInstance()->GetElapsedTime());
+        }
+
+        if (material->GetName() == "FogPlane") {
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_GBufferPass->GetRenderTarget()->GetDepthTarget());
+            material->GetShader()->SetInt("u_SceneDepth", 1);
+        }
 
 		std::vector<glm::mat4> transformations;
 		uint32_t instancesCount = 0;
@@ -479,11 +557,11 @@ Ref<Actor> Scene::FindActor(uint64_t id)
 			return actor;
 	}
 
-	WARN("Actor with ID: " + std::to_string(id) + " doesn't exist!");
+	ENGINE_WARN("Actor with ID: " + std::to_string(id) + " doesn't exist!");
 	return Ref<Actor>();
 }
 
-Ref<Actor> Scene::SpawnActor(const glm::vec3& position, const glm::vec3& rotation, Ref<Actor> parent)
+Ref<Actor> Scene::SpawnActor(const glm::vec3& position, const glm::vec3& rotation, Actor* parent)
 {
 	Ref<Actor> actor = Actor::Create(this, "SpawnedActor" + std::to_string(m_Actors.size()));
 

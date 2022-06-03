@@ -22,3 +22,5 @@ constexpr Ref<T> StaticCast(Args&& ... args)
 {
 	return std::static_pointer_cast<T>(std::forward<Args>(args)...);
 }
+
+typedef uint64_t TimerHandle;

@@ -3,8 +3,15 @@
 Implementation::Implementation() {
     m_System = nullptr;
     m_NextChannelId = 0;
+    m_ChannelVolumes[MASTER] = 0.5f;
+    m_ChannelVolumes[MUSIC] = 1.0f;
+    m_ChannelVolumes[SFX] = 1.0f;
     AudioSystem::ErrorCheck(FMOD::System_Create(&m_System));
     AudioSystem::ErrorCheck(m_System->init(128, FMOD_INIT_3D_RIGHTHANDED, nullptr));
+    AudioSystem::ErrorCheck(m_System->createChannelGroup("Music", &m_ChannelGroups[MUSIC]));
+    AudioSystem::ErrorCheck(m_System->createChannelGroup("SFX", &m_ChannelGroups[SFX]));
+    AudioSystem::ErrorCheck(m_ChannelGroups[MUSIC]->setVolume(m_ChannelVolumes[MUSIC]));
+    AudioSystem::ErrorCheck(m_ChannelGroups[SFX]->setVolume(m_ChannelVolumes[SFX]));
 }
 
 Implementation::~Implementation() {
@@ -23,6 +30,7 @@ void Implementation::Update() {
     for (auto &it: stoppedChannels) {
         m_Channels.erase(it);
     }
+
     AudioSystem::ErrorCheck(m_System->update());
 }
 
@@ -69,7 +77,7 @@ void AudioSystem::Set3dListener(const glm::vec3 &position, const glm::vec3 &forw
     AudioSystem::ErrorCheck(m_Implementation->m_System->set3DListenerAttributes(0, &pos, nullptr, &fwd, &upv));
 }
 
-int AudioSystem::PlaySound(const std::string &soundName, float volume, bool isLooping, bool is3d,
+int AudioSystem::PlaySound(const std::string &soundName, CHANNEL_GROUP channelGroup, float volume, bool isLooping, bool is3d,
                            const glm::vec3 &position) {
     int channelId = m_Implementation->m_NextChannelId++;
     auto tFoundIt = m_Implementation->m_Sounds.find(soundName);
@@ -95,6 +103,7 @@ int AudioSystem::PlaySound(const std::string &soundName, float volume, bool isLo
         AudioSystem::ErrorCheck(pChannel->setVolume(volume));
         AudioSystem::ErrorCheck(pChannel->setPaused(false));
         m_Implementation->m_Channels[channelId] = pChannel;
+        AudioSystem::ErrorCheck(pChannel->setChannelGroup(m_Implementation->m_ChannelGroups[channelGroup]));
     }
     return channelId;
 }
@@ -129,6 +138,13 @@ void AudioSystem::SetChannelVolume(int channelId, float volume) {
         return;
 
     AudioSystem::ErrorCheck(tFoundIt->second->setVolume(volume));
+}
+
+void AudioSystem::SetChannelGroupVolume(CHANNEL_GROUP channelGroup, float volume) {
+    if (channelGroup == MASTER)
+        AudioSystem::ErrorCheck(m_Implementation->m_ChannelGroups[channelGroup]->setVolume(volume));
+    else
+        AudioSystem::ErrorCheck(m_Implementation->m_ChannelGroups[channelGroup]->setVolume(m_Implementation->m_ChannelVolumes[MASTER] * volume));
 }
 
 void AudioSystem::SetChannelMode(int channelId, bool is3d, bool looping) {

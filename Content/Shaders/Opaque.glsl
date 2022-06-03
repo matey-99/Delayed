@@ -77,6 +77,7 @@ layout (location = 2) out vec4 f_ColorAO;
 layout (location = 3) out vec4 f_Emissive;
 layout (location = 4) out vec4 f_MetallicRoughness;
 layout (location = 5) out vec4 f_ViewSpacePosition;
+layout (location = 6) out float f_Depth;
 
 layout (location = 0) in vec3 v_Position;
 layout (location = 1) in vec3 v_Normal;
@@ -181,4 +182,6 @@ void main()
     f_MetallicRoughness = vec4(metallic, roughness, 0.0, 1.0);
 
     f_ViewSpacePosition = v_ViewPosition;
+
+    f_Depth = gl_FragCoord.z;
 }

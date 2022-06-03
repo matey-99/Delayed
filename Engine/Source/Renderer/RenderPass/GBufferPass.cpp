@@ -38,7 +38,13 @@ GBufferPass::GBufferPass()
 	gBuffer5Config.Type = RenderTarget::Type::Texture2D;
 	gBuffer5Config.ColorInternalFormat = RenderTarget::ColorInternalFormat::RGBA16F;
 
-	std::vector<RenderTarget::Config> gBufferConfigs = { gBuffer0Config, gBuffer1Config, gBuffer2Config, gBuffer3Config, gBuffer4Config, gBuffer5Config };
+	// Depth
+	RenderTarget::Config gBuffer6Config;
+	gBuffer6Config.Attachment = RenderTarget::Attachment::Color;
+	gBuffer6Config.Type = RenderTarget::Type::Texture2D;
+	gBuffer6Config.ColorInternalFormat = RenderTarget::ColorInternalFormat::R32F;
+
+	std::vector<RenderTarget::Config> gBufferConfigs = { gBuffer0Config, gBuffer1Config, gBuffer2Config, gBuffer3Config, gBuffer4Config, gBuffer5Config, gBuffer6Config };
 
 	m_RenderTarget = RenderTarget::CreateMRT(gBufferConfigs, 1920, 1080);
 }

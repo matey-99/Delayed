@@ -16,6 +16,9 @@
 #include "CharacterController.h"
 #include "Trail.h"
 #include "Checkpoint.h"
+#include "PickableSkill.h"
+#include "GameManager.h"
+#include "TutorialManager.h"
 
 Player::Player(Actor* owner)
 	: GameComponent(owner)
@@ -28,12 +31,19 @@ Player::Player(Actor* owner)
 	m_Rotation = glm::vec3(0.0f);
 
 	m_IsRunning = false;
+	m_IsSlowedDown = false;
 	m_IsTeleporting = false;
 	m_CanJump = true;
 	m_CanDash = true;
+	m_HasDoubleJumpSkill = false;
+	m_HasDashSkill = false;
+	m_HasTeleportSkill = false;
 
 	m_DashCooldownTimer = 0.0f;
 	m_TeleportCooldownTimer = 0.0f;
+
+	m_LastPosition = glm::vec3(0.0f);
+	m_MoveDirectionCopy = glm::vec3(0.0f);
 }
 
 void Player::Start()
@@ -91,17 +101,18 @@ void Player::Update(float deltaTime)
 	}
 
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
-	{
 		m_MoveDirection = Math::Normalize(m_MoveDirection);
 
+	glm::vec3 currentPosition = m_Owner->GetTransform()->GetWorldPosition();
+	if (!Math::IsNearlyEqual(currentPosition, m_LastPosition, 0.01f))
 		m_Trail->EnableTrailParticlesEmission(true);
-	}
 	else
 		m_Trail->EnableTrailParticlesEmission(false);
 
 	CharacterMovementParams params;
 	params.IsWalking = glm::abs(m_MoveDirection.x) > 0.1f || glm::abs(m_MoveDirection.z) > 0.1f;
 	params.IsRunning = m_IsRunning;
+	params.IsSlowedDown = m_IsSlowedDown;
 
 	m_CharacterController->Move(m_MoveDirection, params, deltaTime);
 	m_CharacterController->Rotate(m_Camera, m_Rotation, deltaTime);
@@ -109,6 +120,8 @@ void Player::Update(float deltaTime)
 
 	HandleSkillsCooldowns(deltaTime);
 	HandleHUD();
+
+	m_LastPosition = currentPosition;
 
 	// Reset move direction & rotation
 	m_MoveDirection = glm::vec3(0.0f);
@@ -119,6 +132,9 @@ const SaveData Player::Save()
 {
 	SaveData data;
 	data.ActorID = m_Owner->GetID();
+	data.BoolFields.insert({ "HasDoubleJumpSkill", m_HasDoubleJumpSkill });
+	data.BoolFields.insert({ "HasDashSkill", m_HasDashSkill });
+	data.BoolFields.insert({ "HasTeleportSkill", m_HasTeleportSkill });
 	data.Vector3Fields.insert({ "LastCheckpointPosition", m_LastCheckpointPosition });
 
 	return data;
@@ -126,9 +142,12 @@ const SaveData Player::Save()
 
 void Player::Load(const SaveData& data)
 {
+	m_HasDoubleJumpSkill = data.BoolFields.find("HasDoubleJumpSkill")->second;
+	m_HasDashSkill = data.BoolFields.find("HasDashSkill")->second;
+	m_HasTeleportSkill = data.BoolFields.find("HasTeleportSkill")->second;
 	m_LastCheckpointPosition = data.Vector3Fields.find("LastCheckpointPosition")->second;
 
-	m_Owner->GetTransform()->SetWorldPosition(m_LastCheckpointPosition);
+	BackToLastCheckpoint();
 }
 
 void Player::SetLastCheckpoint(Checkpoint* checkpoint)
@@ -142,6 +161,40 @@ void Player::BackToLastCheckpoint()
 	newPosition.y += m_Owner->GetComponent<BoxColliderComponent>()->GetBoundingBox().Extents.y;
 
 	m_Owner->GetTransform()->SetWorldPosition(newPosition);
+}
+
+void Player::AddSkill(SkillType skill)
+{
+	switch (skill)
+	{
+	case SkillType::DoubleJump:
+		m_HasDoubleJumpSkill = true;
+		break;
+	case SkillType::Dash:
+		m_HasDashSkill = true;
+		break;
+	case SkillType::Teleport:
+		m_HasTeleportSkill = true;
+		break;
+	}
+}
+
+void Player::SlowDown()
+{
+	m_IsSlowedDown = true;
+
+	m_CanJump = false;
+	m_CanDash = false;
+	m_CanTeleport = false;
+}
+
+void Player::BackToNormal()
+{
+	m_IsSlowedDown = false;
+
+	m_CanJump = true;
+	m_CanDash = m_HasDashSkill;
+	m_CanTeleport = m_HasTeleportSkill;
 }
 
 void Player::MoveForward(float value)
@@ -168,8 +221,19 @@ void Player::Jump()
 {
 	if (m_CanJump)
 	{
-		m_CharacterController->Jump();
-		m_CanJump = false;
+		bool isGrounded = m_CharacterController->IsGrounded();
+		if (isGrounded || m_HasDoubleJumpSkill)
+		{
+			m_CharacterController->Jump();
+			m_CanJump = false;
+		}
+
+		if (!isGrounded && m_HasDoubleJumpSkill)
+		{
+			auto tutorial = TutorialManager::GetInstance();
+			if (tutorial->IsTutorialDisplayed(TutorialType::DoubleJump))
+				tutorial->HideTutorial(TutorialType::DoubleJump);
+		}
 	}
 }
 
@@ -190,11 +254,15 @@ void Player::RunOff()
 
 void Player::Dash()
 {
-	if (m_CanDash && m_DashCooldownTimer == 0.0f)
+	if (m_CanDash && m_HasDashSkill && m_DashCooldownTimer == 0.0f)
 	{
 		m_CharacterController->Dash();
 		m_CanDash = false;
 		m_DashCooldownTimer = m_DashCooldown;
+
+		auto tutorial = TutorialManager::GetInstance();
+		if (tutorial->IsTutorialDisplayed(TutorialType::Dash))
+			tutorial->HideTutorial(TutorialType::Dash);
 	}
 }
 
@@ -205,12 +273,16 @@ void Player::AllowDashing()
 
 void Player::Teleport()
 {
-	if (m_CanTeleport && m_TeleportCooldownTimer == 0.0f)
+	if (m_CanTeleport && m_HasTeleportSkill && m_TeleportCooldownTimer == 0.0f)
 	{
 		m_IsTeleporting = true;
 		m_CanTeleport = false;
 		m_TeleportCooldownTimer = m_TeleportCooldown;
 		m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition();
+
+		auto tutorial = TutorialManager::GetInstance();
+		if (tutorial->IsTutorialDisplayed(TutorialType::Teleport))
+			tutorial->HideTutorial(TutorialType::Teleport);
 	}
 }
 

@@ -69,9 +69,8 @@ void RendererSettingsPanel::Render()
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("Depth Fog");
-    ImGui::DragFloat("Fog Min Distance", &m_Renderer->m_DepthFogPass->m_Settings.MinDistance, 0.1f, 0.1f, 20.0f);
-    ImGui::DragFloat("Fog Max Distance", &m_Renderer->m_DepthFogPass->m_Settings.MaxDistance, 0.1f, 0.1f, 200.0f);
-    ImGui::DragFloat("Fog Density", &m_Renderer->m_DepthFogPass->m_Settings.Density, 0.01f, 0.01f, 1.0f);
+    ImGui::DragFloat("Fog Height", &m_Renderer->m_DepthFogPass->m_Settings.Height, 0.001f, 0.001f, 1.0f);
+    ImGui::DragFloat("Fog Density", &m_Renderer->m_DepthFogPass->m_Settings.Density, 0.001f, 0.001f, 1.0f);
     ImGui::ColorEdit3("Fog Color", glm::value_ptr(m_Renderer->m_DepthFogPass->m_Settings.Color));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
@@ -94,7 +93,11 @@ void RendererSettingsPanel::Render()
     ImGui::DragFloat("Saturation", &m_Renderer->m_PostProcessingPass->m_Settings.Saturation, 0.1f, 0.0f, 2.0f);
     ImGui::DragFloat("Temperature", &m_Renderer->m_PostProcessingPass->m_Settings.Temperature, 1.f, 15.0f, 150.0f);
     ImGui::DragFloat("Hue", &m_Renderer->m_PostProcessingPass->m_Settings.Hue, 1.0f, 0.0f, 360.0f);
-    
+
+    ImGui::Text("Chromatic Aberration");
+    ImGui::Checkbox("Aberration Enabled", &m_Renderer->m_PostProcessingPass->m_Settings.AberrationEnabled);
+    ImGui::DragFloat3("Shift", glm::value_ptr(m_Renderer->m_PostProcessingPass->m_Settings.AberrationShift), 0.001f, -1.0f, 1.0f);
+
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("UI Post Processing");

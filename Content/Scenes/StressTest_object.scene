@@ -1,6 +1,7 @@
 Scene: Main
 CurrentCamera: 968085101
 RendererSettings:
+  SSAO: true
   DepthFog: false
   PostProcessing: true
   FXAA: true

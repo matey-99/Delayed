@@ -10,6 +10,7 @@
 
 class MeshBase;
 class MeshComponent;
+class FoliageComponent;
 class SkyLight;
 //class Animator;
 
@@ -52,7 +53,7 @@ public:
 	Ref<Actor> FindActor(std::string name);
 	Ref<Actor> FindActor(uint64_t id);
 
-	Ref<Actor> SpawnActor(const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), Ref<Actor> parent = nullptr);
+	Ref<Actor> SpawnActor(const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), Actor* parent = nullptr);
 	void DestroyActor(Actor* actor);
 
 	void FindEnabledActors(Actor* actor, std::vector<Actor*>& output);
@@ -133,6 +134,7 @@ public:
 private:
 	void SortActorsByDistance(std::vector<Actor*>& actors, glm::vec3 point, bool ascending = true);
 	void SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents);
+	void SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents);
     std::vector<Actor*> CullActors(std::vector<Actor*>& actors);
 	void UpdateMeshesRenderList();
 	void RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode);

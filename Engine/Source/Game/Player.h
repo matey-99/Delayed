@@ -8,6 +8,7 @@ class Checkpoint;
 class CameraComponent;
 class BoxColliderComponent;
 class Trail;
+enum class SkillType;
 
 class Player : public GameComponent, public Saveable
 {
@@ -22,6 +23,13 @@ public:
 
 	void SetLastCheckpoint(Checkpoint* checkpoint);
 	void BackToLastCheckpoint();
+
+	void AddSkill(SkillType skill);
+	void SlowDown();
+	void BackToNormal();
+
+	inline Ref<Actor> GetGhost() const { return m_Ghost; }
+	inline Ref<Trail> GetTrail() const { return m_Trail; }
 
 private:
 	void MoveForward(float value);
@@ -66,15 +74,21 @@ private:
 	/* Flags */
 	bool m_IsRunning;
 	bool m_IsJumping;
+	bool m_IsSlowedDown;
 	bool m_IsTeleporting;
 	bool m_CanJump;
 	bool m_CanDash;
 	bool m_CanTeleport;
+	bool m_HasDoubleJumpSkill;
+	bool m_HasDashSkill;
+	bool m_HasTeleportSkill;
 
 	/* Others */
 	glm::vec3 m_LastCheckpointPosition;
 	glm::vec3 m_StaminaBarDefaultScale;
 	glm::vec3 m_TeleportDestinationPosition;
+	glm::vec3 m_LastPosition;
+	glm::vec3 m_MoveDirectionCopy;
 	float m_DashCooldownTimer;
 	float m_TeleportCooldownTimer;
 

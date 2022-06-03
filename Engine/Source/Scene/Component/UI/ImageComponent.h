@@ -14,6 +14,8 @@ public:
 	virtual void Destroy() override;
 
 	void ChangeImage(std::string path);
+	
+	inline void SetColor(const glm::vec4& color) { m_Color = color; }
 
 private:
 	Ref<Texture> m_Image;
