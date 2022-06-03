@@ -1,53 +1,47 @@
 #pragma once
 
 #include "GameComponent.h"
+#include "Saveable.h"
+#include "Player.h"
 
 class TPPCharacterController;
 class Checkpoint;
 class CameraController;
 class BoxColliderComponent;
 
-class TPPPlayer : public GameComponent
+class TPPPlayer : public Player
 {
 public:
 	TPPPlayer(Actor* owner);
 
-	virtual void Start() override;
-	virtual void Update(float deltaTime) override;
-
-	void SetLastCheckpoint(Checkpoint* checkpoint);
-	void BackToLastCheckpoint();
+	void Start() override;
+	void Update(float deltaTime) override;
 
 private:
-	void MoveForward(float value);
-	void MoveRight(float value);
-	void Turn(float value);
-	void LookUp(float value);
+	void MoveForward(float value) override;
+	void MoveRight(float value) override;
 
-	void Jump();
-	void AllowJumping();
+    void Jump()override;
+    void AllowJumping() override;
 
-	void RunOn();
-	void RunOff();
+    void RunOn() override;
+    void RunOff() override;
 
-	void AddMovementInput(glm::vec3 direction, float value);
+    void Dash() override;
+    void AllowDashing() override;
+
+    void Teleport() override;
+    void AllowTeleporting() override;
+
+    void HandleHUD() override;
 
 private:
 	/* References */
 	Ref<TPPCharacterController> m_CharacterController;
 	Ref<CameraController> m_CameraController;
-	
-	glm::vec3 m_LastCheckpointPosition;
 
 	/* Inputs */
-	glm::vec3 m_MoveDirection;
     glm::vec3 m_InputDirection;
-	glm::vec3 m_Rotation;
-
-	/* Flags */
-	bool m_IsRunning;
-	bool m_IsJumping;
-	bool m_CanJump;
 
 #pragma region Serialization
 

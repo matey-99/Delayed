@@ -198,6 +198,7 @@ Actors:
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
           DisabledColor: [0.25, 0.25, 0.25, 1]
+#TPP Camera
   - Actor: 485961876
     ID: 485961876
     Name: Camera Controller
@@ -239,6 +240,7 @@ Actors:
           FieldOfView: 60
           NearClipPlane: 0.300000012
           FarClipPlane: 1000
+#TPP Player
   - Actor: 1503310902
     ID: 1503310902
     Name: TPP Player
@@ -258,6 +260,9 @@ Actors:
           {}
       - TPPPlayer:
           CameraController: 485961876
+          Ghost: 1503775902
+          Trail: 405188417
+          StaminaBar: 765667130
   - Actor: 628242585
     ID: 628242585
     Name: Character
@@ -274,6 +279,75 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+#FPP Camera
+  - Actor: 1541634382
+    ID: 1541634382
+    Name: Camera
+    Enabled: false
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 1.63999999, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1503310903
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 60
+          NearClipPlane: 0.300000012
+          FarClipPlane: 1000
+#FPP Player
+  - Actor: 1503310903
+    ID: 1503310903
+    Name: Player
+    Enabled: false
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
+          LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 2, 1]
+      - AudioListener:
+          {}
+      - Player:
+          Camera: 1541634382
+          Ghost: 1503775902
+          Trail: 405188416
+          StaminaBar: 765667130
+  - Actor: 1503775902
+    ID: 1503775902
+    Name: Ghost
+    Enabled: true
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [40.7097855, 4.06759262, -20.7312832]
+          LocalRotation: [-90, 0, -2.57860975e-05]
+          LocalScale: [0.0125000002, 0.0125000002, 0.0125000002]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/character/Idle.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_CharacterGhost.mat
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Placeholders/ghost_ambient_placeholder.wav
+          Channel: 2
+          Volume: 0.100000001
+          3d: true
+          Looping: true
+          PlayOnStart: true
+      - Ghost:
+          Player: 1503310902
   - Actor: 96575779
     ID: 96575779
     Name: Cube (16)
@@ -751,57 +825,6 @@ Actors:
           Size: [1, 1, 1]
       - Checkpoint:
           {}
-  - Actor: 1503310903
-    ID: 1503310903
-    Name: Player
-    Enabled: false
-    Dynamic: true
-    Components:
-      - Transform:
-          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
-          LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
-          LocalScale: [0.5, 0.5, 0.5]
-          Parent: 0
-      - BoxCollider:
-          IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [1, 2, 1]
-      - AudioListener:
-          {}
-      - Player:
-          Camera: 1541634382
-          Ghost: 1503775902
-          Trail: 405188416
-          StaminaBar: 765667130
-  - Actor: 1503775902
-    ID: 1503775902
-    Name: Ghost
-    Enabled: true
-    Dynamic: true
-    Components:
-      - Transform:
-          LocalPosition: [40.7097855, 4.06759262, -20.7312832]
-          LocalRotation: [-90, 0, -2.57860975e-05]
-          LocalScale: [0.0125000002, 0.0125000002, 0.0125000002]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/character/Idle.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/M_CharacterGhost.mat
-      - BoxCollider:
-          IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
-      - AudioSource:
-          SoundPath: ../../../Content/Audio/Placeholders/ghost_ambient_placeholder.wav
-          Channel: 2
-          Volume: 0.100000001
-          3d: true
-          Looping: true
-          PlayOnStart: true
-      - Ghost:
-          Player: 1503310902
   - Actor: 1526879318
     ID: 1526879318
     Name: Cube (63)
@@ -822,22 +845,6 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
-  - Actor: 1541634382
-    ID: 1541634382
-    Name: Camera
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 1.63999999, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 1503310903
-      - Camera:
-          AspectRatio: [16, 9]
-          FieldOfView: 60
-          NearClipPlane: 0.300000012
-          FarClipPlane: 1000
   - Actor: 1545929933
     ID: 1545929933
     Name: button (1)
@@ -1167,6 +1174,37 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 1503310903
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 0.25
+          MaxParticles: 1000
+          EmissionRateOverTime: 50
+          MinParticleSize: 0.25
+          MaxParticleSize: 0.25
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0, 0]
+          EndParticleVelocity: [0, 0, 0]
+          MinParticleLifeTime: 3.5
+          MaxParticleLifeTime: 3.5
+          StartParticleColor: [0, 1.89944363, 2, 0.5]
+          EndParticleColor: [0, 0.950000525, 1, 0]
+      - Trail:
+          {}
+  - Actor: 405188417
+    ID: 405188417
+    Name: Trail
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0.000557899475, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1503310902
       - ParticleSystem:
           Duration: 5
           Looping: true

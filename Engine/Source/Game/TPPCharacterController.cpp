@@ -10,23 +10,32 @@
 TPPCharacterController::TPPCharacterController(Actor* owner)
 	: GameComponent(owner)
 {
-	m_Velocity = glm::vec3(0.0f);
-	m_DistanceToGround = 2.25f;
-	m_MoveSmoothness = 0.89f;
-	m_RotateSmoothness = 0.89f;
-	m_IsGrounded = false;
+    m_Velocity = glm::vec3(0.0f);
+    m_DistanceToGround = 1.1f;
+    m_MoveSmoothness = 0.89f;
+    m_RotateSmoothness = 0.89f;
+    m_IsGrounded = false;
 
-	m_WalkSpeed = 15.0f;
-	m_RunSpeed = 25.0f;
-	m_RotateSpeed = 8.0f;
-	m_LookUpLimit = 80.0f;
-	m_JumpHeight = 0.5f;
-	m_JumpMaxHeightTime = 1.0f;
+    m_WalkSpeed = 9.0f;
+    m_RunSpeed = 13.0f;
+    m_SlowedDownSpeed = 3.0f;
+    m_RotateSpeed = 8.0f;
+    m_LookUpLimit = 80.0f;
+    m_JumpHeight = 0.05f;
+    m_JumpMaxHeightTime = 0.43f;
+    m_DashDistance = 4.0f;
+    m_MaxStamina = 100.0f;
+    m_StaminaRestorePerSecond = 15.0f;
+    m_StaminaUsagePerJump = 5.0f;
+    m_StaminaUsagePerRunSecond = 2.5f;
+    m_StaminaUsagePerDash = 5.0f;
 
-	m_Gravity = 0.0f;
-	m_InitialSpeed = 0.0f;
+    m_Stamina = m_MaxStamina;
+    m_Gravity = 0.0f;
+    m_InitialSpeed = 0.0f;
 
-	m_IsJumping = false;
+    m_IsJumping = false;
+    m_IsDoubleJumping = false;
 }
 
 void TPPCharacterController::FixedUpdate()
@@ -37,26 +46,39 @@ void TPPCharacterController::FixedUpdate()
 
 void TPPCharacterController::Move(glm::vec3 direction, const CharacterMovementParams& params, float deltaTime)
 {
-	float movementSpeed = params.IsRunning ? m_RunSpeed : m_WalkSpeed;
+    bool running = m_Stamina > 0.0f && params.IsRunning;
+    float movementSpeed = params.IsSlowedDown ? m_SlowedDownSpeed : (running ? m_RunSpeed : m_WalkSpeed);
 
 	m_Gravity = -2.0f * m_JumpHeight / (m_JumpMaxHeightTime * m_JumpMaxHeightTime);
 	m_InitialSpeed = 2.0f * m_JumpHeight / m_JumpMaxHeightTime;
 
-	if (m_IsGrounded && !m_IsJumping)
-		m_Velocity.y = 0.0f;
-	else if (!m_IsGrounded && m_Velocity.y < 0.0f)
-		m_Velocity.y += m_Gravity * 3.0f * Time::GetInstance()->GetDeltaTime();
-	else
-		m_Velocity.y += m_Gravity * Time::GetInstance()->GetDeltaTime();
+    if (m_IsGrounded && !m_IsJumping)
+        m_Velocity.y = 0.0f;
+    else if (!m_IsGrounded && m_Velocity.y < 0.0f)
+        m_Velocity.y += m_Gravity * 1.25f * deltaTime;
+    else
+        m_Velocity.y += m_Gravity * deltaTime;
 
-	m_IsJumping = false;
+    if (m_IsGrounded)
+    {
+        m_IsJumping = false;
+        m_IsDoubleJumping = false;
 
-	glm::vec3 motion = direction * movementSpeed * deltaTime;
-	m_Velocity = motion * (1.0f - m_MoveSmoothness) + m_Velocity * m_MoveSmoothness;
+        if (params.IsRunning)
+            m_Stamina -= m_StaminaUsagePerRunSecond * deltaTime;
+        else
+            m_Stamina += m_StaminaRestorePerSecond * deltaTime;
+    }
 
-	glm::vec3 newPosition = m_Owner->GetTransform()->GetLocalPosition();
-	newPosition += m_Velocity;
-	m_Owner->GetTransform()->SetLocalPosition(newPosition);
+    m_Stamina = glm::clamp(m_Stamina, 0.0f, m_MaxStamina);
+
+    glm::vec3 motion = direction * movementSpeed * deltaTime;
+    m_Velocity.x = motion.x * (1.0f - m_MoveSmoothness) + m_Velocity.x * m_MoveSmoothness;
+    m_Velocity.z = motion.z * (1.0f - m_MoveSmoothness) + m_Velocity.z * m_MoveSmoothness;
+
+    glm::vec3 newPosition = m_Owner->GetTransform()->GetLocalPosition();
+    newPosition += m_Velocity;
+    m_Owner->GetTransform()->SetLocalPosition(newPosition);
 }
 
 void TPPCharacterController::Rotate(Ref<CameraController> camera, glm::vec3 inputDirection, float deltaTime)
@@ -90,9 +112,24 @@ void TPPCharacterController::Rotate(Ref<CameraController> camera, glm::vec3 inpu
 
 void TPPCharacterController::Jump()
 {
-	if (m_IsGrounded)
-	{
-		m_IsJumping = true;
-		m_Velocity.y = m_InitialSpeed;
-	}
+    if (m_IsGrounded)
+    {
+        m_IsJumping = true;
+        m_Velocity.y = m_InitialSpeed;
+
+        m_Stamina -= m_StaminaUsagePerJump;
+    }
+    else if (!m_IsDoubleJumping)
+    {
+        m_IsDoubleJumping = true;
+        m_Velocity.y = m_InitialSpeed;
+
+        m_Stamina -= m_StaminaUsagePerJump;
+    }
+}
+
+void TPPCharacterController::Dash()
+{
+    m_Velocity += m_Owner->GetTransform()->GetForward() * m_DashDistance;
+    m_Stamina -= m_StaminaUsagePerDash;
 }

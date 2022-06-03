@@ -15,11 +15,11 @@ class Player : public GameComponent, public Saveable
 public:
 	Player(Actor* owner);
 
-	virtual void Start() override;
-	virtual void Update(float deltaTime) override;
+	void Start() override;
+	void Update(float deltaTime) override;
 
-	virtual const SaveData Save() override;
-	virtual void Load(const SaveData& data) override;
+	const SaveData Save() override;
+	void Load(const SaveData& data) override;
 
 	void SetLastCheckpoint(Checkpoint* checkpoint);
 	void BackToLastCheckpoint();
@@ -31,30 +31,31 @@ public:
 	inline Ref<Actor> GetGhost() const { return m_Ghost; }
 	inline Ref<Trail> GetTrail() const { return m_Trail; }
 
-private:
-	void MoveForward(float value);
-	void MoveRight(float value);
+protected:
+    virtual void MoveForward(float value);
+    virtual void MoveRight(float value);
+
 	void Turn(float value);
 	void LookUp(float value);
 
-	void Jump();
-	void AllowJumping();
+    virtual void Jump();
+    virtual void AllowJumping();
 
-	void RunOn();
-	void RunOff();
+    virtual void RunOn();
+    virtual void RunOff();
 
-	void Dash();
-	void AllowDashing();
+    virtual void Dash();
+    virtual void AllowDashing();
 
-	void Teleport();
-	void AllowTeleporting();
+    virtual void Teleport();
+    virtual void AllowTeleporting();
 
 	void HandleSkillsCooldowns(float deltaTime);
-	void HandleHUD();
+	virtual void HandleHUD();
 
 	void AddMovementInput(glm::vec3 direction, float value);
 
-private:
+protected:
 	/* References */
 	Ref<CharacterController> m_CharacterController;
 	Ref<CameraComponent> m_Camera;
