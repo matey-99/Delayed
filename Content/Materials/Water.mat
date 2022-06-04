@@ -31,7 +31,7 @@ Float Parameters:
   - Name: u_Material.metallic
     Value: 0
   - Name: u_Material.waveStrength
-    Value: 0.0299999993
+    Value: 0.100000001
   - Name: u_Material.waveSpeed
     Value: 0.00999999978
 Vec3 Parameters:
@@ -45,7 +45,7 @@ Texture Parameters:
   - Name: u_Material.metallicMap
     Path: "null"
   - Name: u_Material.albedoMap
-    Path: Textures/Water/water.png
+    Path: Textures/Water/water4.png
   - Name: u_Material.aoMap
     Path: "null"
   - Name: u_Material.emissiveMap
