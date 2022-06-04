@@ -18,6 +18,7 @@
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/RigidBodyComponent.h>
+#include <Game/CameraOrbit.h>
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/TextComponent.h"
@@ -528,7 +529,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						p->m_MinParticleSize = minParticleSize;
 						p->m_MaxParticleSize = maxParticleSize;
 						p->m_EndParticleSize = endParticleSize;
-						p->m_EndParticleVelocity = minParticleVelocity;
+						p->m_MinParticleVelocity = minParticleVelocity;
 						p->m_MaxParticleVelocity = maxParticleVelocity;
 						p->m_EndParticleVelocity = endParticleVelocity;
 						p->m_MinParticleLifeTime = minParticleLifeTime;
@@ -831,6 +832,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						auto comp = a->CreateComponent<PostProcessingVolume>();
 						comp->m_Settings = settings;
 					}
+
+                    if (auto cameraOrbit = component["CameraOrbit"]) {
+                        float speed = cameraOrbit["Speed"].as<float>();
+
+                        auto cam = a->CreateComponent<CameraOrbit>();
+
+                        cam->m_Speed = speed;
+                    }
 				}
 			}
 		}
@@ -1410,6 +1419,16 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
+
+    if (auto cameraOrbit = actor->GetComponent<CameraOrbit>())
+    {
+        out << YAML::BeginMap;
+        out << YAML::Key << "CameraOrbit";
+        out << YAML::BeginMap;
+        out << YAML::Key << "Speed" << YAML::Value << cameraOrbit->m_Speed;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
 
 	out << YAML::EndSeq;
 	out << YAML::EndMap;
