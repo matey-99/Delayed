@@ -3,7 +3,7 @@ CurrentCamera: 968085101
 RendererSettings:
   SSAO: false
   SSR: true
-  DepthFog: false
+  DepthFog: true
   PostProcessing: true
   FXAA: true
   Vignette: true
@@ -20,8 +20,8 @@ RendererSettings:
     NumBinarySearchSteps: 20
     ReflectionSpecularFalloffExponent: 8
   DepthFogSettings:
-    Density: 0.150000006
-    Height: 0.100000001
+    Density: 0.00100000005
+    Height: 0.349000007
     Color: [0.470588237, 0.662745118, 0.87843138]
   PostProcessingSettings:
     Gamma: -1
@@ -186,12 +186,12 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [0, 1.36087632, 0]
-          LocalRotation: [-125.425583, -24.344326, -30.0923462]
+          LocalRotation: [-60.5776329, -1.46873009, -48.6420517]
           LocalScale: [1, 1, 1]
           Parent: 0
       - DirectionalLight:
           Color: [1, 1, 1]
-          Intensity: 2
+          Intensity: 1
   - Actor: 21994786
     ID: 21994786
     Name: SkyLight
@@ -205,15 +205,15 @@ Actors:
           Parent: 0
       - SkyLight:
           Paths:
-            0: Textures/Sky/Menu/right.png
-            1: Textures/Sky/Menu/left.png
-            2: Textures/Sky/Menu/top.png
-            3: Textures/Sky/Menu/bottom.png
-            4: Textures/Sky/Menu/back.png
-            5: Textures/Sky/Menu/front.png
+            0: Textures/Sky/Default/px.png
+            1: Textures/Sky/Default/nx.png
+            2: Textures/Sky/Default/py.png
+            3: Textures/Sky/Default/ny.png
+            4: Textures/Sky/Default/nz.png
+            5: Textures/Sky/Default/pz.png
           Color: [1, 1, 1]
-          Intensity: 0.100000001
-          Weight: 0.00999999978
+          Intensity: 0.5
+          Weight: 0.5
   - Actor: 953742193
     ID: 953742193
     Name: Pivot
@@ -223,65 +223,23 @@ Actors:
       - Transform:
           LocalPosition: [0, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [100, 100, 100]
-          Parent: 211389655
+          LocalScale: [1, 1, 1]
+          Parent: 0
       - CameraOrbit:
           Speed: 2
-  - Actor: 533797926
-    ID: 533797926
-    Name: EngineExhaust
+  - Actor: 321005293
+    ID: 321005293
+    Name: platformSmall00_mdl
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-8.76086712, 0.115182161, 0.580396652]
-          LocalRotation: [0, 0, 0]
+          LocalPosition: [3.66923714, -56.0390778, 3.34018932e-06]
+          LocalRotation: [90, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
-      - ParticleSystem:
-          Duration: 1
-          Looping: true
-          Sprite: Textures/Default/Particle.png
-          EmitterShape: 0
-          EmitterSphereRadius: 1
-          MaxParticles: 10000
-          EmissionRateOverTime: 200
-          MinParticleSize: 1
-          MaxParticleSize: 0.300000012
-          EndParticleSize: 0
-          MinParticleVelocity: [0, 0.100000001, 0]
-          MaxParticleVelocity: [-100, 1, 1]
-          EndParticleVelocity: [-10, 0, 0]
-          MinParticleLifeTime: 1
-          MaxParticleLifeTime: 2
-          StartParticleColor: [0, 19.2340431, 20, 1]
-          EndParticleColor: [30, 0, 27.574482, 1]
-  - Actor: 68592259
-    ID: 68592259
-    Name: Speed
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [83.8122787, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - ParticleSystem:
-          Duration: 5
-          Looping: true
-          Sprite: Textures/Default/Particle.png
-          EmitterShape: 0
-          EmitterSphereRadius: 50
-          MaxParticles: 10000
-          EmissionRateOverTime: 100
-          MinParticleSize: 0.100000001
-          MaxParticleSize: 0.300000012
-          EndParticleSize: 0
-          MinParticleVelocity: [-1000, 0, 0]
-          MaxParticleVelocity: [-5000, 0, 0]
-          EndParticleVelocity: [0, 0, 0]
-          MinParticleLifeTime: 1
-          MaxParticleLifeTime: 2
-          StartParticleColor: [1, 1, 1, 1]
-          EndParticleColor: [0, 0, 0, 0]
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat

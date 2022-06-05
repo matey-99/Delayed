@@ -33,6 +33,7 @@
 #include "Game/DeathArea.h"
 #include "Game/Obelisks/Obelisk.h"
 #include "Game/PostProcessingVolume.h"
+#include "Game/CameraOrbit.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -917,6 +918,21 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto cameraOrbit = m_Actor->GetComponent<CameraOrbit>()) {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Camera Orbit");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<DeathArea>();
+
+        ImGui::DragFloat("Speed", &cameraOrbit->m_Speed, 0.1f);
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto image = m_Actor->GetComponent<ImageComponent>())
     {
         ImGui::PushID(componentIndex);
@@ -1191,6 +1207,7 @@ void ActorDetailsPanel::Render()
     bool obelisk = false;
     bool checkpoint = false;
     bool deathArea = false;
+    bool cameraOrbit = false;
     bool postFX = false;
     bool audioSource = false;
     bool audioListener = false;
@@ -1243,6 +1260,7 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Death Area", "", &deathArea);
                     ImGui::MenuItem("Obelisk", "", &obelisk);
                     ImGui::MenuItem("Post Processing Volume", "", &postFX);
+                    ImGui::MenuItem("Camera Orbit", "", &cameraOrbit);
 
                     ImGui::EndMenu();
                 }
@@ -1345,6 +1363,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<Checkpoint>();
     if (deathArea)
         m_Actor->AddComponent<DeathArea>();
+    if (cameraOrbit)
+        m_Actor->AddComponent<CameraOrbit>();
     if (postFX)
         m_Actor->AddComponent<PostProcessingVolume>();
     if (audioSource)
