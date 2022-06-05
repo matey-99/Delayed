@@ -137,6 +137,7 @@ void Scene::Render(Ref<Shader> shader)
 {
 	shader->Use();
 
+	UpdateMeshesRenderList(false);
 	for (auto& renderMesh : m_MeshesRenderList)
 	{
 		auto mesh = renderMesh.first->Mesh;
@@ -296,11 +297,12 @@ void Scene::SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents)
 	}
 }
 
-void Scene::UpdateMeshesRenderList()
+void Scene::UpdateMeshesRenderList(bool shouldCullActors)
 {
 	std::vector<Actor*> actors = m_EnabledActors;
 
-	actors = CullActors(actors);
+	if (shouldCullActors)
+		actors = CullActors(actors);
 
 	// Set order of rendering actors
 	auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
@@ -333,20 +335,39 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 		if (blendMode == Material::BlendMode::Transparent)
 		{
 			auto s = Renderer::GetInstance()->m_ShadowsPass;
-			glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE23);
 			glBindTexture(GL_TEXTURE_2D_ARRAY, s->GetDirectionalLightRenderTarget()->GetTargets()[0]);
 
-			material->GetShader()->SetInt("u_DirectionalLightShadowMaps", 0);
+			material->GetShader()->SetInt("u_DirectionalLightShadowMaps", 23);
 
 			if (auto skyLight = FindComponent<SkyLight>())
 			{
+				glActiveTexture(GL_TEXTURE24);
+				glBindTexture(GL_TEXTURE_CUBE_MAP, skyLight->GetIrradianceMap());
+
+				glActiveTexture(GL_TEXTURE25);
+				glBindTexture(GL_TEXTURE_CUBE_MAP, skyLight->GetPrefilterMap());
+
+				glActiveTexture(GL_TEXTURE26);
+				glBindTexture(GL_TEXTURE_2D, skyLight->GetBRDF());
+
+				material->GetShader()->SetInt("u_IrradianceMap", 24);
+				material->GetShader()->SetInt("u_PrefilterMap", 25);
+				material->GetShader()->SetInt("u_BRDF", 26);
+
 				material->GetShader()->SetVec3("u_SkyLightColor", skyLight->GetColor());
 				material->GetShader()->SetFloat("u_SkyLightIntensity", skyLight->GetIntensity());
+				material->GetShader()->SetFloat("u_SkyLightWeight", skyLight->GetWeight());
+
+				material->GetShader()->SetBool("u_SkyLightEnabled", skyLight->GetOwner()->IsEnabled());
 			}
 			else
 			{
 				material->GetShader()->SetVec3("u_SkyLightColor", glm::vec3(1.0f));
 				material->GetShader()->SetFloat("u_SkyLightIntensity", 0.03f);
+				material->GetShader()->SetFloat("u_SkyLightWeight", 0.0f);
+
+				material->GetShader()->SetBool("u_SkyLightEnabled", false);
 			}
 		}
 

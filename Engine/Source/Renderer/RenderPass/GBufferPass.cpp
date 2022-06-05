@@ -6,13 +6,13 @@ GBufferPass::GBufferPass()
 	RenderTarget::Config gBuffer0Config;
 	gBuffer0Config.Attachment = RenderTarget::Attachment::Color;
 	gBuffer0Config.Type = RenderTarget::Type::Texture2D;
-	gBuffer0Config.ColorInternalFormat = RenderTarget::ColorInternalFormat::RGBA16F;
+	gBuffer0Config.ColorInternalFormat = RenderTarget::ColorInternalFormat::RGBA32F;
 
 	// Normal
 	RenderTarget::Config gBuffer1Config;
 	gBuffer1Config.Attachment = RenderTarget::Attachment::Color;
 	gBuffer1Config.Type = RenderTarget::Type::Texture2D;
-	gBuffer1Config.ColorInternalFormat = RenderTarget::ColorInternalFormat::RGBA16F;
+	gBuffer1Config.ColorInternalFormat = RenderTarget::ColorInternalFormat::RGBA32F;
 
 	// Color: RGB, AO: A
 	RenderTarget::Config gBuffer2Config;
@@ -36,7 +36,7 @@ GBufferPass::GBufferPass()
 	RenderTarget::Config gBuffer5Config;
 	gBuffer5Config.Attachment = RenderTarget::Attachment::Color;
 	gBuffer5Config.Type = RenderTarget::Type::Texture2D;
-	gBuffer5Config.ColorInternalFormat = RenderTarget::ColorInternalFormat::RGBA16F;
+	gBuffer5Config.ColorInternalFormat = RenderTarget::ColorInternalFormat::RGBA32F;
 
 	// Depth
 	RenderTarget::Config gBuffer6Config;

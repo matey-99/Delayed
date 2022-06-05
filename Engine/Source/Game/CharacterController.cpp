@@ -9,7 +9,7 @@ CharacterController::CharacterController(Actor* owner)
 	: GameComponent(owner)
 {
 	m_Velocity = glm::vec3(0.0f);
-	m_DistanceToGround = 1.1f;
+	m_DistanceToGround = 2.1f;
 	m_MoveSmoothness = 0.89f;
 	m_RotateSmoothness = 0.89f;
 	m_IsGrounded = false;

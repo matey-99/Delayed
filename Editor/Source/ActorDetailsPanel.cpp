@@ -557,7 +557,7 @@ void ActorDetailsPanel::Render()
             ImGui::DragFloat("Outer Cut Off", &spotLight->m_OuterCutOff, 0.01f, 0.0f, 1.0f);
         }
 
-        ImGui::Checkbox("Cast Shadows", &light->m_ShadowsEnabled);
+        ImGui::Checkbox("Cast Shadows", &light->m_CastShadows);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();

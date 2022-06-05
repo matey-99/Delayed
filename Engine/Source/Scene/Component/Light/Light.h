@@ -43,6 +43,7 @@ public:
 	inline Actor* GetOwner() const { return m_Owner; }
 	inline glm::vec3 GetColor() const { return m_Color; }
 	inline glm::mat4 GetLightSpace() const { return m_LightSpace; }
+	inline bool IsCastingShadows() const { return m_CastShadows; }
 
 	void SetColor(glm::vec3 color);
 
@@ -55,7 +56,7 @@ protected:
 	glm::vec3 m_Color;
 	float m_Intensity;
 
-	bool m_ShadowsEnabled;
+	bool m_CastShadows;
 	glm::mat4 m_LightSpace;
 	uint32_t m_ShadowMap;
 };

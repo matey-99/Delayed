@@ -7,7 +7,7 @@ Light::Light(Actor* owner, Ref<UniformBuffer> vertexUniformBuffer, Ref<UniformBu
 {
 	m_Color = glm::vec3(1.0f);
 	m_Intensity = 1.0f;
-	m_ShadowsEnabled = true;
+	m_CastShadows = true;
 
 	owner->GetScene()->SetChangedSinceLastFrame(true);
 }

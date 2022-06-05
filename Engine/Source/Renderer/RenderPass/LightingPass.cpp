@@ -84,6 +84,7 @@ void LightingPass::Render(Ref<Scene> scene)
 	shader->SetBool("u_SSAOEnabled", renderer->GetSettings().SSAOEnabled);
 	shader->SetInt("u_SSR", 15);
 	shader->SetBool("u_SSREnabled", renderer->GetSettings().SSREnabled);
+	shader->SetInt("u_PCFSize", m_Settings.ShadowsPCFSize);
 
 	if (auto skyLight = scene->FindComponent<SkyLight>())
 	{

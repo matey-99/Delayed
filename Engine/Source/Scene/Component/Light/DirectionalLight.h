@@ -11,6 +11,8 @@ public:
 	virtual void Use() override;
 	virtual void SwitchOff() override;
 
+	inline std::vector<glm::mat4> GetLightSpaceMatrices() const { return m_LightSpaceMatrices; }
+
 private:
 	std::vector<glm::vec4> GetFrustumCornersWorldSpace(const glm::mat4& projection, const glm::mat4& view);
 

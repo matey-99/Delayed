@@ -8,6 +8,7 @@
 #include "Renderer/RenderPass/UIPass.h"
 #include "Renderer/RenderPass/DepthFogPass.h"
 #include "Renderer/RenderPass/VignettePass.h"
+#include "Renderer/RenderPass/LightingPass.h"
 #include <glm/gtc/type_ptr.hpp>
 
 RendererSettingsPanel::RendererSettingsPanel(Ref<Editor> editor, Ref<Renderer> renderer)
@@ -28,6 +29,11 @@ void RendererSettingsPanel::Render()
     ImGui::Checkbox("Vignette Enabled", &m_Renderer->m_Settings.VignetteEnabled);
     ImGui::Checkbox("SSR Enabled", &m_Renderer->m_Settings.SSREnabled);
     ImGui::Checkbox("Depth Of Field Enabled", &m_Renderer->m_Settings.DepthOfFieldEnabled);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("Lighting");
+    ImGui::DragInt("Shadows PCF Size", &m_Renderer->m_LightingPass->m_Settings.ShadowsPCFSize, 1, 1, 10);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 

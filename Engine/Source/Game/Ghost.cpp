@@ -18,7 +18,7 @@ Ghost::Ghost(Actor* owner)
 	for (int i = 0; i < GHOST_POSITIONS_COUNT; i++)
 		m_Positions[i] = glm::vec3(0.0f);
 
-	m_PositionOffset = glm::vec3(0.0f, 0.5f, 0.0f);
+	m_PositionOffset = glm::vec3(0.0f, 1.25f, 0.0f);
 	m_NormalEmissiveColor = glm::vec3(1.0f);
 	m_CorruptedEmissiveColor = glm::vec3(0.7f, 0.0f, 0.0f);
 
@@ -63,29 +63,13 @@ void Ghost::Update(float deltaTime)
 	if (m_FollowPlayer)
 	{
 		m_Owner->GetTransform()->SetWorldPosition(m_Positions[m_CurrentPositionIndex]);
-
-		if (m_CurrentPositionIndex < GHOST_POSITIONS_COUNT - 1)
-		{
-			glm::vec3 currentPosition = m_Positions[m_CurrentPositionIndex];
-			glm::vec3 nextPosition = m_Positions[m_CurrentPositionIndex + 1];
-			if (currentPosition.x != nextPosition.x || currentPosition.z != nextPosition.z)
-			{
-				glm::mat4 rotationMatrix = glm::lookAt(currentPosition, nextPosition, glm::vec3(0.0f, 1.0f, 0.0f));
-
-				glm::vec3 pos, scale, skew;
-				glm::vec4 perspective;
-				glm::quat rot;
-				glm::decompose(rotationMatrix, scale, rot, pos, skew, perspective);
-
-				glm::vec3 euler = glm::degrees(glm::eulerAngles(rot));
-
-				auto rotation = m_Owner->GetTransform()->GetLocalRotation();
-				rotation.y = euler.y;
-				m_Owner->GetTransform()->SetLocalRotation(rotation);
-			}
-		}
+		
+		auto rot = m_Owner->GetTransform()->GetLocalRotation();
+		rot.y = m_RotationsY[m_CurrentPositionIndex];
+		m_Owner->GetTransform()->SetLocalRotation(rot);
 	}
 
+	m_RotationsY[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldRotation().y;
 	m_Positions[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldPosition() + m_PositionOffset;
 	m_CurrentPositionIndex++;
 }

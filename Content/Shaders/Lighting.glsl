@@ -40,6 +40,7 @@ layout (location = 13) uniform vec3 u_SkyLightColor;
 layout (location = 14) uniform bool u_SSAOEnabled;
 layout (location = 15) uniform sampler2D u_SSR;
 layout (location = 16) uniform bool u_SSREnabled;
+layout (location = 17) uniform int u_PCFSize;
 
 struct DirectionalLight
 {
@@ -257,29 +258,31 @@ float CalculateDirectionalLightShadow(vec3 position, vec3 normal)
     if (currentDepth > 1.0)
         return 0.0;
 
-    float bias = max(0.05 * (1.0 - dot(normal, u_DirectionalLight.direction)), 0.005);
-    float biasModifier = 0.5;
-    if (layer == u_CascadeCount)
-        bias *= 1 / (u_CameraFarClipPlane * biasModifier);
-    else
-        bias *= 1 / (u_CascadeClipPlaneDistances[layer] * biasModifier);
+    float bias = 0.0;
+    // float bias = max(0.05 * (1.0 - dot(normal, u_DirectionalLight.direction)), 0.005);
+    // float biasModifier = 0.5;
+    // if (layer == u_CascadeCount)
+    //     bias *= 1 / (u_CameraFarClipPlane * biasModifier);
+    // else
+    //     bias *= 1 / (u_CascadeClipPlaneDistances[layer] * biasModifier);
 
     // PCF
     float shadow = 0.0;
     vec2 texelSize = 1.0 / vec2(textureSize(u_DirectionalLightShadowMaps, 0));
-    for (int x = -1; x <= 1; ++x)
+    int size = u_PCFSize;
+    for (int x = -size; x <= size; ++x)
     {
-        for (int y = -1; y <= 1; ++y)
+        for (int y = -size; y <= size; ++y)
         {
             float pcfDepth = texture(u_DirectionalLightShadowMaps, vec3(projectionCoords.xy + vec2(x, y) * texelSize, layer)).r;
             shadow += (currentDepth - bias) > pcfDepth ? 1.0 : 0.0;
         }
     }
 
-    shadow /= 9.0;
+    shadow /= ((size * 2 + 1) * (size * 2 + 1));
 
-    if (projectionCoords.z > 1.0)
-        shadow = 0.0;
+    // if (projectionCoords.z > 1.0)
+    //     shadow = 0.0;
 
     return shadow;
 }
@@ -351,17 +354,8 @@ void main()
     }
 
     vec3 ambient = (kD * diffuse + specular) * ao;
-
-
-    // SSR
-    //if (ssr.a > 0.01)
-    if (u_SSREnabled)
-    {
-        ambient += ssr.rgb;
-        //ambient *= ssr.rgb;
-    }
+    ambient += u_SSREnabled ? ssr.rgb : vec3(0.0);
     
-
     vec3 lighting = ambient + Lo + emissive;
     f_Color = vec4(lighting, 1.0);
 }

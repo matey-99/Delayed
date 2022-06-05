@@ -30,6 +30,7 @@ private:
 	glm::vec3 m_CorruptedEmissiveColor;
 
 	glm::vec3 m_Positions[GHOST_POSITIONS_COUNT];
+	float m_RotationsY[GHOST_POSITIONS_COUNT];
 
 	int m_CurrentPositionIndex;
 	bool m_FollowPlayer;
