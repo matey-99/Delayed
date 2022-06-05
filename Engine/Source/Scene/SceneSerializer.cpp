@@ -51,6 +51,7 @@
 #include "Game/GameManager.h"
 #include "Game/NotificationManager.h"
 #include "Game/TutorialManager.h"
+#include "Game/SceneTransition.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -840,6 +841,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
                         cam->m_Speed = speed;
                     }
+
+                    if (auto sceneTransition = component["SceneTransition"]) {
+                        std::string scene = sceneTransition["Scene"].as<std::string>();
+
+                        auto tr = a->CreateComponent<SceneTransition>();
+
+                        tr->m_Scene = scene;
+                    }
 				}
 			}
 		}
@@ -1426,6 +1435,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "CameraOrbit";
         out << YAML::BeginMap;
         out << YAML::Key << "Speed" << YAML::Value << cameraOrbit->m_Speed;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
+
+    if (auto sceneTransition = actor->GetComponent<SceneTransition>()) {
+        out << YAML::BeginMap;
+        out << YAML::Key << "SceneTransition";
+        out << YAML::BeginMap;
+        out << YAML::Key << "Scene" << YAML::Value << sceneTransition->m_Scene;
         out << YAML::EndMap;
         out << YAML::EndMap;
     }

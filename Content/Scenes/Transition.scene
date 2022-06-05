@@ -1,0 +1,144 @@
+Scene: MainMenu
+CurrentCamera: 228302386
+RendererSettings:
+  SSAO: false
+  SSR: true
+  DepthFog: false
+  PostProcessing: true
+  FXAA: true
+  Vignette: true
+  DepthOfField: false
+  SSAOSettings:
+    Intensity: 1.5
+    KernelSize: 64
+    Radius: 0.5
+    Bias: 0.449999988
+  SSRSettings:
+    MaxSteps: 200
+    MinRayStep: 0.0299999993
+    RayStep: 0.0299999993
+    NumBinarySearchSteps: 20
+    ReflectionSpecularFalloffExponent: 8
+  DepthFogSettings:
+    Density: 0.150000006
+    Height: 0.100000001
+    Color: [0.470588237, 0.662745118, 0.87843138]
+  PostProcessingSettings:
+    Gamma: -1
+    Gain: 0.5
+    Lift: 0
+    Offset: 0
+    Exposure: 0.899999976
+    Contrast: 1.14999998
+    ContrastPivot: 0.800000012
+    BloomEnabled: true
+    BloomThreshold: 2
+    BloomLimit: 20
+    BloomIntensity: 0.800000012
+    BloomBlurSigma: 3.5999999
+    Saturation: 1.10000002
+    Temperature: 75
+    Hue: 180
+    AberrationEnabled: false
+    AberrationShift: [0.0120000001, -0.00800000038, -0.00200000009]
+  VignetteSettings:
+    Intensity: 10.5
+    Size: 0.174999997
+  DepthOfFieldSettings:
+    MinDistance: 1.5
+    MaxDistance: 64
+    Size: 2
+Actors:
+  - Actor: 228302386
+    ID: 228302386
+    Name: MainCamera
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 45
+          NearClipPlane: 0.100000001
+          FarClipPlane: 1000
+  - Actor: 822017533
+    ID: 822017533
+    Name: Directional Light
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 1.36087632, 0]
+          LocalRotation: [-125.425583, -24.344326, -30.0923462]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - DirectionalLight:
+          Color: [1, 1, 1]
+          Intensity: 2
+  - Actor: 469897192
+    ID: 469897192
+    Name: Background
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1920, 1080, 1]
+          Parent: 1
+      - Image:
+          Path: Textures/Delayed3.png
+          Color: [1, 1, 1, 1]
+  - Actor: 504208015
+    ID: 504208015
+    Name: GameLogo
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 500, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [467.5, 124, 1]
+          Parent: 1
+      - Image:
+          Path: Textures/Menu/Logo1.png
+          Color: [1, 1, 1, 1]
+  - Actor: 64594970
+    ID: 64594970
+    Name: Transition
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SceneTransition:
+          Scene: Scenes/Prototype.scene
+  - Actor: 995583364
+    ID: 995583364
+    Name: Loading
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-205, 20, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [10, 10, 1]
+          Parent: 1
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 4.5
+          Text: LOADING...
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
