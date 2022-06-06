@@ -110,6 +110,8 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "Hue" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Hue;
     out << YAML::Key << "AberrationEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationEnabled;
     out << YAML::Key << "AberrationShift" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationShift;
+    out << YAML::Key << "FisheyeEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.FisheyeEnebled;
+    out << YAML::Key << "Scale" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Scale;
 	out << YAML::EndMap;
 
 	out << YAML::Key << "VignetteSettings" << YAML::Value << YAML::BeginMap;
@@ -205,6 +207,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	float hue = data["RendererSettings"]["PostProcessingSettings"]["Hue"].as<float>();
 	bool aberration = data["RendererSettings"]["PostProcessingSettings"]["AberrationEnabled"].as<bool>();
     glm::vec3 aberrationShift = data["RendererSettings"]["PostProcessingSettings"]["AberrationShift"].as<glm::vec3>();
+    bool fisheye = data["RendererSettings"]["PostProcessingSettings"]["FisheyeEnabled"].as<bool>();
+    float scale = data["RendererSettings"]["PostProcessingSettings"]["Scale"].as<float>();
 
 	/* Vignette settings */
 	float vignetteIntensity = data["RendererSettings"]["VignetteSettings"]["Intensity"].as<float>();
@@ -262,6 +266,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	renderer->m_PostProcessingPass->m_Settings.Hue = hue;
 	renderer->m_PostProcessingPass->m_Settings.AberrationEnabled = aberration;
 	renderer->m_PostProcessingPass->m_Settings.AberrationShift = aberrationShift;
+    renderer->m_PostProcessingPass->m_Settings.FisheyeEnebled = fisheye;
+    renderer->m_PostProcessingPass->m_Settings.Scale = scale;
 
 	/* Setup Vignette settings */
 	renderer->m_VignettePass->m_Settings.Intensity = vignetteIntensity;

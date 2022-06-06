@@ -41,6 +41,10 @@ public:
         // Chromatic Aberration
         bool AberrationEnabled = false;
         glm::vec3 AberrationShift = glm::vec3(0.0f);
+
+        // Fisheye
+        bool FisheyeEnebled = false;
+        float Scale = 100.0f;
 	};
 
 public:

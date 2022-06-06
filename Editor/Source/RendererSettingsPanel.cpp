@@ -104,6 +104,10 @@ void RendererSettingsPanel::Render()
     ImGui::Checkbox("Aberration Enabled", &m_Renderer->m_PostProcessingPass->m_Settings.AberrationEnabled);
     ImGui::DragFloat3("Shift", glm::value_ptr(m_Renderer->m_PostProcessingPass->m_Settings.AberrationShift), 0.001f, -1.0f, 1.0f);
 
+    ImGui::Text("Fisheye");
+    ImGui::Checkbox("Fisheye Enabled", &m_Renderer->m_PostProcessingPass->m_Settings.FisheyeEnebled);
+    ImGui::DragFloat("Scale", &m_Renderer->m_PostProcessingPass->m_Settings.Scale, 0.1f);
+
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
     ImGui::Text("UI Post Processing");

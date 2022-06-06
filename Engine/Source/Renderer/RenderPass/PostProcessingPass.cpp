@@ -211,9 +211,11 @@ void PostProcessingPass::Render(uint32_t input)
 	postProcessingShader->SetFloat("u_Offset", m_Settings.Offset);
 	postProcessingShader->SetFloat("u_Contrast", m_Settings.Contrast);
 	postProcessingShader->SetFloat("u_ContrastPivot", m_Settings.ContrastPivot);
-
     postProcessingShader->SetBool("u_IsAberration", m_Settings.AberrationEnabled);
     postProcessingShader->SetVec3("u_AberrationShift", m_Settings.AberrationShift);
+    postProcessingShader->SetBool("u_IsFisheye", m_Settings.FisheyeEnebled);
+    postProcessingShader->SetFloat("u_Scale", m_Settings.Scale);
+
 
 	RenderTools::GetInstance()->RenderQuad();
 

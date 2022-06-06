@@ -42,6 +42,10 @@ layout (location = 13) uniform float u_ContrastPivot;
 layout (location = 14) uniform bool u_IsAberration;
 layout (location = 15) uniform vec3 u_AberrationShift;
 
+layout (location = 16) uniform bool u_IsFisheye;
+layout (location = 17) uniform float u_Scale;
+
+const float PI = 3.1415926535;
 
 // https://gist.github.com/sugi-cho/6a01cae436acddd72bdf
 vec3 rgb2hsv(vec3 c)
@@ -104,12 +108,29 @@ float Luma(vec3 color) { return dot(color, vec3(0.2126, 0.7152, 0.0722)); }
 void main()
 {
     vec3 col;
-    if (u_IsAberration) {
-        col.r = texture(u_Screen, v_TexCoord + u_AberrationShift.x).r;
-        col.g = texture(u_Screen, v_TexCoord + u_AberrationShift.y).g;
-        col.b = texture(u_Screen, v_TexCoord + u_AberrationShift.z).b;
+    vec2 uv;
+
+    if (u_IsFisheye) {
+
+        uv = (gl_FragCoord.xy / vec2(1920.0, 1080.0)) * 2.0 - 1.0;
+        float d = length(uv);
+        float z = sqrt(1.0 + d * d * u_Scale);
+        float r = atan(d, z) / PI;
+        float phi = atan(uv.y, uv.x);
+
+        uv = vec2(r * cos(phi) + 0.5, r * sin(phi) + 0.5);
+
+
     } else {
-        col = texture(u_Screen, v_TexCoord).rgb;
+        uv = v_TexCoord;
+    }
+
+    if (u_IsAberration) {
+        col.r = texture(u_Screen, uv + u_AberrationShift.x).r;
+        col.g = texture(u_Screen, uv + u_AberrationShift.y).g;
+        col.b = texture(u_Screen, uv + u_AberrationShift.z).b;
+    } else {
+        col = texture(u_Screen, uv).rgb;
     }
 
     // SATURATION

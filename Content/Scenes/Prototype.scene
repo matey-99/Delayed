@@ -41,6 +41,8 @@ RendererSettings:
     Hue: 185
     AberrationEnabled: false
     AberrationShift: [0.0130000003, 0.0109999999, 0.00499999989]
+    FisheyeEnabled: false
+    Scale: 1
   VignetteSettings:
     Intensity: 20
     Size: 0.170000002
