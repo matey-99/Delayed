@@ -350,7 +350,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						{
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
-						a->CreateComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
+
+						bool castShadow = mesh["CastShadow"].as<bool>();
+
+						auto m = a->CreateComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
+						m->m_CastShadow = castShadow;
 					}
 
 					if (auto mesh = component["SkeletalMesh"])
@@ -362,7 +366,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						{
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
-						a->CreateComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
+
+						bool castShadow = mesh["CastShadow"].as<bool>();
+
+						auto m = a->CreateComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
+						m->m_CastShadow = castShadow;
 					}
 
 					if (auto animator = component["Animator"])
@@ -379,6 +387,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						float minScale = foliage["MinInstanceScale"].as<float>();
 						float maxScale = foliage["MaxInstanceScale"].as<float>();
 						uint64_t seed = foliage["Seed"].as<uint64_t>();
+						bool castShadows = foliage["CastShadows"].as<bool>();
 
 						auto f = a->CreateComponent<FoliageComponent>();
 						f->ChangeMesh(path);
@@ -389,6 +398,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						f->m_MaxInstanceScale = maxScale;
 						f->m_Seed = seed;
 						f->Generate();
+
+						f->m_CastShadows = castShadows;
 					}
 
 					if (auto lodGroup = component["LODGroup"])
@@ -932,6 +943,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 			out << YAML::EndMap;
 		}
 		out << YAML::EndSeq;
+		out << YAML::Key << "CastShadow" << YAML::Value << mesh->m_CastShadow;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -952,6 +964,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 			out << YAML::EndMap;
 		}
 		out << YAML::EndSeq;
+		out << YAML::Key << "CastShadow" << YAML::Value << mesh->m_CastShadow;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -959,9 +972,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	if (auto animator = actor->GetComponent<Animator>())
 	{
 		out << YAML::BeginMap;
-
 		out << YAML::Key << "Animator";
-
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 
@@ -977,6 +990,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "MinInstanceScale" << YAML::Value << foliage->m_MinInstanceScale;
 		out << YAML::Key << "MaxInstanceScale" << YAML::Value << foliage->m_MaxInstanceScale;
 		out << YAML::Key << "Seed" << YAML::Value << foliage->m_Seed;
+		out << YAML::Key << "CastShadows" << YAML::Value << foliage->m_CastShadows;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

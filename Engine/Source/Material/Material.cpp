@@ -105,3 +105,35 @@ void Material::LoadParameters()
 	}
 }
 
+bool Material::GetBoolParameter(std::string name)
+{
+	if (m_BoolParameters.find(name) != m_BoolParameters.end())
+		return m_BoolParameters.find(name)->second;
+
+	return false;
+}
+
+float Material::GetFloatParameter(std::string name)
+{
+	if (m_FloatParameters.find(name) != m_FloatParameters.end())
+		return m_FloatParameters.find(name)->second;
+
+	return 0.0f;
+}
+
+glm::vec3 Material::GetVec3Parameter(std::string name)
+{
+	if (m_Vec3Parameters.find(name) != m_Vec3Parameters.end())
+		return m_Vec3Parameters.find(name)->second;
+
+	return glm::vec3();
+}
+
+Ref<Texture> Material::GetTexture2DParameter(std::string name)
+{
+	if (m_Texture2DParameters.find(name) != m_Texture2DParameters.end())
+		return m_Texture2DParameters.find(name)->second;
+
+	return nullptr;
+}
+

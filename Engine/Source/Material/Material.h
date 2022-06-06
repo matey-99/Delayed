@@ -51,6 +51,11 @@ public:
 	inline std::unordered_map<std::string, glm::vec3> GetVec3Parameters() const { return m_Vec3Parameters; }
 	inline std::unordered_map<std::string, Ref<Texture>> GetTexture2DParameters() const { return m_Texture2DParameters; }
 
+	bool GetBoolParameter(std::string name);
+	float GetFloatParameter(std::string name);
+	glm::vec3 GetVec3Parameter(std::string name);
+	Ref<Texture> GetTexture2DParameter(std::string name);
+
 	inline void SetBlendMode(BlendMode mode) { m_BlendMode = mode; }
 
 	friend class MaterialEditorPanel;

@@ -19,7 +19,7 @@ CharacterController::CharacterController(Actor* owner)
 	m_SlowedDownSpeed = 3.0f;
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
-	m_JumpHeight = 0.05f;
+	m_JumpHeight = 0.08f;
 	m_JumpMaxHeightTime = 0.43f;
 	m_DashDistance = 4.0f;
 	m_MaxStamina = 100.0f;

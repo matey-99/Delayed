@@ -34,11 +34,11 @@ void BoxColliderComponent::Destroy() {
 }
 
 void BoxColliderComponent::UpdateBoundingBox() {
-    if (auto staticMesh = m_Owner->GetComponent<StaticMeshComponent>()) 
+    if (auto mesh = m_Owner->GetComponent<MeshComponent>()) 
     {
-        glm::vec3 min = staticMesh->GetBoundingBox().Min;
-        glm::vec3 max = staticMesh->GetBoundingBox().Max;
-        glm::vec3 center = staticMesh->GetBoundingBox().Center;
+        glm::vec3 min = mesh->GetBoundingBox().Min;
+        glm::vec3 max = mesh->GetBoundingBox().Max;
+        glm::vec3 center = mesh->GetBoundingBox().Center;
 
         glm::vec3 deltaMin = glm::abs(min - center);
         glm::vec3 deltaMax = glm::abs(max - center);

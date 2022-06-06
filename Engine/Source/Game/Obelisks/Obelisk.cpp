@@ -17,6 +17,7 @@
 Obelisk::Obelisk(Actor* owner)
 	: GameComponent(owner)
 {
+	m_Using = false;
 	m_Used = false;
 	m_Effect = ObeliskEffect::Corrupt;
 	m_TimeToGetEffect = 3.0f;
@@ -33,7 +34,12 @@ void Obelisk::Start()
 	if (auto collider = m_Owner->GetComponent<ColliderComponent>())
 		collider->OnTriggerEnterDelegate.Add(&Obelisk::OnTriggerEnter, this);
 
-	m_ParticleSystem = m_Owner->GetTransform()->GetChildren()[0]->GetOwner()->GetComponent<ParticleSystemComponent>();
+	auto children = m_Owner->GetTransform()->GetChildren();
+	for (auto child : children)
+	{
+		if (auto particleSystem = child->GetOwner()->GetComponent<ParticleSystemComponent>())
+			m_ParticleSystem = particleSystem;
+	}
 	if (!m_ParticleSystem)
 		ENGINE_WARN("There is no particle system attached to Obelisk");
 
@@ -42,7 +48,7 @@ void Obelisk::Start()
 
 void Obelisk::Update(float deltaTime)
 {
-	if (m_Used)
+	if (m_Using)
 	{
 		HandleParticles();
 		HandlePostFX();
@@ -51,7 +57,7 @@ void Obelisk::Update(float deltaTime)
 
 void Obelisk::OnTriggerEnter(ColliderComponent* other)
 {
-	if (m_Used)
+	if (m_Used || m_Using)
 		return;
 
 	if (auto player = other->GetOwner()->GetComponent<Player>())
@@ -68,7 +74,7 @@ void Obelisk::OnTriggerEnter(ColliderComponent* other)
 		e.Add(&Obelisk::GetEffect, this);
 		m_EffectTimerHandle = TimerManager::GetInstance()->SetTimer(e, m_TimeToGetEffect, false);
 
-		m_Used = true;
+		m_Using = true;
 	}
 }
 
@@ -109,6 +115,8 @@ void Obelisk::HandlePostFX()
 
 void Obelisk::GetEffect()
 {
+	m_Used = true;
+
 	m_Player->BackToNormal();
 	
 	m_ParticleSystem->SetEmissionRateOverTime(0.0f);

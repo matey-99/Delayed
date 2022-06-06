@@ -258,6 +258,8 @@ void ActorDetailsPanel::Render()
             ImGui::PopID();
         }
 
+        ImGui::Checkbox("Cast Shadow", &mesh->m_CastShadow);
+
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();
         componentIndex++;
@@ -303,6 +305,8 @@ void ActorDetailsPanel::Render()
             }
             ImGui::PopID();
         }
+
+        ImGui::Checkbox("Cast Shadow", &mesh->m_CastShadow);
 
         // Skeleton informations
         ImGui::Text("Skeleton informations");
@@ -419,6 +423,8 @@ void ActorDetailsPanel::Render()
 
         if (ImGui::Button("Generate"))
             foliage->Generate();
+
+        ImGui::Checkbox("Cast Shadows", &foliage->m_CastShadows);
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();

@@ -18,6 +18,7 @@ struct MaterialMesh
 {
 	Ref<MeshBase> Mesh;
 	Ref<Material> Material;
+	bool CastShadow;
 };
 
 typedef std::unordered_map<Ref<MaterialMesh>, std::vector<glm::mat4>> MeshesRenderList;

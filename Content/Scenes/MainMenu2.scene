@@ -178,6 +178,7 @@ Actors:
               Path: Materials/Default.mat
             - Material: 5
               Path: Materials/Default.mat
+          CastShadow: true
   - Actor: 822017533
     ID: 822017533
     Name: Directional Light

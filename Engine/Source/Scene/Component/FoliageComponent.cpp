@@ -20,6 +20,7 @@ FoliageComponent::FoliageComponent(Actor* owner)
 	m_Radius = 10.0f;
 	m_MinInstanceScale = 1.0f;
 	m_MaxInstanceScale = 1.0f;
+	m_CastShadows = false;
 	
 	std::random_device rd;
 	std::mt19937 gen(rd());

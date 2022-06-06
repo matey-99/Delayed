@@ -80,6 +80,20 @@ void Ghost::OnTriggerEnter(ColliderComponent* other)
 		SaveManager::GetInstance()->LoadGame();
 }
 
+const SaveData Ghost::Save()
+{
+	SaveData data;
+	data.ActorID = m_Owner->GetID();
+	data.BoolFields.insert({ "IsCorrupted", m_IsCorrupted });
+
+	return data;
+}
+
+void Ghost::Load(const SaveData& data)
+{
+	m_IsCorrupted = data.BoolFields.find("IsCorrupted")->second;
+}
+
 void Ghost::Corrupt()
 {
 	m_IsCorrupted = true;

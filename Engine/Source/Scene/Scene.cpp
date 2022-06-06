@@ -140,17 +140,20 @@ void Scene::Render(Ref<Shader> shader)
 	UpdateMeshesRenderList(false);
 	for (auto& renderMesh : m_MeshesRenderList)
 	{
-		auto mesh = renderMesh.first->Mesh;
-
-		std::vector<glm::mat4> transformations;
-		uint32_t instancesCount = 0;
-		for (auto& transformation : renderMesh.second)
+		if (renderMesh.first->CastShadow)
 		{
-			instancesCount++;
-			transformations.push_back(transformation);
-		}
+			auto mesh = renderMesh.first->Mesh;
 
-		mesh->RenderInstanced(instancesCount, transformations);
+			std::vector<glm::mat4> transformations;
+			uint32_t instancesCount = 0;
+			for (auto& transformation : renderMesh.second)
+			{
+				instancesCount++;
+				transformations.push_back(transformation);
+			}
+
+			mesh->RenderInstanced(instancesCount, transformations);
+		}
 	}
 }
 
@@ -237,6 +240,7 @@ void Scene::SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents)
 					Ref<MaterialMesh> materialMesh = CreateRef<MaterialMesh>();
 					materialMesh->Mesh = mesh;
 					materialMesh->Material = material;
+					materialMesh->CastShadow = meshComponent->ShouldCastingShadow();
 
 					std::vector<glm::mat4> transformations;
 					transformations.push_back(transformation);
@@ -284,6 +288,7 @@ void Scene::SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents)
 						Ref<MaterialMesh> materialMesh = CreateRef<MaterialMesh>();
 						materialMesh->Mesh = mesh;
 						materialMesh->Material = material;
+						materialMesh->CastShadow = foliageComponent->ShouldCastingShadows();
 
 						std::vector<glm::mat4> transformations;
 						transformations.push_back(transformation);
