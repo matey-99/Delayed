@@ -65,7 +65,7 @@ void MainMenu::Play()
 	if (auto gm = m_Owner->GetScene()->FindActor("Game Manager"))
 		gm->GetComponent<GameManager>()->ResumeGame();
 	else
-		SceneManager::GetInstance()->LoadScene("Scenes/Prototype.scene");
+		SceneManager::GetInstance()->LoadScene("Scenes/Transition.scene");
 }
 
 void MainMenu::OpenOptions()
