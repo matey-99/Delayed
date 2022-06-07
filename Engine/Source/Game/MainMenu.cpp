@@ -40,6 +40,10 @@ void MainMenu::Start()
 		return;
 	}
 
+	m_Options = m_Owner->GetScene()->FindActor("Options");
+	if (!m_Options)
+		ENGINE_WARN("Options Actor is null!");
+
 	m_PlayButton = playButtonActor->GetComponent<ButtonComponent>();
 	m_PlayButton->OnReleased.Add(&MainMenu::Play, this);
 
@@ -70,6 +74,7 @@ void MainMenu::Play()
 
 void MainMenu::OpenOptions()
 {
+	m_Options->SetEnabled(true);
 }
 
 void MainMenu::CloseOptions()
