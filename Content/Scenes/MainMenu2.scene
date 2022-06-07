@@ -81,7 +81,7 @@ Actors:
           AspectRatio: [16, 9]
           FieldOfView: 90
           NearClipPlane: 0.100000001
-          FarClipPlane: 1000
+          FarClipPlane: 10000
   - Actor: 504208015
     ID: 504208015
     Name: GameLogo
@@ -238,6 +238,142 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [3.66923714, -56.0390778, 3.34018932e-06]
+          LocalRotation: [90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 788720528
+    ID: 788720528
+    Name: platformSmall00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-228.622421, -18.9878883, -176.497711]
+          LocalRotation: [90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 365362967
+    ID: 365362967
+    Name: platformSmall00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-350.927124, 12.0029354, -47.6492081]
+          LocalRotation: [90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 65291090
+    ID: 65291090
+    Name: platformSmall00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-47.9319458, 35.8274155, -392.375641]
+          LocalRotation: [90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 15894530
+    ID: 15894530
+    Name: platformSmall00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [194.038208, -20.7245026, -211.990173]
+          LocalRotation: [90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 159734228
+    ID: 159734228
+    Name: platformSmall00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [261.273712, 38.1032829, 22.8990021]
+          LocalRotation: [90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 224244466
+    ID: 224244466
+    Name: platformSmall00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [79.3756409, -23.7612934, 370.70578]
+          LocalRotation: [90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 937441909
+    ID: 937441909
+    Name: platformSmall00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-126.281967, 46.2903023, 319.58609]
+          LocalRotation: [90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 733505108
+    ID: 733505108
+    Name: platformSmall00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-340.056458, 103.087402, 222.513962]
           LocalRotation: [90, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
