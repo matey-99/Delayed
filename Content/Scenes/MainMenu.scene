@@ -288,3 +288,351 @@ Actors:
           MaxParticleLifeTime: 2
           StartParticleColor: [1, 1, 1, 1]
           EndParticleColor: [0, 0, 0, 0]
+  - Actor: 364918403
+    ID: 364918403
+    Name: Options
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+  - Actor: 897095171
+    ID: 897095171
+    Name: Master Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 364918403
+  - Actor: 156907950
+    ID: 156907950
+    Name: Label
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-481, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095171
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: "Master:"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 261628009
+    ID: 261628009
+    Name: VolumeSliderBackground
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [256, 32, 1]
+          Parent: 897095171
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 587761896
+    ID: 587761896
+    Name: VolumeSlider
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 945786630
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [0, 0.382353067, 1, 1]
+  - Actor: 945786630
+    ID: 945786630
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 261628009
+  - Actor: 479674924
+    ID: 479674924
+    Name: LowerVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [320, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 897095171
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 3864982
+    ID: 3864982
+    Name: IncreaseVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [400, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 897095171
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 897095172
+    ID: 897095172
+    Name: Music Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -103, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 364918403
+  - Actor: 156907951
+    ID: 156907951
+    Name: Label
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-481, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095172
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: "Music:"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 261628010
+    ID: 261628010
+    Name: VolumeSliderBackground
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [256, 32, 1]
+          Parent: 897095172
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 587761897
+    ID: 587761897
+    Name: VolumeSlider
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 945786631
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [0, 0.382353067, 1, 1]
+  - Actor: 945786631
+    ID: 945786631
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 261628010
+  - Actor: 479674925
+    ID: 479674925
+    Name: LowerVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [320, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 897095172
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 3864983
+    ID: 3864983
+    Name: IncreaseVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [400, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 897095172
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 897095173
+    ID: 897095173
+    Name: SFX Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -202, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 364918403
+  - Actor: 156907952
+    ID: 156907952
+    Name: Label
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-481, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095173
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: "SFX:"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 261628011
+    ID: 261628011
+    Name: VolumeSliderBackground
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [256, 32, 1]
+          Parent: 897095173
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 587761898
+    ID: 587761898
+    Name: VolumeSlider
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 945786632
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [0, 0.382353067, 1, 1]
+  - Actor: 945786632
+    ID: 945786632
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 261628011
+  - Actor: 479674926
+    ID: 479674926
+    Name: LowerVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [320, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 897095173
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 3864984
+    ID: 3864984
+    Name: IncreaseVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [400, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 897095173
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]

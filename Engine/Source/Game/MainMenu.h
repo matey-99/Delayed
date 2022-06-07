@@ -27,6 +27,8 @@ private:
 	Ref<ButtonComponent> m_OptionsButton;
 	Ref<ButtonComponent> m_ExitButton;
 
+	Ref<Actor> m_Options;
+
 #pragma region Serialization
 
 	uint64_t m_PlayButtonID;
