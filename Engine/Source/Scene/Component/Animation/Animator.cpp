@@ -58,7 +58,7 @@ void Animator::BlendAnimations(Ref<Animation> pAnim, Ref<Animation> lAnim, Ref<A
 {
 	// ******************
 	// Speed multipliers:
-	
+
 	//pAnim
 	float pAnimMul = m_PAnimSpeed;
 	float lAnimMul = pAnim->GetDuration() / lAnim->GetDuration();
@@ -67,6 +67,8 @@ void Animator::BlendAnimations(Ref<Animation> pAnim, Ref<Animation> lAnim, Ref<A
 	pAnimMul = lAnim->GetDuration() / pAnim->GetDuration();
 	lAnimMul = m_LAnimSpeed;
 	float speedMultiplierDown = (1.0f - m_BlendFactor) * pAnimMul + lAnimMul * m_BlendFactor;  // Also lerp
+
+	//float aAnimMul = aAnim->GetDuration() / ()
 
 	// ------------------------------
 
@@ -105,11 +107,16 @@ void Animator::ComputeBlendedBoneTransforms(Ref<Animation> pAnim, const AssimpNo
 	}
 
 	//aAnim
+	//float aSpeedMultiplier = (1.0f - m_BlendFactor) * m_LAnimSpeed + lAnim->GetDuration() / pAnim->GetDuration() * m_BlendFactor;
+
+	float aCurrentTime = m_Animations[2]->GetTicksPerSecond() * m_DeltaTime; // * aSpeedMultiplier;
+	aCurrentTime = fmod(aCurrentTime, m_Animations[2]->GetDuration());
+	aCurrentTime = pCurrentTime * (1 - m_BlendFactor) + lCurrentTime * m_BlendFactor;
 	glm::mat4 aBoneTransform = glm::mat4(1.0);
 	Ref<Bone> aBone = m_Animations[2]->FindBone(nodeName);
 	if (aBone)
 	{
-		aBone->Update(m_CurrentTime);
+		aBone->Update(aCurrentTime);
 		aBoneTransform = aBone->GetLocalTransform();
 	}
 
@@ -122,18 +129,20 @@ void Animator::ComputeBlendedBoneTransforms(Ref<Animation> pAnim, const AssimpNo
 	);
 	glm::mat4 blendedMat = glm::mat4_cast(blendedRot);
 	blendedMat[3] = (1.0f - m_BlendFactor) * pNodeTransform[3] + lNodeTransform[3] * m_BlendFactor;  // Yes, it is lerp
-	glm::mat4 globalTransform = parentTransform * blendedMat;
+	//blendedMat[3] = (1.0f - m_BlendFactor2) * aBoneTransform[3] + blendedMat[3] * m_BlendFactor2;
+	//glm::mat4 globalTransform = parentTransform * blendedMat;
 
 	// Blend with Added Animation (ex. Jump)
-	//blendedRot = glm::slerp  // Slerp
-	//(
-	//	glm::quat_cast(blendedMat),
-	//	glm::quat_cast(aBoneTransform),
-	//	m_BlendFactor2
-	//);
-	//blendedMat = glm::mat4_cast(blendedRot);
-	//blendedMat[3] = (1.0f - m_BlendFactor2) * blendedMat[3] + aBoneTransform[3] * m_BlendFactor2;  // Yes, it is lerp
-	//glm::mat4 globalTransform = parentTransform * blendedMat;
+	blendedRot = glm::slerp  // Slerp
+	(
+		glm::quat_cast(blendedMat),
+		glm::quat_cast(aBoneTransform),
+		m_BlendFactor2
+	);
+	glm::mat4 prevBlendedMat = blendedMat;
+	blendedMat = glm::mat4_cast(blendedRot);
+	blendedMat[3] = (1.0f - m_BlendFactor2) * prevBlendedMat[3] + aBoneTransform[3] * m_BlendFactor2;  // Yes, it is lerp
+	glm::mat4 globalTransform = parentTransform * blendedMat;
 
 	Ref<BoneMap> mappedBone = m_SkeletalMeshComponent->FindBoneInRig(nodeName);
 	if (mappedBone)
