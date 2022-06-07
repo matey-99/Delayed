@@ -15,6 +15,8 @@ public:
 	void SaveGame();
 	bool LoadGame();
 
+    static bool IsSaveAvailable();
+
 	inline static SaveManager* GetInstance() { return s_Instance; }
 
 private:

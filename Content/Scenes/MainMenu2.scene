@@ -246,3 +246,4 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true

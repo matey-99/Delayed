@@ -147,6 +147,10 @@ void AudioSystem::SetChannelGroupVolume(CHANNEL_GROUP channelGroup, float volume
         AudioSystem::ErrorCheck(m_Implementation->m_ChannelGroups[channelGroup]->setVolume(m_Implementation->m_ChannelVolumes[MASTER] * volume));
 }
 
+float AudioSystem::GetChannelGroupVolume(CHANNEL_GROUP channelGroup) {
+    return m_Implementation->m_ChannelVolumes[channelGroup];
+}
+
 void AudioSystem::SetChannelMode(int channelId, bool is3d, bool looping) {
     auto tFoundIt = m_Implementation->m_Channels.find(channelId);
     if (tFoundIt == m_Implementation->m_Channels.end())

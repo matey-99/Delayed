@@ -4,6 +4,7 @@
 
 #include <fmod.hpp>
 #include <fmod_errors.h>
+#include <Game/SaveManager.h>
 
 #include "Input/Input.h"
 #include "Time/Time.h"
@@ -103,8 +104,12 @@ void Application::Run()
     renderer->Initialize();
 
     // SCENE
+    Ref<Scene> scene;
     auto sceneManager = SceneManager::GetInstance();
-    auto scene = sceneManager->LoadScene("Scenes/MainMenu.scene");
+    if (SaveManager::IsSaveAvailable())
+        scene = sceneManager->LoadScene("Scenes/MainMenu2.scene");
+    else
+        scene = sceneManager->LoadScene("Scenes/MainMenu.scene");
 
     // CAMERA
     auto cameraManager = CameraManager::GetInstance();
