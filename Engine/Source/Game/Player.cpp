@@ -150,9 +150,9 @@ void Player::Load(const SaveData& data)
 	BackToLastCheckpoint();
 }
 
-void Player::SetLastCheckpoint(Checkpoint* checkpoint)
+void Player::SetLastCheckpoint(glm::vec3 position)
 {
-	m_LastCheckpointPosition = checkpoint->GetOwner()->GetTransform()->GetWorldPosition();
+	m_LastCheckpointPosition = position;
 }
 
 void Player::BackToLastCheckpoint()

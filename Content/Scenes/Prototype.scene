@@ -3938,3 +3938,14 @@ Actors:
           Size: [1, 1, 1]
       - BlockTrigger:
           {}
+  - Actor: 971865150
+    ID: 971865150
+    Name: RespawnPoint
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [103, 109.571999, 52.3959999]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [20, 20, 20]
+          Parent: 1401607988

@@ -116,6 +116,7 @@ void Obelisk::HandlePostFX()
 void Obelisk::GetEffect()
 {
 	m_Used = true;
+    m_Using = false;
 
 	m_Player->BackToNormal();
 	
