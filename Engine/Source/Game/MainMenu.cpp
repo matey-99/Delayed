@@ -3,9 +3,11 @@
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
 #include "Scene/Component/UI/ButtonComponent.h"
+#include "Scene/Component/UI/TextComponent.h"
 #include "Application.h"
 #include "Scene/SceneManager.h"
 #include "GameManager.h"
+#include "Audio/AudioSystem.h"
 
 MainMenu::MainMenu(Actor* owner)
 	: GameComponent(owner)
@@ -21,47 +23,61 @@ MainMenu::~MainMenu()
 
 void MainMenu::Start()
 {
-	auto playButtonActor = m_Owner->GetScene()->FindActor(m_PlayButtonID);
-	if (!playButtonActor)
-	{
-		ENGINE_WARN("PlayButton is null!");
-		return;
-	}
-	auto optionsButtonActor = m_Owner->GetScene()->FindActor(m_OptionsButtonID);
-	if (!optionsButtonActor)
-	{
-		ENGINE_WARN("OptionsButton is null!");
-		return;
-	}
-	auto exitButtonActor = m_Owner->GetScene()->FindActor(m_ExitButtonID);
-	if (!exitButtonActor)
-	{
-		ENGINE_WARN("ExitButton is null!");
-		return;
-	}
+	/* Default Panel */
+	m_DefaultPanel = m_Owner->GetScene()->FindActor(m_DefaultPanelID);
 
-	m_Options = m_Owner->GetScene()->FindActor("Options");
-	if (!m_Options)
-		ENGINE_WARN("Options Actor is null!");
-
-	m_PlayButton = playButtonActor->GetComponent<ButtonComponent>();
+	m_PlayButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_PlayButtonID);
 	m_PlayButton->OnReleased.Add(&MainMenu::Play, this);
 
-	m_OptionsButton = optionsButtonActor->GetComponent<ButtonComponent>();
+	m_OptionsButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_OptionsButtonID);
 	m_OptionsButton->OnReleased.Add(&MainMenu::OpenOptions, this);
 
-	m_ExitButton = exitButtonActor->GetComponent<ButtonComponent>();
+	m_CreditsButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_CreditsButtonID);
+	m_CreditsButton->OnReleased.Add(&MainMenu::OpenCredits, this);
+
+	m_ExitButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_ExitButtonID);
 	m_ExitButton->OnReleased.Add(&MainMenu::Exit, this);
-}
 
-void MainMenu::Update(float deltaTime)
-{
+	/* Options Panel */
+	m_OptionsPanel = m_Owner->GetScene()->FindActor(m_OptionsPanelID);
 
-}
+	m_MasterVolumeText = m_Owner->GetScene()->GetComponent<TextComponent>(m_MasterVolumeTextID);
+	m_MasterVolumeSlider = m_Owner->GetScene()->FindActor(m_MasterVolumeSliderID);
 
-void MainMenu::Destroy()
-{
+	m_IncreaseMasterVolumeButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_IncreaseMasterVolumeButtonID);
+	m_IncreaseMasterVolumeButton->OnReleased.Add(&MainMenu::IncreaseMasterVolume, this);
 
+	m_DecreaseMasterVolumeButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_DecreaseMasterVolumeButtonID);
+	m_DecreaseMasterVolumeButton->OnReleased.Add(&MainMenu::DecreaseMasterVolume, this);
+
+	m_MusicVolumeText = m_Owner->GetScene()->GetComponent<TextComponent>(m_MusicVolumeTextID);
+	m_MusicVolumeSlider = m_Owner->GetScene()->FindActor(m_MusicVolumeSliderID);
+
+	m_IncreaseMusicVolumeButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_IncreaseMusicVolumeButtonID);
+	m_IncreaseMusicVolumeButton->OnReleased.Add(&MainMenu::IncreaseMusicVolume, this);
+
+	m_DecreaseMusicVolumeButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_DecreaseMusicVolumeButtonID);
+	m_DecreaseMusicVolumeButton->OnReleased.Add(&MainMenu::DecreaseMusicVolume, this);
+
+	m_SoundsVolumeText = m_Owner->GetScene()->GetComponent<TextComponent>(m_SoundsVolumeTextID);
+	m_SoundsVolumeSlider = m_Owner->GetScene()->FindActor(m_SoundsVolumeSliderID);
+
+	m_IncreaseSoundsVolumeButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_IncreaseSoundsVolumeButtonID);
+	m_IncreaseSoundsVolumeButton->OnReleased.Add(&MainMenu::IncreaseSoundsVolume, this);
+
+	m_DecreaseSoundsVolumeButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_DecreaseSoundsVolumeButtonID);
+	m_DecreaseSoundsVolumeButton->OnReleased.Add(&MainMenu::DecreaseSoundsVolume, this);
+
+	m_BackFromOptionsButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_BackFromOptionsButtonID);
+	m_BackFromOptionsButton->OnReleased.Add(&MainMenu::CloseOptions, this);
+
+	/* Credits Panel */
+	m_CreditsPanel = m_Owner->GetScene()->FindActor(m_CreditsPanelID);
+
+	m_BackFromCreditsButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_BackFromCreditsButtonID);
+	m_BackFromCreditsButton->OnReleased.Add(&MainMenu::CloseCredits, this);
+
+	UpdateOptions();
 }
 
 void MainMenu::Play()
@@ -74,14 +90,108 @@ void MainMenu::Play()
 
 void MainMenu::OpenOptions()
 {
-	m_Options->SetEnabled(true);
+	m_OptionsPanel->SetEnabled(true);
+}
+
+void MainMenu::OpenCredits()
+{
+	m_CreditsPanel->SetEnabled(true);
 }
 
 void MainMenu::CloseOptions()
 {
+	m_OptionsPanel->SetEnabled(false);
+}
+
+void MainMenu::CloseCredits()
+{
+	m_CreditsPanel->SetEnabled(false);
 }
 
 void MainMenu::Exit()
 {
 	Application::Exit();
+}
+
+void MainMenu::IncreaseMasterVolume()
+{
+	auto audioSystem = AudioSystem::GetInstance();
+
+	float masterVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MASTER);
+	masterVolume += 0.1f;
+
+	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::MASTER, masterVolume);
+	UpdateOptions();
+}
+
+void MainMenu::DecreaseMasterVolume()
+{
+	auto audioSystem = AudioSystem::GetInstance();
+
+	float masterVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MASTER);
+	masterVolume -= 0.1f;
+
+	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::MASTER, masterVolume);
+	UpdateOptions();
+}
+
+void MainMenu::IncreaseMusicVolume()
+{
+	auto audioSystem = AudioSystem::GetInstance();
+
+	float musicVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MUSIC);
+	musicVolume += 0.1f;
+
+	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::MUSIC, musicVolume);
+	UpdateOptions();
+}
+
+void MainMenu::DecreaseMusicVolume()
+{
+	auto audioSystem = AudioSystem::GetInstance();
+
+	float musicVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MUSIC);
+	musicVolume -= 0.1f;
+
+	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::MUSIC, musicVolume);
+	UpdateOptions();
+}
+
+void MainMenu::IncreaseSoundsVolume()
+{
+	auto audioSystem = AudioSystem::GetInstance();
+
+	float soundsVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::SFX);
+	soundsVolume += 0.1f;
+
+	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::SFX, soundsVolume);
+	UpdateOptions();
+}
+
+void MainMenu::DecreaseSoundsVolume()
+{
+	auto audioSystem = AudioSystem::GetInstance();
+
+	float soundsVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::SFX);
+	soundsVolume -= 0.1f;
+
+	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::SFX, soundsVolume);
+	UpdateOptions();
+}
+
+void MainMenu::UpdateOptions()
+{
+	auto audioSystem = AudioSystem::GetInstance();
+
+	float masterVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MASTER);
+	m_MasterVolumeText->SetText(std::to_string((int)(masterVolume * 100.0f)));
+	m_MasterVolumeSlider->GetTransform()->SetLocalScale(glm::vec3(masterVolume, 1.0f, 1.0f));
+
+	float musicVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MUSIC);
+	m_MusicVolumeText->SetText(std::to_string((int)(musicVolume * 100.0f)));
+	m_MusicVolumeSlider->GetTransform()->SetLocalScale(glm::vec3(musicVolume, 1.0f, 1.0f));
+
+	float soundsVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::SFX);
+	m_SoundsVolumeText->SetText(std::to_string((int)(soundsVolume * 100.0f)));
+	m_SoundsVolumeSlider->GetTransform()->SetLocalScale(glm::vec3(soundsVolume, 1.0f, 1.0f));
 }

@@ -142,13 +142,20 @@ void AudioSystem::SetChannelVolume(int channelId, float volume) {
 
 void AudioSystem::SetChannelGroupVolume(CHANNEL_GROUP channelGroup, float volume) {
     if (channelGroup == MASTER)
-        AudioSystem::ErrorCheck(m_Implementation->m_ChannelGroups[channelGroup]->setVolume(volume));
+        m_Implementation->m_ChannelVolumes[MASTER] = volume;
     else
         AudioSystem::ErrorCheck(m_Implementation->m_ChannelGroups[channelGroup]->setVolume(m_Implementation->m_ChannelVolumes[MASTER] * volume));
 }
 
 float AudioSystem::GetChannelGroupVolume(CHANNEL_GROUP channelGroup) {
-    return m_Implementation->m_ChannelVolumes[channelGroup];
+    float volume = 0.0f;
+
+    if (channelGroup == MASTER)
+        volume = m_Implementation->m_ChannelVolumes[MASTER];
+    else
+        ErrorCheck(m_Implementation->m_ChannelGroups[channelGroup]->getVolume(&volume));
+
+    return volume;
 }
 
 void AudioSystem::SetChannelMode(int channelId, bool is3d, bool looping) {

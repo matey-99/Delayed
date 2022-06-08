@@ -103,6 +103,10 @@ void Application::Run()
     auto renderer = Renderer::GetInstance();
     renderer->Initialize();
 
+    // AUDIO
+    auto audioSystem = AudioSystem::GetInstance();
+    audioSystem->Initialize();
+
     // SCENE
     Ref<Scene> scene;
     auto sceneManager = SceneManager::GetInstance();
@@ -113,10 +117,6 @@ void Application::Run()
 
     // CAMERA
     auto cameraManager = CameraManager::GetInstance();
-
-    // AUDIO
-    auto audioSystem = AudioSystem::GetInstance();
-    audioSystem->Initialize();
 
     time->SetLastFrameTime(glfwGetTime());
     while (!glfwWindowShouldClose(m_Window))
