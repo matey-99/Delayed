@@ -81,18 +81,14 @@ public:
 	{
 		m_SkeletalMeshComponent = m_Owner->GetComponent<SkeletalMeshComponent>();
 
-		// Set animation for one-animation-mode
 		if (m_SkeletalMeshComponent->HowManyAnimations() > 0)
 			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(0);  // winowajca
 
-		// Set animation for blend-mode
-		// To fix: to make it more dynamic m_Animations might be a vector
-		if (m_SkeletalMeshComponent->HowManyAnimations() > 2)
+		if (m_SkeletalMeshComponent->HowManyAnimations() > 3)
 		{
-			int animationsToBlend = 3;  // hard-coded, might be: HowManyAnimations()
-
-			for (int index = 0; index < animationsToBlend; index++)
-				m_Animations[index] = m_SkeletalMeshComponent->GetAnimation(index);
+			SetAnimation1(m_SkeletalMeshComponent->GetAnimation(3));
+			SetAnimation2(m_SkeletalMeshComponent->GetAnimation(1));
+			SetAnimation3(m_SkeletalMeshComponent->GetAnimation(2));
 		}
 	}
 
@@ -101,13 +97,7 @@ public:
 	void SetAnimation1(Ref<Animation> anim) { if (anim) m_Animations[0] = anim; }
 	void SetAnimation2(Ref<Animation> anim) { if (anim) m_Animations[1] = anim; }
 	void SetAnimation3(Ref<Animation> anim) { if (anim) m_Animations[2] = anim; }
-
-	// Jump
-	void ForceAnimation(float blendSpeed, Ref<Animation> animation)
-	{
-
-	};
-
+	void SetBlendFactor(float factor);
 
 	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);
 	void BlendAnimations(Ref<Animation> pAnim, Ref<Animation> lAnim, Ref<Animation> aAnim);

@@ -745,7 +745,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 13.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.699999988, 1, 0.699999988]
           Parent: 0
@@ -767,16 +767,20 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [41.0824471, 5.8255024, -25.8879089]
-          LocalRotation: [-90, 0, -2.57860975e-05]
+          LocalPosition: [41.0824471, 6.08571196, -25.8879089]
+          LocalRotation: [0, 0, -2.57860975e-05]
           LocalScale: [0.0250000004, 0.0250000004, 0.0250000004]
           Parent: 0
-      - StaticMesh:
-          Mesh: Models/character/Idle.fbx
+      - SkeletalMesh:
+          SkeletalMesh: Models/Skeletal/SK_Vampire.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_CharacterGhost.mat
+              Path: Materials/MSK_Default.mat
+            - Material: 1
+              Path: Materials/MSK_Default.mat
           CastShadow: true
+      - Animator:
+          {}
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]

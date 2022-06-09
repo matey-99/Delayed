@@ -27,6 +27,7 @@ public:
 
 	inline bool IsGrounded() const { return m_IsGrounded; }
 	inline float GetStamina() const { return m_Stamina; }
+	float GetMovementSpeed() { return glm::length(m_Velocity); }
 
 	inline void SetHeadDefaultPosition(glm::vec3 position) { m_HeadDefaultPosition = position; }
 

@@ -3,10 +3,12 @@
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
 #include "Scene/Component/TransformComponent.h"
+#include "Game/CharacterController.h"
 #include "Player.h"
 #include "SaveManager.h"
 #include "Scene/Component/MeshComponent.h"
 #include "Material/MaterialInstance.h"
+#include "Scene/Component/Animation/Animator.h"
 #include "Trail.h"
 #include "Math/Math.h"
 
@@ -16,7 +18,11 @@ Ghost::Ghost(Actor* owner)
 	: GameComponent(owner)
 {
 	for (int i = 0; i < GHOST_POSITIONS_COUNT; i++)
+	{
 		m_Positions[i] = glm::vec3(0.0f);
+		m_MovementSpeed[i] = 0.f;
+	}
+		
 
 	m_PositionOffset = glm::vec3(0.0f, 1.25f, 0.0f);
 	m_NormalEmissiveColor = glm::vec3(1.0f);
@@ -71,7 +77,16 @@ void Ghost::Update(float deltaTime)
 
 	m_RotationsY[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldRotation().y;
 	m_Positions[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldPosition() + m_PositionOffset;
+	Ref<CharacterController> cc = m_PlayerActor->GetComponent<Player>()->GetCharacterController();
+	if (cc)
+		m_MovementSpeed[m_CurrentPositionIndex] = cc->GetMovementSpeed();
 	m_CurrentPositionIndex++;
+
+	Ref<Animator> animator = m_Owner->GetComponent<Animator>();
+	if (animator)
+	{
+		animator->SetBlendFactor(m_MovementSpeed[m_CurrentPositionIndex] * 3.3);
+	}
 }
 
 void Ghost::OnTriggerEnter(ColliderComponent* other)

@@ -23,6 +23,11 @@ void Animator::Update(float deltaTime)
 	m_SkeletalMeshComponent->PropagateBoneTransforms(m_FinalBoneMatrices);
 }
 
+void Animator::SetBlendFactor(float factor)
+{
+	m_BlendFactor = glm::clamp(factor, 0.f, 1.f);
+}
+
 // This should be somewhere else
 void Animator::ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform)
 {
