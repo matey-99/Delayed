@@ -816,18 +816,18 @@ Actors:
           Mesh: Models/spaceship/spaceship_tmp.obj
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Engine.mat
             - Material: 1
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Panels.mat
             - Material: 2
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Panels.mat
             - Material: 3
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Weapons.mat
             - Material: 4
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Weapons.mat
             - Material: 5
-              Path: Materials/Default.mat
-          CastShadow: true
+              Path: Materials/Spaceship/Wings.mat
+          CastShadow: false
   - Actor: 822017533
     ID: 822017533
     Name: Directional Light
@@ -835,13 +835,13 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 1.36087632, 0]
-          LocalRotation: [-125.425583, -24.344326, -30.0923462]
+          LocalPosition: [0, 8.09746456, 0]
+          LocalRotation: [-90, -0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
       - DirectionalLight:
           Color: [1, 1, 1]
-          Intensity: 2
+          Intensity: 2.5
   - Actor: 21994786
     ID: 21994786
     Name: SkyLight
@@ -922,14 +922,14 @@ Actors:
           Looping: true
           Sprite: Textures/Default/Particle.png
           EmitterShape: 0
-          EmitterSphereRadius: 50
+          EmitterSphereRadius: 40
           MaxParticles: 10000
           EmissionRateOverTime: 100
-          MinParticleSize: 0.100000001
+          MinParticleSize: 0.200000003
           MaxParticleSize: 0.300000012
           EndParticleSize: 0
-          MinParticleVelocity: [-1000, 0, 0]
-          MaxParticleVelocity: [-5000, 0, 0]
+          MinParticleVelocity: [-700, 0, 0]
+          MaxParticleVelocity: [-1000, 0, 0]
           EndParticleVelocity: [0, 0, 0]
           MinParticleLifeTime: 1
           MaxParticleLifeTime: 2

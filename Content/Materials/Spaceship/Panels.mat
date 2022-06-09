@@ -1,0 +1,52 @@
+Material: Panels
+ID: 652983936
+BlendMode: 0
+Shader: Opaque
+Bool Parameters:
+  - Name: u_Material.isAOMap
+    Value: true
+  - Name: u_Material.isOpacityMap
+    Value: false
+  - Name: u_Material.isMetallicMap
+    Value: true
+  - Name: u_Material.isAlbedoMap
+    Value: true
+  - Name: u_Material.isEmissiveMap
+    Value: false
+  - Name: u_Material.isNormalMap
+    Value: true
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: true
+  - Name: u_Material.isRoughnessMap
+    Value: true
+Float Parameters:
+  - Name: u_Material.ao
+    Value: 0
+  - Name: u_Material.roughness
+    Value: 0
+  - Name: u_Material.emissiveStrength
+    Value: 0
+  - Name: u_Material.opacity
+    Value: 1
+  - Name: u_Material.metallic
+    Value: 0
+Vec3 Parameters:
+  - Name: u_Material.albedo
+    Value: [0, 0, 0]
+  - Name: u_Material.emissive
+    Value: [0, 0, 0]
+Texture Parameters:
+  - Name: u_Material.opacityMap
+    Path: "null"
+  - Name: u_Material.metallicMap
+    Path: Textures/spaceship_tex/1K/spaceship_mdl_Metallic_1.png
+  - Name: u_Material.albedoMap
+    Path: Textures/spaceship_tex/1K/spaceship_mdl_BaseColor_3.png
+  - Name: u_Material.aoMap
+    Path: Textures/spaceship_tex/1K/spaceship_mdl_AO_4.png
+  - Name: u_Material.emissiveMap
+    Path: "null"
+  - Name: u_Material.normalMap
+    Path: Textures/spaceship_tex/1K/spaceship_mdl_Normal_7.png
+  - Name: u_Material.roughnessMap
+    Path: Textures/spaceship_tex/1K/spaceship_mdl_Roughness_2.png

@@ -816,17 +816,17 @@ Actors:
           Mesh: Models/spaceship/spaceship_tmp.obj
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Engine.mat
             - Material: 1
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Panels.mat
             - Material: 2
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Panels.mat
             - Material: 3
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Weapons.mat
             - Material: 4
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Weapons.mat
             - Material: 5
-              Path: Materials/Default.mat
+              Path: Materials/Spaceship/Wings.mat
           CastShadow: true
   - Actor: 822017533
     ID: 822017533
