@@ -34,6 +34,7 @@
 #include "Game/Obelisks/Obelisk.h"
 #include "Game/PostProcessingVolume.h"
 #include "Game/CameraOrbit.h"
+#include "Game/BlockTrigger.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -718,6 +719,20 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto bt = m_Actor->GetComponent<BlockTrigger>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Block Trigger");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<BlockTrigger>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto postFX = m_Actor->GetComponent<PostProcessingVolume>())
     {
         ImGui::PushID(componentIndex);
@@ -1214,6 +1229,7 @@ void ActorDetailsPanel::Render()
     bool checkpoint = false;
     bool deathArea = false;
     bool cameraOrbit = false;
+    bool blockTrigger = false;
     bool postFX = false;
     bool audioSource = false;
     bool audioListener = false;
@@ -1267,6 +1283,7 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Obelisk", "", &obelisk);
                     ImGui::MenuItem("Post Processing Volume", "", &postFX);
                     ImGui::MenuItem("Camera Orbit", "", &cameraOrbit);
+                    ImGui::MenuItem("Block Trigger", "", &blockTrigger);
 
                     ImGui::EndMenu();
                 }
@@ -1371,6 +1388,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<DeathArea>();
     if (cameraOrbit)
         m_Actor->AddComponent<CameraOrbit>();
+    if (blockTrigger)
+        m_Actor->AddComponent<BlockTrigger>();
     if (postFX)
         m_Actor->AddComponent<PostProcessingVolume>();
     if (audioSource)

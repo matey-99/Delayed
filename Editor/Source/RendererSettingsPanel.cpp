@@ -34,6 +34,7 @@ void RendererSettingsPanel::Render()
 
     ImGui::Text("Lighting");
     ImGui::DragInt("Shadows PCF Size", &m_Renderer->m_LightingPass->m_Settings.ShadowsPCFSize, 1, 1, 10);
+    ImGui::DragFloat("Shadows Bias", &m_Renderer->m_LightingPass->m_Settings.ShadowsBias, 0.001f, 0.0f, 1.0f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 

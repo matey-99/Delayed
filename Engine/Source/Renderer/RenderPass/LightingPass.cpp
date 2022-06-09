@@ -85,6 +85,7 @@ void LightingPass::Render(Ref<Scene> scene)
 	shader->SetInt("u_SSR", 15);
 	shader->SetBool("u_SSREnabled", renderer->GetSettings().SSREnabled);
 	shader->SetInt("u_PCFSize", m_Settings.ShadowsPCFSize);
+	shader->SetFloat("u_ShadowsBias", m_Settings.ShadowsBias);
 
 	if (auto skyLight = scene->FindComponent<SkyLight>())
 	{

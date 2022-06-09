@@ -41,6 +41,7 @@ layout (location = 14) uniform bool u_SSAOEnabled;
 layout (location = 15) uniform sampler2D u_SSR;
 layout (location = 16) uniform bool u_SSREnabled;
 layout (location = 17) uniform int u_PCFSize;
+layout (location = 18) uniform float u_ShadowsBias;
 
 struct DirectionalLight
 {
@@ -258,13 +259,13 @@ float CalculateDirectionalLightShadow(vec3 position, vec3 normal)
     if (currentDepth > 1.0)
         return 0.0;
 
-    float bias = 0.0;
     // float bias = max(0.05 * (1.0 - dot(normal, u_DirectionalLight.direction)), 0.005);
-    // float biasModifier = 0.5;
-    // if (layer == u_CascadeCount)
-    //     bias *= 1 / (u_CameraFarClipPlane * biasModifier);
-    // else
-    //     bias *= 1 / (u_CascadeClipPlaneDistances[layer] * biasModifier);
+    float bias = u_ShadowsBias;
+    float biasModifier = 0.5;
+    if (layer == u_CascadeCount)
+        bias *= 1 / (u_CameraFarClipPlane * biasModifier);
+    else
+        bias *= 1 / (u_CascadeClipPlaneDistances[layer] * biasModifier);
 
     // PCF
     float shadow = 0.0;
