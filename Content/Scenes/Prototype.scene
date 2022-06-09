@@ -3304,7 +3304,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-33.1102982, 1.65288258, -159.663681]
+          LocalPosition: [-33.1102982, 1.65288258, -173.567825]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.748925984, 0.748925984, 0.748925984]
           Parent: 0
@@ -4364,9 +4364,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [183.322113, -16.7300682, 57.9744034]
+          LocalPosition: [-51.9250717, -14.4409676, -127.596779]
           LocalRotation: [0, 0, 0]
-          LocalScale: [6.93091536, 51.3616943, 7.96945333]
+          LocalScale: [10.6736097, 79.0970078, 12.2729578]
           Parent: 0
       - StaticMesh:
           Mesh: Models/defaults/default_cube.obj
@@ -4579,7 +4579,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-77.3796539, 10.2828369, -169.001831]
+          LocalPosition: [-77.2099533, 10.2828369, -182.1633]
           LocalRotation: [90.0026474, 89.2611313, 0.00264835241]
           LocalScale: [0.43062225, 0.43062225, 0.430622011]
           Parent: 2141099751
@@ -4854,3 +4854,92 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+  - Actor: 557272962
+    ID: 557272962
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-119.107132, -10.6682949, -73.4102325]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/checkpoint.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
+  - Actor: 414087201
+    ID: 414087201
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-98.2164307, 11.0245914, -142.651077]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/checkpoint.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
+  - Actor: 612935349
+    ID: 612935349
+    Name: Block4
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [183.322113, -16.7300682, 57.9744034]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [6.93091536, 51.3616943, 7.96945333]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_GhostObject.mat
+          CastShadow: true
+  - Actor: 161361435
+    ID: 161361435
+    Name: Cube (24)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-70.6432724, 30.8318367, -123.42131]
+          LocalRotation: [-90.0014038, 2.46466613, 179.999954]
+          LocalScale: [0.335885316, 0.335885316, 0.335885137]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 962435065
+    ID: 962435065
+    Name: Cube (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-68.0878983, 30.5045815, -120.388794]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.1756382, 9.96623993, 5.19449568]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Red.mat
+          CastShadow: true
