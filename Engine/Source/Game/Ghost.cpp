@@ -16,7 +16,10 @@ Ghost::Ghost(Actor* owner)
 	: GameComponent(owner)
 {
 	for (int i = 0; i < GHOST_POSITIONS_COUNT; i++)
+	{
 		m_Positions[i] = glm::vec3(0.0f);
+		m_RotationsY[i] = 0.0f;
+	}
 
 	m_PositionOffset = glm::vec3(0.0f, 1.25f, 0.0f);
 	m_NormalEmissiveColor = glm::vec3(1.0f);
@@ -69,7 +72,7 @@ void Ghost::Update(float deltaTime)
 		m_Owner->GetTransform()->SetLocalRotation(rot);
 	}
 
-	m_RotationsY[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldRotation().y;
+	m_RotationsY[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetLocalRotation().y - 180.0f;
 	m_Positions[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldPosition() + m_PositionOffset;
 	m_CurrentPositionIndex++;
 }
