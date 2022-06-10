@@ -63,7 +63,7 @@ Actors:
           LocalScale: [1, 1, 1]
           Parent: 0
       - GameManager:
-          MainMenu: 902244052
+          MainMenu: 968295101
   - Actor: 493161986
     ID: 493161986
     Name: Notification Manager
@@ -112,8 +112,8 @@ Actors:
           HoveredColor: [1, 1, 1, 1]
           PressedColor: [1, 1, 1, 1]
           DisabledColor: [1, 1, 1, 1]
-  - Actor: 902244052
-    ID: 902244052
+  - Actor: 968295101
+    ID: 968295101
     Name: MainMenu
     Enabled: false
     Dynamic: false
@@ -125,9 +125,27 @@ Actors:
           LocalScale: [1, 1, 1]
           Parent: 1
       - MainMenu:
+          DefaultPanel: 1
           PlayButton: 451190724
           OptionsButton: 826052383
+          CreditsButton: 826052384
           ExitButton: 334289216
+          OptionsPanel: 364918403
+          MasterVolumeText: 156917950
+          MasterVolumeSlider: 945786630
+          IncreaseMasterVolumeButton: 3864982
+          DecreaseMasterVolumeButton: 479674924
+          MusicVolumeText: 156927950
+          MusicVolumeSlider: 945786631
+          IncreaseMusicVolumeButton: 3864983
+          DecreaseMusicVolumeButton: 479674925
+          SoundsVolumeText: 156937950
+          SoundsVolumeSlider: 945786632
+          IncreaseSoundsVolumeButton: 3864984
+          DecreaseSoundsVolumeButton: 479674926
+          BackFromOptionsButton: 826552383
+          CreditsPanel: 464918403
+          BackFromCreditsButton: 926552383
   - Actor: 504208015
     ID: 504208015
     Name: GameLogo
@@ -135,11 +153,11 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [0, 386.899078, 0]
+          Anchor: 5
+          LocalPosition: [700, -300, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [467.5, 124, 1]
-          Parent: 902244052
+          Parent: 968295101
       - Image:
           Path: Textures/Menu/Logo1.png
           Color: [1, 1, 1, 1]
@@ -150,11 +168,11 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [0, 150, 0]
+          Anchor: 5
+          LocalPosition: [535, -700, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [282, 64, 1]
-          Parent: 902244052
+          Parent: 968295101
       - UIButton:
           Enabled: true
           ImagePath: Textures/Menu/PlayButton1.png
@@ -169,11 +187,30 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [0, -50, 0]
+          Anchor: 5
+          LocalPosition: [535, -900, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [282, 71.5999985, 1]
-          Parent: 902244052
+          Parent: 968295101
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Menu/OptionsButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 826052384
+    ID: 826052384
+    Name: CreditsButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 5
+          LocalPosition: [535, -1100, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 968295101
       - UIButton:
           Enabled: true
           ImagePath: Textures/Menu/OptionsButton1.png
@@ -188,14 +225,624 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [0, -250, 0]
+          Anchor: 5
+          LocalPosition: [535, -1300, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [282, 71.5999985, 1]
-          Parent: 902244052
+          Parent: 968295101
       - UIButton:
           Enabled: true
           ImagePath: Textures/Menu/ExitButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 364918403
+    ID: 364918403
+    Name: Options Panel
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 968295101
+  - Actor: 826552383
+    ID: 826552383
+    Name: BackFromOptionsButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [161, -450, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Menu/OptionsButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 897095171
+    ID: 897095171
+    Name: Master Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 364918403
+  - Actor: 156907950
+    ID: 156907950
+    Name: Label
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-481, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095171
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: "Master:"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 156917950
+    ID: 156917950
+    Name: ValueText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [256, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095171
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: 50
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 261628009
+    ID: 261628009
+    Name: VolumeSliderBackground
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [256, 32, 1]
+          Parent: 897095171
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 587761896
+    ID: 587761896
+    Name: VolumeSlider
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 945786630
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [0, 0.382353067, 1, 1]
+  - Actor: 945786630
+    ID: 945786630
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.5, 1, 1]
+          Parent: 261628009
+  - Actor: 479674924
+    ID: 479674924
+    Name: DecreaseMasterVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [430, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 3864982
+    ID: 3864982
+    Name: IncreaseMasterVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [512, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 897095172
+    ID: 897095172
+    Name: Music Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -103, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 364918403
+  - Actor: 156907951
+    ID: 156907951
+    Name: Label
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-481, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095172
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: "Music:"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 156927950
+    ID: 156927950
+    Name: ValueText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [256, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095172
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: 100
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 261628010
+    ID: 261628010
+    Name: VolumeSliderBackground
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [256, 32, 1]
+          Parent: 897095172
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 587761897
+    ID: 587761897
+    Name: VolumeSlider
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 945786631
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [0, 0.382353067, 1, 1]
+  - Actor: 945786631
+    ID: 945786631
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 261628010
+  - Actor: 479674925
+    ID: 479674925
+    Name: DecreaseMusicVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [430, -103, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 3864983
+    ID: 3864983
+    Name: IncreaseMusicVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [512, -103, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 897095173
+    ID: 897095173
+    Name: SFX Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -202, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 364918403
+  - Actor: 156907952
+    ID: 156907952
+    Name: Label
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-481, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095173
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: "SFX:"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 156937950
+    ID: 156937950
+    Name: ValueText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [256, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095173
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: 100
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 261628011
+    ID: 261628011
+    Name: VolumeSliderBackground
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [256, 32, 1]
+          Parent: 897095173
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 587761898
+    ID: 587761898
+    Name: VolumeSlider
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 945786632
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [0, 0.382353067, 1, 1]
+  - Actor: 945786632
+    ID: 945786632
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 261628011
+  - Actor: 479674926
+    ID: 479674926
+    Name: DecreaseSFXVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [430, -202, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 3864984
+    ID: 3864984
+    Name: IncreaseSFXVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [512, -202, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 464918403
+    ID: 464918403
+    Name: Credits Panel
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 968295101
+  - Actor: 926552383
+    ID: 926552383
+    Name: BackFromCreditsButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [161, -450, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 464918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Menu/OptionsButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 592054547
+    ID: 592054547
+    Name: TeamName
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-212, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 48
+          Text: Skybox Is The Limit
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 356791616
+    ID: 356791616
+    Name: FirstMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -82, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Jakub Berut
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 586051824
+    ID: 586051824
+    Name: SecondMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-79, -168, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Mateusz Michalak
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 988474343
+    ID: 988474343
+    Name: ThirdMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-49, -250, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Jagoda Gradek
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 186053785
+    ID: 186053785
+    Name: Team
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 300, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 464918403
+  - Actor: 806813335
+    ID: 806813335
+    Name: FourthMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-82, -333, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Paulina Stefanska
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 165351103
+    ID: 165351103
+    Name: FifthMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-54, -424, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Michal Sobczak
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 628718351
+    ID: 628718351
+    Name: SixthMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-103, -517, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Mateusz Majchrzak
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -288,7 +935,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-48.633976, 24.87286, -12.7385883]
+          LocalPosition: [-46.116394, 9.58590889, -58.8645134]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -329,7 +976,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [83.2915802, 25.4182758, -96.5878067]
+          LocalPosition: [-24.5984612, 11.1724968, -71.5912857]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -370,7 +1017,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-34.6309319, 29.4721699, -60.1398277]
+          LocalPosition: [-34.6309319, 10.6504421, -60.1398277]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -2661,7 +3308,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-48.7068481, 1.87004197, -143.107254]
+          LocalPosition: [-33.1102982, 1.65288258, -173.567825]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.748925984, 0.748925984, 0.748925984]
           Parent: 0
@@ -2959,8 +3606,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [137.730682, -38.3128433, 27.6266098]
-          LocalRotation: [89.9923782, -6.52167416, 180]
+          LocalPosition: [142.148529, -38.3130989, 29.1492043]
+          LocalRotation: [89.9921036, -0.147172868, 179.999207]
           LocalScale: [0.234181255, 0.234181255, 0.23418124]
           Parent: 2141099751
       - StaticMesh:
@@ -2996,12 +3643,12 @@ Actors:
           Size: [1, 1, 1]
   - Actor: 99336761
     ID: 99336761
-    Name: Block15
+    Name: Block5
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [173.123062, 8.51960373, 32.9084549]
+          LocalPosition: [177.168304, 8.51960373, 33.5214996]
           LocalRotation: [0, 0, 0]
           LocalScale: [3, 3, 3]
           Parent: 0
@@ -3091,6 +3738,15 @@ Actors:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Button:
+          Platform: 507571002
+          PlatformDelayTime: 0
+          ConnectedButtons:
+            - ID: 496197632
   - Actor: 496197632
     ID: 496197632
     Name: button_frame (9)
@@ -3116,7 +3772,7 @@ Actors:
           Platform: 507571002
           PlatformDelayTime: 0
           ConnectedButtons:
-            []
+            - ID: 241203689
   - Actor: 507571002
     ID: 507571002
     Name: platform (9)
@@ -3212,7 +3868,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [119.148239, 2.71496129, -72.3992386]
+          LocalPosition: [119.14682, 2.77143764, -72.3964081]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3326,7 +3982,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [80.3355713, 12.2123833, -68.5811234]
+          LocalPosition: [80.3385468, 12.1017151, -68.5862503]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3358,7 +4014,7 @@ Actors:
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           CastShadow: true
       - BoxCollider:
-          IsTrigger: false
+          IsTrigger: true
           Center: [0, 0, 0]
           Size: [1, 1.10000002, 1]
       - Button:
@@ -3436,7 +4092,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-83.3987656, 10.282793, -78.1251678]
+          LocalPosition: [-87.7928467, 10.282793, -78.1818237]
           LocalRotation: [90.0026474, 89.2611313, 0.00264835241]
           LocalScale: [0.209039986, 0.209039986, 0.209039956]
           Parent: 2141099751
@@ -3446,6 +4102,10 @@ Actors:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 403182944
     ID: 403182944
     Name: checkpoint1 (5)
@@ -3666,7 +4326,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-97.7934723, 0.400898457, -77.2956161]
+          LocalPosition: [-103.428009, 0.254924774, -77.2188187]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3676,6 +4336,10 @@ Actors:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 809314739
     ID: 809314739
     Name: SmallPlatform2
@@ -3683,7 +4347,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-116.515091, 0.569235325, -63.1360245]
+          LocalPosition: [-120.015686, 0.478543282, -63.0883369]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3693,6 +4357,10 @@ Actors:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 404784879
     ID: 404784879
     Name: Block4
@@ -3700,9 +4368,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [182.1716, -16.7300682, 56.2137909]
+          LocalPosition: [-51.9250717, -14.4409676, -127.596779]
           LocalRotation: [0, 0, 0]
-          LocalScale: [10.4601831, 51.3616943, 10.4601831]
+          LocalScale: [10.6736097, 79.0970078, 12.2729578]
           Parent: 0
       - StaticMesh:
           Mesh: Models/defaults/default_cube.obj
@@ -3915,7 +4583,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-92.1839142, 10.2828312, -153.78035]
+          LocalPosition: [-77.2099533, 10.2828369, -182.1633]
           LocalRotation: [90.0026474, 89.2611313, 0.00264835241]
           LocalScale: [0.43062225, 0.43062225, 0.430622011]
           Parent: 2141099751
@@ -3927,7 +4595,7 @@ Actors:
           CastShadow: true
   - Actor: 729527760
     ID: 729527760
-    Name: Block15Trigger
+    Name: Block5Trigger
     Enabled: true
     Dynamic: false
     Components:
@@ -3942,3 +4610,340 @@ Actors:
           Size: [1, 1, 1]
       - BlockTrigger:
           {}
+  - Actor: 971865150
+    ID: 971865150
+    Name: RespawnPoint
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [103, 109.571999, 52.3959999]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [20, 20, 20]
+          Parent: 1401607988
+  - Actor: 310349425
+    ID: 310349425
+    Name: Cube (22)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-110.056641, -12.2976933, -145.668716]
+          LocalRotation: [89.9984741, 10.9883118, -179.995956]
+          LocalScale: [0.200000003, 0.200000003, 0.200000003]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 244120680
+    ID: 244120680
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-155.548141, 5.13051176, -94.9276199]
+          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 321453732
+    ID: 321453732
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-172.844437, -13.258213, -102.394783]
+          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 777610556
+    ID: 777610556
+    Name: Cube (22)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-155.945816, -57.2481651, -144.814651]
+          LocalRotation: [89.9985733, -0.117323399, -179.995758]
+          LocalScale: [0.357420027, 0.357420027, 0.357420027]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 600965315
+    ID: 600965315
+    Name: platform (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-162.686295, 1.87511683, -121.42173]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/mobilePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 10
+          Speed: 20
+  - Actor: 446293797
+    ID: 446293797
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-142.6586, -12.365797, -105.157227]
+          LocalRotation: [92.7062683, 6.81805706, 1.76897657]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 774767173
+    ID: 774767173
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-140.386002, -6.29177141, -111.170547]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1.10000002, 1]
+      - Button:
+          Platform: 600965315
+          PlatformDelayTime: 4
+          ConnectedButtons:
+            - ID: 639208106
+  - Actor: 639208106
+    ID: 639208106
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-177.363144, -7.37386274, -107.128265]
+          LocalRotation: [-89.9999466, 65.8130341, 4.16764124e-05]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1.10000002, 1]
+      - Button:
+          Platform: 600965315
+          PlatformDelayTime: 4
+          ConnectedButtons:
+            - ID: 774767173
+  - Actor: 631596316
+    ID: 631596316
+    Name: Block5
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-127.427437, 16.9096375, -135.632248]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3, 3, 3]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_GhostObject.mat
+          CastShadow: true
+  - Actor: 72107752
+    ID: 72107752
+    Name: Block5
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-106.8321, 18.0944633, -136.582932]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [6.26999998, 6.26999998, 6.26999998]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_GhostObject.mat
+          CastShadow: true
+  - Actor: 810184262
+    ID: 810184262
+    Name: Cube (22)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-139.27681, -33.2445488, -78.1910095]
+          LocalRotation: [89.9984741, 10.9883118, -179.995956]
+          LocalScale: [0.200000003, 0.200000003, 0.200000003]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 557272962
+    ID: 557272962
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-119.107132, -10.6682949, -73.4102325]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/checkpoint.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
+  - Actor: 414087201
+    ID: 414087201
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-98.2164307, 11.0245914, -142.651077]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/checkpoint.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
+  - Actor: 612935349
+    ID: 612935349
+    Name: Block4
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [183.322113, -16.7300682, 57.9744034]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [6.93091536, 51.3616943, 7.96945333]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_GhostObject.mat
+          CastShadow: true
+  - Actor: 161361435
+    ID: 161361435
+    Name: Cube (24)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-70.6432724, 30.8318367, -123.42131]
+          LocalRotation: [-90.0014038, 2.46466613, 179.999954]
+          LocalScale: [0.335885316, 0.335885316, 0.335885137]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 962435065
+    ID: 962435065
+    Name: Cube (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-68.0878983, 30.5045815, -120.388794]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.1756382, 9.96623993, 5.19449568]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Red.mat
+          CastShadow: true

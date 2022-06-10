@@ -34,6 +34,8 @@
 #include "Game/Obelisks/Obelisk.h"
 #include "Game/PostProcessingVolume.h"
 #include "Game/CameraOrbit.h"
+#include "Game/BlockTrigger.h"
+#include "Game/Moving.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -718,6 +720,20 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto bt = m_Actor->GetComponent<BlockTrigger>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Block Trigger");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<BlockTrigger>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto postFX = m_Actor->GetComponent<PostProcessingVolume>())
     {
         ImGui::PushID(componentIndex);
@@ -787,6 +803,23 @@ void ActorDetailsPanel::Render()
         ImGui::DragFloat3("Move Direction", glm::value_ptr(platform->m_Direction), 0.1f, 0.0f, 1.0f);
         ImGui::DragFloat("Move Distance", &platform->m_Distance, 0.5f, 0.0f, 100.0f);
         ImGui::DragFloat("Move Speed", &platform->m_Speed, 0.5f, 0.0f, 100.0f);
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
+    if (auto moving = m_Actor->GetComponent<Moving>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Moving");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Moving>();
+
+        ImGui::DragFloat3("Move Direction", glm::value_ptr(moving->m_Direction), 0.1f, 0.0f, 1.0f);
+        ImGui::DragFloat("Move Distance", &moving->m_Distance, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Move Speed", &moving->m_Speed, 0.5f, 0.0f, 100.0f);
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();
         componentIndex++;
@@ -1208,12 +1241,14 @@ void ActorDetailsPanel::Render()
     bool characterController = false;
     bool cameraController = false;
     bool platform = false;
+    bool moving = false;
     bool button = false;
     bool ghost = false;
     bool obelisk = false;
     bool checkpoint = false;
     bool deathArea = false;
     bool cameraOrbit = false;
+    bool blockTrigger = false;
     bool postFX = false;
     bool audioSource = false;
     bool audioListener = false;
@@ -1261,12 +1296,14 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Camera Controller", "", &cameraController);
                     ImGui::MenuItem("Platform", "", &platform);
                     ImGui::MenuItem("Button", "", &button);
+                    ImGui::MenuItem("Moving", "", &moving);
                     ImGui::MenuItem("Ghost", "", &ghost);
                     ImGui::MenuItem("Checkpoint", "", &checkpoint);
                     ImGui::MenuItem("Death Area", "", &deathArea);
                     ImGui::MenuItem("Obelisk", "", &obelisk);
                     ImGui::MenuItem("Post Processing Volume", "", &postFX);
                     ImGui::MenuItem("Camera Orbit", "", &cameraOrbit);
+                    ImGui::MenuItem("Block Trigger", "", &blockTrigger);
 
                     ImGui::EndMenu();
                 }
@@ -1361,6 +1398,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<Platform>();
     if (button)
         m_Actor->AddComponent<Button>();
+    if (moving)
+        m_Actor->AddComponent<Moving>();
     if (ghost)
         m_Actor->AddComponent<Ghost>();
     if (obelisk)
@@ -1371,6 +1410,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<DeathArea>();
     if (cameraOrbit)
         m_Actor->AddComponent<CameraOrbit>();
+    if (blockTrigger)
+        m_Actor->AddComponent<BlockTrigger>();
     if (postFX)
         m_Actor->AddComponent<PostProcessingVolume>();
     if (audioSource)

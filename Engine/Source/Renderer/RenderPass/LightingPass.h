@@ -10,6 +10,7 @@ public:
 	{
 		// Shadows
 		int ShadowsPCFSize = 1;
+		float ShadowsBias = 0.0f;
 	};
 
 public:

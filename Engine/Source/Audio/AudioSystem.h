@@ -62,6 +62,8 @@ public:
 
     void SetChannelGroupVolume(CHANNEL_GROUP channelGroup, float volume);
 
+    float GetChannelGroupVolume(CHANNEL_GROUP channelGroup);
+
     void SetChannelMode(int channelId, bool is3d, bool looping);
 
     bool IsPlaying(int channelId) const;

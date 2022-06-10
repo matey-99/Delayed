@@ -5,6 +5,8 @@
 #include "Math/Math.h"
 #include "Scene/Component/StaticMeshComponent.h"
 #include "Material/MaterialInstance.h"
+#include "Button.h"
+#include "Scene/Component/AudioSourceComponent.h"
 
 Platform::Platform(Actor* owner)
 	: GameComponent(owner)
@@ -24,6 +26,8 @@ void Platform::Start()
 {
 	m_DefaultPosition = m_Owner->GetTransform()->GetWorldPosition();
 
+	m_AudioSource = m_Owner->GetComponent<AudioSourceComponent>();
+
 	if (auto mesh = m_Owner->GetComponent<StaticMeshComponent>())
 	{
 		Ref<Material> material = mesh->GetMaterials()[0];
@@ -37,7 +41,8 @@ void Platform::Update(float deltaTime)
 {
 	float step = m_Speed * deltaTime;
 	glm::vec3 currentPosition = m_Owner->GetTransform()->GetWorldPosition();
-	if (m_Active)
+
+	if (ShouldBeActive())
 	{
 		if (!Math::IsNearlyEqual(currentPosition, m_DefaultPosition + (m_Direction * m_Distance), step))
 		{
@@ -71,4 +76,21 @@ void Platform::Update(float deltaTime)
 
 void Platform::FixedUpdate()
 {
+}
+
+void Platform::AddButton(Button* button)
+{
+	m_Buttons.push_back(button);
+}
+
+bool Platform::ShouldBeActive()
+{
+	bool result = true;
+	for (auto& button : m_Buttons)
+	{
+		if (!button->IsPressed())
+			result = false;
+	}
+
+	return result;
 }

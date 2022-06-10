@@ -216,3 +216,18 @@ void SaveManager::GetAllSaveables()
 			m_Saveables.push_back(saveable);
 	}
 }
+
+bool SaveManager::IsSaveAvailable() {
+    if (!std::filesystem::is_directory("Saves"))
+        return false;
+
+    std::ifstream file("Saves/Save.yaml");
+    std::stringstream ss;
+    ss << file.rdbuf();
+
+    YAML::Node data = YAML::Load(ss.str());
+    if (!data["GameSave"])
+        return false;
+
+    return true;
+}

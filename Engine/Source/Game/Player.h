@@ -21,7 +21,7 @@ public:
 	virtual const SaveData Save() override;
 	virtual void Load(const SaveData& data) override;
 
-	void SetLastCheckpoint(Checkpoint* checkpoint);
+	void SetLastCheckpoint(glm::vec3 position);
 	void BackToLastCheckpoint();
 
 	void AddSkill(SkillType skill);

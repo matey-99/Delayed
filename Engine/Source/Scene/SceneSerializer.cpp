@@ -52,6 +52,7 @@
 #include "Game/NotificationManager.h"
 #include "Game/TutorialManager.h"
 #include "Game/SceneTransition.h"
+#include "Game/Moving.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -708,14 +709,55 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto menu = component["MainMenu"])
 					{
+						uint64_t defaultPanelID = menu["DefaultPanel"].as<uint64_t>();
 						uint64_t playButtonActorID = menu["PlayButton"].as<uint64_t>();
 						uint64_t optionsButtonActorID = menu["OptionsButton"].as<uint64_t>();
+						uint64_t creditsButtonActorID = menu["CreditsButton"].as<uint64_t>();
 						uint64_t exitButtonActorID = menu["ExitButton"].as<uint64_t>();
 
+						uint64_t optionsPanelID = menu["OptionsPanel"].as<uint64_t>();
+						uint64_t masterVolumeTextID = menu["MasterVolumeText"].as<uint64_t>();
+						uint64_t masterVolumeSliderID = menu["MasterVolumeSlider"].as<uint64_t>();
+						uint64_t increaseMasterVolumeButtonID = menu["IncreaseMasterVolumeButton"].as<uint64_t>();
+						uint64_t decreaseMasterVolumeButtonID = menu["DecreaseMasterVolumeButton"].as<uint64_t>();
+						uint64_t musicVolumeTextID = menu["MusicVolumeText"].as<uint64_t>();
+						uint64_t musicVolumeSliderID = menu["MusicVolumeSlider"].as<uint64_t>();
+						uint64_t increaseMusicVolumeButtonID = menu["IncreaseMusicVolumeButton"].as<uint64_t>();
+						uint64_t decreaseMusicVolumeButtonID = menu["DecreaseMusicVolumeButton"].as<uint64_t>();
+						uint64_t soundsVolumeTextID = menu["SoundsVolumeText"].as<uint64_t>();
+						uint64_t soundsVolumeSliderID = menu["SoundsVolumeSlider"].as<uint64_t>();
+						uint64_t increaseSoundsVolumeButtonID = menu["IncreaseSoundsVolumeButton"].as<uint64_t>();
+						uint64_t decreaseSoundsVolumeButtonID = menu["DecreaseSoundsVolumeButton"].as<uint64_t>();
+						uint64_t backFromOptionsButtonID = menu["BackFromOptionsButton"].as<uint64_t>();
+
+						uint64_t creditsPanelID = menu["CreditsPanel"].as<uint64_t>();
+						uint64_t backFromCreditsButtonID = menu["BackFromCreditsButton"].as<uint64_t>();
+
+
 						auto m = a->CreateComponent<MainMenu>();
+						m->m_DefaultPanelID = defaultPanelID;
 						m->m_PlayButtonID = playButtonActorID;
 						m->m_OptionsButtonID = optionsButtonActorID;
+						m->m_CreditsButtonID = creditsButtonActorID;
 						m->m_ExitButtonID = exitButtonActorID;
+
+						m->m_OptionsPanelID = optionsPanelID;
+						m->m_MasterVolumeTextID = masterVolumeTextID;
+						m->m_MasterVolumeSliderID = masterVolumeSliderID;
+						m->m_IncreaseMasterVolumeButtonID = increaseMasterVolumeButtonID;
+						m->m_DecreaseMasterVolumeButtonID = decreaseMasterVolumeButtonID;
+						m->m_MusicVolumeTextID = musicVolumeTextID;
+						m->m_MusicVolumeSliderID = musicVolumeSliderID;
+						m->m_IncreaseMusicVolumeButtonID = increaseMusicVolumeButtonID;
+						m->m_DecreaseMusicVolumeButtonID = decreaseMusicVolumeButtonID;
+						m->m_SoundsVolumeTextID = soundsVolumeTextID;
+						m->m_SoundsVolumeSliderID = soundsVolumeSliderID;
+						m->m_IncreaseSoundsVolumeButtonID = increaseSoundsVolumeButtonID;
+						m->m_DecreaseSoundsVolumeButtonID = decreaseSoundsVolumeButtonID;
+						m->m_BackFromOptionsButtonID = backFromOptionsButtonID;
+
+						m->m_CreditsPanelID = creditsPanelID;
+						m->m_BackFromCreditsButtonID = backFromCreditsButtonID;
 					}
 
 					if (auto player = component["Player"])
@@ -775,6 +817,18 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						p->m_Direction = direction;
 						p->m_Distance = distance;
 						p->m_Speed = speed;
+					}
+
+					if (auto moving = component["Moving"])
+					{
+						glm::vec3 direction = moving["Direction"].as<glm::vec3>();
+						float distance = moving["Distance"].as<float>();
+						float speed = moving["Speed"].as<float>();
+
+						auto m = a->CreateComponent<Moving>();
+						m->m_Direction = direction;
+						m->m_Distance = distance;
+						m->m_Speed = speed;
 					}
 
 					if (auto ghost = component["Ghost"])
@@ -1246,9 +1300,29 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "MainMenu";
 		out << YAML::BeginMap;
+		out << YAML::Key << "DefaultPanel" << YAML::Value << menu->m_DefaultPanelID;
 		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButtonID;
 		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButtonID;
+		out << YAML::Key << "CreditsButton" << YAML::Value << menu->m_CreditsButtonID;
 		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButtonID;
+
+		out << YAML::Key << "OptionsPanel" << YAML::Value << menu->m_OptionsPanelID;
+		out << YAML::Key << "MasterVolumeText" << YAML::Value << menu->m_MasterVolumeTextID;
+		out << YAML::Key << "MasterVolumeSlider" << YAML::Value << menu->m_MasterVolumeSliderID;
+		out << YAML::Key << "IncreaseMasterVolumeButton" << YAML::Value << menu->m_IncreaseMasterVolumeButtonID;
+		out << YAML::Key << "DecreaseMasterVolumeButton" << YAML::Value << menu->m_DecreaseMasterVolumeButtonID;
+		out << YAML::Key << "MusicVolumeText" << YAML::Value << menu->m_MusicVolumeTextID;
+		out << YAML::Key << "MusicVolumeSlider" << YAML::Value << menu->m_MusicVolumeSliderID;
+		out << YAML::Key << "IncreaseMusicVolumeButton" << YAML::Value << menu->m_IncreaseMusicVolumeButtonID;
+		out << YAML::Key << "DecreaseMusicVolumeButton" << YAML::Value << menu->m_DecreaseMusicVolumeButtonID;
+		out << YAML::Key << "SoundsVolumeText" << YAML::Value << menu->m_SoundsVolumeTextID;
+		out << YAML::Key << "SoundsVolumeSlider" << YAML::Value << menu->m_SoundsVolumeSliderID;
+		out << YAML::Key << "IncreaseSoundsVolumeButton" << YAML::Value << menu->m_IncreaseSoundsVolumeButtonID;
+		out << YAML::Key << "DecreaseSoundsVolumeButton" << YAML::Value << menu->m_DecreaseSoundsVolumeButtonID;
+		out << YAML::Key << "BackFromOptionsButton" << YAML::Value << menu->m_BackFromOptionsButtonID;
+
+		out << YAML::Key << "CreditsPanel" << YAML::Value << menu->m_CreditsPanelID;
+		out << YAML::Key << "BackFromCreditsButton" << YAML::Value << menu->m_BackFromCreditsButtonID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1313,6 +1387,18 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Direction" << YAML::Value << platform->m_Direction;
 		out << YAML::Key << "Distance" << YAML::Value << platform->m_Distance;
 		out << YAML::Key << "Speed" << YAML::Value << platform->m_Speed;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto moving = actor->GetComponent<Moving>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Moving";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Direction" << YAML::Value << moving->m_Direction;
+		out << YAML::Key << "Distance" << YAML::Value << moving->m_Distance;
+		out << YAML::Key << "Speed" << YAML::Value << moving->m_Speed;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
