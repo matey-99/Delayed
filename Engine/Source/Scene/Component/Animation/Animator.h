@@ -13,13 +13,10 @@
 class Animator : public Component
 {
 	Ref<SkeletalMeshComponent> m_SkeletalMeshComponent;
-	Ref<Animation> m_CurrentAnimation;
 	std::vector<glm::mat4> m_FinalBoneMatrices;  // To feed shader with
-	float m_CurrentTime;
 	float m_DeltaTime;
-	int m_CurrentAnimationNumber = 0;
-
-	Ref<Animation> m_Animations[3];  // Animations to blend between. Uses m_BlendFactor. Use this instead of m_CurrentAnimation.
+	int m_CurrentAnimationNumber = 0;  // ??
+	Ref<Animation> m_Animations[3];  // Animations to blend between. Uses m_BlendFactor
 
 
 public:
@@ -27,7 +24,11 @@ public:
 	{
 		FindSkeletalMeshComponent();
 
-		m_CurrentTime = 0.0;
+		// to_delete (below)
+		for (int i = 0; i < 3; i++)
+			m_AnimationsIDs.push_back(i);
+		// to_delete (up)
+
 		m_DeltaTime = 0.0f;
 
 		m_FinalBoneMatrices.reserve(100);
@@ -44,17 +45,7 @@ public:
 
 	virtual void Destroy() override { }
 
-	void PlayAnimation(Ref<Animation> animationToPlay)
-	{
-		//m_CurrentAnimation = animationToPlay;
-		//m_CurrentTime = 0.0f;
-	}
-
 	size_t HowManyAnimationsAreThere() { return m_SkeletalMeshComponent->HowManyAnimations(); }
-
-	float GetCurrentAnimationTime() { return m_CurrentTime; }
-
-	//std::string GetCurrentAnimationName() { return m_Animations->GetAnimationName(); }
 
 	bool HasSkeletalMeshComponent()
 	{
@@ -64,31 +55,15 @@ public:
 			return false;
 	}
 
-	void DebugDisplayAnimationNames()
-	{
-		for (int index = 0; index < m_SkeletalMeshComponent->HowManyAnimations(); index++)
-		{
-			m_SkeletalMeshComponent->GetAnimation(index)->DebugDisplayAnimationName();
-		}
-	}
-	void DebugSwitchAnimation()
-	{
-		m_CurrentAnimationNumber++;
-		m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(m_CurrentAnimationNumber % m_SkeletalMeshComponent->HowManyAnimations());
-	}
-
 	void FindSkeletalMeshComponent()
 	{
 		m_SkeletalMeshComponent = m_Owner->GetComponent<SkeletalMeshComponent>();
 
-		if (m_SkeletalMeshComponent->HowManyAnimations() > 0)
-			m_CurrentAnimation = m_SkeletalMeshComponent->GetAnimation(0);  // winowajca
-
-		if (m_SkeletalMeshComponent->HowManyAnimations() > 3)
+		//if (m_SkeletalMeshComponent->HowManyAnimations() >= m_AnimationsIDs.size())
 		{
-			SetAnimation1(m_SkeletalMeshComponent->GetAnimation(3));
+			SetAnimation1(m_SkeletalMeshComponent->GetAnimation(0));
 			SetAnimation2(m_SkeletalMeshComponent->GetAnimation(1));
-			SetAnimation3(m_SkeletalMeshComponent->GetAnimation(0));
+			SetAnimation3(m_SkeletalMeshComponent->GetAnimation(2));
 		}
 	}
 
@@ -99,7 +74,6 @@ public:
 	void SetAnimation3(Ref<Animation> anim) { if (anim) m_Animations[2] = anim; }
 	void SetBlendFactor(float factor);
 
-	void ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform);
 	void BlendAnimations(Ref<Animation> pAnim, Ref<Animation> lAnim, Ref<Animation> aAnim);
 	void ComputeBlendedBoneTransforms(
 		Ref<Animation> pAnim, const AssimpNodeData* pNode,
@@ -112,4 +86,7 @@ public:
 
 	float m_PAnimSpeed = 1.0f;
 	float m_LAnimSpeed = 2.0f;
+
+	// To serialize animations
+	std::vector<int> m_AnimationsIDs;
 };
