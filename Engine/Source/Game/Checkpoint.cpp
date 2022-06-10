@@ -73,7 +73,7 @@ void Checkpoint::Load(const SaveData& data)
 
 	m_Enabled = enabled;
 
-    if (m_Enabled) {
+    if (m_Enabled && m_Material) {
         SetMaterial();
     }
 }
