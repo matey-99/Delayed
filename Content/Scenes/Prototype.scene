@@ -1414,16 +1414,20 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [41.0824471, 5.8255024, -25.8879089]
-          LocalRotation: [-90, 0, -2.57860975e-05]
-          LocalScale: [0.0250000004, 0.0250000004, 0.0250000004]
+          LocalPosition: [-6.56341219, 6.43815374, -25.8879089]
+          LocalRotation: [0, 0, -2.57860975e-05]
+          LocalScale: [0.0199999996, 0.0199999996, 0.0199999996]
           Parent: 0
-      - StaticMesh:
-          Mesh: Models/character/Idle.fbx
+      - SkeletalMesh:
+          SkeletalMesh: Models/Skeletal/SK_Astronaut.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_CharacterGhost.mat
+              Path: Materials/MSK_CharacterGhost.mat
+            - Material: 1
+              Path: Materials/MSK_CharacterGhost.mat
           CastShadow: true
+      - Animator:
+          {}
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]

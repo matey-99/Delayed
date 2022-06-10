@@ -25,6 +25,7 @@ public:
 
 	virtual std::vector<Ref<MeshBase>> GetMeshes() const override;
 	virtual uint32_t GetRenderedVerticesCount() override;
+	Ref<SkeletalModel> GetSkeletalModel() { return m_SkeletalModel; }
 	Ref<Animation> GetAnimation(int index);
 	std::vector<Ref<Animation>> GetAnimations() { return m_Animations; }
 	uint32_t GetBoneCount() const;

@@ -35,7 +35,8 @@ public:
 
 
 private:
-	void ReadHierarchyData(AssimpNodeData& dest, const aiNode* src);
+	void ReadHierarchyData(AssimpNodeData& dest, const aiNode* src, aiAnimation* animation);
+	const aiNodeAnim* FindNodeAnim(const aiAnimation* pAnimation, const std::string& NodeName);
 
 	AssimpNodeData m_RootNode;
 	std::string m_Name;

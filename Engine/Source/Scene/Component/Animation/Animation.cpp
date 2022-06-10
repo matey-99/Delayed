@@ -13,7 +13,7 @@ Animation::Animation(const aiNode* root, aiAnimation* animation, Ref<Rig> rig)
 	m_NumChannels = animation->mNumChannels;
 	m_TicksPerSecond = animation->mTicksPerSecond;
 
-	ReadHierarchyData(m_RootNode, root);
+	ReadHierarchyData(m_RootNode, root, animation);
 	UpdateRig(animation);
 
 	// Code below does nothing but was originally here -- maybe should inverse a reference? idk
@@ -106,7 +106,7 @@ void Animation::UpdateRig(aiAnimation* animation)
 	//m_BoneInfoMap = boneInfoMap;
 }
 
-void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
+void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src, aiAnimation* animation)
 {
 	assert(src);
 
@@ -115,22 +115,25 @@ void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
 	dest.childrenCount = src->mNumChildren;
 
 	//std::cout << "AssimpNodeData mName: " << dest.name << "\n";
+	const aiNodeAnim* pNodeAnim = FindNodeAnim(animation, dest.name);
 
 	for (int i = 0; i < src->mNumChildren; i++)
 	{
-		// There we should traverse bones looking for some transformation from animation (1:37:00)
-		//for (int index = 0; index < animation->mNumChannels; index++)
-		//{
-		//	const aiNodeAnim* nodeAnim = animation->mChannels[index];
-		//	if (std::string(nodeAnim->mNodeName.data) == src->mName.C_Str())
-		//	{
-		//		// Calculate transformation matrix
-		//		this->
-		//	}
-		//}
-
 		AssimpNodeData newData;
-		ReadHierarchyData(newData, src->mChildren[i]);
+		ReadHierarchyData(newData, src->mChildren[i], animation);
 		dest.children.push_back(newData);
 	}
+}
+
+const aiNodeAnim* Animation::FindNodeAnim(const aiAnimation* pAnimation, const std::string& NodeName)
+{
+	for (int i = 0; i < pAnimation->mNumChannels; i++) {
+		const aiNodeAnim* pNodeAnim = pAnimation->mChannels[i];
+
+		if (std::string(pNodeAnim->mNodeName.data) == NodeName) {
+			return pNodeAnim;
+		}
+	}
+
+	return nullptr;
 }

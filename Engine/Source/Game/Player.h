@@ -30,6 +30,7 @@ public:
 
 	inline Ref<Actor> GetGhost() const { return m_Ghost; }
 	inline Ref<Trail> GetTrail() const { return m_Trail; }
+	inline Ref<CharacterController> GetCharacterController() const { return m_CharacterController; }
 
 private:
 	void MoveForward(float value);

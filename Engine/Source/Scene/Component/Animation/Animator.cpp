@@ -1,56 +1,25 @@
 #include "Animator.h"
 #include <Renderer/Bone.h>
+#include "Assets/SkeletalModel.h"
 
 void Animator::Update(float deltaTime)
 {
 	m_DeltaTime = deltaTime;
 
-	// one-animation-mode
-	/*if (m_CurrentAnimation)
-	{
-		m_CurrentTime += m_CurrentAnimation->GetTicksPerSecond() * deltaTime;
-		m_CurrentTime = fmod(m_CurrentTime, m_CurrentAnimation->GetDuration());
-		ComputeBoneTransforms(&m_CurrentAnimation->GetRootNode(), glm::mat4(1.0f));
-	}*/
-
-	// Invoke BlendAnimations somewhere there
 	if (m_Animations[0] && m_Animations[1] && m_Animations[2])
 	{
 		BlendAnimations(m_Animations[0], m_Animations[1], m_Animations[2]);
 	}
 
-	// Send computed transforms to each SkeletalMesh
+	// Send to SkeletalModel
 	m_SkeletalMeshComponent->PropagateBoneTransforms(m_FinalBoneMatrices);
 }
 
-// This should be somewhere else
-void Animator::ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTransform)
+void Animator::SetBlendFactor(float factor)
 {
-	// New, with BoneMap:
-	std::string nodeName = node->name;
-	glm::mat4 nodeTransform = node->transformation;
-	glm::mat4 globalTransformation;
-
-	Ref<Bone> bone = m_CurrentAnimation->FindBone(nodeName);
-
-	if (bone != nullptr)
-	{
-		bone->Update(m_CurrentTime);
-
-		nodeTransform = bone->GetLocalTransform();
-		globalTransformation = parentTransform * nodeTransform;
-		m_FinalBoneMatrices[bone->GetID()] = globalTransformation * bone->GetOffset(); // * m_GlobalInverseTransform (1:35:00 ogl)
-	}
-	else
-	{
-		globalTransformation = parentTransform * nodeTransform;
-	}
-
-	for (int i = 0; i < node->childrenCount; i++)
-	{
-		ComputeBoneTransforms(&node->children[i], globalTransformation);
-	}
+	m_BlendFactor = glm::clamp(factor, 0.f, 1.f);
 }
+
 
 // Blends between two animations
 // Blend Factor: 0 means pAnim is played at 100%
@@ -71,7 +40,6 @@ void Animator::BlendAnimations(Ref<Animation> pAnim, Ref<Animation> lAnim, Ref<A
 	//float aAnimMul = aAnim->GetDuration() / ()
 
 	// ------------------------------
-
 	static float pCurrentTime = 0.0f;
 	pCurrentTime += pAnim->GetTicksPerSecond() * m_DeltaTime * speedMultiplierUp;  // Not lerp
 	pCurrentTime = fmod(pCurrentTime, pAnim->GetDuration());
@@ -79,8 +47,6 @@ void Animator::BlendAnimations(Ref<Animation> pAnim, Ref<Animation> lAnim, Ref<A
 	static float lCurrentTime = 0.0;
 	lCurrentTime += lAnim->GetTicksPerSecond() * m_DeltaTime * speedMultiplierDown;  // Still not lerp
 	lCurrentTime = fmod(lCurrentTime, lAnim->GetDuration());
-
-
 
 	// Blend two animations (into m_FinalBoneMatrices)
 	ComputeBlendedBoneTransforms(pAnim, &pAnim->GetRootNode(), lAnim, &lAnim->GetRootNode(), pCurrentTime, lCurrentTime, glm::mat4(1.0f));
@@ -130,19 +96,19 @@ void Animator::ComputeBlendedBoneTransforms(Ref<Animation> pAnim, const AssimpNo
 	glm::mat4 blendedMat = glm::mat4_cast(blendedRot);
 	blendedMat[3] = (1.0f - m_BlendFactor) * pNodeTransform[3] + lNodeTransform[3] * m_BlendFactor;  // Yes, it is lerp
 	//blendedMat[3] = (1.0f - m_BlendFactor2) * aBoneTransform[3] + blendedMat[3] * m_BlendFactor2;
-	//glm::mat4 globalTransform = parentTransform * blendedMat;
+	glm::mat4 globalTransform = parentTransform * blendedMat;
 
 	// Blend with Added Animation (ex. Jump)
-	blendedRot = glm::slerp  // Slerp
-	(
-		glm::quat_cast(blendedMat),
-		glm::quat_cast(aBoneTransform),
-		m_BlendFactor2
-	);
-	glm::mat4 prevBlendedMat = blendedMat;
-	blendedMat = glm::mat4_cast(blendedRot);
-	blendedMat[3] = (1.0f - m_BlendFactor2) * prevBlendedMat[3] + aBoneTransform[3] * m_BlendFactor2;  // Yes, it is lerp
-	glm::mat4 globalTransform = parentTransform * blendedMat;
+	//blendedRot = glm::slerp  // Slerp
+	//(
+	//	glm::quat_cast(blendedMat),
+	//	glm::quat_cast(aBoneTransform),
+	//	m_BlendFactor2
+	//);
+	//glm::mat4 prevBlendedMat = blendedMat;
+	//blendedMat = glm::mat4_cast(blendedRot);
+	//blendedMat[3] = (1.0f - m_BlendFactor2) * prevBlendedMat[3] + aBoneTransform[3] * m_BlendFactor2;  // Yes, it is lerp
+	//glm::mat4 globalTransform = parentTransform * blendedMat;
 
 	Ref<BoneMap> mappedBone = m_SkeletalMeshComponent->FindBoneInRig(nodeName);
 	if (mappedBone)
@@ -156,8 +122,6 @@ void Animator::ComputeBlendedBoneTransforms(Ref<Animation> pAnim, const AssimpNo
 		ComputeBlendedBoneTransforms(pAnim, &pNode->children[i], lAnim, &lNode->children[i], pCurrentTime, lCurrentTime, globalTransform);
 	}
 
-
-	// stackoverflow
 	/*const glm::quat rot0 = glm::quat_cast(pNodeTransform);
 	const glm::quat rot1 = glm::quat_cast(layeredNodeTransform);
 	const glm::quat finalRot = glm::slerp(rot0, rot1, blendFactor);
