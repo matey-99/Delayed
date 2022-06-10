@@ -24,7 +24,7 @@ Ghost::Ghost(Actor* owner)
 	}
 		
 
-	m_PositionOffset = glm::vec3(0.0f, 1.25f, 0.0f);
+	m_PositionOffset = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_NormalEmissiveColor = glm::vec3(1.0f);
 	m_CorruptedEmissiveColor = glm::vec3(0.7f, 0.0f, 0.0f);
 
@@ -75,7 +75,10 @@ void Ghost::Update(float deltaTime)
 		m_Owner->GetTransform()->SetLocalRotation(rot);
 	}
 
-	m_RotationsY[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldRotation().y;
+	m_RotationsY[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetLocalRotation().y + 180.0f;
+	std::cout << m_RotationsY[m_CurrentPositionIndex] << "\n";
+	
+
 	m_Positions[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldPosition() + m_PositionOffset;
 	Ref<CharacterController> cc = m_PlayerActor->GetComponent<Player>()->GetCharacterController();
 	if (cc)
