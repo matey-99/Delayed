@@ -52,6 +52,7 @@
 #include "Game/NotificationManager.h"
 #include "Game/TutorialManager.h"
 #include "Game/SceneTransition.h"
+#include "Game/Moving.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -818,6 +819,18 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						p->m_Speed = speed;
 					}
 
+					if (auto moving = component["Moving"])
+					{
+						glm::vec3 direction = moving["Direction"].as<glm::vec3>();
+						float distance = moving["Distance"].as<float>();
+						float speed = moving["Speed"].as<float>();
+
+						auto m = a->CreateComponent<Moving>();
+						m->m_Direction = direction;
+						m->m_Distance = distance;
+						m->m_Speed = speed;
+					}
+
 					if (auto ghost = component["Ghost"])
 					{
 						uint64_t playerActorID = ghost["Player"].as<uint64_t>();
@@ -1374,6 +1387,18 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Direction" << YAML::Value << platform->m_Direction;
 		out << YAML::Key << "Distance" << YAML::Value << platform->m_Distance;
 		out << YAML::Key << "Speed" << YAML::Value << platform->m_Speed;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto moving = actor->GetComponent<Moving>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Moving";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Direction" << YAML::Value << moving->m_Direction;
+		out << YAML::Key << "Distance" << YAML::Value << moving->m_Distance;
+		out << YAML::Key << "Speed" << YAML::Value << moving->m_Speed;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
