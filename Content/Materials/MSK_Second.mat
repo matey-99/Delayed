@@ -21,20 +21,20 @@ Bool Parameters:
     Value: false
 Float Parameters:
   - Name: u_Material.ao
-    Value: 1
+    Value: 1.47000003
   - Name: u_Material.roughness
-    Value: 0
+    Value: 0.349999994
   - Name: u_Material.emissiveStrength
     Value: 0
   - Name: u_Material.opacity
-    Value: 0.800000012
+    Value: 0.460000008
   - Name: u_Material.metallic
-    Value: 0
+    Value: 4.17000008
 Vec3 Parameters:
   - Name: u_Material.albedo
-    Value: [1, 0.373702407, 0.112745106]
+    Value: [0.422481745, 0.450002342, 0.578431368]
   - Name: u_Material.emissive
-    Value: [0, 0, 0]
+    Value: [0.107843161, 0.107843161, 0.107843161]
 Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"

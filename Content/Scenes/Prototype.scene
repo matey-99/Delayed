@@ -767,17 +767,17 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [41.0824471, 6.08571196, -25.8879089]
+          LocalPosition: [-6.56341219, 6.43815374, -25.8879089]
           LocalRotation: [0, 0, -2.57860975e-05]
-          LocalScale: [0.0250000004, 0.0250000004, 0.0250000004]
+          LocalScale: [0.0199999996, 0.0199999996, 0.0199999996]
           Parent: 0
       - SkeletalMesh:
-          SkeletalMesh: Models/Skeletal/SK_Vampire.fbx
+          SkeletalMesh: Models/Skeletal/SK_Astronaut.fbx
           Materials:
             - Material: 0
-              Path: Materials/MSK_Default.mat
+              Path: Materials/MSK_CharacterGhost.mat
             - Material: 1
-              Path: Materials/MSK_Default.mat
+              Path: Materials/MSK_CharacterGhost.mat
           CastShadow: true
       - Animator:
           {}

@@ -88,7 +88,7 @@ public:
 		{
 			SetAnimation1(m_SkeletalMeshComponent->GetAnimation(3));
 			SetAnimation2(m_SkeletalMeshComponent->GetAnimation(1));
-			SetAnimation3(m_SkeletalMeshComponent->GetAnimation(2));
+			SetAnimation3(m_SkeletalMeshComponent->GetAnimation(0));
 		}
 	}
 
@@ -111,5 +111,5 @@ public:
 	float m_BlendFactor2 = 0.f;
 
 	float m_PAnimSpeed = 1.0f;
-	float m_LAnimSpeed = 1.0f;
+	float m_LAnimSpeed = 2.0f;
 };

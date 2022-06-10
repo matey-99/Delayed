@@ -7,7 +7,6 @@ AnimationImporter::AnimationImporter()
 
 std::vector<Ref<Animation>> AnimationImporter::ImportAnimations(std::string path, Ref<Rig> rig)
 {
-
 	if (m_ImportedAnimations.find(path) != m_ImportedAnimations.end())
 		return m_ImportedAnimations.at(path);
 

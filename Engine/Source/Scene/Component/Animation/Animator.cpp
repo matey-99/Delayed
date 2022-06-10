@@ -1,5 +1,6 @@
 #include "Animator.h"
 #include <Renderer/Bone.h>
+#include "Assets/SkeletalModel.h"
 
 void Animator::Update(float deltaTime)
 {
@@ -36,6 +37,10 @@ void Animator::ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTrans
 	glm::mat4 nodeTransform = node->transformation;
 	glm::mat4 globalTransformation;
 
+	glm::mat4 globalInverseTransform = m_SkeletalMeshComponent->GetSkeletalModel()->GetGlobalInverseTransform();
+	
+
+
 	Ref<Bone> bone = m_CurrentAnimation->FindBone(nodeName);
 
 	if (bone != nullptr)
@@ -44,7 +49,7 @@ void Animator::ComputeBoneTransforms(AssimpNodeData* node, glm::mat4 parentTrans
 
 		nodeTransform = bone->GetLocalTransform();
 		globalTransformation = parentTransform * nodeTransform;
-		m_FinalBoneMatrices[bone->GetID()] = globalTransformation * bone->GetOffset(); // * m_GlobalInverseTransform (1:35:00 ogl)
+		m_FinalBoneMatrices[bone->GetID()] = globalInverseTransform * globalTransformation * bone->GetOffset(); // * m_GlobalInverseTransform (1:35:00 ogl)
 	}
 	else
 	{

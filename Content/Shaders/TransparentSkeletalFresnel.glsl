@@ -50,25 +50,37 @@ layout (location = 0) uniform Material u_MaterialVS;
 
 void main()
 {
+    vec3 localNormal;
+
     // Recalculate position with bones influence
     vec4 totalPosition = vec4(0.0f);
     for(int i = 0 ; i < MAX_BONE_INFLUENCE ; i++)
     {
-        if(a_BoneIds[i] == -1) 
+        vec4 localPosition = finalBonesMatrices[a_BoneIds[i]] * vec4(a_Position, 1.0f);
+
+        if(a_BoneIds[i] == -1)
+        {
+            localPosition = finalBonesMatrices[a_BoneIds[0]] * vec4(a_Position, 1.0f);
             continue;
-        if(a_BoneIds[i] >=MAX_BONES) 
+        }
+        if(a_BoneIds[i] >= MAX_BONES)
         {
             totalPosition = vec4(a_Position, 1.0f);
+            localPosition = finalBonesMatrices[a_BoneIds[0]] * vec4(a_Position, 1.0f);
             break;
         }
-        vec4 localPosition = finalBonesMatrices[a_BoneIds[i]] * vec4(a_Position, 1.0f);
-        totalPosition += localPosition * a_Weights[i];
-        vec3 localNormal = mat3(finalBonesMatrices[a_BoneIds[i]]) * a_Normal;
-    }
+        if (a_BoneIds[i] < 0)
+        {
+            localPosition = vec4(a_Position, 1.0f);
+        }
 
+        totalPosition += localPosition * a_Weights[i];
+        localNormal = mat3(finalBonesMatrices[a_BoneIds[i]]) * a_Normal;
+    }
+    
     v_Position = vec3(a_Model * totalPosition);
     v_ViewPosition = u_View * vec4(v_Position, 1.0);
-    v_Normal = mat3(transpose(inverse(a_Model))) * a_Normal;
+    v_Normal = mat3(transpose(inverse(a_Model))) * localNormal;
 
     if (u_MaterialVS.flipVerticallyUV)
     {
@@ -322,6 +334,9 @@ void main()
     float ao;
     float opacity;
     vec3 emissive;
+    float fresnelExponential;
+    float backgroundOpacity;
+
     if (u_Material.isAlbedoMap)
         albedo = pow(texture(u_Material.albedoMap, v_TexCoord).rgb, vec3(2.2));
     else
@@ -360,6 +375,9 @@ void main()
     if (opacity < 0.01)
         discard;
 
+    fresnelExponential = u_Material.fresnelExponential;
+    backgroundOpacity = u_Material.backgroundOpacity;
+
     vec3 V = normalize(u_ViewPosition - v_Position);
 
     vec3 F0 = vec3(0.04);
@@ -385,10 +403,10 @@ void main()
     vec3 color = ambient + Lo + emissive;
 
     // Fresnel
-    float fresnel = dot(normalize(V), v_Normal) * u_Material.fresnelExponential;
+    float fresnel = dot(normalize(V), v_Normal) * fresnelExponential;
 
     if (u_Material.isFresnelInversed)
         fresnel = 1.0 - fresnel;
 
-    f_Color = vec4(color, clamp(fresnel, u_Material.backgroundOpacity, opacity));
+    f_Color = vec4(color, clamp(fresnel, backgroundOpacity, opacity));
 }
