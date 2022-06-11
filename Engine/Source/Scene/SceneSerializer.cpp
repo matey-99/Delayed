@@ -1354,9 +1354,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "TPPPlayer";
 		out << YAML::BeginMap;
         out << YAML::Key << "CameraController" << YAML::Value << tppPlayer->m_CameraControllerID;
-        out << YAML::Key << "CameraController" << YAML::Value << tppPlayer->m_GhostID;
-        out << YAML::Key << "CameraController" << YAML::Value << tppPlayer->m_TrailID;
-        out << YAML::Key << "CameraController" << YAML::Value << tppPlayer->m_StaminaBarID;
+        out << YAML::Key << "Ghost" << YAML::Value << tppPlayer->m_GhostID;
+        out << YAML::Key << "Trail" << YAML::Value << tppPlayer->m_TrailID;
+        out << YAML::Key << "StaminaBar" << YAML::Value << tppPlayer->m_StaminaBarID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

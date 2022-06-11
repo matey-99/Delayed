@@ -11,19 +11,19 @@ TPPCharacterController::TPPCharacterController(Actor* owner)
 	: GameComponent(owner)
 {
     m_Velocity = glm::vec3(0.0f);
-    m_DistanceToGround = 1.1f;
+    m_DistanceToGround = 2.1f;
     m_MoveSmoothness = 0.89f;
     m_RotateSmoothness = 0.89f;
     m_IsGrounded = false;
 
-    m_WalkSpeed = 9.0f;
-    m_RunSpeed = 13.0f;
+    m_WalkSpeed = 10.0f;
+    m_RunSpeed = 15.0f;
     m_SlowedDownSpeed = 3.0f;
     m_RotateSpeed = 8.0f;
     m_LookUpLimit = 80.0f;
-    m_JumpHeight = 0.05f;
+    m_JumpHeight = 0.08f;
     m_JumpMaxHeightTime = 0.43f;
-    m_DashDistance = 4.0f;
+    m_DashDistance = 2.0f;
     m_MaxStamina = 100.0f;
     m_StaminaRestorePerSecond = 15.0f;
     m_StaminaUsagePerJump = 5.0f;

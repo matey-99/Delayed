@@ -44,9 +44,9 @@ RendererSettings:
     FisheyeEnabled: false
     Scale: 1
     VignetteEnabled: true
-    VignetteColor: [0.0, 0.0, 0.0]
+    VignetteColor: [0, 0, 0]
     VignetteIntensity: 20
-    VignetteSize: 0.17
+    VignetteSize: 0.170000002
   DepthOfFieldSettings:
     MinDistance: 1.5
     MaxDistance: 64
