@@ -11,6 +11,7 @@
 #include "Scene/Component/Animation/Animator.h"
 #include "Trail.h"
 #include "Math/Math.h"
+#include "Renderer/RenderPass/PostProcessingPass.h"
 
 #include <glm/gtx/matrix_decompose.hpp>
 
@@ -27,6 +28,8 @@ Ghost::Ghost(Actor* owner)
 	m_PositionOffset = glm::vec3(0.0f, -2.0f, 0.0f);
 	m_NormalEmissiveColor = glm::vec3(1.0f);
 	m_CorruptedEmissiveColor = glm::vec3(0.7f, 0.0f, 0.0f);
+	m_DefaultVignetteColor = glm::vec3(0.0f);
+	m_CorruptedVignetteColor = glm::vec3(1.0f, 0.0f, 0.0f);
 
 	m_CurrentPositionIndex = 0;
 	m_FollowPlayer = false;
@@ -56,6 +59,8 @@ void Ghost::Start()
 
 		m_NormalEmissiveColor = m_Material->GetVec3Parameter("u_Material.emissive");
 	}
+
+	m_DefaultVignetteColor = Renderer::GetInstance()->m_PostProcessingPass->GetSettings().VignetteColor;
 }
 
 void Ghost::Update(float deltaTime)
@@ -118,6 +123,12 @@ void Ghost::Corrupt()
 	glm::vec4 startColor = glm::vec4(2.0f, 0.5f, 0.5f, 0.5f);
 	glm::vec4 endColor = glm::vec4(2.0f, 0.5f, 0.5f, 0.0f);
 	m_PlayerActor->GetComponent<Player>()->GetTrail()->ChangeTrailParticlesColor(startColor, endColor);
+
+	auto renderer = Renderer::GetInstance();
+	auto temp = renderer->m_PostProcessingPass->GetSettings();
+	temp.VignetteColor = m_CorruptedVignetteColor;
+
+	renderer->m_PostProcessingPass->SetSettings(temp);
 }
 
 void Ghost::Heal()
@@ -126,4 +137,10 @@ void Ghost::Heal()
 
 	m_Material->SetVec3Parameter("u_Material.emissive", m_NormalEmissiveColor);
 	m_PlayerActor->GetComponent<Player>()->GetTrail()->SetDefaultTrailParticlesColor();
+
+	auto renderer = Renderer::GetInstance();
+	auto temp = renderer->m_PostProcessingPass->GetSettings();
+	temp.VignetteColor = m_DefaultVignetteColor;
+
+	renderer->m_PostProcessingPass->SetSettings(temp);
 }

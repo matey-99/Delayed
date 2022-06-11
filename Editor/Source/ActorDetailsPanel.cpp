@@ -326,10 +326,10 @@ void ActorDetailsPanel::Render()
 
         ImGui::Text("Animations available: %i", animator->HowManyAnimationsAreThere());
 
-        ImGui::Text("Animation current time: %f", animator->GetCurrentAnimationTime());
+        //ImGui::Text("Animation current time: %f", animator->GetCurrentAnimationTime());
 
-        if (ImGui::Button("Debug display animation names"))
-            animator->DebugDisplayAnimationNames();
+        //if (ImGui::Button("Debug display animation names"))
+            //animator->DebugDisplayAnimationNames();
 
         // Lists: Begin
         if (ImGui::BeginCombo("Animation No. 1", animator->GetAnimation(0)->GetAnimationName().c_str()))
@@ -366,8 +366,8 @@ void ActorDetailsPanel::Render()
         }
         // Lists: End
 
-        if (ImGui::Button("Switch animation"))
-            animator->DebugSwitchAnimation();
+       // if (ImGui::Button("Switch animation"))
+            //animator->DebugSwitchAnimation();
 
         ImGui::DragFloat("Blend Factor", &animator->m_BlendFactor, 0.02f, 0.0f, 1.0f);
         ImGui::DragFloat("Blend Factor 2", &animator->m_BlendFactor2, 0.02f, 0.0f, 1.0f);

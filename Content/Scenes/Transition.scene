@@ -43,9 +43,10 @@ RendererSettings:
     AberrationShift: [0.0120000001, -0.00800000038, -0.00200000009]
     FisheyeEnabled: false
     Scale: 1
-  VignetteSettings:
-    Intensity: 10.5
-    Size: 0.174999997
+    VignetteEnabled: true
+    VignetteColor: [0.0, 0.0, 0.0]
+    VignetteIntensity: 10.5
+    VignetteSize: 0.175
   DepthOfFieldSettings:
     MinDistance: 1.5
     MaxDistance: 64

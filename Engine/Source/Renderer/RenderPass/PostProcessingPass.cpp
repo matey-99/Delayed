@@ -213,8 +213,12 @@ void PostProcessingPass::Render(uint32_t input)
 	postProcessingShader->SetFloat("u_ContrastPivot", m_Settings.ContrastPivot);
     postProcessingShader->SetBool("u_IsAberration", m_Settings.AberrationEnabled);
     postProcessingShader->SetVec3("u_AberrationShift", m_Settings.AberrationShift);
-    postProcessingShader->SetBool("u_IsFisheye", m_Settings.FisheyeEnebled);
+    postProcessingShader->SetBool("u_IsFisheye", m_Settings.FisheyeEnabled);
     postProcessingShader->SetFloat("u_Scale", m_Settings.Scale);
+    postProcessingShader->SetBool("u_IsVignette", m_Settings.VignetteEnabled);
+    postProcessingShader->SetVec3("u_VignetteColor", m_Settings.VignetteColor);
+    postProcessingShader->SetFloat("u_VignetteIntensity", m_Settings.VignetteIntensity);
+    postProcessingShader->SetFloat("u_VignetteSize", m_Settings.VignetteSize);
 
 
 	RenderTools::GetInstance()->RenderQuad();

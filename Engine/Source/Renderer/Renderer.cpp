@@ -17,7 +17,6 @@
 #include "RenderPass/PostProcessingPass.h"
 #include "RenderPass/FXAAPass.h"
 #include "RenderPass/SSRPass.h"
-#include "RenderPass/VignettePass.h"
 #include "RenderPass/MotionBlurPass.h"
 #include "RenderPass/DepthOfFieldPass.h"
 #include "RenderPass/UIPass.h"
@@ -59,7 +58,6 @@ void Renderer::Initialize()
 	m_ForwardPass = CreateRef<ForwardPass>();
 	m_PostProcessingPass = CreateRef<PostProcessingPass>();
 	m_FXAAPass = CreateRef<FXAAPass>();
-	m_VignettePass = CreateRef<VignettePass>();
 	m_MotionBlurPass = CreateRef<MotionBlurPass>();
 	m_DepthOfFieldPass = CreateRef<DepthOfFieldPass>();
 	m_UIPass = CreateRef<UIPass>();
@@ -160,15 +158,6 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 		m_Output[outputIndex] = m_FXAAPass->GetRenderTarget()->GetTargets()[0];
 	}
 
-	// Vignette
-	if (m_Settings.VignetteEnabled)
-	{
-		PROFILER_START("Vignette Pass");
-		m_VignettePass->Render(m_Output[outputIndex]);
-		PROFILER_STOP();
-		m_Output[outputIndex] = m_VignettePass->GetRenderTarget()->GetTargets()[0];
-	}
-
 	// Depth Of Field
 	if (m_Settings.DepthOfFieldEnabled)
 	{
@@ -248,9 +237,6 @@ void Renderer::ResizeWindow(uint32_t width, uint32_t height)
 
 	// Motion Blur
 	m_MotionBlurPass->UpdateRenderTarget(width, height);
-
-	// Vignette
-	m_VignettePass->UpdateRenderTarget(width, height);
 
 	// Depth Of Field
 	m_DepthOfFieldPass->UpdateRenderTargets(width, height);

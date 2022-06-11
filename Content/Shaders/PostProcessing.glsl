@@ -45,6 +45,11 @@ layout (location = 15) uniform vec3 u_AberrationShift;
 layout (location = 16) uniform bool u_IsFisheye;
 layout (location = 17) uniform float u_Scale;
 
+layout (location = 18) uniform bool u_IsVignette;
+layout (location = 19) uniform vec3 u_VignetteColor;
+layout (location = 20) uniform float u_VignetteIntensity;
+layout (location = 21) uniform float u_VignetteSize;
+
 const float PI = 3.1415926535;
 
 // https://gist.github.com/sugi-cho/6a01cae436acddd72bdf
@@ -169,6 +174,20 @@ void main()
     col = pow(max(vec3(0.0), col * (1.0 + u_Gain - u_Lift) + u_Lift + u_Offset), max(vec3(0.0), 1.0 - u_Gamma));
 
     col = LinearToSRGB(col); // ACESFilm(v * uExposure)
+
+    if (u_IsVignette)
+    {
+        float dist = distance(v_TexCoord, vec2(0.5, 0.5));
+
+        vec2 uv = v_TexCoord.xy;
+        uv *= vec2(1.0) - uv.yx;
+
+        float opacity = uv.x * uv.y * u_VignetteIntensity;
+        opacity = pow(opacity, u_VignetteSize);
+        opacity = 1.0 - opacity;
+
+        col = mix(col, u_VignetteColor, opacity);
+    }
 
     //f_Color = vec4(mapped, 1.0);
     f_Color = vec4(col, 1.0);

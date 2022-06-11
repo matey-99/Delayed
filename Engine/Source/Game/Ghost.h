@@ -32,6 +32,8 @@ private:
 	glm::vec3 m_PositionOffset;
 	glm::vec3 m_NormalEmissiveColor;
 	glm::vec3 m_CorruptedEmissiveColor;
+	glm::vec3 m_DefaultVignetteColor;
+	glm::vec3 m_CorruptedVignetteColor;
 
 	glm::vec3 m_Positions[GHOST_POSITIONS_COUNT];
 	float m_RotationsY[GHOST_POSITIONS_COUNT];

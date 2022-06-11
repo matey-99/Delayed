@@ -53,9 +53,6 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> fxaa = AssetManager::LoadShader("Shaders/FXAA.glsl");
 	m_PostProcessingShaders.insert({ fxaa->GetName(), fxaa });
 
-	Ref<Shader> vignette = AssetManager::LoadShader("Shaders/Vignette.glsl");
-	m_PostProcessingShaders.insert({ vignette->GetName(), vignette });
-
 	Ref<Shader> motionBlur = AssetManager::LoadShader("Shaders/MotionBlur.glsl");
 	m_PostProcessingShaders.insert({ motionBlur->GetName(), motionBlur });
 

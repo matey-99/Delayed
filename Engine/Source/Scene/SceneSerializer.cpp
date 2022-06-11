@@ -31,7 +31,6 @@
 #include "Renderer/RenderPass/DepthFogPass.h"
 #include "Renderer/RenderPass/PostProcessingPass.h"
 #include "Renderer/RenderPass/FXAAPass.h"
-#include "Renderer/RenderPass/VignettePass.h"
 #include "Renderer/RenderPass/DepthOfFieldPass.h"
 
 #include "Game/MainMenu.h"
@@ -111,13 +110,12 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "Hue" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Hue;
     out << YAML::Key << "AberrationEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationEnabled;
     out << YAML::Key << "AberrationShift" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationShift;
-    out << YAML::Key << "FisheyeEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.FisheyeEnebled;
+    out << YAML::Key << "FisheyeEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.FisheyeEnabled;
     out << YAML::Key << "Scale" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Scale;
-	out << YAML::EndMap;
-
-	out << YAML::Key << "VignetteSettings" << YAML::Value << YAML::BeginMap;
-	out << YAML::Key << "Intensity" << YAML::Value << renderer->m_VignettePass->m_Settings.Intensity;
-	out << YAML::Key << "Size" << YAML::Value << renderer->m_VignettePass->m_Settings.Size;
+    out << YAML::Key << "VignetteEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.VignetteEnabled;
+    out << YAML::Key << "VignetteColor" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.VignetteColor;
+    out << YAML::Key << "VignetteIntensity" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.VignetteIntensity;
+    out << YAML::Key << "VignetteSize" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.VignetteSize;
 	out << YAML::EndMap;
 
 	out << YAML::Key << "DepthOfFieldSettings" << YAML::Value << YAML::BeginMap;
@@ -210,10 +208,10 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
     glm::vec3 aberrationShift = data["RendererSettings"]["PostProcessingSettings"]["AberrationShift"].as<glm::vec3>();
     bool fisheye = data["RendererSettings"]["PostProcessingSettings"]["FisheyeEnabled"].as<bool>();
     float scale = data["RendererSettings"]["PostProcessingSettings"]["Scale"].as<float>();
-
-	/* Vignette settings */
-	float vignetteIntensity = data["RendererSettings"]["VignetteSettings"]["Intensity"].as<float>();
-	float vignetteSize = data["RendererSettings"]["VignetteSettings"]["Size"].as<float>();
+    bool vignetteEnabled = data["RendererSettings"]["PostProcessingSettings"]["VignetteEnabled"].as<bool>();
+    glm::vec3 vignetteColor = data["RendererSettings"]["PostProcessingSettings"]["VignetteColor"].as<glm::vec3>();
+    float vignetteIntensity = data["RendererSettings"]["PostProcessingSettings"]["VignetteIntensity"].as<float>();
+    float vignetteSize = data["RendererSettings"]["PostProcessingSettings"]["VignetteSize"].as<float>();
 
 	/* Depth Of Field settings */
 	float dofMinDistance = data["RendererSettings"]["DepthOfFieldSettings"]["MinDistance"].as<float>();
@@ -267,12 +265,12 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	renderer->m_PostProcessingPass->m_Settings.Hue = hue;
 	renderer->m_PostProcessingPass->m_Settings.AberrationEnabled = aberration;
 	renderer->m_PostProcessingPass->m_Settings.AberrationShift = aberrationShift;
-    renderer->m_PostProcessingPass->m_Settings.FisheyeEnebled = fisheye;
+    renderer->m_PostProcessingPass->m_Settings.FisheyeEnabled = fisheye;
     renderer->m_PostProcessingPass->m_Settings.Scale = scale;
-
-	/* Setup Vignette settings */
-	renderer->m_VignettePass->m_Settings.Intensity = vignetteIntensity;
-	renderer->m_VignettePass->m_Settings.Size = vignetteSize;
+    renderer->m_PostProcessingPass->m_Settings.VignetteEnabled = vignetteEnabled;
+    renderer->m_PostProcessingPass->m_Settings.VignetteColor = vignetteColor;
+    renderer->m_PostProcessingPass->m_Settings.VignetteIntensity = vignetteIntensity;
+    renderer->m_PostProcessingPass->m_Settings.VignetteSize = vignetteSize;
 
 	/* Setup Depth Of Field settings */
 	renderer->m_DepthOfFieldPass->m_Settings.MinDistance = dofMinDistance;
