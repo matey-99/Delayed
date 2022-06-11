@@ -1,5 +1,5 @@
 Scene: Main
-CurrentCamera: 1541634382
+CurrentCamera: 1541634381
 RendererSettings:
   SSAO: true
   SSR: true
@@ -851,7 +851,7 @@ Actors:
   - Actor: 485961876
     ID: 485961876
     Name: Camera Controller
-    Enabled: false
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -1372,7 +1372,7 @@ Actors:
   - Actor: 1503310902
     ID: 1503310902
     Name: TPP Player
-    Enabled: false
+    Enabled: true
     Dynamic: true
     Components:
       - Transform:
@@ -1423,7 +1423,7 @@ Actors:
   - Actor: 1503310903
     ID: 1503310903
     Name: Player
-    Enabled: true
+    Enabled: false
     Dynamic: true
     Components:
       - Transform:
@@ -1475,7 +1475,7 @@ Actors:
           Looping: true
           PlayOnStart: true
       - Ghost:
-          Player: 1503310903
+          Player: 1503310902
   - Actor: 1526879318
     ID: 1526879318
     Name: Cube (63)
@@ -1516,7 +1516,7 @@ Actors:
   - Actor: 1541634382
     ID: 1541634382
     Name: Camera
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - Transform:
