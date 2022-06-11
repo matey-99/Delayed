@@ -21,7 +21,7 @@ public:
 	const SaveData Save() override;
 	void Load(const SaveData& data) override;
 
-	void SetLastCheckpoint(Checkpoint* checkpoint);
+	void SetLastCheckpoint(glm::vec3 position);
 	void BackToLastCheckpoint();
 
 	void AddSkill(SkillType skill);
@@ -30,6 +30,7 @@ public:
 
 	inline Ref<Actor> GetGhost() const { return m_Ghost; }
 	inline Ref<Trail> GetTrail() const { return m_Trail; }
+	inline Ref<CharacterController> GetCharacterController() const { return m_CharacterController; }
 
 protected:
     virtual void MoveForward(float value);

@@ -3,12 +3,15 @@
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
 #include "Scene/Component/TransformComponent.h"
+#include "Game/CharacterController.h"
 #include "Player.h"
 #include "SaveManager.h"
 #include "Scene/Component/MeshComponent.h"
 #include "Material/MaterialInstance.h"
+#include "Scene/Component/Animation/Animator.h"
 #include "Trail.h"
 #include "Math/Math.h"
+#include "Renderer/RenderPass/PostProcessingPass.h"
 
 #include <glm/gtx/matrix_decompose.hpp>
 
@@ -16,11 +19,17 @@ Ghost::Ghost(Actor* owner)
 	: GameComponent(owner)
 {
 	for (int i = 0; i < GHOST_POSITIONS_COUNT; i++)
+	{
 		m_Positions[i] = glm::vec3(0.0f);
-
-	m_PositionOffset = glm::vec3(0.0f, 0.5f, 0.0f);
+		m_RotationsY[i] = 0.0f;
+		m_MovementSpeed[i] = 0.f;
+	}
+	
+	m_PositionOffset = glm::vec3(0.0f, -2.0f, 0.0f);
 	m_NormalEmissiveColor = glm::vec3(1.0f);
 	m_CorruptedEmissiveColor = glm::vec3(0.7f, 0.0f, 0.0f);
+	m_DefaultVignetteColor = glm::vec3(0.0f);
+	m_CorruptedVignetteColor = glm::vec3(1.0f, 0.0f, 0.0f);
 
 	m_CurrentPositionIndex = 0;
 	m_FollowPlayer = false;
@@ -50,6 +59,8 @@ void Ghost::Start()
 
 		m_NormalEmissiveColor = m_Material->GetVec3Parameter("u_Material.emissive");
 	}
+
+	m_DefaultVignetteColor = Renderer::GetInstance()->m_PostProcessingPass->GetSettings().VignetteColor;
 }
 
 void Ghost::Update(float deltaTime)
@@ -63,37 +74,44 @@ void Ghost::Update(float deltaTime)
 	if (m_FollowPlayer)
 	{
 		m_Owner->GetTransform()->SetWorldPosition(m_Positions[m_CurrentPositionIndex]);
-
-		if (m_CurrentPositionIndex < GHOST_POSITIONS_COUNT - 1)
-		{
-			glm::vec3 currentPosition = m_Positions[m_CurrentPositionIndex];
-			glm::vec3 nextPosition = m_Positions[m_CurrentPositionIndex + 1];
-			if (currentPosition.x != nextPosition.x || currentPosition.z != nextPosition.z)
-			{
-				glm::mat4 rotationMatrix = glm::lookAt(currentPosition, nextPosition, glm::vec3(0.0f, 1.0f, 0.0f));
-
-				glm::vec3 pos, scale, skew;
-				glm::vec4 perspective;
-				glm::quat rot;
-				glm::decompose(rotationMatrix, scale, rot, pos, skew, perspective);
-
-				glm::vec3 euler = glm::degrees(glm::eulerAngles(rot));
-
-				auto rotation = m_Owner->GetTransform()->GetLocalRotation();
-				rotation.y = euler.y;
-				m_Owner->GetTransform()->SetLocalRotation(rotation);
-			}
-		}
+		
+		auto rot = m_Owner->GetTransform()->GetLocalRotation();
+		rot.y = m_RotationsY[m_CurrentPositionIndex];
+		m_Owner->GetTransform()->SetLocalRotation(rot);
 	}
 
+	m_RotationsY[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetLocalRotation().y - 180.0f;
 	m_Positions[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldPosition() + m_PositionOffset;
+	Ref<CharacterController> cc = m_PlayerActor->GetComponent<Player>()->GetCharacterController();
+	if (cc)
+		m_MovementSpeed[m_CurrentPositionIndex] = cc->GetMovementSpeed();
 	m_CurrentPositionIndex++;
+
+	Ref<Animator> animator = m_Owner->GetComponent<Animator>();
+	if (animator)
+	{
+		animator->SetBlendFactor(m_MovementSpeed[m_CurrentPositionIndex] * 3.3);
+	}
 }
 
 void Ghost::OnTriggerEnter(ColliderComponent* other)
 {
 	if (other->GetOwner()->GetComponent<Player>() && m_IsCorrupted)
 		SaveManager::GetInstance()->LoadGame();
+}
+
+const SaveData Ghost::Save()
+{
+	SaveData data;
+	data.ActorID = m_Owner->GetID();
+	data.BoolFields.insert({ "IsCorrupted", m_IsCorrupted });
+
+	return data;
+}
+
+void Ghost::Load(const SaveData& data)
+{
+	m_IsCorrupted = data.BoolFields.find("IsCorrupted")->second;
 }
 
 void Ghost::Corrupt()
@@ -105,6 +123,12 @@ void Ghost::Corrupt()
 	glm::vec4 startColor = glm::vec4(2.0f, 0.5f, 0.5f, 0.5f);
 	glm::vec4 endColor = glm::vec4(2.0f, 0.5f, 0.5f, 0.0f);
 	m_PlayerActor->GetComponent<Player>()->GetTrail()->ChangeTrailParticlesColor(startColor, endColor);
+
+	auto renderer = Renderer::GetInstance();
+	auto temp = renderer->m_PostProcessingPass->GetSettings();
+	temp.VignetteColor = m_CorruptedVignetteColor;
+
+	renderer->m_PostProcessingPass->SetSettings(temp);
 }
 
 void Ghost::Heal()
@@ -113,4 +137,10 @@ void Ghost::Heal()
 
 	m_Material->SetVec3Parameter("u_Material.emissive", m_NormalEmissiveColor);
 	m_PlayerActor->GetComponent<Player>()->GetTrail()->SetDefaultTrailParticlesColor();
+
+	auto renderer = Renderer::GetInstance();
+	auto temp = renderer->m_PostProcessingPass->GetSettings();
+	temp.VignetteColor = m_DefaultVignetteColor;
+
+	renderer->m_PostProcessingPass->SetSettings(temp);
 }

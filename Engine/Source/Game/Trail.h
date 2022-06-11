@@ -1,15 +1,19 @@
 #pragma once
 
 #include "GameComponent.h"
+#include "Saveable.h"
 
 class ParticleSystemComponent;
 
-class Trail : public GameComponent
+class Trail : public GameComponent, public Saveable
 {
 public:
 	Trail(Actor* owner);
 
 	virtual void Start() override;
+
+	virtual const SaveData Save() override;
+	virtual void Load(const SaveData& data) override;
 
 	void EnableTrailParticlesEmission(bool enabled);
 	void SetDefaultTrailParticlesColor();

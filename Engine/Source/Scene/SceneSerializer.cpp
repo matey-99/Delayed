@@ -18,6 +18,7 @@
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/RigidBodyComponent.h>
+#include <Game/CameraOrbit.h>
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/TextComponent.h"
@@ -30,7 +31,6 @@
 #include "Renderer/RenderPass/DepthFogPass.h"
 #include "Renderer/RenderPass/PostProcessingPass.h"
 #include "Renderer/RenderPass/FXAAPass.h"
-#include "Renderer/RenderPass/VignettePass.h"
 #include "Renderer/RenderPass/DepthOfFieldPass.h"
 
 #include "Game/MainMenu.h"
@@ -50,6 +50,8 @@
 #include "Game/GameManager.h"
 #include "Game/NotificationManager.h"
 #include "Game/TutorialManager.h"
+#include "Game/SceneTransition.h"
+#include "Game/Moving.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -108,11 +110,12 @@ void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 	out << YAML::Key << "Hue" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Hue;
     out << YAML::Key << "AberrationEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationEnabled;
     out << YAML::Key << "AberrationShift" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.AberrationShift;
-	out << YAML::EndMap;
-
-	out << YAML::Key << "VignetteSettings" << YAML::Value << YAML::BeginMap;
-	out << YAML::Key << "Intensity" << YAML::Value << renderer->m_VignettePass->m_Settings.Intensity;
-	out << YAML::Key << "Size" << YAML::Value << renderer->m_VignettePass->m_Settings.Size;
+    out << YAML::Key << "FisheyeEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.FisheyeEnabled;
+    out << YAML::Key << "Scale" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.Scale;
+    out << YAML::Key << "VignetteEnabled" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.VignetteEnabled;
+    out << YAML::Key << "VignetteColor" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.VignetteColor;
+    out << YAML::Key << "VignetteIntensity" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.VignetteIntensity;
+    out << YAML::Key << "VignetteSize" << YAML::Value << renderer->m_PostProcessingPass->m_Settings.VignetteSize;
 	out << YAML::EndMap;
 
 	out << YAML::Key << "DepthOfFieldSettings" << YAML::Value << YAML::BeginMap;
@@ -203,10 +206,12 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	float hue = data["RendererSettings"]["PostProcessingSettings"]["Hue"].as<float>();
 	bool aberration = data["RendererSettings"]["PostProcessingSettings"]["AberrationEnabled"].as<bool>();
     glm::vec3 aberrationShift = data["RendererSettings"]["PostProcessingSettings"]["AberrationShift"].as<glm::vec3>();
-
-	/* Vignette settings */
-	float vignetteIntensity = data["RendererSettings"]["VignetteSettings"]["Intensity"].as<float>();
-	float vignetteSize = data["RendererSettings"]["VignetteSettings"]["Size"].as<float>();
+    bool fisheye = data["RendererSettings"]["PostProcessingSettings"]["FisheyeEnabled"].as<bool>();
+    float scale = data["RendererSettings"]["PostProcessingSettings"]["Scale"].as<float>();
+    bool vignetteEnabled = data["RendererSettings"]["PostProcessingSettings"]["VignetteEnabled"].as<bool>();
+    glm::vec3 vignetteColor = data["RendererSettings"]["PostProcessingSettings"]["VignetteColor"].as<glm::vec3>();
+    float vignetteIntensity = data["RendererSettings"]["PostProcessingSettings"]["VignetteIntensity"].as<float>();
+    float vignetteSize = data["RendererSettings"]["PostProcessingSettings"]["VignetteSize"].as<float>();
 
 	/* Depth Of Field settings */
 	float dofMinDistance = data["RendererSettings"]["DepthOfFieldSettings"]["MinDistance"].as<float>();
@@ -260,10 +265,12 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 	renderer->m_PostProcessingPass->m_Settings.Hue = hue;
 	renderer->m_PostProcessingPass->m_Settings.AberrationEnabled = aberration;
 	renderer->m_PostProcessingPass->m_Settings.AberrationShift = aberrationShift;
-
-	/* Setup Vignette settings */
-	renderer->m_VignettePass->m_Settings.Intensity = vignetteIntensity;
-	renderer->m_VignettePass->m_Settings.Size = vignetteSize;
+    renderer->m_PostProcessingPass->m_Settings.FisheyeEnabled = fisheye;
+    renderer->m_PostProcessingPass->m_Settings.Scale = scale;
+    renderer->m_PostProcessingPass->m_Settings.VignetteEnabled = vignetteEnabled;
+    renderer->m_PostProcessingPass->m_Settings.VignetteColor = vignetteColor;
+    renderer->m_PostProcessingPass->m_Settings.VignetteIntensity = vignetteIntensity;
+    renderer->m_PostProcessingPass->m_Settings.VignetteSize = vignetteSize;
 
 	/* Setup Depth Of Field settings */
 	renderer->m_DepthOfFieldPass->m_Settings.MinDistance = dofMinDistance;
@@ -348,7 +355,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						{
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
-						a->CreateComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
+
+						bool castShadow = mesh["CastShadow"].as<bool>();
+
+						auto m = a->CreateComponent<StaticMeshComponent>(path.c_str(), materialsPaths);
+						m->m_CastShadow = castShadow;
 					}
 
 					if (auto mesh = component["SkeletalMesh"])
@@ -360,7 +371,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						{
 							materialsPaths.push_back(material["Path"].as<std::string>());
 						}
-						a->CreateComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
+
+						bool castShadow = mesh["CastShadow"].as<bool>();
+
+						auto m = a->CreateComponent<SkeletalMeshComponent>(path.c_str(), materialsPaths);
+						m->m_CastShadow = castShadow;
 					}
 
 					if (auto animator = component["Animator"])
@@ -377,6 +392,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						float minScale = foliage["MinInstanceScale"].as<float>();
 						float maxScale = foliage["MaxInstanceScale"].as<float>();
 						uint64_t seed = foliage["Seed"].as<uint64_t>();
+						bool castShadows = foliage["CastShadows"].as<bool>();
 
 						auto f = a->CreateComponent<FoliageComponent>();
 						f->ChangeMesh(path);
@@ -387,6 +403,8 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						f->m_MaxInstanceScale = maxScale;
 						f->m_Seed = seed;
 						f->Generate();
+
+						f->m_CastShadows = castShadows;
 					}
 
 					if (auto lodGroup = component["LODGroup"])
@@ -528,7 +546,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						p->m_MinParticleSize = minParticleSize;
 						p->m_MaxParticleSize = maxParticleSize;
 						p->m_EndParticleSize = endParticleSize;
-						p->m_EndParticleVelocity = minParticleVelocity;
+						p->m_MinParticleVelocity = minParticleVelocity;
 						p->m_MaxParticleVelocity = maxParticleVelocity;
 						p->m_EndParticleVelocity = endParticleVelocity;
 						p->m_MinParticleLifeTime = minParticleLifeTime;
@@ -689,14 +707,55 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto menu = component["MainMenu"])
 					{
+						uint64_t defaultPanelID = menu["DefaultPanel"].as<uint64_t>();
 						uint64_t playButtonActorID = menu["PlayButton"].as<uint64_t>();
 						uint64_t optionsButtonActorID = menu["OptionsButton"].as<uint64_t>();
+						uint64_t creditsButtonActorID = menu["CreditsButton"].as<uint64_t>();
 						uint64_t exitButtonActorID = menu["ExitButton"].as<uint64_t>();
 
+						uint64_t optionsPanelID = menu["OptionsPanel"].as<uint64_t>();
+						uint64_t masterVolumeTextID = menu["MasterVolumeText"].as<uint64_t>();
+						uint64_t masterVolumeSliderID = menu["MasterVolumeSlider"].as<uint64_t>();
+						uint64_t increaseMasterVolumeButtonID = menu["IncreaseMasterVolumeButton"].as<uint64_t>();
+						uint64_t decreaseMasterVolumeButtonID = menu["DecreaseMasterVolumeButton"].as<uint64_t>();
+						uint64_t musicVolumeTextID = menu["MusicVolumeText"].as<uint64_t>();
+						uint64_t musicVolumeSliderID = menu["MusicVolumeSlider"].as<uint64_t>();
+						uint64_t increaseMusicVolumeButtonID = menu["IncreaseMusicVolumeButton"].as<uint64_t>();
+						uint64_t decreaseMusicVolumeButtonID = menu["DecreaseMusicVolumeButton"].as<uint64_t>();
+						uint64_t soundsVolumeTextID = menu["SoundsVolumeText"].as<uint64_t>();
+						uint64_t soundsVolumeSliderID = menu["SoundsVolumeSlider"].as<uint64_t>();
+						uint64_t increaseSoundsVolumeButtonID = menu["IncreaseSoundsVolumeButton"].as<uint64_t>();
+						uint64_t decreaseSoundsVolumeButtonID = menu["DecreaseSoundsVolumeButton"].as<uint64_t>();
+						uint64_t backFromOptionsButtonID = menu["BackFromOptionsButton"].as<uint64_t>();
+
+						uint64_t creditsPanelID = menu["CreditsPanel"].as<uint64_t>();
+						uint64_t backFromCreditsButtonID = menu["BackFromCreditsButton"].as<uint64_t>();
+
+
 						auto m = a->CreateComponent<MainMenu>();
+						m->m_DefaultPanelID = defaultPanelID;
 						m->m_PlayButtonID = playButtonActorID;
 						m->m_OptionsButtonID = optionsButtonActorID;
+						m->m_CreditsButtonID = creditsButtonActorID;
 						m->m_ExitButtonID = exitButtonActorID;
+
+						m->m_OptionsPanelID = optionsPanelID;
+						m->m_MasterVolumeTextID = masterVolumeTextID;
+						m->m_MasterVolumeSliderID = masterVolumeSliderID;
+						m->m_IncreaseMasterVolumeButtonID = increaseMasterVolumeButtonID;
+						m->m_DecreaseMasterVolumeButtonID = decreaseMasterVolumeButtonID;
+						m->m_MusicVolumeTextID = musicVolumeTextID;
+						m->m_MusicVolumeSliderID = musicVolumeSliderID;
+						m->m_IncreaseMusicVolumeButtonID = increaseMusicVolumeButtonID;
+						m->m_DecreaseMusicVolumeButtonID = decreaseMusicVolumeButtonID;
+						m->m_SoundsVolumeTextID = soundsVolumeTextID;
+						m->m_SoundsVolumeSliderID = soundsVolumeSliderID;
+						m->m_IncreaseSoundsVolumeButtonID = increaseSoundsVolumeButtonID;
+						m->m_DecreaseSoundsVolumeButtonID = decreaseSoundsVolumeButtonID;
+						m->m_BackFromOptionsButtonID = backFromOptionsButtonID;
+
+						m->m_CreditsPanelID = creditsPanelID;
+						m->m_BackFromCreditsButtonID = backFromCreditsButtonID;
 					}
 
 					if (auto player = component["Player"])
@@ -766,6 +825,18 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						p->m_Direction = direction;
 						p->m_Distance = distance;
 						p->m_Speed = speed;
+					}
+
+					if (auto moving = component["Moving"])
+					{
+						glm::vec3 direction = moving["Direction"].as<glm::vec3>();
+						float distance = moving["Distance"].as<float>();
+						float speed = moving["Speed"].as<float>();
+
+						auto m = a->CreateComponent<Moving>();
+						m->m_Direction = direction;
+						m->m_Distance = distance;
+						m->m_Speed = speed;
 					}
 
 					if (auto ghost = component["Ghost"])
@@ -841,6 +912,22 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						auto comp = a->CreateComponent<PostProcessingVolume>();
 						comp->m_Settings = settings;
 					}
+
+                    if (auto cameraOrbit = component["CameraOrbit"]) {
+                        float speed = cameraOrbit["Speed"].as<float>();
+
+                        auto cam = a->CreateComponent<CameraOrbit>();
+
+                        cam->m_Speed = speed;
+                    }
+
+                    if (auto sceneTransition = component["SceneTransition"]) {
+                        std::string scene = sceneTransition["Scene"].as<std::string>();
+
+                        auto tr = a->CreateComponent<SceneTransition>();
+
+                        tr->m_Scene = scene;
+                    }
 				}
 			}
 		}
@@ -924,6 +1011,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 			out << YAML::EndMap;
 		}
 		out << YAML::EndSeq;
+		out << YAML::Key << "CastShadow" << YAML::Value << mesh->m_CastShadow;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -944,6 +1032,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 			out << YAML::EndMap;
 		}
 		out << YAML::EndSeq;
+		out << YAML::Key << "CastShadow" << YAML::Value << mesh->m_CastShadow;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -951,9 +1040,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	if (auto animator = actor->GetComponent<Animator>())
 	{
 		out << YAML::BeginMap;
-
 		out << YAML::Key << "Animator";
-
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
 
@@ -969,6 +1058,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "MinInstanceScale" << YAML::Value << foliage->m_MinInstanceScale;
 		out << YAML::Key << "MaxInstanceScale" << YAML::Value << foliage->m_MaxInstanceScale;
 		out << YAML::Key << "Seed" << YAML::Value << foliage->m_Seed;
+		out << YAML::Key << "CastShadows" << YAML::Value << foliage->m_CastShadows;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1218,9 +1308,29 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "MainMenu";
 		out << YAML::BeginMap;
+		out << YAML::Key << "DefaultPanel" << YAML::Value << menu->m_DefaultPanelID;
 		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButtonID;
 		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButtonID;
+		out << YAML::Key << "CreditsButton" << YAML::Value << menu->m_CreditsButtonID;
 		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButtonID;
+
+		out << YAML::Key << "OptionsPanel" << YAML::Value << menu->m_OptionsPanelID;
+		out << YAML::Key << "MasterVolumeText" << YAML::Value << menu->m_MasterVolumeTextID;
+		out << YAML::Key << "MasterVolumeSlider" << YAML::Value << menu->m_MasterVolumeSliderID;
+		out << YAML::Key << "IncreaseMasterVolumeButton" << YAML::Value << menu->m_IncreaseMasterVolumeButtonID;
+		out << YAML::Key << "DecreaseMasterVolumeButton" << YAML::Value << menu->m_DecreaseMasterVolumeButtonID;
+		out << YAML::Key << "MusicVolumeText" << YAML::Value << menu->m_MusicVolumeTextID;
+		out << YAML::Key << "MusicVolumeSlider" << YAML::Value << menu->m_MusicVolumeSliderID;
+		out << YAML::Key << "IncreaseMusicVolumeButton" << YAML::Value << menu->m_IncreaseMusicVolumeButtonID;
+		out << YAML::Key << "DecreaseMusicVolumeButton" << YAML::Value << menu->m_DecreaseMusicVolumeButtonID;
+		out << YAML::Key << "SoundsVolumeText" << YAML::Value << menu->m_SoundsVolumeTextID;
+		out << YAML::Key << "SoundsVolumeSlider" << YAML::Value << menu->m_SoundsVolumeSliderID;
+		out << YAML::Key << "IncreaseSoundsVolumeButton" << YAML::Value << menu->m_IncreaseSoundsVolumeButtonID;
+		out << YAML::Key << "DecreaseSoundsVolumeButton" << YAML::Value << menu->m_DecreaseSoundsVolumeButtonID;
+		out << YAML::Key << "BackFromOptionsButton" << YAML::Value << menu->m_BackFromOptionsButtonID;
+
+		out << YAML::Key << "CreditsPanel" << YAML::Value << menu->m_CreditsPanelID;
+		out << YAML::Key << "BackFromCreditsButton" << YAML::Value << menu->m_BackFromCreditsButtonID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1289,6 +1399,18 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Direction" << YAML::Value << platform->m_Direction;
 		out << YAML::Key << "Distance" << YAML::Value << platform->m_Distance;
 		out << YAML::Key << "Speed" << YAML::Value << platform->m_Speed;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto moving = actor->GetComponent<Moving>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Moving";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Direction" << YAML::Value << moving->m_Direction;
+		out << YAML::Key << "Distance" << YAML::Value << moving->m_Distance;
+		out << YAML::Key << "Speed" << YAML::Value << moving->m_Speed;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1424,6 +1546,25 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
+
+    if (auto cameraOrbit = actor->GetComponent<CameraOrbit>())
+    {
+        out << YAML::BeginMap;
+        out << YAML::Key << "CameraOrbit";
+        out << YAML::BeginMap;
+        out << YAML::Key << "Speed" << YAML::Value << cameraOrbit->m_Speed;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
+
+    if (auto sceneTransition = actor->GetComponent<SceneTransition>()) {
+        out << YAML::BeginMap;
+        out << YAML::Key << "SceneTransition";
+        out << YAML::BeginMap;
+        out << YAML::Key << "Scene" << YAML::Value << sceneTransition->m_Scene;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
 
 	out << YAML::EndSeq;
 	out << YAML::EndMap;

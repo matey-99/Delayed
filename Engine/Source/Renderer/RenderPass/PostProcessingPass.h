@@ -41,6 +41,16 @@ public:
         // Chromatic Aberration
         bool AberrationEnabled = false;
         glm::vec3 AberrationShift = glm::vec3(0.0f);
+
+        // Fisheye
+        bool FisheyeEnabled = false;
+        float Scale = 100.0f;
+
+		// Vignette
+		bool VignetteEnabled = true;
+		glm::vec3 VignetteColor = glm::vec3(0.0f);
+		float VignetteIntensity = 0.6f;
+		float VignetteSize = 0.25f;
 	};
 
 public:

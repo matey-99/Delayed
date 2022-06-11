@@ -41,6 +41,7 @@ public:
 	inline std::vector<glm::mat4> GetInstancesTransformations() const { return m_InstancesTransformations; }
 	inline std::vector<glm::vec3> GetInstancesWorldPositions() const { return m_InstancesWorldPositions; }
 	inline std::vector<BoundingBox> GetInstancesBoundingBoxes() const { return m_InstancesBoundingBoxes; }
+	inline bool ShouldCastingShadows() const { return m_CastShadows; }
 
 	inline void SetMaterial(Ref<Material> material) { m_Material = material; }
 
@@ -59,6 +60,7 @@ private:
 	std::vector<glm::mat4> m_InstancesTransformations;
 	float m_MinInstanceScale;
 	float m_MaxInstanceScale;
+	bool m_CastShadows;
 
 	std::vector<BoundingBox> m_InstancesBoundingBoxes;
 	std::vector<glm::vec3> m_InstancesWorldPositions;

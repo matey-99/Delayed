@@ -10,7 +10,7 @@ ShadowsPass::ShadowsPass()
 	directionalLightConfig.Type = RenderTarget::Type::Texture2DArray;
 	directionalLightConfig.DepthInternalFormat = RenderTarget::DepthInternalFormat::Depth32F;
 
-	m_DirectionalLightRenderTarget = RenderTarget::Create(directionalLightConfig, 4096, 4096);
+	m_DirectionalLightRenderTarget = RenderTarget::Create(directionalLightConfig, 2048, 2048);
 }
 
 ShadowsPass::~ShadowsPass()
@@ -20,16 +20,18 @@ ShadowsPass::~ShadowsPass()
 void ShadowsPass::Render(Ref<Scene> scene)
 {
 	// Directional Light
-	if (scene->FindComponent<DirectionalLight>())
+	if (auto light = scene->FindComponent<DirectionalLight>())
 	{
 		m_DirectionalLightRenderTarget->Bind();
 
-		auto depthShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "SceneDepth");
-
 		glClear(GL_DEPTH_BUFFER_BIT);
-		glCullFace(GL_BACK);
+		glCullFace(GL_FRONT);
 
-		scene->Render(depthShader);
+		if (light->IsCastingShadows())
+		{
+			auto depthShader = ShaderLibrary::GetInstance()->GetShader(ShaderType::Calculations, "SceneDepth");
+			scene->Render(depthShader);
+		}
 
 		glCullFace(GL_BACK);
 

@@ -290,59 +290,6 @@ vec3 CalculateSpotLight(SpotLight light, vec3 V, vec3 albedo, vec3 N, float meta
     return CalculateLight(L, V, albedo, N, metallic, roughness) * intensity * radiance;
 }
 
-// TO DO: FIX
-// float CalculateDirectionalLightShadow(vec3 position, vec3 normal)
-// {
-//     vec4 viewSpace = u_View * vec4(position, 1.0);
-//     float depthValue = abs(viewSpace.z);
-
-//     int layer = -1;
-//     for (int i = 0; i < u_CascadeCount; i++)
-//     {
-//         if (depthValue < u_CascadeClipPlaneDistances[i])
-//         {
-//             layer = i;
-//             break;
-//         }
-//     }
-//     if (layer == -1)
-//             layer = u_CascadeCount;
-    
-//     vec4 lightSpace = u_DirectionalLightSpaceMatrices[layer] * vec4(position, 1.0);
-//     vec3 projectionCoords = lightSpace.xyz / lightSpace.w;
-//     projectionCoords = projectionCoords * 0.5 + 0.5;
-
-//     float currentDepth = projectionCoords.z;
-
-//     if (currentDepth > 1.0)
-//         return 0.0;
-
-//     float bias = max(0.05 * (1.0 - dot(normal, u_DirectionalLight.direction)), 0.005);
-//     float biasModifier = 0.5;
-//     if (layer == u_CascadeCount)
-//         bias *= 1 / (u_CameraFarClipPlane * biasModifier);
-//     else
-//         bias *= 1 / (u_CascadeClipPlaneDistances[layer] * biasModifier);
-
-//     // PCF
-//     float shadow = 0.0;
-//     vec2 texelSize = 1.0 / vec2(textureSize(u_DirectionalLightShadowMaps, 0));
-//     for (int x = -1; x <= 1; ++x)
-//     {
-//         for (int y = -1; y <= 1; ++y)
-//         {
-//             float pcfDepth = texture(u_DirectionalLightShadowMaps, vec3(projectionCoords.xy + vec2(x, y) * texelSize, layer)).r;
-//             shadow += (currentDepth - bias) > pcfDepth ? 1.0 : 0.0;
-//         }
-//     }
-
-//     shadow /= 9.0;
-
-//     if (projectionCoords.z > 1.0)
-//         shadow = 0.0;
-
-//     return shadow;
-// }
 
 void main()
 {

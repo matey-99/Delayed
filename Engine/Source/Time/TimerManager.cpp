@@ -40,9 +40,11 @@ const TimerHandle& TimerManager::SetTimer(Event e, float rate, bool loop, float 
 	return t.Handle;
 }
 
-void TimerManager::ClearTimer(const TimerHandle& handle)
+void TimerManager::ClearTimer(TimerHandle& handle)
 {
 	m_Timers.erase(std::remove_if(m_Timers.begin(), m_Timers.end(), [handle](const Timer& timer) {
 		return handle == timer.Handle;
 	}), m_Timers.end());
+
+	handle = 0;
 }

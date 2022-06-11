@@ -20,6 +20,19 @@ void Trail::Start()
 	m_DefaultEndColor = m_ParticleSystem->GetEndParticleColor();
 }
 
+const SaveData Trail::Save()
+{
+	SaveData data;
+	data.ActorID = m_Owner->GetID();
+
+	return data;
+}
+
+void Trail::Load(const SaveData& data)
+{
+	SetDefaultTrailParticlesColor();
+}
+
 void Trail::EnableTrailParticlesEmission(bool enabled)
 {
 	if (enabled)

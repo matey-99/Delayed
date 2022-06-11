@@ -39,6 +39,7 @@ private:
 	Ref<ParticleSystemComponent> m_ParticleSystem;
 	Ref<TransformComponent> m_PlayerTransform;
 	Ref<ImageComponent> m_PostFX;
+	bool m_Using;
 	bool m_Used;
 	ObeliskEffect m_Effect;
 	float m_TimeToGetEffect;

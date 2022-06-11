@@ -21,6 +21,9 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> transparentSkeletal = AssetManager::LoadShader("Shaders/TransparentSkeletal.glsl");
 	m_MaterialShaders.insert({ transparentSkeletal->GetName(), transparentSkeletal });
 
+	Ref<Shader> transparentSkeletalFresnel = AssetManager::LoadShader("Shaders/TransparentSkeletalFresnel.glsl");
+	m_MaterialShaders.insert({ transparentSkeletalFresnel->GetName(), transparentSkeletalFresnel });
+
     Ref<Shader> waterShader = AssetManager::LoadShader("Shaders/Water.glsl");
     m_MaterialShaders.insert({waterShader->GetName(), waterShader});
 	
@@ -49,9 +52,6 @@ ShaderLibrary::ShaderLibrary()
 
 	Ref<Shader> fxaa = AssetManager::LoadShader("Shaders/FXAA.glsl");
 	m_PostProcessingShaders.insert({ fxaa->GetName(), fxaa });
-
-	Ref<Shader> vignette = AssetManager::LoadShader("Shaders/Vignette.glsl");
-	m_PostProcessingShaders.insert({ vignette->GetName(), vignette });
 
 	Ref<Shader> motionBlur = AssetManager::LoadShader("Shaders/MotionBlur.glsl");
 	m_PostProcessingShaders.insert({ motionBlur->GetName(), motionBlur });

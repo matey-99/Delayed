@@ -7,7 +7,7 @@
 #include "Renderer/RenderPass/DepthOfFieldPass.h"
 #include "Renderer/RenderPass/UIPass.h"
 #include "Renderer/RenderPass/DepthFogPass.h"
-#include "Renderer/RenderPass/VignettePass.h"
+#include "Renderer/RenderPass/LightingPass.h"
 #include <glm/gtc/type_ptr.hpp>
 
 RendererSettingsPanel::RendererSettingsPanel(Ref<Editor> editor, Ref<Renderer> renderer)
@@ -25,9 +25,14 @@ void RendererSettingsPanel::Render()
     ImGui::Checkbox("Post Processing Enabled", &m_Renderer->m_Settings.PostProcessingEnabled);
     ImGui::Checkbox("FXAA Enabled", &m_Renderer->m_Settings.FXAAEnabled);
     ImGui::Checkbox("Motion Blur Enabled", &m_Renderer->m_Settings.MotionBlurEnabled);
-    ImGui::Checkbox("Vignette Enabled", &m_Renderer->m_Settings.VignetteEnabled);
     ImGui::Checkbox("SSR Enabled", &m_Renderer->m_Settings.SSREnabled);
     ImGui::Checkbox("Depth Of Field Enabled", &m_Renderer->m_Settings.DepthOfFieldEnabled);
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    ImGui::Text("Lighting");
+    ImGui::DragInt("Shadows PCF Size", &m_Renderer->m_LightingPass->m_Settings.ShadowsPCFSize, 1, 1, 10);
+    ImGui::DragFloat("Shadows Bias", &m_Renderer->m_LightingPass->m_Settings.ShadowsBias, 0.001f, 0.0f, 1.0f);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
@@ -74,11 +79,6 @@ void RendererSettingsPanel::Render()
     ImGui::ColorEdit3("Fog Color", glm::value_ptr(m_Renderer->m_DepthFogPass->m_Settings.Color));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-    ImGui::Text("Vignette");
-    ImGui::DragFloat("Vignette Intensity", &m_Renderer->m_VignettePass->m_Settings.Intensity, 0.1f, 0.1f, 50.0f);
-    ImGui::DragFloat("Vignette Size", &m_Renderer->m_VignettePass->m_Settings.Size, 0.01f, 0.01f, 1.0f);
-    ImGui::Dummy(ImVec2(0.0f, 10.0f));
-
     ImGui::Text("General");
     ImGui::DragFloat("Gamma", &m_Renderer->m_PostProcessingPass->m_Settings.Gamma, 0.01f, 0.0f, 10.0f);
     ImGui::DragFloat("Gain", &m_Renderer->m_PostProcessingPass->m_Settings.Gain, 0.01f, -1.0f, 1.f);
@@ -97,6 +97,16 @@ void RendererSettingsPanel::Render()
     ImGui::Text("Chromatic Aberration");
     ImGui::Checkbox("Aberration Enabled", &m_Renderer->m_PostProcessingPass->m_Settings.AberrationEnabled);
     ImGui::DragFloat3("Shift", glm::value_ptr(m_Renderer->m_PostProcessingPass->m_Settings.AberrationShift), 0.001f, -1.0f, 1.0f);
+
+    ImGui::Text("Fisheye");
+    ImGui::Checkbox("Fisheye Enabled", &m_Renderer->m_PostProcessingPass->m_Settings.FisheyeEnabled);
+    ImGui::DragFloat("Scale", &m_Renderer->m_PostProcessingPass->m_Settings.Scale, 0.1f);
+
+    ImGui::Text("Vignette");
+    ImGui::Checkbox("Vignette Enabled", &m_Renderer->m_PostProcessingPass->m_Settings.VignetteEnabled);
+    ImGui::DragFloat3("Vignette Color", glm::value_ptr(m_Renderer->m_PostProcessingPass->m_Settings.VignetteColor), 0.01f);
+    ImGui::DragFloat("Vignette Intensity", &m_Renderer->m_PostProcessingPass->m_Settings.VignetteIntensity, 0.01f);
+    ImGui::DragFloat("Vignette Size", &m_Renderer->m_PostProcessingPass->m_Settings.VignetteSize, 0.01f);
 
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 

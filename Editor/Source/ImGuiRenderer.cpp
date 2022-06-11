@@ -85,6 +85,8 @@ void ImGuiRenderer::Render()
     ImGui::Text("Position: x = %f, y = %f, z = %f", m_Editor->GetCamera()->Position.x, m_Editor->GetCamera()->Position.y, m_Editor->GetCamera()->Position.z);
     ImGui::Text("Rotation: yaw = %f, pitch = %f", m_Editor->GetCamera()->Yaw, m_Editor->GetCamera()->Pitch);
     ImGui::DragFloat("Movement speed", &m_Editor->GetCamera()->m_MovementSpeed);
+    ImGui::DragFloat("Near Clip Plane", &m_Editor->GetCamera()->Near);
+    ImGui::DragFloat("Far Clip Plane", &m_Editor->GetCamera()->Far);
     ImGui::End();
 
     ImGui::Begin("Toolbar");

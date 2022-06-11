@@ -137,19 +137,23 @@ void Scene::Render(Ref<Shader> shader)
 {
 	shader->Use();
 
+	UpdateMeshesRenderList(false);
 	for (auto& renderMesh : m_MeshesRenderList)
 	{
-		auto mesh = renderMesh.first->Mesh;
-
-		std::vector<glm::mat4> transformations;
-		uint32_t instancesCount = 0;
-		for (auto& transformation : renderMesh.second)
+		if (renderMesh.first->CastShadow)
 		{
-			instancesCount++;
-			transformations.push_back(transformation);
-		}
+			auto mesh = renderMesh.first->Mesh;
 
-		mesh->RenderInstanced(instancesCount, transformations);
+			std::vector<glm::mat4> transformations;
+			uint32_t instancesCount = 0;
+			for (auto& transformation : renderMesh.second)
+			{
+				instancesCount++;
+				transformations.push_back(transformation);
+			}
+
+			mesh->RenderInstanced(instancesCount, transformations);
+		}
 	}
 }
 
@@ -236,6 +240,7 @@ void Scene::SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents)
 					Ref<MaterialMesh> materialMesh = CreateRef<MaterialMesh>();
 					materialMesh->Mesh = mesh;
 					materialMesh->Material = material;
+					materialMesh->CastShadow = meshComponent->ShouldCastingShadow();
 
 					std::vector<glm::mat4> transformations;
 					transformations.push_back(transformation);
@@ -283,6 +288,7 @@ void Scene::SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents)
 						Ref<MaterialMesh> materialMesh = CreateRef<MaterialMesh>();
 						materialMesh->Mesh = mesh;
 						materialMesh->Material = material;
+						materialMesh->CastShadow = foliageComponent->ShouldCastingShadows();
 
 						std::vector<glm::mat4> transformations;
 						transformations.push_back(transformation);
@@ -296,11 +302,12 @@ void Scene::SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents)
 	}
 }
 
-void Scene::UpdateMeshesRenderList()
+void Scene::UpdateMeshesRenderList(bool shouldCullActors)
 {
 	std::vector<Actor*> actors = m_EnabledActors;
 
-	actors = CullActors(actors);
+	if (shouldCullActors)
+		actors = CullActors(actors);
 
 	// Set order of rendering actors
 	auto cameraPosition = CameraManager::GetInstance()->GetMainCamera()->GetWorldPosition();
@@ -333,20 +340,39 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 		if (blendMode == Material::BlendMode::Transparent)
 		{
 			auto s = Renderer::GetInstance()->m_ShadowsPass;
-			glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE23);
 			glBindTexture(GL_TEXTURE_2D_ARRAY, s->GetDirectionalLightRenderTarget()->GetTargets()[0]);
 
-			material->GetShader()->SetInt("u_DirectionalLightShadowMaps", 0);
+			material->GetShader()->SetInt("u_DirectionalLightShadowMaps", 23);
 
 			if (auto skyLight = FindComponent<SkyLight>())
 			{
+				glActiveTexture(GL_TEXTURE24);
+				glBindTexture(GL_TEXTURE_CUBE_MAP, skyLight->GetIrradianceMap());
+
+				glActiveTexture(GL_TEXTURE25);
+				glBindTexture(GL_TEXTURE_CUBE_MAP, skyLight->GetPrefilterMap());
+
+				glActiveTexture(GL_TEXTURE26);
+				glBindTexture(GL_TEXTURE_2D, skyLight->GetBRDF());
+
+				material->GetShader()->SetInt("u_IrradianceMap", 24);
+				material->GetShader()->SetInt("u_PrefilterMap", 25);
+				material->GetShader()->SetInt("u_BRDF", 26);
+
 				material->GetShader()->SetVec3("u_SkyLightColor", skyLight->GetColor());
 				material->GetShader()->SetFloat("u_SkyLightIntensity", skyLight->GetIntensity());
+				material->GetShader()->SetFloat("u_SkyLightWeight", skyLight->GetWeight());
+
+				material->GetShader()->SetBool("u_SkyLightEnabled", skyLight->GetOwner()->IsEnabled());
 			}
 			else
 			{
 				material->GetShader()->SetVec3("u_SkyLightColor", glm::vec3(1.0f));
 				material->GetShader()->SetFloat("u_SkyLightIntensity", 0.03f);
+				material->GetShader()->SetFloat("u_SkyLightWeight", 0.0f);
+
+				material->GetShader()->SetBool("u_SkyLightEnabled", false);
 			}
 		}
 

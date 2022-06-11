@@ -20,6 +20,7 @@ Button::Button(Actor* owner)
 	m_EmissionTimer = 0.0f;
 
 	m_PlatformDelayTime = 0.0f;
+	m_PlatformDelayTimerHandle = 0;
 
 	m_Material = nullptr;
 }
@@ -36,13 +37,9 @@ void Button::Start()
 		collider->OnTriggerExitDelegate.Add(&Button::OnTriggerExit, this);
 	}
 
-	auto platformActor = m_Owner->GetScene()->FindActor(m_PlatformID);
-	if (!platformActor)
-	{
-		ENGINE_WARN("Platform is null!");
-		return;
-	}
-	m_Platform = platformActor->GetComponent<Platform>();
+	m_Platform = m_Owner->GetScene()->GetComponent<Platform>(m_PlatformID);
+	m_Platform->AddButton(this);
+
 	m_AudioSource = GetOwner()->GetComponent<AudioSourceComponent>();
 
 	if (auto mesh = m_Owner->GetComponent<StaticMeshComponent>())
@@ -85,16 +82,14 @@ void Button::Update(float deltaTime)
 	}
 }
 
-void Button::Destroy()
-{
-}
-
 void Button::OnTriggerEnter(ColliderComponent* other)
 {
 	if (other->GetOwner()->GetComponent<Player>() || other->GetOwner()->GetComponent<Ghost>())
 	{
+		if (m_TriggeringActorsCount == 0)
+			Press();
+
 		m_TriggeringActorsCount++;
-		Handle();
 	}
 }
 
@@ -103,16 +98,18 @@ void Button::OnTriggerExit(ColliderComponent* other)
 	if (other->GetOwner()->GetComponent<Player>() || other->GetOwner()->GetComponent<Ghost>())
 	{
 		m_TriggeringActorsCount--;
-		Handle();
+		if (m_TriggeringActorsCount == 0)
+		{
+			if (m_PlatformDelayTime > 0.0f)
+			{
+				Event e;
+				e.Add(&Button::Release, this);
+				m_PlatformDelayTimerHandle = TimerManager::GetInstance()->SetTimer(e, m_PlatformDelayTime, false);
+			}
+			else
+				Release();
+		}
 	}
-}
-
-void Button::Handle()
-{
-	if (m_TriggeringActorsCount > 0)
-		Press();
-	else
-		Release();
 }
 
 void Button::Press()
@@ -125,14 +122,8 @@ void Button::Press()
 		m_AudioSource->PlaySound();
 	}
 
-	bool shouldPlatformBeActive = true;
-	for (auto& connectedButton : m_ConnectedButtons)
-	{
-		if (!connectedButton->IsPressed())
-			shouldPlatformBeActive = false;
-	}
-
-	m_Platform->SetActive(shouldPlatformBeActive);
+	if (m_PlatformDelayTimerHandle)
+		TimerManager::GetInstance()->ClearTimer(m_PlatformDelayTimerHandle);
 }
 
 void Button::Release()
@@ -145,26 +136,6 @@ void Button::Release()
 		m_AudioSource->PlaySound();
 	}
 
-	bool shouldPlatformBeActive = false;
-	for (auto& connectedButton : m_ConnectedButtons)
-	{
-		if (connectedButton->IsPressed())
-			shouldPlatformBeActive = true;
-	}
-
-	if (!shouldPlatformBeActive && m_PlatformDelayTime == 0.0f)
-	{
-		Event e;
-		e.Add(&Button::DeactivatePlatform, this);
-		m_PlatformDelayTimerHandle = TimerManager::GetInstance()->SetTimer(e, m_PlatformDelayTime, false);
-	}
-	else
-		m_Platform->SetActive(shouldPlatformBeActive);
-}
-
-void Button::DeactivatePlatform()
-{
-	m_Platform->SetActive(false);
-
-	TimerManager::GetInstance()->ClearTimer(m_PlatformDelayTimerHandle);
+	if (m_PlatformDelayTimerHandle)
+		TimerManager::GetInstance()->ClearTimer(m_PlatformDelayTimerHandle);
 }

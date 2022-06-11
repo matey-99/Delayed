@@ -44,6 +44,7 @@ public:
 	inline std::vector<std::string> GetMaterialsPaths() const { return m_MaterialsPaths; }
 	inline BoundingBox GetBoundingBox() const { return m_BoundingBox; }
     inline BoundingSphere GetBoundingSphere() const { return m_BoundingSphere; }
+	inline bool ShouldCastingShadow() const { return m_CastShadow; }
 
 	inline void SetMaterial(int index, Ref<Material> material) { m_Materials.at(index) = material; }
 
@@ -55,5 +56,9 @@ protected:
 	BoundingBox m_BoundingBox;
 	BoundingSphere m_BoundingSphere;
 
+	bool m_CastShadow;
 	bool m_MultipleMaterials;
+
+	friend class SceneSerializer;
+	friend class ActorDetailsPanel;
 };

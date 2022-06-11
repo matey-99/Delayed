@@ -27,32 +27,41 @@ void DirectionalLight::Use()
 	m_FragmentUniformBuffer->SetUniform(offset + GLSL_VEC3_SIZE * 2 - GLSL_SCALAR_SIZE, sizeof(float), &m_Intensity);
 	m_FragmentUniformBuffer->Unbind();
 
-	auto camera = CameraManager::GetInstance()->GetMainCamera();
-
-	m_ShadowCascadeLevels = { camera->GetFarClipPlane() / 50.0f, camera->GetFarClipPlane() / 25.0f, camera->GetFarClipPlane() / 10.0f, camera->GetFarClipPlane() / 2.0f };
-	int cascadeCount = m_ShadowCascadeLevels.size();
-
-	m_LightSpaceMatrices.clear();
-	for (int i = 0; i < m_ShadowCascadeLevels.size() + 1; i++)
+	if (m_CastShadows)
 	{
-		if (i == 0)
-			m_LightSpaceMatrices.push_back(CalculateLightSpaceMatrix(camera->GetNearClipPlane(), m_ShadowCascadeLevels[i]));
-		else if (i < m_ShadowCascadeLevels.size())
-			m_LightSpaceMatrices.push_back(CalculateLightSpaceMatrix(m_ShadowCascadeLevels[i - 1], m_ShadowCascadeLevels[i]));
-		else
-			m_LightSpaceMatrices.push_back(CalculateLightSpaceMatrix(m_ShadowCascadeLevels[i - 1], camera->GetFarClipPlane()));
+		auto camera = CameraManager::GetInstance()->GetMainCamera();
+
+		m_ShadowCascadeLevels =
+		{
+			camera->GetFarClipPlane() / 50.0f,
+			camera->GetFarClipPlane() / 25.0f,
+			camera->GetFarClipPlane() / 10.0f,
+			camera->GetFarClipPlane() / 2.0f
+		};
+		int cascadeCount = m_ShadowCascadeLevels.size();
+
+		m_LightSpaceMatrices.clear();
+		for (int i = 0; i < m_ShadowCascadeLevels.size() + 1; i++)
+		{
+			if (i == 0)
+				m_LightSpaceMatrices.push_back(CalculateLightSpaceMatrix(camera->GetNearClipPlane(), m_ShadowCascadeLevels[i]));
+			else if (i < m_ShadowCascadeLevels.size())
+				m_LightSpaceMatrices.push_back(CalculateLightSpaceMatrix(m_ShadowCascadeLevels[i - 1], m_ShadowCascadeLevels[i]));
+			else
+				m_LightSpaceMatrices.push_back(CalculateLightSpaceMatrix(m_ShadowCascadeLevels[i - 1], camera->GetFarClipPlane()));
+		}
+
+		m_VertexUniformBuffer->Bind();
+
+		for (int i = 0; i < m_LightSpaceMatrices.size(); i++)
+			m_VertexUniformBuffer->SetUniform(i * sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(m_LightSpaceMatrices[i]));
+
+		m_VertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 16, GLSL_SCALAR_SIZE, &cascadeCount);
+
+		offset = GLSL_MAT4_SIZE * 16 + 16;
+		for (int i = 0; i < m_ShadowCascadeLevels.size(); i++)
+			m_VertexUniformBuffer->SetUniform(offset + 16 * i, GLSL_SCALAR_SIZE, &m_ShadowCascadeLevels[i]);
 	}
-
-	m_VertexUniformBuffer->Bind();
-
-	for (int i = 0; i < m_LightSpaceMatrices.size(); i++)
-		m_VertexUniformBuffer->SetUniform(i * sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(m_LightSpaceMatrices[i]));
-
-	m_VertexUniformBuffer->SetUniform(GLSL_MAT4_SIZE * 16, GLSL_SCALAR_SIZE, &cascadeCount);
-
-	offset = GLSL_MAT4_SIZE * 16 + 16;
-	for (int i = 0; i < m_ShadowCascadeLevels.size(); i++)
-		m_VertexUniformBuffer->SetUniform(offset + 16 * i, GLSL_SCALAR_SIZE, &m_ShadowCascadeLevels[i]);
 
 	m_VertexUniformBuffer->Unbind();
 }
@@ -98,7 +107,8 @@ glm::mat4 DirectionalLight::CalculateLightSpaceMatrix(float nearClipPlane, float
 		center += glm::vec3(corner);
 	center /= corners.size();
 
-	glm::mat4 lightView = glm::lookAt(center - m_Owner->GetTransform()->GetForward(), center, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::vec3 lightDir = m_Owner->GetTransform()->GetForward();
+	glm::mat4 lightView = glm::lookAt(center - lightDir, center, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// LIGHT PROJECTION MATRIX
 	glm::vec3 min = glm::vec3(std::numeric_limits<float>::max());

@@ -20,7 +20,6 @@ public:
 	Rig() = default;
 	//~Rig();
 
-
 	bool AddBone(std::string boneName, glm::mat4 offsetMatrix);
 	inline size_t HowManyBones() const { return m_BoneMapping.size(); }
 

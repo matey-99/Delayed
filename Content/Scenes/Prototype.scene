@@ -1,5 +1,5 @@
 Scene: Main
-CurrentCamera: 1541634381
+CurrentCamera: 1541634382
 RendererSettings:
   SSAO: true
   SSR: true
@@ -41,9 +41,12 @@ RendererSettings:
     Hue: 185
     AberrationEnabled: false
     AberrationShift: [0.0130000003, 0.0109999999, 0.00499999989]
-  VignetteSettings:
-    Intensity: 20
-    Size: 0.170000002
+    FisheyeEnabled: false
+    Scale: 1
+    VignetteEnabled: true
+    VignetteColor: [0.0, 0.0, 0.0]
+    VignetteIntensity: 20
+    VignetteSize: 0.17
   DepthOfFieldSettings:
     MinDistance: 1.5
     MaxDistance: 64
@@ -61,7 +64,7 @@ Actors:
           LocalScale: [1, 1, 1]
           Parent: 0
       - GameManager:
-          MainMenu: 902244052
+          MainMenu: 968295101
   - Actor: 493161986
     ID: 493161986
     Name: Notification Manager
@@ -110,8 +113,8 @@ Actors:
           HoveredColor: [1, 1, 1, 1]
           PressedColor: [1, 1, 1, 1]
           DisabledColor: [1, 1, 1, 1]
-  - Actor: 902244052
-    ID: 902244052
+  - Actor: 968295101
+    ID: 968295101
     Name: MainMenu
     Enabled: false
     Dynamic: false
@@ -123,9 +126,27 @@ Actors:
           LocalScale: [1, 1, 1]
           Parent: 1
       - MainMenu:
+          DefaultPanel: 1
           PlayButton: 451190724
           OptionsButton: 826052383
+          CreditsButton: 826052384
           ExitButton: 334289216
+          OptionsPanel: 364918403
+          MasterVolumeText: 156917950
+          MasterVolumeSlider: 945786630
+          IncreaseMasterVolumeButton: 3864982
+          DecreaseMasterVolumeButton: 479674924
+          MusicVolumeText: 156927950
+          MusicVolumeSlider: 945786631
+          IncreaseMusicVolumeButton: 3864983
+          DecreaseMusicVolumeButton: 479674925
+          SoundsVolumeText: 156937950
+          SoundsVolumeSlider: 945786632
+          IncreaseSoundsVolumeButton: 3864984
+          DecreaseSoundsVolumeButton: 479674926
+          BackFromOptionsButton: 826552383
+          CreditsPanel: 464918403
+          BackFromCreditsButton: 926552383
   - Actor: 504208015
     ID: 504208015
     Name: GameLogo
@@ -133,11 +154,11 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [0, 386.899078, 0]
+          Anchor: 5
+          LocalPosition: [700, -300, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [467.5, 124, 1]
-          Parent: 902244052
+          Parent: 968295101
       - Image:
           Path: Textures/Menu/Logo1.png
           Color: [1, 1, 1, 1]
@@ -148,11 +169,11 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [0, 150, 0]
+          Anchor: 5
+          LocalPosition: [535, -700, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [282, 64, 1]
-          Parent: 902244052
+          Parent: 968295101
       - UIButton:
           Enabled: true
           ImagePath: Textures/Menu/PlayButton1.png
@@ -167,11 +188,30 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [0, -50, 0]
+          Anchor: 5
+          LocalPosition: [535, -900, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [282, 71.5999985, 1]
-          Parent: 902244052
+          Parent: 968295101
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Menu/OptionsButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 826052384
+    ID: 826052384
+    Name: CreditsButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 5
+          LocalPosition: [535, -1100, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 968295101
       - UIButton:
           Enabled: true
           ImagePath: Textures/Menu/OptionsButton1.png
@@ -186,11 +226,11 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [0, -250, 0]
+          Anchor: 5
+          LocalPosition: [535, -1300, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [282, 71.5999985, 1]
-          Parent: 902244052
+          Parent: 968295101
       - UIButton:
           Enabled: true
           ImagePath: Textures/Menu/ExitButton1.png
@@ -198,11 +238,620 @@ Actors:
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
           DisabledColor: [0.25, 0.25, 0.25, 1]
-#TPP Camera
+  - Actor: 364918403
+    ID: 364918403
+    Name: Options Panel
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 968295101
+  - Actor: 826552383
+    ID: 826552383
+    Name: BackFromOptionsButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [161, -450, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Menu/OptionsButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 897095171
+    ID: 897095171
+    Name: Master Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 364918403
+  - Actor: 156907950
+    ID: 156907950
+    Name: Label
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-481, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095171
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: "Master:"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 156917950
+    ID: 156917950
+    Name: ValueText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [256, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095171
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: 50
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 261628009
+    ID: 261628009
+    Name: VolumeSliderBackground
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [256, 32, 1]
+          Parent: 897095171
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 587761896
+    ID: 587761896
+    Name: VolumeSlider
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 945786630
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [0, 0.382353067, 1, 1]
+  - Actor: 945786630
+    ID: 945786630
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.5, 1, 1]
+          Parent: 261628009
+  - Actor: 479674924
+    ID: 479674924
+    Name: DecreaseMasterVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [430, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 3864982
+    ID: 3864982
+    Name: IncreaseMasterVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [512, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 897095172
+    ID: 897095172
+    Name: Music Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -103, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 364918403
+  - Actor: 156907951
+    ID: 156907951
+    Name: Label
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-481, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095172
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: "Music:"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 156927950
+    ID: 156927950
+    Name: ValueText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [256, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095172
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: 100
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 261628010
+    ID: 261628010
+    Name: VolumeSliderBackground
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [256, 32, 1]
+          Parent: 897095172
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 587761897
+    ID: 587761897
+    Name: VolumeSlider
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 945786631
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [0, 0.382353067, 1, 1]
+  - Actor: 945786631
+    ID: 945786631
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 261628010
+  - Actor: 479674925
+    ID: 479674925
+    Name: DecreaseMusicVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [430, -103, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 3864983
+    ID: 3864983
+    Name: IncreaseMusicVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [512, -103, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 897095173
+    ID: 897095173
+    Name: SFX Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -202, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 364918403
+  - Actor: 156907952
+    ID: 156907952
+    Name: Label
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-481, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095173
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: "SFX:"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 156937950
+    ID: 156937950
+    Name: ValueText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [256, -18, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 897095173
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: 100
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 261628011
+    ID: 261628011
+    Name: VolumeSliderBackground
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [256, 32, 1]
+          Parent: 897095173
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 587761898
+    ID: 587761898
+    Name: VolumeSlider
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 945786632
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [0, 0.382353067, 1, 1]
+  - Actor: 945786632
+    ID: 945786632
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-1, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 261628011
+  - Actor: 479674926
+    ID: 479674926
+    Name: DecreaseSFXVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [430, -202, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 3864984
+    ID: 3864984
+    Name: IncreaseSFXVolume
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [512, -202, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 364918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Default/UI.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 464918403
+    ID: 464918403
+    Name: Credits Panel
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 968295101
+  - Actor: 926552383
+    ID: 926552383
+    Name: BackFromCreditsButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [161, -450, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [282, 71.5999985, 1]
+          Parent: 464918403
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/Menu/OptionsButton1.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 592054547
+    ID: 592054547
+    Name: TeamName
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-212, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 48
+          Text: Skybox Is The Limit
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 356791616
+    ID: 356791616
+    Name: FirstMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -82, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Jakub Berut
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 586051824
+    ID: 586051824
+    Name: SecondMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-79, -168, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Mateusz Michalak
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 988474343
+    ID: 988474343
+    Name: ThirdMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-49, -250, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Jagoda Gradek
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 186053785
+    ID: 186053785
+    Name: Team
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 300, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 464918403
+  - Actor: 806813335
+    ID: 806813335
+    Name: FourthMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-82, -333, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Paulina Stefanska
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 165351103
+    ID: 165351103
+    Name: FifthMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-54, -424, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Michal Sobczak
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 628718351
+    ID: 628718351
+    Name: SixthMember
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-103, -517, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 186053785
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 32
+          Text: Mateusz Majchrzak
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
   - Actor: 485961876
     ID: 485961876
     Name: Camera Controller
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - Transform:
@@ -224,130 +873,6 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 485961876
-  - Actor: 1541634381
-    ID: 1541634381
-    Name: TPP Camera
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, -10]
-          LocalRotation: [0, 180, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 763440954
-      - Camera:
-          AspectRatio: [16, 9]
-          FieldOfView: 60
-          NearClipPlane: 0.300000012
-          FarClipPlane: 1000
-#TPP Player
-  - Actor: 1503310902
-    ID: 1503310902
-    Name: TPP Player
-    Enabled: true
-    Dynamic: true
-    Components:
-      - Transform:
-          LocalPosition: [40.7097855, 4.4688468, -18.9174252]
-          LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - BoxCollider:
-          IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [0.5, 1, 0.5]
-      - AudioListener:
-          {}
-      - TPPPlayer:
-          CameraController: 485961876
-          Ghost: 1503775902
-          Trail: 405188417
-          StaminaBar: 765667130
-  - Actor: 628242585
-    ID: 628242585
-    Name: Character
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 2, 1]
-          Parent: 1503310902
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Default.mat
-#FPP Camera
-  - Actor: 1541634382
-    ID: 1541634382
-    Name: Camera
-    Enabled: false
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 1.63999999, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 1503310903
-      - Camera:
-          AspectRatio: [16, 9]
-          FieldOfView: 60
-          NearClipPlane: 0.300000012
-          FarClipPlane: 1000
-#FPP Player
-  - Actor: 1503310903
-    ID: 1503310903
-    Name: Player
-    Enabled: false
-    Dynamic: true
-    Components:
-      - Transform:
-          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
-          LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
-          LocalScale: [0.5, 0.5, 0.5]
-          Parent: 0
-      - BoxCollider:
-          IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [1, 2, 1]
-      - AudioListener:
-          {}
-      - Player:
-          Camera: 1541634382
-          Ghost: 1503775902
-          Trail: 405188416
-          StaminaBar: 765667130
-  - Actor: 1503775902
-    ID: 1503775902
-    Name: Ghost
-    Enabled: true
-    Dynamic: true
-    Components:
-      - Transform:
-          LocalPosition: [40.7097855, 4.06759262, -20.7312832]
-          LocalRotation: [-90, 0, -2.57860975e-05]
-          LocalScale: [0.0125000002, 0.0125000002, 0.0125000002]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/character/Idle.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/M_CharacterGhost.mat
-      - BoxCollider:
-          IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
-      - AudioSource:
-          SoundPath: ../../../Content/Audio/Placeholders/ghost_ambient_placeholder.wav
-          Channel: 2
-          Volume: 0.100000001
-          3d: true
-          Looping: true
-          PlayOnStart: true
-      - Ghost:
-          Player: 1503310902
   - Actor: 96575779
     ID: 96575779
     Name: Cube (16)
@@ -364,6 +889,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -384,6 +910,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -409,7 +936,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-48.633976, 24.87286, -12.7385883]
+          LocalPosition: [-46.116394, 9.58590889, -58.8645134]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -418,6 +945,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Blue.mat
+          CastShadow: true
       - ParticleSystem:
           Duration: 5
           Looping: true
@@ -449,7 +977,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [83.2915802, 25.4182758, -96.5878067]
+          LocalPosition: [-24.5984612, 11.1724968, -71.5912857]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -458,6 +986,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Blue.mat
+          CastShadow: true
       - ParticleSystem:
           Duration: 5
           Looping: true
@@ -489,7 +1018,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-34.6309319, 9.97365856, -60.1398277]
+          LocalPosition: [-34.6309319, 10.6504421, -60.1398277]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -498,6 +1027,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Blue.mat
+          CastShadow: true
       - ParticleSystem:
           Duration: 5
           Looping: true
@@ -538,6 +1068,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -549,19 +1080,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-49.6173592, -5.53182507, 70.1263046]
-          LocalRotation: [0, -0.0910694152, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [-51.0700378, -6.04222393, 70.307251]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [5, 0, 0]
+          Size: [10, 1, 1]
       - Checkpoint:
           {}
   - Actor: 623242758
@@ -571,19 +1103,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [16.2399998, -9.23703384, 31.7199993]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [16.5130405, -9.29089737, 26.5469608]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1.10000002, 1]
+          Center: [5, 0, 0]
+          Size: [10, 1.10000002, 1]
       - Checkpoint:
           {}
   - Actor: 666758769
@@ -602,6 +1135,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -622,6 +1156,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -642,6 +1177,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Red.mat
+          CastShadow: true
   - Actor: 776712540
     ID: 776712540
     Name: Cube (25)
@@ -658,6 +1194,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -678,6 +1215,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -702,6 +1240,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -722,6 +1261,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -757,6 +1297,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -777,6 +1318,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -788,19 +1330,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [16.2399998, -12.2280855, -20.5323238]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [10.6670437, -12.9665661, -20.5323238]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [5, 0, 0]
+          Size: [10, 1, 1]
       - Checkpoint:
           {}
   - Actor: 1416485425
@@ -810,21 +1353,95 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [31.1207256, -5.42579937, 104.260002]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [38.1462326, -6.47181129, 104.794479]
+          LocalRotation: [-90.0001221, 0, 2.61624064e-05]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: true
+          Center: [-5, 0, 0]
+          Size: [10, 1, 1]
+      - Checkpoint:
+          {}
+  - Actor: 1503310902
+    ID: 1503310902
+    Name: TPP Player
+    Enabled: false
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [40.7097855, 4.4688468, -18.9174252]
+          LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 2, 1]
+      - TPPPlayer:
+          {}
+  - Actor: 1503310903
+    ID: 1503310903
+    Name: Player
+    Enabled: true
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [40.7097855, 13.1615353, -26.2239761]
+          LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
+          LocalScale: [0.699999988, 1, 0.699999988]
+          Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 2, 1]
+      - AudioListener:
+          {}
+      - Player:
+          Camera: 1541634382
+          Ghost: 1503775902
+          Trail: 405188416
+          StaminaBar: 765667130
+  - Actor: 1503775902
+    ID: 1503775902
+    Name: Ghost
+    Enabled: true
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [-6.56341219, 6.43815374, -25.8879089]
+          LocalRotation: [0, 0, -2.57860975e-05]
+          LocalScale: [0.0199999996, 0.0199999996, 0.0199999996]
+          Parent: 0
+      - SkeletalMesh:
+          SkeletalMesh: Models/Skeletal/SK_Astronaut.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/MSK_CharacterGhost.mat
+            - Material: 1
+              Path: Materials/MSK_CharacterGhost.mat
+          CastShadow: true
+      - Animator:
+          {}
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
           Size: [1, 1, 1]
-      - Checkpoint:
-          {}
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Placeholders/ghost_ambient_placeholder.wav
+          Channel: 2
+          Volume: 0.100000001
+          3d: true
+          Looping: true
+          PlayOnStart: true
+      - Ghost:
+          Player: 1503310903
   - Actor: 1526879318
     ID: 1526879318
     Name: Cube (63)
@@ -841,10 +1458,43 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
+  - Actor: 1541634381
+    ID: 1541634381
+    Name: TPP Camera
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, -10]
+          LocalRotation: [0, 180, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 763440954
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 60
+          NearClipPlane: 0.300000012
+          FarClipPlane: 1000
+  - Actor: 1541634382
+    ID: 1541634382
+    Name: Camera
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 1.63999999, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1503310903
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 60
+          NearClipPlane: 0.100000001
+          FarClipPlane: 500
   - Actor: 1545929933
     ID: 1545929933
     Name: button (1)
@@ -861,6 +1511,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -886,6 +1537,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -906,6 +1558,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -926,6 +1579,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -941,19 +1595,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-9.5, 1.4882164, 192.899994]
-          LocalRotation: [0, 0.3985295, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [-9.46588612, -0.46835804, 197.804779]
+          LocalRotation: [-90, 0.3985295, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [0, 0, -5]
+          Size: [1, 1, 10]
       - Checkpoint:
           {}
   - Actor: 1706929148
@@ -972,6 +1627,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -992,6 +1648,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1008,19 +1665,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-50.6003571, 7.94331551, 128.375763]
-          LocalRotation: [0, -0.0910694152, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [-55.7041435, 7.94331551, 128.367599]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [5, 0, 0]
+          Size: [10, 1, 1]
       - Checkpoint:
           {}
   - Actor: 1902536977
@@ -1039,6 +1697,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1059,6 +1718,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1079,6 +1739,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1144,6 +1805,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1194,37 +1856,6 @@ Actors:
           EndParticleColor: [0, 0.950000525, 1, 0]
       - Trail:
           {}
-  - Actor: 405188417
-    ID: 405188417
-    Name: Trail
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0.000557899475, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 1503310902
-      - ParticleSystem:
-          Duration: 5
-          Looping: true
-          Sprite: Textures/Default/Particle.png
-          EmitterShape: 0
-          EmitterSphereRadius: 0.25
-          MaxParticles: 1000
-          EmissionRateOverTime: 50
-          MinParticleSize: 0.25
-          MaxParticleSize: 0.25
-          EndParticleSize: 0
-          MinParticleVelocity: [0, 0.100000001, 0]
-          MaxParticleVelocity: [0, 0, 0]
-          EndParticleVelocity: [0, 0, 0]
-          MinParticleLifeTime: 3.5
-          MaxParticleLifeTime: 3.5
-          StartParticleColor: [0, 1.89944363, 2, 0.5]
-          EndParticleColor: [0, 0.950000525, 1, 0]
-      - Trail:
-          {}
   - Actor: 600320104
     ID: 600320104
     Name: Death_Area
@@ -1242,6 +1873,23 @@ Actors:
           Size: [1000, 1, 1000]
       - DeathArea:
           {}
+  - Actor: 628242585
+    ID: 628242585
+    Name: Character
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [2, 4, 2]
+          Parent: 1503310902
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+          CastShadow: true
   - Actor: 493161876
     ID: 493161876
     Name: Save Manager
@@ -1271,6 +1919,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1291,6 +1940,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1316,6 +1966,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1336,6 +1987,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1356,6 +2008,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1376,6 +2029,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1396,6 +2050,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1416,6 +2071,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1436,6 +2092,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1456,6 +2113,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1476,6 +2134,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1496,6 +2155,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1516,6 +2176,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1536,6 +2197,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -1556,6 +2218,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -1576,6 +2239,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -1596,6 +2260,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1616,6 +2281,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1636,6 +2302,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1656,6 +2323,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1681,6 +2349,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1706,6 +2375,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1731,6 +2401,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1756,6 +2427,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1781,6 +2453,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1806,6 +2479,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 1, 0]
@@ -1831,6 +2505,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1855,6 +2530,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1879,6 +2555,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1903,6 +2580,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1927,6 +2605,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -1951,6 +2630,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2026,26 +2706,11 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 0.99000001, 1]
-  - Actor: 357951001
-    ID: 357951001
-    Name: tmp_Grass_Mesh
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 2.22953391, -41.1706581]
-          LocalRotation: [-90.015419, -0, 0]
-          LocalScale: [0.0100000501, 0.0100000491, 0.0100000491]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/tmp_Grass_Mesh.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/Grass.mat
   - Actor: 302285347
     ID: 302285347
     Name: New Actor
@@ -2077,6 +2742,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2097,6 +2763,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2117,6 +2784,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2137,6 +2805,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2157,6 +2826,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2177,6 +2847,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2197,6 +2868,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2261,7 +2933,7 @@ Actors:
           EndParticleColor: [0.467870355, 0.68671304, 0.905555546, 0]
   - Actor: 346397310
     ID: 346397310
-    Name: ObeliskArea
+    Name: ObeliskArea Corrupt
     Enabled: true
     Dynamic: false
     Components:
@@ -2322,6 +2994,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
+          CastShadow: true
   - Actor: 238169961
     ID: 238169961
     Name: Obelisk PostFX
@@ -2353,6 +3026,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2373,6 +3047,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2393,6 +3068,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2413,6 +3089,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -2438,6 +3115,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2462,6 +3140,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2482,6 +3161,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2502,6 +3182,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2522,6 +3203,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -2547,6 +3229,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -2572,6 +3255,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2596,6 +3280,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2616,22 +3301,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Ground.mat
-  - Actor: 127847346
-    ID: 127847346
-    Name: New Actor (1)
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0.400000006, -0.5]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [0.769999981, 0.170000002, 0.370000005]
-          Parent: 628242585
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Red.mat
+          CastShadow: true
   - Actor: 165347971
     ID: 165347971
     Name: Water
@@ -2639,15 +3309,16 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [23.6835442, 3.05400181, -43.737854]
+          LocalPosition: [-33.1102982, 1.65288258, -173.567825]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [0.748925984, 0.748925984, 0.748925984]
           Parent: 0
       - StaticMesh:
           Mesh: Models/defaults/default_plane.obj
           Materials:
             - Material: 0
               Path: Materials/Water.mat
+          CastShadow: true
   - Actor: 952142580
     ID: 952142580
     Name: Cube (24)
@@ -2664,6 +3335,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2684,6 +3356,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2704,6 +3377,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2724,6 +3398,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2744,6 +3419,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2764,6 +3440,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2788,6 +3465,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2808,6 +3486,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2828,6 +3507,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2848,6 +3528,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2868,6 +3549,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2892,6 +3574,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2912,6 +3595,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2923,8 +3607,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [137.730682, -38.3128433, 27.6266098]
-          LocalRotation: [89.9923782, -6.52167416, 180]
+          LocalPosition: [142.148529, -38.3130989, 29.1492043]
+          LocalRotation: [89.9921036, -0.147172868, 179.999207]
           LocalScale: [0.234181255, 0.234181255, 0.23418124]
           Parent: 2141099751
       - StaticMesh:
@@ -2932,6 +3616,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -2952,18 +3637,19 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
   - Actor: 99336761
     ID: 99336761
-    Name: Block1
+    Name: Block5
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [181.908157, 8.51960373, 32.9084549]
+          LocalPosition: [177.168304, 8.51960373, 33.5214996]
           LocalRotation: [0, 0, 0]
           LocalScale: [3, 3, 3]
           Parent: 0
@@ -2972,6 +3658,11 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 817137529
     ID: 817137529
     Name: Cube (24)
@@ -2988,6 +3679,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3008,6 +3700,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3028,6 +3721,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
   - Actor: 241203689
     ID: 241203689
     Name: button_frame (9)
@@ -3044,6 +3738,16 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Button:
+          Platform: 507571002
+          PlatformDelayTime: 0
+          ConnectedButtons:
+            - ID: 496197632
   - Actor: 496197632
     ID: 496197632
     Name: button_frame (9)
@@ -3060,6 +3764,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -3068,7 +3773,7 @@ Actors:
           Platform: 507571002
           PlatformDelayTime: 0
           ConnectedButtons:
-            []
+            - ID: 241203689
   - Actor: 507571002
     ID: 507571002
     Name: platform (9)
@@ -3085,6 +3790,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3109,6 +3815,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3129,6 +3836,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3149,6 +3857,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3160,7 +3869,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [119.148239, 2.71496129, -72.3992386]
+          LocalPosition: [119.14682, 2.77143764, -72.3964081]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3169,6 +3878,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3189,6 +3899,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -3214,6 +3925,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3238,6 +3950,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3258,6 +3971,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3269,7 +3983,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [80.3355713, 12.2123833, -68.5811234]
+          LocalPosition: [80.3385468, 12.1017151, -68.5862503]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3278,6 +3992,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3298,8 +4013,9 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
-          IsTrigger: false
+          IsTrigger: true
           Center: [0, 0, 0]
           Size: [1, 1.10000002, 1]
       - Button:
@@ -3323,6 +4039,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3347,6 +4064,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
@@ -3367,6 +4085,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
   - Actor: 848961114
     ID: 848961114
     Name: Cube (24)
@@ -3374,7 +4093,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-83.3987656, 10.282793, -78.1251678]
+          LocalPosition: [-87.7928467, 10.282793, -78.1818237]
           LocalRotation: [90.0026474, 89.2611313, 0.00264835241]
           LocalScale: [0.209039986, 0.209039986, 0.209039956]
           Parent: 2141099751
@@ -3383,6 +4102,11 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 403182944
     ID: 403182944
     Name: checkpoint1 (5)
@@ -3390,19 +4114,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-37.4381485, -7.72148609, 42.7913208]
-          LocalRotation: [0, -0.0910694152, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [-37.877655, -7.72148609, 42.8735428]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [-2, 0, 0]
+          Size: [8, 1, 1]
       - Checkpoint:
           {}
   - Actor: 434439619
@@ -3412,19 +4137,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-37.3617783, 3.82468987, -5.22550917]
-          LocalRotation: [0, -0.0910694152, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [-37.7741051, 2.38684464, -3.8750093]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [5, 0, 0]
+          Size: [12, 1, 1]
       - Checkpoint:
           {}
   - Actor: 938966681
@@ -3434,19 +4160,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [57.0605545, -8.57815933, 3.7129724]
-          LocalRotation: [0, -0.0910694152, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [58.3581619, -8.57815933, 1.64039493]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [-5, 0, 0]
+          Size: [10, 1, 1]
       - Checkpoint:
           {}
   - Actor: 522421780
@@ -3456,19 +4183,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [106.401649, -6.91626453, 66.4062195]
-          LocalRotation: [0, -0.0910694152, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [106.644844, -7.72279644, 66.4066238]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [-2, 0, 0]
+          Size: [5, 1, 3]
       - Checkpoint:
           {}
   - Actor: 660383100
@@ -3478,19 +4206,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [159.249847, -6.19139576, 64.7243271]
-          LocalRotation: [0, -0.0910694152, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [163.936813, -7.40190983, 65.2044983]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [-2.1500001, 0, 0.449999988]
+          Size: [5, 1, 3]
       - Checkpoint:
           {}
   - Actor: 10829950
@@ -3501,18 +4230,19 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [124.036339, -4.05600357, 25.6544285]
-          LocalRotation: [0, -0.0910694152, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [2, 0, -1.04999995]
+          Size: [5, 1, 5]
       - Checkpoint:
           {}
   - Actor: 262401114
@@ -3522,19 +4252,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [132.591019, -3.89125729, -44.8177185]
-          LocalRotation: [0, -0.0910694152, 0]
-          LocalScale: [2.06820011, 1, 2.06820011]
+          LocalPosition: [134.36821, -3.89125729, -44.8148956]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/checkpoint.fbx
           Materials:
             - Material: 0
-              Path: Materials/Green.mat
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [-2.3499999, 0, 0]
+          Size: [7, 1, 1]
       - Checkpoint:
           {}
   - Actor: 250563203
@@ -3553,6 +4284,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -3578,6 +4310,7 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -3594,7 +4327,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-97.7934723, 0.400898457, -77.2956161]
+          LocalPosition: [-103.428009, 0.254924774, -77.2188187]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3603,6 +4336,11 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 809314739
     ID: 809314739
     Name: SmallPlatform2
@@ -3610,7 +4348,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-116.515091, 0.569235325, -63.1360245]
+          LocalPosition: [-120.015686, 0.478543282, -63.0883369]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3619,6 +4357,11 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 404784879
     ID: 404784879
     Name: Block4
@@ -3626,15 +4369,16 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [182.1716, -16.7300682, 56.2137909]
+          LocalPosition: [-51.9250717, -14.4409676, -127.596779]
           LocalRotation: [0, 0, 0]
-          LocalScale: [10.4601831, 51.3616943, 10.4601831]
+          LocalScale: [10.6736097, 79.0970078, 12.2729578]
           Parent: 0
       - StaticMesh:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
+          CastShadow: true
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
@@ -3650,15 +4394,12 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 404784879
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
-          Materials:
-            - Material: 0
-              Path: Materials/M_GhostObject.mat
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [0.5, 0.5, 0.5]
+      - BlockTrigger:
+          {}
   - Actor: 232882433
     ID: 232882433
     Name: Cube (2)
@@ -3675,9 +4416,10 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Red.mat
+          CastShadow: true
   - Actor: 448595750
     ID: 448595750
-    Name: ObeliskArea
+    Name: ObeliskArea Heal
     Enabled: true
     Dynamic: false
     Components:
@@ -3692,7 +4434,7 @@ Actors:
           Size: 8
       - Obelisk:
           Effect: 1
-          PostFX: 0
+          PostFX: 238169961
   - Actor: 320602394
     ID: 320602394
     Name: ObeliskModel
@@ -3709,17 +4451,36 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Default.mat
-  - Actor: 263009452
-    ID: 263009452
+          CastShadow: true
+  - Actor: 446402549
+    ID: 446402549
     Name: ObeliskParticle
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0.542510986, 1.12821293, -0.770439148]
+          LocalPosition: [0, 1.12828088, -1.94470978]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 448595750
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 0.5
+          MaxParticles: 1000
+          EmissionRateOverTime: 60
+          MinParticleSize: 0.0500000007
+          MaxParticleSize: 0.100000001
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0.5, 0]
+          EndParticleVelocity: [0, 0, 0.5]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [20, 0, 0, 0.75]
+          EndParticleColor: [1, 0, 0, 0.25]
   - Actor: 528444467
     ID: 528444467
     Name: Double Jump Text
@@ -3816,69 +4577,374 @@ Actors:
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
           DisabledColor: [0.25, 0.25, 0.25, 1]
-  - Actor: 237475410
-    ID: 237475410
-    Name: SkelMesh
+  - Actor: 163730972
+    ID: 163730972
+    Name: Cube (24)
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 2.39151764, -52.9008331]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [0.0299999993, 0.0299999993, 0.0299999993]
-          Parent: 0
-      - SkeletalMesh:
-          SkeletalMesh: Models/Skeletal/SK_Vampire.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/MSK_Default.mat
-            - Material: 1
-              Path: Materials/MSK_Default.mat
-  - Actor: 289388336
-    ID: 289388336
-    Name: Reflective
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 2.72329736, -68.270195]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [0.5, 1, 1]
-          Parent: 0
+          LocalPosition: [-77.2099533, 10.2828369, -182.1633]
+          LocalRotation: [90.0026474, 89.2611313, 0.00264835241]
+          LocalScale: [0.43062225, 0.43062225, 0.430622011]
+          Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/defaults/default_plane.obj
+          Mesh: Models/platformBig00_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_Reflective.mat
-  - Actor: 872657590
-    ID: 872657590
-    Name: Reflected1
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
+  - Actor: 729527760
+    ID: 729527760
+    Name: Block5Trigger
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [1.24071932, 4.20192575, -74.4778214]
+          LocalPosition: [0, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [2, 3, 1]
+          LocalScale: [0.504899979, 0.504899979, 0.504899979]
+          Parent: 99336761
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - BlockTrigger:
+          {}
+  - Actor: 971865150
+    ID: 971865150
+    Name: RespawnPoint
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [103, 109.571999, 52.3959999]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [20, 20, 20]
+          Parent: 1401607988
+  - Actor: 310349425
+    ID: 310349425
+    Name: Cube (22)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-110.056641, -12.2976933, -145.668716]
+          LocalRotation: [89.9984741, 10.9883118, -179.995956]
+          LocalScale: [0.200000003, 0.200000003, 0.200000003]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 244120680
+    ID: 244120680
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-155.548141, 5.13051176, -94.9276199]
+          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 321453732
+    ID: 321453732
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-172.844437, -13.258213, -102.394783]
+          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 777610556
+    ID: 777610556
+    Name: Cube (22)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-155.945816, -57.2481651, -144.814651]
+          LocalRotation: [89.9985733, -0.117323399, -179.995758]
+          LocalScale: [0.357420027, 0.357420027, 0.357420027]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 600965315
+    ID: 600965315
+    Name: platform (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-162.686295, 1.87511683, -121.42173]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.400000006, 0.400000006, 0.400000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/mobilePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Platform:
+          Direction: [0, 1, 0]
+          Distance: 10
+          Speed: 20
+  - Actor: 446293797
+    ID: 446293797
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-142.6586, -12.365797, -105.157227]
+          LocalRotation: [92.7062683, 6.81805706, 1.76897657]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 774767173
+    ID: 774767173
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-140.386002, -6.29177141, -111.170547]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1.10000002, 1]
+      - Button:
+          Platform: 600965315
+          PlatformDelayTime: 4
+          ConnectedButtons:
+            - ID: 639208106
+  - Actor: 639208106
+    ID: 639208106
+    Name: button (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-177.363144, -7.37386274, -107.128265]
+          LocalRotation: [-89.9999466, 65.8130341, 4.16764124e-05]
+          LocalScale: [0.5, 0.5, 0.5]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/pressurePlatform_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1.10000002, 1]
+      - Button:
+          Platform: 600965315
+          PlatformDelayTime: 4
+          ConnectedButtons:
+            - ID: 774767173
+  - Actor: 631596316
+    ID: 631596316
+    Name: Block5
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-127.427437, 16.9096375, -135.632248]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [3, 3, 3]
           Parent: 0
       - StaticMesh:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
-  - Actor: 979108243
-    ID: 979108243
-    Name: New Actor (1)
+              Path: Materials/M_GhostObject.mat
+          CastShadow: true
+  - Actor: 72107752
+    ID: 72107752
+    Name: Block5
     Enabled: true
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-1.48779035, 3.75117993, -73.3998032]
+          LocalPosition: [-106.8321, 18.0944633, -136.582932]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1.11147273, 2.0567348, 1]
+          LocalScale: [6.26999998, 6.26999998, 6.26999998]
           Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_GhostObject.mat
+          CastShadow: true
+  - Actor: 810184262
+    ID: 810184262
+    Name: Cube (22)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-139.27681, -33.2445488, -78.1910095]
+          LocalRotation: [89.9984741, 10.9883118, -179.995956]
+          LocalScale: [0.200000003, 0.200000003, 0.200000003]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 557272962
+    ID: 557272962
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-119.107132, -10.6682949, -73.4102325]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/checkpoint.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
+  - Actor: 414087201
+    ID: 414087201
+    Name: checkpoint1 (5)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-98.2164307, 11.0245914, -142.651077]
+          LocalRotation: [-90, -0.0910694152, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/checkpoint.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
+  - Actor: 612935349
+    ID: 612935349
+    Name: Block4
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [183.322113, -16.7300682, 57.9744034]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [6.93091536, 51.3616943, 7.96945333]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/M_GhostObject.mat
+          CastShadow: true
+  - Actor: 161361435
+    ID: 161361435
+    Name: Cube (24)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-70.6432724, 30.8318367, -123.42131]
+          LocalRotation: [-90.0014038, 2.46466613, 179.999954]
+          LocalScale: [0.335885316, 0.335885316, 0.335885137]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 962435065
+    ID: 962435065
+    Name: Cube (2)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-68.0878983, 30.5045815, -120.388794]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.1756382, 9.96623993, 5.19449568]
+          Parent: 2141099751
       - StaticMesh:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
               Path: Materials/Red.mat
+          CastShadow: true

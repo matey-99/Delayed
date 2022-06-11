@@ -20,11 +20,13 @@ MeshComponent::MeshComponent(Actor* owner)
 MeshComponent::MeshComponent(Actor* owner, std::string path)
 	: RenderComponent(owner), m_Path(path)
 {
+	m_CastShadow = true;
 }
 
 MeshComponent::MeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPaths)
 	: RenderComponent(owner), m_Path(path), m_MaterialsPaths(materialsPaths)
 {
+	m_CastShadow = true;
 }
 
 void MeshComponent::Start()

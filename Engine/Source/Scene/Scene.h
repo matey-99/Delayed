@@ -18,6 +18,7 @@ struct MaterialMesh
 {
 	Ref<MeshBase> Mesh;
 	Ref<Material> Material;
+	bool CastShadow;
 };
 
 typedef std::unordered_map<Ref<MaterialMesh>, std::vector<glm::mat4>> MeshesRenderList;
@@ -136,7 +137,7 @@ private:
 	void SortMeshes(std::vector<Ref<MeshComponent>>& meshComponents);
 	void SortFoliages(std::vector<Ref<FoliageComponent>>& foliageComponents);
     std::vector<Actor*> CullActors(std::vector<Actor*>& actors);
-	void UpdateMeshesRenderList();
+	void UpdateMeshesRenderList(bool shouldCullActors = true);
 	void RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode);
 
 private:

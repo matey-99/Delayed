@@ -28,7 +28,8 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 		std::cout << "Provided model must have animations to be a Skeletal Model. Add Static Mesh instead" << std::endl;
 		return nullptr;
 	}
-	scene->mRootNode->mTransformation;
+	glm::mat4 globalInverseTransform = AssimpGLMHelpers::ConvertMatrixToGLMFormat((scene->mRootNode->mTransformation).Inverse());
+
 
 	// Specify Model requirements that need all meshes info to be constructed
 	Ref<Rig> rig = CreateRef<Rig>();
@@ -40,7 +41,7 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	std::cout << "rig->HowManyBones(): " << rig->HowManyBones() << "\n";  // Debug-only
 
 	std::string relativePath = path.substr(AssetManager::ContentDirectory.size() + 1);
-	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes, rig);
+	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes, rig, globalInverseTransform);
 
 
 	m_ImportedSkeletalModels.insert({ path, importedSkeletalModel });
@@ -113,6 +114,7 @@ Ref<SkeletalMesh> SkeletalModelImporter::ProcessMesh(aiMesh* mesh, const aiScene
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
+
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
 		{
 			indices.push_back(face.mIndices[j]);
@@ -179,7 +181,10 @@ void SkeletalModelImporter::ProcessMeshBones(std::vector<SkinnedVertex>& vertice
 		// Assign weights and boneID to vertices
 		auto weights = mesh->mBones[boneIndex]->mWeights;
 		int numWeights = mesh->mBones[boneIndex]->mNumWeights;
-		for (int weightIndex = 0; weightIndex < numWeights; ++weightIndex)
+
+		//std::cout << "\nnumWeights: " << numWeights;
+
+		for (int weightIndex = 0; weightIndex < numWeights; weightIndex++)
 		{
 			int vertexId = weights[weightIndex].mVertexId;
 			float weight = weights[weightIndex].mWeight;

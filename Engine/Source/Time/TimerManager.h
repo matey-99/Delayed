@@ -41,7 +41,7 @@ public:
 
 	const TimerHandle& SetTimer(Event e, float rate, bool loop, float delay = 0.0f);
 
-	void ClearTimer(const TimerHandle& handle);
+	void ClearTimer(TimerHandle& handle);
 
 private:
 	std::vector<Timer> m_Timers;

@@ -18,20 +18,15 @@ public:
 
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
-	virtual void Destroy() override;
 
 	virtual void OnTriggerEnter(ColliderComponent* other) override;
 	virtual void OnTriggerExit(ColliderComponent* other) override;
 
 	inline bool IsPressed() const { return m_IsPressed; }
 
-private:
-	void Handle();
-	
+private:	
 	void Press();
 	void Release();
-
-	void DeactivatePlatform();
 
 private:
 	Ref<Platform> m_Platform;
