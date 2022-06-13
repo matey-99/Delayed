@@ -32,6 +32,8 @@ public:
 	inline Ref<Trail> GetTrail() const { return m_Trail; }
 	inline Ref<CharacterController> GetCharacterController() const { return m_CharacterController; }
 
+    inline bool IsRunning() const { return m_IsRunning; };
+
 private:
 	void MoveForward(float value);
 	void MoveRight(float value);

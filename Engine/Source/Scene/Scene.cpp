@@ -393,12 +393,8 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 				//std::cout << transforms[i][0][0] << transforms[i][0][1] << "\n";
 			}
 		}
-
-        if (material->GetName() == "Water") {
-            material->GetShader()->SetFloat("u_FrameTime", Time::GetInstance()->GetElapsedTime());
-		}
 		
-        if (material->GetName() == "Grass") {
+        if (material->GetName() == "Grass" || material->GetName() == "Water" || material->GetName() == "Hologram") {
             material->GetShader()->SetFloat("u_Time", Time::GetInstance()->GetElapsedTime());
         }
 

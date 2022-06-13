@@ -69,4 +69,8 @@ public:
     bool IsPlaying(int channelId) const;
 
     static FMOD_VECTOR Vec3ToFmod(const glm::vec3 &vec3);
+
+private:
+
+    void UpdateVolumes();
 };

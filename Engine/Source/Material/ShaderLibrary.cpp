@@ -38,6 +38,9 @@ ShaderLibrary::ShaderLibrary()
 
 	Ref<Shader> clouds = AssetManager::LoadShader("Shaders/Clouds.glsl");
 	m_MaterialShaders.insert({ clouds->GetName(), clouds });
+	
+    Ref<Shader> hologram = AssetManager::LoadShader("Shaders/Hologram.glsl");
+    m_MaterialShaders.insert({ hologram->GetName(), hologram });
 
 	/* Post-Processing Shaders */
 

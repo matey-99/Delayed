@@ -3,6 +3,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_decompose.hpp>
 
+#include <random>
+
 // From matrix_decompose.inl
 bool Math::DecomposeMatrix(const glm::mat4 modelMatrix, glm::vec3& translation, glm::vec3& rotation, glm::vec3& scale)
 {
@@ -225,4 +227,12 @@ float Math::WorleyNoise(std::vector<glm::vec3> points, glm::vec3 position)
 {
 
 	return 0.0f;
+}
+
+int Math::RandomRange(int from, int to) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(from, to);
+
+    return distr(gen);
 }

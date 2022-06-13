@@ -45,6 +45,8 @@ namespace Math
 	std::vector<glm::vec3> WorleyPoints(int cellsPerAxis, uint64_t seed);
 
 	float WorleyNoise(std::vector<glm::vec3> points, glm::vec3 position);
+	
+    int RandomRange(int from, int to);
 
 	const float Infinity = std::numeric_limits<float>::infinity();
 
