@@ -33,6 +33,9 @@ ShaderLibrary::ShaderLibrary()
     Ref<Shader> fogPlane = AssetManager::LoadShader("Shaders/FogPlane.glsl");
     m_MaterialShaders.insert({ fogPlane->GetName(), fogPlane });
 
+    Ref<Shader> hologram = AssetManager::LoadShader("Shaders/Hologram.glsl");
+    m_MaterialShaders.insert({ hologram->GetName(), hologram });
+
 	/* Post-Processing Shaders */
 
 	Ref<Shader> viewport = AssetManager::LoadShader("Shaders/Viewport.glsl");

@@ -1,0 +1,22 @@
+Material: Hologram
+ID: 903431732
+BlendMode: 1
+Shader: Hologram
+Bool Parameters:
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: true
+Float Parameters:
+  - Name: u_Material.scrollSpeed
+    Value: 0.15
+  - Name: u_Material.fresnelPower
+    Value: 2
+  - Name: u_Material.tiling
+    Value: 2.5
+Vec3 Parameters:
+  - Name: u_Material.fresnelColor
+    Value: [0, 5, 4.55882311]
+  - Name: u_Material.mainColor
+    Value: [0, 0.85294199, 1]
+Texture Parameters:
+  - Name: u_Material.hologramLines
+    Path: Textures/HologramLines.png

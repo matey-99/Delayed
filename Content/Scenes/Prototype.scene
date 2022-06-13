@@ -448,7 +448,7 @@ Actors:
       - Text:
           Font: Fonts/arial.ttf
           FontSize: 32
-          Text: 100
+          Text: 50
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -493,7 +493,7 @@ Actors:
           Anchor: 0
           LocalPosition: [-1, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [0.5, 1, 1]
           Parent: 261628010
   - Actor: 479674925
     ID: 479674925
@@ -580,7 +580,7 @@ Actors:
       - Text:
           Font: Fonts/arial.ttf
           FontSize: 32
-          Text: 100
+          Text: 50
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -625,7 +625,7 @@ Actors:
           Anchor: 0
           LocalPosition: [-1, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [0.5, 1, 1]
           Parent: 261628011
   - Actor: 479674926
     ID: 479674926
@@ -4980,3 +4980,20 @@ Actors:
           Sound9: ../../../Content/Audio/Footsteps/Ground/Run/Run05.wav
           Sound10: ../../../Content/Audio/Footsteps/Ground/Jump/Start01.wav
           Sound11: ../../../Content/Audio/Footsteps/Ground/Jump/Land01.wav
+  - Actor: 86886556
+    ID: 86886556
+    Name: default_sphere (1)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [35.137825, 4.82977867, -45.3179779]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [4.63000011, 4.63000011, 4.63000011]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_sphere.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: false

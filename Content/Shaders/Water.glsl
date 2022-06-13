@@ -118,7 +118,7 @@ struct Material
 };
 
 layout (location = 2) uniform Material u_Material;
-layout (location = 28) uniform float u_FrameTime;
+layout (location = 28) uniform float u_Time;
 
 vec3 GetNormalFromNormalMap(vec2 flow)
 {
@@ -136,8 +136,8 @@ void main()
     float opacity;
     vec3 emissive;
 
-    vec2 flow1 = (texture(u_Material.flowMap, vec2(v_TexCoord.x + u_FrameTime * u_Material.waveSpeed, v_TexCoord.y)).rg * 2.0 - 1.0) * u_Material.waveStrength;
-    vec2 flow2 = (texture(u_Material.flowMap, vec2(-v_TexCoord.x + u_FrameTime * u_Material.waveSpeed, v_TexCoord.y + u_FrameTime * u_Material.waveSpeed)).rg * 2.0 - 1.0) * u_Material.waveStrength;
+    vec2 flow1 = (texture(u_Material.flowMap, vec2(v_TexCoord.x + u_Time * u_Material.waveSpeed, v_TexCoord.y)).rg * 2.0 - 1.0) * u_Material.waveStrength;
+    vec2 flow2 = (texture(u_Material.flowMap, vec2(-v_TexCoord.x + u_Time * u_Material.waveSpeed, v_TexCoord.y + u_Time * u_Material.waveSpeed)).rg * 2.0 - 1.0) * u_Material.waveStrength;
     vec2 flow = flow1 + flow2;
 
     if (u_Material.isAlbedoMap)
