@@ -5014,3 +5014,122 @@ Actors:
             - Material: 0
               Path: Materials/M_Clouds.mat
           CastShadow: true
+  - Actor: 750532703
+    ID: 750532703
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [93.0967865, 32.1770363, 99.1594543]
+          LocalRotation: [-82.4076843, -21.9106503, 150.463699]
+          LocalScale: [0.0850000232, 0.0850000083, 0.0850000009]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 808085787
+    ID: 808085787
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [76.8704529, 16.2576733, 55.1394386]
+          LocalRotation: [-68.2327423, 8.92353153, 85.0600967]
+          LocalScale: [0.0426300056, 0.0426299982, 0.0426300019]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 325428973
+    ID: 325428973
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [116.600647, 30.2018318, 161.01358]
+          LocalRotation: [-111.972191, 0.146104738, -101.119781]
+          LocalScale: [0.0736889988, 0.0736889914, 0.0736890137]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 965885804
+    ID: 965885804
+    Name: Ring1
+    Enabled: false
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [80.6767426, 16.1697025, 70.0922394]
+          LocalRotation: [-102.303658, -14.8938522, -140.264542]
+          LocalScale: [0.0593921244, 0.0593921058, 0.0593921132]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 523551430
+    ID: 523551430
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-94.0682907, 5.4828434, -233.598312]
+          LocalRotation: [68.7864227, 68.8161621, 158.698517]
+          LocalScale: [0.0850000232, 0.0850000083, 0.0850000009]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 539401460
+    ID: 539401460
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-118.745506, 7.78736401, -216.470047]
+          LocalRotation: [149.769745, -48.0028954, -65.2850037]
+          LocalScale: [0.112200007, 0.112199984, 0.112199984]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 888437873
+    ID: 888437873
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-153.932266, 9.09384823, -218.454483]
+          LocalRotation: [21.0569801, 20.3479996, 98.9244308]
+          LocalScale: [0.0875160024, 0.08751598, 0.08751598]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
