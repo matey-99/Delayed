@@ -1393,7 +1393,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 13.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 15.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.699999988, 1, 0.699999988]
           Parent: 0
@@ -4960,11 +4960,23 @@ Actors:
           LocalScale: [1.42857146, 1, 1.42857146]
           Parent: 1503310903
       - AudioSource:
-          SoundPath: ../../../Content/Audio/Footsteps/Ground/Walk/1.wav
-          Channel: 1
-          Volume: 1
+          SoundPath: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
+          Channel: 2
+          Volume: 0.5
           3d: false
           Looping: false
           PlayOnStart: false
       - Footsteps:
           PlayerID: 1503310903
+          Sound0: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
+          Sound1: ../../../Content/Audio/Footsteps/Ground/Walk/Walk02.wav
+          Sound2: ../../../Content/Audio/Footsteps/Ground/Walk/Walk03.wav
+          Sound3: ../../../Content/Audio/Footsteps/Ground/Walk/Walk04.wav
+          Sound4: ../../../Content/Audio/Footsteps/Ground/Walk/Walk05.wav
+          Sound5: ../../../Content/Audio/Footsteps/Ground/Run/Run01.wav
+          Sound6: ../../../Content/Audio/Footsteps/Ground/Run/Run02.wav
+          Sound7: ../../../Content/Audio/Footsteps/Ground/Run/Run03.wav
+          Sound8: ../../../Content/Audio/Footsteps/Ground/Run/Run04.wav
+          Sound9: ../../../Content/Audio/Footsteps/Ground/Run/Run05.wav
+          Sound10: ../../../Content/Audio/Footsteps/Ground/Jump/Start01.wav
+          Sound11: ../../../Content/Audio/Footsteps/Ground/Jump/Land01.wav

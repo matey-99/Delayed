@@ -34,6 +34,8 @@ namespace Math
 
 	glm::vec3 Normalize(const glm::vec3& v);
 
+    int RandomRange(int from, int to);
+
 	const float Infinity = std::numeric_limits<float>::infinity();
 
 	const glm::vec3 ForwardVector = { 0.0f, 0.0f, -1.0f };

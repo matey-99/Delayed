@@ -17,6 +17,7 @@ public:
 private:
     Ref<AudioSourceComponent> m_AudioSource;
     Ref<Player> m_Player;
+    std::vector<std::string> m_Sounds;
 
 #pragma region Serialization
 

@@ -44,9 +44,9 @@ RendererSettings:
     FisheyeEnabled: false
     Scale: 1
     VignetteEnabled: true
-    VignetteColor: [0.0, 0.0, 0.0]
+    VignetteColor: [0, 0, 0]
     VignetteIntensity: 10.5
-    VignetteSize: 0.175
+    VignetteSize: 0.174999997
   DepthOfFieldSettings:
     MinDistance: 1.5
     MaxDistance: 64
@@ -936,3 +936,21 @@ Actors:
           MaxParticleLifeTime: 2
           StartParticleColor: [1, 1, 1, 1]
           EndParticleColor: [0, 0, 0, 0]
+  - Actor: 446300763
+    ID: 446300763
+    Name: Music
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Music/MainMenu.mp3
+          Channel: 1
+          Volume: 1
+          3d: false
+          Looping: true
+          PlayOnStart: true

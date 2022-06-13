@@ -26,6 +26,7 @@ public:
 	void Dash();
 
 	inline bool IsGrounded() const { return m_IsGrounded; }
+    inline bool IsJumping() const { return m_IsJumping; }
 	inline float GetStamina() const { return m_Stamina; }
 	float GetMovementSpeed() { return glm::length(m_Velocity); }
 

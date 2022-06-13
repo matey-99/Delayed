@@ -923,10 +923,17 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                     if (auto footsteps = component["Footsteps"]) {
 
                         uint32_t player = footsteps["PlayerID"].as<uint32_t>();
+                        std::vector<std::string> sounds = std::vector<std::string>();
+                        std::string name;
+                        for (int i = 0; i < 12; ++i) {
+                            name = "Sound"+std::to_string(i);
+                            sounds.push_back(footsteps[name].as<std::string>());
+                        }
 
                         auto fs = a->CreateComponent<Footsteps>();
 
                         fs->m_PlayerID = player;
+                        fs->m_Sounds = sounds;
                     }
 				}
 			}
@@ -1568,6 +1575,11 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "Footsteps";
         out << YAML::BeginMap;
         out << YAML::Key << "PlayerID" << YAML::Value << footsteps->m_PlayerID;
+        std::string name;
+        for (int i = 0; i < 12; ++i) {
+            name = "Sound" + std::to_string(i);
+            out << YAML::Key << name << YAML::Value << footsteps->m_Sounds.at(i);
+        }
         out << YAML::EndMap;
         out << YAML::EndMap;
     }

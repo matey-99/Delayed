@@ -3,6 +3,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_decompose.hpp>
 
+#include <random>
+
 // From matrix_decompose.inl
 bool Math::DecomposeMatrix(const glm::mat4 modelMatrix, glm::vec3& translation, glm::vec3& rotation, glm::vec3& scale)
 {
@@ -134,4 +136,12 @@ bool Math::IsNearlyEqual(const glm::vec3& a, const glm::vec3& b, float errorTole
 glm::vec3 Math::Normalize(const glm::vec3& v)
 {
 	return v / Magnitude(v);
+}
+
+int Math::RandomRange(int from, int to) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(from, to);
+
+    return distr(gen);
 }
