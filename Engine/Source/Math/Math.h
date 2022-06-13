@@ -26,6 +26,8 @@ namespace Math
 
 	float Smoothstep(float a, float b, float alpha);
 
+	glm::vec3 Smoothstep(glm::vec3 a, glm::vec3 b, float alpha);
+
 	float Magnitude(const glm::vec3& v);
 
 	float Distance(const glm::vec3& a, const glm::vec3& b);

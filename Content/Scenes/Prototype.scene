@@ -1393,7 +1393,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 15.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.699999988, 1, 0.699999988]
           Parent: 0
@@ -1431,8 +1431,8 @@ Actors:
           {}
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [0, 2, 0]
+          Size: [90, 90, 90]
       - AudioSource:
           SoundPath: ../../../Content/Audio/Placeholders/ghost_ambient_placeholder.wav
           Channel: 2
@@ -3288,7 +3288,7 @@ Actors:
   - Actor: 728671211
     ID: 728671211
     Name: default_sphere
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - Transform:
@@ -4997,3 +4997,20 @@ Actors:
             - Material: 0
               Path: Materials/Hologram.mat
           CastShadow: false
+  - Actor: 64904609
+    ID: 64904609
+    Name: Clouds
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, -34.5681992, -2.06042546e-06]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/fog.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_Clouds.mat
+          CastShadow: true

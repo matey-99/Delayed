@@ -114,6 +114,11 @@ float Math::Smoothstep(float a, float b, float alpha)
 	return a + alpha * alpha * (3.0f - alpha * 2.0f) * (b - a);
 }
 
+glm::vec3 Math::Smoothstep(glm::vec3 a, glm::vec3 b, float alpha)
+{
+	return a + alpha * alpha * (3.0f - alpha * 2.0f) * (b - a);
+}
+
 float Math::Magnitude(const glm::vec3& v)
 {
 	return glm::sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z));

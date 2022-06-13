@@ -47,7 +47,7 @@ void CharacterController::FixedUpdate()
 
 void CharacterController::Move(glm::vec3 direction, const CharacterMovementParams& params, float deltaTime)
 {
-	bool running = m_Stamina > 0.0f && params.IsRunning;
+	bool running = params.IsRunning;
 	float movementSpeed = params.IsSlowedDown ? m_SlowedDownSpeed : (running ? m_RunSpeed : m_WalkSpeed);
 
 	m_Gravity = -2.0f * m_JumpHeight / (m_JumpMaxHeightTime * m_JumpMaxHeightTime);

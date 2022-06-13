@@ -89,7 +89,7 @@ void Player::Update(float deltaTime)
 
 		if (!Math::IsNearlyEqual(currentPosition, m_TeleportDestinationPosition, 0.1f))
 		{
-			auto newPosition = Math::Lerp(currentPosition, m_TeleportDestinationPosition, 1 / m_TeleportTime * deltaTime);
+			auto newPosition = Math::Smoothstep(currentPosition, m_TeleportDestinationPosition, 1 / m_TeleportTime * deltaTime);
 			m_Owner->GetTransform()->SetWorldPosition(newPosition);
 
 			return;
@@ -278,7 +278,7 @@ void Player::Teleport()
 		m_IsTeleporting = true;
 		m_CanTeleport = false;
 		m_TeleportCooldownTimer = m_TeleportCooldown;
-		m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition();
+		m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition() + glm::vec3(0.0f, 2.0f, 0.0f);
 
 		auto tutorial = TutorialManager::GetInstance();
 		if (tutorial->IsTutorialDisplayed(TutorialType::Teleport))
