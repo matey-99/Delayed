@@ -33,11 +33,11 @@ ShaderLibrary::ShaderLibrary()
     Ref<Shader> fogPlane = AssetManager::LoadShader("Shaders/FogPlane.glsl");
     m_MaterialShaders.insert({ fogPlane->GetName(), fogPlane });
 
-	Ref<Shader> cloudsNew = AssetManager::LoadShader("Shaders/CloudsNew.glsl");
-	m_MaterialShaders.insert({ cloudsNew->GetName(), cloudsNew });
+	Ref<Shader> cloudsRM = AssetManager::LoadShader("Shaders/CloudsRayMarching.glsl");
+	m_MaterialShaders.insert({ cloudsRM->GetName(), cloudsRM });
 
-	Ref<Shader> ultimateClouds = AssetManager::LoadShader("Shaders/UltimateClouds.glsl");
-	m_MaterialShaders.insert({ ultimateClouds->GetName(), ultimateClouds });
+	Ref<Shader> clouds = AssetManager::LoadShader("Shaders/Clouds.glsl");
+	m_MaterialShaders.insert({ clouds->GetName(), clouds });
 
 	/* Post-Processing Shaders */
 

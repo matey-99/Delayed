@@ -1,0 +1,48 @@
+Material: M_Clouds
+ID: 442380667
+BlendMode: 1
+Shader: Clouds
+Bool Parameters:
+  []
+Float Parameters:
+  - Name: u_Material.NoiseEdge1
+    Value: -1
+  - Name: u_Material.NoiseEdge2
+    Value: 2
+  - Name: u_Material.BaseScale
+    Value: 0.00999999978
+  - Name: u_Material.NoiseSpeed
+    Value: 30
+  - Name: u_Material.NoiseHeight
+    Value: 30
+  - Name: u_Material.NoisePower
+    Value: 2
+  - Name: u_Material.NoiseScale
+    Value: 0.0199999996
+  - Name: u_Material.BaseSpeed
+    Value: 20
+  - Name: u_Material.BaseStrength
+    Value: 2
+  - Name: u_Material.EmissionStrength
+    Value: 1.19000006
+  - Name: u_Material.CurvatureRadius
+    Value: 150
+  - Name: u_Material.FresnelPower
+    Value: 8
+  - Name: u_Material.FresnelOpacity
+    Value: 1
+  - Name: u_Material.CloudsDensity
+    Value: 120
+Vec3 Parameters:
+  []
+Vec4 Parameters:
+  - Name: u_Material.ColorValley
+    Value: [0.333044976, 0.499270737, 0.686274529, 1]
+  - Name: u_Material.ColorPeak
+    Value: [0.671568632, 0.884083331, 1, 1]
+  - Name: u_Material.NoiseRemap
+    Value: [0, 1, -0.300000012, 2.70000005]
+  - Name: u_Material.RotateProjection
+    Value: [1, 0, 0, 90]
+Texture Parameters:
+  []

@@ -23,12 +23,17 @@ struct ShaderSource
 class Shader
 {
 public:
-	Shader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource);
+	Shader(const std::string& name, const std::string& path, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource);
 	~Shader();
 
-	static Ref<Shader> Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource = "");
+	static Ref<Shader> Create(const std::string& name, const std::string& path, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource = "");
 
 	void Use() const;
+	void Compile(const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource = "");
+
+	void Recompile();
+
+	void Remove();
 
 	inline std::string GetName() const { return m_Name; }
 	inline std::vector<ShaderUniform> GetUniforms() const { return m_Uniforms; }
@@ -49,5 +54,6 @@ private:
 private:
 	uint32_t m_ID;
 	std::string m_Name;
+	std::string m_Path;
 	std::vector<ShaderUniform> m_Uniforms;
 };

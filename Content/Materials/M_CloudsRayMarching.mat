@@ -1,7 +1,7 @@
-Material: M_CloudsNew
+Material: M_CloudsRayMarching
 ID: 269324805
 BlendMode: 1
-Shader: CloudsNew
+Shader: CloudsRayMarching
 Bool Parameters:
   []
 Float Parameters:

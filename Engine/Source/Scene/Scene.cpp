@@ -408,7 +408,7 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
             material->GetShader()->SetInt("u_SceneDepth", 1);
         }
 
-		if (material->GetName() == "M_CloudsNew")
+		if (material->GetName() == "M_CloudsRayMarching")
 		{
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_3D, m_CloudsNoiseTexture);
@@ -416,7 +416,7 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 			material->GetShader()->SetInt("u_NoiseTexture", 0);
 		}
 
-		if (material->GetName() == "M_UltimateClouds") {
+		if (material->GetName() == "M_Clouds") {
 			material->GetShader()->SetFloat("u_Time", Time::GetInstance()->GetElapsedTime());
 		}
 

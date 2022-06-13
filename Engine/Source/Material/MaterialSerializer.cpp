@@ -43,6 +43,16 @@ void MaterialSerializer::Serialize(Ref<Material> material, std::string destinati
 	}
 	out << YAML::EndSeq;
 
+	out << YAML::Key << "Vec4 Parameters" << YAML::Value << YAML::BeginSeq;
+	for (auto param : material->m_Vec4Parameters)
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Name" << YAML::Value << param.first;
+		out << YAML::Key << "Value" << YAML::Value << param.second;
+		out << YAML::EndMap;
+	}
+	out << YAML::EndSeq;
+
 	out << YAML::Key << "Texture Parameters" << YAML::Value << YAML::BeginSeq;
 	for (auto param : material->m_Texture2DParameters)
 	{
@@ -125,6 +135,20 @@ Ref<Material> MaterialSerializer::Deserialize(std::string path)
 
 			if (material->m_Vec3Parameters.find(name) != material->m_Vec3Parameters.end())
 				material->m_Vec3Parameters.find(name)->second = value;
+
+		}
+	}
+
+	YAML::Node vec4Parameters = data["Vec4 Parameters"];
+	if (vec4Parameters)
+	{
+		for (auto param : vec4Parameters)
+		{
+			std::string name = param["Name"].as<std::string>();
+			glm::vec4 value = param["Value"].as<glm::vec4>();
+
+			if (material->m_Vec4Parameters.find(name) != material->m_Vec4Parameters.end())
+				material->m_Vec4Parameters.find(name)->second = value;
 
 		}
 	}

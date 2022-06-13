@@ -27,6 +27,7 @@ public:
 	inline float GetCurrentFrameTime() const { return m_CurrentFrameTime; }
 
 	/* Setters */
+	inline void SetElapsedTime(float elapsedTime) { m_ElapsedTime = elapsedTime; }
 	inline void SetLastFrameTime(float lastFrameTime) { m_LastFrameTime = lastFrameTime; }
 	inline void SetCurrentFrameTime(float currentFrameTime) { m_CurrentFrameTime = currentFrameTime; }
 	inline void SetTimeScale(float timeScale) { m_TimeScale = timeScale; }

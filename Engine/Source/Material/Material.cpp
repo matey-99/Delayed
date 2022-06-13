@@ -15,6 +15,12 @@ Material::Material(std::string name, std::string path, Ref<Shader> shader)
 	m_ID = distribution(gen);
 	m_BlendMode = BlendMode::Opaque;
 
+	m_BoolParameters.clear();
+	m_FloatParameters.clear();
+	m_Vec3Parameters.clear();
+	m_Vec4Parameters.clear();
+	m_Texture2DParameters.clear();
+
 	LoadParameters();
 }
 
@@ -57,6 +63,10 @@ void Material::Use()
 	{
 		m_Shader->SetVec3(param.first, param.second);
 	}
+	for (auto& param : m_Vec4Parameters)
+	{
+		m_Shader->SetVec4(param.first, param.second);
+	}
 
 	int index = 0;
 	for (auto& param : m_Texture2DParameters)
@@ -72,12 +82,7 @@ void Material::Use()
 
 void Material::LoadParameters()
 {
-	m_BoolParameters.clear();
-	m_FloatParameters.clear();
-	m_Vec3Parameters.clear();
-	m_Vec4Parameters.clear();
-	m_Texture2DParameters.clear();
-
+	std::vector<std::string> parameters;
 	std::vector<ShaderUniform> uniforms = m_Shader->GetUniforms();
 	for (auto uniform : uniforms)
 	{
@@ -89,23 +94,88 @@ void Material::LoadParameters()
 			switch (uniform.Type)
 			{
 			case ShaderUniformType::BOOL:
-				m_BoolParameters.insert({ uniform.Name, false });
+				if (m_BoolParameters.find(uniformName) == m_BoolParameters.end())
+				{
+					m_BoolParameters.insert({ uniform.Name, false });
+					parameters.push_back(uniform.Name);
+				}
 				break;
 			case ShaderUniformType::INT:
 				break;
 			case ShaderUniformType::FLOAT:
-				m_FloatParameters.insert({ uniform.Name, 0.0 });
+				if (m_FloatParameters.find(uniformName) == m_FloatParameters.end())
+				{
+					m_FloatParameters.insert({ uniform.Name, 0.0 });
+					parameters.push_back(uniform.Name);
+				}
 				break;
 			case ShaderUniformType::VEC3:
-				m_Vec3Parameters.insert({ uniform.Name, glm::vec3(0.0f) });
+				if (m_Vec3Parameters.find(uniformName) == m_Vec3Parameters.end())
+				{
+					m_Vec3Parameters.insert({ uniform.Name, glm::vec3(0.0f) });
+					parameters.push_back(uniform.Name);
+				}
 				break;
 			case ShaderUniformType::VEC4:
-				m_Vec4Parameters.insert({ uniform.Name, glm::vec4(0.0f) });
+				if (m_Vec4Parameters.find(uniformName) == m_Vec4Parameters.end())
+				{
+					m_Vec4Parameters.insert({ uniform.Name, glm::vec4(0.0f) });
+					parameters.push_back(uniform.Name);
+				}
 				break;
 			case ShaderUniformType::SAMPLER_2D:
-				m_Texture2DParameters.insert({ uniform.Name, Ref<Texture>() });
+				if (m_Texture2DParameters.find(uniformName) == m_Texture2DParameters.end())
+				{
+					m_Texture2DParameters.insert({ uniform.Name, Ref<Texture>() });
+					parameters.push_back(uniform.Name);
+				}
 				break;
 			}
+		}
+	}
+
+	for (auto& param : m_BoolParameters)
+	{
+		if (std::find(parameters.begin(), parameters.end(), param.first) == parameters.end())
+		{
+			m_BoolParameters.erase(param.first);
+			break;
+		}
+	}
+
+	for (auto& param : m_FloatParameters)
+	{
+		if (std::find(parameters.begin(), parameters.end(), param.first) == parameters.end())
+		{
+			m_FloatParameters.erase(param.first);
+			break;
+		}
+	}
+
+	for (auto& param : m_Vec3Parameters)
+	{
+		if (std::find(parameters.begin(), parameters.end(), param.first) == parameters.end())
+		{
+			m_Vec3Parameters.erase(param.first);
+			break;
+		}
+	}
+
+	for (auto& param : m_Vec4Parameters)
+	{
+		if (std::find(parameters.begin(), parameters.end(), param.first) == parameters.end())
+		{
+			m_Vec4Parameters.erase(param.first);
+			break;
+		}
+	}
+
+	for (auto& param : m_Texture2DParameters)
+	{
+		if (std::find(parameters.begin(), parameters.end(), param.first) == parameters.end())
+		{
+			m_Texture2DParameters.erase(param.first);
+			break;
 		}
 	}
 }

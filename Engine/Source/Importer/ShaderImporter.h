@@ -11,9 +11,8 @@ public:
 
 	Ref<Shader> ImportShader(const std::string& path);
 
-private:
-	ShaderSource ParseShader(const std::string& path);
-
+	static ShaderSource ParseShader(const std::string& path);
+	
 private:
 	std::unordered_map<std::string, Ref<Shader>> m_ImportedShaders;
 };

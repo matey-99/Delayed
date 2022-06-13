@@ -3,7 +3,7 @@ CurrentCamera: 1541634382
 RendererSettings:
   SSAO: true
   SSR: true
-  DepthFog: true
+  DepthFog: false
   PostProcessing: true
   FXAA: true
   Vignette: true
@@ -239,7 +239,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 4.06759262, -20.7312832]
+          LocalPosition: [40.7097855, 3.89334345, -20.7312832]
           LocalRotation: [-90, 0, -2.57860975e-05]
           LocalScale: [0.0125000002, 0.0125000002, 0.0125000002]
           Parent: 0
@@ -382,27 +382,6 @@ Actors:
           MaxParticleLifeTime: 20
           StartParticleColor: [1, 1, 1, 1]
           EndParticleColor: [0.467870355, 0.68671304, 0.905555546, 0]
-  - Actor: 728671211
-    ID: 728671211
-    Name: default_sphere
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, -150, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [5000, 100, 5000]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/defaults/default_sphere.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Ground.mat
-          CastShadow: true
-      - BoxCollider:
-          IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
   - Actor: 165347971
     ID: 165347971
     Name: Water
@@ -458,23 +437,6 @@ Actors:
             - Material: 0
               Path: Materials/Default.mat
           CastShadow: true
-  - Actor: 428727797
-    ID: 428727797
-    Name: Obstacle
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [3.22749877, 2.47883677, -17.236166]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1.87, 1.87, 1.87]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Default.mat
-          CastShadow: true
   - Actor: 888175401
     ID: 888175401
     Name: Clouds
@@ -486,24 +448,22 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1.87, 1.87, 1.87]
           Parent: 0
-      - Clouds:
-          {}
   - Actor: 235965289
     ID: 235965289
     Name: Clouds New
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [32.7095375, 25.083252, -51.4609222]
+          LocalPosition: [32.7095375, 7.98219776, -87.0642014]
           LocalRotation: [0, 0, 0]
-          LocalScale: [62.2025185, 13.3603582, 51.7189827]
+          LocalScale: [59.9781914, 13.3603582, 34.2684746]
           Parent: 0
       - StaticMesh:
           Mesh: Models/defaults/default_cube.obj
           Materials:
             - Material: 0
-              Path: Materials/M_CloudsNew.mat
+              Path: Materials/M_CloudsRayMarching.mat
           CastShadow: false
   - Actor: 603988422
     ID: 603988422
@@ -512,13 +472,13 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [1.90889263, 4.78821754, -102.503815]
-          LocalRotation: [90, 0, 0]
-          LocalScale: [0.030000031, 0.0300000273, 0.0300000273]
+          LocalPosition: [1.90889263, -104.697479, -102.503815]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [1, 1, 1]
           Parent: 0
       - StaticMesh:
           Mesh: Models/fog.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_UltimateClouds.mat
+              Path: Materials/M_Clouds.mat
           CastShadow: true

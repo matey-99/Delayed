@@ -30,6 +30,7 @@
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
 #include "Audio/AudioSystem.h"
+#include "Time/Time.h"
 
 #define FPS 60.0f
 #define MS_PER_UPDATE 1 / FPS
@@ -277,6 +278,8 @@ int main(int, char**)
         return 1;
     }
 
+    auto time = Time::GetInstance();
+
     AudioSystem::GetInstance()->Initialize();
 
     Renderer::GetInstance()->Initialize();
@@ -303,6 +306,7 @@ int main(int, char**)
     editor->Start();
 
     lastFrame = glfwGetTime();
+    float elapsedTime = 0.0f;
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -311,6 +315,9 @@ int main(int, char**)
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
         lag += deltaTime;
+
+        elapsedTime += deltaTime;
+        time->SetElapsedTime(elapsedTime);
 
         scene = sceneManager->GetCurrentScene();
 
