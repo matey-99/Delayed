@@ -1,0 +1,15 @@
+Material: M_UltimateClouds
+ID: 442380667
+BlendMode: 1
+Shader: UltimateClouds
+Bool Parameters:
+  []
+Float Parameters:
+  - Name: u_Material.NoiseScale
+    Value: 0.00999999978
+  - Name: u_Material.NoiseSpeed
+    Value: 40
+Vec3 Parameters:
+  []
+Texture Parameters:
+  []

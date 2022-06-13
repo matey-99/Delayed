@@ -24,6 +24,8 @@ namespace Math
 
 	glm::vec4 Lerp(glm::vec4 a, glm::vec4 b, float alpha);
 
+	float Smoothstep(float a, float b, float alpha);
+
 	float Magnitude(const glm::vec3& v);
 
 	float Distance(const glm::vec3& a, const glm::vec3& b);
@@ -33,6 +35,16 @@ namespace Math
 	bool IsNearlyEqual(const glm::vec3& a, const glm::vec3& b, float errorTolerance = 0.001f);
 
 	glm::vec3 Normalize(const glm::vec3& v);
+
+	glm::vec2 RandomGradient(int ix, int iy);
+
+	float DotGridGradient(int ix, int iy, float x, float y);
+
+	float PerlinNoise(int x, int y);
+
+	std::vector<glm::vec3> WorleyPoints(int cellsPerAxis, uint64_t seed);
+
+	float WorleyNoise(std::vector<glm::vec3> points, glm::vec3 position);
 
 	const float Infinity = std::numeric_limits<float>::infinity();
 

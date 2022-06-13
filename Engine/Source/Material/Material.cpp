@@ -75,6 +75,7 @@ void Material::LoadParameters()
 	m_BoolParameters.clear();
 	m_FloatParameters.clear();
 	m_Vec3Parameters.clear();
+	m_Vec4Parameters.clear();
 	m_Texture2DParameters.clear();
 
 	std::vector<ShaderUniform> uniforms = m_Shader->GetUniforms();
@@ -98,8 +99,12 @@ void Material::LoadParameters()
 			case ShaderUniformType::VEC3:
 				m_Vec3Parameters.insert({ uniform.Name, glm::vec3(0.0f) });
 				break;
+			case ShaderUniformType::VEC4:
+				m_Vec4Parameters.insert({ uniform.Name, glm::vec4(0.0f) });
+				break;
 			case ShaderUniformType::SAMPLER_2D:
 				m_Texture2DParameters.insert({ uniform.Name, Ref<Texture>() });
+				break;
 			}
 		}
 	}
@@ -129,6 +134,14 @@ glm::vec3 Material::GetVec3Parameter(std::string name)
 	return glm::vec3();
 }
 
+glm::vec4 Material::GetVec4Parameter(std::string name)
+{
+	if (m_Vec4Parameters.find(name) != m_Vec4Parameters.end())
+		return m_Vec4Parameters.find(name)->second;
+
+	return glm::vec4();
+}
+
 Ref<Texture> Material::GetTexture2DParameter(std::string name)
 {
 	if (m_Texture2DParameters.find(name) != m_Texture2DParameters.end())
@@ -136,4 +149,3 @@ Ref<Texture> Material::GetTexture2DParameter(std::string name)
 
 	return nullptr;
 }
-

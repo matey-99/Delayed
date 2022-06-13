@@ -2,6 +2,9 @@
 
 #include <glad/glad.h>
 #include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtc/noise.hpp>
+
+#include "Math/Math.h"
 
 #define SPHERE_COLLIDER_SEGMENTS 32
 
@@ -292,4 +295,107 @@ void RenderTools::Initialize()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+}
+
+uint32_t RenderTools::GenerateSimpleNoiseTexture(uint64_t seed, uint32_t width, uint32_t height, uint32_t depth, uint32_t internalFormat)
+{
+	srand(seed);
+
+	uint8_t* data = new uint8_t[width * height * depth * 4];
+	uint8_t* ptr = data;
+
+	for (int z = 0; z < depth; ++z)
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				*ptr++ = rand() & 0xff;
+				*ptr++ = rand() & 0xff;
+				*ptr++ = rand() & 0xff;
+				*ptr++ = rand() & 0xff;
+			}
+		}
+	}
+
+	uint32_t texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_3D, texture);
+
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+
+	glTexImage3D(GL_TEXTURE_3D, 0, internalFormat, width, height, depth, 0, GL_RGBA, GL_BYTE, data);
+
+	delete[] data;
+	return texture;
+}
+
+uint32_t RenderTools::GenerateWorleyNoiseTexture(uint64_t seed, uint32_t width, uint32_t height, uint32_t depth, uint32_t internalFormat)
+{
+	srand(seed);
+
+	uint8_t* data = new uint8_t[width * height * depth * 4];
+	uint8_t* ptr = data;
+
+	float cellSize = 1.0f / width;
+
+	for (int z = 0; z < depth; ++z)
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				glm::vec3 offset = glm::vec3(rand() & 0xff);
+
+				*ptr++ = rand() & 0xff;
+				*ptr++ = rand() & 0xff;
+				*ptr++ = rand() & 0xff;
+				*ptr++ = rand() & 0xff;
+			}
+		}
+	}
+
+	return uint32_t();
+}
+
+uint32_t RenderTools::GeneratePerlinNoiseTexture(uint64_t seed, uint32_t width, uint32_t height, uint32_t depth, uint32_t internalFormat)
+{
+	srand(seed);
+
+	float* data = new float[width * height * depth * 4];
+	float* ptr = data;
+
+	for (int z = 0; z < depth; ++z)
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				float perlin = glm::perlin(glm::vec3(x + 0.8f, y + 0.8f, z + 0.8f));
+				*ptr++ = perlin;
+				*ptr++ = perlin;
+				*ptr++ = perlin;
+				*ptr++ = perlin;
+			}
+		}
+	}
+
+	uint32_t texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_3D, texture);
+
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+
+	glTexImage3D(GL_TEXTURE_3D, 0, internalFormat, width, height, depth, 0, GL_RGBA, GL_FLOAT, data);
+
+	delete[] data;
+	return texture;
 }

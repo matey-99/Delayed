@@ -14,6 +14,10 @@ public:
 	void RenderBoundingBox(BoundingBox box);
 	void RenderBoundingSphere(BoundingSphere sphere);
 
+	static uint32_t GenerateSimpleNoiseTexture(uint64_t seed, uint32_t width, uint32_t height, uint32_t depth, uint32_t internalFormat);
+	static uint32_t GenerateWorleyNoiseTexture(uint64_t seed, uint32_t width, uint32_t height, uint32_t depth, uint32_t internalFormat);
+	static uint32_t GeneratePerlinNoiseTexture(uint64_t seed, uint32_t width, uint32_t height, uint32_t depth, uint32_t internalFormat);
+
 private:
 	void Initialize();
 

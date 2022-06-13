@@ -285,7 +285,7 @@ int main(int, char**)
     input->Initialize(window);
 
     auto sceneManager = SceneManager::GetInstance();
-    sceneManager->LoadScene("Scenes/Prototype.scene");
+    sceneManager->LoadScene("Scenes/Testing.scene");
 
     scene = sceneManager->GetCurrentScene();
 

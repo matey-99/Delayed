@@ -36,6 +36,7 @@
 #include "Game/CameraOrbit.h"
 #include "Game/BlockTrigger.h"
 #include "Game/Moving.h"
+#include "Game/Clouds.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -957,13 +958,27 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto clouds = m_Actor->GetComponent<Clouds>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Clouds");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Clouds>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto cameraOrbit = m_Actor->GetComponent<CameraOrbit>()) {
         ImGui::PushID(componentIndex);
 
         ImGui::Text("Camera Orbit");
         ImGui::SameLine();
         if (ImGui::Button("X"))
-            m_Actor->RemoveComponent<DeathArea>();
+            m_Actor->RemoveComponent<CameraOrbit>();
 
         ImGui::DragFloat("Speed", &cameraOrbit->m_Speed, 0.1f);
 
@@ -1221,6 +1236,7 @@ void ActorDetailsPanel::Render()
     bool addComponent = false;
     bool staticMesh = false;
     bool foliage = false;
+    bool clouds = false;
     bool skeletalMesh = false;
     bool animator = false;
     bool lodGroup = false;
@@ -1252,6 +1268,7 @@ void ActorDetailsPanel::Render()
     bool postFX = false;
     bool audioSource = false;
     bool audioListener = false;
+    bool cloudsGame = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -1260,8 +1277,8 @@ void ActorDetailsPanel::Render()
             if (ImGui::BeginMenu("Add Component"))
             {
                 ImGui::MenuItem("Static Mesh", "", &staticMesh);
-                ImGui::MenuItem("Foliage", "", &foliage);
                 ImGui::MenuItem("Skeletal Mesh", "", &skeletalMesh);
+                ImGui::MenuItem("Foliage", "", &foliage);
                 ImGui::MenuItem("Animator", "", &animator);
                 ImGui::MenuItem("LOD Group", "", &lodGroup);
                 if (ImGui::BeginMenu("Light"))
@@ -1304,6 +1321,7 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Post Processing Volume", "", &postFX);
                     ImGui::MenuItem("Camera Orbit", "", &cameraOrbit);
                     ImGui::MenuItem("Block Trigger", "", &blockTrigger);
+                    ImGui::MenuItem("Clouds", "", &cloudsGame);
 
                     ImGui::EndMenu();
                 }
@@ -1338,10 +1356,10 @@ void ActorDetailsPanel::Render()
 
     if (staticMesh)
         m_Actor->AddComponent<StaticMeshComponent>();
-    if (foliage)
-        m_Actor->AddComponent<FoliageComponent>();
     if (skeletalMesh)
         m_Actor->AddComponent<SkeletalMeshComponent>();
+    if (foliage)
+        m_Actor->AddComponent<FoliageComponent>();
     if (animator)
     {
         if (m_Actor->GetComponent<SkeletalMeshComponent>() == nullptr)
@@ -1418,6 +1436,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<AudioSourceComponent>();
     if (audioListener)
         m_Actor->AddComponent<AudioListenerComponent>();
+    if (cloudsGame)
+        m_Actor->AddComponent<Clouds>();
 
 
     if (ImGui::Button("Close"))

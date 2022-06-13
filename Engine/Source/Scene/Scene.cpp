@@ -23,6 +23,7 @@
 #include "Camera/CameraManager.h"
 #include "Math/Math.h"
 #include "Time/Time.h"
+#include "Renderer/RenderTools.h"
 
 Scene::Scene()
 {
@@ -36,6 +37,8 @@ Scene::Scene()
 		+ GLSL_DIRECTIONAL_LIGHT_SIZE
 		+ (GLSL_POINT_LIGHT_SIZE * MAX_POINT_LIGHTS)
 		+ (GLSL_SPOT_LIGHT_SIZE * MAX_SPOT_LIGHTS), 3);
+
+	m_CloudsNoiseTexture = RenderTools::GeneratePerlinNoiseTexture(glfwGetTime(), 32, 32, 32, GL_RGBA8_SNORM);
 
 	AddRoot();
 	AddUIRoot();
@@ -404,6 +407,18 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
             glBindTexture(GL_TEXTURE_2D, Renderer::GetInstance()->m_GBufferPass->GetRenderTarget()->GetDepthTarget());
             material->GetShader()->SetInt("u_SceneDepth", 1);
         }
+
+		if (material->GetName() == "M_CloudsNew")
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_3D, m_CloudsNoiseTexture);
+
+			material->GetShader()->SetInt("u_NoiseTexture", 0);
+		}
+
+		if (material->GetName() == "M_UltimateClouds") {
+			material->GetShader()->SetFloat("u_Time", Time::GetInstance()->GetElapsedTime());
+		}
 
 		std::vector<glm::mat4> transformations;
 		uint32_t instancesCount = 0;

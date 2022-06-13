@@ -1,0 +1,26 @@
+Material: M_CloudsNew
+ID: 269324805
+BlendMode: 1
+Shader: CloudsNew
+Bool Parameters:
+  []
+Float Parameters:
+  - Name: u_Material.CloudScale
+    Value: 3.47000003
+  - Name: u_Material.NumSteps
+    Value: 300
+  - Name: u_Material.DensityThreshold
+    Value: 0.0599999987
+  - Name: u_Material.DensityMultiplier
+    Value: 1.10000002
+Vec3 Parameters:
+  - Name: u_Material.BoundsMax
+    Value: [107.843636, 6.12479019, 46.9402161]
+  - Name: u_Material.Color
+    Value: [0.525951564, 0.782414019, 0.941176474]
+  - Name: u_Material.BoundsMin
+    Value: [-79.8211746, -115.335693, -149.862061]
+  - Name: u_Material.CloudOffset
+    Value: [1018.38983, 1, 1022.38983]
+Texture Parameters:
+  []

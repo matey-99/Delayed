@@ -99,6 +99,14 @@ void MaterialEditorPanel::Render()
     }
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
+    for (auto& param : m_Material->m_Vec4Parameters)
+    {
+        std::string name = param.first.substr(param.first.find_first_of('.') + 1);
+
+        ImGui::DragFloat4(name.c_str(), (float*)&param.second, 0.1f, 0.0f, 1000.0f);
+    }
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
     for (auto& param : m_Material->m_FloatParameters)
     {
         std::string name = param.first.substr(param.first.find_first_of('.') + 1);
