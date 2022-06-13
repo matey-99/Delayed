@@ -19,6 +19,7 @@
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/RigidBodyComponent.h>
 #include <Game/CameraOrbit.h>
+#include <Game/Footsteps.h>
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/TextComponent.h"
@@ -918,6 +919,15 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
                         tr->m_Scene = scene;
                     }
+
+                    if (auto footsteps = component["Footsteps"]) {
+
+                        uint32_t player = footsteps["PlayerID"].as<uint32_t>();
+
+                        auto fs = a->CreateComponent<Footsteps>();
+
+                        fs->m_PlayerID = player;
+                    }
 				}
 			}
 		}
@@ -1548,6 +1558,16 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "SceneTransition";
         out << YAML::BeginMap;
         out << YAML::Key << "Scene" << YAML::Value << sceneTransition->m_Scene;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
+
+    if (auto footsteps = actor->GetComponent<Footsteps>())
+    {
+        out << YAML::BeginMap;
+        out << YAML::Key << "Footsteps";
+        out << YAML::BeginMap;
+        out << YAML::Key << "PlayerID" << YAML::Value << footsteps->m_PlayerID;
         out << YAML::EndMap;
         out << YAML::EndMap;
     }

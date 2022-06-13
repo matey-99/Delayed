@@ -44,9 +44,9 @@ RendererSettings:
     FisheyeEnabled: false
     Scale: 1
     VignetteEnabled: true
-    VignetteColor: [0.0, 0.0, 0.0]
+    VignetteColor: [0, 0, 0]
     VignetteIntensity: 20
-    VignetteSize: 0.17
+    VignetteSize: 0.170000002
   DepthOfFieldSettings:
     MinDistance: 1.5
     MaxDistance: 64
@@ -4948,3 +4948,23 @@ Actors:
             - Material: 0
               Path: Materials/Red.mat
           CastShadow: true
+  - Actor: 942025306
+    ID: 942025306
+    Name: Footsteps
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, -2, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1.42857146, 1, 1.42857146]
+          Parent: 1503310903
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Footsteps/Ground/Walk/1.wav
+          Channel: 1
+          Volume: 1
+          3d: false
+          Looping: false
+          PlayOnStart: false
+      - Footsteps:
+          PlayerID: 1503310903
