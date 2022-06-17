@@ -1,0 +1,54 @@
+Material: checkpoint_new
+ID: 404224267
+BlendMode: 0
+Shader: Opaque
+Bool Parameters:
+  - Name: u_Material.isRoughnessMap
+    Value: true
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: true
+  - Name: u_Material.isOpacityMap
+    Value: false
+  - Name: u_Material.isMetallicMap
+    Value: true
+  - Name: u_Material.isAlbedoMap
+    Value: true
+  - Name: u_Material.isNormalMap
+    Value: true
+  - Name: u_Material.isAOMap
+    Value: true
+  - Name: u_Material.isEmissiveMap
+    Value: true
+Float Parameters:
+  - Name: u_Material.opacity
+    Value: 1
+  - Name: u_Material.metallic
+    Value: 0
+  - Name: u_Material.emissiveStrength
+    Value: 1.42999995
+  - Name: u_Material.roughness
+    Value: 0
+  - Name: u_Material.ao
+    Value: 0
+Vec3 Parameters:
+  - Name: u_Material.albedo
+    Value: [0, 0, 0]
+  - Name: u_Material.emissive
+    Value: [0, 0, 0]
+Vec4 Parameters:
+  []
+Texture Parameters:
+  - Name: u_Material.opacityMap
+    Path: "null"
+  - Name: u_Material.metallicMap
+    Path: Textures/Checkpoint_tex/checkpoint_new1_low_Metallic.png
+  - Name: u_Material.albedoMap
+    Path: Textures/Checkpoint_tex/checkpoint_new1_low_BaseColor_off.png
+  - Name: u_Material.normalMap
+    Path: Textures/Checkpoint_tex/checkpoint_new1_low_Normal.png
+  - Name: u_Material.roughnessMap
+    Path: Textures/Checkpoint_tex/checkpoint_new1_low_Roughness.png
+  - Name: u_Material.aoMap
+    Path: Textures/Checkpoint_tex/checkpoint_new1_low_AO.png
+  - Name: u_Material.emissiveMap
+    Path: Textures/Checkpoint_tex/checkpoint_new1_low_Emissive_off.png
