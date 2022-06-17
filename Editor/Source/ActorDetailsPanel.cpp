@@ -820,7 +820,8 @@ void ActorDetailsPanel::Render()
 
         ImGui::DragFloat3("Move Direction", glm::value_ptr(moving->m_Direction), 0.1f, 0.0f, 1.0f);
         ImGui::DragFloat("Move Distance", &moving->m_Distance, 0.5f, 0.0f, 100.0f);
-        ImGui::DragFloat("Move Speed", &moving->m_Speed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Move Smoothness", &moving->m_Smoothness, 0.01f, 0.0f, 5.0f);
+        ImGui::DragFloat("Error In Reaching Target", &moving->m_ErrorInReachingTarget, 0.01f, 0.0f, 1.0f);
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();
         componentIndex++;

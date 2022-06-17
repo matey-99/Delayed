@@ -2,8 +2,12 @@
 
 #include "Core.h"
 
+#include "Time/Time.h"
+
 namespace Math
 {
+	const float Infinity = std::numeric_limits<float>::infinity();
+
 	bool DecomposeMatrix(const glm::mat4 matrix, glm::vec3& translation, glm::vec3& rotation, glm::vec3& scale);
 
 	/// <summary>
@@ -28,6 +32,10 @@ namespace Math
 
 	glm::vec3 Smoothstep(glm::vec3 a, glm::vec3 b, float alpha);
 
+	float SmoothDamp(float current, float target, float& velocity, float smoothTime, float deltaTime, float maxSpeed = Infinity);
+
+	glm::vec3 SmoothDamp(glm::vec3 current, glm::vec3 target, glm::vec3& velocity, float smoothTime, float deltaTime, float maxSpeed = Infinity);
+
 	float Magnitude(const glm::vec3& v);
 
 	float Distance(const glm::vec3& a, const glm::vec3& b);
@@ -49,8 +57,6 @@ namespace Math
 	float WorleyNoise(std::vector<glm::vec3> points, glm::vec3 position);
 	
     int RandomRange(int from, int to);
-
-	const float Infinity = std::numeric_limits<float>::infinity();
 
 	const glm::vec3 ForwardVector = { 0.0f, 0.0f, -1.0f };
 	const glm::vec3 UpVector = { 0.0f, 1.0f, 0.0f };

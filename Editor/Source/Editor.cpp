@@ -18,6 +18,7 @@
 #include "Scene/Component/UI/UIComponent.h"
 #include "Input/Input.h"
 #include "Game/Clouds.h"
+#include "Game/Moving.h"
 
 #define UPDATE_UI 1
 
@@ -180,6 +181,12 @@ void Editor::Update(float deltaTime)
 	for (auto cloud : clouds)
 	{
 		cloud->Update(deltaTime);
+	}
+
+	auto movings = m_Scene->GetComponents<Moving>();
+	for (auto moving : movings)
+	{
+		moving->Update(deltaTime);
 	}
 
     AudioSystem::GetInstance()->Update(deltaTime);

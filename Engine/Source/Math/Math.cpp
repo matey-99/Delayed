@@ -119,6 +119,38 @@ glm::vec3 Math::Smoothstep(glm::vec3 a, glm::vec3 b, float alpha)
 	return a + alpha * alpha * (3.0f - alpha * 2.0f) * (b - a);
 }
 
+float Math::SmoothDamp(float current, float target, float& velocity, float smoothTime, float deltaTime, float maxSpeed)
+{
+	smoothTime = glm::max(0.0001f, smoothTime);
+	float omega = 2.0f / smoothTime;
+	float x = omega * deltaTime;
+	float exp = 1.0f / (1.0f + x + 0.48f * x * x + 0.235f * x * x * x);
+	float deltaX = -(target - current);
+	float maxDelta = maxSpeed * smoothTime;
+
+	deltaX = glm::clamp(deltaX, -maxDelta, maxDelta);
+	float temp = (velocity + omega * deltaX) * deltaTime;
+	float result = current - deltaX + (deltaX + temp) * exp;
+	velocity = (velocity - omega * temp) * exp;
+
+	if (target - current > 0.0f == result > target)
+	{
+		result = target;
+		velocity = (result - target) / deltaTime;
+	}
+
+	return result;
+}
+
+glm::vec3 Math::SmoothDamp(glm::vec3 current, glm::vec3 target, glm::vec3& velocity, float smoothTime, float deltaTime, float maxSpeed)
+{
+	glm::vec3 result;
+	result.x = SmoothDamp(current.x, target.x, velocity.x, smoothTime, deltaTime, maxSpeed);
+	result.y = SmoothDamp(current.y, target.y, velocity.y, smoothTime, deltaTime, maxSpeed);
+	result.z = SmoothDamp(current.z, target.z, velocity.z, smoothTime, deltaTime, maxSpeed);
+	return result;
+}
+
 float Math::Magnitude(const glm::vec3& v)
 {
 	return glm::sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z));

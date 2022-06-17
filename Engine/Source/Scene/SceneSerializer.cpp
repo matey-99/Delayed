@@ -822,12 +822,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						glm::vec3 direction = moving["Direction"].as<glm::vec3>();
 						float distance = moving["Distance"].as<float>();
-						float speed = moving["Speed"].as<float>();
+						float smoothness = moving["Smoothness"].as<float>();
+						float error = moving["ErrorInReachingTarget"].as<float>();
 
 						auto m = a->CreateComponent<Moving>();
 						m->m_Direction = direction;
 						m->m_Distance = distance;
-						m->m_Speed = speed;
+						m->m_Smoothness = smoothness;
+						m->m_ErrorInReachingTarget = error;
 					}
 
 					if (auto ghost = component["Ghost"])
@@ -1413,7 +1415,8 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Direction" << YAML::Value << moving->m_Direction;
 		out << YAML::Key << "Distance" << YAML::Value << moving->m_Distance;
-		out << YAML::Key << "Speed" << YAML::Value << moving->m_Speed;
+		out << YAML::Key << "Smoothness" << YAML::Value << moving->m_Smoothness;
+		out << YAML::Key << "ErrorInReachingTarget" << YAML::Value << moving->m_ErrorInReachingTarget;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
