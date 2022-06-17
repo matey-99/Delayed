@@ -85,7 +85,6 @@ void MainMenu::Play()
 	if (auto gm = m_Owner->GetScene()->FindActor("Game Manager"))
 		gm->GetComponent<GameManager>()->ResumeGame();
 	else {
-        AudioSystem::GetInstance()->StopAllChannels();
         SceneManager::GetInstance()->LoadScene("Scenes/Transition.scene");
     }
 }
