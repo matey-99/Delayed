@@ -8,6 +8,7 @@
 #include <ctime>
 #include <stack>
 #include <algorithm>
+#include <functional>
 
 /* Third Party */ 
 #include <glm/glm.hpp>

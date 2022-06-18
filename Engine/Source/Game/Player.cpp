@@ -30,6 +30,7 @@ Player::Player(Actor* owner)
 	m_TeleportCooldown = 2.0f;
 	m_TeleportTime = 0.05f;
 	m_InteractDistance = 40.0f;
+	m_GamepadRotationSensitivity = 20.0f;
 
 	m_MoveDirection = glm::vec3(0.0f);
 	m_Rotation = glm::vec3(0.0f);
@@ -38,6 +39,7 @@ Player::Player(Actor* owner)
 	m_IsSlowedDown = false;
 	m_IsTeleporting = false;
 	m_CanJump = true;
+	m_CanJump_Gamepad = true;
 	m_CanDash = true;
 	m_CanInteract = true;
 	m_HasDoubleJumpSkill = false;
@@ -62,6 +64,9 @@ void Player::Start()
 
 	input->BindAction("Jump", InputEvent::Press, &Player::Jump, this);
 	input->BindAction("Jump", InputEvent::Release, &Player::AllowJumping, this);
+
+	input->BindAction("Jump_Gamepad", InputEvent::Press, &Player::Jump_Gamepad, this);
+	input->BindAction("Jump_Gamepad", InputEvent::Release, &Player::AllowJumping_Gamepad, this);
 
 	input->BindAction("Run", InputEvent::Press, &Player::RunOn, this);
 	input->BindAction("Run", InputEvent::Release, &Player::RunOff, this);
@@ -117,9 +122,6 @@ void Player::Update(float deltaTime)
 			m_IsTeleporting = false;
 		}
 	}
-
-	if (Math::Magnitude(m_MoveDirection) > 0.0f)
-		m_MoveDirection = Math::Normalize(m_MoveDirection);
 
 	glm::vec3 currentPosition = m_Owner->GetTransform()->GetWorldPosition();
 	if (!Math::IsNearlyEqual(currentPosition, m_LastPosition, 0.01f))
@@ -239,11 +241,19 @@ void Player::MoveRight(float value)
 
 void Player::Turn(float value)
 {
+	auto input = Input::GetInstance()->GetCurrentInputType();
+	if (input == PlayerInputType::Gamepad)
+		value *= m_GamepadRotationSensitivity;
+
 	m_Rotation.y += value;
 }
 
 void Player::LookUp(float value)
 {
+	auto input = Input::GetInstance()->GetCurrentInputType();
+	if (input == PlayerInputType::Gamepad)
+		value *= m_GamepadRotationSensitivity;
+
 	m_Rotation.x += value;
 }
 
@@ -270,6 +280,31 @@ void Player::Jump()
 void Player::AllowJumping()
 {
 	m_CanJump = true;
+}
+
+void Player::Jump_Gamepad()
+{
+	if (m_CanJump_Gamepad)
+	{
+		bool isGrounded = m_CharacterController->IsGrounded();
+		if (isGrounded || m_HasDoubleJumpSkill)
+		{
+			m_CharacterController->Jump();
+			m_CanJump_Gamepad = false;
+		}
+
+		if (!isGrounded && m_HasDoubleJumpSkill)
+		{
+			auto tutorial = TutorialManager::GetInstance();
+			if (tutorial->IsTutorialDisplayed(TutorialType::DoubleJump))
+				tutorial->HideTutorial(TutorialType::DoubleJump);
+		}
+	}
+}
+
+void Player::AllowJumping_Gamepad()
+{
+	m_CanJump_Gamepad = true;
 }
 
 void Player::RunOn()

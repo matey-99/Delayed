@@ -2,27 +2,39 @@ ActionInputBindings:
   - Name: Jump
     InputType: Keyboard
     Input: Space
-  - Name: Jump
+  - Name: Jump_Gamepad
     InputType: Gamepad
     Input: A
   - Name: Run
     InputType: Keyboard
     Input: LeftShift
+  - Name: Run
+    InputType: Gamepad
+    Input: RightBumper
   - Name: Dash
     InputType: Keyboard
     Input: V
+  - Name: Dash
+    InputType: Gamepad
+    Input: Y
   - Name: Teleport
     InputType: Keyboard
     Input: R
+  - Name: Teleport
+    InputType: Gamepad
+    Input: B
   - Name: Interact
     InputType: Keyboard
     Input: E
+  - Name: Interact
+    InputType: Gamepad
+    Input: X
   - Name: Exit
     InputType: Keyboard
     Input: Escape
   - Name: Exit
     InputType: Gamepad
-    Input: Back
+    Input: Start
 AxisInputBindings:
   - Name: Player_MoveForward
     InputType: Keyboard
@@ -52,7 +64,7 @@ AxisInputBindings:
     InputType: Gamepad
     Inputs:
       - Input: LeftY
-        Value: 1.0
+        Value: -1.0
   - Name: Player_MoveRight
     InputType: Gamepad
     Inputs:

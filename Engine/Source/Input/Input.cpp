@@ -48,30 +48,39 @@ void Input::Process()
 			{
 			case InputType::Keyboard:
 				if (glfwGetKey(m_Window, actionInputBinding->Input) == (int)InputEvent::Press)
+				{
 					actionInputBinding->OnActionInputPress.Broadcast();
+					m_CurrentInputType = PlayerInputType::KeyboardAndMouse;
+				}
 				if (glfwGetKey(m_Window, actionInputBinding->Input) == (int)InputEvent::Release)
+				{
 					actionInputBinding->OnActionInputRelease.Broadcast();
-				if (glfwGetKey(m_Window, actionInputBinding->Input) == (int)InputEvent::Repeat)
-					actionInputBinding->OnActionInputRepeat.Broadcast();
+				}
 				break;
 			case InputType::Mouse:
 				if (glfwGetMouseButton(m_Window, actionInputBinding->Input) == (int)InputEvent::Press)
+				{
 					actionInputBinding->OnActionInputPress.Broadcast();
+					m_CurrentInputType = PlayerInputType::KeyboardAndMouse;
+				}
 				if (glfwGetMouseButton(m_Window, actionInputBinding->Input) == (int)InputEvent::Release)
+				{
 					actionInputBinding->OnActionInputRelease.Broadcast();
-				if (glfwGetMouseButton(m_Window, actionInputBinding->Input) == (int)InputEvent::Repeat)
-					actionInputBinding->OnActionInputRepeat.Broadcast();
+				}
 				break;
 			case InputType::Gamepad:
 				GLFWgamepadstate state;
 				if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
 				{
 					if (state.buttons[actionInputBinding->Input] == (int)InputEvent::Press)
+					{
 						actionInputBinding->OnActionInputPress.Broadcast();
+						m_CurrentInputType = PlayerInputType::Gamepad;
+					}
 					if (state.buttons[actionInputBinding->Input] == (int)InputEvent::Release)
+					{
 						actionInputBinding->OnActionInputRelease.Broadcast();
-					if (state.buttons[actionInputBinding->Input] == (int)InputEvent::Repeat)
-						actionInputBinding->OnActionInputRepeat.Broadcast();
+					}
 				}
 				break;
 			}
@@ -86,16 +95,27 @@ void Input::Process()
 				{
 				case InputType::Keyboard:
 					if (glfwGetKey(m_Window, input.first) == GLFW_PRESS)
+					{
 						axisInputBinding->OnAxisInput.Broadcast(input.second);
+						m_CurrentInputType = PlayerInputType::KeyboardAndMouse;
+					}
 					break;
 				case InputType::Mouse:
 					switch (input.first)
 					{
 					case 0:
-						axisInputBinding->OnAxisInput.Broadcast(mouseDeltaX * input.second);
+						if (glm::abs(mouseDeltaX) > 0.0f)
+						{
+							axisInputBinding->OnAxisInput.Broadcast(mouseDeltaX * input.second);
+							m_CurrentInputType = PlayerInputType::KeyboardAndMouse;
+						}
 						break;
 					case 1:
-						axisInputBinding->OnAxisInput.Broadcast(mouseDeltaY * input.second);
+						if (glm::abs(mouseDeltaY) > 0.0f)
+						{
+							axisInputBinding->OnAxisInput.Broadcast(mouseDeltaY * input.second);
+							m_CurrentInputType = PlayerInputType::KeyboardAndMouse;
+						}
 						break;
 					}
 					break;
@@ -104,10 +124,11 @@ void Input::Process()
 					if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
 					{
 						float value = state.axes[input.first] * input.second;
-						if (glm::abs(value) < 0.05f)
-							value = 0.0f;
-
-						axisInputBinding->OnAxisInput.Broadcast(state.axes[input.first] * input.second);
+						if (glm::abs(value) > GAMEPAD_AXIS_ERROR)
+						{
+							axisInputBinding->OnAxisInput.Broadcast(value);
+							m_CurrentInputType = PlayerInputType::Gamepad;
+						}
 					}
 					break;
 				}

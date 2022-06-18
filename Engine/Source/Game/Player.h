@@ -46,6 +46,9 @@ private:
 	void Jump();
 	void AllowJumping();
 
+	void Jump_Gamepad();
+	void AllowJumping_Gamepad();
+
 	void RunOn();
 	void RunOff();
 
@@ -82,6 +85,7 @@ private:
 	float m_TeleportCooldown;
 	float m_TeleportTime;
 	float m_InteractDistance;
+	float m_GamepadRotationSensitivity;
 
 	/* Inputs */
 	glm::vec3 m_MoveDirection;
@@ -93,6 +97,7 @@ private:
 	bool m_IsSlowedDown;
 	bool m_IsTeleporting;
 	bool m_CanJump;
+	bool m_CanJump_Gamepad;
 	bool m_CanDash;
 	bool m_CanTeleport;
 	bool m_CanInteract;
