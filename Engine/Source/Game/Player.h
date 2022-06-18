@@ -8,6 +8,9 @@ class Checkpoint;
 class CameraComponent;
 class BoxColliderComponent;
 class Trail;
+class Interactable;
+class InteractionPanel;
+class Inventory;
 enum class SkillType;
 
 class Player : public GameComponent, public Saveable
@@ -52,23 +55,33 @@ private:
 	void Teleport();
 	void AllowTeleporting();
 
+	void Interact();
+	void AllowInteracting();
+
 	void HandleSkillsCooldowns(float deltaTime);
 	void HandleHUD();
 
 	void AddMovementInput(glm::vec3 direction, float value);
 
+	void LookForInteractable();
+	void DisplayInteractionPanel(Ref<Interactable> interactable);
+	void HideInteractionPanel();
+
 private:
 	/* References */
 	Ref<CharacterController> m_CharacterController;
+	Ref<Inventory> m_Inventory;
 	Ref<CameraComponent> m_Camera;
 	Ref<Actor> m_Ghost;
 	Ref<Trail> m_Trail;
 	Ref<Actor> m_StaminaBar;
+	Ref<InteractionPanel> m_InteractionPanel;
 	
 	/* Parameters */
 	float m_DashCooldown;
 	float m_TeleportCooldown;
 	float m_TeleportTime;
+	float m_InteractDistance;
 
 	/* Inputs */
 	glm::vec3 m_MoveDirection;
@@ -82,11 +95,13 @@ private:
 	bool m_CanJump;
 	bool m_CanDash;
 	bool m_CanTeleport;
+	bool m_CanInteract;
 	bool m_HasDoubleJumpSkill;
 	bool m_HasDashSkill;
 	bool m_HasTeleportSkill;
 
 	/* Others */
+	Ref<Interactable> m_Interactable;
 	glm::vec3 m_LastCheckpointPosition;
 	glm::vec3 m_StaminaBarDefaultScale;
 	glm::vec3 m_TeleportDestinationPosition;
@@ -101,6 +116,7 @@ private:
 	uint64_t m_GhostID;
 	uint64_t m_TrailID;
 	uint64_t m_StaminaBarID;
+	uint64_t m_InteractionPanelID;
 
 #pragma endregion
 

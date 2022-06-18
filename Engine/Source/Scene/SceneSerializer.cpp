@@ -53,6 +53,10 @@
 #include "Game/TutorialManager.h"
 #include "Game/SceneTransition.h"
 #include "Game/Moving.h"
+#include "Game/InteractionPanel.h"
+#include "Game/PickableSpaceshipPart.h"
+#include "Game/Spaceship.h"
+#include "Game/SpaceshipPart.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -765,17 +769,24 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						uint64_t ghostActorID = player["Ghost"].as<uint64_t>();
 						uint64_t trailActorID = player["Trail"].as<uint64_t>();
 						uint64_t staminaBarActorID = player["StaminaBar"].as<uint64_t>();
+						uint64_t interactionPanelActorID = player["InteractionPanel"].as<uint64_t>();
 
 						auto p = a->CreateComponent<Player>();
 						p->m_CameraID = cameraActorID;
 						p->m_GhostID = ghostActorID;
 						p->m_TrailID = trailActorID;
 						p->m_StaminaBarID = staminaBarActorID;
+						p->m_InteractionPanelID = interactionPanelActorID;
 					}
 
 					if (auto tppPlayer = component["TPPPlayer"])
 					{
 						auto p = a->CreateComponent<TPPPlayer>();
+					}
+
+					if (auto panel = component["InteractionPanel"])
+					{
+						auto p = a->CreateComponent<InteractionPanel>();
 					}
 
 					if (auto camera = component["CameraController"])
@@ -871,6 +882,29 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 						auto s = a->CreateComponent<PickableSkill>();
 						s->m_SkillType = (SkillType)skillType;
+					}
+
+					if (auto spaceship = component["Spaceship"])
+					{
+						a->CreateComponent<Spaceship>();
+					}
+
+					if (auto spaceshipPart = component["SpaceshipPart"])
+					{
+						int type = spaceshipPart["Type"].as<int>();
+						std::string material = spaceshipPart["Material"].as<std::string>();
+
+						auto s = a->CreateComponent<SpaceshipPart>();
+						s->m_Type = (SpaceshipPartType)type;
+						s->m_Material = AssetManager::LoadMaterial(material);
+					}
+
+					if (auto spaceshipPart = component["PickableSpaceshipPart"])
+					{
+						int part = spaceshipPart["SpaceshipPart"].as<int>();
+
+						auto s = a->CreateComponent<PickableSpaceshipPart>();
+						s->m_SpaceshipPart = (SpaceshipPartType)part;
 					}
 
 					if (auto obelisk = component["Obelisk"])
@@ -1353,6 +1387,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Ghost" << YAML::Value << player->m_GhostID;
 		out << YAML::Key << "Trail" << YAML::Value << player->m_TrailID;
 		out << YAML::Key << "StaminaBar" << YAML::Value << player->m_StaminaBarID;
+		out << YAML::Key << "InteractionPanel" << YAML::Value << player->m_InteractionPanelID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1361,6 +1396,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 	{
 		out << YAML::BeginMap;
 		out << YAML::Key << "TPPPlayer";
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto panel = actor->GetComponent<InteractionPanel>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "InteractionPanel";
 		out << YAML::BeginMap;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
@@ -1514,6 +1558,36 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "PickableSkill";
 		out << YAML::BeginMap;
 		out << YAML::Key << "SkillType" << YAML::Value << (int)skill->m_SkillType;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto spaceship = actor->GetComponent<Spaceship>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Spaceship";
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto spaceshipPart = actor->GetComponent<SpaceshipPart>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "SpaceshipPart";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Type" << YAML::Value << (int)spaceshipPart->m_Type;
+		out << YAML::Key << "Material" << YAML::Value << spaceshipPart->m_Material->GetPath();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto pickableSpaceshipPart = actor->GetComponent<PickableSpaceshipPart>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "PickableSpaceshipPart";
+		out << YAML::BeginMap;
+		out << YAML::Key << "SpaceshipPart" << YAML::Value << (int)pickableSpaceshipPart->m_SpaceshipPart;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

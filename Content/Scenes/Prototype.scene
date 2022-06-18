@@ -1163,7 +1163,7 @@ Actors:
           Size: [1, 1, 1]
   - Actor: 725570442
     ID: 725570442
-    Name: Cube (2)
+    Name: Pickable Spaceship Part 1
     Enabled: true
     Dynamic: false
     Components:
@@ -1178,6 +1178,12 @@ Actors:
             - Material: 0
               Path: Materials/Red.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - PickableSpaceshipPart:
+          SpaceshipPart: 0
   - Actor: 776712540
     ID: 776712540
     Name: Cube (25)
@@ -1408,6 +1414,7 @@ Actors:
           Ghost: 1503775902
           Trail: 405188416
           StaminaBar: 765667130
+          InteractionPanel: 961523686
   - Actor: 1503775902
     ID: 1503775902
     Name: Ghost
@@ -1890,19 +1897,6 @@ Actors:
             - Material: 0
               Path: Materials/Default.mat
           CastShadow: true
-  - Actor: 493161876
-    ID: 493161876
-    Name: Save Manager
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - SaveManager:
-          {}
   - Actor: 72135754
     ID: 72135754
     Name: SmallPlatform2
@@ -4980,23 +4974,6 @@ Actors:
           Sound9: ../../../Content/Audio/Footsteps/Ground/Run/Run05.wav
           Sound10: ../../../Content/Audio/Footsteps/Ground/Jump/Start01.wav
           Sound11: ../../../Content/Audio/Footsteps/Ground/Jump/Land01.wav
-  - Actor: 86886556
-    ID: 86886556
-    Name: default_sphere (1)
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [35.137825, 4.82977867, -45.3179779]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [4.63000011, 4.63000011, 4.63000011]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/defaults/default_sphere.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Hologram.mat
-          CastShadow: false
   - Actor: 64904609
     ID: 64904609
     Name: Clouds
@@ -5133,3 +5110,158 @@ Actors:
             - Material: 0
               Path: Materials/Ring.mat
           CastShadow: true
+  - Actor: 961523686
+    ID: 961523686
+    Name: InteractionPanel
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+      - InteractionPanel:
+          {}
+  - Actor: 44539894
+    ID: 44539894
+    Name: InteractionText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-80, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 961523686
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 28
+          Text: "'E' to interact"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 558053073
+    ID: 558053073
+    Name: InteractionIcon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-49, 17, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 961523686
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 504371343
+    ID: 504371343
+    Name: Spaceship
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [37.733799, 3.41052246, -46.8020058]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_tmp.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+            - Material: 1
+              Path: Materials/Default.mat
+            - Material: 2
+              Path: Materials/Default.mat
+            - Material: 3
+              Path: Materials/Default.mat
+            - Material: 4
+              Path: Materials/Default.mat
+            - Material: 5
+              Path: Materials/Default.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Spaceship:
+          {}
+  - Actor: 505085429
+    ID: 505085429
+    Name: SpaceshipPart1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-781.522949, 36.0509872, 1221.20435]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [243.199997, 243.199997, 243.199997]
+          Parent: 504371343
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - SpaceshipPart:
+          Type: 0
+          Material: Materials/Default.mat
+  - Actor: 200950954
+    ID: 200950954
+    Name: SpaceshipPart2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [199.120712, 36.0509872, 1253.8197]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [233, 233, 233]
+          Parent: 504371343
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - SpaceshipPart:
+          Type: 1
+          Material: Materials/Default.mat
+  - Actor: 855801317
+    ID: 855801317
+    Name: SpaceshipPart3
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [917.778015, 200.677017, 549.215698]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [206, 206, 206]
+          Parent: 504371343
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - SpaceshipPart:
+          Type: 2
+          Material: Materials/Default.mat
+  - Actor: 493161876
+    ID: 493161876
+    Name: Save Manager
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SaveManager:
+          {}

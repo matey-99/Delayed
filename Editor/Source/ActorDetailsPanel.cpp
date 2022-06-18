@@ -37,6 +37,8 @@
 #include "Game/BlockTrigger.h"
 #include "Game/Moving.h"
 #include "Game/Clouds.h"
+#include "Game/PickableSpaceshipPart.h"
+#include "Game/Spaceship.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -973,6 +975,49 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto spaceship = m_Actor->GetComponent<Spaceship>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Spaceship");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Spaceship>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
+
+    if (auto spaceshipPart = m_Actor->GetComponent<SpaceshipPart>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Spaceship Part");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<SpaceshipPart>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
+    if (auto pickablePart = m_Actor->GetComponent<PickableSpaceshipPart>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Pickable Spaceship Part");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<PickableSpaceshipPart>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto cameraOrbit = m_Actor->GetComponent<CameraOrbit>()) {
         ImGui::PushID(componentIndex);
 
@@ -1270,6 +1315,9 @@ void ActorDetailsPanel::Render()
     bool audioSource = false;
     bool audioListener = false;
     bool cloudsGame = false;
+    bool spaceship = false;
+    bool spaceshipPart = false;
+    bool pickableSpaceshipPart = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -1323,6 +1371,9 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Camera Orbit", "", &cameraOrbit);
                     ImGui::MenuItem("Block Trigger", "", &blockTrigger);
                     ImGui::MenuItem("Clouds", "", &cloudsGame);
+                    ImGui::MenuItem("Spaceship", "", &spaceship);
+                    ImGui::MenuItem("Spaceship Part", "", &spaceshipPart);
+                    ImGui::MenuItem("Pickable Spaceship Part", "", &pickableSpaceshipPart);
 
                     ImGui::EndMenu();
                 }
@@ -1439,6 +1490,12 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<AudioListenerComponent>();
     if (cloudsGame)
         m_Actor->AddComponent<Clouds>();
+    if (spaceship)
+        m_Actor->AddComponent<Spaceship>();
+    if (spaceshipPart)
+        m_Actor->AddComponent<SpaceshipPart>();
+    if (pickableSpaceshipPart)
+        m_Actor->AddComponent<PickableSpaceshipPart>();
 
 
     if (ImGui::Button("Close"))
