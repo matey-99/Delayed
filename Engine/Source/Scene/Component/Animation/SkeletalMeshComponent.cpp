@@ -8,6 +8,7 @@
 
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
+#include "Math/Transform.h"
 
 #include <glad/glad.h>
 
@@ -73,6 +74,11 @@ Ref<Animation> SkeletalMeshComponent::GetAnimation(int index)
 
 }
 
+Ref<BoneMap> SkeletalMeshComponent::FindBoneInRig(std::string boneName)
+{
+	return m_SkeletalModel->GetRig()->FindBone(boneName);
+}
+
 void SkeletalMeshComponent::PropagateBoneTransforms(std::vector<glm::mat4> boneMatrices)
 {
 	m_SkeletalModel->PropagateBoneTransforms(boneMatrices);
@@ -122,7 +128,11 @@ void SkeletalMeshComponent::UpdateBoundingBox()
 		auto points = mesh->GetBoundingBox().GetPoints();
 		for (auto& point : points)
 		{
-			point = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(point, 1.0f);
+			// character bounding box fix - should be done better
+			glm::mat4 world = m_Owner->GetTransform()->GetWorldModelMatrix();
+			world = glm::scale(world, glm::vec3(100.0f));
+
+			point = world * glm::vec4(point, 1.0f);
 			pointsFromAllMeshes.push_back(point);
 		}
 	}
