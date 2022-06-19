@@ -325,59 +325,81 @@ void ActorDetailsPanel::Render()
     if (auto animator = m_Actor->GetComponent<Animator>())
     {
         ImGui::Text("Animator Component");
+
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Animator>();
+
         ImGui::Dummy(ImVec2(0.0, 5.0));
 
-        ImGui::Text("Animations available: %i", animator->HowManyAnimationsAreThere());
+        //ImGui::Text("Animations available: %i", animator->HowManyAnimationsAreThere());
 
         //ImGui::Text("Animation current time: %f", animator->GetCurrentAnimationTime());
 
         //if (ImGui::Button("Debug display animation names"))
             //animator->DebugDisplayAnimationNames();
 
+
+        for (auto& param : animator->m_FloatParameters)
+        {
+            std::string name = param.first.substr(param.first.find_first_of('.') + 1);
+
+            ImGui::DragFloat(name.c_str(), &param.second, 0.01f);
+        }
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+        for (auto& param : animator->m_BoolParameters)
+        {
+            std::string name = param.first.substr(param.first.find_first_of('.') + 1);
+
+            ImGui::Checkbox(name.c_str(), &param.second);
+        }
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
         // Lists: Begin
-        if (ImGui::BeginCombo("Animation No. 1", animator->GetAnimation(0)->GetAnimationName().c_str()))
-        {
-            for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
-            {
-                Ref<Animation> animation = animator->GetAnimations()[i];
-                if (ImGui::Selectable(animation->GetAnimationName().c_str()))
-                    animator->SetAnimation1(animation);
-            }
-            ImGui::EndCombo();
-        }
+        //if (ImGui::BeginCombo("Animation No. 1", animator->GetAnimation(0)->GetAnimationName().c_str()))
+        //{
+        //    for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
+        //    {
+        //        Ref<Animation> animation = animator->GetAnimations()[i];
+        //        if (ImGui::Selectable(animation->GetAnimationName().c_str()))
+        //            animator->SetAnimation1(animation);
+        //    }
+        //    ImGui::EndCombo();
+        //}
 
-        if (ImGui::BeginCombo("Animation No. 2", animator->GetAnimation(1)->GetAnimationName().c_str()))
-        {
-            for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
-            {
-                Ref<Animation> animation = animator->GetAnimations()[i];
-                if (ImGui::Selectable(animation->GetAnimationName().c_str()))
-                    animator->SetAnimation2(animation);
-            }
-            ImGui::EndCombo();
-        }
+        //if (ImGui::BeginCombo("Animation No. 2", animator->GetAnimation(1)->GetAnimationName().c_str()))
+        //{
+        //    for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
+        //    {
+        //        Ref<Animation> animation = animator->GetAnimations()[i];
+        //        if (ImGui::Selectable(animation->GetAnimationName().c_str()))
+        //            animator->SetAnimation2(animation);
+        //    }
+        //    ImGui::EndCombo();
+        //}
 
-        if (ImGui::BeginCombo("Animation No. 3 (Jump)", animator->GetAnimation(2)->GetAnimationName().c_str()))
-        {
-            for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
-            {
-                Ref<Animation> animation = animator->GetAnimations()[i];
-                if (ImGui::Selectable(animation->GetAnimationName().c_str()))
-                    animator->SetAnimation3(animation);
-            }
-            ImGui::EndCombo();
-        }
+        //if (ImGui::BeginCombo("Animation No. 3 (Jump)", animator->GetAnimation(2)->GetAnimationName().c_str()))
+        //{
+        //    for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
+        //    {
+        //        Ref<Animation> animation = animator->GetAnimations()[i];
+        //        if (ImGui::Selectable(animation->GetAnimationName().c_str()))
+        //            animator->SetAnimation3(animation);
+        //    }
+        //    ImGui::EndCombo();
+        //}
         // Lists: End
 
        // if (ImGui::Button("Switch animation"))
             //animator->DebugSwitchAnimation();
 
-        ImGui::DragFloat("Blend Factor", &animator->m_BlendFactor, 0.02f, 0.0f, 1.0f);
-        ImGui::DragFloat("Blend Factor 2", &animator->m_BlendFactor2, 0.02f, 0.0f, 1.0f);
+        //ImGui::DragFloat("Blend Factor", &animator->m_BlendFactor, 0.02f, 0.0f, 1.0f);
+        //ImGui::DragFloat("Blend Factor 2", &animator->m_BlendFactor2, 0.02f, 0.0f, 1.0f);
 
-        ImGui::Dummy(ImVec2(0.0, 10.0));
-        ImGui::DragFloat("Animation 1 speed", &animator->m_PAnimSpeed, 0.02f, 0.0f, 1.0f);
-        ImGui::DragFloat("Animation 2 speed", &animator->m_LAnimSpeed, 0.02f, 0.0f, 1.0f);
+        //ImGui::Dummy(ImVec2(0.0, 10.0));
+        //ImGui::DragFloat("Animation 1 speed", &animator->m_PAnimSpeed, 0.02f, 0.0f, 1.0f);
+        //ImGui::DragFloat("Animation 2 speed", &animator->m_LAnimSpeed, 0.02f, 0.0f, 1.0f);
 
         ImGui::Dummy(ImVec2(0.0, 10.0));
         // [...]

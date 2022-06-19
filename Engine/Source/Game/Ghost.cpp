@@ -90,7 +90,8 @@ void Ghost::Update(float deltaTime)
 	Ref<Animator> animator = m_Owner->GetComponent<Animator>();
 	if (animator)
 	{
-		animator->SetBlendFactor(m_MovementSpeed[m_CurrentPositionIndex] * 3.3);
+		animator->SetFloatParameter("Speed", m_MovementSpeed[m_CurrentPositionIndex] * 3.3);
+
 	}
 }
 

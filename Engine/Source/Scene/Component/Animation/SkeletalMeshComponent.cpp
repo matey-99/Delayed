@@ -13,7 +13,7 @@
 #include <glad/glad.h>
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner)
-	: SkeletalMeshComponent(owner, "Models/Skeletal/SK_VampireThree.fbx")
+	: SkeletalMeshComponent(owner, "Models/Skeletal/SK_Astronaut.fbx")
 {
 
 }
@@ -24,7 +24,7 @@ SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path)
 	LoadMesh(path);
 
 	for (int i = 0; i < m_SkeletalModel->GetMeshes().size(); i++)
-		LoadMaterial("Materials/MSK_Default.mat");
+		LoadMaterial("Materials/Default.mat");
 }
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPaths)
@@ -105,7 +105,7 @@ void SkeletalMeshComponent::ChangeMesh(std::string path)
 	m_MaterialsPaths.clear();
 
 	for (int i = 0; i < m_SkeletalModel->GetMeshes().size(); i++)
-		LoadMaterial("Materials/MSK_Default.mat");
+		LoadMaterial("Materials/Default.mat");
 }
 
 void SkeletalMeshComponent::ChangeModel(Ref<ModelBase> modelBase)
