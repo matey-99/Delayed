@@ -13,7 +13,7 @@ Ref<Shader> ShaderImporter::ImportShader(const std::string& path)
 	std::string name = nameWithExt.substr(0, nameWithExt.find_last_of("."));
 
 	ShaderSource source = ParseShader(path);
-	Ref<Shader> shader = Shader::Create(name, source.VertexSource, source.FragmentSource, source.GeometrySource);
+	Ref<Shader> shader = Shader::Create(name, path, source.VertexSource, source.FragmentSource, source.GeometrySource);
 
 	m_ImportedShaders.insert({ path, shader });
 	return shader;

@@ -44,9 +44,9 @@ RendererSettings:
     FisheyeEnabled: false
     Scale: 1
     VignetteEnabled: true
-    VignetteColor: [0.0, 0.0, 0.0]
+    VignetteColor: [0, 0, 0]
     VignetteIntensity: 20
-    VignetteSize: 0.17
+    VignetteSize: 0.170000002
   DepthOfFieldSettings:
     MinDistance: 1.5
     MaxDistance: 64
@@ -448,7 +448,7 @@ Actors:
       - Text:
           Font: Fonts/arial.ttf
           FontSize: 32
-          Text: 100
+          Text: 50
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -493,7 +493,7 @@ Actors:
           Anchor: 0
           LocalPosition: [-1, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [0.5, 1, 1]
           Parent: 261628010
   - Actor: 479674925
     ID: 479674925
@@ -580,7 +580,7 @@ Actors:
       - Text:
           Font: Fonts/arial.ttf
           FontSize: 32
-          Text: 100
+          Text: 50
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -625,7 +625,7 @@ Actors:
           Anchor: 0
           LocalPosition: [-1, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [0.5, 1, 1]
           Parent: 261628011
   - Actor: 479674926
     ID: 479674926
@@ -1163,7 +1163,7 @@ Actors:
           Size: [1, 1, 1]
   - Actor: 725570442
     ID: 725570442
-    Name: Cube (2)
+    Name: Pickable Spaceship Part 1
     Enabled: true
     Dynamic: false
     Components:
@@ -1178,6 +1178,12 @@ Actors:
             - Material: 0
               Path: Materials/Red.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - PickableSpaceshipPart:
+          SpaceshipPart: 0
   - Actor: 776712540
     ID: 776712540
     Name: Cube (25)
@@ -1427,7 +1433,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 13.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.699999988, 1, 0.699999988]
           Parent: 0
@@ -1442,6 +1448,7 @@ Actors:
           Ghost: 1503775902
           Trail: 405188416
           StaminaBar: 765667130
+          InteractionPanel: 961523686
   - Actor: 1503775902
     ID: 1503775902
     Name: Ghost
@@ -1465,8 +1472,8 @@ Actors:
           {}
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Center: [0, 2, 0]
+          Size: [90, 90, 90]
       - AudioSource:
           SoundPath: ../../../Content/Audio/Placeholders/ghost_ambient_placeholder.wav
           Channel: 2
@@ -1924,19 +1931,6 @@ Actors:
             - Material: 0
               Path: Materials/Default.mat
           CastShadow: true
-  - Actor: 493161876
-    ID: 493161876
-    Name: Save Manager
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - SaveManager:
-          {}
   - Actor: 72135754
     ID: 72135754
     Name: SmallPlatform2
@@ -3322,7 +3316,7 @@ Actors:
   - Actor: 728671211
     ID: 728671211
     Name: default_sphere
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - Transform:
@@ -4982,3 +4976,326 @@ Actors:
             - Material: 0
               Path: Materials/Red.mat
           CastShadow: true
+  - Actor: 942025306
+    ID: 942025306
+    Name: Footsteps
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, -2, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1.42857146, 1, 1.42857146]
+          Parent: 1503310903
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
+          Channel: 2
+          Volume: 0.5
+          3d: false
+          Looping: false
+          PlayOnStart: false
+      - Footsteps:
+          PlayerID: 1503310903
+          Sound0: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
+          Sound1: ../../../Content/Audio/Footsteps/Ground/Walk/Walk02.wav
+          Sound2: ../../../Content/Audio/Footsteps/Ground/Walk/Walk03.wav
+          Sound3: ../../../Content/Audio/Footsteps/Ground/Walk/Walk04.wav
+          Sound4: ../../../Content/Audio/Footsteps/Ground/Walk/Walk05.wav
+          Sound5: ../../../Content/Audio/Footsteps/Ground/Run/Run01.wav
+          Sound6: ../../../Content/Audio/Footsteps/Ground/Run/Run02.wav
+          Sound7: ../../../Content/Audio/Footsteps/Ground/Run/Run03.wav
+          Sound8: ../../../Content/Audio/Footsteps/Ground/Run/Run04.wav
+          Sound9: ../../../Content/Audio/Footsteps/Ground/Run/Run05.wav
+          Sound10: ../../../Content/Audio/Footsteps/Ground/Jump/Start01.wav
+          Sound11: ../../../Content/Audio/Footsteps/Ground/Jump/Land01.wav
+  - Actor: 64904609
+    ID: 64904609
+    Name: Clouds
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, -34.5681992, -2.06042546e-06]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/fog.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/M_Clouds.mat
+          CastShadow: true
+  - Actor: 750532703
+    ID: 750532703
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [93.0967865, 32.1770363, 99.1594543]
+          LocalRotation: [-82.4076843, -21.9106503, 150.463699]
+          LocalScale: [0.0850000232, 0.0850000083, 0.0850000009]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 808085787
+    ID: 808085787
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [76.8704529, 16.2576733, 55.1394386]
+          LocalRotation: [-68.2327423, 8.92353153, 85.0600967]
+          LocalScale: [0.0426300056, 0.0426299982, 0.0426300019]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 325428973
+    ID: 325428973
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [116.600647, 30.2018318, 161.01358]
+          LocalRotation: [-111.972191, 0.146104738, -101.119781]
+          LocalScale: [0.0736889988, 0.0736889914, 0.0736890137]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 965885804
+    ID: 965885804
+    Name: Ring1
+    Enabled: false
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [80.6767426, 16.1697025, 70.0922394]
+          LocalRotation: [-102.303658, -14.8938522, -140.264542]
+          LocalScale: [0.0593921244, 0.0593921058, 0.0593921132]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 523551430
+    ID: 523551430
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-94.0682907, 5.4828434, -233.598312]
+          LocalRotation: [68.7864227, 68.8161621, 158.698517]
+          LocalScale: [0.0850000232, 0.0850000083, 0.0850000009]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 539401460
+    ID: 539401460
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-118.745506, 7.78736401, -216.470047]
+          LocalRotation: [149.769745, -48.0028954, -65.2850037]
+          LocalScale: [0.112200007, 0.112199984, 0.112199984]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 888437873
+    ID: 888437873
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-153.932266, 9.09384823, -218.454483]
+          LocalRotation: [21.0569801, 20.3479996, 98.9244308]
+          LocalScale: [0.0875160024, 0.08751598, 0.08751598]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 961523686
+    ID: 961523686
+    Name: InteractionPanel
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+      - InteractionPanel:
+          {}
+  - Actor: 44539894
+    ID: 44539894
+    Name: InteractionText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-80, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 961523686
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 28
+          Text: "'E' to interact"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 558053073
+    ID: 558053073
+    Name: InteractionIcon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-49, 17, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 961523686
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+  - Actor: 504371343
+    ID: 504371343
+    Name: Spaceship
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [37.733799, 3.41052246, -46.8020058]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_tmp.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+            - Material: 1
+              Path: Materials/Default.mat
+            - Material: 2
+              Path: Materials/Default.mat
+            - Material: 3
+              Path: Materials/Default.mat
+            - Material: 4
+              Path: Materials/Default.mat
+            - Material: 5
+              Path: Materials/Default.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - Spaceship:
+          {}
+  - Actor: 505085429
+    ID: 505085429
+    Name: SpaceshipPart1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-781.522949, 36.0509872, 1221.20435]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [243.199997, 243.199997, 243.199997]
+          Parent: 504371343
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - SpaceshipPart:
+          Type: 0
+          Material: Materials/Default.mat
+  - Actor: 200950954
+    ID: 200950954
+    Name: SpaceshipPart2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [199.120712, 36.0509872, 1253.8197]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [233, 233, 233]
+          Parent: 504371343
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - SpaceshipPart:
+          Type: 1
+          Material: Materials/Default.mat
+  - Actor: 855801317
+    ID: 855801317
+    Name: SpaceshipPart3
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [917.778015, 200.677017, 549.215698]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [206, 206, 206]
+          Parent: 504371343
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - SpaceshipPart:
+          Type: 2
+          Material: Materials/Default.mat
+  - Actor: 493161876
+    ID: 493161876
+    Name: Save Manager
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SaveManager:
+          {}

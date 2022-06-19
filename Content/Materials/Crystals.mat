@@ -1,0 +1,54 @@
+Material: Crystals
+ID: 899178829
+BlendMode: 0
+Shader: Opaque
+Bool Parameters:
+  - Name: u_Material.isRoughnessMap
+    Value: false
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: true
+  - Name: u_Material.isOpacityMap
+    Value: false
+  - Name: u_Material.isMetallicMap
+    Value: false
+  - Name: u_Material.isAlbedoMap
+    Value: false
+  - Name: u_Material.isNormalMap
+    Value: true
+  - Name: u_Material.isAOMap
+    Value: true
+  - Name: u_Material.isEmissiveMap
+    Value: true
+Float Parameters:
+  - Name: u_Material.opacity
+    Value: 1
+  - Name: u_Material.metallic
+    Value: 0.300000012
+  - Name: u_Material.emissiveStrength
+    Value: 0.589999974
+  - Name: u_Material.roughness
+    Value: 0.49000001
+  - Name: u_Material.ao
+    Value: 0
+Vec3 Parameters:
+  - Name: u_Material.albedo
+    Value: [1, 1, 1]
+  - Name: u_Material.emissive
+    Value: [0, 0, 0]
+Vec4 Parameters:
+  []
+Texture Parameters:
+  - Name: u_Material.opacityMap
+    Path: "null"
+  - Name: u_Material.metallicMap
+    Path: "null"
+  - Name: u_Material.albedoMap
+    Path: "null"
+  - Name: u_Material.normalMap
+    Path: Textures/Crystal_tex/crystals_low_Normal.png
+  - Name: u_Material.roughnessMap
+    Path: "null"
+  - Name: u_Material.aoMap
+    Path: Textures/Crystal_tex/crystals_low_AO.png
+  - Name: u_Material.emissiveMap
+    Path: Textures/Crystal_tex/crystals_low_Emissive.png

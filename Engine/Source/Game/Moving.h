@@ -4,6 +4,8 @@
 
 #include "GameComponent.h"
 
+class TransformComponent;
+
 class Moving : public GameComponent
 {
 public:
@@ -15,12 +17,16 @@ public:
 
 private:
 	glm::vec3 m_DefaultPosition;
+	glm::vec3 m_TargetPosition;
 
 	glm::vec3 m_Direction;
 	float m_Distance;
-	float m_Speed;
+	float m_Smoothness;
+	float m_ErrorInReachingTarget;
 
 	bool m_IsReturning;
+
+	glm::vec3 m_Velocity;
 
 	friend class SceneSerializer;
 	friend class ActorDetailsPanel;

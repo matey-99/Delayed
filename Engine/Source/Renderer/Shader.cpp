@@ -1,10 +1,34 @@
 #include "Shader.h"
 
 #include <glad/glad.h>
+#include "Importer/ShaderImporter.h"
 
-Shader::Shader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource)
-    : m_Name(name)
+Shader::Shader(const std::string& name, const std::string& path, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource)
+    : m_ID(0), m_Name(name), m_Path(path)
 {
+    Compile(vertexSource, fragmentSource, geometrySource);
+}
+
+Shader::~Shader()
+{
+    glDeleteProgram(m_ID);
+}
+
+Ref<Shader> Shader::Create(const std::string& name, const std::string& path, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource)
+{
+    return CreateRef<Shader>(name, path, vertexSource, fragmentSource, geometrySource);
+}
+
+void Shader::Use() const
+{
+    glUseProgram(m_ID);
+}
+
+void Shader::Compile(const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource)
+{
+    if (m_ID)
+        glDeleteProgram(m_ID);
+
     bool isGeometryShader = geometrySource != "";
 
     uint32_t vertexShader = CompileShader(GL_VERTEX_SHADER, vertexSource.c_str());
@@ -41,19 +65,16 @@ Shader::Shader(const std::string& name, const std::string& vertexSource, const s
     LoadUniforms();
 }
 
-Shader::~Shader()
+void Shader::Recompile()
+{
+    ShaderSource source = ShaderImporter::ParseShader(m_Path);
+
+    Compile(source.VertexSource, source.FragmentSource, source.GeometrySource);
+}
+
+void Shader::Remove()
 {
     glDeleteProgram(m_ID);
-}
-
-Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource)
-{
-    return CreateRef<Shader>(name, vertexSource, fragmentSource, geometrySource);
-}
-
-void Shader::Use() const
-{
-    glUseProgram(m_ID);
 }
 
 void Shader::SetBool(const std::string& name, bool value) const

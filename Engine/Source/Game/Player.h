@@ -8,6 +8,9 @@ class Checkpoint;
 class CameraComponent;
 class BoxColliderComponent;
 class Trail;
+class Interactable;
+class InteractionPanel;
+class Inventory;
 enum class SkillType;
 
 class Player : public GameComponent, public Saveable
@@ -15,11 +18,11 @@ class Player : public GameComponent, public Saveable
 public:
 	Player(Actor* owner);
 
-	void Start() override;
-	void Update(float deltaTime) override;
+	virtual void Start() override;
+	virtual void Update(float deltaTime) override;
 
-	const SaveData Save() override;
-	void Load(const SaveData& data) override;
+	virtual const SaveData Save() override;
+	virtual void Load(const SaveData& data) override;
 
 	void SetLastCheckpoint(glm::vec3 position);
 	void BackToLastCheckpoint();
@@ -32,42 +35,57 @@ public:
 	inline Ref<Trail> GetTrail() const { return m_Trail; }
 	inline Ref<CharacterController> GetCharacterController() const { return m_CharacterController; }
 
-protected:
-    virtual void MoveForward(float value);
-    virtual void MoveRight(float value);
+    inline bool IsRunning() const { return m_IsRunning; };
 
+private:
+	void MoveForward(float value);
+	void MoveRight(float value);
 	void Turn(float value);
 	void LookUp(float value);
 
-    virtual void Jump();
-    virtual void AllowJumping();
+	void Jump();
+	void AllowJumping();
 
-    virtual void RunOn();
-    virtual void RunOff();
+	void Jump_Gamepad();
+	void AllowJumping_Gamepad();
 
-    virtual void Dash();
-    virtual void AllowDashing();
+	void RunOn();
+	void RunOff();
 
-    virtual void Teleport();
-    virtual void AllowTeleporting();
+	void Dash();
+	void AllowDashing();
+
+	void Teleport();
+	void AllowTeleporting();
+
+	void Interact();
+	void AllowInteracting();
 
 	void HandleSkillsCooldowns(float deltaTime);
-	virtual void HandleHUD();
+	void HandleHUD();
 
 	void AddMovementInput(glm::vec3 direction, float value);
 
-protected:
+	void LookForInteractable();
+	void DisplayInteractionPanel(Ref<Interactable> interactable);
+	void HideInteractionPanel();
+
+private:
 	/* References */
 	Ref<CharacterController> m_CharacterController;
+	Ref<Inventory> m_Inventory;
 	Ref<CameraComponent> m_Camera;
 	Ref<Actor> m_Ghost;
 	Ref<Trail> m_Trail;
 	Ref<Actor> m_StaminaBar;
+	Ref<InteractionPanel> m_InteractionPanel;
 	
 	/* Parameters */
 	float m_DashCooldown;
 	float m_TeleportCooldown;
 	float m_TeleportTime;
+	float m_InteractDistance;
+	float m_GamepadRotationSensitivity;
 
 	/* Inputs */
 	glm::vec3 m_MoveDirection;
@@ -79,13 +97,16 @@ protected:
 	bool m_IsSlowedDown;
 	bool m_IsTeleporting;
 	bool m_CanJump;
+	bool m_CanJump_Gamepad;
 	bool m_CanDash;
 	bool m_CanTeleport;
+	bool m_CanInteract;
 	bool m_HasDoubleJumpSkill;
 	bool m_HasDashSkill;
 	bool m_HasTeleportSkill;
 
 	/* Others */
+	Ref<Interactable> m_Interactable;
 	glm::vec3 m_LastCheckpointPosition;
 	glm::vec3 m_StaminaBarDefaultScale;
 	glm::vec3 m_TeleportDestinationPosition;
@@ -100,6 +121,7 @@ protected:
 	uint64_t m_GhostID;
 	uint64_t m_TrailID;
 	uint64_t m_StaminaBarID;
+	uint64_t m_InteractionPanelID;
 
 #pragma endregion
 

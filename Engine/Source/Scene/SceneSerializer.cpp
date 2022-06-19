@@ -19,6 +19,7 @@
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/RigidBodyComponent.h>
 #include <Game/CameraOrbit.h>
+#include <Game/Footsteps.h>
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/TextComponent.h"
@@ -52,6 +53,10 @@
 #include "Game/TutorialManager.h"
 #include "Game/SceneTransition.h"
 #include "Game/Moving.h"
+#include "Game/InteractionPanel.h"
+#include "Game/PickableSpaceshipPart.h"
+#include "Game/Spaceship.h"
+#include "Game/SpaceshipPart.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -764,12 +769,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						uint64_t ghostActorID = player["Ghost"].as<uint64_t>();
 						uint64_t trailActorID = player["Trail"].as<uint64_t>();
 						uint64_t staminaBarActorID = player["StaminaBar"].as<uint64_t>();
+						uint64_t interactionPanelActorID = player["InteractionPanel"].as<uint64_t>();
 
 						auto p = a->CreateComponent<Player>();
 						p->m_CameraID = cameraActorID;
 						p->m_GhostID = ghostActorID;
 						p->m_TrailID = trailActorID;
 						p->m_StaminaBarID = staminaBarActorID;
+						p->m_InteractionPanelID = interactionPanelActorID;
 					}
 
 					if (auto tppPlayer = component["TPPPlayer"])
@@ -785,6 +792,11 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         p->m_GhostID = ghostActorID;
                         p->m_TrailID = trailActorID;
                         p->m_StaminaBarID = staminaBarActorID;
+					}
+
+					if (auto panel = component["InteractionPanel"])
+					{
+						auto p = a->CreateComponent<InteractionPanel>();
 					}
 
 					if (auto camera = component["CameraController"])
@@ -831,12 +843,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						glm::vec3 direction = moving["Direction"].as<glm::vec3>();
 						float distance = moving["Distance"].as<float>();
-						float speed = moving["Speed"].as<float>();
+						float smoothness = moving["Smoothness"].as<float>();
+						float error = moving["ErrorInReachingTarget"].as<float>();
 
 						auto m = a->CreateComponent<Moving>();
 						m->m_Direction = direction;
 						m->m_Distance = distance;
-						m->m_Speed = speed;
+						m->m_Smoothness = smoothness;
+						m->m_ErrorInReachingTarget = error;
 					}
 
 					if (auto ghost = component["Ghost"])
@@ -878,6 +892,29 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 						auto s = a->CreateComponent<PickableSkill>();
 						s->m_SkillType = (SkillType)skillType;
+					}
+
+					if (auto spaceship = component["Spaceship"])
+					{
+						a->CreateComponent<Spaceship>();
+					}
+
+					if (auto spaceshipPart = component["SpaceshipPart"])
+					{
+						int type = spaceshipPart["Type"].as<int>();
+						std::string material = spaceshipPart["Material"].as<std::string>();
+
+						auto s = a->CreateComponent<SpaceshipPart>();
+						s->m_Type = (SpaceshipPartType)type;
+						s->m_Material = AssetManager::LoadMaterial(material);
+					}
+
+					if (auto spaceshipPart = component["PickableSpaceshipPart"])
+					{
+						int part = spaceshipPart["SpaceshipPart"].as<int>();
+
+						auto s = a->CreateComponent<PickableSpaceshipPart>();
+						s->m_SpaceshipPart = (SpaceshipPartType)part;
 					}
 
 					if (auto obelisk = component["Obelisk"])
@@ -927,6 +964,22 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         auto tr = a->CreateComponent<SceneTransition>();
 
                         tr->m_Scene = scene;
+                    }
+
+                    if (auto footsteps = component["Footsteps"]) {
+
+                        uint32_t player = footsteps["PlayerID"].as<uint32_t>();
+                        std::vector<std::string> sounds = std::vector<std::string>();
+                        std::string name;
+                        for (int i = 0; i < 12; ++i) {
+                            name = "Sound"+std::to_string(i);
+                            sounds.push_back(footsteps[name].as<std::string>());
+                        }
+
+                        auto fs = a->CreateComponent<Footsteps>();
+
+                        fs->m_PlayerID = player;
+                        fs->m_Sounds = sounds;
                     }
 				}
 			}
@@ -1344,6 +1397,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "Ghost" << YAML::Value << player->m_GhostID;
 		out << YAML::Key << "Trail" << YAML::Value << player->m_TrailID;
 		out << YAML::Key << "StaminaBar" << YAML::Value << player->m_StaminaBarID;
+		out << YAML::Key << "InteractionPanel" << YAML::Value << player->m_InteractionPanelID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1357,6 +1411,15 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "Ghost" << YAML::Value << tppPlayer->m_GhostID;
         out << YAML::Key << "Trail" << YAML::Value << tppPlayer->m_TrailID;
         out << YAML::Key << "StaminaBar" << YAML::Value << tppPlayer->m_StaminaBarID;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto panel = actor->GetComponent<InteractionPanel>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "InteractionPanel";
+		out << YAML::BeginMap;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1410,7 +1473,8 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "Direction" << YAML::Value << moving->m_Direction;
 		out << YAML::Key << "Distance" << YAML::Value << moving->m_Distance;
-		out << YAML::Key << "Speed" << YAML::Value << moving->m_Speed;
+		out << YAML::Key << "Smoothness" << YAML::Value << moving->m_Smoothness;
+		out << YAML::Key << "ErrorInReachingTarget" << YAML::Value << moving->m_ErrorInReachingTarget;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}
@@ -1512,6 +1576,36 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 	}
 
+	if (auto spaceship = actor->GetComponent<Spaceship>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "Spaceship";
+		out << YAML::BeginMap;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto spaceshipPart = actor->GetComponent<SpaceshipPart>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "SpaceshipPart";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Type" << YAML::Value << (int)spaceshipPart->m_Type;
+		out << YAML::Key << "Material" << YAML::Value << spaceshipPart->m_Material->GetPath();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto pickableSpaceshipPart = actor->GetComponent<PickableSpaceshipPart>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "PickableSpaceshipPart";
+		out << YAML::BeginMap;
+		out << YAML::Key << "SpaceshipPart" << YAML::Value << (int)pickableSpaceshipPart->m_SpaceshipPart;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
 	if (auto obelisk = actor->GetComponent<Obelisk>())
 	{
 		out << YAML::BeginMap;
@@ -1562,6 +1656,21 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "SceneTransition";
         out << YAML::BeginMap;
         out << YAML::Key << "Scene" << YAML::Value << sceneTransition->m_Scene;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
+
+    if (auto footsteps = actor->GetComponent<Footsteps>())
+    {
+        out << YAML::BeginMap;
+        out << YAML::Key << "Footsteps";
+        out << YAML::BeginMap;
+        out << YAML::Key << "PlayerID" << YAML::Value << footsteps->m_PlayerID;
+        std::string name;
+        for (int i = 0; i < 12; ++i) {
+            name = "Sound" + std::to_string(i);
+            out << YAML::Key << name << YAML::Value << footsteps->m_Sounds.at(i);
+        }
         out << YAML::EndMap;
         out << YAML::EndMap;
     }

@@ -99,13 +99,34 @@ void MaterialEditorPanel::Render()
     }
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
+    for (auto& param : m_Material->m_Vec4Parameters)
+    {
+        std::string name = param.first.substr(param.first.find_first_of('.') + 1);
+
+        if (name.find("Color") != std::string::npos)
+        {
+            ImGui::ColorEdit4(name.c_str(), (float*)&param.second, ImGuiColorEditFlags_Float);
+        }
+        else
+        {
+            ImGui::DragFloat4(name.c_str(), (float*)&param.second, 0.1f);
+        }
+    }
+    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
     for (auto& param : m_Material->m_FloatParameters)
     {
         std::string name = param.first.substr(param.first.find_first_of('.') + 1);
 
-        ImGui::DragFloat(name.c_str(), &param.second, 0.01f, 0.0f, 10.0f);
+        ImGui::DragFloat(name.c_str(), &param.second, 0.01f);
     }
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+    if (ImGui::Button("Recompile Shader"))
+    {
+        m_Material->GetShader()->Recompile();
+        m_Material->LoadParameters();
+    }
 
     if (ImGui::Button("Save"))
         AssetManager::SaveMaterial(m_Material);

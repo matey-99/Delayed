@@ -27,6 +27,7 @@ protected:
 	std::unordered_map<std::string, bool> m_BoolParameters;
 	std::unordered_map<std::string, float> m_FloatParameters;
 	std::unordered_map<std::string, glm::vec3> m_Vec3Parameters;
+	std::unordered_map<std::string, glm::vec4> m_Vec4Parameters;
 	std::unordered_map<std::string, Ref<Texture>> m_Texture2DParameters;
 
 public:
@@ -49,11 +50,13 @@ public:
 	inline std::unordered_map<std::string, bool> GetBoolParameters() const { return m_BoolParameters; }
 	inline std::unordered_map<std::string, float> GetFloatParameters() const { return m_FloatParameters; }
 	inline std::unordered_map<std::string, glm::vec3> GetVec3Parameters() const { return m_Vec3Parameters; }
+	inline std::unordered_map<std::string, glm::vec3> GetVec4Parameters() const { return m_Vec3Parameters; }
 	inline std::unordered_map<std::string, Ref<Texture>> GetTexture2DParameters() const { return m_Texture2DParameters; }
 
 	bool GetBoolParameter(std::string name);
 	float GetFloatParameter(std::string name);
 	glm::vec3 GetVec3Parameter(std::string name);
+	glm::vec4 GetVec4Parameter(std::string name);
 	Ref<Texture> GetTexture2DParameter(std::string name);
 
 	inline void SetBlendMode(BlendMode mode) { m_BlendMode = mode; }

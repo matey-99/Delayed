@@ -1,14 +1,12 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <functional>
-
+#include "Core.h"
+#include "InputEnums.h"
 #include "Patterns/Singleton.h"
 #include "Patterns/Event.h"
 #include "Patterns/Delegate.h"
-#include "InputEnums.h"
-#include "typedefs.h"
+
+#define GAMEPAD_AXIS_ERROR 0.1f
 
 struct ActionInputBinding
 {
@@ -51,6 +49,11 @@ public:
 enum class InputMode
 {
 	Player, UI, PlayerAndUI
+};
+
+enum class PlayerInputType
+{
+	KeyboardAndMouse, Gamepad
 };
 
 class Input : public Singleton<Input>
@@ -107,6 +110,8 @@ public:
 	void SetInputMode(InputMode mode);
 	glm::vec2 GetMousePosition();
 
+	inline PlayerInputType GetCurrentInputType() const { return m_CurrentInputType; }
+
 public:
 	Event OnLeftMouseButtonPressed;
 	Event OnLeftMouseButtonReleased;
@@ -118,6 +123,7 @@ private:
 	std::vector<Ref<AxisInputBinding>> m_AxisInputBindings;
 
 	InputMode m_Mode;
+	PlayerInputType m_CurrentInputType;
 
 	float m_LastMousePositionX;
 	float m_LastMousePositionY;

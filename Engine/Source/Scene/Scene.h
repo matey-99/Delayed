@@ -150,6 +150,7 @@ private:
 	Ref<CameraComponent> m_CurrentCamera;
 	Ref<SkyLight> m_SkyLight;
 	//std::vector<Ref<Animator>> m_Animators;
+	uint32_t m_CloudsNoiseTexture;
 
 	std::vector<Ref<Actor>> m_ActorsAddedRuntime;
 	std::vector<Actor*> m_ActorsDestroyedRuntime;

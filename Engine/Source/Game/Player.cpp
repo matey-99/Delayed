@@ -19,6 +19,9 @@
 #include "PickableSkill.h"
 #include "GameManager.h"
 #include "TutorialManager.h"
+#include "Interactable.h"
+#include "InteractionPanel.h"
+#include "Inventory.h"
 
 Player::Player(Actor* owner)
 	: GameComponent(owner)
@@ -26,6 +29,8 @@ Player::Player(Actor* owner)
 	m_DashCooldown = 1.0f;
 	m_TeleportCooldown = 2.0f;
 	m_TeleportTime = 0.05f;
+	m_InteractDistance = 40.0f;
+	m_GamepadRotationSensitivity = 20.0f;
 
 	m_MoveDirection = glm::vec3(0.0f);
 	m_Rotation = glm::vec3(0.0f);
@@ -34,7 +39,9 @@ Player::Player(Actor* owner)
 	m_IsSlowedDown = false;
 	m_IsTeleporting = false;
 	m_CanJump = true;
+	m_CanJump_Gamepad = true;
 	m_CanDash = true;
+	m_CanInteract = true;
 	m_HasDoubleJumpSkill = false;
 	m_HasDashSkill = false;
 	m_HasTeleportSkill = false;
@@ -58,6 +65,9 @@ void Player::Start()
 	input->BindAction("Jump", InputEvent::Press, &Player::Jump, this);
 	input->BindAction("Jump", InputEvent::Release, &Player::AllowJumping, this);
 
+	input->BindAction("Jump_Gamepad", InputEvent::Press, &Player::Jump_Gamepad, this);
+	input->BindAction("Jump_Gamepad", InputEvent::Release, &Player::AllowJumping_Gamepad, this);
+
 	input->BindAction("Run", InputEvent::Press, &Player::RunOn, this);
 	input->BindAction("Run", InputEvent::Release, &Player::RunOff, this);
 
@@ -67,13 +77,18 @@ void Player::Start()
 	input->BindAction("Teleport", InputEvent::Press, &Player::Teleport, this);
 	input->BindAction("Teleport", InputEvent::Release, &Player::AllowTeleporting, this);
 
+	input->BindAction("Interact", InputEvent::Press, &Player::Interact, this);
+	input->BindAction("Interact", InputEvent::Release, &Player::AllowInteracting, this);
+
 	input->SetInputMode(InputMode::Player);
 
 	m_CharacterController = m_Owner->AddComponent<CharacterController>();
+	m_Inventory = m_Owner->AddComponent<Inventory>();
 	m_Camera = m_Owner->GetScene()->GetComponent<CameraComponent>(m_CameraID);
 	m_Ghost = m_Owner->GetScene()->FindActor(m_GhostID);
 	m_Trail = m_Owner->GetScene()->GetComponent<Trail>(m_TrailID);
 	m_StaminaBar = m_Owner->GetScene()->FindActor(m_StaminaBarID);
+	m_InteractionPanel = m_Owner->GetScene()->GetComponent<InteractionPanel>(m_InteractionPanelID);
 
 	m_CharacterController->SetHeadDefaultPosition(m_Camera->GetOwner()->GetTransform()->GetLocalPosition());
 
@@ -83,13 +98,21 @@ void Player::Start()
 
 void Player::Update(float deltaTime)
 {
+	if (GameManager::GetInstance()->IsGamePaused())
+	{
+		m_Interactable = nullptr;
+		HideInteractionPanel();
+	}
+	else
+		LookForInteractable();
+
 	if (m_IsTeleporting)
 	{
 		auto currentPosition = m_Owner->GetTransform()->GetWorldPosition();
 
 		if (!Math::IsNearlyEqual(currentPosition, m_TeleportDestinationPosition, 0.1f))
 		{
-			auto newPosition = Math::Lerp(currentPosition, m_TeleportDestinationPosition, 1 / m_TeleportTime * deltaTime);
+			auto newPosition = Math::Smoothstep(currentPosition, m_TeleportDestinationPosition, 1 / m_TeleportTime * deltaTime);
 			m_Owner->GetTransform()->SetWorldPosition(newPosition);
 
 			return;
@@ -99,9 +122,6 @@ void Player::Update(float deltaTime)
 			m_IsTeleporting = false;
 		}
 	}
-
-	if (Math::Magnitude(m_MoveDirection) > 0.0f)
-		m_MoveDirection = Math::Normalize(m_MoveDirection);
 
 	glm::vec3 currentPosition = m_Owner->GetTransform()->GetWorldPosition();
 	if (!Math::IsNearlyEqual(currentPosition, m_LastPosition, 0.01f))
@@ -137,6 +157,9 @@ const SaveData Player::Save()
 	data.BoolFields.insert({ "HasTeleportSkill", m_HasTeleportSkill });
 	data.Vector3Fields.insert({ "LastCheckpointPosition", m_LastCheckpointPosition });
 
+	for (int i = 0; i < SPACESHIP_PARTS_COUNT; i++)
+		data.BoolFields.insert({ std::to_string(i), m_Inventory->IsItemCollected((SpaceshipPartType)i) });
+
 	return data;
 }
 
@@ -146,6 +169,15 @@ void Player::Load(const SaveData& data)
 	m_HasDashSkill = data.BoolFields.find("HasDashSkill")->second;
 	m_HasTeleportSkill = data.BoolFields.find("HasTeleportSkill")->second;
 	m_LastCheckpointPosition = data.Vector3Fields.find("LastCheckpointPosition")->second;
+
+	for (int i = 0; i < SPACESHIP_PARTS_COUNT; i++)
+	{
+		bool collected = data.BoolFields.find(std::to_string(i))->second;
+		if (collected)
+			m_Inventory->AddItem((SpaceshipPartType)i);
+		else if (!collected && m_Inventory->IsItemCollected((SpaceshipPartType)i))
+			m_Inventory->RemoveItem((SpaceshipPartType)i);
+	}
 
 	BackToLastCheckpoint();
 }
@@ -209,11 +241,19 @@ void Player::MoveRight(float value)
 
 void Player::Turn(float value)
 {
+	auto input = Input::GetInstance()->GetCurrentInputType();
+	if (input == PlayerInputType::Gamepad)
+		value *= m_GamepadRotationSensitivity;
+
 	m_Rotation.y += value;
 }
 
 void Player::LookUp(float value)
 {
+	auto input = Input::GetInstance()->GetCurrentInputType();
+	if (input == PlayerInputType::Gamepad)
+		value *= m_GamepadRotationSensitivity;
+
 	m_Rotation.x += value;
 }
 
@@ -240,6 +280,31 @@ void Player::Jump()
 void Player::AllowJumping()
 {
 	m_CanJump = true;
+}
+
+void Player::Jump_Gamepad()
+{
+	if (m_CanJump_Gamepad)
+	{
+		bool isGrounded = m_CharacterController->IsGrounded();
+		if (isGrounded || m_HasDoubleJumpSkill)
+		{
+			m_CharacterController->Jump();
+			m_CanJump_Gamepad = false;
+		}
+
+		if (!isGrounded && m_HasDoubleJumpSkill)
+		{
+			auto tutorial = TutorialManager::GetInstance();
+			if (tutorial->IsTutorialDisplayed(TutorialType::DoubleJump))
+				tutorial->HideTutorial(TutorialType::DoubleJump);
+		}
+	}
+}
+
+void Player::AllowJumping_Gamepad()
+{
+	m_CanJump_Gamepad = true;
 }
 
 void Player::RunOn()
@@ -278,7 +343,7 @@ void Player::Teleport()
 		m_IsTeleporting = true;
 		m_CanTeleport = false;
 		m_TeleportCooldownTimer = m_TeleportCooldown;
-		m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition();
+		m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition() + glm::vec3(0.0f, 2.0f, 0.0f);
 
 		auto tutorial = TutorialManager::GetInstance();
 		if (tutorial->IsTutorialDisplayed(TutorialType::Teleport))
@@ -289,6 +354,20 @@ void Player::Teleport()
 void Player::AllowTeleporting()
 {
 	m_CanTeleport = true;
+}
+
+void Player::Interact()
+{
+	if (m_CanInteract && m_Interactable)
+	{
+		m_Interactable->Interact(this);
+		m_CanInteract = false;
+	}
+}
+
+void Player::AllowInteracting()
+{
+	m_CanInteract = true;
 }
 
 void Player::HandleSkillsCooldowns(float deltaTime)
@@ -310,4 +389,36 @@ void Player::HandleHUD()
 void Player::AddMovementInput(glm::vec3 direction, float value)
 {
 	m_MoveDirection += (direction * value);
+}
+
+void Player::LookForInteractable()
+{
+	glm::vec3 origin = m_Camera->GetWorldPosition();
+	glm::vec3 direction = m_Camera->GetFront();
+
+	RayCastHit hit;
+	if (Physics::RayCast(origin, direction, hit, m_InteractDistance, true, m_Owner))
+	{
+		Actor* actor = hit.Collider->GetOwner();
+		if (Ref<Interactable> interactable = actor->GetComponent<Interactable>())
+		{
+			DisplayInteractionPanel(interactable);
+			m_Interactable = interactable;
+			return;
+		}
+	}
+
+	HideInteractionPanel();
+	m_Interactable = nullptr;
+}
+
+void Player::DisplayInteractionPanel(Ref<Interactable> interactable)
+{
+	m_InteractionPanel->GetOwner()->SetEnabled(true);
+	m_InteractionPanel->UpdatePanel(interactable);
+}
+
+void Player::HideInteractionPanel()
+{
+	m_InteractionPanel->GetOwner()->SetEnabled(false);
 }

@@ -17,6 +17,8 @@
 #include "Scene/Component/Particle/ParticleSystemComponent.h"
 #include "Scene/Component/UI/UIComponent.h"
 #include "Input/Input.h"
+#include "Game/Clouds.h"
+#include "Game/Moving.h"
 
 #define UPDATE_UI 1
 
@@ -98,6 +100,12 @@ void Editor::Start()
 		foliage->Start();
 	}
 
+	auto clouds = m_Scene->GetComponents<Clouds>();
+	for (auto cloud : clouds)
+	{
+		cloud->Start();
+	}
+
 	auto lods = m_Scene->GetComponents<LODGroupComponent>();
 	for (auto lod : lods)
 	{
@@ -168,6 +176,18 @@ void Editor::Update(float deltaTime)
     for (auto audioListener : audioListeners) {
         audioListener->Update(deltaTime);
     }
+
+	auto clouds = m_Scene->GetComponents<Clouds>();
+	for (auto cloud : clouds)
+	{
+		cloud->Update(deltaTime);
+	}
+
+	auto movings = m_Scene->GetComponents<Moving>();
+	for (auto moving : movings)
+	{
+		moving->Update(deltaTime);
+	}
 
     AudioSystem::GetInstance()->Update(deltaTime);
 

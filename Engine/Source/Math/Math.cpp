@@ -3,6 +3,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_decompose.hpp>
 
+#include <random>
+
 // From matrix_decompose.inl
 bool Math::DecomposeMatrix(const glm::mat4 modelMatrix, glm::vec3& translation, glm::vec3& rotation, glm::vec3& scale)
 {
@@ -107,6 +109,48 @@ glm::vec4 Math::Lerp(glm::vec4 a, glm::vec4 b, float alpha)
 	return a + alpha * (b - a);
 }
 
+float Math::Smoothstep(float a, float b, float alpha)
+{
+	return a + alpha * alpha * (3.0f - alpha * 2.0f) * (b - a);
+}
+
+glm::vec3 Math::Smoothstep(glm::vec3 a, glm::vec3 b, float alpha)
+{
+	return a + alpha * alpha * (3.0f - alpha * 2.0f) * (b - a);
+}
+
+float Math::SmoothDamp(float current, float target, float& velocity, float smoothTime, float deltaTime, float maxSpeed)
+{
+	smoothTime = glm::max(0.0001f, smoothTime);
+	float omega = 2.0f / smoothTime;
+	float x = omega * deltaTime;
+	float exp = 1.0f / (1.0f + x + 0.48f * x * x + 0.235f * x * x * x);
+	float deltaX = -(target - current);
+	float maxDelta = maxSpeed * smoothTime;
+
+	deltaX = glm::clamp(deltaX, -maxDelta, maxDelta);
+	float temp = (velocity + omega * deltaX) * deltaTime;
+	float result = current - deltaX + (deltaX + temp) * exp;
+	velocity = (velocity - omega * temp) * exp;
+
+	if (target - current > 0.0f == result > target)
+	{
+		result = target;
+		velocity = (result - target) / deltaTime;
+	}
+
+	return result;
+}
+
+glm::vec3 Math::SmoothDamp(glm::vec3 current, glm::vec3 target, glm::vec3& velocity, float smoothTime, float deltaTime, float maxSpeed)
+{
+	glm::vec3 result;
+	result.x = SmoothDamp(current.x, target.x, velocity.x, smoothTime, deltaTime, maxSpeed);
+	result.y = SmoothDamp(current.y, target.y, velocity.y, smoothTime, deltaTime, maxSpeed);
+	result.z = SmoothDamp(current.z, target.z, velocity.z, smoothTime, deltaTime, maxSpeed);
+	return result;
+}
+
 float Math::Magnitude(const glm::vec3& v)
 {
 	return glm::sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
@@ -134,4 +178,98 @@ bool Math::IsNearlyEqual(const glm::vec3& a, const glm::vec3& b, float errorTole
 glm::vec3 Math::Normalize(const glm::vec3& v)
 {
 	return v / Magnitude(v);
+}
+
+glm::vec2 Math::RandomGradient(int ix, int iy)
+{
+	uint32_t w = 8 * sizeof(uint32_t);
+	uint32_t s = w / 2;
+
+	uint32_t a = ix;
+	uint32_t b = iy;
+
+	a *= 3284157443;
+	b ^= a << s | a >> w - s;
+	b *= 1911520717;
+	a ^= b << s | b >> w - s;
+	a *= 2048419325;
+
+	float random = a * (glm::pi<float>() / ~(~0u >> 1));
+
+	glm::vec2 result;
+	result.x = glm::cos(random);
+	result.y = glm::sin(random);
+
+	return result;
+}
+
+float Math::DotGridGradient(int ix, int iy, float x, float y)
+{
+	glm::vec2 gradient = RandomGradient(ix, iy);
+
+	float dx = x - (float)ix;
+	float dy = y - (float)iy;
+
+	return dx * gradient.x + dy * gradient.y;
+}
+
+float Math::PerlinNoise(int x, int y)
+{
+	int x0 = (int)glm::floor(x);
+	int x1 = x0 + 1;
+	int y0 = (int)glm::floor(y);
+	int y1 = y0 + 1;
+
+	float sx = x - (float)x0;
+	float sy = y - (float)y0;
+
+	float n0, n1, ix0, ix1;
+	
+	n0 = DotGridGradient(x0, y0, x, y);
+	n1 = DotGridGradient(x1, y0, x, y);
+	ix0 = Smoothstep(n0, n1, sx);
+
+	n0 = DotGridGradient(x0, y1, x, y);
+	n1 = DotGridGradient(x1, y1, x, y);
+	ix1 = Smoothstep(n0, n1, sx);
+
+	return Smoothstep(ix0, ix1, sy);
+}
+
+std::vector<glm::vec3> Math::WorleyPoints(int cellsPerAxis, uint64_t seed)
+{
+	srand(seed);
+
+	std::vector<glm::vec3> points;
+	float cellSize = 1.0f / cellsPerAxis;
+
+	for (int x = 0; x < cellsPerAxis; ++x)
+	{
+		for (int y = 0; y < cellsPerAxis; ++y)
+		{
+			for (int z = 0; z < cellsPerAxis; ++z)
+			{
+				glm::vec3 offset = glm::vec3(rand() & 0xff);
+				glm::vec3 pos = (glm::vec3(x, y, z) + offset) * cellSize;
+				
+				points.push_back(pos);
+			}
+		}
+	}
+
+	return points;
+}
+
+float Math::WorleyNoise(std::vector<glm::vec3> points, glm::vec3 position)
+{
+
+	return 0.0f;
+}
+
+int Math::RandomRange(int from, int to) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(from, to);
+
+    return distr(gen);
 }

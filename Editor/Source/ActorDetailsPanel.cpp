@@ -36,6 +36,9 @@
 #include "Game/CameraOrbit.h"
 #include "Game/BlockTrigger.h"
 #include "Game/Moving.h"
+#include "Game/Clouds.h"
+#include "Game/PickableSpaceshipPart.h"
+#include "Game/Spaceship.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -819,7 +822,8 @@ void ActorDetailsPanel::Render()
 
         ImGui::DragFloat3("Move Direction", glm::value_ptr(moving->m_Direction), 0.1f, 0.0f, 1.0f);
         ImGui::DragFloat("Move Distance", &moving->m_Distance, 0.5f, 0.0f, 100.0f);
-        ImGui::DragFloat("Move Speed", &moving->m_Speed, 0.5f, 0.0f, 100.0f);
+        ImGui::DragFloat("Move Smoothness", &moving->m_Smoothness, 0.01f, 0.0f, 5.0f);
+        ImGui::DragFloat("Error In Reaching Target", &moving->m_ErrorInReachingTarget, 0.01f, 0.0f, 1.0f);
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
         ImGui::PopID();
         componentIndex++;
@@ -957,13 +961,70 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto clouds = m_Actor->GetComponent<Clouds>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Clouds");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Clouds>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
+    if (auto spaceship = m_Actor->GetComponent<Spaceship>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Spaceship");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Spaceship>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
+
+    if (auto spaceshipPart = m_Actor->GetComponent<SpaceshipPart>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Spaceship Part");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<SpaceshipPart>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
+    if (auto pickablePart = m_Actor->GetComponent<PickableSpaceshipPart>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Pickable Spaceship Part");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<PickableSpaceshipPart>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto cameraOrbit = m_Actor->GetComponent<CameraOrbit>()) {
         ImGui::PushID(componentIndex);
 
         ImGui::Text("Camera Orbit");
         ImGui::SameLine();
         if (ImGui::Button("X"))
-            m_Actor->RemoveComponent<DeathArea>();
+            m_Actor->RemoveComponent<CameraOrbit>();
 
         ImGui::DragFloat("Speed", &cameraOrbit->m_Speed, 0.1f);
 
@@ -1221,6 +1282,7 @@ void ActorDetailsPanel::Render()
     bool addComponent = false;
     bool staticMesh = false;
     bool foliage = false;
+    bool clouds = false;
     bool skeletalMesh = false;
     bool animator = false;
     bool lodGroup = false;
@@ -1252,6 +1314,10 @@ void ActorDetailsPanel::Render()
     bool postFX = false;
     bool audioSource = false;
     bool audioListener = false;
+    bool cloudsGame = false;
+    bool spaceship = false;
+    bool spaceshipPart = false;
+    bool pickableSpaceshipPart = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -1260,8 +1326,8 @@ void ActorDetailsPanel::Render()
             if (ImGui::BeginMenu("Add Component"))
             {
                 ImGui::MenuItem("Static Mesh", "", &staticMesh);
-                ImGui::MenuItem("Foliage", "", &foliage);
                 ImGui::MenuItem("Skeletal Mesh", "", &skeletalMesh);
+                ImGui::MenuItem("Foliage", "", &foliage);
                 ImGui::MenuItem("Animator", "", &animator);
                 ImGui::MenuItem("LOD Group", "", &lodGroup);
                 if (ImGui::BeginMenu("Light"))
@@ -1304,6 +1370,10 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Post Processing Volume", "", &postFX);
                     ImGui::MenuItem("Camera Orbit", "", &cameraOrbit);
                     ImGui::MenuItem("Block Trigger", "", &blockTrigger);
+                    ImGui::MenuItem("Clouds", "", &cloudsGame);
+                    ImGui::MenuItem("Spaceship", "", &spaceship);
+                    ImGui::MenuItem("Spaceship Part", "", &spaceshipPart);
+                    ImGui::MenuItem("Pickable Spaceship Part", "", &pickableSpaceshipPart);
 
                     ImGui::EndMenu();
                 }
@@ -1338,10 +1408,10 @@ void ActorDetailsPanel::Render()
 
     if (staticMesh)
         m_Actor->AddComponent<StaticMeshComponent>();
-    if (foliage)
-        m_Actor->AddComponent<FoliageComponent>();
     if (skeletalMesh)
         m_Actor->AddComponent<SkeletalMeshComponent>();
+    if (foliage)
+        m_Actor->AddComponent<FoliageComponent>();
     if (animator)
     {
         if (m_Actor->GetComponent<SkeletalMeshComponent>() == nullptr)
@@ -1418,6 +1488,14 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<AudioSourceComponent>();
     if (audioListener)
         m_Actor->AddComponent<AudioListenerComponent>();
+    if (cloudsGame)
+        m_Actor->AddComponent<Clouds>();
+    if (spaceship)
+        m_Actor->AddComponent<Spaceship>();
+    if (spaceshipPart)
+        m_Actor->AddComponent<SpaceshipPart>();
+    if (pickableSpaceshipPart)
+        m_Actor->AddComponent<PickableSpaceshipPart>();
 
 
     if (ImGui::Button("Close"))

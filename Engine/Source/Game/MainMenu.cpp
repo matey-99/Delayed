@@ -84,8 +84,9 @@ void MainMenu::Play()
 {
 	if (auto gm = m_Owner->GetScene()->FindActor("Game Manager"))
 		gm->GetComponent<GameManager>()->ResumeGame();
-	else
-		SceneManager::GetInstance()->LoadScene("Scenes/Transition.scene");
+	else {
+        SceneManager::GetInstance()->LoadScene("Scenes/Transition.scene");
+    }
 }
 
 void MainMenu::OpenOptions()
@@ -118,7 +119,8 @@ void MainMenu::IncreaseMasterVolume()
 	auto audioSystem = AudioSystem::GetInstance();
 
 	float masterVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MASTER);
-	masterVolume += 0.1f;
+    if (masterVolume < 0.99f)
+	    masterVolume += 0.1f;
 
 	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::MASTER, masterVolume);
 	UpdateOptions();
@@ -129,7 +131,8 @@ void MainMenu::DecreaseMasterVolume()
 	auto audioSystem = AudioSystem::GetInstance();
 
 	float masterVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MASTER);
-	masterVolume -= 0.1f;
+    if (masterVolume > 0.01f)
+	    masterVolume -= 0.1f;
 
 	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::MASTER, masterVolume);
 	UpdateOptions();
@@ -140,7 +143,8 @@ void MainMenu::IncreaseMusicVolume()
 	auto audioSystem = AudioSystem::GetInstance();
 
 	float musicVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MUSIC);
-	musicVolume += 0.1f;
+    if (musicVolume < 0.99f)
+	    musicVolume += 0.1f;
 
 	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::MUSIC, musicVolume);
 	UpdateOptions();
@@ -151,7 +155,8 @@ void MainMenu::DecreaseMusicVolume()
 	auto audioSystem = AudioSystem::GetInstance();
 
 	float musicVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MUSIC);
-	musicVolume -= 0.1f;
+    if (musicVolume > 0.01f)
+	    musicVolume -= 0.1f;
 
 	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::MUSIC, musicVolume);
 	UpdateOptions();
@@ -162,7 +167,8 @@ void MainMenu::IncreaseSoundsVolume()
 	auto audioSystem = AudioSystem::GetInstance();
 
 	float soundsVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::SFX);
-	soundsVolume += 0.1f;
+    if (soundsVolume < 0.99f)
+	    soundsVolume += 0.1f;
 
 	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::SFX, soundsVolume);
 	UpdateOptions();
@@ -173,7 +179,8 @@ void MainMenu::DecreaseSoundsVolume()
 	auto audioSystem = AudioSystem::GetInstance();
 
 	float soundsVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::SFX);
-	soundsVolume -= 0.1f;
+    if (soundsVolume > 0.01f)
+	    soundsVolume -= 0.1f;
 
 	audioSystem->SetChannelGroupVolume(CHANNEL_GROUP::SFX, soundsVolume);
 	UpdateOptions();
@@ -184,14 +191,14 @@ void MainMenu::UpdateOptions()
 	auto audioSystem = AudioSystem::GetInstance();
 
 	float masterVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MASTER);
-	m_MasterVolumeText->SetText(std::to_string((int)(masterVolume * 100.0f)));
+	m_MasterVolumeText->SetText(std::to_string((int)(masterVolume * 100)));
 	m_MasterVolumeSlider->GetTransform()->SetLocalScale(glm::vec3(masterVolume, 1.0f, 1.0f));
 
 	float musicVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::MUSIC);
-	m_MusicVolumeText->SetText(std::to_string((int)(musicVolume * 100.0f)));
+	m_MusicVolumeText->SetText(std::to_string((int)(musicVolume * 100)));
 	m_MusicVolumeSlider->GetTransform()->SetLocalScale(glm::vec3(musicVolume, 1.0f, 1.0f));
 
 	float soundsVolume = audioSystem->GetChannelGroupVolume(CHANNEL_GROUP::SFX);
-	m_SoundsVolumeText->SetText(std::to_string((int)(soundsVolume * 100.0f)));
+	m_SoundsVolumeText->SetText(std::to_string((int)(soundsVolume * 100)));
 	m_SoundsVolumeSlider->GetTransform()->SetLocalScale(glm::vec3(soundsVolume, 1.0f, 1.0f));
 }
