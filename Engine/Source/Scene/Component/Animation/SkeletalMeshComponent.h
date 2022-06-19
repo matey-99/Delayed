@@ -31,10 +31,7 @@ public:
 	uint32_t GetBoneCount() const;
 	uint32_t HowManyAnimations() { return m_Animations.size(); }
 
-	Ref<BoneMap> FindBoneInRig(std::string boneName)
-	{
-		return m_SkeletalModel->GetRig()->FindBone(boneName);
-	}
+	Ref<BoneMap> FindBoneInRig(std::string boneName);
 
 	void PropagateBoneTransforms(std::vector<glm::mat4> boneMatrices);
 

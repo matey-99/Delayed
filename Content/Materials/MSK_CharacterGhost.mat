@@ -1,7 +1,7 @@
 Material: MSK_CharacterGhost
 ID: 896576722
 BlendMode: 1
-Shader: TransparentSkeletalFresnel
+Shader: TransparentFresnel
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: false

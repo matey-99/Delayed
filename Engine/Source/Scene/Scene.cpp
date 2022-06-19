@@ -157,13 +157,14 @@ void Scene::Render(Ref<Shader> shader)
 
 			if (auto skelMesh = Cast<SkeletalMesh>(mesh))
 			{
+				shader->SetBool("u_IsSkeletalMesh", true);
+
 				std::vector<glm::mat4> transforms = skelMesh->GetBoneMatrices();
 				for (int i = 0; i < transforms.size(); i++)
-				{
-					shader->SetMat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
-					//std::cout << transforms[i][0][0] << transforms[i][0][1] << "\n";
-				}
+					shader->SetMat4("u_FinalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
 			}
+			else
+				shader->SetBool("u_IsSkeletalMesh", false);
 
 			mesh->RenderInstanced(instancesCount, transformations);
 		}
@@ -389,20 +390,16 @@ void Scene::RenderMeshes(MeshesRenderList meshes, Material::BlendMode blendMode)
 			}
 		}
 
-
-		// ANIMATION SKELETAL MESH BONES
-		//std::vector<glm::mat4> transforms = mesh->GetBoneMatrices();
-		// transforms is always zero, so this below will not invoke
-		Ref<SkeletalMesh> skelMesh = Cast<SkeletalMesh>(mesh);
-		if (skelMesh)
+		if (auto skelMesh = Cast<SkeletalMesh>(mesh))
 		{
+			material->GetShader()->SetBool("u_IsSkeletalMesh", true);
+
 			std::vector<glm::mat4> transforms = skelMesh->GetBoneMatrices();
 			for (int i = 0; i < transforms.size(); i++)
-			{
-				material->GetShader()->SetMat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
-				//std::cout << transforms[i][0][0] << transforms[i][0][1] << "\n";
-			}
+				material->GetShader()->SetMat4("u_FinalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
 		}
+		else
+			material->GetShader()->SetBool("u_IsSkeletalMesh", false);
 		
         if (material->GetName() == "Grass" || material->GetName() == "Water" || material->GetName() == "Hologram") {
             material->GetShader()->SetFloat("u_Time", Time::GetInstance()->GetElapsedTime());

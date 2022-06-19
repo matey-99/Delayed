@@ -8,11 +8,12 @@
 
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
+#include "Math/Transform.h"
 
 #include <glad/glad.h>
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner)
-	: SkeletalMeshComponent(owner, "Models/Skeletal/SK_VampireThree.fbx")
+	: SkeletalMeshComponent(owner, "Models/Skeletal/SK_Astronaut.fbx")
 {
 
 }
@@ -23,7 +24,7 @@ SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path)
 	LoadMesh(path);
 
 	for (int i = 0; i < m_SkeletalModel->GetMeshes().size(); i++)
-		LoadMaterial("Materials/MSK_Default.mat");
+		LoadMaterial("Materials/Default.mat");
 }
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner, std::string path, std::vector<std::string> materialsPaths)
@@ -73,6 +74,11 @@ Ref<Animation> SkeletalMeshComponent::GetAnimation(int index)
 
 }
 
+Ref<BoneMap> SkeletalMeshComponent::FindBoneInRig(std::string boneName)
+{
+	return m_SkeletalModel->GetRig()->FindBone(boneName);
+}
+
 void SkeletalMeshComponent::PropagateBoneTransforms(std::vector<glm::mat4> boneMatrices)
 {
 	m_SkeletalModel->PropagateBoneTransforms(boneMatrices);
@@ -99,7 +105,7 @@ void SkeletalMeshComponent::ChangeMesh(std::string path)
 	m_MaterialsPaths.clear();
 
 	for (int i = 0; i < m_SkeletalModel->GetMeshes().size(); i++)
-		LoadMaterial("Materials/MSK_Default.mat");
+		LoadMaterial("Materials/Default.mat");
 }
 
 void SkeletalMeshComponent::ChangeModel(Ref<ModelBase> modelBase)
@@ -122,7 +128,11 @@ void SkeletalMeshComponent::UpdateBoundingBox()
 		auto points = mesh->GetBoundingBox().GetPoints();
 		for (auto& point : points)
 		{
-			point = m_Owner->GetTransform()->GetWorldModelMatrix() * glm::vec4(point, 1.0f);
+			// character bounding box fix - should be done better
+			glm::mat4 world = m_Owner->GetTransform()->GetWorldModelMatrix();
+			world = glm::scale(world, glm::vec3(100.0f));
+
+			point = world * glm::vec4(point, 1.0f);
 			pointsFromAllMeshes.push_back(point);
 		}
 	}

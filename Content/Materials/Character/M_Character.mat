@@ -1,7 +1,7 @@
 Material: Character
 ID: 735342484
 BlendMode: 0
-Shader: OpaqueSkeletal
+Shader: Opaque
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: true

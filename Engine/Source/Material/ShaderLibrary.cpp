@@ -15,15 +15,6 @@ ShaderLibrary::ShaderLibrary()
 	Ref<Shader> transparentFresnel = AssetManager::LoadShader("Shaders/TransparentFresnel.glsl");
 	m_MaterialShaders.insert({ transparentFresnel->GetName(), transparentFresnel });
 
-	Ref<Shader> opaqueSkeletal = AssetManager::LoadShader("Shaders/OpaqueSkeletal.glsl");
-	m_MaterialShaders.insert({ opaqueSkeletal->GetName(), opaqueSkeletal });
-
-	Ref<Shader> transparentSkeletal = AssetManager::LoadShader("Shaders/TransparentSkeletal.glsl");
-	m_MaterialShaders.insert({ transparentSkeletal->GetName(), transparentSkeletal });
-
-	Ref<Shader> transparentSkeletalFresnel = AssetManager::LoadShader("Shaders/TransparentSkeletalFresnel.glsl");
-	m_MaterialShaders.insert({ transparentSkeletalFresnel->GetName(), transparentSkeletalFresnel });
-
     Ref<Shader> waterShader = AssetManager::LoadShader("Shaders/Water.glsl");
     m_MaterialShaders.insert({waterShader->GetName(), waterShader});
 	

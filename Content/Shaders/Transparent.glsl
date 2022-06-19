@@ -9,12 +9,17 @@ layout (location = 2) in vec2 a_TexCoord;
 layout (location = 3) in vec3 a_Tangent;
 layout (location = 4) in vec3 a_Bitangent;
 layout (location = 5) in mat4 a_Model;
+layout (location = 9) in ivec4 a_BoneIds;
+layout (location = 10) in vec4 a_Weights;
 
 layout (location = 0) out vec3 v_Position;
 layout (location = 1) out vec3 v_Normal;
 layout (location = 2) out vec2 v_TexCoord;
 layout (location = 3) out vec4 v_ViewPosition;
 layout (location = 4) out vec4[MAX_SPOT_LIGHTS] v_SpotLightSpacePositions;
+
+const int MAX_BONES = 100;
+const int MAX_BONE_INFLUENCE = 4;
 
 struct Material
 {
@@ -40,9 +45,42 @@ layout (std140, binding = 1) uniform u_VertexLights
 };
 
 layout (location = 0) uniform Material u_MaterialVS;
+layout (location = 1) uniform bool u_IsSkeletalMesh;
+
+uniform mat4 u_FinalBonesMatrices[MAX_BONES];
+
+void CalculatePositionWithBoneInfluence(out vec3 position, out vec3 normal)
+{
+    vec4 totalPosition = vec4(0.0);
+    for(int i = 0 ; i < MAX_BONE_INFLUENCE ; i++)
+    {
+        if(a_BoneIds[i] == -1) 
+            continue;
+        if(a_BoneIds[i] >= MAX_BONES) 
+        {
+            totalPosition = vec4(a_Position, 1.0);
+            break;
+        }
+        vec4 localPosition = u_FinalBonesMatrices[a_BoneIds[i]] * vec4(a_Position, 1.0);
+        totalPosition += localPosition * a_Weights[i];
+        normal = mat3(u_FinalBonesMatrices[a_BoneIds[i]]) * a_Normal;
+    }
+
+    position = vec3(totalPosition);
+}
 
 void main()
 {
+    vec3 position = vec3(0.0);
+    vec3 normal = vec3(0.0);
+    if (u_IsSkeletalMesh)
+        CalculatePositionWithBoneInfluence(position, normal);
+    else
+    {
+        position = a_Position;
+        normal = a_Normal;
+    }
+
     v_Position = vec3(a_Model * vec4(a_Position, 1.0));
     v_ViewPosition = u_View * vec4(v_Position, 1.0);
     v_Normal = mat3(transpose(inverse(a_Model))) * a_Normal;

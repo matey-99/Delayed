@@ -9,12 +9,17 @@ layout (location = 2) in vec2 a_TexCoord;
 layout (location = 3) in vec3 a_Tangent;
 layout (location = 4) in vec3 a_Bitangent;
 layout (location = 5) in mat4 a_Model;
+layout (location = 9) in ivec4 a_BoneIds;
+layout (location = 10) in vec4 a_Weights;
 
 layout (location = 0) out vec3 v_Position;
 layout (location = 1) out vec3 v_Normal;
 layout (location = 2) out vec2 v_TexCoord;
 layout (location = 3) out vec4 v_ViewPosition;
 layout (location = 4) out vec4[MAX_SPOT_LIGHTS] v_SpotLightSpacePositions;
+
+const int MAX_BONES = 100;
+const int MAX_BONE_INFLUENCE = 4;
 
 struct Material
 {
@@ -40,12 +45,45 @@ layout (std140, binding = 1) uniform u_VertexLights
 };
 
 layout (location = 0) uniform Material u_MaterialVS;
+layout (location = 1) uniform bool u_IsSkeletalMesh;
+
+uniform mat4 u_FinalBonesMatrices[MAX_BONES];
+
+void CalculatePositionWithBoneInfluence(out vec3 position, out vec3 normal)
+{
+    vec4 totalPosition = vec4(0.0);
+    for(int i = 0 ; i < MAX_BONE_INFLUENCE ; i++)
+    {
+        if(a_BoneIds[i] == -1) 
+            continue;
+        if(a_BoneIds[i] >= MAX_BONES) 
+        {
+            totalPosition = vec4(a_Position, 1.0);
+            break;
+        }
+        vec4 localPosition = u_FinalBonesMatrices[a_BoneIds[i]] * vec4(a_Position, 1.0);
+        totalPosition += localPosition * a_Weights[i];
+        normal = mat3(u_FinalBonesMatrices[a_BoneIds[i]]) * a_Normal;
+    }
+
+    position = vec3(totalPosition);
+}
 
 void main()
 {
-    v_Position = vec3(a_Model * vec4(a_Position, 1.0));
+    vec3 position = vec3(0.0);
+    vec3 normal = vec3(0.0);
+    if (u_IsSkeletalMesh)
+        CalculatePositionWithBoneInfluence(position, normal);
+    else
+    {
+        position = a_Position;
+        normal = a_Normal;
+    }
+
+    v_Position = vec3(a_Model * vec4(position, 1.0));
     v_ViewPosition = u_View * vec4(v_Position, 1.0);
-    v_Normal = mat3(transpose(inverse(a_Model))) * a_Normal;
+    v_Normal = mat3(transpose(inverse(a_Model))) * normal;
 
     if (u_MaterialVS.flipVerticallyUV)
     {
@@ -113,12 +151,17 @@ struct DirectionalLight
 {
     vec3 direction;
     vec3 color;
+    float intensity;
 };
 
 struct PointLight
 {
     vec3 position;
     vec3 color;
+    float intensity;
+    float radius;
+    float falloffExponent;
+    bool useInverseSquaredFalloff;
 };
 
 struct SpotLight
@@ -126,8 +169,12 @@ struct SpotLight
     vec3 position;
     vec3 direction;
     vec3 color;
+    float intensity;
+    float radius;
+    float falloffExponent;
     float innerCutOff;
     float outerCutOff;
+    bool useInverseSquaredFalloff;
 };
 
 layout (std140, binding = 0) uniform u_VertexCamera
@@ -166,8 +213,13 @@ layout (std140, binding = 3) uniform u_FragmentLights
 
 layout (location = 2) uniform Material u_Material;
 layout (location = 26) uniform sampler2DArray u_DirectionalLightShadowMaps;
-layout (location = 27) uniform vec3 u_SkyLightColor;
-layout (location = 28) uniform float u_SkyLightIntensity;
+layout (location = 27) uniform samplerCube u_IrradianceMap;
+layout (location = 28) uniform samplerCube u_PrefilterMap;
+layout (location = 29) uniform sampler2D u_BRDF;
+layout (location = 30) uniform float u_SkyLightIntensity;
+layout (location = 31) uniform float u_SkyLightWeight;
+layout (location = 32) uniform bool u_SkyLightEnabled;
+layout (location = 33) uniform vec3 u_SkyLightColor;
 
 const float PI = 3.14159265359;
 
@@ -345,6 +397,7 @@ void main()
     backgroundOpacity = u_Material.backgroundOpacity;
 
     vec3 V = normalize(u_ViewPosition - v_Position);
+    vec3 R = reflect(-V, N);
 
     vec3 F0 = vec3(0.04);
     F0 = mix(F0, albedo, metallic);
@@ -360,11 +413,42 @@ void main()
     Lo *= (1 - shadow);
 
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
-        Lo += CalculatePointLight(u_PointLights[i], V, albedo, N, metallic, roughness);
+    {
+        float dist = length(u_PointLights[i].position - v_Position);
+        if (dist < u_PointLights[i].radius)
+            Lo += CalculatePointLight(u_PointLights[i], V, albedo, N, metallic, roughness);
+    }
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
-        Lo += CalculateSpotLight(u_SpotLights[i], V, albedo, N, metallic, roughness);
+    {
+        float dist = length(u_SpotLights[i].position - v_Position);
+        if (dist < u_SpotLights[i].radius)
+            Lo += CalculateSpotLight(u_SpotLights[i], V, albedo, N, metallic, roughness);
+    }
 
-    vec3 ambient = u_SkyLightColor * u_SkyLightIntensity * albedo * ao;
+    vec3 F = FresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness);
+    vec3 kS = F;
+    vec3 kD = 1.0 - kS;
+    kD *= 1.0 - metallic;
+
+    vec3 diffuse, specular;
+    if (u_SkyLightEnabled)
+    {
+        vec3 irradiance = texture(u_IrradianceMap, N).rgb;
+        diffuse = mix(albedo, irradiance, u_SkyLightWeight);
+        diffuse *= u_SkyLightIntensity;
+
+        const float MAX_REFLECTION_LOD = 4.0;
+        vec3 prefilteredColor = textureLod(u_PrefilterMap, R, roughness * MAX_REFLECTION_LOD).rgb;
+        vec2 brdf = texture(u_BRDF, vec2(max(dot(N, V), 0.0), roughness)).rg;
+        specular = prefilteredColor * (F * brdf.x + brdf.y);
+    }
+    else
+    {
+        diffuse = vec3(0.0);
+        specular = vec3(0.0);
+    }
+
+    vec3 ambient = (kD * diffuse + specular) * ao;
 
     vec3 color = ambient + Lo + emissive;
 
