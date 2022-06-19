@@ -39,14 +39,14 @@ Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"
   - Name: u_Material.metallicMap
-    Path: Textures/PlatformBig00_tex/4K/platformBig00_mdl_Metallic.png
+    Path: Textures/PlatformBig00_tex/lo_Metallic.png
   - Name: u_Material.albedoMap
-    Path: Textures/PlatformBig00_tex/4K/Green/platformBig00_mdl_BaseColor.png
+    Path: Textures/PlatformBig00_tex/Green/lo_BaseColor.png
   - Name: u_Material.aoMap
-    Path: Textures/PlatformBig00_tex/4K/platformBig00_mdl_AO.png
+    Path: Textures/PlatformBig00_tex/lo_AO.png
   - Name: u_Material.emissiveMap
     Path: "null"
   - Name: u_Material.normalMap
-    Path: Textures/PlatformBig00_tex/4K/platformBig00_mdl_Normal.png
+    Path: Textures/PlatformBig00_tex/lo_Normal.png
   - Name: u_Material.roughnessMap
-    Path: Textures/PlatformBig00_tex/4K/platformBig00_mdl_Roughness.png
+    Path: Textures/PlatformBig00_tex/lo_Roughness.png
