@@ -155,6 +155,16 @@ void Scene::Render(Ref<Shader> shader)
 				transformations.push_back(transformation);
 			}
 
+			if (auto skelMesh = Cast<SkeletalMesh>(mesh))
+			{
+				std::vector<glm::mat4> transforms = skelMesh->GetBoneMatrices();
+				for (int i = 0; i < transforms.size(); i++)
+				{
+					shader->SetMat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+					//std::cout << transforms[i][0][0] << transforms[i][0][1] << "\n";
+				}
+			}
+
 			mesh->RenderInstanced(instancesCount, transformations);
 		}
 	}

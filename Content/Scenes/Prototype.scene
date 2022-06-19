@@ -1433,7 +1433,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 12.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 14.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.699999988, 1, 0.699999988]
           Parent: 0
@@ -1456,7 +1456,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [-6.56341219, 6.43815374, -25.8879089]
+          LocalPosition: [27.8650303, 2.33545351, -31.6566601]
           LocalRotation: [0, 0, -2.57860975e-05]
           LocalScale: [0.0199999996, 0.0199999996, 0.0199999996]
           Parent: 0
@@ -1569,7 +1569,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-52.8515053, 25.9049263, -15.672739]
+          LocalPosition: [-52.8515053, 24.2691631, -15.672739]
           LocalRotation: [90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.449999988]
           Parent: 2141099751
@@ -5011,7 +5011,7 @@ Actors:
   - Actor: 64904609
     ID: 64904609
     Name: Clouds
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - Transform:
