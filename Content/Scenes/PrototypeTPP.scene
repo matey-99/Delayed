@@ -52,7 +52,6 @@ RendererSettings:
     MaxDistance: 64
     Size: 2
 Actors:
-# TPP Player
   - Actor: 1503310902
     ID: 1503310902
     Name: TPP Player
@@ -169,7 +168,6 @@ Actors:
           Sound9: ../../../Content/Audio/Footsteps/Ground/Run/Run05.wav
           Sound10: ../../../Content/Audio/Footsteps/Ground/Jump/Start01.wav
           Sound11: ../../../Content/Audio/Footsteps/Ground/Jump/Land01.wav
-# TPP Camera
   - Actor: 485961876
     ID: 485961876
     Name: Camera Controller
@@ -213,7 +211,6 @@ Actors:
           FarClipPlane: 1000
       - AudioListener:
           {}
-# Ghost
   - Actor: 1503775902
     ID: 1503775902
     Name: Ghost
