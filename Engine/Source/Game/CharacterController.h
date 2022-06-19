@@ -19,7 +19,7 @@ public:
 
 	virtual void FixedUpdate() override;
 
-	void Move(glm::vec3 direction, const CharacterMovementParams& params, float deltaTime);
+	virtual void Move(glm::vec3 direction, const CharacterMovementParams& params, float deltaTime);
 	void Rotate(Ref<CameraComponent> camera, glm::vec3 rotation, float deltaTime);
 	void MoveHead(const CharacterMovementParams& params, Ref<CameraComponent> camera, float deltaTime);
 	void Jump();
@@ -32,7 +32,7 @@ public:
 
 	inline void SetHeadDefaultPosition(glm::vec3 position) { m_HeadDefaultPosition = position; }
 
-private:
+protected:
 	glm::vec3 m_Velocity;
 	float m_DistanceToGround;
 	float m_MoveSmoothness;

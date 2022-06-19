@@ -52,6 +52,19 @@ RendererSettings:
     MaxDistance: 64
     Size: 2
 Actors:
+  - Actor: 64594970
+    ID: 64594970
+    Name: Transition
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SceneTransition:
+          Scene: Scenes/Prototype.scene
   - Actor: 228302386
     ID: 228302386
     Name: MainCamera
@@ -112,19 +125,6 @@ Actors:
       - Image:
           Path: Textures/Menu/Logo1.png
           Color: [1, 1, 1, 1]
-  - Actor: 64594970
-    ID: 64594970
-    Name: Transition
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - SceneTransition:
-          Scene: Scenes/Prototype.scene
   - Actor: 995583364
     ID: 995583364
     Name: Loading

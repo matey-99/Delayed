@@ -24,6 +24,9 @@ private:
     void Jump()override;
     void AllowJumping() override;
 
+    void Jump_Gamepad() override;
+    void AllowJumping_Gamepad() override;
+
     void RunOn() override;
     void RunOff() override;
 
@@ -32,6 +35,11 @@ private:
 
     void Teleport() override;
     void AllowTeleporting() override;
+
+    void Interact() override;
+    void AllowInteracting() override;
+
+    void LookForInteractable() override;
 
     void HandleHUD() override;
 

@@ -4,6 +4,7 @@
 
 class AudioSourceComponent;
 class Player;
+class CharacterController;
 
 class Footsteps : public GameComponent {
 
@@ -17,6 +18,7 @@ public:
 private:
     Ref<AudioSourceComponent> m_AudioSource;
     Ref<Player> m_Player;
+    Ref<CharacterController> m_CharachterController;
     std::vector<std::string> m_Sounds;
 
 #pragma region Serialization

@@ -33,44 +33,46 @@ public:
 
 	inline Ref<Actor> GetGhost() const { return m_Ghost; }
 	inline Ref<Trail> GetTrail() const { return m_Trail; }
-	inline Ref<CharacterController> GetCharacterController() const { return m_CharacterController; }
+	virtual inline Ref<CharacterController> GetCharacterController() const { return m_CharacterController; }
 
     inline bool IsRunning() const { return m_IsRunning; };
 
-private:
-	void MoveForward(float value);
-	void MoveRight(float value);
+protected:
+    virtual void MoveForward(float value);
+
+    virtual void MoveRight(float value);
 	void Turn(float value);
 	void LookUp(float value);
 
-	void Jump();
-	void AllowJumping();
+    virtual void Jump();
+    virtual void AllowJumping();
 
-	void Jump_Gamepad();
-	void AllowJumping_Gamepad();
+	virtual void Jump_Gamepad();
+	virtual void AllowJumping_Gamepad();
 
-	void RunOn();
-	void RunOff();
+    virtual void RunOn();
+    virtual void RunOff();
 
-	void Dash();
-	void AllowDashing();
+    virtual void Dash();
+    virtual void AllowDashing();
 
-	void Teleport();
-	void AllowTeleporting();
+    virtual void Teleport();
+    virtual void AllowTeleporting();
 
-	void Interact();
-	void AllowInteracting();
+	virtual void Interact();
+	virtual void AllowInteracting();
 
 	void HandleSkillsCooldowns(float deltaTime);
-	void HandleHUD();
+
+    virtual void HandleHUD();
 
 	void AddMovementInput(glm::vec3 direction, float value);
 
-	void LookForInteractable();
+	virtual void LookForInteractable();
 	void DisplayInteractionPanel(Ref<Interactable> interactable);
 	void HideInteractionPanel();
 
-private:
+protected:
 	/* References */
 	Ref<CharacterController> m_CharacterController;
 	Ref<Inventory> m_Inventory;

@@ -8,40 +8,8 @@
 #include "CameraController.h"
 
 TPPCharacterController::TPPCharacterController(Actor* owner)
-	: GameComponent(owner)
+	: CharacterController(owner)
 {
-    m_Velocity = glm::vec3(0.0f);
-    m_DistanceToGround = 2.1f;
-    m_MoveSmoothness = 0.89f;
-    m_RotateSmoothness = 0.89f;
-    m_IsGrounded = false;
-
-    m_WalkSpeed = 10.0f;
-    m_RunSpeed = 15.0f;
-    m_SlowedDownSpeed = 3.0f;
-    m_RotateSpeed = 8.0f;
-    m_LookUpLimit = 80.0f;
-    m_JumpHeight = 0.08f;
-    m_JumpMaxHeightTime = 0.43f;
-    m_DashDistance = 2.0f;
-    m_MaxStamina = 100.0f;
-    m_StaminaRestorePerSecond = 15.0f;
-    m_StaminaUsagePerJump = 5.0f;
-    m_StaminaUsagePerRunSecond = 2.5f;
-    m_StaminaUsagePerDash = 5.0f;
-
-    m_Stamina = m_MaxStamina;
-    m_Gravity = 0.0f;
-    m_InitialSpeed = 0.0f;
-
-    m_IsJumping = false;
-    m_IsDoubleJumping = false;
-}
-
-void TPPCharacterController::FixedUpdate()
-{
-	Ray ray(m_Owner->GetTransform()->GetWorldPosition(), -Math::UpVector);
-	m_IsGrounded = Physics::RayCast(ray, m_DistanceToGround, false, m_Owner);
 }
 
 void TPPCharacterController::Move(glm::vec3 direction, const CharacterMovementParams& params, float deltaTime)
@@ -108,28 +76,4 @@ void TPPCharacterController::Rotate(Ref<CameraController> camera, glm::vec3 inpu
     targetRotation = glm::slerp(currentRotation, glm::rotate(targetRotation, glm::radians(rotation), glm::vec3(0, 1, 0)), deltaTime * turnSpeed);
 
     m_Owner->GetTransform()->SetLocalRotation(glm::degrees(glm::eulerAngles(targetRotation)));
-}
-
-void TPPCharacterController::Jump()
-{
-    if (m_IsGrounded)
-    {
-        m_IsJumping = true;
-        m_Velocity.y = m_InitialSpeed;
-
-        m_Stamina -= m_StaminaUsagePerJump;
-    }
-    else if (!m_IsDoubleJumping)
-    {
-        m_IsDoubleJumping = true;
-        m_Velocity.y = m_InitialSpeed;
-
-        m_Stamina -= m_StaminaUsagePerJump;
-    }
-}
-
-void TPPCharacterController::Dash()
-{
-    m_Velocity += m_Owner->GetTransform()->GetForward() * m_DashDistance;
-    m_Stamina -= m_StaminaUsagePerDash;
 }

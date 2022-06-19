@@ -1,19 +1,22 @@
+#include <Physics/Physics.h>
+#include <Physics/RayCastHit.h>
 #include "TPPPlayer.h"
 
 #include "Scene/Actor.h"
 #include "Input/Input.h"
 #include "Math/Math.h"
 #include "Math/Ray.h"
-#include "Time/Time.h"
-#include "Scene/Component/CameraComponent.h"
 #include "Scene/Component/RigidBodyComponent.h"
 #include "CharacterController.h"
 #include "TPPCharacterController.h"
 #include "Trail.h"
-#include "Checkpoint.h"
 #include "CameraController.h"
 #include "PickableSkill.h"
 #include "TutorialManager.h"
+#include "Inventory.h"
+#include "InteractionPanel.h"
+#include "GameManager.h"
+#include "Interactable.h"
 
 TPPPlayer::TPPPlayer(Actor* owner)
 	: Player(owner)
@@ -30,6 +33,9 @@ void TPPPlayer::Start()
 	input->BindAction("Jump", InputEvent::Press, &TPPPlayer::Jump, this);
 	input->BindAction("Jump", InputEvent::Release, &TPPPlayer::AllowJumping, this);
 
+    input->BindAction("Jump_Gamepad", InputEvent::Press, &TPPPlayer::Jump_Gamepad, this);
+    input->BindAction("Jump_Gamepad", InputEvent::Release, &TPPPlayer::AllowJumping_Gamepad, this);
+
 	input->BindAction("Run", InputEvent::Press, &TPPPlayer::RunOn, this);
 	input->BindAction("Run", InputEvent::Release, &TPPPlayer::RunOff, this);
 
@@ -39,13 +45,18 @@ void TPPPlayer::Start()
     input->BindAction("Teleport", InputEvent::Press, &TPPPlayer::Teleport, this);
     input->BindAction("Teleport", InputEvent::Release, &TPPPlayer::AllowTeleporting, this);
 
+    input->BindAction("Interact", InputEvent::Press, &TPPPlayer::Interact, this);
+    input->BindAction("Interact", InputEvent::Release, &TPPPlayer::AllowInteracting, this);
+
     input->SetInputMode(InputMode::Player);
 
 	m_CharacterController = m_Owner->AddComponent<TPPCharacterController>();
+    m_Inventory = m_Owner->AddComponent<Inventory>();
     m_CameraController = m_Owner->GetScene()->GetComponent<CameraController>(m_CameraControllerID);
     m_Ghost = m_Owner->GetScene()->FindActor(m_GhostID);
     m_Trail = m_Owner->GetScene()->GetComponent<Trail>(m_TrailID);
     m_StaminaBar = m_Owner->GetScene()->FindActor(m_StaminaBarID);
+    m_InteractionPanel = m_Owner->GetScene()->GetComponent<InteractionPanel>(m_InteractionPanelID);
 
     m_LastCheckpointPosition = m_Owner->GetTransform()->GetWorldPosition();
     m_StaminaBarDefaultScale = m_StaminaBar->GetTransform()->GetLocalScale();
@@ -54,6 +65,14 @@ void TPPPlayer::Start()
 
 void TPPPlayer::Update(float deltaTime)
 {
+    if (GameManager::GetInstance()->IsGamePaused())
+    {
+        m_Interactable = nullptr;
+        HideInteractionPanel();
+    }
+    else
+        LookForInteractable();
+
     if (m_IsTeleporting)
     {
         auto currentPosition = m_Owner->GetTransform()->GetWorldPosition();
@@ -137,6 +156,31 @@ void TPPPlayer::AllowJumping()
     m_CanJump = true;
 }
 
+void TPPPlayer::Jump_Gamepad()
+{
+    if (m_CanJump_Gamepad)
+    {
+        bool isGrounded = m_CharacterController->IsGrounded();
+        if (isGrounded || m_HasDoubleJumpSkill)
+        {
+            m_CharacterController->Jump();
+            m_CanJump_Gamepad = false;
+        }
+
+        if (!isGrounded && m_HasDoubleJumpSkill)
+        {
+            auto tutorial = TutorialManager::GetInstance();
+            if (tutorial->IsTutorialDisplayed(TutorialType::DoubleJump))
+                tutorial->HideTutorial(TutorialType::DoubleJump);
+        }
+    }
+}
+
+void TPPPlayer::AllowJumping_Gamepad()
+{
+    m_CanJump_Gamepad = true;
+}
+
 void TPPPlayer::RunOn()
 {
     m_IsRunning = true;
@@ -186,8 +230,41 @@ void TPPPlayer::AllowTeleporting()
     m_CanTeleport = true;
 }
 
-void TPPPlayer::HandleHUD()
+void TPPPlayer::Interact()
 {
+    if (m_CanInteract && m_Interactable)
+    {
+        m_Interactable->Interact(this);
+        m_CanInteract = false;
+    }
+}
+
+void TPPPlayer::AllowInteracting()
+{
+    m_CanInteract = true;
+}
+
+void TPPPlayer::LookForInteractable() {
+    glm::vec3 origin = m_Owner->GetTransform()->GetWorldPosition();
+    glm::vec3 direction = m_Owner->GetTransform()->GetForward();
+
+    RayCastHit hit;
+    if (Physics::RayCast(origin, direction, hit, m_InteractDistance, true, m_Owner))
+    {
+        Actor* actor = hit.Collider->GetOwner();
+        if (Ref<Interactable> interactable = actor->GetComponent<Interactable>())
+        {
+            DisplayInteractionPanel(interactable);
+            m_Interactable = interactable;
+            return;
+        }
+    }
+
+    HideInteractionPanel();
+    m_Interactable = nullptr;
+}
+
+void TPPPlayer::HandleHUD() {
     auto newStaminaBarScale = m_StaminaBar->GetTransform()->GetLocalScale();
     newStaminaBarScale.x = m_StaminaBarDefaultScale.x * m_CharacterController->GetStamina() / 100.0f;
     m_StaminaBar->GetTransform()->SetLocalScale(newStaminaBarScale);

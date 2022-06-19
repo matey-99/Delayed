@@ -785,6 +785,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         uint64_t ghostActorID = tppPlayer["Ghost"].as<uint64_t>();
                         uint64_t trailActorID = tppPlayer["Trail"].as<uint64_t>();
                         uint64_t staminaBarActorID = tppPlayer["StaminaBar"].as<uint64_t>();
+                        uint64_t interactionPanelActorID = tppPlayer["InteractionPanel"].as<uint64_t>();
 
 						auto p = a->CreateComponent<TPPPlayer>();
 
@@ -792,6 +793,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         p->m_GhostID = ghostActorID;
                         p->m_TrailID = trailActorID;
                         p->m_StaminaBarID = staminaBarActorID;
+                        p->m_InteractionPanelID = interactionPanelActorID;
 					}
 
 					if (auto panel = component["InteractionPanel"])
@@ -967,7 +969,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                     }
 
                     if (auto footsteps = component["Footsteps"]) {
-
                         uint32_t player = footsteps["PlayerID"].as<uint32_t>();
                         std::vector<std::string> sounds = std::vector<std::string>();
                         std::string name;
@@ -1388,20 +1389,6 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::EndMap;
 	}
 
-	if (auto player = actor->GetComponent<Player>())
-	{
-		out << YAML::BeginMap;
-		out << YAML::Key << "Player";
-		out << YAML::BeginMap;
-		out << YAML::Key << "Camera" << YAML::Value << player->m_CameraID;
-		out << YAML::Key << "Ghost" << YAML::Value << player->m_GhostID;
-		out << YAML::Key << "Trail" << YAML::Value << player->m_TrailID;
-		out << YAML::Key << "StaminaBar" << YAML::Value << player->m_StaminaBarID;
-		out << YAML::Key << "InteractionPanel" << YAML::Value << player->m_InteractionPanelID;
-		out << YAML::EndMap;
-		out << YAML::EndMap;
-	}
-
 	if (auto tppPlayer = actor->GetComponent<TPPPlayer>())
 	{
 		out << YAML::BeginMap;
@@ -1411,9 +1398,22 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "Ghost" << YAML::Value << tppPlayer->m_GhostID;
         out << YAML::Key << "Trail" << YAML::Value << tppPlayer->m_TrailID;
         out << YAML::Key << "StaminaBar" << YAML::Value << tppPlayer->m_StaminaBarID;
+        out << YAML::Key << "InteractionPanel" << YAML::Value << tppPlayer->m_InteractionPanelID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
-	}
+	} else if (auto player = actor->GetComponent<Player>())
+    {
+        out << YAML::BeginMap;
+        out << YAML::Key << "Player";
+        out << YAML::BeginMap;
+        out << YAML::Key << "Camera" << YAML::Value << player->m_CameraID;
+        out << YAML::Key << "Ghost" << YAML::Value << player->m_GhostID;
+        out << YAML::Key << "Trail" << YAML::Value << player->m_TrailID;
+        out << YAML::Key << "StaminaBar" << YAML::Value << player->m_StaminaBarID;
+        out << YAML::Key << "InteractionPanel" << YAML::Value << player->m_InteractionPanelID;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
 
 	if (auto panel = actor->GetComponent<InteractionPanel>())
 	{
