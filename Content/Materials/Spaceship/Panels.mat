@@ -35,6 +35,8 @@ Vec3 Parameters:
     Value: [0, 0, 0]
   - Name: u_Material.emissive
     Value: [0, 0, 0]
+Vec4 Parameters:
+  []
 Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"

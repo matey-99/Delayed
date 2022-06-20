@@ -1357,7 +1357,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 14.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 16.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.699999988, 1, 0.699999988]
           Parent: 0
@@ -5190,3 +5190,140 @@ Actors:
           Parent: 0
       - SaveManager:
           {}
+  - Actor: 910102541
+    ID: 910102541
+    Name: Spaceship2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [33.3051605, 4.32073784, -82.9488144]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 196383407
+    ID: 196383407
+    Name: Engine
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_engine.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Engine.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 75876906
+    ID: 75876906
+    Name: Wing
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_wing.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Wings.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 784552122
+    ID: 784552122
+    Name: Weapon Left
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_weapon_left.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Weapons.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 521185277
+    ID: 521185277
+    Name: Weapon Right
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_weapon_right.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Weapons.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 689113077
+    ID: 689113077
+    Name: Panel Left
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_panel_left.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Panels.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 348163419
+    ID: 348163419
+    Name: Panel Right
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_panel_right.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Panels.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
