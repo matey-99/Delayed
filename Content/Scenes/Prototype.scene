@@ -2139,12 +2139,12 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-26.3460484, 23.3547039, 121.889297]
+          LocalPosition: [-26.3460484, 23.55867, 120.559265]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 3, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -2162,10 +2162,10 @@ Actors:
       - Transform:
           LocalPosition: [-22.1664581, 9.17877483, 66.7449875]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 3, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -2183,10 +2183,10 @@ Actors:
       - Transform:
           LocalPosition: [-21.9052162, 9.96990585, 60.8393707]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 5.10318565, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -2606,7 +2606,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [0.5, 0.5, 0.5]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostBox.mat
   - Actor: 373446215
     ID: 373446215
     Name: Block_trigger2
@@ -2623,7 +2624,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [0.5, 0.5, 0.5]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostBox.mat
   - Actor: 865256449
     ID: 865256449
     Name: Block_trigger3
@@ -2640,7 +2642,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [0.5, 0.5, 0.5]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostBox.mat
   - Actor: 264513819
     ID: 264513819
     Name: Cube (21)
@@ -3602,10 +3605,10 @@ Actors:
       - Transform:
           LocalPosition: [177.168304, 8.51960373, 33.5214996]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 3, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -4321,11 +4324,11 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [-51.9250717, -14.4409676, -127.596779]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [10.6736097, 79.0970078, 12.2729578]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [8, 8, 8]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_big.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -4348,9 +4351,10 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
-          Size: [0.5, 0.5, 0.5]
+          Size: [1, 1, 3]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostPlatform.mat
   - Actor: 232882433
     ID: 232882433
     Name: Pickable Spaceship Part 2
@@ -4563,7 +4567,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostBox.mat
   - Actor: 971865150
     ID: 971865150
     Name: RespawnPoint
@@ -4766,10 +4771,10 @@ Actors:
       - Transform:
           LocalPosition: [-127.427437, 16.9096375, -135.632248]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 3, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -4783,10 +4788,10 @@ Actors:
       - Transform:
           LocalPosition: [-106.8321, 18.0944633, -136.582932]
           LocalRotation: [0, 0, 0]
-          LocalScale: [6.26999998, 6.26999998, 6.26999998]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -4854,11 +4859,11 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [183.322113, -16.7300682, 57.9744034]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [6.93091536, 51.3616943, 7.96945333]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [6, 6, 8]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_big.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -5253,3 +5258,21 @@ Actors:
       - SpaceshipPart:
           Type: 2
           Material: Materials/Spaceship/Panels.mat
+  - Actor: 416460568
+    ID: 416460568
+    Name: BlockTrigger4
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 612935349
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 3]
+      - BlockTrigger:
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostPlatform.mat

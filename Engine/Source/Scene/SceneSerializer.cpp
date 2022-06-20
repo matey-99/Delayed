@@ -875,7 +875,13 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto blockTrigger = component["BlockTrigger"])
 					{
-						a->CreateComponent<BlockTrigger>();
+                        auto ghostMaterial = blockTrigger["GhostMaterial"].as<std::string>();
+                        auto solidMaterial = blockTrigger["SolidMaterial"].as<std::string>();
+
+						auto bt = a->CreateComponent<BlockTrigger>();
+
+                        bt->m_GhostMaterial = AssetManager::LoadMaterial(ghostMaterial);
+                        bt->m_SolidMaterial = AssetManager::LoadMaterial(solidMaterial);
 					}
 
 					if (auto trail = component["Trail"])
@@ -1544,6 +1550,8 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "BlockTrigger";
 		out << YAML::BeginMap;
+        out << YAML::Key << "GhostMaterial" << YAML::Value << blockTrigger->m_GhostMaterial->GetPath();
+        out << YAML::Key << "SolidMaterial" << YAML::Value << blockTrigger->m_SolidMaterial->GetPath();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

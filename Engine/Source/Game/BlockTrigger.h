@@ -23,6 +23,8 @@ public:
 
 private:
 	Ref<ColliderComponent> m_ConnectedBlockCollider;
+    Ref<Material> m_GhostMaterial;
+    Ref<Material> m_SolidMaterial;
 
 	friend class SceneSerializer;
 	friend class ActorDetailsPanel;

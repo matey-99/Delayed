@@ -1,3 +1,4 @@
+#include <Assets/AssetManager.h>
 #include "BlockTrigger.h"
 
 #include "Scene/Actor.h"
@@ -9,6 +10,8 @@
 BlockTrigger::BlockTrigger(Actor* owner)
 	: GameComponent(owner)
 {
+    m_GhostMaterial = AssetManager::LoadMaterial("Materials/M_GhostObject.mat");
+    m_SolidMaterial = AssetManager::LoadMaterial("Materials/GhostBox.mat");
 }
 
 BlockTrigger::~BlockTrigger()
@@ -40,7 +43,7 @@ void BlockTrigger::OnTriggerEnter(ColliderComponent* other)
 	if (other->GetOwner()->GetComponent<Ghost>())
 	{
 		m_ConnectedBlockCollider->SetTrigger(false);
-		m_ConnectedBlockCollider->GetOwner()->GetComponent<StaticMeshComponent>()->ChangeMaterial(0, "Materials/White.mat");
+		m_ConnectedBlockCollider->GetOwner()->GetComponent<StaticMeshComponent>()->ChangeMaterial(0, m_SolidMaterial);
 	}
 }
 
@@ -49,6 +52,6 @@ void BlockTrigger::OnTriggerExit(ColliderComponent* other)
 	if (other->GetOwner()->GetComponent<Ghost>())
 	{
 		m_ConnectedBlockCollider->SetTrigger(true);
-		m_ConnectedBlockCollider->GetOwner()->GetComponent<StaticMeshComponent>()->ChangeMaterial(0, "Materials/M_GhostObject.mat");
+		m_ConnectedBlockCollider->GetOwner()->GetComponent<StaticMeshComponent>()->ChangeMaterial(0, m_GhostMaterial);
 	}
 }
