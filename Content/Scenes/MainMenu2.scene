@@ -802,9 +802,26 @@ Actors:
           FieldOfView: 90
           NearClipPlane: 0.100000001
           FarClipPlane: 10000
-  - Actor: 211389655
-    ID: 211389655
-    Name: spaceship_tmp
+  - Actor: 910102541
+    ID: 910102541
+    Name: Spaceship
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [1.93627691, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0.5]
+          Size: [7, 3, 3]
+      - Spaceship:
+          {}
+  - Actor: 196383407
+    ID: 196383407
+    Name: Engine
     Enabled: true
     Dynamic: false
     Components:
@@ -812,23 +829,107 @@ Actors:
           LocalPosition: [0, 0, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
-          Parent: 0
+          Parent: 910102541
       - StaticMesh:
-          Mesh: Models/spaceship/spaceship_tmp.obj
+          Mesh: Models/spaceship/spaceship_engine.obj
           Materials:
             - Material: 0
               Path: Materials/Spaceship/Engine.mat
-            - Material: 1
-              Path: Materials/Spaceship/Panels.mat
-            - Material: 2
-              Path: Materials/Spaceship/Panels.mat
-            - Material: 3
-              Path: Materials/Spaceship/Weapons.mat
-            - Material: 4
-              Path: Materials/Spaceship/Weapons.mat
-            - Material: 5
+          CastShadow: true
+  - Actor: 75876906
+    ID: 75876906
+    Name: Wing
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_wing.obj
+          Materials:
+            - Material: 0
               Path: Materials/Spaceship/Wings.mat
           CastShadow: true
+  - Actor: 784552122
+    ID: 784552122
+    Name: Weapon Left
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_weapon_left.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - SpaceshipPart:
+          Type: 0
+          Material: Materials/Spaceship/Weapons.mat
+  - Actor: 521185277
+    ID: 521185277
+    Name: Weapon Right
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_weapon_right.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Weapons.mat
+          CastShadow: true
+  - Actor: 689113077
+    ID: 689113077
+    Name: Panel Left
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_panel_left.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - SpaceshipPart:
+          Type: 1
+          Material: Materials/Spaceship/Panels.mat
+  - Actor: 348163419
+    ID: 348163419
+    Name: Panel Right
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_panel_right.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - SpaceshipPart:
+          Type: 2
+          Material: Materials/Spaceship/Panels.mat
   - Actor: 822017533
     ID: 822017533
     Name: Directional Light
