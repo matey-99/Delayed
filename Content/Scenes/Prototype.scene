@@ -171,6 +171,55 @@ Actors:
       - Image:
           Path: Textures/Default/UI.png
           Color: [1, 1, 1, 1]
+  - Actor: 961523686
+    ID: 961523686
+    Name: InteractionPanel
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
+      - InteractionPanel:
+          {}
+  - Actor: 44539894
+    ID: 44539894
+    Name: InteractionText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-80, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 961523686
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 28
+          Text: "'E' to interact"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 558053073
+    ID: 558053073
+    Name: InteractionIcon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-49, 17, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [32, 32, 1]
+          Parent: 961523686
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
   - Actor: 942025306
     ID: 942025306
     Name: Footsteps
@@ -5044,55 +5093,6 @@ Actors:
             - Material: 0
               Path: Materials/Ring.mat
           CastShadow: true
-  - Actor: 961523686
-    ID: 961523686
-    Name: InteractionPanel
-    Enabled: false
-    Dynamic: false
-    Components:
-      - RectTransform:
-          Anchor: 0
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 1
-      - InteractionPanel:
-          {}
-  - Actor: 44539894
-    ID: 44539894
-    Name: InteractionText
-    Enabled: true
-    Dynamic: false
-    Components:
-      - RectTransform:
-          Anchor: 0
-          LocalPosition: [-80, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 961523686
-      - Text:
-          Font: Fonts/arial.ttf
-          FontSize: 28
-          Text: "'E' to interact"
-          NormalColor: [1, 1, 1, 1]
-          HoveredColor: [0.75, 0.75, 0.75, 1]
-          PressedColor: [0.5, 0.5, 0.5, 1]
-          DisabledColor: [0.25, 0.25, 0.25, 1]
-  - Actor: 558053073
-    ID: 558053073
-    Name: InteractionIcon
-    Enabled: true
-    Dynamic: false
-    Components:
-      - RectTransform:
-          Anchor: 0
-          LocalPosition: [-49, 17, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [32, 32, 1]
-          Parent: 961523686
-      - Image:
-          Path: Textures/Default/UI.png
-          Color: [1, 1, 1, 1]
   - Actor: 493161876
     ID: 493161876
     Name: Save Manager

@@ -96,84 +96,6 @@ Actors:
           CastShadow: true
       - Animator:
           {}
-  - Actor: 405188478
-    ID: 405188478
-    Name: Trail2
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 1, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 1503310902
-      - ParticleSystem:
-          Duration: 5
-          Looping: true
-          Sprite: Textures/Default/Particle.png
-          EmitterShape: 0
-          EmitterSphereRadius: 0.25
-          MaxParticles: 1000
-          EmissionRateOverTime: 50
-          MinParticleSize: 0.25
-          MaxParticleSize: 0.25
-          EndParticleSize: 0
-          MinParticleVelocity: [0, 0.100000001, 0]
-          MaxParticleVelocity: [0, 0, 0]
-          EndParticleVelocity: [0, 0, 0]
-          MinParticleLifeTime: 3.5
-          MaxParticleLifeTime: 3.5
-          StartParticleColor: [0, 1.89944363, 2, 0.5]
-          EndParticleColor: [0, 0.950000525, 1, 0]
-      - Trail:
-          {}
-  - Actor: 765667130
-    ID: 765667130
-    Name: Stamina Bar
-    Enabled: false
-    Dynamic: false
-    Components:
-      - RectTransform:
-          Anchor: 2
-          LocalPosition: [0, 100, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [300, 10, 1]
-          Parent: 1
-      - Image:
-          Path: Textures/Default/UI.png
-          Color: [1, 1, 1, 1]
-  - Actor: 942025307
-    ID: 942025307
-    Name: Footsteps2
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, -2, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1.42857146, 1, 1.42857146]
-          Parent: 1503310902
-      - AudioSource:
-          SoundPath: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
-          Channel: 2
-          Volume: 0.5
-          3d: false
-          Looping: false
-          PlayOnStart: false
-      - Footsteps:
-          PlayerID: 1503310902
-          Sound0: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
-          Sound1: ../../../Content/Audio/Footsteps/Ground/Walk/Walk02.wav
-          Sound2: ../../../Content/Audio/Footsteps/Ground/Walk/Walk03.wav
-          Sound3: ../../../Content/Audio/Footsteps/Ground/Walk/Walk04.wav
-          Sound4: ../../../Content/Audio/Footsteps/Ground/Walk/Walk05.wav
-          Sound5: ../../../Content/Audio/Footsteps/Ground/Run/Run01.wav
-          Sound6: ../../../Content/Audio/Footsteps/Ground/Run/Run02.wav
-          Sound7: ../../../Content/Audio/Footsteps/Ground/Run/Run03.wav
-          Sound8: ../../../Content/Audio/Footsteps/Ground/Run/Run04.wav
-          Sound9: ../../../Content/Audio/Footsteps/Ground/Run/Run05.wav
-          Sound10: ../../../Content/Audio/Footsteps/Ground/Jump/Start01.wav
-          Sound11: ../../../Content/Audio/Footsteps/Ground/Jump/Land01.wav
   - Actor: 485961876
     ID: 485961876
     Name: Camera Controller
@@ -251,6 +173,52 @@ Actors:
           PlayOnStart: true
       - Ghost:
           Player: 1503310902
+  - Actor: 405188478
+    ID: 405188478
+    Name: Trail2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 1, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1503310902
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 0.25
+          MaxParticles: 1000
+          EmissionRateOverTime: 50
+          MinParticleSize: 0.25
+          MaxParticleSize: 0.25
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0, 0]
+          EndParticleVelocity: [0, 0, 0]
+          MinParticleLifeTime: 3.5
+          MaxParticleLifeTime: 3.5
+          StartParticleColor: [0, 1.89944363, 2, 0.5]
+          EndParticleColor: [0, 0.950000525, 1, 0]
+      - Trail:
+          {}
+  - Actor: 765667130
+    ID: 765667130
+    Name: Stamina Bar
+    Enabled: false
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 2
+          LocalPosition: [0, 100, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [300, 10, 1]
+          Parent: 1
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
   - Actor: 961523686
     ID: 961523686
     Name: InteractionPanel
@@ -300,6 +268,38 @@ Actors:
       - Image:
           Path: Textures/Default/UI.png
           Color: [1, 1, 1, 1]
+  - Actor: 942025307
+    ID: 942025307
+    Name: Footsteps2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, -2, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1.42857146, 1, 1.42857146]
+          Parent: 1503310902
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
+          Channel: 2
+          Volume: 0.5
+          3d: false
+          Looping: false
+          PlayOnStart: false
+      - Footsteps:
+          PlayerID: 1503310902
+          Sound0: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
+          Sound1: ../../../Content/Audio/Footsteps/Ground/Walk/Walk02.wav
+          Sound2: ../../../Content/Audio/Footsteps/Ground/Walk/Walk03.wav
+          Sound3: ../../../Content/Audio/Footsteps/Ground/Walk/Walk04.wav
+          Sound4: ../../../Content/Audio/Footsteps/Ground/Walk/Walk05.wav
+          Sound5: ../../../Content/Audio/Footsteps/Ground/Run/Run01.wav
+          Sound6: ../../../Content/Audio/Footsteps/Ground/Run/Run02.wav
+          Sound7: ../../../Content/Audio/Footsteps/Ground/Run/Run03.wav
+          Sound8: ../../../Content/Audio/Footsteps/Ground/Run/Run04.wav
+          Sound9: ../../../Content/Audio/Footsteps/Ground/Run/Run05.wav
+          Sound10: ../../../Content/Audio/Footsteps/Ground/Jump/Start01.wav
+          Sound11: ../../../Content/Audio/Footsteps/Ground/Jump/Land01.wav
   - Actor: 493161976
     ID: 493161976
     Name: Game Manager
@@ -2236,12 +2236,12 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-26.3460484, 23.3547039, 121.889297]
+          LocalPosition: [-26.3460484, 23.55867, 120.559265]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 3, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -2259,10 +2259,10 @@ Actors:
       - Transform:
           LocalPosition: [-22.1664581, 9.17877483, 66.7449875]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 3, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -2280,10 +2280,10 @@ Actors:
       - Transform:
           LocalPosition: [-21.9052162, 9.96990585, 60.8393707]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 5.10318565, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -2703,7 +2703,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [0.5, 0.5, 0.5]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostBox.mat
   - Actor: 373446215
     ID: 373446215
     Name: Block_trigger2
@@ -2720,7 +2721,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [0.5, 0.5, 0.5]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostBox.mat
   - Actor: 865256449
     ID: 865256449
     Name: Block_trigger3
@@ -2737,7 +2739,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [0.5, 0.5, 0.5]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostBox.mat
   - Actor: 264513819
     ID: 264513819
     Name: Cube (21)
@@ -3699,10 +3702,10 @@ Actors:
       - Transform:
           LocalPosition: [177.168304, 8.51960373, 33.5214996]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 3, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -4418,11 +4421,11 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [-51.9250717, -14.4409676, -127.596779]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [10.6736097, 79.0970078, 12.2729578]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [8, 8, 8]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_big.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -4445,12 +4448,13 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
-          Size: [0.5, 0.5, 0.5]
+          Size: [1, 1, 3]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostPlatform.mat
   - Actor: 232882433
     ID: 232882433
-    Name: Cube (2)
+    Name: Pickable Spaceship Part 2
     Enabled: true
     Dynamic: false
     Components:
@@ -4465,6 +4469,8 @@ Actors:
             - Material: 0
               Path: Materials/Red.mat
           CastShadow: true
+      - PickableSpaceshipPart:
+          SpaceshipPart: 1
   - Actor: 448595750
     ID: 448595750
     Name: ObeliskArea Heal
@@ -4658,7 +4664,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
       - BlockTrigger:
-          {}
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostBox.mat
   - Actor: 971865150
     ID: 971865150
     Name: RespawnPoint
@@ -4861,10 +4868,10 @@ Actors:
       - Transform:
           LocalPosition: [-127.427437, 16.9096375, -135.632248]
           LocalRotation: [0, 0, 0]
-          LocalScale: [3, 3, 3]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -4878,10 +4885,10 @@ Actors:
       - Transform:
           LocalPosition: [-106.8321, 18.0944633, -136.582932]
           LocalRotation: [0, 0, 0]
-          LocalScale: [6.26999998, 6.26999998, 6.26999998]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_small.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -4949,11 +4956,11 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [183.322113, -16.7300682, 57.9744034]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [6.93091536, 51.3616943, 7.96945333]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [6, 6, 8]
           Parent: 0
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/ghost_platform_big.fbx
           Materials:
             - Material: 0
               Path: Materials/M_GhostObject.mat
@@ -4981,7 +4988,7 @@ Actors:
           Size: [1, 1, 1]
   - Actor: 962435065
     ID: 962435065
-    Name: Cube (2)
+    Name: Pickable Spaceship Part 3
     Enabled: true
     Dynamic: false
     Components:
@@ -4996,6 +5003,8 @@ Actors:
             - Material: 0
               Path: Materials/Red.mat
           CastShadow: true
+      - PickableSpaceshipPart:
+          SpaceshipPart: 2
   - Actor: 64904609
     ID: 64904609
     Name: Clouds
@@ -5132,99 +5141,6 @@ Actors:
             - Material: 0
               Path: Materials/Ring.mat
           CastShadow: true
-  - Actor: 504371343
-    ID: 504371343
-    Name: Spaceship
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [37.733799, 3.41052246, -46.8020058]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/spaceship/spaceship_tmp.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Default.mat
-            - Material: 1
-              Path: Materials/Default.mat
-            - Material: 2
-              Path: Materials/Default.mat
-            - Material: 3
-              Path: Materials/Default.mat
-            - Material: 4
-              Path: Materials/Default.mat
-            - Material: 5
-              Path: Materials/Default.mat
-          CastShadow: true
-      - BoxCollider:
-          IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
-      - Spaceship:
-          {}
-  - Actor: 505085429
-    ID: 505085429
-    Name: SpaceshipPart1
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [-781.522949, 36.0509872, 1221.20435]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [243.199997, 243.199997, 243.199997]
-          Parent: 504371343
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Hologram.mat
-          CastShadow: true
-      - SpaceshipPart:
-          Type: 0
-          Material: Materials/Default.mat
-  - Actor: 200950954
-    ID: 200950954
-    Name: SpaceshipPart2
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [199.120712, 36.0509872, 1253.8197]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [233, 233, 233]
-          Parent: 504371343
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Hologram.mat
-          CastShadow: true
-      - SpaceshipPart:
-          Type: 1
-          Material: Materials/Default.mat
-  - Actor: 855801317
-    ID: 855801317
-    Name: SpaceshipPart3
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [917.778015, 200.677017, 549.215698]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [206, 206, 206]
-          Parent: 504371343
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
-          Materials:
-            - Material: 0
-              Path: Materials/Hologram.mat
-          CastShadow: true
-      - SpaceshipPart:
-          Type: 2
-          Material: Materials/Default.mat
   - Actor: 493161876
     ID: 493161876
     Name: Save Manager
@@ -5238,3 +5154,173 @@ Actors:
           Parent: 0
       - SaveManager:
           {}
+  - Actor: 910102541
+    ID: 910102541
+    Name: Spaceship
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [33.3051605, 5.79308987, -85.9664154]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1.36000001, 1.36000001, 1.36000001]
+          Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0.5]
+          Size: [7, 3, 3]
+      - Spaceship:
+          {}
+  - Actor: 196383407
+    ID: 196383407
+    Name: Engine
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_engine.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Engine.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 75876906
+    ID: 75876906
+    Name: Wing
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_wing.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Wings.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 784552122
+    ID: 784552122
+    Name: Weapon Left
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_weapon_left.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - SpaceshipPart:
+          Type: 0
+          Material: Materials/Spaceship/Weapons.mat
+  - Actor: 521185277
+    ID: 521185277
+    Name: Weapon Right
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_weapon_right.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Weapons.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 689113077
+    ID: 689113077
+    Name: Panel Left
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_panel_left.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - SpaceshipPart:
+          Type: 1
+          Material: Materials/Spaceship/Panels.mat
+  - Actor: 348163419
+    ID: 348163419
+    Name: Panel Right
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 910102541
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_panel_right.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Hologram.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+      - SpaceshipPart:
+          Type: 2
+          Material: Materials/Spaceship/Panels.mat
+  - Actor: 416460568
+    ID: 416460568
+    Name: BlockTrigger4
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 612935349
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [1, 1, 3]
+      - BlockTrigger:
+          GhostMaterial: Materials/M_GhostObject.mat
+          SolidMaterial: Materials/GhostPlatform.mat
