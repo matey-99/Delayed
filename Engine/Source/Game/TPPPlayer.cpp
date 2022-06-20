@@ -228,7 +228,7 @@ void TPPPlayer::Teleport()
         m_IsTeleporting = true;
         m_CanTeleport = false;
         m_TeleportCooldownTimer = m_TeleportCooldown;
-        m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition();
+        m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition() + glm::vec3(0.0f, 2.0f, 0.0f);
 
         auto tutorial = TutorialManager::GetInstance();
         if (tutorial->IsTutorialDisplayed(TutorialType::Teleport))
