@@ -22,10 +22,14 @@ public:
 	static Ref<BlendTree> Create(Animator* owner);
 
 	virtual void UpdateState(float deltaTime) override;
+	virtual bool HasAnimationEnd() override;
+	virtual void StartWaiting() override;
 
 	void AddNode(const BlendNode& node);
 
 	std::vector<BlendNode> GetNodes() const { return m_Nodes; }
+	std::string GetBlendParameterName() const { return m_BlendParameterName; }
+
 	void SetBlendParemeterName(const std::string& name) { m_BlendParameterName = name; }
 
 private:

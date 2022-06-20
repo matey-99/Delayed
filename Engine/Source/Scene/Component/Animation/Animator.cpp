@@ -49,6 +49,7 @@ void Animator::Start()
 	Ref<AnimatorState> jumpState = Cast<AnimatorState>(m_States[1]);
 	jumpState->SetAnimation(m_SkeletalMeshComponent->GetAnimation(2));
 	jumpState->SetAnimationSpeed(1.0f);
+	jumpState->ShouldWaitUntilAnimationEnd(true);
 
 	Ref<AnimatorTransition> t1 = AnimatorTransition::Create(this, blendTree, jumpState);
 	t1->AddCondition("IsJumping", true);

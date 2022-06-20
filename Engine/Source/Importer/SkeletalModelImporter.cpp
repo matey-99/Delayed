@@ -38,8 +38,6 @@ Ref<SkeletalModel> SkeletalModelImporter::ImportSkeletalModel(std::string path)
 	// Process loaded meshes from all nodes
 	ProcessNode(scene->mRootNode, scene, meshes, rig);
 
-	std::cout << "rig->HowManyBones(): " << rig->HowManyBones() << "\n";  // Debug-only
-
 	std::string relativePath = path.substr(AssetManager::ContentDirectory.size() + 1);
 	Ref<SkeletalModel> importedSkeletalModel = SkeletalModel::Create(relativePath, meshes, rig, globalInverseTransform);
 

@@ -81,6 +81,18 @@ void BlendTree::UpdateState(float deltaTime)
 		glm::mat4(1.0f), blendValue);
 }
 
+bool BlendTree::HasAnimationEnd()
+{
+	m_IsWaiting = false;
+
+	return true;
+}
+
+void BlendTree::StartWaiting()
+{
+	AnimatorStateBase::StartWaiting();
+}
+
 void BlendTree::AddNode(const BlendNode& node)
 {
 	m_Nodes.push_back(node);

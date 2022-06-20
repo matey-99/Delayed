@@ -14,6 +14,8 @@ public:
 	static Ref<AnimatorState> Create(Animator* owner);
 
 	virtual void UpdateState(float deltaTime) override;
+	virtual bool HasAnimationEnd() override;
+	virtual void StartWaiting() override;
 
 	inline Ref<Animation> GetAnimation() const { return m_Animation; }
 	inline float GetAnimationSpeed() const { return m_AnimationSpeed; }
@@ -25,4 +27,6 @@ private:
 	Ref<Animation> m_Animation;
 	float m_AnimationSpeed;
 	float m_AnimationTime;
+
+	float m_WaitTime;
 };

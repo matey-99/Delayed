@@ -11,19 +11,25 @@ public:
 	AnimatorStateBase();
 	AnimatorStateBase(Animator* owner);
 
-	static Ref<AnimatorStateBase> Create(Animator* owner);
-
 	virtual void UpdateState(float deltaTime);
+	virtual bool HasAnimationEnd() = 0;
+	virtual void StartWaiting();
 
-	void ExitState(Ref<AnimatorTransition> transition, float deltaTime);
+	void ExitState(Ref<AnimatorTransition> transition);
 
 	void AddExitTransition(Ref<AnimatorTransition> transition);
+
+	inline void ShouldWaitUntilAnimationEnd(bool should) { m_ShouldWaitUntilAnimationEnd = should; }
 
 protected:
 	Animator* m_Owner;
 	std::vector<Ref<AnimatorTransition>> m_ExitTransitions;
 
+	bool m_IsWaiting;
+
 private:
 	std::string m_Name;
-	bool m_IsExiting;
+	bool m_ShouldWaitUntilAnimationEnd;
+
+	float m_StateTime;
 };

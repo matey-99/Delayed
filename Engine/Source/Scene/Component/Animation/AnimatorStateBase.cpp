@@ -12,12 +12,9 @@ AnimatorStateBase::AnimatorStateBase()
 AnimatorStateBase::AnimatorStateBase(Animator* owner)
 	: m_Owner(owner)
 {
-	m_IsExiting = false;
-}
+	m_ShouldWaitUntilAnimationEnd = false;
 
-Ref<AnimatorStateBase> AnimatorStateBase::Create(Animator* owner)
-{
-	return CreateRef<AnimatorStateBase>(owner);
+	m_IsWaiting = false;
 }
 
 void AnimatorStateBase::UpdateState(float deltaTime)
@@ -26,11 +23,37 @@ void AnimatorStateBase::UpdateState(float deltaTime)
 	{
 		if (transition->CheckConditions())
 		{
-			m_Owner->SetCurrentState(nullptr);
-			m_Owner->SetCurrentTransition(transition);
-			return;
+			if (m_ShouldWaitUntilAnimationEnd)
+			{
+				if (!m_IsWaiting)
+				{
+					StartWaiting();
+				}
+
+				if (HasAnimationEnd())
+				{
+					ExitState(transition);
+					return;
+				}
+			}
+			else
+			{
+				ExitState(transition);
+				return;
+			}
 		}
 	}
+}
+
+void AnimatorStateBase::StartWaiting()
+{
+	m_IsWaiting = true;
+}
+
+void AnimatorStateBase::ExitState(Ref<AnimatorTransition> transition)
+{
+	m_Owner->SetCurrentState(nullptr);
+	m_Owner->SetCurrentTransition(transition);
 }
 
 void AnimatorStateBase::AddExitTransition(Ref<AnimatorTransition> transition)

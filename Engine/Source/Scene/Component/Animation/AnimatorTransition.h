@@ -4,6 +4,9 @@
 
 class Animator;
 class AnimatorStateBase;
+class AnimatorState;
+class BlendTree;
+struct BlendNode;
 
 class AnimatorTransition
 {
@@ -23,6 +26,7 @@ public:
 	inline Ref<AnimatorStateBase> GetNextState() const { return m_NextState; }
 
 private:
+	BlendNode GetNearestNode(Ref<BlendTree> tree);
 
 private:
 	Animator* m_Owner;

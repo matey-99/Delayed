@@ -2,8 +2,7 @@
 
 #include "Animator.h"
 #include "AnimatorStateBase.h"
-#include "Time/Time.h"
-#include "Time/TimerManager.h"
+#include "Math/Math.h"
 
 AnimatorTransition::AnimatorTransition()
 {
@@ -45,6 +44,25 @@ void AnimatorTransition::AddCondition(std::string paramName, bool value)
 	m_Conditions.insert({ paramName, value });
 }
 
+BlendNode AnimatorTransition::GetNearestNode(Ref<BlendTree> tree)
+{
+	float blendValue = m_Owner->GetFloatParameter(tree->GetBlendParameterName());
+
+	int nodeIndex = 0;
+	float minDelta = Math::Infinity;
+	for (int i = 0; i < tree->GetNodes().size(); i++)
+	{
+		float delta = glm::abs(tree->GetNodes()[i].BlendLimit - blendValue);
+		if (delta < minDelta)
+		{
+			minDelta = delta;
+			nodeIndex = i;
+		}
+	}
+
+	return tree->GetNodes()[nodeIndex];
+}
+
 void AnimatorTransition::UpdateTransition(float deltaTime)
 {
 	m_TransitionTimer += 1.0f / m_TransitionTime * deltaTime;
@@ -60,8 +78,10 @@ void AnimatorTransition::UpdateTransition(float deltaTime)
 
 	if (auto blendTree = Cast<BlendTree>(m_PreviousState))
 	{
-		previousAnim = blendTree->GetNodes()[0].Animation;
-		previousAnimSpeed = blendTree->GetNodes()[0].AnimationSpeed;
+		BlendNode node = GetNearestNode(blendTree);
+
+		previousAnim = node.Animation;
+		previousAnimSpeed = node.AnimationSpeed;
 	}
 	else if (auto state = Cast<AnimatorState>(m_PreviousState))
 	{
@@ -71,15 +91,16 @@ void AnimatorTransition::UpdateTransition(float deltaTime)
 
 	if (auto blendTree = Cast<BlendTree>(m_NextState))
 	{
-		nextAnim = blendTree->GetNodes()[0].Animation;
-		nextAnimSpeed = blendTree->GetNodes()[0].AnimationSpeed;
+		BlendNode node = GetNearestNode(blendTree);
+
+		nextAnim = node.Animation;
+		nextAnimSpeed = node.AnimationSpeed;
 	}
 	else if (auto state = Cast<AnimatorState>(m_NextState))
 	{
 		nextAnim = state->GetAnimation();
 		nextAnimSpeed = state->GetAnimationSpeed();
 	}
-
 
 	float blendValue = m_TransitionTimer;
 
