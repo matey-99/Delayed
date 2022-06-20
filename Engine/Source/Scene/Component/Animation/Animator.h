@@ -28,6 +28,7 @@ public:
 	bool GetBoolParameter(std::string parameterName);
 	float GetFloatParameter(std::string parameterName);
 
+	void SetBoolParameter(std::string parameterName, bool value);
 	void SetFloatParameter(std::string parameterName, float value);
 
 	inline void SetCurrentState(Ref<AnimatorStateBase> state) { m_CurrentState = state; }

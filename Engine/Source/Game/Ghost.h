@@ -6,6 +6,7 @@
 #define GHOST_POSITIONS_COUNT 200
 
 class MaterialInstance;
+class Animator;
 
 class Ghost : public GameComponent, public Saveable
 {
@@ -26,8 +27,12 @@ public:
 	inline void SetCorrupted(bool corrupted) { m_IsCorrupted = corrupted; }
 
 private:
+	void HandleAnimator();
+
+private:
 	Ref<Actor> m_PlayerActor;
 	Ref<MaterialInstance> m_Material;
+	Ref<Animator> m_Animator;
 
 	glm::vec3 m_PositionOffset;
 	glm::vec3 m_NormalEmissiveColor;

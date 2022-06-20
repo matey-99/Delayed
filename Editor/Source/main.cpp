@@ -288,7 +288,7 @@ int main(int, char**)
     input->Initialize(window);
 
     auto sceneManager = SceneManager::GetInstance();
-    sceneManager->LoadScene("Scenes/Prototype.scene");
+    sceneManager->LoadScene("Scenes/PrototypeTPP.scene");
 
     scene = sceneManager->GetCurrentScene();
 

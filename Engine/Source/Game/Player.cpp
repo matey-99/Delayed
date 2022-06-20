@@ -229,6 +229,11 @@ void Player::BackToNormal()
 	m_CanTeleport = m_HasTeleportSkill;
 }
 
+float Player::GetMovementSpeed()
+{
+	return m_CharacterController->GetMovementSpeed();
+}
+
 void Player::MoveForward(float value)
 {
 	AddMovementInput(m_Owner->GetTransform()->GetForward(), value);

@@ -8,6 +8,7 @@ class TPPCharacterController;
 class Checkpoint;
 class CameraController;
 class BoxColliderComponent;
+class Animator;
 
 class TPPPlayer : public Player
 {
@@ -16,6 +17,12 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+
+    virtual float GetMovementSpeed() override;
+
+    inline Ref<Animator> GetCharacterAnimator() const { return m_CharacterAnimator; }
+
+    inline Ref<TPPCharacterController> GetCharacterController() const { return m_CharacterController; }
 
 private:
 	void MoveForward(float value) override;
@@ -43,13 +50,19 @@ private:
 
     void HandleHUD() override;
 
+    void HandleAnimator();
+
 private:
 	/* References */
 	Ref<TPPCharacterController> m_CharacterController;
 	Ref<CameraController> m_CameraController;
+    Ref<Animator> m_CharacterAnimator;
 
 	/* Inputs */
     glm::vec3 m_InputDirection;
+
+    /* Others */
+    bool m_LastFrameIsGrounded;
 
 #pragma region Serialization
 

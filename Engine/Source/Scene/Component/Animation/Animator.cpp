@@ -49,7 +49,7 @@ void Animator::Start()
 	Ref<AnimatorState> jumpState = Cast<AnimatorState>(m_States[1]);
 	jumpState->SetAnimation(m_SkeletalMeshComponent->GetAnimation(2));
 	jumpState->SetAnimationSpeed(1.0f);
-	jumpState->ShouldWaitUntilAnimationEnd(true);
+	//jumpState->ShouldWaitUntilAnimationEnd(true);
 
 	Ref<AnimatorTransition> t1 = AnimatorTransition::Create(this, blendTree, jumpState);
 	t1->AddCondition("IsJumping", true);
@@ -158,6 +158,15 @@ bool Animator::GetBoolParameter(std::string parameterName)
 float Animator::GetFloatParameter(std::string parameterName)
 {
 	return m_FloatParameters.find(parameterName)->second;
+}
+
+void Animator::SetBoolParameter(std::string parameterName, bool value)
+{
+	auto param = m_BoolParameters.find(parameterName);
+	if (param != m_BoolParameters.end())
+		param->second = value;
+	else
+		std::cout << parameterName << " not found!" << std::endl;
 }
 
 void Animator::SetFloatParameter(std::string parameterName, float value)

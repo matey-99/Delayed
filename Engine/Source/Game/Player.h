@@ -31,9 +31,11 @@ public:
 	void SlowDown();
 	void BackToNormal();
 
+	virtual float GetMovementSpeed();
+
 	inline Ref<Actor> GetGhost() const { return m_Ghost; }
 	inline Ref<Trail> GetTrail() const { return m_Trail; }
-	virtual inline Ref<CharacterController> GetCharacterController() const { return m_CharacterController; }
+	inline Ref<CharacterController> GetCharacterController() const { return m_CharacterController; }
 
     inline bool IsRunning() const { return m_IsRunning; };
 

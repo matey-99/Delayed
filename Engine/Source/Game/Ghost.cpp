@@ -48,6 +48,8 @@ void Ghost::Start()
 	if (auto collider = m_Owner->GetComponent<ColliderComponent>())
 		collider->OnTriggerEnterDelegate.Add(&Ghost::OnTriggerEnter, this);
 
+	m_Animator = m_Owner->GetComponent<Animator>();
+
 	m_Positions[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldPosition() + m_PositionOffset;
 
 	if (auto mesh = m_Owner->GetComponent<MeshComponent>())
@@ -82,17 +84,11 @@ void Ghost::Update(float deltaTime)
 
 	m_RotationsY[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetLocalRotation().y - 180.0f;
 	m_Positions[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldPosition() + m_PositionOffset;
-	Ref<CharacterController> cc = m_PlayerActor->GetComponent<Player>()->GetCharacterController();
-	if (cc)
-		m_MovementSpeed[m_CurrentPositionIndex] = cc->GetMovementSpeed();
+	m_MovementSpeed[m_CurrentPositionIndex] = m_PlayerActor->GetComponent<Player>()->GetMovementSpeed();
+
 	m_CurrentPositionIndex++;
 
-	Ref<Animator> animator = m_Owner->GetComponent<Animator>();
-	if (animator)
-	{
-		animator->SetFloatParameter("Speed", m_MovementSpeed[m_CurrentPositionIndex] * 3.3);
-
-	}
+	HandleAnimator();
 }
 
 void Ghost::OnTriggerEnter(ColliderComponent* other)
@@ -144,4 +140,12 @@ void Ghost::Heal()
 	temp.VignetteColor = m_DefaultVignetteColor;
 
 	renderer->m_PostProcessingPass->SetSettings(temp);
+}
+
+void Ghost::HandleAnimator()
+{
+	float speed = m_MovementSpeed[m_CurrentPositionIndex] * 5.0f;
+	speed = glm::clamp(speed, 0.0f, 1.0f);
+
+	m_Animator->SetFloatParameter("Speed", speed);
 }

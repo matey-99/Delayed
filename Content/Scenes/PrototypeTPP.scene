@@ -59,7 +59,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 4.4688468, -18.9174252]
+          LocalPosition: [40.7097855, 6.46884775, -18.9174252]
           LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -80,16 +80,22 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [2, 4, 2]
+          LocalPosition: [-5.34057617e-05, -2, -0.000196456909]
+          LocalRotation: [0, 180, 0]
+          LocalScale: [0.0199999996, 0.0199999996, 0.0199999996]
           Parent: 1503310902
-      - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+      - SkeletalMesh:
+          SkeletalMesh: Models/Skeletal/SK_Astronaut2.fbx
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/Character/M_Character.mat
+            - Material: 1
+              Path: Materials/Character/M_Character.mat
+            - Material: 2
+              Path: Materials/Character/M_Character.mat
           CastShadow: true
+      - Animator:
+          {}
   - Actor: 405188478
     ID: 405188478
     Name: Trail2
@@ -97,7 +103,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 0, 0]
+          LocalPosition: [0, 1, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 1503310902

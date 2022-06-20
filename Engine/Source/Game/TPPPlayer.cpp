@@ -17,10 +17,12 @@
 #include "InteractionPanel.h"
 #include "GameManager.h"
 #include "Interactable.h"
+#include "Scene/Component/Animation/Animator.h"
 
 TPPPlayer::TPPPlayer(Actor* owner)
 	: Player(owner)
 {
+    m_LastFrameIsGrounded = false;
 }
 
 void TPPPlayer::Start()
@@ -61,6 +63,9 @@ void TPPPlayer::Start()
     m_LastCheckpointPosition = m_Owner->GetTransform()->GetWorldPosition();
     m_StaminaBarDefaultScale = m_StaminaBar->GetTransform()->GetLocalScale();
 
+    m_CharacterAnimator = m_Owner->GetTransform()->GetChildren()[0]->GetOwner()->GetComponent<Animator>();
+
+    m_LastFrameIsGrounded = m_CharacterController->IsGrounded();
 }
 
 void TPPPlayer::Update(float deltaTime)
@@ -90,8 +95,8 @@ void TPPPlayer::Update(float deltaTime)
         }
     }
 
-	if (Math::Magnitude(m_MoveDirection) > 0.0f){
-        m_MoveDirection = Math::Normalize(m_MoveDirection);
+	if (Math::Magnitude(m_MoveDirection) > 0.0f)
+    {
         m_CharacterController->Rotate(m_CameraController, m_InputDirection, deltaTime);
     }
 
@@ -110,6 +115,7 @@ void TPPPlayer::Update(float deltaTime)
 
     HandleSkillsCooldowns(deltaTime);
     HandleHUD();
+    HandleAnimator();
 
     m_LastPosition = currentPosition;
 
@@ -117,6 +123,11 @@ void TPPPlayer::Update(float deltaTime)
 	m_MoveDirection = glm::vec3(0.0f);
     m_InputDirection = glm::vec3(0.0f);
 	m_Rotation = glm::vec3(0.0f);
+}
+
+float TPPPlayer::GetMovementSpeed()
+{
+    return m_CharacterController->GetMovementSpeed();
 }
 
 void TPPPlayer::MoveForward(float value)
@@ -268,4 +279,23 @@ void TPPPlayer::HandleHUD() {
     auto newStaminaBarScale = m_StaminaBar->GetTransform()->GetLocalScale();
     newStaminaBarScale.x = m_StaminaBarDefaultScale.x * m_CharacterController->GetStamina() / 100.0f;
     m_StaminaBar->GetTransform()->SetLocalScale(newStaminaBarScale);
+}
+
+void TPPPlayer::HandleAnimator()
+{
+    float speed = m_CharacterController->GetMovementSpeed() * 5.0f;
+    speed = glm::clamp(speed, 0.0f, 1.0f);
+
+    m_CharacterAnimator->SetFloatParameter("Speed", speed);
+
+    bool isGrounded = m_CharacterController->IsGrounded();
+    if (!isGrounded && m_LastFrameIsGrounded)
+        m_CharacterAnimator->SetBoolParameter("IsJumping", true);
+    else if (isGrounded && !m_LastFrameIsGrounded)
+        m_CharacterAnimator->SetBoolParameter("IsJumping", false);
+
+    //printf("Jumping: %i \n", (int)isJumping);
+    
+
+    m_LastFrameIsGrounded = isGrounded;
 }

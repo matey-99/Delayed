@@ -111,9 +111,9 @@ void Application::Run()
     Ref<Scene> scene;
     auto sceneManager = SceneManager::GetInstance();
     if (SaveManager::IsSaveAvailable())
-        scene = sceneManager->LoadScene("Scenes/MainMenu2.scene");
+        scene = sceneManager->LoadScene("Scenes/PrototypeTPP.scene");
     else
-        scene = sceneManager->LoadScene("Scenes/MainMenu.scene");
+        scene = sceneManager->LoadScene("Scenes/PrototypeTPP.scene");
 
     // CAMERA
     auto cameraManager = CameraManager::GetInstance();

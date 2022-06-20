@@ -60,16 +60,10 @@ void CharacterController::Move(glm::vec3 direction, const CharacterMovementParam
 	else
 		m_Velocity.y += m_Gravity * deltaTime;
 
-
 	if (m_IsGrounded)
 	{
 		m_IsJumping = false;
 		m_IsDoubleJumping = false;
-
-		if (params.IsRunning)
-			m_Stamina -= m_StaminaUsagePerRunSecond * deltaTime;
-		else
-			m_Stamina += m_StaminaRestorePerSecond * deltaTime;
 	}
 
 	m_Stamina = glm::clamp(m_Stamina, 0.0f, m_MaxStamina);
