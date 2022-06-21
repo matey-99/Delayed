@@ -75,7 +75,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-44.5254059, 0, 0]
+          LocalPosition: [-100, 0, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
           Parent: 0
@@ -232,6 +232,9 @@ Actors:
       - Intro:
           FadeUIID: 104524932
           SpaceshipID: 211389655
+          MeteorID: 255614408
+          PlanetID: 895994703
+          ThrusterID: 533797926
   - Actor: 104524932
     ID: 104524932
     Name: Black
@@ -263,4 +266,84 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Planet.mat
+          CastShadow: true
+  - Actor: 255614408
+    ID: 255614408
+    Name: Meteor
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-200, 50, -50]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/sphere.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Meteor.mat
+          CastShadow: true
+  - Actor: 943497308
+    ID: 943497308
+    Name: MeteorParticles
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [2, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 255614408
+      - ParticleSystem:
+          Duration: 1
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 11.3999996
+          MaxParticles: 5000
+          EmissionRateOverTime: 5000
+          MinParticleSize: 0.600000024
+          MaxParticleSize: 0.600000024
+          EndParticleSize: 0
+          MinParticleVelocity: [-10, 10, -10]
+          MaxParticleVelocity: [-100, 70, -50]
+          EndParticleVelocity: [-100, 70, -50]
+          MinParticleLifeTime: 0.200000003
+          MaxParticleLifeTime: 2
+          StartParticleColor: [10, 0, 0, 1]
+          EndParticleColor: [10, 10, 0, 0]
+  - Actor: 883123037
+    ID: 883123037
+    Name: Helper
+    Enabled: false
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [100, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [10, 10, 10]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/White.mat
+          CastShadow: true
+  - Actor: 534226239
+    ID: 534226239
+    Name: Helper2
+    Enabled: false
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [400, -500, -700]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [10, 10, 10]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/defaults/default_cube.obj
+          Materials:
+            - Material: 0
+              Path: Materials/White.mat
           CastShadow: true

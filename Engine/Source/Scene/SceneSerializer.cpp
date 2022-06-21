@@ -993,11 +993,17 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                     if (auto intro = component["Intro"]) {
                         uint32_t fadeui = intro["FadeUIID"].as<uint32_t>();
                         uint32_t spaceship = intro["SpaceshipID"].as<uint32_t>();
+                        uint32_t meteor = intro["MeteorID"].as<uint32_t>();
+                        uint32_t planet = intro["PlanetID"].as<uint32_t>();
+                        uint32_t thruster = intro["ThrusterID"].as<uint32_t>();
 
                         auto i = a->CreateComponent<Intro>();
 
                         i->m_FadeUIID = fadeui;
                         i->m_SpaceshipID = spaceship;
+                        i->m_MeteorID = meteor;
+                        i->m_PlanetID = planet;
+                        i->m_ThrusterID = thruster;
                     }
 				}
 			}
@@ -1700,6 +1706,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::BeginMap;
         out << YAML::Key << "FadeUIID" << YAML::Value << intro->m_FadeUIID;
         out << YAML::Key << "SpaceshipID" << YAML::Value << intro->m_SpaceshipID;
+        out << YAML::Key << "MeteorID" << YAML::Value << intro->m_MeteorID;
+        out << YAML::Key << "PlanetID" << YAML::Value << intro->m_PlanetID;
+        out << YAML::Key << "ThrusterID" << YAML::Value << intro->m_ThrusterID;
         out << YAML::EndMap;
         out << YAML::EndMap;
     }

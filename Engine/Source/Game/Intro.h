@@ -4,6 +4,7 @@
 
 class TransformComponent;
 class ImageComponent;
+class ParticleSystemComponent;
 
 class Intro : public GameComponent {
 
@@ -17,22 +18,36 @@ public:
 
 private:
 
-    void FadeIn(float deltaTime);
-    void FadeOut();
+    void FadeIn(float duration);
+    void FadeOut(float duration);
+    void Move(const Ref<TransformComponent>& transformComponent,float duration, glm::vec3 from, glm::vec3 to, bool next);
+    void Wait(float duration);
+    void ChangePhase();
 
 private:
 
-    bool run;
+    float m_Time;
+    int m_Phase;
 
-    TimerHandle m_Timer1;
+    Ref<ImageComponent> m_FadeUI;
 
     Ref<TransformComponent> m_Spaceship;
-    Ref<ImageComponent> m_FadeUI;
+    glm::vec3 m_SpaceshipPosition;
+
+    Ref<TransformComponent> m_Meteor;
+    glm::vec3 m_MeteorPosition;
+
+    Ref<Actor> m_Planet;
+
+    Ref<ParticleSystemComponent> m_Thruster;
 
 #pragma region Serialization
 
     uint32_t m_SpaceshipID;
     uint32_t m_FadeUIID;
+    uint32_t m_MeteorID;
+    uint32_t m_PlanetID;
+    uint32_t m_ThrusterID;
 
 #pragma endregion
 
