@@ -1,0 +1,266 @@
+Scene: MainMenu
+CurrentCamera: 968085101
+RendererSettings:
+  SSAO: false
+  SSR: true
+  DepthFog: false
+  PostProcessing: true
+  FXAA: true
+  Vignette: true
+  DepthOfField: false
+  SSAOSettings:
+    Intensity: 1.5
+    KernelSize: 64
+    Radius: 0.5
+    Bias: 0.449999988
+  SSRSettings:
+    MaxSteps: 200
+    MinRayStep: 0.0299999993
+    RayStep: 0.0299999993
+    NumBinarySearchSteps: 20
+    ReflectionSpecularFalloffExponent: 8
+  DepthFogSettings:
+    Density: 0.150000006
+    Height: 0.100000001
+    Color: [0.470588237, 0.662745118, 0.87843138]
+  PostProcessingSettings:
+    Gamma: -1
+    Gain: 0.5
+    Lift: 0
+    Offset: 0
+    Exposure: 0.899999976
+    Contrast: 1.14999998
+    ContrastPivot: 0.800000012
+    BloomEnabled: true
+    BloomThreshold: 2
+    BloomLimit: 20
+    BloomIntensity: 0.800000012
+    BloomBlurSigma: 3.5999999
+    Saturation: 1.10000002
+    Temperature: 75
+    Hue: 180
+    AberrationEnabled: false
+    AberrationShift: [0.0120000001, -0.00800000038, -0.00200000009]
+    FisheyeEnabled: false
+    Scale: 3.0999999
+    VignetteEnabled: true
+    VignetteColor: [0, 0, 0]
+    VignetteIntensity: 10.5
+    VignetteSize: 0.174999997
+  DepthOfFieldSettings:
+    MinDistance: 1.5
+    MaxDistance: 64
+    Size: 2
+Actors:
+  - Actor: 968085101
+    ID: 968085101
+    Name: MainCamera
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 12.5, 30]
+          LocalRotation: [-15, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 953742193
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 90
+          NearClipPlane: 0.100000001
+          FarClipPlane: 50000
+  - Actor: 211389655
+    ID: 211389655
+    Name: spaceship_tmp
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-44.5254059, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00999999978, 0.00999999978, 0.00999999978]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/spaceship/spaceship_tmp.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Spaceship/Engine.mat
+            - Material: 1
+              Path: Materials/Spaceship/Panels.mat
+            - Material: 2
+              Path: Materials/Spaceship/Panels.mat
+            - Material: 3
+              Path: Materials/Spaceship/Weapons.mat
+            - Material: 4
+              Path: Materials/Spaceship/Weapons.mat
+            - Material: 5
+              Path: Materials/Spaceship/Wings.mat
+          CastShadow: false
+  - Actor: 822017533
+    ID: 822017533
+    Name: Directional Light
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 8.09746456, 0]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - DirectionalLight:
+          Color: [1, 1, 1]
+          Intensity: 2.5
+  - Actor: 21994786
+    ID: 21994786
+    Name: SkyLight
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SkyLight:
+          Paths:
+            0: Textures/Sky/Menu/right.png
+            1: Textures/Sky/Menu/left.png
+            2: Textures/Sky/Menu/top.png
+            3: Textures/Sky/Menu/bottom.png
+            4: Textures/Sky/Menu/back.png
+            5: Textures/Sky/Menu/front.png
+          Color: [1, 1, 1]
+          Intensity: 0.100000001
+          Weight: 0.00999999978
+  - Actor: 953742193
+    ID: 953742193
+    Name: CameraHandle
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 533797926
+    ID: 533797926
+    Name: EngineExhaust
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-876.086731, 11.5182161, 58.0396652]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [100, 100, 100]
+          Parent: 211389655
+      - ParticleSystem:
+          Duration: 1
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 1
+          MaxParticles: 10000
+          EmissionRateOverTime: 200
+          MinParticleSize: 1
+          MaxParticleSize: 0.300000012
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [-100, 1, 1]
+          EndParticleVelocity: [-10, 0, 0]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [0, 19.2340431, 20, 1]
+          EndParticleColor: [30, 0, 27.574482, 1]
+  - Actor: 68592259
+    ID: 68592259
+    Name: Speed
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [8381.22852, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [100, 100, 100]
+          Parent: 211389655
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 40
+          MaxParticles: 10000
+          EmissionRateOverTime: 100
+          MinParticleSize: 0.200000003
+          MaxParticleSize: 0.300000012
+          EndParticleSize: 0
+          MinParticleVelocity: [-700, 0, 0]
+          MaxParticleVelocity: [-1000, 0, 0]
+          EndParticleVelocity: [0, 0, 0]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [1, 1, 1, 1]
+          EndParticleColor: [0, 0, 0, 0]
+  - Actor: 446300763
+    ID: 446300763
+    Name: Music
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Music/MainMenu.mp3
+          Channel: 1
+          Volume: 1
+          3d: false
+          Looping: true
+          PlayOnStart: true
+  - Actor: 836251997
+    ID: 836251997
+    Name: IntroManager
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - Intro:
+          FadeUIID: 104524932
+          SpaceshipID: 211389655
+  - Actor: 104524932
+    ID: 104524932
+    Name: Black
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1920, 1080, 1]
+          Parent: 1
+      - Image:
+          Path: Textures/Default/UI_Black.png
+          Color: [1, 1, 1, 0]
+  - Actor: 895994703
+    ID: 895994703
+    Name: Planet
+    Enabled: false
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [13072.499, -11160.1211, -8948.50293]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1000, 1000, 1000]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/sphere.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Planet.mat
+          CastShadow: true

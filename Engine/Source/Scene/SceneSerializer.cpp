@@ -20,6 +20,7 @@
 #include <Scene/Component/RigidBodyComponent.h>
 #include <Game/CameraOrbit.h>
 #include <Game/Footsteps.h>
+#include <Game/Intro.h>
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/TextComponent.h"
@@ -988,6 +989,16 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         fs->m_PlayerID = player;
                         fs->m_Sounds = sounds;
                     }
+
+                    if (auto intro = component["Intro"]) {
+                        uint32_t fadeui = intro["FadeUIID"].as<uint32_t>();
+                        uint32_t spaceship = intro["SpaceshipID"].as<uint32_t>();
+
+                        auto i = a->CreateComponent<Intro>();
+
+                        i->m_FadeUIID = fadeui;
+                        i->m_SpaceshipID = spaceship;
+                    }
 				}
 			}
 		}
@@ -1679,6 +1690,16 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
             name = "Sound" + std::to_string(i);
             out << YAML::Key << name << YAML::Value << footsteps->m_Sounds.at(i);
         }
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
+
+    if (auto intro = actor->GetComponent<Intro>()) {
+        out << YAML::BeginMap;
+        out << YAML::Key << "Intro";
+        out << YAML::BeginMap;
+        out << YAML::Key << "FadeUIID" << YAML::Value << intro->m_FadeUIID;
+        out << YAML::Key << "SpaceshipID" << YAML::Value << intro->m_SpaceshipID;
         out << YAML::EndMap;
         out << YAML::EndMap;
     }
