@@ -5572,3 +5572,111 @@ Actors:
             - Material: 2
               Path: Materials/Foliage.mat
           CastShadow: true
+  - Actor: 548115504
+    ID: 548115504
+    Name: chest_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [21.9306831, 4.29730797, -30.7824039]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/chest_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Chest.mat
+          CastShadow: true
+  - Actor: 674654845
+    ID: 674654845
+    Name: stone_1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [27.7314873, 4.07542419, -53.0214195]
+          LocalRotation: [-90, -0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/stone_1.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Default.mat
+          CastShadow: true
+  - Actor: 128325548
+    ID: 128325548
+    Name: mushrooms00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [24.0064945, 5.20449162, -38.2363777]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.0299999993, 0.0299999993, 0.0299999993]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/mushrooms00_mdl.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Mushroom/M_Mushroom.mat
+            - Material: 1
+              Path: Materials/Mushroom/M_Mushroom.mat
+            - Material: 2
+              Path: Materials/Mushroom/M_Mushroom.mat
+          CastShadow: true
+  - Actor: 906488949
+    ID: 906488949
+    Name: mushrooms01_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [27.4564724, 6.54442835, -43.5221443]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/mushrooms01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Mushroom/M_Mushroom.mat
+          CastShadow: true
+  - Actor: 285314066
+    ID: 285314066
+    Name: mushrooms02_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [27.160059, 5.37068272, -34.1380997]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.0299999993, 0.0299999993, 0.0299999993]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/mushrooms02_mdl.obj
+          Materials:
+            - Material: 0
+              Path: Materials/Mushroom/M_Mushroom.mat
+            - Material: 1
+              Path: Materials/Mushroom/M_Mushroom.mat
+          CastShadow: true
+  - Actor: 337689450
+    ID: 337689450
+    Name: mushrooms03_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [31.3381844, 5.53812122, -40.9476089]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/mushrooms03_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Mushroom/M_Mushroom.mat
+          CastShadow: true

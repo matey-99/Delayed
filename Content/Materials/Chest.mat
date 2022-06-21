@@ -1,0 +1,54 @@
+Material: Chest
+ID: 319190126
+BlendMode: 0
+Shader: Opaque
+Bool Parameters:
+  - Name: u_Material.isAOMap
+    Value: false
+  - Name: u_Material.isOpacityMap
+    Value: false
+  - Name: u_Material.isMetallicMap
+    Value: true
+  - Name: u_Material.isAlbedoMap
+    Value: true
+  - Name: u_Material.isEmissiveMap
+    Value: false
+  - Name: u_Material.isNormalMap
+    Value: true
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: true
+  - Name: u_Material.isRoughnessMap
+    Value: true
+Float Parameters:
+  - Name: u_Material.ao
+    Value: 1
+  - Name: u_Material.roughness
+    Value: 0
+  - Name: u_Material.emissiveStrength
+    Value: 0
+  - Name: u_Material.opacity
+    Value: 1
+  - Name: u_Material.metallic
+    Value: 0
+Vec3 Parameters:
+  - Name: u_Material.albedo
+    Value: [0, 0, 0]
+  - Name: u_Material.emissive
+    Value: [0, 0, 0]
+Vec4 Parameters:
+  []
+Texture Parameters:
+  - Name: u_Material.opacityMap
+    Path: "null"
+  - Name: u_Material.metallicMap
+    Path: Textures/chest_tex/box_Metallic.png
+  - Name: u_Material.albedoMap
+    Path: Textures/chest_tex/box_BaseColor.png
+  - Name: u_Material.aoMap
+    Path: "null"
+  - Name: u_Material.emissiveMap
+    Path: "null"
+  - Name: u_Material.normalMap
+    Path: Textures/chest_tex/box_Normal.png
+  - Name: u_Material.roughnessMap
+    Path: Textures/chest_tex/box_Roughness.png
