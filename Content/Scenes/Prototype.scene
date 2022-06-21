@@ -59,7 +59,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 16.1615353, -26.2239761]
+          LocalPosition: [40.7097855, 18.1615353, -26.2239761]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.699999988, 1, 0.699999988]
           Parent: 0
@@ -1055,7 +1055,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-3.27000046, 8.88106632, -10.8929472]
+          LocalPosition: [-3.27000046, 8.88106632, -15.493021]
           LocalRotation: [90, -0, 0]
           LocalScale: [0.230000004, 0.230000004, 0.230000004]
           Parent: 2141099751
@@ -1076,8 +1076,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-1.59028625, 14.5241756, 74.82061]
-          LocalRotation: [90.0001221, -0.3457416, 6.00320618e-07]
+          LocalPosition: [-1.60279846, 14.3004913, 76.8965836]
+          LocalRotation: [88.3309402, -0.345741749, 5.86980036e-07]
           LocalScale: [0.189999998, 0.189999998, 0.189999998]
           Parent: 2141099751
       - StaticMesh:
@@ -1234,7 +1234,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-75.5809937, -26.7219448, 114.643883]
+          LocalPosition: [-75.5809937, -26.7219448, 112.33712]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.25, 0.25, 0.25]
           Parent: 2141099751
@@ -1255,7 +1255,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-51.0700378, -6.04222393, 70.307251]
+          LocalPosition: [-53.1475601, -6.04222393, 69.3462753]
           LocalRotation: [-90, -0.0910694152, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -1268,7 +1268,7 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [5, 0, 0]
-          Size: [10, 1, 1]
+          Size: [11.6000004, 1, 1]
       - Checkpoint:
           {}
   - Actor: 623242758
@@ -1301,7 +1301,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [14.0328331, 15.5382996, 98.079155]
+          LocalPosition: [14.0328331, 17.3466892, 98.079155]
           LocalRotation: [90, 0, 0]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
@@ -1343,7 +1343,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-51.477562, 23.6799908, -20.5696259]
+          LocalPosition: [-51.477562, 23.6799908, -23.5510368]
           LocalRotation: [0, 0, 0]
           LocalScale: [4.1756382, 9.96623993, 5.19449568]
           Parent: 2141099751
@@ -1366,7 +1366,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-11.5733109, -4.85999823, 163.856628]
+          LocalPosition: [-11.5733109, -4.85999823, 166.328568]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.119999997, 0.119999997, 0.119999997]
           Parent: 2141099751
@@ -1387,7 +1387,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-2.22310257, 1.50653839, 54.4177628]
+          LocalPosition: [-2.22310257, 1.50653839, 57.6309662]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -1469,7 +1469,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [3.23268509, 8.85005856, 90.0025558]
+          LocalPosition: [1.86755371, 8.85005856, 89.2435074]
           LocalRotation: [83.8708115, -29.0751553, 1.8560655e-05]
           LocalScale: [0.119999997, 0.119999997, 0.119999997]
           Parent: 2141099751
@@ -1490,8 +1490,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-12.0487671, -30.5168438, 50.5904999]
-          LocalRotation: [89.9984741, 10.9883118, -179.995956]
+          LocalPosition: [-12.2152901, -30.5168781, 51.4481468]
+          LocalRotation: [89.9881973, 1.23470962, 179.834]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
       - StaticMesh:
@@ -1511,7 +1511,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [10.6670437, -12.9665661, -20.5323238]
+          LocalPosition: [10.6670437, -11.1499262, -26.5763931]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -1524,7 +1524,7 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [5, 0, 0]
-          Size: [10, 1, 1]
+          Size: [15.1999998, 1, 1]
       - Checkpoint:
           {}
   - Actor: 1416485425
@@ -1534,7 +1534,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [38.1462326, -6.47181129, 104.794479]
+          LocalPosition: [34.1308365, -3.89955902, 102.905449]
           LocalRotation: [-90.0001221, 0, 2.61624064e-05]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -1546,8 +1546,8 @@ Actors:
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [-5, 0, 0]
-          Size: [10, 1, 1]
+          Center: [-0.449999988, 0, 0]
+          Size: [18.0499992, 1, 1]
       - Checkpoint:
           {}
   - Actor: 1526879318
@@ -1557,7 +1557,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-63.6024551, -19.7276955, 31.8917923]
+          LocalPosition: [-63.8197174, -19.7276955, 27.7463341]
           LocalRotation: [-90, 3, 0]
           LocalScale: [0.150000006, 0.150000006, 0.150000006]
           Parent: 2141099751
@@ -1604,7 +1604,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-52.8515053, 24.2691631, -15.672739]
+          LocalPosition: [-52.8515053, 24.2691631, -19.8116112]
           LocalRotation: [90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.449999988]
           Parent: 2141099751
@@ -1625,7 +1625,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [13.8476677, 7.20280266, 84.3516312]
+          LocalPosition: [13.1938171, 7.17867756, 84.5286102]
           LocalRotation: [89.9999847, -1.06721721e-07, 2.11318231]
           LocalScale: [0.144999996, 0.144999996, 0.144999996]
           Parent: 2141099751
@@ -1646,7 +1646,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [1.86545181, -0.283017159, 32.3787918]
+          LocalPosition: [1.86545181, -0.283017159, 34.0965729]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -1671,7 +1671,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-9.46588612, -0.46835804, 197.804779]
+          LocalPosition: [-9.51885509, 1.44555855, 190.189117]
           LocalRotation: [-90, 0.3985295, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -1683,8 +1683,8 @@ Actors:
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [0, 0, -5]
-          Size: [1, 1, 10]
+          Center: [0, 0, 2.6500001]
+          Size: [1, 1, 13.9499998]
       - Checkpoint:
           {}
   - Actor: 1706929148
@@ -1694,7 +1694,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-13.8956413, -3.83713961, 184.507553]
+          LocalPosition: [-14.272686, -3.83713961, 184.507553]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.119999997, 0.119999997, 0.119999997]
           Parent: 2141099751
@@ -1741,7 +1741,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-55.7041435, 7.94331551, 128.367599]
+          LocalPosition: [-47.0343246, 7.20860863, 125.31559]
           LocalRotation: [-90, -0.0910694152, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -1753,8 +1753,8 @@ Actors:
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [5, 0, 0]
-          Size: [10, 1, 1]
+          Center: [-3.4000001, 0, 0]
+          Size: [12.5, 1, 1]
       - Checkpoint:
           {}
   - Actor: 1902536977
@@ -1764,8 +1764,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-68.1853943, 16.0083694, 58.7554245]
-          LocalRotation: [89.9999695, -45.6354446, 1.46524235e-05]
+          LocalPosition: [-68.0367508, 16.0083694, 56.5608749]
+          LocalRotation: [-90.0006104, -89.3604965, -179.999084]
           LocalScale: [0.319999993, 0.319999993, 0.319999993]
           Parent: 2141099751
       - StaticMesh:
@@ -1785,9 +1785,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-50.2426872, 29.1995049, 165.936523]
+          LocalPosition: [-50.2343254, 29.2232456, 167.825668]
           LocalRotation: [16.2693672, -89.2363892, 70.5819016]
-          LocalScale: [0.25, 0.25, 0.25]
+          LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
       - StaticMesh:
           Mesh: Models/platformBig00_mdl.fbx
@@ -1872,7 +1872,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-3.87057114, 1.43618059, 10.5612764]
+          LocalPosition: [-3.75392151, 1.39290142, 7.87991619]
           LocalRotation: [88.7930908, -61.4497833, -6.76556444]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -1910,7 +1910,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-1.66661453, -0.391815186, 2.31354809]
+          LocalPosition: [-0.897773743, -0.391815186, -1.34375668]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -1999,7 +1999,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-10.0931892, 13.2517395, 144.272705]
+          LocalPosition: [-10.0820427, 13.2448196, 144.82753]
           LocalRotation: [90.6274643, 1.20088446, -4.2335186]
           LocalScale: [0.150000006, 0.150000006, 0.150000006]
           Parent: 2141099751
@@ -2041,7 +2041,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-20.7503319, 15.4165668, 163.623154]
+          LocalPosition: [-19.8978939, 15.481739, 163.623154]
           LocalRotation: [90, 4.26886828e-07, 4.37273264]
           LocalScale: [0.135000005, 0.135000005, 0.135000005]
           Parent: 2141099751
@@ -2062,7 +2062,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-24.5286465, 15.9993019, 171.148346]
+          LocalPosition: [-24.3165531, 15.9789867, 170.986832]
           LocalRotation: [91.110878, 37.1654587, -5.46795464]
           LocalScale: [0.119999997, 0.119999997, 0.119999997]
           Parent: 2141099751
@@ -2083,7 +2083,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-57.9739838, 20.4360275, 153.292831]
+          LocalPosition: [-57.1545334, 20.3698063, 155.992065]
           LocalRotation: [148.956284, 87.564743, 61.1842766]
           LocalScale: [0.129999995, 0.129999995, 0.129999995]
           Parent: 2141099751
@@ -2104,7 +2104,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-68.2836761, 21.8743191, 130.499817]
+          LocalPosition: [-68.2836761, 21.9424725, 129.547668]
           LocalRotation: [94.0939789, -0, 0]
           LocalScale: [0.150000006, 0.150000006, 0.150000006]
           Parent: 2141099751
@@ -2125,8 +2125,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-73.1548615, 24.3552074, 102.530304]
-          LocalRotation: [90.0000153, 30.9624119, -5.97389135e-06]
+          LocalPosition: [-72.2351685, 25.9447975, 101.021698]
+          LocalRotation: [87.5255432, 30.8731594, -4.81380939]
           LocalScale: [0.129999995, 0.129999995, 0.129999995]
           Parent: 2141099751
       - StaticMesh:
@@ -2146,8 +2146,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-74.4864883, 26.6972923, 93.8135605]
-          LocalRotation: [90.0001068, 67.5228348, -0.000107191976]
+          LocalPosition: [-74.6368103, 27.8757095, 92.7141647]
+          LocalRotation: [93.4802017, 67.5228424, -0.000116124691]
           LocalScale: [0.119999997, 0.119999997, 0.119999997]
           Parent: 2141099751
       - StaticMesh:
@@ -2167,7 +2167,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-64.0346756, 10.8877945, 44.3052979]
+          LocalPosition: [-63.8719482, 12.8697796, 42.3470001]
           LocalRotation: [91.1966248, -0.816859603, -3.88946867]
           LocalScale: [0.140000001, 0.140000001, 0.140000001]
           Parent: 2141099751
@@ -2188,9 +2188,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-26.3460484, 23.55867, 120.559265]
+          LocalPosition: [-26.3460484, 24.068119, 120.559265]
           LocalRotation: [0, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          LocalScale: [0.140000001, 0.140000001, 0.140000001]
           Parent: 0
       - StaticMesh:
           Mesh: Models/ghost_platform_small.fbx
@@ -2209,9 +2209,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-22.1664581, 9.17877483, 66.7449875]
+          LocalPosition: [-22.1664581, 10.4624853, 67.3181152]
           LocalRotation: [0, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          LocalScale: [0.140000001, 0.140000001, 0.140000001]
           Parent: 0
       - StaticMesh:
           Mesh: Models/ghost_platform_small.fbx
@@ -2230,9 +2230,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-21.9052162, 9.96990585, 60.8393707]
+          LocalPosition: [-21.9052162, 11.7812881, 60.8393707]
           LocalRotation: [0, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          LocalScale: [0.140000001, 0.180000007, 0.140000001]
           Parent: 0
       - StaticMesh:
           Mesh: Models/ghost_platform_small.fbx
@@ -2244,48 +2244,6 @@ Actors:
           IsTrigger: true
           Center: [0, 0, 0]
           Size: [1, 1, 1]
-  - Actor: 223605309
-    ID: 223605309
-    Name: Cube (42)
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [5.67696381, 8.14093781, 82.5507431]
-          LocalRotation: [89.9995575, 85.0923615, 0.00399194239]
-          LocalScale: [0.119999997, 0.119999997, 0.119999997]
-          Parent: 2141099751
-      - StaticMesh:
-          Mesh: Models/platformSmall00_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
-          CastShadow: true
-      - BoxCollider:
-          IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
-  - Actor: 320363532
-    ID: 320363532
-    Name: SmallPlatform2
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [-68.711731, 20.9619732, 71.9113083]
-          LocalRotation: [90, -0, 0]
-          LocalScale: [0.150000006, 0.150000006, 0.150000006]
-          Parent: 2141099751
-      - StaticMesh:
-          Mesh: Models/platformSmall00_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
-          CastShadow: true
-      - BoxCollider:
-          IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
   - Actor: 790507471
     ID: 790507471
     Name: SmallPlatform2
@@ -2293,7 +2251,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-49.6944733, 10.1975288, 12.1347456]
+          LocalPosition: [-48.6952705, 10.1975288, 7.59815502]
           LocalRotation: [90, -0, 0]
           LocalScale: [0.140000001, 0.140000001, 0.140000001]
           Parent: 2141099751
@@ -2314,7 +2272,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-35.3862114, 18.5672188, 181.07309]
+          LocalPosition: [-34.4226685, 19.6361752, 183.243423]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -2444,7 +2402,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-60.4976768, 10.5371313, 25.7445908]
+          LocalPosition: [-60.4976768, 10.5371313, 21.471138]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -2470,7 +2428,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-56.2537956, 15.8879204, 7.06333256]
+          LocalPosition: [-58.4299278, 15.8879204, 2.42817402]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -2496,7 +2454,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-50.2440376, 17.4055061, 176.339645]
+          LocalPosition: [-50.2440376, 18.5515423, 178.777496]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -2521,7 +2479,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-66.6568451, 16.7910614, 133.753876]
+          LocalPosition: [-67.0593109, 16.7910614, 133.10704]
           LocalRotation: [-90, 31.8891869, -6.0332286e-06]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -2546,7 +2504,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-60.3169403, 9.17899704, 15.3520613]
+          LocalPosition: [-60.3169403, 9.17899704, 11.4391851]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -2571,7 +2529,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-70.1385803, 19.4639263, 78.2801208]
+          LocalPosition: [-74.3010406, 19.4639263, 77.4307861]
           LocalRotation: [-90, 31.8891869, -6.0332286e-06]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -2596,7 +2554,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-51.3443871, 14.4582729, -1.81309223]
+          LocalPosition: [-51.3443871, 14.4582729, -6.18453026]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -2621,7 +2579,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-7.36779022, 10.0887127, 148.75679]
+          LocalPosition: [-7.36779022, 10.0887127, 150.02388]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -2700,15 +2658,15 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-28.0910168, -319.879974, -89.5228424]
-          LocalRotation: [-90, -0, 0]
-          LocalScale: [1.5, 1.5, 1.5]
+          LocalPosition: [-8.29072952, -29.1303196, -13.3206444]
+          LocalRotation: [90.0057907, 0.22708784, 179.994354]
+          LocalScale: [0.180000007, 0.180000007, 0.180000007]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/platformBig01_mdl.fbx
+          Mesh: Models/hub_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+              Path: Materials/M_Hub.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -2862,7 +2820,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-59.053627, 10.7416039, 13.3574286]
+          LocalPosition: [-61.7097244, 10.7416039, 8.97075558]
           LocalRotation: [90, 76.7085342, 0]
           LocalScale: [0.144999996, 0.144999996, 0.144999996]
           Parent: 2141099751
@@ -2941,7 +2899,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [130.509277, 9.85863972, 88.7048645]
+          LocalPosition: [247.102173, 10.3084593, 27.0204144]
           LocalRotation: [-180, 70.3284225, -180]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -3020,8 +2978,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [29.3937798, -32.3487091, -5.16824389]
-          LocalRotation: [-89.9999924, 16.01614, -7.99426834e-06]
+          LocalPosition: [89.7634583, -26.3564663, -50.0351257]
+          LocalRotation: [-90.003067, 87.9571304, -0.00038320772]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
       - StaticMesh:
@@ -3041,7 +2999,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [40.0708961, 1.43114376, 11.2615995]
+          LocalPosition: [108.471191, 12.100008, -41.5364799]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -3062,7 +3020,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [42.0251732, 1.41283131, 25.2519722]
+          LocalPosition: [120.020569, 6.50171995, -24.6703873]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -3083,7 +3041,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [45.1040306, 7.27610016, 18.152729]
+          LocalPosition: [122.605164, 12.4877224, -31.4137421]
           LocalRotation: [-90, -0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -3109,7 +3067,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [47.2754021, -0.834220886, 34.7308502]
+          LocalPosition: [144.084213, 5.39092207, -16.7559795]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -3134,7 +3092,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [53.0110664, 2.54691792, 44.2064667]
+          LocalPosition: [151.887909, 2.54696393, 2.26640987]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -3155,7 +3113,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [65.9895935, 6.60459423, 40.7001572]
+          LocalPosition: [164.988449, 6.60464001, -0.00914382935]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -3176,7 +3134,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [59.2626534, 6.75102568, 56.5559082]
+          LocalPosition: [153.469116, 7.31964064, 15.3697767]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -3197,7 +3155,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [61.8685417, 12.6128511, 50.0958633]
+          LocalPosition: [156.373688, 13.3505859, 8.86062717]
           LocalRotation: [-90, -0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -3223,7 +3181,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [63.5040932, 12.5054598, 33.8604012]
+          LocalPosition: [162.889191, 12.5054703, -6.40210867]
           LocalRotation: [-90, 42.6053429, 1.159965e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -3249,7 +3207,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [74.6208801, -0.550663471, 48.3749847]
+          LocalPosition: [173.015335, 6.2759552, 11.9128809]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -3274,7 +3232,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [86.0258331, -13.1653519, 57.3738785]
+          LocalPosition: [186.756561, -13.1652508, 15.312211]
           LocalRotation: [89.9999542, -81.2614899, -179.999893]
           LocalScale: [0.119999997, 0.119999997, 0.119999997]
           Parent: 2141099751
@@ -3329,8 +3287,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [85.3495941, 15.3099041, 77.4189606]
-          LocalRotation: [90, 0, 0]
+          LocalPosition: [201.605652, 15.3099918, 15.7159872]
+          LocalRotation: [89.9997864, 88.1888962, 0.00102654647]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
       - StaticMesh:
@@ -3350,7 +3308,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [90.7675934, 4.04912663, 89.7615051]
+          LocalPosition: [203.254227, 6.46842766, 2.23779106]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -3371,8 +3329,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [105.868958, 4.04912663, 95.6970215]
-          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalPosition: [203.038788, 4.04919243, -13.5315399]
+          LocalRotation: [90.0000534, 12.7704334, 2.88891479e-05]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
       - StaticMesh:
@@ -3392,8 +3350,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [118.779388, 3.40071988, 100.558235]
-          LocalRotation: [93.0534363, -28.3334026, 1.93995197e-06]
+          LocalPosition: [205.968826, 3.21839452, -30.0446892]
+          LocalRotation: [95.237999, 62.3760414, 5.95752001]
           LocalScale: [0.180799976, 0.180800006, 0.180799991]
           Parent: 2141099751
       - StaticMesh:
@@ -3413,7 +3371,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [121.394257, 4.04912663, 90.6390228]
+          LocalPosition: [192.439255, 4.04919243, -25.4159985]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -3434,7 +3392,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [119.957611, -0.550663471, 108.452026]
+          LocalPosition: [221.307022, 1.28669167, -42.2144966]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -3459,7 +3417,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [130.561646, 5.35396433, 120.241623]
+          LocalPosition: [226.550125, 3.54647803, -56.582016]
           LocalRotation: [93.0534363, -28.3334026, 1.93995197e-06]
           LocalScale: [0.180799976, 0.180800006, 0.180799991]
           Parent: 2141099751
@@ -3480,8 +3438,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [146.791763, 5.95438147, 116.205154]
-          LocalRotation: [93.0534363, -28.3334026, 1.93995197e-06]
+          LocalPosition: [217.014145, 3.82352972, -66.502327]
+          LocalRotation: [92.9882507, 25.923378, 2.75756431]
           LocalScale: [0.180799976, 0.180800006, 0.180799991]
           Parent: 2141099751
       - StaticMesh:
@@ -3501,8 +3459,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [154.766541, 5.33436775, 99.2945633]
-          LocalRotation: [93.0534363, -28.3334026, 1.93995197e-06]
+          LocalPosition: [204.98378, 3.45248771, -75.4278259]
+          LocalRotation: [-169.827087, -87.2690582, -98.7341843]
           LocalScale: [0.247695953, 0.247695997, 0.247695982]
           Parent: 2141099751
       - StaticMesh:
@@ -3522,7 +3480,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [170.073364, 5.86557388, 102.04184]
+          LocalPosition: [214.035721, 6.16857719, -90.3995209]
           LocalRotation: [93.0534363, -28.3334026, 1.93995197e-06]
           LocalScale: [0.180799976, 0.180800006, 0.180799991]
           Parent: 2141099751
@@ -3543,7 +3501,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [156.324936, 6.18317413, 79.7362976]
+          LocalPosition: [193.74794, 6.18318176, -90.202652]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -3568,9 +3526,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [145.382339, 6.92437649, 73.7448883]
-          LocalRotation: [93.0534363, -28.3334026, 1.93995197e-06]
-          LocalScale: [0.180799976, 0.180800006, 0.180799991]
+          LocalPosition: [182.893631, 6.64462042, -97.7994843]
+          LocalRotation: [138.722198, -86.4231873, -47.2166443]
+          LocalScale: [0.221976131, 0.221976176, 0.221976131]
           Parent: 2141099751
       - StaticMesh:
           Mesh: Models/platformSmall00_mdl.fbx
@@ -3589,7 +3547,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [141.92215, 14.9783783, 59.9215317]
+          LocalPosition: [165.479889, 17.2454224, -97.0982208]
           LocalRotation: [89.9999771, 81.585762, -9.33540068e-05]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
@@ -3610,7 +3568,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [142.148529, -38.3130989, 29.1492043]
+          LocalPosition: [163.85054, -35.3941841, -127.680733]
           LocalRotation: [89.9921036, -0.147172868, 179.999207]
           LocalScale: [0.234181255, 0.234181255, 0.23418124]
           Parent: 2141099751
@@ -3631,7 +3589,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [120.002716, 8.78856754, 16.296463]
+          LocalPosition: [139.507156, 14.8233318, -134.589249]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3652,9 +3610,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [177.168304, 8.51960373, 33.5214996]
+          LocalPosition: [209.185074, 12.1276274, -122.374229]
           LocalRotation: [0, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 0
       - StaticMesh:
           Mesh: Models/ghost_platform_small.fbx
@@ -3673,7 +3631,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [106.984695, 18.3472214, 16.7881775]
+          LocalPosition: [124.247757, 18.3472996, -140.108704]
           LocalRotation: [90.0026474, 89.2611313, 0.00264835241]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
@@ -3694,7 +3652,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [106.424438, -50.6991768, -13.5320606]
+          LocalPosition: [99.2020721, -50.6819038, -150.74054]
           LocalRotation: [-88.9762039, -89.6009064, -1.02527118]
           LocalScale: [0.307177782, 0.307177871, 0.307177752]
           Parent: 2141099751
@@ -3715,7 +3673,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [107.843597, 14.3016434, -5.30168247]
+          LocalPosition: [101.815948, 14.3016434, -171.833527]
           LocalRotation: [-90, -0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -3725,32 +3683,6 @@ Actors:
             - Material: 0
               Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
           CastShadow: true
-  - Actor: 241203689
-    ID: 241203689
-    Name: button_frame (9)
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [105.563065, 14.3159428, -14.3711824]
-          LocalRotation: [-90, 13.3720284, 0]
-          LocalScale: [0.5, 0.5, 0.5]
-          Parent: 2141099751
-      - StaticMesh:
-          Mesh: Models/pressurePlatform_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
-          CastShadow: true
-      - BoxCollider:
-          IsTrigger: true
-          Center: [0, 0, 0]
-          Size: [1, 1, 1]
-      - Button:
-          Platform: 507571002
-          PlatformDelayTime: 0
-          ConnectedButtons:
-            - ID: 496197632
   - Actor: 496197632
     ID: 496197632
     Name: button_frame (9)
@@ -3758,7 +3690,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [103.020386, 14.0837765, -23.1015625]
+          LocalPosition: [89.0448303, 14.0836849, -130.086105]
           LocalRotation: [-90.0000534, 36.6983833, -1.70372969e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -3784,7 +3716,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [106.334351, 5.35527086, -36.8970032]
+          LocalPosition: [81.4310303, 5.35528135, -171.112503]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -3809,7 +3741,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [103.463455, 10.0987492, -42.1645241]
+          LocalPosition: [99.9187927, 8.24098015, -165.637192]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3830,7 +3762,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [111.834808, 17.9681263, -56.2792931]
+          LocalPosition: [63.3330879, 17.9695892, -167.457199]
           LocalRotation: [-90.0005341, 0.86300844, 179.999344]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
@@ -3851,7 +3783,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [80.2397308, 25.9807072, -95.1282959]
+          LocalPosition: [22.1409264, 25.9807453, -162.776062]
           LocalRotation: [90.0026474, 89.2611313, 0.00264835241]
           LocalScale: [0.311999977, 0.311999947, 0.311999947]
           Parent: 2141099751
@@ -3872,7 +3804,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [119.14682, 2.77143764, -72.3964081]
+          LocalPosition: [52.3109703, 1.32385683, -184.26149]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3893,7 +3825,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [117.194595, 8.69203568, -79.0286636]
+          LocalPosition: [50.4755745, 7.63335323, -190.65332]
           LocalRotation: [-90.0000534, 36.6983833, -1.70372969e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -3919,7 +3851,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [99.9013672, 12.2489462, -68.2321701]
+          LocalPosition: [52.5093422, 12.2489471, -166.00769]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -3944,7 +3876,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [89.9716797, 14.2168827, -70.03862]
+          LocalPosition: [43.1380577, 12.5073643, -161.667709]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3965,7 +3897,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [98.0363617, 13.0318737, -76.509613]
+          LocalPosition: [39.0507088, 12.5205135, -172.866058]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -3986,7 +3918,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [80.3385468, 12.1017151, -68.5862503]
+          LocalPosition: [37.5449257, 10.5578899, -150.74353]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -4007,7 +3939,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [78.5015106, 18.1926441, -75.3328552]
+          LocalPosition: [35.5439644, 16.7575588, -158.092209]
           LocalRotation: [-90.0000534, 36.6983833, -1.70372969e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -4023,7 +3955,7 @@ Actors:
           Size: [1, 1.10000002, 1]
       - Button:
           Platform: 83703802
-          PlatformDelayTime: 0
+          PlatformDelayTime: 3
           ConnectedButtons:
             []
   - Actor: 83703802
@@ -4033,7 +3965,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [109.689896, 11.2534847, -101.515221]
+          LocalPosition: [21.9940376, 17.2810535, -183.957047]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -4058,7 +3990,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [97.4743195, 14.2078876, -101.866295]
+          LocalPosition: [31.2525826, 12.9813709, -181.524643]
           LocalRotation: [163.804276, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -4072,23 +4004,6 @@ Actors:
           IsTrigger: false
           Center: [0, 0, 0]
           Size: [1, 1, 1]
-  - Actor: 473852398
-    ID: 473852398
-    Name: SmallPlatform2
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [108.209808, 15.4180908, -84.5081711]
-          LocalRotation: [163.804276, -87.2017212, -72.3385391]
-          LocalScale: [0.160911977, 0.160912007, 0.160911992]
-          Parent: 2141099751
-      - StaticMesh:
-          Mesh: Models/platformSmall00_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
-          CastShadow: true
   - Actor: 848961114
     ID: 848961114
     Name: Cube (24)
@@ -4117,7 +4032,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-37.877655, -7.72148609, 42.8735428]
+          LocalPosition: [-37.8732071, -7.72148609, 40.0700111]
           LocalRotation: [-90, -0.0910694152, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -4140,7 +4055,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-37.7741051, 2.38684464, -3.8750093]
+          LocalPosition: [-37.7687035, 2.38684464, -7.27580547]
           LocalRotation: [-90, -0.0910694152, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -4153,7 +4068,7 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [5, 0, 0]
-          Size: [12, 1, 1]
+          Size: [13.75, 1, 1]
       - Checkpoint:
           {}
   - Actor: 938966681
@@ -4163,8 +4078,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [58.3581619, -8.57815933, 1.64039493]
-          LocalRotation: [-90, -0.0910694152, 0]
+          LocalPosition: [109.907051, -3.94963551, -45.7709999]
+          LocalRotation: [-90.0012436, 85.571846, -0.000420202326]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
@@ -4175,8 +4090,8 @@ Actors:
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [-5, 0, 0]
-          Size: [10, 1, 1]
+          Center: [-0.449999988, 0, 0]
+          Size: [1.60000002, 1, 11.6999998]
       - Checkpoint:
           {}
   - Actor: 522421780
@@ -4186,7 +4101,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [106.644844, -7.72279644, 66.4066238]
+          LocalPosition: [203.606613, -8.17230892, 27.3599911]
           LocalRotation: [-90, -0.0910694152, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -4198,8 +4113,8 @@ Actors:
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [-2, 0, 0]
-          Size: [5, 1, 3]
+          Center: [-0.100000001, 0, 0]
+          Size: [1.14999998, 1, 10.4499998]
       - Checkpoint:
           {}
   - Actor: 660383100
@@ -4209,7 +4124,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [163.936813, -7.40190983, 65.2044983]
+          LocalPosition: [185.272552, -3.95204449, -91.6213226]
           LocalRotation: [-90, -0.0910694152, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -4221,8 +4136,8 @@ Actors:
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [-2.1500001, 0, 0.449999988]
-          Size: [5, 1, 3]
+          Center: [0.25, 0, 2.70000005]
+          Size: [1.10000002, 1, 9.35000038]
       - Checkpoint:
           {}
   - Actor: 10829950
@@ -4232,7 +4147,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [124.036339, -4.05600357, 25.6544285]
+          LocalPosition: [140.22139, -3.70316792, -136.652924]
           LocalRotation: [-90, -0.0910694152, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -4244,8 +4159,8 @@ Actors:
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [2, 0, -1.04999995]
-          Size: [5, 1, 5]
+          Center: [0, 0, 4.0999999]
+          Size: [0.75, 1, 9.64999962]
       - Checkpoint:
           {}
   - Actor: 262401114
@@ -4255,7 +4170,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [134.36821, -3.89125729, -44.8148956]
+          LocalPosition: [85.4959946, -3.89125729, -158.005173]
           LocalRotation: [-90, -0.0910694152, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
@@ -4267,8 +4182,8 @@ Actors:
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
-          Center: [-2.3499999, 0, 0]
-          Size: [7, 1, 1]
+          Center: [0, 0, 0]
+          Size: [0.850000024, 1, 7]
       - Checkpoint:
           {}
   - Actor: 250563203
@@ -4278,7 +4193,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [118.830856, 9.88537598, 83.8981094]
+          LocalPosition: [189.472885, 9.88539505, -32.5062714]
           LocalRotation: [-90, 42.6053429, 1.159965e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -4304,7 +4219,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [167.09256, 12.9718857, 95.7530594]
+          LocalPosition: [210.95784, 12.9719009, -97.3019409]
           LocalRotation: [-90, 42.6053429, 1.159965e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -4411,7 +4326,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [76.426178, 25.745903, -91.6496201]
+          LocalPosition: [17.1889572, 25.745903, -163.291779]
           LocalRotation: [0, 0, 0]
           LocalScale: [4.1756382, 9.96623993, 5.19449568]
           Parent: 2141099751
@@ -4430,7 +4345,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [182.503052, 9.85863972, 71.9422455]
+          LocalPosition: [226.355682, 13.8580799, -84.6247635]
           LocalRotation: [-180, 70.3284225, -180]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -4907,7 +4822,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [183.322113, -16.7300682, 57.9744034]
+          LocalPosition: [209.661911, -11.7594995, -98.7686615]
           LocalRotation: [-90, 0, 0]
           LocalScale: [6, 6, 8]
           Parent: 0
@@ -4960,7 +4875,7 @@ Actors:
   - Actor: 64904609
     ID: 64904609
     Name: Clouds
-    Enabled: false
+    Enabled: true
     Dynamic: false
     Components:
       - Transform:
@@ -4981,9 +4896,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [93.0967865, 32.1770363, 99.1594543]
-          LocalRotation: [-82.4076843, -21.9106503, 150.463699]
-          LocalScale: [0.0850000232, 0.0850000083, 0.0850000009]
+          LocalPosition: [161.19046, 4.73234844, 112.848846]
+          LocalRotation: [-82.0045853, -28.2039471, 149.513336]
+          LocalScale: [0.138550043, 0.138550028, 0.138550013]
           Parent: 0
       - StaticMesh:
           Mesh: Models/ring.fbx
@@ -4998,9 +4913,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [76.8704529, 16.2576733, 55.1394386]
-          LocalRotation: [-68.2327423, 8.92353153, 85.0600967]
-          LocalScale: [0.0426300056, 0.0426299982, 0.0426300019]
+          LocalPosition: [143.191055, -5.99456739, 65.9031906]
+          LocalRotation: [-54.8505554, -1.01553655, 81.1159058]
+          LocalScale: [0.0875176862, 0.0875176564, 0.0875176713]
           Parent: 0
       - StaticMesh:
           Mesh: Models/ring.fbx
@@ -5015,9 +4930,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [116.600647, 30.2018318, 161.01358]
-          LocalRotation: [-111.972191, 0.146104738, -101.119781]
-          LocalScale: [0.0736889988, 0.0736889914, 0.0736890137]
+          LocalPosition: [181.347641, -1.21349871, 162.959976]
+          LocalRotation: [-117.238518, 0.146101341, -101.119774]
+          LocalScale: [0.16653125, 0.16653122, 0.16653128]
           Parent: 0
       - StaticMesh:
           Mesh: Models/ring.fbx
@@ -5032,7 +4947,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [80.6767426, 16.1697025, 70.0922394]
+          LocalPosition: [79.6991806, 20.7031097, 78.1616364]
           LocalRotation: [-102.303658, -14.8938522, -140.264542]
           LocalScale: [0.0593921244, 0.0593921058, 0.0593921132]
           Parent: 0
@@ -5049,9 +4964,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-94.0682907, 5.4828434, -233.598312]
+          LocalPosition: [-113.453964, 1.60633755, -315.893768]
           LocalRotation: [68.7864227, 68.8161621, 158.698517]
-          LocalScale: [0.0850000232, 0.0850000083, 0.0850000009]
+          LocalScale: [0.111350015, 0.11135, 0.111349992]
           Parent: 0
       - StaticMesh:
           Mesh: Models/ring.fbx
@@ -5066,9 +4981,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-118.745506, 7.78736401, -216.470047]
+          LocalPosition: [-141.446823, 14.026597, -295.801239]
           LocalRotation: [149.769745, -48.0028954, -65.2850037]
-          LocalScale: [0.112200007, 0.112199984, 0.112199984]
+          LocalScale: [0.136884019, 0.136883989, 0.136884004]
           Parent: 0
       - StaticMesh:
           Mesh: Models/ring.fbx
@@ -5083,7 +4998,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-153.932266, 9.09384823, -218.454483]
+          LocalPosition: [-177.7995, 13.4534607, -304.710693]
           LocalRotation: [21.0569801, 20.3479996, 98.9244308]
           LocalScale: [0.0875160024, 0.08751598, 0.08751598]
           Parent: 0
@@ -5113,9 +5028,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [33.3051605, 5.79308987, -85.9664154]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1.36000001, 1.36000001, 1.36000001]
+          LocalPosition: [32.817524, 4.66486454, -89.4737625]
+          LocalRotation: [2.68164444, -36.8931236, -5.48420954]
+          LocalScale: [1.60000002, 1.60000002, 1.60000002]
           Parent: 0
       - BoxCollider:
           IsTrigger: false
@@ -5276,3 +5191,168 @@ Actors:
       - BlockTrigger:
           GhostMaterial: Materials/M_GhostObject.mat
           SolidMaterial: Materials/GhostPlatform.mat
+  - Actor: 226719029
+    ID: 226719029
+    Name: Cube (21)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [49.3538246, -82.6441193, -55.7019424]
+          LocalRotation: [-89.993103, 89.3187256, 0.000430829939]
+          LocalScale: [0.47232002, 0.47232005, 0.47232005]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 120194968
+    ID: 120194968
+    Name: Cube (16)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [32.6224022, 15.8276634, -61.1216202]
+          LocalRotation: [90, -0, 0]
+          LocalScale: [0.317400008, 0.317399979, 0.317399979]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
+  - Actor: 35570389
+    ID: 35570389
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [91.08992, 8.11483002, -123.694656]
+          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 23988384
+    ID: 23988384
+    Name: Cube (21)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [28.3847084, -61.5635986, -126.669067]
+          LocalRotation: [88.7493515, 0.980324686, 178.927658]
+          LocalScale: [0.401472032, 0.401472062, 0.401472062]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [2.79999995, 29.9500008, 0.600000024]
+          Size: [0.899999976, 0.400000006, 0.800000012]
+  - Actor: 618241015
+    ID: 618241015
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-187.554581, 19.4495907, 198.337845]
+          LocalRotation: [-133.394882, 31.930994, 126.471321]
+          LocalScale: [0.138550043, 0.138550028, 0.138550013]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 101389480
+    ID: 101389480
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-216.791824, 26.9753895, 179.147705]
+          LocalRotation: [161.336975, -31.7726536, 148.924026]
+          LocalScale: [0.138550043, 0.138550028, 0.138550013]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 210145465
+    ID: 210145465
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-324.766541, 21.065752, -46.9497719]
+          LocalRotation: [-133.394882, 31.930994, 126.471321]
+          LocalScale: [0.169031054, 0.169031039, 0.169031039]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 397051962
+    ID: 397051962
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-288.961639, 16.3942814, -68.8302078]
+          LocalRotation: [-61.4329224, 45.3986588, -135.345917]
+          LocalScale: [0.0811349079, 0.0811349079, 0.0811349079]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 878668624
+    ID: 878668624
+    Name: Ring1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-382.371613, 13.7385464, -1.45940173]
+          LocalRotation: [-141.3255, -9.29785442, 89.8802032]
+          LocalScale: [0.235291228, 0.235291243, 0.235291243]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Ring.mat
+          CastShadow: true
