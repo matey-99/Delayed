@@ -304,7 +304,7 @@ void TPPPlayer::UpdateGhostAnimatorParams()
 void TPPPlayer::HandleAnimator()
 {
     float speed = m_CharacterController->GetMovementSpeed() * 7.0f;
-    printf("speed %f \n", speed);
+    //printf("speed %f \n", speed);
 
     speed = glm::clamp(speed, 0.0f, 0.99f);
 
