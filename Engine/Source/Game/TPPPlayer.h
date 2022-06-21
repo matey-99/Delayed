@@ -20,6 +20,8 @@ public:
 
     virtual float GetMovementSpeed() override;
 
+    virtual void UpdateGhostAnimatorParams() override;
+
     inline Ref<Animator> GetCharacterAnimator() const { return m_CharacterAnimator; }
 
     inline Ref<TPPCharacterController> GetCharacterController() const { return m_CharacterController; }

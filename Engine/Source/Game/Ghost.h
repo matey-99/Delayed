@@ -24,6 +24,8 @@ public:
 	void Corrupt();
 	void Heal();
 
+	void UpdateAnimatorParams(bool grounded, bool landing, bool jumping, bool dashing, bool sprinting);
+
 	inline void SetCorrupted(bool corrupted) { m_IsCorrupted = corrupted; }
 
 private:
@@ -43,6 +45,11 @@ private:
 	glm::vec3 m_Positions[GHOST_POSITIONS_COUNT];
 	float m_RotationsY[GHOST_POSITIONS_COUNT];
 	float m_MovementSpeed[GHOST_POSITIONS_COUNT];
+	bool m_IsGrounded[GHOST_POSITIONS_COUNT];
+	bool m_IsLanding[GHOST_POSITIONS_COUNT];
+	bool m_IsJumping[GHOST_POSITIONS_COUNT];
+	bool m_IsDashing[GHOST_POSITIONS_COUNT];
+	bool m_IsSprinting[GHOST_POSITIONS_COUNT];
 
 	int m_CurrentPositionIndex;
 	bool m_FollowPlayer;

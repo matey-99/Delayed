@@ -12,7 +12,7 @@ AnimatorStateBase::AnimatorStateBase()
 AnimatorStateBase::AnimatorStateBase(Animator* owner)
 	: m_Owner(owner)
 {
-	m_ShouldWaitUntilAnimationEnd = false;
+	m_ShouldPlayAnimation = true;
 
 	m_IsWaiting = false;
 }
@@ -23,26 +23,30 @@ void AnimatorStateBase::UpdateState(float deltaTime)
 	{
 		if (transition->CheckConditions())
 		{
-			if (m_ShouldWaitUntilAnimationEnd)
+			if (transition->IsWaitingUntilAnimationEnd())
 			{
 				if (!m_IsWaiting)
 				{
-					StartWaiting();
+					m_IsWaiting = true;
 				}
 
 				if (HasAnimationEnd())
 				{
+					m_ShouldPlayAnimation = false;
 					ExitState(transition);
 					return;
 				}
 			}
 			else
 			{
+				m_ShouldPlayAnimation = false;
 				ExitState(transition);
 				return;
 			}
 		}
 	}
+
+	m_ShouldPlayAnimation = true;
 }
 
 void AnimatorStateBase::StartWaiting()

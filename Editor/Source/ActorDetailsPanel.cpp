@@ -22,6 +22,7 @@
 #include "Scene/Component/Collider/BoxColliderComponent.h"
 #include "Scene/Component/AudioSourceComponent.h"
 #include "Scene/Component/AudioListenerComponent.h"
+#include "Scene/Component/Animation/AnimatorTransition.h"
 
 #include "Game/Player.h"
 #include "Game/CharacterController.h"
@@ -332,13 +333,8 @@ void ActorDetailsPanel::Render()
 
         ImGui::Dummy(ImVec2(0.0, 5.0));
 
-        //ImGui::Text("Animations available: %i", animator->HowManyAnimationsAreThere());
-
-        //ImGui::Text("Animation current time: %f", animator->GetCurrentAnimationTime());
-
-        //if (ImGui::Button("Debug display animation names"))
-            //animator->DebugDisplayAnimationNames();
-
+        auto sk = m_Actor->GetComponent<SkeletalMeshComponent>();
+        ImGui::Text("Animations available: %i", sk->GetAnimations().size());
 
         for (auto& param : animator->m_FloatParameters)
         {
@@ -356,53 +352,69 @@ void ActorDetailsPanel::Render()
         }
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-        // Lists: Begin
-        //if (ImGui::BeginCombo("Animation No. 1", animator->GetAnimation(0)->GetAnimationName().c_str()))
-        //{
-        //    for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
-        //    {
-        //        Ref<Animation> animation = animator->GetAnimations()[i];
-        //        if (ImGui::Selectable(animation->GetAnimationName().c_str()))
-        //            animator->SetAnimation1(animation);
-        //    }
-        //    ImGui::EndCombo();
-        //}
+        int stateID = 0;
+        for (auto& state : animator->m_States)
+        {
+            ImGui::PushID(stateID);
+            std::string name = state->GetName();
+            ImGui::TextColored(ImVec4(0.0f, 0.5f, 0.8f, 1.0f), name.c_str());
 
-        //if (ImGui::BeginCombo("Animation No. 2", animator->GetAnimation(1)->GetAnimationName().c_str()))
-        //{
-        //    for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
-        //    {
-        //        Ref<Animation> animation = animator->GetAnimations()[i];
-        //        if (ImGui::Selectable(animation->GetAnimationName().c_str()))
-        //            animator->SetAnimation2(animation);
-        //    }
-        //    ImGui::EndCombo();
-        //}
+            if (auto bt = Cast<BlendTree>(state))
+            {
+                int nodeID = stateID * 100;
+                for (auto& node : bt->m_Nodes)
+                {
+                    ImGui::PushID(nodeID);
 
-        //if (ImGui::BeginCombo("Animation No. 3 (Jump)", animator->GetAnimation(2)->GetAnimationName().c_str()))
-        //{
-        //    for (int i = 0; i < animator->HowManyAnimationsAreThere(); i++)
-        //    {
-        //        Ref<Animation> animation = animator->GetAnimations()[i];
-        //        if (ImGui::Selectable(animation->GetAnimationName().c_str()))
-        //            animator->SetAnimation3(animation);
-        //    }
-        //    ImGui::EndCombo();
-        //}
-        // Lists: End
+                    ImGui::Text("BlendNode");
 
-       // if (ImGui::Button("Switch animation"))
-            //animator->DebugSwitchAnimation();
+                    int id = node.AnimationID;
+                    ImGui::InputInt("Animation ID", &id);
+                    if (id != node.AnimationID)
+                    {
+                        node.AnimationID = id;
+                        node.Animation = sk->GetAnimation(id);
+                    }
+                    ImGui::DragFloat("Animation Speed", &node.AnimationSpeed, 0.001f);
+                    ImGui::DragFloat("Blend Limit", &node.BlendLimit, 0.001f, 0.0f, 1.0f);
 
-        //ImGui::DragFloat("Blend Factor", &animator->m_BlendFactor, 0.02f, 0.0f, 1.0f);
-        //ImGui::DragFloat("Blend Factor 2", &animator->m_BlendFactor2, 0.02f, 0.0f, 1.0f);
+                    ImGui::PopID();
+                    nodeID++;
+                }
+            }
 
-        //ImGui::Dummy(ImVec2(0.0, 10.0));
-        //ImGui::DragFloat("Animation 1 speed", &animator->m_PAnimSpeed, 0.02f, 0.0f, 1.0f);
-        //ImGui::DragFloat("Animation 2 speed", &animator->m_LAnimSpeed, 0.02f, 0.0f, 1.0f);
+            if (auto s = Cast<AnimatorState>(state))
+            {
+                int id = s->m_AnimationID;
+                ImGui::InputInt("Animation ID", &id);
+                if (id != s->m_AnimationID)
+                {
+                    s->m_AnimationID = id;
+                    s->SetAnimation(sk->GetAnimation(id));
+                }
+                ImGui::DragFloat("Animation Speed", &s->m_AnimationSpeed, 0.001f);
+            }
+
+            ImGui::PopID();
+            stateID++;
+        }
+        ImGui::Dummy(ImVec2(0.0, 10.0));
+
+        int transitionID = stateID;
+        for (auto& t : animator->m_Transitions)
+        {
+            ImGui::PushID(transitionID);
+            std::string name = "Source: " + t->GetPreviousState()->GetName() + ", Dest: " + t->GetNextState()->GetName();
+            ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.5f, 1.0f), name.c_str());
+
+            ImGui::DragFloat("Transition Time", &t->m_TransitionTime, 0.01f, 0.0f);
+
+            ImGui::PopID();
+            transitionID++;
+        }
+
 
         ImGui::Dummy(ImVec2(0.0, 10.0));
-        // [...]
     }
 
     if (auto foliage = m_Actor->GetComponent<FoliageComponent>())

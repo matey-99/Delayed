@@ -55,8 +55,24 @@ void BlendTree::UpdateState(float deltaTime)
 			}
 		}
 	}
-
+	
+	float b = blendValue;
 	float blendRange = nextNode->BlendLimit - previousNode->BlendLimit;
+	blendValue /= blendRange;
+
+	float intpart;
+	float fractpart = modf(blendValue, &intpart);
+
+	if (fractpart != 0.0f)
+		blendValue = fractpart;
+	else
+	{
+		if (b < nextNode->BlendLimit)
+			blendValue = 0.0f;
+		else if (b > previousNode->BlendLimit)
+			blendValue = 1.0f;
+	}
+
 	Ref<Animation> previousAnim = previousNode->Animation;
 	Ref<Animation> nextAnim = nextNode->Animation;
 

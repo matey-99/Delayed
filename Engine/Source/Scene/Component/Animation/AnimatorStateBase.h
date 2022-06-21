@@ -19,17 +19,19 @@ public:
 
 	void AddExitTransition(Ref<AnimatorTransition> transition);
 
-	inline void ShouldWaitUntilAnimationEnd(bool should) { m_ShouldWaitUntilAnimationEnd = should; }
+	inline std::string GetName() const { return m_Name; }
+
+	inline void SetName(const std::string& name) { m_Name = name; }
 
 protected:
 	Animator* m_Owner;
 	std::vector<Ref<AnimatorTransition>> m_ExitTransitions;
 
+	bool m_ShouldPlayAnimation;
 	bool m_IsWaiting;
 
 private:
 	std::string m_Name;
-	bool m_ShouldWaitUntilAnimationEnd;
 
 	float m_StateTime;
 };

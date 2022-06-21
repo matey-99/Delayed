@@ -11,6 +11,7 @@ class Trail;
 class Interactable;
 class InteractionPanel;
 class Inventory;
+class Ghost;
 enum class SkillType;
 
 class Player : public GameComponent, public Saveable
@@ -33,11 +34,17 @@ public:
 
 	virtual float GetMovementSpeed();
 
-	inline Ref<Actor> GetGhost() const { return m_Ghost; }
+	virtual void UpdateGhostAnimatorParams();
+
+
+	inline Ref<Ghost> GetGhost() const { return m_Ghost; }
 	inline Ref<Trail> GetTrail() const { return m_Trail; }
 	inline Ref<CharacterController> GetCharacterController() const { return m_CharacterController; }
 
     inline bool IsRunning() const { return m_IsRunning; };
+
+	inline bool IsJumping() const { return m_IsJumping; }
+	inline bool IsDashing() const { return m_IsDashing; }
 
 protected:
     virtual void MoveForward(float value);
@@ -79,7 +86,7 @@ protected:
 	Ref<CharacterController> m_CharacterController;
 	Ref<Inventory> m_Inventory;
 	Ref<CameraComponent> m_Camera;
-	Ref<Actor> m_Ghost;
+	Ref<Ghost> m_Ghost;
 	Ref<Trail> m_Trail;
 	Ref<Actor> m_StaminaBar;
 	Ref<InteractionPanel> m_InteractionPanel;
@@ -97,7 +104,6 @@ protected:
 
 	/* Flags */
 	bool m_IsRunning;
-	bool m_IsJumping;
 	bool m_IsSlowedDown;
 	bool m_IsTeleporting;
 	bool m_CanJump;
@@ -108,6 +114,14 @@ protected:
 	bool m_HasDoubleJumpSkill;
 	bool m_HasDashSkill;
 	bool m_HasTeleportSkill;
+
+	/* Animator */
+	bool m_IsJumping;
+	bool m_IsDashing;
+
+	/* Ghost Animator */
+	bool m_IsGhostJumping;
+	bool m_IsGhostDashing;
 
 	/* Others */
 	Ref<Interactable> m_Interactable;

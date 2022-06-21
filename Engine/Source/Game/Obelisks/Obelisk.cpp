@@ -126,10 +126,10 @@ void Obelisk::GetEffect()
 	switch (m_Effect)
 	{
 	case ObeliskEffect::Corrupt:
-		m_Player->GetGhost()->GetComponent<Ghost>()->Corrupt();
+		m_Player->GetGhost()->Corrupt();
 		break;
 	case ObeliskEffect::Heal:
-		m_Player->GetGhost()->GetComponent<Ghost>()->Heal();
+		m_Player->GetGhost()->Heal();
 		break;
 	case ObeliskEffect::GiveTeleportSkill:
 		m_Player->AddSkill(SkillType::Teleport);

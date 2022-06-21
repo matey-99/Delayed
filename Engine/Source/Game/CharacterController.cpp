@@ -13,6 +13,7 @@ CharacterController::CharacterController(Actor* owner)
 	m_MoveSmoothness = 0.89f;
 	m_RotateSmoothness = 0.89f;
 	m_IsGrounded = false;
+	m_IsLanding = false;
 
 	m_WalkSpeed = 10.0f;
 	m_RunSpeed = 15.0f;
@@ -43,6 +44,7 @@ void CharacterController::FixedUpdate()
 {
 	Ray ray(m_Owner->GetTransform()->GetWorldPosition(), -Math::UpVector);
 	m_IsGrounded = Physics::RayCast(ray, m_DistanceToGround, false, m_Owner);
+	m_IsLanding = Physics::RayCast(ray, m_DistanceToGround + 3.0f, false, m_Owner);
 }
 
 void CharacterController::Move(glm::vec3 direction, const CharacterMovementParams& params, float deltaTime)
@@ -137,4 +139,12 @@ void CharacterController::Dash()
 {
 	m_Velocity += m_Owner->GetTransform()->GetForward() * m_DashDistance;
 	m_Stamina -= m_StaminaUsagePerDash;
+}
+
+float CharacterController::GetMovementSpeed()
+{
+	glm::vec3 velocity = m_Velocity;
+	velocity.y = 0.0f;
+
+	return Math::Magnitude(velocity);
 }

@@ -22,6 +22,7 @@
 #include "Interactable.h"
 #include "InteractionPanel.h"
 #include "Inventory.h"
+#include "Ghost.h"
 
 Player::Player(Actor* owner)
 	: GameComponent(owner)
@@ -51,6 +52,12 @@ Player::Player(Actor* owner)
 
 	m_LastPosition = glm::vec3(0.0f);
 	m_MoveDirectionCopy = glm::vec3(0.0f);
+
+	m_IsDashing = false;
+	m_IsJumping = false;
+
+	m_IsGhostJumping = false;
+	m_IsGhostDashing = false;
 }
 
 void Player::Start()
@@ -85,7 +92,7 @@ void Player::Start()
 	m_CharacterController = m_Owner->AddComponent<CharacterController>();
 	m_Inventory = m_Owner->AddComponent<Inventory>();
 	m_Camera = m_Owner->GetScene()->GetComponent<CameraComponent>(m_CameraID);
-	m_Ghost = m_Owner->GetScene()->FindActor(m_GhostID);
+	m_Ghost = m_Owner->GetScene()->GetComponent<Ghost>(m_GhostID);
 	m_Trail = m_Owner->GetScene()->GetComponent<Trail>(m_TrailID);
 	m_StaminaBar = m_Owner->GetScene()->FindActor(m_StaminaBarID);
 	m_InteractionPanel = m_Owner->GetScene()->GetComponent<InteractionPanel>(m_InteractionPanelID);
@@ -98,6 +105,9 @@ void Player::Start()
 
 void Player::Update(float deltaTime)
 {
+	m_IsGhostJumping = false;
+	m_IsGhostDashing = false;
+
 	if (GameManager::GetInstance()->IsGamePaused())
 	{
 		m_Interactable = nullptr;
@@ -123,6 +133,11 @@ void Player::Update(float deltaTime)
 		}
 	}
 
+	if (Math::Magnitude(m_MoveDirection) > 0.0f)
+	{
+		m_MoveDirection = Math::Normalize(m_MoveDirection);
+	}
+
 	glm::vec3 currentPosition = m_Owner->GetTransform()->GetWorldPosition();
 	if (!Math::IsNearlyEqual(currentPosition, m_LastPosition, 0.01f))
 		m_Trail->EnableTrailParticlesEmission(true);
@@ -142,6 +157,13 @@ void Player::Update(float deltaTime)
 	HandleHUD();
 
 	m_LastPosition = currentPosition;
+
+	m_IsGhostJumping = m_IsJumping;
+	m_IsGhostDashing = m_IsDashing;
+
+	if (GetMovementSpeed() <= 0.8f)
+		m_IsDashing = false;
+	m_IsJumping = false;
 
 	// Reset move direction & rotation
 	m_MoveDirection = glm::vec3(0.0f);
@@ -271,6 +293,7 @@ void Player::Jump()
 		{
 			m_CharacterController->Jump();
 			m_CanJump = false;
+			m_IsJumping = true;
 		}
 
 		if (!isGrounded && m_HasDoubleJumpSkill)
@@ -296,6 +319,7 @@ void Player::Jump_Gamepad()
 		{
 			m_CharacterController->Jump();
 			m_CanJump_Gamepad = false;
+			m_IsJumping = true;
 		}
 
 		if (!isGrounded && m_HasDoubleJumpSkill)
@@ -329,6 +353,7 @@ void Player::Dash()
 		m_CharacterController->Dash();
 		m_CanDash = false;
 		m_DashCooldownTimer = m_DashCooldown;
+		m_IsDashing = true;
 
 		auto tutorial = TutorialManager::GetInstance();
 		if (tutorial->IsTutorialDisplayed(TutorialType::Dash))
@@ -348,7 +373,7 @@ void Player::Teleport()
 		m_IsTeleporting = true;
 		m_CanTeleport = false;
 		m_TeleportCooldownTimer = m_TeleportCooldown;
-		m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition() + glm::vec3(0.0f, 2.0f, 0.0f);
+		m_TeleportDestinationPosition = m_Ghost->GetOwner()->GetTransform()->GetWorldPosition() + glm::vec3(0.0f, 2.0f, 0.0f);
 
 		auto tutorial = TutorialManager::GetInstance();
 		if (tutorial->IsTutorialDisplayed(TutorialType::Teleport))
@@ -389,6 +414,11 @@ void Player::HandleHUD()
 	auto newStaminaBarScale = m_StaminaBar->GetTransform()->GetLocalScale();
 	newStaminaBarScale.x = m_StaminaBarDefaultScale.x * m_CharacterController->GetStamina() / 100.0f;
 	m_StaminaBar->GetTransform()->SetLocalScale(newStaminaBarScale);
+}
+
+void Player::UpdateGhostAnimatorParams()
+{
+	m_Ghost->UpdateAnimatorParams(m_CharacterController->IsGrounded(), m_CharacterController->IsLanding(), m_IsGhostJumping, m_IsGhostDashing, m_IsRunning);
 }
 
 void Player::AddMovementInput(glm::vec3 direction, float value)

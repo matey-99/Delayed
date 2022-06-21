@@ -18,6 +18,7 @@
 #include "GameManager.h"
 #include "Interactable.h"
 #include "Scene/Component/Animation/Animator.h"
+#include "Ghost.h"
 
 TPPPlayer::TPPPlayer(Actor* owner)
 	: Player(owner)
@@ -55,7 +56,7 @@ void TPPPlayer::Start()
 	m_CharacterController = m_Owner->AddComponent<TPPCharacterController>();
     m_Inventory = m_Owner->AddComponent<Inventory>();
     m_CameraController = m_Owner->GetScene()->GetComponent<CameraController>(m_CameraControllerID);
-    m_Ghost = m_Owner->GetScene()->FindActor(m_GhostID);
+    m_Ghost = m_Owner->GetScene()->GetComponent<Ghost>(m_GhostID);
     m_Trail = m_Owner->GetScene()->GetComponent<Trail>(m_TrailID);
     m_StaminaBar = m_Owner->GetScene()->FindActor(m_StaminaBarID);
     m_InteractionPanel = m_Owner->GetScene()->GetComponent<InteractionPanel>(m_InteractionPanelID);
@@ -70,6 +71,9 @@ void TPPPlayer::Start()
 
 void TPPPlayer::Update(float deltaTime)
 {
+    m_IsGhostJumping = false;
+    m_IsGhostDashing = false;
+
     if (GameManager::GetInstance()->IsGamePaused())
     {
         m_Interactable = nullptr;
@@ -98,6 +102,7 @@ void TPPPlayer::Update(float deltaTime)
 	if (Math::Magnitude(m_MoveDirection) > 0.0f)
     {
         m_CharacterController->Rotate(m_CameraController, m_InputDirection, deltaTime);
+        m_MoveDirection = Math::Normalize(m_MoveDirection);
     }
 
     glm::vec3 currentPosition = m_Owner->GetTransform()->GetWorldPosition();
@@ -116,6 +121,13 @@ void TPPPlayer::Update(float deltaTime)
     HandleSkillsCooldowns(deltaTime);
     HandleHUD();
     HandleAnimator();
+
+    m_IsGhostJumping = m_IsJumping;
+    m_IsGhostDashing = m_IsDashing;
+
+    if (GetMovementSpeed() <= 0.8f)
+        m_IsDashing = false;
+    m_IsJumping = false;
 
     m_LastPosition = currentPosition;
 
@@ -151,6 +163,7 @@ void TPPPlayer::Jump()
         {
             m_CharacterController->Jump();
             m_CanJump = false;
+            m_IsJumping = true;
         }
 
         if (!isGrounded && m_HasDoubleJumpSkill)
@@ -176,6 +189,7 @@ void TPPPlayer::Jump_Gamepad()
         {
             m_CharacterController->Jump();
             m_CanJump_Gamepad = false;
+            m_IsJumping = true;
         }
 
         if (!isGrounded && m_HasDoubleJumpSkill)
@@ -209,6 +223,7 @@ void TPPPlayer::Dash()
         m_CharacterController->Dash();
         m_CanDash = false;
         m_DashCooldownTimer = m_DashCooldown;
+        m_IsDashing = true;
 
         auto tutorial = TutorialManager::GetInstance();
         if (tutorial->IsTutorialDisplayed(TutorialType::Dash))
@@ -228,7 +243,7 @@ void TPPPlayer::Teleport()
         m_IsTeleporting = true;
         m_CanTeleport = false;
         m_TeleportCooldownTimer = m_TeleportCooldown;
-        m_TeleportDestinationPosition = m_Ghost->GetTransform()->GetWorldPosition() + glm::vec3(0.0f, 2.0f, 0.0f);
+        m_TeleportDestinationPosition = m_Ghost->GetOwner()->GetTransform()->GetWorldPosition() + glm::vec3(0.0f, 2.0f, 0.0f);
 
         auto tutorial = TutorialManager::GetInstance();
         if (tutorial->IsTutorialDisplayed(TutorialType::Teleport))
@@ -281,21 +296,35 @@ void TPPPlayer::HandleHUD() {
     m_StaminaBar->GetTransform()->SetLocalScale(newStaminaBarScale);
 }
 
+void TPPPlayer::UpdateGhostAnimatorParams()
+{
+    m_Ghost->UpdateAnimatorParams(m_CharacterController->IsGrounded(), m_CharacterController->IsLanding(), m_IsGhostJumping, m_IsGhostDashing, m_IsRunning);
+}
+
 void TPPPlayer::HandleAnimator()
 {
-    float speed = m_CharacterController->GetMovementSpeed() * 5.0f;
-    speed = glm::clamp(speed, 0.0f, 1.0f);
+    float speed = m_CharacterController->GetMovementSpeed() * 7.0f;
+    printf("speed %f \n", speed);
+
+    speed = glm::clamp(speed, 0.0f, 0.99f);
 
     m_CharacterAnimator->SetFloatParameter("Speed", speed);
 
     bool isGrounded = m_CharacterController->IsGrounded();
-    if (!isGrounded && m_LastFrameIsGrounded)
-        m_CharacterAnimator->SetBoolParameter("IsJumping", true);
-    else if (isGrounded && !m_LastFrameIsGrounded)
-        m_CharacterAnimator->SetBoolParameter("IsJumping", false);
+    bool isLanding = m_CharacterController->IsLanding();
 
-    //printf("Jumping: %i \n", (int)isJumping);
+    m_CharacterAnimator->SetBoolParameter("IsGrounded", isLanding);
+
+    m_CharacterAnimator->SetBoolParameter("IsLanding", isLanding);
+
+    m_CharacterAnimator->SetBoolParameter("IsDashing", m_IsDashing);
+    m_CharacterAnimator->SetBoolParameter("IsJumping", m_IsJumping);
+    m_CharacterAnimator->SetBoolParameter("IsSprinting", m_IsRunning);
+       
+
+    //printf("grounded: %i \n", (int)isGrounded);
+    //printf("landing: %i \n", (int)isLanding);
+    //printf("dash: %i \n", (int)m_IsDashing);
     
-
     m_LastFrameIsGrounded = isGrounded;
 }

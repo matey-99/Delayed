@@ -14,6 +14,7 @@ AnimatorState::AnimatorState(Animator* owner)
 	m_AnimationTime = 0.0f;
 
 	m_WaitTime = 0.0f;
+	m_AnimationHasEnded = false;
 }
 
 Ref<AnimatorState> AnimatorState::Create(Animator* owner)
@@ -25,6 +26,19 @@ void AnimatorState::UpdateState(float deltaTime)
 {
 	AnimatorStateBase::UpdateState(deltaTime);
 
+	if (!m_ShouldPlayAnimation)
+		return;
+
+	if (m_IsWaiting)
+	{
+		float animTime = m_AnimationTime + m_Animation->GetTicksPerSecond() * deltaTime * m_AnimationSpeed;
+		if (animTime >= m_Animation->GetDuration())
+		{
+			m_AnimationHasEnded = true;
+			return;
+		}
+	}
+
 	m_AnimationTime += m_Animation->GetTicksPerSecond() * deltaTime * m_AnimationSpeed;
 	m_AnimationTime = fmod(m_AnimationTime, m_Animation->GetDuration());
 
@@ -33,13 +47,10 @@ void AnimatorState::UpdateState(float deltaTime)
 
 bool AnimatorState::HasAnimationEnd()
 {
-	float delta = glm::abs(m_AnimationTime - m_WaitTime);
-	m_WaitTime += delta;
-
-	if (m_WaitTime >= m_Animation->GetDuration())
+	if (m_AnimationHasEnded)
 	{
-		m_WaitTime = 0.0f;
 		m_IsWaiting = false;
+		m_AnimationHasEnded = false;
 
 		return true;
 	}

@@ -103,7 +103,7 @@ Actors:
           LocalScale: [0.0199999996, 0.0199999996, 0.0199999996]
           Parent: 0
       - SkeletalMesh:
-          SkeletalMesh: Models/Skeletal/SK_Astronaut.fbx
+          SkeletalMesh: Models/Character/SK_Astronaut_Ghost.fbx
           Materials:
             - Material: 0
               Path: Materials/MSK_CharacterGhost.mat

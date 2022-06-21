@@ -8,6 +8,7 @@ TutorialManager* TutorialManager::s_Instance{};
 TutorialManager::TutorialManager(Actor* owner)
 	: GameComponent(owner)
 {
+	m_TutorialEnabled = true;
 }
 
 void TutorialManager::Start()
@@ -18,6 +19,9 @@ void TutorialManager::Start()
 	m_DoubleJumpTutorial = m_Owner->GetScene()->FindActor(m_DoubleJumpTutorialID);
 	m_DashTutorial = m_Owner->GetScene()->FindActor(m_DashTutorialID);
 	m_TeleportTutorial = m_Owner->GetScene()->FindActor(m_TeleportTutorialID);
+
+	if (!m_DoubleJumpTutorial || !m_DashTutorial || !m_TeleportTutorial)
+		m_TutorialEnabled = false;
 }
 
 void TutorialManager::DisplayTutorial(TutorialType type)
@@ -54,6 +58,9 @@ void TutorialManager::HideTutorial(TutorialType type)
 
 bool TutorialManager::IsTutorialDisplayed(TutorialType type) const
 {
+	if (!m_TutorialEnabled)
+		return false;
+
 	switch (type)
 	{
 	case TutorialType::DoubleJump:

@@ -31,14 +31,7 @@ void TPPCharacterController::Move(glm::vec3 direction, const CharacterMovementPa
     {
         m_IsJumping = false;
         m_IsDoubleJumping = false;
-
-        if (params.IsRunning)
-            m_Stamina -= m_StaminaUsagePerRunSecond * deltaTime;
-        else
-            m_Stamina += m_StaminaRestorePerSecond * deltaTime;
     }
-
-    m_Stamina = glm::clamp(m_Stamina, 0.0f, m_MaxStamina);
 
     glm::vec3 motion = direction * movementSpeed * deltaTime;
     m_Velocity.x = motion.x * (1.0f - m_MoveSmoothness) + m_Velocity.x * m_MoveSmoothness;

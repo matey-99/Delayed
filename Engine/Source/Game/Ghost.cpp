@@ -12,6 +12,8 @@
 #include "Trail.h"
 #include "Math/Math.h"
 #include "Renderer/RenderPass/PostProcessingPass.h"
+#include "TPPPlayer.h"
+#include "TPPCharacterController.h"
 
 #include <glm/gtx/matrix_decompose.hpp>
 
@@ -23,6 +25,10 @@ Ghost::Ghost(Actor* owner)
 		m_Positions[i] = glm::vec3(0.0f);
 		m_RotationsY[i] = 0.0f;
 		m_MovementSpeed[i] = 0.f;
+		m_IsGrounded[i] = false;
+		m_IsLanding[i] = false;
+		m_IsJumping[i] = false;
+		m_IsDashing[i] = false;
 	}
 	
 	m_PositionOffset = glm::vec3(0.0f, -2.0f, 0.0f);
@@ -39,12 +45,6 @@ Ghost::Ghost(Actor* owner)
 void Ghost::Start()
 {
 	m_PlayerActor = m_Owner->GetScene()->FindActor(m_PlayerID);
-	if (!m_PlayerActor)
-	{
-		ENGINE_WARN("PlayerActor is null!");
-		return;
-	}
-
 	if (auto collider = m_Owner->GetComponent<ColliderComponent>())
 		collider->OnTriggerEnterDelegate.Add(&Ghost::OnTriggerEnter, this);
 
@@ -67,12 +67,6 @@ void Ghost::Start()
 
 void Ghost::Update(float deltaTime)
 {
-	if (m_CurrentPositionIndex == GHOST_POSITIONS_COUNT)
-	{
-		m_CurrentPositionIndex = 0;
-		m_FollowPlayer = true;
-	}
-
 	if (m_FollowPlayer)
 	{
 		m_Owner->GetTransform()->SetWorldPosition(m_Positions[m_CurrentPositionIndex]);
@@ -80,15 +74,23 @@ void Ghost::Update(float deltaTime)
 		auto rot = m_Owner->GetTransform()->GetLocalRotation();
 		rot.y = m_RotationsY[m_CurrentPositionIndex];
 		m_Owner->GetTransform()->SetLocalRotation(rot);
+
+		HandleAnimator();
 	}
 
 	m_RotationsY[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetLocalRotation().y - 180.0f;
 	m_Positions[m_CurrentPositionIndex] = m_PlayerActor->GetTransform()->GetWorldPosition() + m_PositionOffset;
-	m_MovementSpeed[m_CurrentPositionIndex] = m_PlayerActor->GetComponent<Player>()->GetMovementSpeed();
 
-	m_CurrentPositionIndex++;
+	auto player = m_PlayerActor->GetComponent<Player>();
+	m_MovementSpeed[m_CurrentPositionIndex] = player->GetMovementSpeed();
 
-	HandleAnimator();
+	player->UpdateGhostAnimatorParams();
+
+	if (++m_CurrentPositionIndex == GHOST_POSITIONS_COUNT)
+	{
+		m_CurrentPositionIndex = 0;
+		m_FollowPlayer = true;
+	}
 }
 
 void Ghost::OnTriggerEnter(ColliderComponent* other)
@@ -142,10 +144,24 @@ void Ghost::Heal()
 	renderer->m_PostProcessingPass->SetSettings(temp);
 }
 
+void Ghost::UpdateAnimatorParams(bool grounded, bool landing, bool jumping, bool dashing, bool sprinting)
+{
+	m_IsGrounded[m_CurrentPositionIndex] = grounded;
+	m_IsLanding[m_CurrentPositionIndex] = landing;
+	m_IsJumping[m_CurrentPositionIndex] = jumping;
+	m_IsDashing[m_CurrentPositionIndex] = dashing;
+	m_IsSprinting[m_CurrentPositionIndex] = sprinting;
+}
+
 void Ghost::HandleAnimator()
 {
-	float speed = m_MovementSpeed[m_CurrentPositionIndex] * 5.0f;
+	float speed = m_MovementSpeed[m_CurrentPositionIndex] * 7.0f;
 	speed = glm::clamp(speed, 0.0f, 1.0f);
 
 	m_Animator->SetFloatParameter("Speed", speed);
+	m_Animator->SetBoolParameter("IsGrounded", m_IsGrounded[m_CurrentPositionIndex]);
+	m_Animator->SetBoolParameter("IsLanding", m_IsLanding[m_CurrentPositionIndex]);
+	m_Animator->SetBoolParameter("IsDashing", m_IsDashing[m_CurrentPositionIndex]);
+	m_Animator->SetBoolParameter("IsJumping", m_IsJumping[m_CurrentPositionIndex]);
+	m_Animator->SetBoolParameter("IsSprinting", m_IsSprinting[m_CurrentPositionIndex]);
 }

@@ -25,10 +25,12 @@ public:
 	void Jump();
 	void Dash();
 
+	float GetMovementSpeed();
+
 	inline bool IsGrounded() const { return m_IsGrounded; }
+	inline bool IsLanding() const { return m_IsLanding; }
     inline bool IsJumping() const { return m_IsJumping; }
 	inline float GetStamina() const { return m_Stamina; }
-	float GetMovementSpeed() { return glm::length(m_Velocity); }
 
 	inline void SetHeadDefaultPosition(glm::vec3 position) { m_HeadDefaultPosition = position; }
 
@@ -38,6 +40,7 @@ protected:
 	float m_MoveSmoothness;
 	float m_RotateSmoothness;
 	bool m_IsGrounded;
+	bool m_IsLanding;
 
 	float m_WalkSpeed;
 	float m_RunSpeed;

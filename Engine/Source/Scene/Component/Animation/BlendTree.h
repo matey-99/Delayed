@@ -11,6 +11,8 @@ struct BlendNode
 	float AnimationTime = 0.0f;
 	float AnimationSpeed = 1.0f;
 	float BlendLimit = 0.0f;
+
+	int AnimationID = 0;
 };
 
 class BlendTree : public AnimatorStateBase
@@ -35,4 +37,6 @@ public:
 private:
 	std::vector<BlendNode> m_Nodes;
 	std::string m_BlendParameterName;
+
+	friend class ActorDetailsPanel;
 };

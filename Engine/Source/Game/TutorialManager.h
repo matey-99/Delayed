@@ -20,10 +20,14 @@ public:
 
 	bool IsTutorialDisplayed(TutorialType type) const;
 
+	inline bool IsTutorialEnabled() const { return m_TutorialEnabled; }
+
 	inline static TutorialManager* GetInstance() { return s_Instance; }
 
 private:
 	static TutorialManager* s_Instance;
+
+	bool m_TutorialEnabled;
 
 	Ref<Actor> m_DoubleJumpTutorial;
 	Ref<Actor> m_DashTutorial;
