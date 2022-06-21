@@ -1,0 +1,54 @@
+Material: Flower
+ID: 609669448
+BlendMode: 0
+Shader: Opaque
+Bool Parameters:
+  - Name: u_Material.isAOMap
+    Value: false
+  - Name: u_Material.isOpacityMap
+    Value: true
+  - Name: u_Material.isMetallicMap
+    Value: false
+  - Name: u_Material.isAlbedoMap
+    Value: true
+  - Name: u_Material.isEmissiveMap
+    Value: false
+  - Name: u_Material.isNormalMap
+    Value: false
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: true
+  - Name: u_Material.isRoughnessMap
+    Value: false
+Float Parameters:
+  - Name: u_Material.ao
+    Value: 1
+  - Name: u_Material.roughness
+    Value: 0
+  - Name: u_Material.emissiveStrength
+    Value: 0
+  - Name: u_Material.opacity
+    Value: 1
+  - Name: u_Material.metallic
+    Value: 0
+Vec3 Parameters:
+  - Name: u_Material.albedo
+    Value: [0, 0, 0]
+  - Name: u_Material.emissive
+    Value: [0, 0, 0]
+Vec4 Parameters:
+  []
+Texture Parameters:
+  - Name: u_Material.opacityMap
+    Path: Textures/foliage_tex/Opacity.png
+  - Name: u_Material.metallicMap
+    Path: "null"
+  - Name: u_Material.albedoMap
+    Path: Textures/foliage_tex/Low_polyFlower.png
+  - Name: u_Material.aoMap
+    Path: "null"
+  - Name: u_Material.emissiveMap
+    Path: "null"
+  - Name: u_Material.normalMap
+    Path: "null"
+  - Name: u_Material.roughnessMap
+    Path: "null"

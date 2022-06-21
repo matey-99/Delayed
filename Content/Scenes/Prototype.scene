@@ -5035,7 +5035,7 @@ Actors:
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0.5]
-          Size: [7, 3, 3]
+          Size: [5.0999999, 3, 3]
       - Spaceship:
           {}
   - Actor: 196383407
@@ -5058,7 +5058,7 @@ Actors:
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [0.699999988, 0.800000012, 0.75]
   - Actor: 75876906
     ID: 75876906
     Name: Wing
@@ -5079,7 +5079,7 @@ Actors:
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [0.75, 0.649999976, 0.600000024]
   - Actor: 784552122
     ID: 784552122
     Name: Weapon Left
@@ -5355,4 +5355,220 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Ring.mat
+          CastShadow: true
+  - Actor: 589670469
+    ID: 589670469
+    Name: cosmotree00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-41.0186577, 32.0273552, 17.1263523]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+  - Actor: 398034955
+    ID: 398034955
+    Name: cosmotree01_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-42.7395935, 31.9844666, 3.80311203]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+  - Actor: 109837316
+    ID: 109837316
+    Name: cosmotree02_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-40.2511406, 30.9952049, -9.86981487]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree02_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+  - Actor: 840326589
+    ID: 840326589
+    Name: Crystal_01
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [6.04834175, 3.72268963, -40.6738434]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_01.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 767384778
+    ID: 767384778
+    Name: Crystal_02
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [2.90245152, 3.7875967, -32.9882622]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_02.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 119012194
+    ID: 119012194
+    Name: Crystal_03
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-3.17993832, 3.61864662, -38.1858177]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_03.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 838054489
+    ID: 838054489
+    Name: Crystal_04
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [10.2491541, 3.89664173, -35.7722778]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_04.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 342351905
+    ID: 342351905
+    Name: foliage00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [12.3595486, 5.04138279, -45.9990387]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/foliage00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Foliage.mat
+          CastShadow: true
+  - Actor: 502831267
+    ID: 502831267
+    Name: foliage01_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [19.7341652, 5.2715435, -41.8674736]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/foliage01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Foliage.mat
+          CastShadow: true
+  - Actor: 619135830
+    ID: 619135830
+    Name: foliage02_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [15.6775646, 4.51122999, -40.4494286]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/foliage02_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Flower.mat
+            - Material: 1
+              Path: Materials/Foliage.mat
+          CastShadow: true
+  - Actor: 742793741
+    ID: 742793741
+    Name: foliage03_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [19.3033714, 4.5447464, -38.038517]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/foliage03_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Flower.mat
+            - Material: 1
+              Path: Materials/Foliage.mat
+            - Material: 2
+              Path: Materials/Foliage.mat
+            - Material: 3
+              Path: Materials/Foliage.mat
+          CastShadow: true
+  - Actor: 869870306
+    ID: 869870306
+    Name: foliage04_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [20.65732, 4.8258481, -33.9600372]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/foliage04_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Foliage.mat
+            - Material: 1
+              Path: Materials/Foliage.mat
+            - Material: 2
+              Path: Materials/Foliage.mat
           CastShadow: true
