@@ -38,7 +38,9 @@ void Button::Start()
 	}
 
 	m_Platform = m_Owner->GetScene()->GetComponent<Platform>(m_PlatformID);
-	m_Platform->AddButton(this);
+
+	if (m_Platform)
+		m_Platform->AddButton(this);
 
 	m_AudioSource = GetOwner()->GetComponent<AudioSourceComponent>();
 

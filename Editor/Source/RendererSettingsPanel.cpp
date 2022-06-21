@@ -21,11 +21,11 @@ void RendererSettingsPanel::Render()
     ImGui::Begin("Renderer Settings");
 
     ImGui::Checkbox("SSAO Enabled", &m_Renderer->m_Settings.SSAOEnabled);
+    ImGui::Checkbox("SSR Enabled", &m_Renderer->m_Settings.SSREnabled);
     ImGui::Checkbox("Depth Fog Enabled", &m_Renderer->m_Settings.DepthFogEnabled);
     ImGui::Checkbox("Post Processing Enabled", &m_Renderer->m_Settings.PostProcessingEnabled);
     ImGui::Checkbox("FXAA Enabled", &m_Renderer->m_Settings.FXAAEnabled);
     ImGui::Checkbox("Motion Blur Enabled", &m_Renderer->m_Settings.MotionBlurEnabled);
-    ImGui::Checkbox("SSR Enabled", &m_Renderer->m_Settings.SSREnabled);
     ImGui::Checkbox("Depth Of Field Enabled", &m_Renderer->m_Settings.DepthOfFieldEnabled);
     ImGui::Dummy(ImVec2(0.0f, 10.0f));
     ImGui::Dummy(ImVec2(0.0f, 10.0f));

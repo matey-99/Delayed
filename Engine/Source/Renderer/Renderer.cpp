@@ -115,8 +115,9 @@ void Renderer::Render(Ref<Scene> scene, Ref<Camera> camera, uint32_t outputIndex
 	// SSR
 	if (m_Settings.SSREnabled)
 	{
+		PROFILER_START("SSR Pass");
 		m_SSRPass->Render(m_Output[outputIndex]);
-		//m_Output[outputIndex] = m_SSRPass->GetRenderTarget()->GetTargets()[0];
+		PROFILER_STOP();
 	}
 		
 	// Lighting

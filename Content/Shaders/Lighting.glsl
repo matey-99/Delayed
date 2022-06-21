@@ -294,13 +294,17 @@ void main()
     vec3 normal = texture(u_GBufferNormal, v_TexCoord).rgb;
     vec3 color = texture(u_GBufferColorAO, v_TexCoord).rgb;
     float ao = texture(u_GBufferColorAO, v_TexCoord).a;
-    vec4 ssr = texture(u_SSR, v_TexCoord);
     vec3 emissive = texture(u_GBufferEmissive, v_TexCoord).rgb;
     float metallic = texture(u_GBufferMetallicRoughness, v_TexCoord).r;
     float roughness = texture(u_GBufferMetallicRoughness, v_TexCoord).g;
 
     if (u_SSAOEnabled)
         ao *= texture(u_SSAO, v_TexCoord).r;
+
+    vec3 ssr = vec3(0.0);
+    if (u_SSREnabled)
+        ssr = texture(u_SSR, v_TexCoord).rgb;
+
 
     vec3 V = normalize(u_ViewPosition - position);
     vec3 R = reflect(-V, normal);
@@ -355,7 +359,7 @@ void main()
     }
 
     vec3 ambient = (kD * diffuse + specular) * ao;
-    ambient += u_SSREnabled ? ssr.rgb : vec3(0.0);
+    ambient += ssr;
     
     vec3 lighting = ambient + Lo + emissive;
     f_Color = vec4(lighting, 1.0);
