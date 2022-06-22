@@ -41,13 +41,15 @@ Vec3 Parameters:
     Value: [0, 0, 0]
   - Name: u_MaterialVS.windMovement
     Value: [3, 0, 0]
+Vec4 Parameters:
+  []
 Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"
   - Name: u_Material.metallicMap
     Path: "null"
   - Name: u_Material.albedoMap
-    Path: Textures/sprite_0068.png
+    Path: Textures/grass_tex/grass_green.png
   - Name: u_Material.aoMap
     Path: "null"
   - Name: u_Material.emissiveMap
