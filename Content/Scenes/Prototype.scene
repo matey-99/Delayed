@@ -1893,14 +1893,14 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [31.1595821, -8.73255539, 0]
+          LocalPosition: [31.1595821, -11.716012, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [38.9430656, 1, 76.626152]
+          LocalScale: [1000, 3, 1000]
           Parent: 0
       - BoxCollider:
           IsTrigger: true
           Center: [0, 0, 0]
-          Size: [1000, 1, 1000]
+          Size: [1, 1, 1]
       - DeathArea:
           {}
   - Actor: 72135754

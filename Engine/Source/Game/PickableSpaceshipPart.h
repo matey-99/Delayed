@@ -6,6 +6,8 @@
 #include "Saveable.h"
 #include "SpaceshipPart.h"
 
+class Spaceship;
+
 class PickableSpaceshipPart : public Interactable, public Saveable
 {
 public:
@@ -22,6 +24,8 @@ public:
 	void PickUp(Player* player);
 
 private:
+	Ref<Spaceship> m_Spaceship;
+
 	SpaceshipPartType m_SpaceshipPart;
 
 	friend class SceneSerializer;

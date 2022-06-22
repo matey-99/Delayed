@@ -6,6 +6,7 @@
 #include "Scene/Scene.h"
 #include "NotificationManager.h"
 #include "Inventory.h"
+#include "Spaceship.h"
 
 PickableSpaceshipPart::PickableSpaceshipPart(Actor* owner)
 	: Interactable(owner)
@@ -19,6 +20,7 @@ PickableSpaceshipPart::~PickableSpaceshipPart()
 
 void PickableSpaceshipPart::Start()
 {
+	m_Spaceship = m_Owner->GetScene()->FindComponent<Spaceship>();
 }
 
 const SaveData PickableSpaceshipPart::Save()
@@ -44,25 +46,22 @@ void PickableSpaceshipPart::Interact(Player* player)
 
 void PickableSpaceshipPart::PickUp(Player* player)
 {
-	if (auto inventory = player->GetOwner()->GetComponent<Inventory>())
+	m_Spaceship->Fix(m_SpaceshipPart);
+
+	std::string spaceshipPartName = "";
+	switch (m_SpaceshipPart)
 	{
-		inventory->AddItem(m_SpaceshipPart);
-
-		std::string spaceshipPartName = "";
-		switch (m_SpaceshipPart)
-		{
-		case SpaceshipPartType::Part1:
-			spaceshipPartName = "Part 1";
-			break;
-		case SpaceshipPartType::Part2:
-			spaceshipPartName = "Part 2";
-			break;
-		case SpaceshipPartType::Part3:
-			spaceshipPartName = "Part 3";
-			break;
-		}
-
-		NotificationManager::GetInstance()->Notify("You collected a new spaceship part: " + spaceshipPartName);
-		m_Owner->SetEnabled(false);
+	case SpaceshipPartType::Part1:
+		spaceshipPartName = "Part 1";
+		break;
+	case SpaceshipPartType::Part2:
+		spaceshipPartName = "Part 2";
+		break;
+	case SpaceshipPartType::Part3:
+		spaceshipPartName = "Part 3";
+		break;
 	}
+
+	NotificationManager::GetInstance()->Notify("You collected a new spaceship part: " + spaceshipPartName);
+	m_Owner->SetEnabled(false);
 }

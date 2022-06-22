@@ -2,11 +2,11 @@
 
 #include "Core.h"
 
-#include "Interactable.h"
+#include "GameComponent.h"
 #include "Saveable.h"
 #include "SpaceshipPart.h"
 
-class Spaceship : public Interactable
+class Spaceship : public GameComponent
 {
 public:
 	Spaceship(Actor* owner);
@@ -14,9 +14,7 @@ public:
 
 	virtual void Start() override;
 
-	virtual void Interact(Player* player) override;
-
-	void Fix(const std::vector<SpaceshipPartType>& parts);
+	void Fix(SpaceshipPartType parts);
 
 private:
 	std::vector<Ref<SpaceshipPart>> m_SpaceshipParts;

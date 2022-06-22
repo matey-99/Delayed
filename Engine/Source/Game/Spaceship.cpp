@@ -9,7 +9,7 @@
 #include "Inventory.h"
 
 Spaceship::Spaceship(Actor* owner)
-	: Interactable(owner)
+	: GameComponent(owner)
 {
 }
 
@@ -26,33 +26,14 @@ void Spaceship::Start()
 	}
 }
 
-void Spaceship::Interact(Player* player)
+void Spaceship::Fix(SpaceshipPartType part)
 {
-	if (auto inventory = player->GetOwner()->GetComponent<Inventory>())
+	for (auto& spaceshipPart : m_SpaceshipParts)
 	{
-		std::vector<SpaceshipPartType> collectedParts = inventory->GetItems();
-		if (collectedParts.empty())
+		if (spaceshipPart->GetType() == part)
 		{
-			NotificationManager::GetInstance()->Notify("You have no collected spaceship parts!");
-			return;
-		}
-
-		Fix(collectedParts);
-		inventory->Clear();
-	}
-}
-
-void Spaceship::Fix(const std::vector<SpaceshipPartType>& parts)
-{
-	for (auto& type : parts)
-	{
-		for (auto& part : m_SpaceshipParts)
-		{
-			if (part->GetType() == type)
-			{
-				part->Fix();
-				break;
-			}
+			spaceshipPart->Fix();
+			break;
 		}
 	}
 }
