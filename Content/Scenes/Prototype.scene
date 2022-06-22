@@ -76,7 +76,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [31.4944763, 12.6654625, -36.5693665]
+          LocalPosition: [31.4944763, 14.6654625, -36.5693665]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.699999988, 1, 0.699999988]
           Parent: 0
@@ -114,7 +114,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [40.7097855, 10.4688511, -18.9174252]
+          LocalPosition: [40.7097855, 12.468853, -18.9174252]
           LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -3483,7 +3483,7 @@ Actors:
           Mesh: Models/platformSmall01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_platformsmall01.mat
+              Path: Materials/M_platformsmall01orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -3610,7 +3610,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [151.965576, 20.1783276, 19.1433945]
+          LocalPosition: [151.965576, 20.1403885, 19.1433945]
           LocalRotation: [-90, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -3639,7 +3639,7 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
@@ -3805,15 +3805,15 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [203.038788, 4.04919243, -13.5315399]
-          LocalRotation: [90.0000534, 12.7704334, 2.88891479e-05]
+          LocalPosition: [203.038788, 17.8290157, -13.5315399]
+          LocalRotation: [-90, 12.7704334, 2.88891479e-05]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/PlatformSmall00/M_PlatformSmall00_Orange.mat
+              Path: Materials/M_platformsmall01orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -3826,15 +3826,15 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [205.968826, 3.21839452, -30.0446892]
-          LocalRotation: [95.237999, 62.3760414, 5.95752001]
+          LocalPosition: [206.754364, 18.6096306, -28.7997856]
+          LocalRotation: [55.9252625, 84.679512, 146.292755]
           LocalScale: [0.180799976, 0.180800006, 0.180799991]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+              Path: Materials/M_platformsmall01orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -3893,8 +3893,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [226.550125, 3.54647803, -56.582016]
-          LocalRotation: [93.0534363, -28.3334026, 1.93995197e-06]
+          LocalPosition: [227.035782, 4.35009336, -56.271431]
+          LocalRotation: [94.839386, -28.1037922, -3.77601385]
           LocalScale: [0.180799976, 0.180800006, 0.180799991]
           Parent: 2141099751
       - StaticMesh:
@@ -3935,15 +3935,15 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [204.98378, 3.45248771, -75.4278259]
-          LocalRotation: [-169.827087, -87.2690582, -98.7341843]
+          LocalPosition: [201.473007, 22.2869625, -74.5652161]
+          LocalRotation: [8.97673225, -87.268631, -98.7349091]
           LocalScale: [0.247695953, 0.247695997, 0.247695982]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+              Path: Materials/M_platformsmall01orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -4086,7 +4086,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [215.851517, 12.1276493, -137.847321]
+          LocalPosition: [216.616592, 12.127656, -137.847321]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 0
@@ -4101,8 +4101,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
       - Moving:
-          Direction: [1, 0, 0]
-          Distance: 10
+          Direction: [-1, 0, 0]
+          Distance: -10
           Smoothness: 0.949999988
           ErrorInReachingTarget: 0.00999999978
   - Actor: 817137529
@@ -4188,7 +4188,7 @@ Actors:
           Mesh: Models/pressurePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/PressurePlatform/M_PressurePlatform_Green.mat
+              Path: Materials/PressurePlatform/M_PressurePlatform_Orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
@@ -4232,7 +4232,7 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [99.9187927, 8.24098015, -165.637192]
-          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalRotation: [105.521484, -89.1901245, -14.0384703]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
       - StaticMesh:
@@ -4349,7 +4349,7 @@ Actors:
           Mesh: Models/mobilePlatform_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/MobilePlatform/M_MobilePlatform_Green.mat
+              Path: Materials/MobilePlatform/M_MobilePlatform_Orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -4366,15 +4366,15 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [22.8735466, 11.1205578, -161.431808]
-          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalPosition: [22.5862617, 22.5176048, -160.826492]
+          LocalRotation: [20.7339649, 87.7948685, 112.20533]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+              Path: Materials/M_platformsmall01orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -5830,15 +5830,15 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [91.08992, 8.11483002, -123.694656]
-          LocalRotation: [163.804276, -87.2017212, -72.3385391]
+          LocalPosition: [91.6106262, 20.7458801, -123.11409]
+          LocalRotation: [-20, -87.2017212, -72.3385391]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+              Path: Materials/M_platformsmall01orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -7860,6 +7860,68 @@ Actors:
           LocalRotation: [154.828049, 33.8073997, 174.876007]
           LocalScale: [0.0363612659, 0.0363612473, 0.0363612697]
           Parent: 203599353
+      - StaticMesh:
+          Mesh: Models/mushrooms01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Mushroom/M_Mushroom.mat
+          CastShadow: true
+  - Actor: 991569099
+    ID: 991569099
+    Name: path2_mushrooms
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+  - Actor: 670303911
+    ID: 670303911
+    Name: mushrooms01
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [72.1295471, 11.6961613, -50.9707947]
+          LocalRotation: [0, -0, -11.6846237]
+          LocalScale: [0.0705600083, 0.0705600083, 0.0705600083]
+          Parent: 991569099
+      - StaticMesh:
+          Mesh: Models/mushrooms01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Mushroom/M_Mushroom.mat
+          CastShadow: true
+  - Actor: 284293940
+    ID: 284293940
+    Name: mushrooms01
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [97.0866089, 17.6241245, -50.9556236]
+          LocalRotation: [-6.4678607, 2.66304159, -6.53571272]
+          LocalScale: [0.0599760078, 0.0599760078, 0.0599760078]
+          Parent: 991569099
+      - StaticMesh:
+          Mesh: Models/mushrooms01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Mushroom/M_Mushroom.mat
+          CastShadow: true
+  - Actor: 554032883
+    ID: 554032883
+    Name: mushrooms01
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [136.501175, 13.1085148, -52.8008766]
+          LocalRotation: [-6.4678607, 2.66304159, -6.53571272]
+          LocalScale: [0.0599760078, 0.0599760078, 0.0599760078]
+          Parent: 991569099
       - StaticMesh:
           Mesh: Models/mushrooms01_mdl.fbx
           Materials:
