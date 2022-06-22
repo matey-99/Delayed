@@ -15,6 +15,8 @@ public:
     DelegateOneParam<ColliderComponent*> OnTriggerStayDelegate;
     DelegateOneParam<ColliderComponent*> OnTriggerExitDelegate;
 
+    virtual void Destroy() override;
+
     virtual bool IsIntersect(const Ray& ray) = 0;
     virtual bool IsIntersect(const glm::vec3& point) = 0;
 

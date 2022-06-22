@@ -52,19 +52,6 @@ RendererSettings:
     MaxDistance: 64
     Size: 2
 Actors:
-  - Actor: 493161876
-    ID: 493161876
-    Name: Save Manager
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - SaveManager:
-          {}
   - Actor: 968295101
     ID: 968295101
     Name: MainMenu

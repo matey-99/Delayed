@@ -4,23 +4,16 @@
 #include "Scene/Actor.h"
 #include "Scene/Scene.h"
 #include "yaml/yaml.h"
+#include "Scene/SceneManager.h"
+#include "Game/GameComponent.h"
 
-SaveManager* SaveManager::s_Instance{};
-
-SaveManager::SaveManager(Actor* owner)
-	: GameComponent(owner)
+void SaveManager::Initialize()
 {
-	if (s_Instance)
-	{
-		m_LoadGameOnStart = s_Instance->m_LoadGameOnStart;
-	}
+	m_LoadGameOnStart = false;
 }
 
 void SaveManager::Start()
 {
-	if (!s_Instance)
-		s_Instance = this;
-
 	GetAllSaveables();
 
 	if (m_LoadGameOnStart)
@@ -122,7 +115,7 @@ bool SaveManager::LoadGame()
 	if (!data["GameSave"])
 		return false;
 
-	auto scene = m_Owner->GetScene();
+	auto scene = SceneManager::GetInstance()->GetCurrentScene();
 
 	YAML::Node instances = data["Instances"];
 	if (instances)
@@ -214,7 +207,9 @@ void SaveManager::GetAllSaveables()
 {
 	m_Saveables.clear();
 
-	for (auto& gameComponent : m_Owner->GetScene()->GetComponents<GameComponent>())
+	auto scene = SceneManager::GetInstance()->GetCurrentScene();
+
+	for (auto& gameComponent : scene->GetComponents<GameComponent>())
 	{
 		if (auto saveable = Cast<Saveable>(gameComponent))
 			m_Saveables.push_back(saveable);

@@ -30,9 +30,6 @@ void BoxColliderComponent::FixedUpdate()
     CheckCollisions();
 }
 
-void BoxColliderComponent::Destroy() {
-}
-
 void BoxColliderComponent::UpdateBoundingBox() {
     if (auto mesh = m_Owner->GetComponent<MeshComponent>()) 
     {
