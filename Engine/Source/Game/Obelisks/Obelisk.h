@@ -13,7 +13,7 @@ class Player;
 
 enum class ObeliskEffect
 {
-	Corrupt, Heal, GiveTeleportSkill
+	Ghost, Corrupt, Heal, GiveTeleportSkill
 };
 
 class Obelisk : public GameComponent, public Saveable

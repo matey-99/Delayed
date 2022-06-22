@@ -36,6 +36,7 @@ public:
 
 	virtual void UpdateGhostAnimatorParams();
 
+	void EnableGhost();
 
 	inline Ref<Ghost> GetGhost() const { return m_Ghost; }
 	inline Ref<Trail> GetTrail() const { return m_Trail; }

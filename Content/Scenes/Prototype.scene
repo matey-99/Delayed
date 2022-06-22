@@ -3384,7 +3384,7 @@ Actors:
           Center: [0, 0, 0]
           Size: 8
       - Obelisk:
-          Effect: 0
+          Effect: 1
           PostFX: 238169961
   - Actor: 346402549
     ID: 346402549
@@ -4086,7 +4086,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [225.225983, 12.1276569, -137.847321]
+          LocalPosition: [234.071671, 12.1276569, -137.847321]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 0
@@ -4848,7 +4848,7 @@ Actors:
           Center: [0, 0, 0]
           Size: 8
       - Obelisk:
-          Effect: 1
+          Effect: 2
           PostFX: 238169961
   - Actor: 320602394
     ID: 320602394
@@ -7169,10 +7169,10 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [537.379395, -10.0545568, -92.0244827]
+          LocalPosition: [372.870911, -24.4971352, 35.7016907]
           LocalRotation: [-90.0019608, 80.3873062, 0.000132932953]
           LocalScale: [0.441030771, 0.441030771, 0.4410308]
-          Parent: 0
+          Parent: 611109531
       - StaticMesh:
           Mesh: Models/stone_1.fbx
           Materials:
@@ -8530,3 +8530,97 @@ Actors:
             - Material: 0
               Path: Materials/PlatformSmall00/M_PlatformSmall00_Blue.mat
           CastShadow: true
+  - Actor: 611109531
+    ID: 611109531
+    Name: ObeliskArea Teleport
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [164.508499, 14.4425774, -127.726173]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SphereCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: 13
+      - Obelisk:
+          Effect: 3
+          PostFX: 238169961
+  - Actor: 529745657
+    ID: 529745657
+    Name: ObeliskParticle
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [3.42782593, 8.38897514, 3.81066895]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 611109531
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 1
+          MaxParticles: 100
+          EmissionRateOverTime: 60
+          MinParticleSize: 0.100000001
+          MaxParticleSize: 0.300000012
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0.5, 0]
+          EndParticleVelocity: [0, 0, 0.5]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [0, 0.863636494, 1, 1]
+          EndParticleColor: [0, 0, 0, 0]
+  - Actor: 237168548
+    ID: 237168548
+    Name: ObeliskArea Ghost
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [32.8693352, 1.43873596, -40.0033188]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SphereCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: 13
+      - Obelisk:
+          Effect: 0
+          PostFX: 238169961
+  - Actor: 1911636
+    ID: 1911636
+    Name: ObeliskParticle
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-0.996429443, 10.2082596, 1.69090271]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 237168548
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 1
+          MaxParticles: 100
+          EmissionRateOverTime: 60
+          MinParticleSize: 0.100000001
+          MaxParticleSize: 0.300000012
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0.5, 0]
+          EndParticleVelocity: [0, 0, 0.5]
+          MinParticleLifeTime: 1
+          MaxParticleLifeTime: 2
+          StartParticleColor: [0, 0.897727489, 1, 1]
+          EndParticleColor: [0, 0, 0, 0]

@@ -120,7 +120,22 @@ void Obelisk::HandleParticles()
 void Obelisk::HandlePostFX()
 {
 	float elapsedTime = Time::GetInstance()->GetElapsedTime();
-	m_PostFX->SetColor({ glm::sin(3.0f * elapsedTime) + 3.0f, 1.0f, 1.0f, 0.3f });
+
+	switch (m_Effect)
+	{
+	case ObeliskEffect::Ghost:
+		m_PostFX->SetColor({ 1.0f, 1.0f, glm::sin(3.0f * elapsedTime) + 3.0f, 0.3f });
+		break;
+	case ObeliskEffect::Corrupt:
+		m_PostFX->SetColor({ glm::sin(3.0f * elapsedTime) + 3.0f, 1.0f, 1.0f, 0.3f });
+		break;
+	case ObeliskEffect::Heal:
+		m_PostFX->SetColor({ 1.0f, glm::sin(3.0f * elapsedTime) + 3.0f, 1.0f, 0.3f });
+		break;
+	case ObeliskEffect::GiveTeleportSkill:
+		m_PostFX->SetColor({ 1.0f, 1.0f, glm::sin(3.0f * elapsedTime) + 3.0f, 0.3f });
+		break;
+	}
 }
 
 void Obelisk::GetEffect()
@@ -135,6 +150,9 @@ void Obelisk::GetEffect()
 
 	switch (m_Effect)
 	{
+	case ObeliskEffect::Ghost:
+		m_Player->EnableGhost();
+		break;
 	case ObeliskEffect::Corrupt:
 		m_Player->GetGhost()->Corrupt();
 		break;
@@ -149,6 +167,9 @@ void Obelisk::GetEffect()
 	std::string effectText = "";
 	switch (m_Effect)
 	{
+	case ObeliskEffect::Ghost:
+		effectText = "You don't know why, but your ghost has appeared. And he repeats all of your moves.";
+		break;
 	case ObeliskEffect::Corrupt:
 		effectText = "Ghost was corrupted by the Corrupted Obelisk. Run!";
 		break;
