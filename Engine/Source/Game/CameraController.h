@@ -30,6 +30,7 @@ private:
 	float m_FollowSpeed;
 	float m_LookUpLimit;
     float m_LookDownLimit;
+	float m_GamepadRotationSensitivity;
 
 	float m_LookUpRotation;
 	float m_TurnRotation;

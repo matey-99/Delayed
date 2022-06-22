@@ -26,6 +26,7 @@ public:
 
 	void UpdateAnimatorParams(bool grounded, bool landing, bool jumping, bool dashing, bool sprinting);
 
+	inline void SetPlayerActor(Ref<Actor> player) { m_PlayerActor = player; }
 	inline void SetCorrupted(bool corrupted) { m_IsCorrupted = corrupted; }
 
 private:

@@ -52,6 +52,23 @@ RendererSettings:
     MaxDistance: 64
     Size: 2
 Actors:
+  - Actor: 5503310903
+    ID: 5503310903
+    Name: PerspectiveController
+    Enabled: true
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - PerspectiveController:
+          PlayerFPP: 1503310903
+          CameraFPP: 1541634382
+          PlayerTPP: 1503310902
+          CameraTPP: 1541634381
+          CameraController: 485961876
   - Actor: 1503310903
     ID: 1503310903
     Name: Player
@@ -91,6 +108,93 @@ Actors:
           FieldOfView: 60
           NearClipPlane: 0.100000001
           FarClipPlane: 500
+  - Actor: 1503310902
+    ID: 1503310902
+    Name: TPP Player
+    Enabled: false
+    Dynamic: true
+    Components:
+      - Transform:
+          LocalPosition: [40.7097855, 8.46884918, -18.9174252]
+          LocalRotation: [3.72229879e-05, 0, -2.57860975e-05]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 2, 1]
+      - TPPPlayer:
+          CameraController: 485961876
+          Ghost: 1503775902
+          Trail: 405188478
+          StaminaBar: 765667130
+          InteractionPanel: 961523686
+  - Actor: 628242585
+    ID: 628242585
+    Name: Character
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-5.34057617e-05, -2, -0.000196456909]
+          LocalRotation: [0, 180, 0]
+          LocalScale: [0.0199999996, 0.0199999996, 0.0199999996]
+          Parent: 1503310902
+      - SkeletalMesh:
+          SkeletalMesh: Models/Character/SK_Astronaut_Character.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Character/M_Character.mat
+            - Material: 1
+              Path: Materials/Character/M_Character.mat
+            - Material: 2
+              Path: Materials/Character/M_Character.mat
+          CastShadow: true
+      - Animator:
+          {}
+  - Actor: 485961876
+    ID: 485961876
+    Name: Camera Controller
+    Enabled: false
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [40.7099991, 4.46899986, -18.9169998]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - CameraController:
+          Target: 1503310902
+          Camera: 1541634381
+  - Actor: 763440954
+    ID: 763440954
+    Name: Pivot
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 2.5, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 485961876
+  - Actor: 1541634381
+    ID: 1541634381
+    Name: TPP Camera
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, -10]
+          LocalRotation: [0, 180, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 763440954
+      - Camera:
+          AspectRatio: [16, 9]
+          FieldOfView: 60
+          NearClipPlane: 0.300000012
+          FarClipPlane: 1000
+      - AudioListener:
+          {}
   - Actor: 1503775902
     ID: 1503775902
     Name: Ghost
@@ -136,6 +240,37 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 1503310903
+      - ParticleSystem:
+          Duration: 5
+          Looping: true
+          Sprite: Textures/Default/Particle.png
+          EmitterShape: 0
+          EmitterSphereRadius: 0.25
+          MaxParticles: 1000
+          EmissionRateOverTime: 50
+          MinParticleSize: 0.25
+          MaxParticleSize: 0.25
+          EndParticleSize: 0
+          MinParticleVelocity: [0, 0.100000001, 0]
+          MaxParticleVelocity: [0, 0, 0]
+          EndParticleVelocity: [0, 0, 0]
+          MinParticleLifeTime: 3.5
+          MaxParticleLifeTime: 3.5
+          StartParticleColor: [0, 1.89944363, 2, 0.5]
+          EndParticleColor: [0, 0.950000525, 1, 0]
+      - Trail:
+          {}
+  - Actor: 405188478
+    ID: 405188478
+    Name: Trail2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 1, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1503310902
       - ParticleSystem:
           Duration: 5
           Looping: true
@@ -240,6 +375,38 @@ Actors:
           PlayOnStart: false
       - Footsteps:
           PlayerID: 1503310903
+          Sound0: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
+          Sound1: ../../../Content/Audio/Footsteps/Ground/Walk/Walk02.wav
+          Sound2: ../../../Content/Audio/Footsteps/Ground/Walk/Walk03.wav
+          Sound3: ../../../Content/Audio/Footsteps/Ground/Walk/Walk04.wav
+          Sound4: ../../../Content/Audio/Footsteps/Ground/Walk/Walk05.wav
+          Sound5: ../../../Content/Audio/Footsteps/Ground/Run/Run01.wav
+          Sound6: ../../../Content/Audio/Footsteps/Ground/Run/Run02.wav
+          Sound7: ../../../Content/Audio/Footsteps/Ground/Run/Run03.wav
+          Sound8: ../../../Content/Audio/Footsteps/Ground/Run/Run04.wav
+          Sound9: ../../../Content/Audio/Footsteps/Ground/Run/Run05.wav
+          Sound10: ../../../Content/Audio/Footsteps/Ground/Jump/Start01.wav
+          Sound11: ../../../Content/Audio/Footsteps/Ground/Jump/Land01.wav
+  - Actor: 942025307
+    ID: 942025307
+    Name: Footsteps2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, -2, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1.42857146, 1, 1.42857146]
+          Parent: 1503310902
+      - AudioSource:
+          SoundPath: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
+          Channel: 2
+          Volume: 0.5
+          3d: false
+          Looping: false
+          PlayOnStart: false
+      - Footsteps:
+          PlayerID: 1503310902
           Sound0: ../../../Content/Audio/Footsteps/Ground/Walk/Walk01.wav
           Sound1: ../../../Content/Audio/Footsteps/Ground/Walk/Walk02.wav
           Sound2: ../../../Content/Audio/Footsteps/Ground/Walk/Walk03.wav

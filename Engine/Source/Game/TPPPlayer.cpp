@@ -58,11 +58,9 @@ void TPPPlayer::Start()
     m_CameraController = m_Owner->GetScene()->GetComponent<CameraController>(m_CameraControllerID);
     m_Ghost = m_Owner->GetScene()->GetComponent<Ghost>(m_GhostID);
     m_Trail = m_Owner->GetScene()->GetComponent<Trail>(m_TrailID);
-    m_StaminaBar = m_Owner->GetScene()->FindActor(m_StaminaBarID);
     m_InteractionPanel = m_Owner->GetScene()->GetComponent<InteractionPanel>(m_InteractionPanelID);
 
     m_LastCheckpointPosition = m_Owner->GetTransform()->GetWorldPosition();
-    m_StaminaBarDefaultScale = m_StaminaBar->GetTransform()->GetLocalScale();
 
     m_CharacterAnimator = m_Owner->GetTransform()->GetChildren()[0]->GetOwner()->GetComponent<Animator>();
 
@@ -311,9 +309,6 @@ void TPPPlayer::LookForInteractable() {
 }
 
 void TPPPlayer::HandleHUD() {
-    auto newStaminaBarScale = m_StaminaBar->GetTransform()->GetLocalScale();
-    newStaminaBarScale.x = m_StaminaBarDefaultScale.x * m_CharacterController->GetStamina() / 100.0f;
-    m_StaminaBar->GetTransform()->SetLocalScale(newStaminaBarScale);
 }
 
 void TPPPlayer::UpdateGhostAnimatorParams()

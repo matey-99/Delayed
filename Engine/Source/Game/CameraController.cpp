@@ -16,6 +16,7 @@ CameraController::CameraController(Actor* owner)
 	m_FollowSpeed = 5.0f;
 	m_LookUpLimit = 75.0f;
 	m_LookDownLimit = -25.0f;
+	m_GamepadRotationSensitivity = 20.0f;
 
 	m_TurnRotation = 0.0f;
 	m_LookUpRotation = 0.0f;
@@ -75,10 +76,18 @@ void CameraController::FollowTarget(float speed)
 
 void CameraController::Turn(float value)
 {
+	auto input = Input::GetInstance()->GetCurrentInputType();
+	if (input == PlayerInputType::Gamepad)
+		value *= m_GamepadRotationSensitivity;
+
 	m_TurnRotation += value * m_CameraSpeed;
 }
 
 void CameraController::LookUp(float value)
 {
+	auto input = Input::GetInstance()->GetCurrentInputType();
+	if (input == PlayerInputType::Gamepad)
+		value *= m_GamepadRotationSensitivity;
+
 	m_LookUpRotation += value * m_CameraSpeed;
 }

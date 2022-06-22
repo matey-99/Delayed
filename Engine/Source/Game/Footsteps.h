@@ -18,7 +18,7 @@ public:
 private:
     Ref<AudioSourceComponent> m_AudioSource;
     Ref<Player> m_Player;
-    Ref<CharacterController> m_CharachterController;
+    Ref<CharacterController> m_CharacterController;
     std::vector<std::string> m_Sounds;
 
 #pragma region Serialization

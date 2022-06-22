@@ -88,7 +88,6 @@ protected:
 	Ref<CameraComponent> m_Camera;
 	Ref<Ghost> m_Ghost;
 	Ref<Trail> m_Trail;
-	Ref<Actor> m_StaminaBar;
 	Ref<InteractionPanel> m_InteractionPanel;
 	
 	/* Parameters */
@@ -126,7 +125,6 @@ protected:
 	/* Others */
 	Ref<Interactable> m_Interactable;
 	glm::vec3 m_LastCheckpointPosition;
-	glm::vec3 m_StaminaBarDefaultScale;
 	glm::vec3 m_TeleportDestinationPosition;
 	glm::vec3 m_LastPosition;
 	glm::vec3 m_MoveDirectionCopy;
@@ -138,7 +136,6 @@ protected:
 	uint64_t m_CameraID;
 	uint64_t m_GhostID;
 	uint64_t m_TrailID;
-	uint64_t m_StaminaBarID;
 	uint64_t m_InteractionPanelID;
 
 #pragma endregion

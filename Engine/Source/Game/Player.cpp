@@ -94,13 +94,11 @@ void Player::Start()
 	m_Camera = m_Owner->GetScene()->GetComponent<CameraComponent>(m_CameraID);
 	m_Ghost = m_Owner->GetScene()->GetComponent<Ghost>(m_GhostID);
 	m_Trail = m_Owner->GetScene()->GetComponent<Trail>(m_TrailID);
-	m_StaminaBar = m_Owner->GetScene()->FindActor(m_StaminaBarID);
 	m_InteractionPanel = m_Owner->GetScene()->GetComponent<InteractionPanel>(m_InteractionPanelID);
 
 	m_CharacterController->SetHeadDefaultPosition(m_Camera->GetOwner()->GetTransform()->GetLocalPosition());
 
 	m_LastCheckpointPosition = m_Owner->GetTransform()->GetWorldPosition();
-	m_StaminaBarDefaultScale = m_StaminaBar->GetTransform()->GetLocalScale();
 }
 
 void Player::Update(float deltaTime)
@@ -294,6 +292,9 @@ void Player::LookUp(float value)
 
 void Player::Jump()
 {
+	if (!m_Owner->IsEnabled())
+		return;
+
 	if (m_CanJump)
 	{
 		bool isGrounded = m_CharacterController->IsGrounded();
@@ -324,6 +325,9 @@ void Player::AllowJumping()
 
 void Player::Jump_Gamepad()
 {
+	if (!m_Owner->IsEnabled())
+		return;
+
 	if (m_CanJump_Gamepad)
 	{
 		bool isGrounded = m_CharacterController->IsGrounded();
@@ -368,6 +372,9 @@ void Player::RunOff()
 
 void Player::Dash()
 {
+	if (!m_Owner->IsEnabled())
+		return;
+
 	if (m_CanDash && m_HasDashSkill && m_DashCooldownTimer == 0.0f)
 	{
 		m_CharacterController->Dash();
@@ -388,6 +395,9 @@ void Player::AllowDashing()
 
 void Player::Teleport()
 {
+	if (!m_Owner->IsEnabled())
+		return;
+
 	if (m_CanTeleport && m_HasTeleportSkill && m_TeleportCooldownTimer == 0.0f)
 	{
 		m_IsTeleporting = true;
@@ -408,6 +418,9 @@ void Player::AllowTeleporting()
 
 void Player::Interact()
 {
+	if (!m_Owner->IsEnabled())
+		return;
+
 	if (m_CanInteract && m_Interactable)
 	{
 		m_Interactable->Interact(this);
@@ -431,9 +444,7 @@ void Player::HandleSkillsCooldowns(float deltaTime)
 
 void Player::HandleHUD()
 {
-	auto newStaminaBarScale = m_StaminaBar->GetTransform()->GetLocalScale();
-	newStaminaBarScale.x = m_StaminaBarDefaultScale.x * m_CharacterController->GetStamina() / 100.0f;
-	m_StaminaBar->GetTransform()->SetLocalScale(newStaminaBarScale);
+
 }
 
 void Player::UpdateGhostAnimatorParams()

@@ -60,6 +60,7 @@
 #include "Game/SpaceshipPart.h"
 #include "Game/TutorialTrigger.h"
 #include "Game/ControllerBasedIcon.h"
+#include "Game/PerspectiveController.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -719,6 +720,22 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						t->m_TeleportTutorialID = teleportTutorialID;
 					}
 
+					if (auto perspective = component["PerspectiveController"])
+					{
+						uint64_t playerFPP = perspective["PlayerFPP"].as<uint64_t>();
+						uint64_t cameraFPP = perspective["CameraFPP"].as<uint64_t>();
+						uint64_t playerTPP = perspective["PlayerTPP"].as<uint64_t>();
+						uint64_t cameraTPP = perspective["CameraTPP"].as<uint64_t>();
+						uint64_t cameraController = perspective["CameraController"].as<uint64_t>();
+
+						auto p = a->CreateComponent<PerspectiveController>();
+						p->m_PlayerFPPID = playerFPP;
+						p->m_CameraFPPID = cameraFPP;
+						p->m_PlayerTPPID = playerTPP;
+						p->m_CameraTPPID = cameraTPP;
+						p->m_CameraControllerID = cameraController;
+					}
+
 					if (auto menu = component["MainMenu"])
 					{
 						uint64_t defaultPanelID = menu["DefaultPanel"].as<uint64_t>();
@@ -784,7 +801,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						p->m_CameraID = cameraActorID;
 						p->m_GhostID = ghostActorID;
 						p->m_TrailID = trailActorID;
-						p->m_StaminaBarID = staminaBarActorID;
 						p->m_InteractionPanelID = interactionPanelActorID;
 					}
 
@@ -801,7 +817,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         p->m_CameraControllerID = cameraControllerID;
                         p->m_GhostID = ghostActorID;
                         p->m_TrailID = trailActorID;
-                        p->m_StaminaBarID = staminaBarActorID;
                         p->m_InteractionPanelID = interactionPanelActorID;
 					}
 
@@ -1447,7 +1462,6 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "CameraController" << YAML::Value << tppPlayer->m_CameraControllerID;
         out << YAML::Key << "Ghost" << YAML::Value << tppPlayer->m_GhostID;
         out << YAML::Key << "Trail" << YAML::Value << tppPlayer->m_TrailID;
-        out << YAML::Key << "StaminaBar" << YAML::Value << tppPlayer->m_StaminaBarID;
         out << YAML::Key << "InteractionPanel" << YAML::Value << tppPlayer->m_InteractionPanelID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
@@ -1459,7 +1473,6 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "Camera" << YAML::Value << player->m_CameraID;
         out << YAML::Key << "Ghost" << YAML::Value << player->m_GhostID;
         out << YAML::Key << "Trail" << YAML::Value << player->m_TrailID;
-        out << YAML::Key << "StaminaBar" << YAML::Value << player->m_StaminaBarID;
         out << YAML::Key << "InteractionPanel" << YAML::Value << player->m_InteractionPanelID;
         out << YAML::EndMap;
         out << YAML::EndMap;
@@ -1570,6 +1583,20 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "DoubleJumpTutorial" << YAML::Value << tutorialManager->m_DoubleJumpTutorialID;
 		out << YAML::Key << "DashTutorial" << YAML::Value << tutorialManager->m_DashTutorialID;
 		out << YAML::Key << "TeleportTutorial" << YAML::Value << tutorialManager->m_TeleportTutorialID;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto perspective = actor->GetComponent<PerspectiveController>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "PerspectiveController";
+		out << YAML::BeginMap;
+		out << YAML::Key << "PlayerFPP" << YAML::Value << perspective->m_PlayerFPPID;
+		out << YAML::Key << "CameraFPP" << YAML::Value << perspective->m_CameraFPPID;
+		out << YAML::Key << "PlayerTPP" << YAML::Value << perspective->m_PlayerTPPID;
+		out << YAML::Key << "CameraTPP" << YAML::Value << perspective->m_CameraTPPID;
+		out << YAML::Key << "CameraController" << YAML::Value << perspective->m_CameraControllerID;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

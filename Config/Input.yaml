@@ -29,6 +29,12 @@ ActionInputBindings:
   - Name: Interact
     InputType: Gamepad
     Input: X
+  - Name: Perspective
+    InputType: Keyboard
+    Input: P
+  - Name: Perspective_Gamepad
+    InputType: Gamepad
+    Input: Back
   - Name: Exit
     InputType: Keyboard
     Input: Escape
