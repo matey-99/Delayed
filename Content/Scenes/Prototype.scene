@@ -1057,7 +1057,7 @@ Actors:
       - Transform:
           LocalPosition: [-3.27000046, 8.88106632, -15.1767616]
           LocalRotation: [90, -0, 0]
-          LocalScale: [0.230000004, 0.230000004, 0.230000004]
+          LocalScale: [0.220799997, 0.220799968, 0.220799968]
           Parent: 2141099751
       - StaticMesh:
           Mesh: Models/platformBig00_mdl.fbx
@@ -1872,7 +1872,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-3.460186, 1.35805416, 8.42357159]
+          LocalPosition: [6.7615509, -0.0531401634, 7.80267429]
           LocalRotation: [88.7930908, -61.4497833, -6.76556444]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -1910,7 +1910,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-0.897773743, -0.391815186, -1.34375668]
+          LocalPosition: [-2.23871231, -0.391815186, -0.65824604]
           LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -6147,6 +6147,10 @@ Actors:
             - Material: 0
               Path: Materials/Crystals.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.850000024, 1, 1]
   - Actor: 969371816
     ID: 969371816
     Name: Crystal_01
