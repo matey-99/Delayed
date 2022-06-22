@@ -1247,14 +1247,14 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-0.550000012, -0.200000003, 0]
+          LocalPosition: [-0.474999994, -0.200000003, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.00261506275, 0.00675675692, 1]
           Parent: 451190724
       - Text:
           Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 42
-          Text: start new game
+          Text: continue game
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
