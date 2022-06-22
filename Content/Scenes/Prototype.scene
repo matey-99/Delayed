@@ -20,8 +20,8 @@ RendererSettings:
     NumBinarySearchSteps: 10
     ReflectionSpecularFalloffExponent: 1
   DepthFogSettings:
-    Density: 0.00999999978
-    Height: 0.0399999991
+    Density: 0.00549999997
+    Height: 0.00200000009
     Color: [0.525735319, 0.732699156, 0.916666687]
   PostProcessingSettings:
     Gamma: -1.5
@@ -1055,7 +1055,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-3.27000046, 8.88106632, -15.493021]
+          LocalPosition: [-3.27000046, 8.88106632, -15.1767616]
           LocalRotation: [90, -0, 0]
           LocalScale: [0.230000004, 0.230000004, 0.230000004]
           Parent: 2141099751
@@ -1076,7 +1076,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-1.60279846, 14.3004913, 76.8965836]
+          LocalPosition: [3.35309982, 14.3004913, 76.9264755]
           LocalRotation: [88.3309402, -0.345741749, 5.86980036e-07]
           LocalScale: [0.189999998, 0.189999998, 0.189999998]
           Parent: 2141099751
@@ -1366,7 +1366,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-11.5733109, -4.85999823, 166.328568]
+          LocalPosition: [-11.5733109, -4.85999823, 167.777069]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.119999997, 0.119999997, 0.119999997]
           Parent: 2141099751
@@ -1387,7 +1387,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-2.22310257, 1.50653839, 57.6309662]
+          LocalPosition: [-2.22310257, 1.50653839, 58.3274231]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -1490,7 +1490,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-12.2152901, -30.5168781, 51.4481468]
+          LocalPosition: [-12.2259254, -30.5169544, 51.9413414]
           LocalRotation: [89.9881973, 1.23470962, 179.834]
           LocalScale: [0.200000003, 0.200000003, 0.200000003]
           Parent: 2141099751
@@ -1578,7 +1578,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-20.2705288, 10.9530945, 43.4300194]
+          LocalPosition: [-21.1759224, 10.9530945, 44.1902847]
           LocalRotation: [-90, 40.0205879, -1.33783024e-05]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -1625,7 +1625,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [13.1938171, 7.17867756, 84.5286102]
+          LocalPosition: [16.6075401, 7.30463743, 84.3243256]
           LocalRotation: [89.9999847, -1.06721721e-07, 2.11318231]
           LocalScale: [0.144999996, 0.144999996, 0.144999996]
           Parent: 2141099751
@@ -1694,7 +1694,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-14.272686, -3.83713961, 184.507553]
+          LocalPosition: [-16.0960693, -3.83713961, 187.341202]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.119999997, 0.119999997, 0.119999997]
           Parent: 2141099751
@@ -1872,7 +1872,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-3.75392151, 1.39290142, 7.87991619]
+          LocalPosition: [-3.460186, 1.35805416, 8.42357159]
           LocalRotation: [88.7930908, -61.4497833, -6.76556444]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
@@ -2020,7 +2020,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-9.93115616, 15.3129635, 174.313538]
+          LocalPosition: [-8.11624527, 15.1313, 177.862717]
           LocalRotation: [92.0816574, 72.3594742, -2.50394487]
           LocalScale: [0.135000005, 0.135000005, 0.135000005]
           Parent: 2141099751
@@ -2041,7 +2041,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-19.8978939, 15.481739, 163.623154]
+          LocalPosition: [-19.6282387, 15.5023556, 162.866699]
           LocalRotation: [90, 4.26886828e-07, 4.37273264]
           LocalScale: [0.135000005, 0.135000005, 0.135000005]
           Parent: 2141099751
@@ -2251,7 +2251,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-48.6952705, 10.1975288, 7.59815502]
+          LocalPosition: [-49.0616455, 10.1975288, 7.59815502]
           LocalRotation: [90, -0, 0]
           LocalScale: [0.140000001, 0.140000001, 0.140000001]
           Parent: 2141099751
@@ -2428,7 +2428,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-58.4299278, 15.8879204, 2.42817402]
+          LocalPosition: [-58.4299278, 15.8879204, 1.13148785]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.5, 0.5, 0.5]
           Parent: 2141099751
@@ -2554,7 +2554,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-51.3443871, 14.4582729, -6.18453026]
+          LocalPosition: [-53.6253471, 14.4582729, -6.97415638]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -2820,7 +2820,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-61.7097244, 10.7416039, 8.97075558]
+          LocalPosition: [-61.3323669, 10.7416039, 7.3733778]
           LocalRotation: [90, 76.7085342, 0]
           LocalScale: [0.144999996, 0.144999996, 0.144999996]
           Parent: 2141099751
@@ -4947,7 +4947,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [79.6991806, 20.7031097, 78.1616364]
+          LocalPosition: [79.8823929, 20.7012558, 78.6869049]
           LocalRotation: [-102.303658, -14.8938522, -140.264542]
           LocalScale: [0.0593921244, 0.0593921058, 0.0593921132]
           Parent: 0
@@ -5380,7 +5380,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-42.7395935, 31.9844666, 3.80311203]
+          LocalPosition: [-42.7395935, 31.9844666, 6.10866117]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
@@ -5397,7 +5397,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-40.2511406, 30.9952049, -9.86981487]
+          LocalPosition: [-40.2511406, 30.9952049, -3.58192706]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
@@ -5431,7 +5431,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [2.90245152, 3.7875967, -32.9882622]
+          LocalPosition: [2.90245152, 3.7875967, -32.3359985]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
@@ -5448,7 +5448,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-3.17993832, 3.61864662, -38.1858177]
+          LocalPosition: [-3.17993832, 3.61864758, -41.7826118]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
@@ -5596,9 +5596,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [27.7314873, 4.07542419, -53.0214195]
+          LocalPosition: [31.7603245, 3.96971989, -39.4664993]
           LocalRotation: [-90, -0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          LocalScale: [0.138999999, 0.138999984, 0.138999984]
           Parent: 0
       - StaticMesh:
           Mesh: Models/stone_1.fbx
@@ -5679,4 +5679,738 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Mushroom/M_Mushroom.mat
+          CastShadow: true
+  - Actor: 237859859
+    ID: 237859859
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [30.0884056, 1.8946259, 15.3638926]
+          LocalRotation: [82.299614, -27.3507729, 16.3994942]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 253335040
+    ID: 253335040
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-29.6803436, 4.59721851, 81.5005951]
+          LocalRotation: [97.272377, -27.4592743, -15.4691973]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 606253091
+    ID: 606253091
+    Name: Cube (23)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-38.5044403, 18.2863846, 91.8793182]
+          LocalRotation: [88.3309402, -0.345741749, 5.86980036e-07]
+          LocalScale: [0.2755, 0.27549994, 0.2755]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
+  - Actor: 794230172
+    ID: 794230172
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-35.6816559, 8.184762, 131.418472]
+          LocalRotation: [86.3705063, -28.1191158, 7.66520309]
+          LocalScale: [0.159999996, 0.159999996, 0.159999996]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 835840764
+    ID: 835840764
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [15.5236931, 13.192625, 185.399902]
+          LocalRotation: [60.5304909, 70.9892426, -27.4245567]
+          LocalScale: [0.135000005, 0.135000005, 0.135000005]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 306881534
+    ID: 306881534
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-63.38237, 16.6274033, 212.397736]
+          LocalRotation: [60.5304909, 70.9892426, -27.4245567]
+          LocalScale: [0.135000005, 0.135000005, 0.135000005]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 444455586
+    ID: 444455586
+    Name: Cube (28)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-79.330162, 22.7040997, 256.612122]
+          LocalRotation: [16.2693672, -89.2363892, 70.5819016]
+          LocalScale: [0.319999993, 0.319999963, 0.319999993]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig00/M_PlatformBig00_Green.mat
+          CastShadow: true
+  - Actor: 658755280
+    ID: 658755280
+    Name: Cube (29)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-189.247238, -29.5014286, 5.03516102]
+          LocalRotation: [-100.699677, 63.4733391, -11.9244413]
+          LocalScale: [0.25, 0.25, 0.25]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformBig01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformBig01/M_PlatformBig01_Green.mat
+          CastShadow: true
+  - Actor: 121724609
+    ID: 121724609
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-109.42601, 15.2561188, 129.069092]
+          LocalRotation: [99.9916992, -0, 0]
+          LocalScale: [0.150000006, 0.150000006, 0.150000006]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 492477947
+    ID: 492477947
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-95.0240097, 15.4854393, 18.1266289]
+          LocalRotation: [99.6997528, -0.0882550403, -8.15779114]
+          LocalScale: [0.140000001, 0.140000001, 0.140000001]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 362820823
+    ID: 362820823
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-30.1313305, -1.47875261, 7.59815502]
+          LocalRotation: [85.7031403, 41.0977364, -17.3244133]
+          LocalScale: [0.140000001, 0.140000001, 0.140000001]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+          CastShadow: true
+  - Actor: 883169120
+    ID: 883169120
+    Name: cosmotree00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-11.7728777, 29.1710033, 71.599968]
+          LocalRotation: [-89.9999771, 1.70754731e-06, -15.2784491]
+          LocalScale: [0.0741000026, 0.0740999877, 0.0740999877]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+  - Actor: 72506768
+    ID: 72506768
+    Name: cosmotree01_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [21.6048832, 21.8740482, 119.967361]
+          LocalRotation: [-94.3172989, 0.268731385, 3.555058]
+          LocalScale: [0.0449999981, 0.0449999943, 0.0449999943]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.600000024, 1.14999998, 0.600000024]
+  - Actor: 354313576
+    ID: 354313576
+    Name: cosmotree02_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-39.4429626, 38.2261124, 213.047424]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree02_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+  - Actor: 109484144
+    ID: 109484144
+    Name: cosmotree01_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [38.3404732, 28.2187939, 227.093323]
+          LocalRotation: [-94.3172989, 0.268731385, 3.555058]
+          LocalScale: [0.0449999981, 0.0449999943, 0.0449999943]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+  - Actor: 975551954
+    ID: 975551954
+    Name: cosmotree02_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-78.6100006, 43.7450333, 83.3587112]
+          LocalRotation: [-90.000061, -4.26886828e-07, -12.2709579]
+          LocalScale: [0.0730000064, 0.0729999989, 0.0729999989]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree02_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+  - Actor: 823788432
+    ID: 823788432
+    Name: cosmotree01_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-52.514267, 22.8037968, 97.9889221]
+          LocalRotation: [-94.3172989, 0.268731385, 3.555058]
+          LocalScale: [0.0449999981, 0.0449999943, 0.0449999943]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.699999988, 1, 0.600000024]
+  - Actor: 73882000
+    ID: 73882000
+    Name: floating_crystals
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [146.198669, -4.84301758, 111.302048]
+          LocalRotation: [0, -62.2935104, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/floatingCrystals_big.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/FloatingCrystals.mat
+          CastShadow: true
+  - Actor: 389145163
+    ID: 389145163
+    Name: floating_crystals
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [11.5599222, 9.80391884, 124.805763]
+          LocalRotation: [0, -62.2935104, 0]
+          LocalScale: [0.179999977, 0.180000007, 0.179999977]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/floatingCrystals_cone.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/FloatingCrystals.mat
+          CastShadow: true
+  - Actor: 192665269
+    ID: 192665269
+    Name: floating_crystals
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [5.97144794, -1.25234008, 75.8923569]
+          LocalRotation: [0, -62.2935104, 0]
+          LocalScale: [0.459999979, 0.460000038, 0.459999979]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/floatingCrystals_small.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/FloatingCrystals.mat
+          CastShadow: true
+  - Actor: 714903918
+    ID: 714903918
+    Name: Crystal_04
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [10.2491541, 10.9790049, 104.256172]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.148000002, 0.147999987, 0.147999987]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_04.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 667345479
+    ID: 667345479
+    Name: Crystal_03
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [4.24537802, 11.8388481, 99.2804794]
+          LocalRotation: [-90.0001221, -0, 34.3212013]
+          LocalScale: [0.142999992, 0.142999992, 0.142999992]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_03.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 572574186
+    ID: 572574186
+    Name: Crystal_04
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [8.81142521, 11.5434914, 98.5531311]
+          LocalRotation: [106.09893, 47.0604973, -158.483841]
+          LocalScale: [0.148000002, 0.147999987, 0.147999987]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_04.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 764225541
+    ID: 764225541
+    Name: Crystal_01
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [8.29072666, 12.1087799, 101.839348]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.203999996, 0.203999981, 0.203999981]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_01.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 728057801
+    ID: 728057801
+    Name: mountain1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [144.16803, -22.9994984, 332.441833]
+          LocalRotation: [-2.68913641e-06, 0.0219198391, 5.17251283e-06]
+          LocalScale: [0.591840088, 0.591840029, 0.591840088]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/mountain.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Mountain.mat
+          CastShadow: true
+  - Actor: 840639317
+    ID: 840639317
+    Name: mountain2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-11.2056398, -22.7724915, -301.558563]
+          LocalRotation: [3.08698668e-06, 44.0642014, 1.54940756e-06]
+          LocalScale: [0.411402822, 0.411402822, 0.411402822]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/mountain.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Mountain.mat
+          CastShadow: true
+  - Actor: 839717504
+    ID: 839717504
+    Name: Crystal_04
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [36.6012993, 2.798944, -4.55127716]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.0590000041, 0.0590000004, 0.0590000004]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_04.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 969371816
+    ID: 969371816
+    Name: Crystal_01
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [72.7917023, 4.1196022, 24.9223728]
+          LocalRotation: [-90, -0, 31.6663685]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_01.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 117962763
+    ID: 117962763
+    Name: Crystal_03
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [63.7452507, 11.0640421, 110.273727]
+          LocalRotation: [-89.9999771, 0.97982502, -22.0479965]
+          LocalScale: [0.0730000064, 0.0729999989, 0.0729999989]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_03.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.5, 0.699999988, 1]
+  - Actor: 30222547
+    ID: 30222547
+    Name: mushrooms01_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [18.9097443, 6.54442835, -30.1397247]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/mushrooms01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Mushroom/M_Mushroom.mat
+          CastShadow: true
+  - Actor: 4504950
+    ID: 4504950
+    Name: cosmotree01_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-7.82794094, 29.8539009, 236.568497]
+          LocalRotation: [-94.3172989, 0.268731385, 3.555058]
+          LocalScale: [0.0449999981, 0.0449999943, 0.0449999943]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree01_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.600000024, 1, 0.600000024]
+  - Actor: 891221525
+    ID: 891221525
+    Name: Crystal_04
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-32.1346741, 16.4865475, 265.599182]
+          LocalRotation: [106.09893, 47.0604973, -158.483841]
+          LocalScale: [0.219039962, 0.219039932, 0.219039932]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_04.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 610341438
+    ID: 610341438
+    Name: floating_crystals
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-7.77160263, 10.5238256, 249.090271]
+          LocalRotation: [0, -62.2935104, 0]
+          LocalScale: [0.639399886, 0.639400065, 0.639399886]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/floatingCrystals_small.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/FloatingCrystals.mat
+          CastShadow: true
+  - Actor: 587294490
+    ID: 587294490
+    Name: floating_crystals
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-24.8361797, 14.2195959, 240.278687]
+          LocalRotation: [-108.553864, -62.2934914, -3.30533876e-05]
+          LocalScale: [0.639399886, 0.639400065, 0.639399886]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/floatingCrystals_small.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/FloatingCrystals.mat
+          CastShadow: true
+  - Actor: 792958403
+    ID: 792958403
+    Name: Crystal_01
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [16.5233364, 7.33962488, 93.8696518]
+          LocalRotation: [-66.1390686, 13.4771185, 5.88563919]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_01.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 497673096
+    ID: 497673096
+    Name: Crystal_03
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-64.2128372, 17.5161209, 141.543442]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_03.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 510106616
+    ID: 510106616
+    Name: Crystal_03
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-138.754333, 16.399025, 6.94972992]
+          LocalRotation: [-89.9999847, 63.1244164, 3.40926854e-05]
+          LocalScale: [0.256760001, 0.256759971, 0.256759971]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_03.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 140679867
+    ID: 140679867
+    Name: Crystal_03
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-10.2291021, 23.0976124, 178.851791]
+          LocalRotation: [-89.6531906, 0.916404247, -1.3193109]
+          LocalScale: [0.0730000064, 0.0729999989, 0.0729999989]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_03.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.550000012, 1, 0.699999988]
+  - Actor: 780930660
+    ID: 780930660
+    Name: Crystal_04
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [79.2875977, 3.89664507, -103.411194]
+          LocalRotation: [-68.4699173, 13.9147778, 7.91627008e-06]
+          LocalScale: [0.320000023, 0.319999993, 0.319999993]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_04.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 461849248
+    ID: 461849248
+    Name: Crystal_01
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [71.6499023, 3.20631409, -77.5492706]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_01.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 477716657
+    ID: 477716657
+    Name: Crystal_03
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [90.4708633, 4.27401638, -76.2032089]
+          LocalRotation: [-125.693626, -0, 0]
+          LocalScale: [0.230000004, 0.229999974, 0.229999974]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_03.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 130522950
+    ID: 130522950
+    Name: Crystal_04
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [82.5518417, 3.69312048, -89.2258301]
+          LocalRotation: [-90.0000458, -72.9988861, -5.7564248e-06]
+          LocalScale: [0.401030004, 0.401030034, 0.401030004]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_04.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
           CastShadow: true
