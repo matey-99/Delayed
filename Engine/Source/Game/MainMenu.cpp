@@ -136,7 +136,12 @@ void MainMenu::CloseCredits()
 
 void MainMenu::Exit()
 {
-	Application::Exit();
+	if (auto gm = m_Owner->GetScene()->FindActor("Game Manager"))
+	{
+		SceneManager::GetInstance()->LoadScene("Scenes/MainMenu2.scene");
+	}
+	else
+		Application::Exit();
 }
 
 void MainMenu::IncreaseMasterVolume()
