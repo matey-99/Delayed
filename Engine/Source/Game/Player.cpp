@@ -259,11 +259,19 @@ float Player::GetMovementSpeed()
 void Player::MoveForward(float value)
 {
 	AddMovementInput(m_Owner->GetTransform()->GetForward(), value);
+
+	auto tutorial = TutorialManager::GetInstance();
+	if (tutorial->IsTutorialDisplayed(TutorialType::Movement))
+		tutorial->HideTutorial(TutorialType::Movement);
 }
 
 void Player::MoveRight(float value)
 {
 	AddMovementInput(m_Owner->GetTransform()->GetRight(), value);
+
+	auto tutorial = TutorialManager::GetInstance();
+	if (tutorial->IsTutorialDisplayed(TutorialType::Movement))
+		tutorial->HideTutorial(TutorialType::Movement);
 }
 
 void Player::Turn(float value)
@@ -294,6 +302,10 @@ void Player::Jump()
 			m_CharacterController->Jump();
 			m_CanJump = false;
 			m_IsJumping = true;
+
+			auto tutorial = TutorialManager::GetInstance();
+			if (tutorial->IsTutorialDisplayed(TutorialType::Jump))
+				tutorial->HideTutorial(TutorialType::Jump);
 		}
 
 		if (!isGrounded && m_HasDoubleJumpSkill)
@@ -320,6 +332,10 @@ void Player::Jump_Gamepad()
 			m_CharacterController->Jump();
 			m_CanJump_Gamepad = false;
 			m_IsJumping = true;
+
+			auto tutorial = TutorialManager::GetInstance();
+			if (tutorial->IsTutorialDisplayed(TutorialType::Jump))
+				tutorial->HideTutorial(TutorialType::Jump);
 		}
 
 		if (!isGrounded && m_HasDoubleJumpSkill)
@@ -339,6 +355,10 @@ void Player::AllowJumping_Gamepad()
 void Player::RunOn()
 {
 	m_IsRunning = true;
+
+	auto tutorial = TutorialManager::GetInstance();
+	if (tutorial->IsTutorialDisplayed(TutorialType::Sprint))
+		tutorial->HideTutorial(TutorialType::Sprint);
 }
 
 void Player::RunOff()

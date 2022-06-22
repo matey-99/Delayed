@@ -40,6 +40,7 @@
 #include "Game/Clouds.h"
 #include "Game/PickableSpaceshipPart.h"
 #include "Game/Spaceship.h"
+#include "Game/TutorialTrigger.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -1009,6 +1010,24 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto tutorialTrigger = m_Actor->GetComponent<TutorialTrigger>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Tutorial Trigger");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<TutorialTrigger>();
+
+        int type = (int)tutorialTrigger->m_Type;
+        ImGui::InputInt("Type", &type);
+        tutorialTrigger->m_Type = (TutorialType)type;
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto spaceship = m_Actor->GetComponent<Spaceship>())
     {
         ImGui::PushID(componentIndex);
@@ -1352,6 +1371,7 @@ void ActorDetailsPanel::Render()
     bool spaceship = false;
     bool spaceshipPart = false;
     bool pickableSpaceshipPart = false;
+    bool tutorialTrigger = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -1408,6 +1428,7 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Spaceship", "", &spaceship);
                     ImGui::MenuItem("Spaceship Part", "", &spaceshipPart);
                     ImGui::MenuItem("Pickable Spaceship Part", "", &pickableSpaceshipPart);
+                    ImGui::MenuItem("Tutorial Trigger", "", &tutorialTrigger);
 
                     ImGui::EndMenu();
                 }
@@ -1530,6 +1551,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<SpaceshipPart>();
     if (pickableSpaceshipPart)
         m_Actor->AddComponent<PickableSpaceshipPart>();
+    if (tutorialTrigger)
+        m_Actor->AddComponent<TutorialTrigger>();
 
 
     if (ImGui::Button("Close"))

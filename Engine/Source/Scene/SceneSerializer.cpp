@@ -58,6 +58,7 @@
 #include "Game/PickableSpaceshipPart.h"
 #include "Game/Spaceship.h"
 #include "Game/SpaceshipPart.h"
+#include "Game/TutorialTrigger.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -701,11 +702,17 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 					if (auto tutorialManager = component["TutorialManager"])
 					{
+						uint64_t movementTutorialID = tutorialManager["MovementTutorial"].as<uint64_t>();
+						uint64_t jumpTutorialID = tutorialManager["JumpTutorial"].as<uint64_t>();
+						uint64_t sprintTutorialID = tutorialManager["SprintTutorial"].as<uint64_t>();
 						uint64_t doubleJumpTutorialID = tutorialManager["DoubleJumpTutorial"].as<uint64_t>();
 						uint64_t dashTutorialID = tutorialManager["DashTutorial"].as<uint64_t>();
 						uint64_t teleportTutorialID = tutorialManager["TeleportTutorial"].as<uint64_t>();
 
 						auto t = a->CreateComponent<TutorialManager>();
+						t->m_MovementTutorialID = movementTutorialID;
+						t->m_JumpTutorialID = jumpTutorialID;
+						t->m_SprintTutorialID = sprintTutorialID;
 						t->m_DoubleJumpTutorialID = doubleJumpTutorialID;
 						t->m_DashTutorialID = dashTutorialID;
 						t->m_TeleportTutorialID = teleportTutorialID;
@@ -901,6 +908,14 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 
 						auto s = a->CreateComponent<PickableSkill>();
 						s->m_SkillType = (SkillType)skillType;
+					}
+
+					if (auto tutorial = component["TutorialTrigger"])
+					{
+						int type = tutorial["Type"].as<int>();
+
+						auto t = a->CreateComponent<TutorialTrigger>();
+						t->m_Type = (TutorialType)type;
 					}
 
 					if (auto spaceship = component["Spaceship"])
@@ -1537,6 +1552,9 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "TutorialManager";
 		out << YAML::BeginMap;
+		out << YAML::Key << "MovementTutorial" << YAML::Value << tutorialManager->m_MovementTutorialID;
+		out << YAML::Key << "JumpTutorial" << YAML::Value << tutorialManager->m_JumpTutorialID;
+		out << YAML::Key << "SprintTutorial" << YAML::Value << tutorialManager->m_SprintTutorialID;
 		out << YAML::Key << "DoubleJumpTutorial" << YAML::Value << tutorialManager->m_DoubleJumpTutorialID;
 		out << YAML::Key << "DashTutorial" << YAML::Value << tutorialManager->m_DashTutorialID;
 		out << YAML::Key << "TeleportTutorial" << YAML::Value << tutorialManager->m_TeleportTutorialID;
@@ -1597,6 +1615,16 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::Key << "PickableSkill";
 		out << YAML::BeginMap;
 		out << YAML::Key << "SkillType" << YAML::Value << (int)skill->m_SkillType;
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto tutorial = actor->GetComponent<TutorialTrigger>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "TutorialTrigger";
+		out << YAML::BeginMap;
+		out << YAML::Key << "Type" << YAML::Value << (int)tutorial->m_Type;
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

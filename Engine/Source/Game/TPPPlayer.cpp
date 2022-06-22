@@ -146,12 +146,20 @@ void TPPPlayer::MoveForward(float value)
 {
     m_InputDirection += glm::normalize(glm::vec3(0, 0, value));
 	AddMovementInput(m_CameraController->GetOwner()->GetTransform()->GetForward(), -value);
+
+    auto tutorial = TutorialManager::GetInstance();
+    if (tutorial->IsTutorialDisplayed(TutorialType::Movement))
+        tutorial->HideTutorial(TutorialType::Movement);
 }
 
 void TPPPlayer::MoveRight(float value)
 {
     m_InputDirection += glm::normalize(glm::vec3(value, 0, 0));
 	AddMovementInput(m_CameraController->GetOwner()->GetTransform()->GetRight(), -value);
+
+    auto tutorial = TutorialManager::GetInstance();
+    if (tutorial->IsTutorialDisplayed(TutorialType::Movement))
+        tutorial->HideTutorial(TutorialType::Movement);
 }
 
 void TPPPlayer::Jump()
@@ -164,6 +172,10 @@ void TPPPlayer::Jump()
             m_CharacterController->Jump();
             m_CanJump = false;
             m_IsJumping = true;
+
+            auto tutorial = TutorialManager::GetInstance();
+            if (tutorial->IsTutorialDisplayed(TutorialType::Jump))
+                tutorial->HideTutorial(TutorialType::Jump);
         }
 
         if (!isGrounded && m_HasDoubleJumpSkill)
@@ -190,6 +202,10 @@ void TPPPlayer::Jump_Gamepad()
             m_CharacterController->Jump();
             m_CanJump_Gamepad = false;
             m_IsJumping = true;
+
+            auto tutorial = TutorialManager::GetInstance();
+            if (tutorial->IsTutorialDisplayed(TutorialType::Jump))
+                tutorial->HideTutorial(TutorialType::Jump);
         }
 
         if (!isGrounded && m_HasDoubleJumpSkill)
@@ -209,6 +225,10 @@ void TPPPlayer::AllowJumping_Gamepad()
 void TPPPlayer::RunOn()
 {
     m_IsRunning = true;
+
+    auto tutorial = TutorialManager::GetInstance();
+    if (tutorial->IsTutorialDisplayed(TutorialType::Sprint))
+        tutorial->HideTutorial(TutorialType::Sprint);
 }
 
 void TPPPlayer::RunOff()

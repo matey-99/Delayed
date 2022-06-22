@@ -5,7 +5,7 @@
 
 enum class TutorialType
 {
-	DoubleJump, Dash, Teleport
+	Movement, Jump, Sprint, DoubleJump, Dash, Teleport
 };
 
 class TutorialManager : public GameComponent
@@ -29,12 +29,18 @@ private:
 
 	bool m_TutorialEnabled;
 
+	Ref<Actor> m_MovementTutorial;
+	Ref<Actor> m_JumpTutorial;
+	Ref<Actor> m_SprintTutorial;
 	Ref<Actor> m_DoubleJumpTutorial;
 	Ref<Actor> m_DashTutorial;
 	Ref<Actor> m_TeleportTutorial;
 
 #pragma region Serialization
 
+	uint64_t m_MovementTutorialID;
+	uint64_t m_JumpTutorialID;
+	uint64_t m_SprintTutorialID;
 	uint64_t m_DoubleJumpTutorialID;
 	uint64_t m_DashTutorialID;
 	uint64_t m_TeleportTutorialID;
