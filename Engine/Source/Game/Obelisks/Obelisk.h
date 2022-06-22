@@ -44,6 +44,7 @@ private:
 	ObeliskEffect m_Effect;
 	float m_TimeToGetEffect;
 	TimerHandle m_EffectTimerHandle;
+	float m_DefaultParticleEmissionRateOverTime;
 
 	Ref<Player> m_Player;
 

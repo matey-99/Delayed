@@ -21,6 +21,7 @@ Obelisk::Obelisk(Actor* owner)
 	m_Used = false;
 	m_Effect = ObeliskEffect::Corrupt;
 	m_TimeToGetEffect = 3.0f;
+	m_DefaultParticleEmissionRateOverTime = 60.0f;
 
 	m_PostFXID = 0;
 }
@@ -41,9 +42,16 @@ void Obelisk::Start()
 			m_ParticleSystem = particleSystem;
 	}
 	if (!m_ParticleSystem)
+	{
 		ENGINE_WARN("There is no particle system attached to Obelisk");
+	}
+	else
+	{
+		m_DefaultParticleEmissionRateOverTime = m_ParticleSystem->GetEmissionRateOverTime();
+	}
 
 	m_PostFX = m_Owner->GetScene()->GetComponent<ImageComponent>(m_PostFXID);
+
 }
 
 void Obelisk::Update(float deltaTime)
@@ -65,6 +73,8 @@ void Obelisk::OnTriggerEnter(ColliderComponent* other)
 		m_PlayerTransform = Cast<TransformComponent>(other->GetOwner()->GetTransform());
 
 		m_ParticleSystem->GetOwner()->SetEnabled(true);
+		m_ParticleSystem->SetEmissionRateOverTime(m_DefaultParticleEmissionRateOverTime);
+
 		m_PostFX->GetOwner()->SetEnabled(true);
 
 		m_Player = player;
