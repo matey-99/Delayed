@@ -1,7 +1,7 @@
 Material: M_Mushroom
 ID: 770324858
 BlendMode: 0
-Shader: Transparent
+Shader: Opaque
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: true
@@ -25,7 +25,7 @@ Float Parameters:
   - Name: u_Material.roughness
     Value: 1
   - Name: u_Material.emissiveStrength
-    Value: 1
+    Value: 0
   - Name: u_Material.opacity
     Value: 1
   - Name: u_Material.metallic
@@ -34,9 +34,7 @@ Vec3 Parameters:
   - Name: u_Material.albedo
     Value: [0, 0, 0]
   - Name: u_Material.emissive
-    Value: [0.202494264, 0.779411793, 0.762443483]
-Vec4 Parameters:
-  []
+    Value: [0, 0, 0]
 Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"
