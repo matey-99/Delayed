@@ -8,6 +8,8 @@
 #include "Scene/SceneManager.h"
 #include "GameManager.h"
 #include "Audio/AudioSystem.h"
+#include "Input/Input.h"
+#include "SaveManager.h"
 
 MainMenu::MainMenu(Actor* owner)
 	: GameComponent(owner)
@@ -28,6 +30,9 @@ void MainMenu::Start()
 
 	m_PlayButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_PlayButtonID);
 	m_PlayButton->OnReleased.Add(&MainMenu::Play, this);
+
+	m_ResetButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_ResetButtonID);
+	m_ResetButton->OnReleased.Add(&MainMenu::Reset, this);
 
 	m_OptionsButton = m_Owner->GetScene()->GetComponent<ButtonComponent>(m_OptionsButtonID);
 	m_OptionsButton->OnReleased.Add(&MainMenu::OpenOptions, this);
@@ -78,35 +83,55 @@ void MainMenu::Start()
 	m_BackFromCreditsButton->OnReleased.Add(&MainMenu::CloseCredits, this);
 
 	UpdateOptions();
+
+	std::string sceneName = m_Owner->GetScene()->GetName();
+	if (sceneName == "MainMenu" || sceneName == "MainMenu2")
+		Input::GetInstance()->SetInputMode(InputMode::UI);
 }
 
 void MainMenu::Play()
 {
 	if (auto gm = m_Owner->GetScene()->FindActor("Game Manager"))
 		gm->GetComponent<GameManager>()->ResumeGame();
-	else {
+	else 
+	{
+		auto saveManager = SaveManager::GetInstance();
+		if (m_Owner->GetScene()->GetName() == "MainMenu")
+			saveManager->SetLoadGameOnStart(false);
+		else if (m_Owner->GetScene()->GetName() == "MainMenu2")
+			saveManager->SetLoadGameOnStart(true);
+
         SceneManager::GetInstance()->LoadScene("Scenes/Transition.scene");
     }
+}
+
+void MainMenu::Reset()
+{
+	SceneManager::GetInstance()->LoadScene("Scenes/MainMenu.scene");
 }
 
 void MainMenu::OpenOptions()
 {
 	m_OptionsPanel->SetEnabled(true);
+	m_DefaultPanel->SetEnabled(false);
 }
 
 void MainMenu::OpenCredits()
 {
 	m_CreditsPanel->SetEnabled(true);
+	m_DefaultPanel->SetEnabled(false);
 }
 
 void MainMenu::CloseOptions()
 {
 	m_OptionsPanel->SetEnabled(false);
+	m_DefaultPanel->SetEnabled(true);
 }
 
 void MainMenu::CloseCredits()
 {
 	m_CreditsPanel->SetEnabled(false);
+	m_DefaultPanel->SetEnabled(true);
 }
 
 void MainMenu::Exit()

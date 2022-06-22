@@ -31,8 +31,10 @@ public:
 
 	void Broadcast()
 	{
-		for (auto func : m_Functions)
-			func();
+		for (int i = 0; i < m_Functions.size(); i++)
+		{
+			m_Functions[i]();
+		}
 	}
 
 private:

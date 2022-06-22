@@ -30,7 +30,6 @@ public:
 
 	void Start();
 	void Update(float deltaTime);
-	//void UpdateAnimation(float deltaTime);
 	void FixedUpdate();
 	void PreRender();
 	void Render(Material::BlendMode blendMode = Material::BlendMode::Opaque);
@@ -127,6 +126,7 @@ public:
 	inline glm::vec4* GetBackgroundColor() { return &m_BackgroundColor; }
 	inline bool IsChangedSinceLastFrame() const { return m_ChangedSinceLastFrame; }
 	inline std::vector<Actor*> GetEnabledActors() const { return m_EnabledActors; }
+	inline std::string GetName() const { return m_Name; }
 
 	inline void SetName(std::string name) { m_Name = name; }
 	inline void SetChangedSinceLastFrame(bool changed) { m_ChangedSinceLastFrame = changed; }

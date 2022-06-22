@@ -740,6 +740,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 					{
 						uint64_t defaultPanelID = menu["DefaultPanel"].as<uint64_t>();
 						uint64_t playButtonActorID = menu["PlayButton"].as<uint64_t>();
+						uint64_t resetButtonActorID = menu["ResetButton"].as<uint64_t>();
 						uint64_t optionsButtonActorID = menu["OptionsButton"].as<uint64_t>();
 						uint64_t creditsButtonActorID = menu["CreditsButton"].as<uint64_t>();
 						uint64_t exitButtonActorID = menu["ExitButton"].as<uint64_t>();
@@ -766,6 +767,7 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						auto m = a->CreateComponent<MainMenu>();
 						m->m_DefaultPanelID = defaultPanelID;
 						m->m_PlayButtonID = playButtonActorID;
+						m->m_ResetButtonID = resetButtonActorID;
 						m->m_OptionsButtonID = optionsButtonActorID;
 						m->m_CreditsButtonID = creditsButtonActorID;
 						m->m_ExitButtonID = exitButtonActorID;
@@ -1427,6 +1429,7 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
 		out << YAML::Key << "DefaultPanel" << YAML::Value << menu->m_DefaultPanelID;
 		out << YAML::Key << "PlayButton" << YAML::Value << menu->m_PlayButtonID;
+		out << YAML::Key << "ResetButton" << YAML::Value << menu->m_ResetButtonID;
 		out << YAML::Key << "OptionsButton" << YAML::Value << menu->m_OptionsButtonID;
 		out << YAML::Key << "CreditsButton" << YAML::Value << menu->m_CreditsButtonID;
 		out << YAML::Key << "ExitButton" << YAML::Value << menu->m_ExitButtonID;
