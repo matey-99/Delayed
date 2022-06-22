@@ -16,7 +16,7 @@ Bool Parameters:
   - Name: u_Material.isNormalMap
     Value: true
   - Name: u_MaterialVS.flipVerticallyUV
-    Value: false
+    Value: true
   - Name: u_Material.isRoughnessMap
     Value: true
 Float Parameters:
@@ -27,7 +27,7 @@ Float Parameters:
   - Name: u_Material.emissiveStrength
     Value: 0
   - Name: u_Material.opacity
-    Value: 0
+    Value: 1
   - Name: u_Material.metallic
     Value: 0
 Vec3 Parameters:

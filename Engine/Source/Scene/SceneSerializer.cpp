@@ -794,7 +794,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
 						uint64_t cameraActorID = player["Camera"].as<uint64_t>();
 						uint64_t ghostActorID = player["Ghost"].as<uint64_t>();
 						uint64_t trailActorID = player["Trail"].as<uint64_t>();
-						uint64_t staminaBarActorID = player["StaminaBar"].as<uint64_t>();
 						uint64_t interactionPanelActorID = player["InteractionPanel"].as<uint64_t>();
 
 						auto p = a->CreateComponent<Player>();
@@ -809,7 +808,6 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         uint64_t cameraControllerID = tppPlayer["CameraController"].as<uint64_t>();
                         uint64_t ghostActorID = tppPlayer["Ghost"].as<uint64_t>();
                         uint64_t trailActorID = tppPlayer["Trail"].as<uint64_t>();
-                        uint64_t staminaBarActorID = tppPlayer["StaminaBar"].as<uint64_t>();
                         uint64_t interactionPanelActorID = tppPlayer["InteractionPanel"].as<uint64_t>();
 
 						auto p = a->CreateComponent<TPPPlayer>();
