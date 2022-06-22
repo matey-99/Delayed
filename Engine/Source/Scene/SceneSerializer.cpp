@@ -59,6 +59,7 @@
 #include "Game/Spaceship.h"
 #include "Game/SpaceshipPart.h"
 #include "Game/TutorialTrigger.h"
+#include "Game/ControllerBasedIcon.h"
 
 void SceneSerializer::Serialize(Ref<Scene> scene, std::string destinationPath)
 {
@@ -892,6 +893,17 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         bt->m_SolidMaterial = AssetManager::LoadMaterial(solidMaterial);
 					}
 
+					if (auto controllerBasedIcon = component["ControllerBasedIcon"])
+					{
+						auto keyboardIcon = controllerBasedIcon["KeyboardIcon"].as<std::string>();
+						auto gamepadIcon = controllerBasedIcon["GamepadIcon"].as<std::string>();
+
+						auto c = a->CreateComponent<ControllerBasedIcon>();
+
+						c->m_KeyboardIcon = AssetManager::LoadTexture(keyboardIcon);
+						c->m_GamepadIcon = AssetManager::LoadTexture(gamepadIcon);
+					}
+
 					if (auto trail = component["Trail"])
 					{
 						a->CreateComponent<Trail>();
@@ -1587,6 +1599,17 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
 		out << YAML::BeginMap;
         out << YAML::Key << "GhostMaterial" << YAML::Value << blockTrigger->m_GhostMaterial->GetPath();
         out << YAML::Key << "SolidMaterial" << YAML::Value << blockTrigger->m_SolidMaterial->GetPath();
+		out << YAML::EndMap;
+		out << YAML::EndMap;
+	}
+
+	if (auto controllerBasedIcon = actor->GetComponent<ControllerBasedIcon>())
+	{
+		out << YAML::BeginMap;
+		out << YAML::Key << "ControllerBasedIcon";
+		out << YAML::BeginMap;
+		out << YAML::Key << "KeyboardIcon" << YAML::Value << controllerBasedIcon->m_KeyboardIcon->GetPath();
+		out << YAML::Key << "GamepadIcon" << YAML::Value << controllerBasedIcon->m_GamepadIcon->GetPath();
 		out << YAML::EndMap;
 		out << YAML::EndMap;
 	}

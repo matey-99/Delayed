@@ -116,6 +116,8 @@ public:
 	Event OnLeftMouseButtonPressed;
 	Event OnLeftMouseButtonReleased;
 
+	Event OnPlayerInputTypeChanged;
+
 private:
 	GLFWwindow* m_Window;
 

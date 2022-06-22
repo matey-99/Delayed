@@ -15,6 +15,7 @@ public:
 
 	void ChangeImage(std::string path);
 	
+	inline void SetImage(Ref<Texture> image) { m_Image = image; }
 	inline void SetColor(const glm::vec4& color) { m_Color = color; }
 
 private:

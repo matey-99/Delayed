@@ -38,6 +38,8 @@ void Input::Process()
 	m_LastMousePositionX = mousePosX;
 	m_LastMousePositionY = mousePosY;
 
+	PlayerInputType lastInputType = m_CurrentInputType;
+
 	// Bindings
 	if (m_Mode == InputMode::Player || m_Mode == InputMode::PlayerAndUI)
 	{
@@ -143,6 +145,9 @@ void Input::Process()
 		else if (glfwGetMouseButton(m_Window, (int)MouseButton::Left) == (int)InputEvent::Release)
 			OnLeftMouseButtonReleased.Broadcast();
 	}
+
+	if (lastInputType != m_CurrentInputType)
+		OnPlayerInputTypeChanged.Broadcast();
 }
 
 std::vector<Ref<ActionInputBinding>> Input::FindActionInputBindings(std::string name)

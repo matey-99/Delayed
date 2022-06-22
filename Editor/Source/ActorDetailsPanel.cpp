@@ -41,6 +41,7 @@
 #include "Game/PickableSpaceshipPart.h"
 #include "Game/Spaceship.h"
 #include "Game/TutorialTrigger.h"
+#include "Game/ControllerBasedIcon.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
@@ -1086,6 +1087,42 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto controllerBasedIcon = m_Actor->GetComponent<ControllerBasedIcon>())
+    {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Controller Based Icon");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<ControllerBasedIcon>();
+
+        std::string path = controllerBasedIcon->m_KeyboardIcon->GetPath();
+        std::string name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Keyboard Icon", name.c_str()))
+        {
+            std::vector<std::string> extensions = std::vector<std::string>();
+            extensions.push_back("png");
+            DisplayResources(controllerBasedIcon, extensions, 0);
+
+            ImGui::EndCombo();
+        }
+
+        path = controllerBasedIcon->m_GamepadIcon->GetPath();
+        name = path.substr(path.find_last_of("/") + 1);
+        if (ImGui::BeginCombo("Gamepad Icon", name.c_str()))
+        {
+            std::vector<std::string> extensions = std::vector<std::string>();
+            extensions.push_back("png");
+            DisplayResources(controllerBasedIcon, extensions, 1);
+
+            ImGui::EndCombo();
+        }
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto image = m_Actor->GetComponent<ImageComponent>())
     {
         ImGui::PushID(componentIndex);
@@ -1372,6 +1409,7 @@ void ActorDetailsPanel::Render()
     bool spaceshipPart = false;
     bool pickableSpaceshipPart = false;
     bool tutorialTrigger = false;
+    bool controllerBasedIcon = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -1450,6 +1488,14 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Image", "", &image);
                     ImGui::MenuItem("Button", "", &buttonUI);
                     ImGui::MenuItem("Text", "", &text);
+
+                    if (ImGui::BeginMenu("Game Components"))
+                    {
+                        ImGui::MenuItem("Controller Based Icon", "", &controllerBasedIcon);
+
+                        ImGui::EndMenu();
+                    }
+
 
                     ImGui::EndMenu();
                 }
@@ -1553,6 +1599,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<PickableSpaceshipPart>();
     if (tutorialTrigger)
         m_Actor->AddComponent<TutorialTrigger>();
+    if (controllerBasedIcon)
+        m_Actor->AddComponent<ControllerBasedIcon>();
 
 
     if (ImGui::Button("Close"))
@@ -1622,6 +1670,13 @@ void ActorDetailsPanel::DisplayResources(Ref<Component> component, std::vector<s
                         if (auto particles = Cast<ParticleSystemComponent>(component))
                         {
                             particles->ChangeSprite(path);
+                        }
+                        if (auto c = Cast<ControllerBasedIcon>(component))
+                        {
+                            if (index == 0)
+                                c->m_KeyboardIcon = AssetManager::LoadTexture(path);
+                            else if (index == 1)
+                                c->m_GamepadIcon = AssetManager::LoadTexture(path);
                         }
                     }
                     else if (ext == "mp3" || ext == "wav" || ext == "ogg")

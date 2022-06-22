@@ -6568,3 +6568,21 @@ Actors:
           Size: [1, 1, 1]
       - TutorialTrigger:
           Type: 2
+  - Actor: 727918164
+    ID: 727918164
+    Name: Movement Icon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -173.300003, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [128, 128, 1]
+          Parent: 397100650
+      - Image:
+          Path: Textures/Default/UI.png
+          Color: [1, 1, 1, 1]
+      - ControllerBasedIcon:
+          KeyboardIcon: Textures/Default/UI.png
+          GamepadIcon: Textures/Default/UI_Black.png
