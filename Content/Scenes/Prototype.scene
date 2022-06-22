@@ -4086,7 +4086,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [219.595062, 12.1276569, -137.847321]
+          LocalPosition: [225.225983, 12.1276569, -137.847321]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 0
@@ -5162,7 +5162,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-155.548141, 5.13051176, -94.9276199]
+          LocalPosition: [-155.731552, 1.15559244, -95.2895203]
           LocalRotation: [96.083931, -31.2901592, -5.81130791]
           LocalScale: [0.160911977, 0.160912007, 0.160911992]
           Parent: 2141099751
@@ -5225,7 +5225,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-162.686295, 1.87511683, -121.42173]
+          LocalPosition: [-160.207993, -1.19866037, -118.917046]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.400000006, 0.400000006, 0.400000006]
           Parent: 2141099751
@@ -5241,7 +5241,7 @@ Actors:
           Size: [1, 1, 1]
       - Platform:
           Direction: [0, 1, 0]
-          Distance: 20
+          Distance: 10
           Speed: 20
   - Actor: 446293797
     ID: 446293797
@@ -8349,7 +8349,7 @@ Actors:
           Parent: 0
       - Foliage:
           Model: Models/tmp_Grass_Mesh.fbx
-          Material: Materials/Grass_Green.mat
+          Material: Materials/Grass_Blue.mat
           InstancesCount: 25
           Radius: 10
           MinInstanceScale: 0.00499999989
@@ -8512,4 +8512,21 @@ Actors:
           Materials:
             - Material: 0
               Path: Materials/Crystals.mat
+          CastShadow: true
+  - Actor: 503721354
+    ID: 503721354
+    Name: SmallPlatform2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [-151.752365, 6.82484531, -124.951729]
+          LocalRotation: [96.083931, -31.2901592, -5.81130791]
+          LocalScale: [0.160911977, 0.160912007, 0.160911992]
+          Parent: 2141099751
+      - StaticMesh:
+          Mesh: Models/platformSmall00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/PlatformSmall00/M_PlatformSmall00_Blue.mat
           CastShadow: true
