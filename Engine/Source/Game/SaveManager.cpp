@@ -18,6 +18,8 @@ void SaveManager::Start()
 
 	if (m_LoadGameOnStart)
 		LoadGame();
+	else
+		SaveGame();
 }
 
 void SaveManager::SaveGame()
