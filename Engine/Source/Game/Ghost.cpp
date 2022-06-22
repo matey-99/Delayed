@@ -91,6 +91,13 @@ void Ghost::Update(float deltaTime)
 		m_CurrentPositionIndex = 0;
 		m_FollowPlayer = true;
 	}
+
+	if (auto tppPlayer = Cast<TPPPlayer>(player))
+		m_Material->SetFloatParameter("u_Material.disappearDistance", -1.0f);
+	else
+		m_Material->SetFloatParameter("u_Material.disappearDistance", 1.0f);
+
+	m_Material->SetVec3Parameter("u_Material.playerPosition", m_PlayerActor->GetTransform()->GetWorldPosition());
 }
 
 void Ghost::OnTriggerEnter(ColliderComponent* other)

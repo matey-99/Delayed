@@ -1,7 +1,7 @@
 Material: MSK_CharacterGhost
 ID: 896576722
 BlendMode: 1
-Shader: TransparentFresnel
+Shader: Ghost
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: false
@@ -30,6 +30,8 @@ Float Parameters:
     Value: 0
   - Name: u_Material.backgroundOpacity
     Value: 0.0289999992
+  - Name: u_Material.disappearDistance
+    Value: 1
   - Name: u_Material.roughness
     Value: 0.50999999
   - Name: u_Material.fresnelExponential
@@ -41,6 +43,10 @@ Vec3 Parameters:
     Value: [0, 0.441176891, 1]
   - Name: u_Material.emissive
     Value: [0.312860429, 0.629927456, 0.911764681]
+  - Name: u_Material.playerPosition
+    Value: [30, 5, -30]
+Vec4 Parameters:
+  []
 Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"

@@ -145,6 +145,9 @@ struct Material
     float fresnelExponential;
     float backgroundOpacity;
     bool isFresnelInversed;
+
+    vec3 playerPosition;
+    float disappearDistance;
 };
 
 struct DirectionalLight
@@ -212,14 +215,14 @@ layout (std140, binding = 3) uniform u_FragmentLights
 };
 
 layout (location = 2) uniform Material u_Material;
-layout (location = 26) uniform sampler2DArray u_DirectionalLightShadowMaps;
-layout (location = 27) uniform samplerCube u_IrradianceMap;
-layout (location = 28) uniform samplerCube u_PrefilterMap;
-layout (location = 29) uniform sampler2D u_BRDF;
-layout (location = 30) uniform float u_SkyLightIntensity;
-layout (location = 31) uniform float u_SkyLightWeight;
-layout (location = 32) uniform bool u_SkyLightEnabled;
-layout (location = 33) uniform vec3 u_SkyLightColor;
+layout (location = 28) uniform sampler2DArray u_DirectionalLightShadowMaps;
+layout (location = 29) uniform samplerCube u_IrradianceMap;
+layout (location = 30) uniform samplerCube u_PrefilterMap;
+layout (location = 31) uniform sampler2D u_BRDF;
+layout (location = 32) uniform float u_SkyLightIntensity;
+layout (location = 33) uniform float u_SkyLightWeight;
+layout (location = 34) uniform bool u_SkyLightEnabled;
+layout (location = 35) uniform vec3 u_SkyLightColor;
 
 const float PI = 3.14159265359;
 
@@ -345,6 +348,14 @@ vec3 CalculateSpotLight(SpotLight light, vec3 V, vec3 albedo, vec3 N, float meta
 
 void main()
 {
+
+    float distToPlayerX = abs(u_Material.playerPosition.x - v_Position.x);
+    float distToPlayerZ = abs(u_Material.playerPosition.z - v_Position.z);
+    if (distToPlayerX < u_Material.disappearDistance && distToPlayerZ < u_Material.disappearDistance)
+    {
+        discard;
+    }
+    
     vec3 albedo;
     vec3 N;
     float metallic;
