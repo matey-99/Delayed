@@ -227,12 +227,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-481, -18, 0]
+          LocalPosition: [-481, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095171
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: "Master:"
           NormalColor: [1, 1, 1, 1]
@@ -247,12 +247,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [256, -18, 0]
+          LocalPosition: [282, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095171
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: 50
           NormalColor: [1, 1, 1, 1]
@@ -359,12 +359,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-481, -18, 0]
+          LocalPosition: [-481, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095172
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: "Music:"
           NormalColor: [1, 1, 1, 1]
@@ -379,14 +379,14 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [256, -18, 0]
+          LocalPosition: [282, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095172
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
-          Text: 100
+          Text: 50
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -431,7 +431,7 @@ Actors:
           Anchor: 0
           LocalPosition: [-1, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [0.5, 1, 1]
           Parent: 261628010
   - Actor: 479674925
     ID: 479674925
@@ -491,12 +491,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-481, -18, 0]
+          LocalPosition: [-481, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095173
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: "SFX:"
           NormalColor: [1, 1, 1, 1]
@@ -511,14 +511,14 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [256, -18, 0]
+          LocalPosition: [282, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095173
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
-          Text: 100
+          Text: 50
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -563,7 +563,7 @@ Actors:
           Anchor: 0
           LocalPosition: [-1, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [0.5, 1, 1]
           Parent: 261628011
   - Actor: 479674926
     ID: 479674926
@@ -642,12 +642,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-212, 0, 0]
+          LocalPosition: [-170, 0, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 48
           Text: Skybox Is The Limit
           NormalColor: [1, 1, 1, 1]
@@ -662,12 +662,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, -82, 0]
+          LocalPosition: [-10, -82, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Jakub Berut
           NormalColor: [1, 1, 1, 1]
@@ -682,12 +682,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-79, -168, 0]
+          LocalPosition: [-68.8000031, -168, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Mateusz Michalak
           NormalColor: [1, 1, 1, 1]
@@ -702,12 +702,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-49, -250, 0]
+          LocalPosition: [-37.4000015, -250, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Jagoda Gradek
           NormalColor: [1, 1, 1, 1]
@@ -734,12 +734,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-82, -333, 0]
+          LocalPosition: [-73.8000031, -333, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Paulina Stefanska
           NormalColor: [1, 1, 1, 1]
@@ -754,12 +754,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-54, -424, 0]
+          LocalPosition: [-44.2999992, -424, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Michal Sobczak
           NormalColor: [1, 1, 1, 1]
@@ -774,12 +774,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-103, -517, 0]
+          LocalPosition: [-82.8000031, -517, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Mateusz Majchrzak
           NormalColor: [1, 1, 1, 1]

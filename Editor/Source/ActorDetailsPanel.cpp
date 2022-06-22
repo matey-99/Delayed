@@ -177,7 +177,7 @@ void ActorDetailsPanel::Render()
             ImGui::EndCombo();
         }
 
-        int pos[3];
+        float pos[3];
         pos[0] = transform->GetLocalPosition().x;
         pos[1] = transform->GetLocalPosition().y;
         pos[2] = transform->GetLocalPosition().z;
@@ -192,7 +192,7 @@ void ActorDetailsPanel::Render()
         scl[1] = transform->GetLocalScale().y;
         scl[2] = transform->GetLocalScale().z;
 
-        ImGui::DragInt3("Position", pos, 0.5f);
+        ImGui::DragFloat3("Position", pos, 0.1f);
         ImGui::DragFloat3("Rotation", rot, 1.0f);
         ImGui::DragFloat3("Scale", scl, 0.1f);
 
