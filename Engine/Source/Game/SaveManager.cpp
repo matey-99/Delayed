@@ -10,6 +10,10 @@ SaveManager* SaveManager::s_Instance{};
 SaveManager::SaveManager(Actor* owner)
 	: GameComponent(owner)
 {
+	if (s_Instance)
+	{
+		m_LoadGameOnStart = s_Instance->m_LoadGameOnStart;
+	}
 }
 
 void SaveManager::Start()
@@ -19,8 +23,8 @@ void SaveManager::Start()
 
 	GetAllSaveables();
 
-	if (!LoadGame())
-		SaveGame();
+	if (m_LoadGameOnStart)
+		LoadGame();
 }
 
 void SaveManager::SaveGame()

@@ -17,6 +17,7 @@ public:
 
 	/* Default Panel */
 	void Play();
+	void Reset();
 	void OpenOptions();
 	void OpenCredits();
 	void Exit();
@@ -41,6 +42,7 @@ private:
 	Ref<Actor> m_DefaultPanel;
 
 	Ref<ButtonComponent> m_PlayButton;
+	Ref<ButtonComponent> m_ResetButton;
 	Ref<ButtonComponent> m_OptionsButton;
 	Ref<ButtonComponent> m_CreditsButton;
 	Ref<ButtonComponent> m_ExitButton;
@@ -76,6 +78,7 @@ private:
 	uint64_t m_DefaultPanelID;
 
 	uint64_t m_PlayButtonID;
+	uint64_t m_ResetButtonID;
 	uint64_t m_OptionsButtonID;
 	uint64_t m_CreditsButtonID;
 	uint64_t m_ExitButtonID;

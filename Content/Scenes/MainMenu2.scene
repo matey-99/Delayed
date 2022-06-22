@@ -1,4 +1,4 @@
-Scene: MainMenu
+Scene: MainMenu2
 CurrentCamera: 968085101
 RendererSettings:
   SSAO: false
@@ -52,6 +52,19 @@ RendererSettings:
     MaxDistance: 64
     Size: 2
 Actors:
+  - Actor: 493161876
+    ID: 493161876
+    Name: Save Manager
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 0
+      - SaveManager:
+          {}
   - Actor: 968295101
     ID: 968295101
     Name: MainMenu
@@ -64,8 +77,9 @@ Actors:
           LocalScale: [1, 1, 1]
           Parent: 0
       - MainMenu:
-          DefaultPanel: 1
+          DefaultPanel: 504208215
           PlayButton: 451190724
+          ResetButton: 551190724
           OptionsButton: 826052383
           CreditsButton: 826052384
           ExitButton: 334289216
@@ -85,6 +99,18 @@ Actors:
           BackFromOptionsButton: 826552383
           CreditsPanel: 464918403
           BackFromCreditsButton: 926552383
+  - Actor: 504208215
+    ID: 504208215
+    Name: DefaultPanel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 1
   - Actor: 504208015
     ID: 504208015
     Name: GameLogo
@@ -95,26 +121,65 @@ Actors:
           Anchor: 5
           LocalPosition: [700, -300, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [467.5, 124, 1]
+          LocalScale: [800, 375.649994, 1]
           Parent: 1
       - Image:
-          Path: Textures/Menu/Logo1.png
+          Path: Textures/MainMenu/title.png
           Color: [1, 1, 1, 1]
   - Actor: 451190724
     ID: 451190724
-    Name: PlayButton
+    Name: ContinueGameButton
     Enabled: true
     Dynamic: false
     Components:
       - RectTransform:
           Anchor: 5
-          LocalPosition: [535, -700, 0]
+          LocalPosition: [535, -600, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [282, 64, 1]
-          Parent: 1
+          LocalScale: [382.399994, 148, 1]
+          Parent: 504208215
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Menu/PlayButton1.png
+          ImagePath: Textures/MainMenu/rect_button.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 551190724
+    ID: 551190724
+    Name: NewGameButton
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 5
+          LocalPosition: [535, -900, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [382.399994, 148, 1]
+          Parent: 504208215
+      - UIButton:
+          Enabled: true
+          ImagePath: Textures/MainMenu/rect_button.png
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 303153315
+    ID: 303153315
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.550000012, -0.200000003, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00261506275, 0.00675675692, 1]
+          Parent: 551190724
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 42
+          Text: start new game
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -127,13 +192,13 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 5
-          LocalPosition: [535, -900, 0]
+          LocalPosition: [535, -1200, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [282, 71.5999985, 1]
-          Parent: 1
+          LocalScale: [382.399994, 148, 1]
+          Parent: 504208215
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Menu/OptionsButton1.png
+          ImagePath: Textures/MainMenu/rect_button.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -146,13 +211,13 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 5
-          LocalPosition: [535, -1100, 0]
+          LocalPosition: [535, -1500, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [282, 71.5999985, 1]
-          Parent: 1
+          LocalScale: [382.399994, 148, 1]
+          Parent: 504208215
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Menu/OptionsButton1.png
+          ImagePath: Textures/MainMenu/rect_button.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -165,13 +230,13 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 5
-          LocalPosition: [535, -1300, 0]
+          LocalPosition: [535, -1800, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [282, 71.5999985, 1]
-          Parent: 1
+          LocalScale: [382.399994, 148, 1]
+          Parent: 504208215
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Menu/ExitButton1.png
+          ImagePath: Textures/MainMenu/rect_button.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -184,7 +249,7 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, 0, 0]
+          LocalPosition: [-80, 0, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 1
@@ -195,14 +260,14 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [161, -450, 0]
+          Anchor: 2
+          LocalPosition: [161, 350, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [282, 71.5999985, 1]
+          LocalScale: [382.399994, 148, 1]
           Parent: 364918403
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Menu/OptionsButton1.png
+          ImagePath: Textures/MainMenu/rect_button.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -215,7 +280,7 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, 0, 0]
+          LocalPosition: [0, 320, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 364918403
@@ -227,12 +292,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-481, -18, 0]
+          LocalPosition: [-481, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095171
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: "Master:"
           NormalColor: [1, 1, 1, 1]
@@ -247,12 +312,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [256, -18, 0]
+          LocalPosition: [439.600006, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095171
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: 50
           NormalColor: [1, 1, 1, 1]
@@ -261,19 +326,16 @@ Actors:
           DisabledColor: [0.25, 0.25, 0.25, 1]
   - Actor: 261628009
     ID: 261628009
-    Name: VolumeSliderBackground
+    Name: VolumeSlider
     Enabled: true
     Dynamic: false
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, 0, 0]
+          LocalPosition: [50, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [256, 32, 1]
+          LocalScale: [276.799988, 36.7000008, 1]
           Parent: 897095171
-      - Image:
-          Path: Textures/Default/UI.png
-          Color: [1, 1, 1, 1]
   - Actor: 587761896
     ID: 587761896
     Name: VolumeSlider
@@ -288,7 +350,7 @@ Actors:
           Parent: 945786630
       - Image:
           Path: Textures/Default/UI.png
-          Color: [0, 0.382353067, 1, 1]
+          Color: [0.32524249, 0.187139571, 0.578431368, 1]
   - Actor: 945786630
     ID: 945786630
     Name: Pivot
@@ -309,13 +371,13 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [430, 0, 0]
+          LocalPosition: [620, 320, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [32, 32, 1]
+          LocalScale: [80, 80, 1]
           Parent: 364918403
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Default/UI.png
+          ImagePath: Textures/MainMenu/square_button_decrease.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -328,13 +390,13 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [512, 0, 0]
+          LocalPosition: [790, 320, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [32, 32, 1]
+          LocalScale: [80, 80, 1]
           Parent: 364918403
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Default/UI.png
+          ImagePath: Textures/MainMenu/square_button_increase.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -347,7 +409,7 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, -103, 0]
+          LocalPosition: [0, 60, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 364918403
@@ -359,12 +421,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-481, -18, 0]
+          LocalPosition: [-481, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095172
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: "Music:"
           NormalColor: [1, 1, 1, 1]
@@ -379,12 +441,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [256, -18, 0]
+          LocalPosition: [439.600006, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095172
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: 50
           NormalColor: [1, 1, 1, 1]
@@ -393,19 +455,16 @@ Actors:
           DisabledColor: [0.25, 0.25, 0.25, 1]
   - Actor: 261628010
     ID: 261628010
-    Name: VolumeSliderBackground
+    Name: VolumeSlider
     Enabled: true
     Dynamic: false
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, 0, 0]
+          LocalPosition: [50, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [256, 32, 1]
+          LocalScale: [276.799988, 36.7000008, 1]
           Parent: 897095172
-      - Image:
-          Path: Textures/Default/UI.png
-          Color: [1, 1, 1, 1]
   - Actor: 587761897
     ID: 587761897
     Name: VolumeSlider
@@ -420,7 +479,7 @@ Actors:
           Parent: 945786631
       - Image:
           Path: Textures/Default/UI.png
-          Color: [0, 0.382353067, 1, 1]
+          Color: [0.32524249, 0.187139571, 0.578431368, 1]
   - Actor: 945786631
     ID: 945786631
     Name: Pivot
@@ -441,13 +500,13 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [430, -103, 0]
+          LocalPosition: [620, 60, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [32, 32, 1]
+          LocalScale: [80, 80, 1]
           Parent: 364918403
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Default/UI.png
+          ImagePath: Textures/MainMenu/square_button_decrease.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -460,13 +519,13 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [512, -103, 0]
+          LocalPosition: [790, 60, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [32, 32, 1]
+          LocalScale: [80, 80, 1]
           Parent: 364918403
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Default/UI.png
+          ImagePath: Textures/MainMenu/square_button_increase.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -479,7 +538,7 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, -202, 0]
+          LocalPosition: [0, -200, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 364918403
@@ -491,12 +550,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-481, -18, 0]
+          LocalPosition: [-481, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095173
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: "SFX:"
           NormalColor: [1, 1, 1, 1]
@@ -511,12 +570,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [256, -18, 0]
+          LocalPosition: [439.600006, -22, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 897095173
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: 50
           NormalColor: [1, 1, 1, 1]
@@ -525,19 +584,16 @@ Actors:
           DisabledColor: [0.25, 0.25, 0.25, 1]
   - Actor: 261628011
     ID: 261628011
-    Name: VolumeSliderBackground
+    Name: VolumeSlider
     Enabled: true
     Dynamic: false
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, 0, 0]
+          LocalPosition: [50, 0, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [256, 32, 1]
+          LocalScale: [276.799988, 36.7000008, 1]
           Parent: 897095173
-      - Image:
-          Path: Textures/Default/UI.png
-          Color: [1, 1, 1, 1]
   - Actor: 587761898
     ID: 587761898
     Name: VolumeSlider
@@ -552,7 +608,7 @@ Actors:
           Parent: 945786632
       - Image:
           Path: Textures/Default/UI.png
-          Color: [0, 0.382353067, 1, 1]
+          Color: [0.325490206, 0.188235298, 0.580392182, 1]
   - Actor: 945786632
     ID: 945786632
     Name: Pivot
@@ -573,13 +629,13 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [430, -202, 0]
+          LocalPosition: [620, -200, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [32, 32, 1]
+          LocalScale: [80, 80, 1]
           Parent: 364918403
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Default/UI.png
+          ImagePath: Textures/MainMenu/square_button_decrease.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -592,13 +648,13 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [512, -202, 0]
+          LocalPosition: [790, -200, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [32, 32, 1]
+          LocalScale: [80, 80, 1]
           Parent: 364918403
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Default/UI.png
+          ImagePath: Textures/MainMenu/square_button_increase.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -611,7 +667,7 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, 0, 0]
+          LocalPosition: [-80, 0, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 1
@@ -622,14 +678,14 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 0
-          LocalPosition: [161, -450, 0]
+          Anchor: 2
+          LocalPosition: [161, 350, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [282, 71.5999985, 1]
+          LocalScale: [382.399994, 148, 1]
           Parent: 464918403
       - UIButton:
           Enabled: true
-          ImagePath: Textures/Menu/OptionsButton1.png
+          ImagePath: Textures/MainMenu/rect_button.png
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -642,12 +698,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-212, 0, 0]
+          LocalPosition: [-170, 0, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 48
           Text: Skybox Is The Limit
           NormalColor: [1, 1, 1, 1]
@@ -662,12 +718,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, -82, 0]
+          LocalPosition: [-10, -82, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Jakub Berut
           NormalColor: [1, 1, 1, 1]
@@ -682,12 +738,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-79, -168, 0]
+          LocalPosition: [-68.8000031, -168, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Mateusz Michalak
           NormalColor: [1, 1, 1, 1]
@@ -702,12 +758,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-49, -250, 0]
+          LocalPosition: [-37.4000015, -250, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Jagoda Gradek
           NormalColor: [1, 1, 1, 1]
@@ -722,7 +778,7 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, 300, 0]
+          LocalPosition: [30, 300, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 464918403
@@ -734,12 +790,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-82, -333, 0]
+          LocalPosition: [-73.8000031, -333, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Paulina Stefanska
           NormalColor: [1, 1, 1, 1]
@@ -754,12 +810,12 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-54, -424, 0]
+          LocalPosition: [-44.2999992, -424, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Michal Sobczak
           NormalColor: [1, 1, 1, 1]
@@ -774,14 +830,299 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-103, -517, 0]
+          LocalPosition: [-82.8000031, -517, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 186053785
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Mateusz Majchrzak
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 203153315
+    ID: 203153315
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.474999994, -0.200000003, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00261506275, 0.00675675692, 1]
+          Parent: 451190724
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 42
+          Text: continue game
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 203153316
+    ID: 203153316
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.25, -0.200000003, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00261506275, 0.00675675692, 1]
+          Parent: 826052383
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 42
+          Text: options
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 203153317
+    ID: 203153317
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.25, -0.200000003, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00261506275, 0.00675675692, 1]
+          Parent: 826052384
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 42
+          Text: credits
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 203153318
+    ID: 203153318
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.349999994, -0.200000003, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00261506275, 0.00675675692, 1]
+          Parent: 334289216
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 42
+          Text: exit game
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 989156969
+    ID: 989156969
+    Name: Background
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [50, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [350, 95.9700012, 1]
+          Parent: 897095171
+      - Image:
+          Path: Textures/MainMenu/bar.png
+          Color: [1, 1, 1, 1]
+  - Actor: 989256969
+    ID: 989256969
+    Name: Background
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [50, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [350, 95.9700012, 1]
+          Parent: 897095172
+      - Image:
+          Path: Textures/MainMenu/bar.png
+          Color: [1, 1, 1, 1]
+  - Actor: 989356969
+    ID: 989356969
+    Name: Background
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [50, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [350, 95.9700012, 1]
+          Parent: 897095173
+      - Image:
+          Path: Textures/MainMenu/bar.png
+          Color: [1, 1, 1, 1]
+  - Actor: 448138860
+    ID: 448138860
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.200000003, -0.25, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.0125000002, 0.0125000002, 1]
+          Parent: 479674924
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 44
+          Text: "-"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 458097933
+    ID: 458097933
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.400000006, -0.349999994, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.0125000002, 0.0125000002, 1]
+          Parent: 3864982
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 44
+          Text: +
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 554819859
+    ID: 554819859
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.150000006, -0.200000003, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00261506275, 0.00675675692, 1]
+          Parent: 826552383
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 42
+          Text: back
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 670035074
+    ID: 670035074
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.150000006, -0.200000003, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.00261506275, 0.00675675692, 1]
+          Parent: 926552383
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 42
+          Text: Back
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 448138861
+    ID: 448138861
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.200000003, -0.25, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.0125000002, 0.0125000002, 1]
+          Parent: 479674925
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 44
+          Text: "-"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 458097934
+    ID: 458097934
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.400000006, -0.349999994, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.0125000002, 0.0125000002, 1]
+          Parent: 3864983
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 44
+          Text: +
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 448138862
+    ID: 448138862
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.200000003, -0.25, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.0125000002, 0.0125000002, 1]
+          Parent: 479674926
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 44
+          Text: "-"
+          NormalColor: [1, 1, 1, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 458097935
+    ID: 458097935
+    Name: Text
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-0.400000006, -0.349999994, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [0.0125000002, 0.0125000002, 1]
+          Parent: 3864984
+      - Text:
+          Font: Fonts/arial.ttf
+          FontSize: 44
+          Text: +
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]

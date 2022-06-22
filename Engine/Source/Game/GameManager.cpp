@@ -22,6 +22,8 @@ void GameManager::Start()
 	auto input = Input::GetInstance();
 	input->BindAction("Exit", InputEvent::Press, &GameManager::HandleGameState, this);
 	input->BindAction("Exit", InputEvent::Release, &GameManager::EnableHandleGameState, this);
+
+	Input::GetInstance()->SetInputMode(InputMode::Player);
 }
 
 void GameManager::PauseGame()

@@ -110,6 +110,8 @@ void Application::Run()
     // SCENE
     Ref<Scene> scene;
     auto sceneManager = SceneManager::GetInstance();
+    Ref<Scene> mainScene = sceneManager->LoadScene("Scenes/Prototype.scene");
+
     if (SaveManager::IsSaveAvailable())
         scene = sceneManager->LoadScene("Scenes/MainMenu2.scene");
     else

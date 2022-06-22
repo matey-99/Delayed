@@ -1,7 +1,7 @@
-Material: M_Mushroom
-ID: 770324858
+Material: M_platformsmall01green
+ID: 883831189
 BlendMode: 0
-Shader: Transparent
+Shader: Opaque
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: true
@@ -23,32 +23,32 @@ Float Parameters:
   - Name: u_Material.ao
     Value: 0
   - Name: u_Material.roughness
-    Value: 1
+    Value: 0
   - Name: u_Material.emissiveStrength
-    Value: 1
+    Value: 0
   - Name: u_Material.opacity
-    Value: 1
+    Value: 0
   - Name: u_Material.metallic
     Value: 0
 Vec3 Parameters:
   - Name: u_Material.albedo
     Value: [0, 0, 0]
   - Name: u_Material.emissive
-    Value: [0.202494264, 0.779411793, 0.762443483]
+    Value: [0, 0, 0]
 Vec4 Parameters:
   []
 Texture Parameters:
   - Name: u_Material.opacityMap
     Path: "null"
   - Name: u_Material.metallicMap
-    Path: Textures/Mushrooms_tex/512/mushrooms00_mdl_Metallic.png
+    Path: Textures/platformSmall01_tex/platformSmall01_mdl_Metallic.png
   - Name: u_Material.albedoMap
-    Path: Textures/Mushrooms_tex/512/mushrooms00_mdl_BaseColor.png
+    Path: Textures/platformSmall01_tex/platformSmall01_mdl_BaseColor.png
   - Name: u_Material.aoMap
-    Path: Textures/Mushrooms_tex/512/mushrooms00_mdl_AO.png
+    Path: Textures/platformSmall01_tex/platformSmall01_mdl_AO.png
   - Name: u_Material.emissiveMap
     Path: "null"
   - Name: u_Material.normalMap
-    Path: Textures/Mushrooms_tex/512/mushrooms00_mdl_Normal.png
+    Path: Textures/platformSmall01_tex/platformSmall01_mdl_Normal.png
   - Name: u_Material.roughnessMap
-    Path: Textures/Mushrooms_tex/512/mushrooms00_mdl_Roughness.png
+    Path: Textures/platformSmall01_tex/platformSmall01_mdl_Roughness.png

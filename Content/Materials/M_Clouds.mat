@@ -5,34 +5,34 @@ Shader: Clouds
 Bool Parameters:
   []
 Float Parameters:
+  - Name: u_Material.BaseScale
+    Value: 0.00999999978
+  - Name: u_Material.BaseStrength
+    Value: 2
+  - Name: u_Material.BaseSpeed
+    Value: 5
+  - Name: u_Material.EmissionStrength
+    Value: 1.19000006
+  - Name: u_Material.CloudsDensity
+    Value: 20
+  - Name: u_Material.CurvatureRadius
+    Value: 150
+  - Name: u_Material.FresnelOpacity
+    Value: 1
+  - Name: u_Material.FresnelPower
+    Value: 8
   - Name: u_Material.NoiseEdge1
     Value: -1
   - Name: u_Material.NoiseEdge2
     Value: 2
-  - Name: u_Material.BaseScale
-    Value: 0.00999999978
-  - Name: u_Material.NoiseSpeed
-    Value: 30
   - Name: u_Material.NoiseHeight
     Value: 30
   - Name: u_Material.NoisePower
     Value: 2
   - Name: u_Material.NoiseScale
     Value: 0.0199999996
-  - Name: u_Material.BaseSpeed
-    Value: 20
-  - Name: u_Material.BaseStrength
-    Value: 2
-  - Name: u_Material.EmissionStrength
-    Value: 1.19000006
-  - Name: u_Material.CurvatureRadius
-    Value: 150
-  - Name: u_Material.FresnelPower
-    Value: 8
-  - Name: u_Material.FresnelOpacity
-    Value: 1
-  - Name: u_Material.CloudsDensity
-    Value: 120
+  - Name: u_Material.NoiseSpeed
+    Value: 5
 Vec3 Parameters:
   []
 Vec4 Parameters:
