@@ -45,7 +45,7 @@ Vec4 Parameters:
   []
 Texture Parameters:
   - Name: u_Material.opacityMap
-    Path: Textures/grass_tex/grass_green.png
+    Path: Textures/grass_tex/grass_mask.png
   - Name: u_Material.metallicMap
     Path: "null"
   - Name: u_Material.albedoMap

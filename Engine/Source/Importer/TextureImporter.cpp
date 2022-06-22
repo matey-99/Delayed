@@ -9,7 +9,7 @@ TextureImporter::TextureImporter()
 {
 }
 
-Ref<Texture> TextureImporter::ImportTexture(std::string path, Texture::Type type)
+Ref<Texture> TextureImporter::ImportTexture(std::string path, Texture::Type type, Texture::Wrap wrap)
 {
 	if (m_ImportedTextures.find(path) != m_ImportedTextures.end())
 		return m_ImportedTextures.at(path);
@@ -24,7 +24,7 @@ Ref<Texture> TextureImporter::ImportTexture(std::string path, Texture::Type type
 		uint8_t* data = stbi_load(path.c_str(), &width, &height, &componentsCount, 0);
 		if (data)
 		{
-			importedTexture = Texture::Create(relativePath, type, width, height, componentsCount, data);
+			importedTexture = Texture::Create(relativePath, type, width, height, componentsCount, data, wrap);
 		}
 		else
 		{

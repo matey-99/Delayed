@@ -180,7 +180,11 @@ Ref<Material> MaterialSerializer::Deserialize(std::string path)
 					else if (name == "u_Material.opacityMap")
 						type = Texture::Type::Opacity;
 
-					Ref<Texture> texture = AssetManager::LoadTexture(path, type);
+					Texture::Wrap wrap = Texture::Wrap::Repeat;
+					if (type == Texture::Type::Opacity)
+						wrap = Texture::Wrap::ClampToEdge;
+
+					Ref<Texture> texture = AssetManager::LoadTexture(path, type, wrap);
 					material->m_Texture2DParameters.find(name)->second = texture;
 				}
 					

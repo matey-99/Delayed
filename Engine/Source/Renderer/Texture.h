@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glad/glad.h>
+
 class Texture
 {
 public:
@@ -14,12 +16,18 @@ public:
 		Opacity		= 6
 	};
 
+	enum class Wrap
+	{
+		Repeat = GL_REPEAT,
+		ClampToEdge = GL_CLAMP_TO_EDGE
+	};
+
 public:
-	Texture(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data);
+	Texture(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data, Wrap wrap);
 	Texture(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, float* data);
 	~Texture();
 
-	static Ref<Texture> Create(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data);
+	static Ref<Texture> Create(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data, Wrap wrap = Wrap::Repeat);
 	static Ref<Texture> CreateHDR(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, float* data);
 
 	void Bind(uint32_t index);
@@ -29,7 +37,7 @@ public:
 	inline Type GetType() const { return m_Type; }
 
 private:
-	void Load(uint8_t* data, Type type);
+	void Load(uint8_t* data, Type type, Wrap wrap = Wrap::Repeat);
 	void LoadHDR(float* data);
 
 private:
