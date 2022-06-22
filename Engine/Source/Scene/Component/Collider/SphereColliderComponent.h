@@ -12,8 +12,6 @@ public:
 
     virtual void FixedUpdate() override;
 
-    virtual void Destroy() override;
-
     void UpdateBoundingSphere();
 
     virtual bool IsIntersect(const Ray& ray) override;

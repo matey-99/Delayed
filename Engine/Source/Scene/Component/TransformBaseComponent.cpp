@@ -37,6 +37,7 @@ void TransformBaseComponent::Update(float deltaTime)
 
 void TransformBaseComponent::Destroy()
 {
+	OnTransformChanged.Clear();
 }
 
 void TransformBaseComponent::SetLocalPosition(glm::vec3 position)

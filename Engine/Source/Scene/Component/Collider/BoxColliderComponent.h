@@ -13,8 +13,6 @@ public:
 
     virtual void FixedUpdate() override;
 
-    virtual void Destroy() override;
-
     void UpdateBoundingBox();
 
     virtual bool IsIntersect(const Ray& ray) override;

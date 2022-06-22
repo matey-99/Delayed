@@ -100,6 +100,8 @@ void ButtonComponent::Render()
 
 void ButtonComponent::Destroy()
 {
+	OnPressed.Clear();
+	OnReleased.Clear();
 }
 
 void ButtonComponent::Press()

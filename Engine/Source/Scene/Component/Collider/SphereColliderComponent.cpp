@@ -27,9 +27,6 @@ void SphereColliderComponent::FixedUpdate()
     CheckCollisions();
 }
 
-void SphereColliderComponent::Destroy() {
-}
-
 void SphereColliderComponent::UpdateBoundingSphere() {
     if (auto staticMesh = m_Owner->GetComponent<StaticMeshComponent>()) {
         m_BoundingSphere = BoundingSphere(staticMesh->GetBoundingSphere().Center + m_Center,

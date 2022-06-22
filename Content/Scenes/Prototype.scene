@@ -5598,19 +5598,6 @@ Actors:
             - Material: 0
               Path: Materials/Ring.mat
           CastShadow: true
-  - Actor: 493161876
-    ID: 493161876
-    Name: Save Manager
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [0, 0, 0]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
-          Parent: 0
-      - SaveManager:
-          {}
   - Actor: 910102541
     ID: 910102541
     Name: Spaceship

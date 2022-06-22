@@ -107,6 +107,10 @@ void Application::Run()
     auto audioSystem = AudioSystem::GetInstance();
     audioSystem->Initialize();
 
+    // SAVE MANAGER
+    auto saveManager = SaveManager::GetInstance();
+    saveManager->Initialize();
+
     // SCENE
     Ref<Scene> scene;
     auto sceneManager = SceneManager::GetInstance();

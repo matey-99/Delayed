@@ -38,8 +38,6 @@ Scene::Scene()
 		+ (GLSL_POINT_LIGHT_SIZE * MAX_POINT_LIGHTS)
 		+ (GLSL_SPOT_LIGHT_SIZE * MAX_SPOT_LIGHTS), 3);
 
-	m_CloudsNoiseTexture = RenderTools::GeneratePerlinNoiseTexture(glfwGetTime(), 32, 32, 32, GL_RGBA8_SNORM);
-
 	AddRoot();
 	AddUIRoot();
 }
@@ -58,14 +56,6 @@ void Scene::Start()
 
 	m_SkyLight = FindComponent<SkyLight>();
 }
-
-//void Scene::UpdateAnimation(float deltaTime)
-//{
-//	for (auto animator : m_Animators)
-//	{
-//		animator->Update(deltaTime);
-//	}
-//}
 
 void Scene::Update(float deltaTime)
 {
@@ -173,6 +163,10 @@ void Scene::Render(Ref<Shader> shader)
 
 void Scene::Destroy()
 {
+	for (auto actor : m_Actors)
+	{
+		actor->Destroy();
+	}
 }
 
 void Scene::FindEnabledActors(Actor* actor, std::vector<Actor*>& output)
