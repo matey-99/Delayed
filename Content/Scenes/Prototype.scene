@@ -3310,7 +3310,7 @@ Actors:
           Mesh: Models/platformSmall01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_platformsmall01.mat
+              Path: Materials/M_platformsmall01orange.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -3778,7 +3778,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [233.33812, 12.1276455, -137.847321]
+          LocalPosition: [215.851517, 12.1276493, -137.847321]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 0
