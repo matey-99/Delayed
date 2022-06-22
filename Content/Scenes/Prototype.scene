@@ -90,7 +90,6 @@ Actors:
           Camera: 1541634382
           Ghost: 1503775902
           Trail: 405188416
-          StaminaBar: 765667130
           InteractionPanel: 961523686
   - Actor: 1541634382
     ID: 1541634382
@@ -127,7 +126,6 @@ Actors:
           CameraController: 485961876
           Ghost: 1503775902
           Trail: 405188478
-          StaminaBar: 765667130
           InteractionPanel: 961523686
   - Actor: 628242585
     ID: 628242585
@@ -2080,15 +2078,15 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-2.23871231, -0.391815186, -0.65824604]
-          LocalRotation: [90.0000229, -28.3333931, 5.81985569e-06]
+          LocalPosition: [-2.23871231, 11.0478401, -0.65824604]
+          LocalRotation: [-90, -28.3333931, 5.81985569e-06]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/platformSmall00_mdl.fbx
+          Mesh: Models/platformSmall01_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/PlatformSmall00/M_PlatformSmall00_Green.mat
+              Path: Materials/M_platformsmall01.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
@@ -3780,7 +3778,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [227.26738, 12.1276455, -137.847321]
+          LocalPosition: [230.133591, 12.1276455, -137.847321]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 0
@@ -6775,3 +6773,88 @@ Actors:
       - ControllerBasedIcon:
           KeyboardIcon: Textures/Default/UI.png
           GamepadIcon: Textures/Default/UI_Black.png
+  - Actor: 214873162
+    ID: 214873162
+    Name: star2rings
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [34.5297012, 76.8958893, -46.7297707]
+          LocalRotation: [171.282684, -1.7075472e-06, -59.9477997]
+          LocalScale: [0.476000071, 0.476000071, 0.476000041]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/star.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Star.mat
+          CastShadow: true
+  - Actor: 993234475
+    ID: 993234475
+    Name: floating_crystals
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [142.188995, 146.498932, 329.392242]
+          LocalRotation: [-82.1742706, -62.2935066, -2.20355978e-05]
+          LocalScale: [0.417599946, 0.417600036, 0.417599946]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/floatingCrystals_cone.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/FloatingCrystals.mat
+          CastShadow: true
+  - Actor: 796157298
+    ID: 796157298
+    Name: star2rings
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [132.24707, 80.0104828, -291.246765]
+          LocalRotation: [-178.753403, -1.29357011e-06, -59.9478416]
+          LocalScale: [0.399840087, 0.399840087, 0.399840027]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/star_2rings.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Star.mat
+          CastShadow: true
+  - Actor: 177824763
+    ID: 177824763
+    Name: star2rings
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [203.724106, 121.364571, -411.510986]
+          LocalRotation: [48.9417267, 5.1226416e-06, -59.9478531]
+          LocalScale: [0.399840087, 0.399840087, 0.399840027]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/star_1ring.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Star.mat
+          CastShadow: true
+  - Actor: 813314856
+    ID: 813314856
+    Name: star2rings
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [148.40686, 137.644913, -537.242065]
+          LocalRotation: [48.9417267, 5.1226416e-06, -59.9478531]
+          LocalScale: [0.399840087, 0.399840087, 0.399840027]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/star.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Star.mat
+          CastShadow: true
