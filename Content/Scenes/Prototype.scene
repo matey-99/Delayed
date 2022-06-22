@@ -4086,7 +4086,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [234.071671, 12.1276569, -137.847321]
+          LocalPosition: [210.537827, 16.7285385, -87.761795]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 0
@@ -4101,8 +4101,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
       - Moving:
-          Direction: [1, 0, 0]
-          Distance: 10
+          Direction: [0, 1, 0]
+          Distance: 5
           Smoothness: 0.949999988
           ErrorInReachingTarget: 0.00999999978
   - Actor: 817137529
@@ -4785,7 +4785,7 @@ Actors:
           Mesh: Models/ghost_platform_big.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_GhostObject.mat
+              Path: Materials/M_GhostObjectBig.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
@@ -4807,8 +4807,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [1, 1, 3]
       - BlockTrigger:
-          GhostMaterial: Materials/M_GhostObject.mat
-          SolidMaterial: Materials/GhostPlatform.mat
+          GhostMaterial: Materials/M_GhostObjectBig.mat
+          SolidMaterial: Materials/GhostBoxBig.mat
   - Actor: 232882433
     ID: 232882433
     Name: Pickable Spaceship Part 2
@@ -5440,7 +5440,7 @@ Actors:
           Mesh: Models/ghost_platform_big.fbx
           Materials:
             - Material: 0
-              Path: Materials/M_GhostObject.mat
+              Path: Materials/M_GhostObjectBig.mat
           CastShadow: true
       - BoxCollider:
           IsTrigger: true
@@ -5794,8 +5794,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [1, 1, 3]
       - BlockTrigger:
-          GhostMaterial: Materials/M_GhostObject.mat
-          SolidMaterial: Materials/GhostBox.mat
+          GhostMaterial: Materials/M_GhostObjectBig.mat
+          SolidMaterial: Materials/GhostBoxBig.mat
   - Actor: 226719029
     ID: 226719029
     Name: Cube (21)

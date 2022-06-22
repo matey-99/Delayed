@@ -1,0 +1,54 @@
+Material: M_GhostObjectBig
+ID: 150550025
+BlendMode: 1
+Shader: Transparent
+Bool Parameters:
+  - Name: u_Material.isAOMap
+    Value: true
+  - Name: u_Material.isOpacityMap
+    Value: false
+  - Name: u_Material.isMetallicMap
+    Value: false
+  - Name: u_Material.isAlbedoMap
+    Value: true
+  - Name: u_Material.isEmissiveMap
+    Value: false
+  - Name: u_Material.isNormalMap
+    Value: true
+  - Name: u_MaterialVS.flipVerticallyUV
+    Value: true
+  - Name: u_Material.isRoughnessMap
+    Value: true
+Float Parameters:
+  - Name: u_Material.ao
+    Value: 0
+  - Name: u_Material.roughness
+    Value: 0
+  - Name: u_Material.emissiveStrength
+    Value: 2.67000008
+  - Name: u_Material.opacity
+    Value: 0.300000012
+  - Name: u_Material.metallic
+    Value: 0
+Vec3 Parameters:
+  - Name: u_Material.albedo
+    Value: [0, 1, 1]
+  - Name: u_Material.emissive
+    Value: [0.071366787, 0.497935086, 0.539215684]
+Vec4 Parameters:
+  []
+Texture Parameters:
+  - Name: u_Material.opacityMap
+    Path: "null"
+  - Name: u_Material.metallicMap
+    Path: "null"
+  - Name: u_Material.albedoMap
+    Path: Textures/GhostPlatformBig_tex/ghost_platform_big_BaseColor.png
+  - Name: u_Material.normalMap
+    Path: Textures/GhostPlatformBig_tex/ghost_platform_big_Normal.png
+  - Name: u_Material.roughnessMap
+    Path: Textures/GhostPlatformBig_tex/ghost_platform_big_Roughness.png
+  - Name: u_Material.aoMap
+    Path: Textures/GhostPlatformBig_tex/ghost_platform_big_AO.png
+  - Name: u_Material.emissiveMap
+    Path: Textures/GhostPlatformBig_tex/ghost_platform_big_Emissive.png
