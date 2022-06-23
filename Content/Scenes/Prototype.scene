@@ -6868,9 +6868,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [32.3398743, 5.92474556, -33.9793739]
+          LocalPosition: [57.6676254, 5.92474556, -94.0653152]
           LocalRotation: [0, 0, 0]
-          LocalScale: [4.49547815, 1.194875, 3.88710141]
+          LocalScale: [9.77342319, 5.14101887, 10.1386433]
           Parent: 0
       - BoxCollider:
           IsTrigger: true
