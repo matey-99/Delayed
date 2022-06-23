@@ -17,7 +17,7 @@ CharacterController::CharacterController(Actor* owner)
 
 	m_WalkSpeed = 10.0f;
 	m_RunSpeed = 16.0f;
-	m_SlowedDownSpeed = 3.0f;
+	m_SlowedDownSpeed = 8.0f;
 	m_RotateSpeed = 8.0f;
 	m_LookUpLimit = 80.0f;
 	m_JumpHeight = 0.08f;
