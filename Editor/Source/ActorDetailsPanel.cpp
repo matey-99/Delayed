@@ -46,6 +46,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <Scene/Component/Collider/SphereColliderComponent.h>
 #include <Scene/Component/RigidBodyComponent.h>
+#include <Game/Mushroom.h>
 
 
 bool Equals(float arr[3], glm::vec3 vec)
@@ -1317,6 +1318,22 @@ void ActorDetailsPanel::Render()
         componentIndex++;
     }
 
+    if (auto mushroom = m_Actor->GetComponent<Mushroom>()) {
+        ImGui::PushID(componentIndex);
+
+        ImGui::Text("Mushroom");
+        ImGui::SameLine();
+        if (ImGui::Button("X"))
+            m_Actor->RemoveComponent<Mushroom>();
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::InputInt("Path", &mushroom->m_Path);
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+        ImGui::PopID();
+        componentIndex++;
+    }
+
     if (auto audioSource = m_Actor->GetComponent<AudioSourceComponent>()) {
         ImGui::PushID(componentIndex);
 
@@ -1410,6 +1427,7 @@ void ActorDetailsPanel::Render()
     bool pickableSpaceshipPart = false;
     bool tutorialTrigger = false;
     bool controllerBasedIcon = false;
+    bool mushroom = false;
 
     if (m_Actor->GetComponent<TransformComponent>())
     {
@@ -1467,6 +1485,7 @@ void ActorDetailsPanel::Render()
                     ImGui::MenuItem("Spaceship Part", "", &spaceshipPart);
                     ImGui::MenuItem("Pickable Spaceship Part", "", &pickableSpaceshipPart);
                     ImGui::MenuItem("Tutorial Trigger", "", &tutorialTrigger);
+                    ImGui::MenuItem("Mushroom", "", &mushroom);
 
                     ImGui::EndMenu();
                 }
@@ -1601,6 +1620,8 @@ void ActorDetailsPanel::Render()
         m_Actor->AddComponent<TutorialTrigger>();
     if (controllerBasedIcon)
         m_Actor->AddComponent<ControllerBasedIcon>();
+    if (mushroom)
+        m_Actor->AddComponent<Mushroom>();
 
 
     if (ImGui::Button("Close"))

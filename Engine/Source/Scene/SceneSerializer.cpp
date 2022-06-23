@@ -21,6 +21,7 @@
 #include <Game/CameraOrbit.h>
 #include <Game/Footsteps.h>
 #include <Game/Intro.h>
+#include <Game/Mushroom.h>
 #include "Scene/Component/UI/ImageComponent.h"
 #include "Scene/Component/UI/ButtonComponent.h"
 #include "Scene/Component/UI/TextComponent.h"
@@ -1047,6 +1048,15 @@ Ref<Scene> SceneSerializer::Deserialize(std::string path)
                         i->m_PlanetID = planet;
                         i->m_ThrusterID = thruster;
                     }
+
+                    if (auto mushroom = component["Mushroom"]) {
+
+                        auto path = mushroom["Path"].as<int>();
+
+                        auto mush = a->CreateComponent<Mushroom>();
+
+                        mush->m_Path = path;
+                    }
 				}
 			}
 		}
@@ -1788,6 +1798,16 @@ void SceneSerializer::SerializeActor(YAML::Emitter& out, Ref<Actor> actor)
         out << YAML::Key << "MeteorID" << YAML::Value << intro->m_MeteorID;
         out << YAML::Key << "PlanetID" << YAML::Value << intro->m_PlanetID;
         out << YAML::Key << "ThrusterID" << YAML::Value << intro->m_ThrusterID;
+        out << YAML::EndMap;
+        out << YAML::EndMap;
+    }
+
+    if (auto mushroom = actor->GetComponent<Mushroom>())
+    {
+        out << YAML::BeginMap;
+        out << YAML::Key << "Mushroom";
+        out << YAML::BeginMap;
+        out << YAML::Key << "Path" << YAML::Value << mushroom->m_Path;
         out << YAML::EndMap;
         out << YAML::EndMap;
     }
