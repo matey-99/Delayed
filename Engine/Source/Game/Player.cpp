@@ -30,7 +30,7 @@ Player::Player(Actor* owner)
 	m_DashCooldown = 1.0f;
 	m_TeleportCooldown = 2.0f;
 	m_TeleportTime = 0.05f;
-	m_InteractDistance = 40.0f;
+	m_InteractDistance = 10.0f;
 	m_GamepadRotationSensitivity = 20.0f;
 
 	m_MoveDirection = glm::vec3(0.0f);
