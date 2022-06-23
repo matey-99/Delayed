@@ -76,7 +76,7 @@ Actors:
     Dynamic: true
     Components:
       - Transform:
-          LocalPosition: [31.4944763, 14.6654625, -36.5693665]
+          LocalPosition: [60.3965721, 7.73735619, -95.2076416]
           LocalRotation: [3.72229879e-05, 180, -2.57860975e-05]
           LocalScale: [0.699999988, 1, 0.699999988]
           Parent: 0
@@ -2003,7 +2003,7 @@ Actors:
       - BoxCollider:
           IsTrigger: true
           Center: [5, 0, 0]
-          Size: [15.1999998, 1, 1]
+          Size: [15.1999998, 1, 8.69999981]
       - Checkpoint:
           {}
   - Actor: 1416485425
@@ -7758,7 +7758,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-5.14462948, 13.5957947, 21.5621662]
+          LocalPosition: [-5.09748745, 13.3149967, 21.4545956]
           LocalRotation: [154.828049, 33.8073997, 174.876007]
           LocalScale: [0.0229047351, 0.0229047202, 0.0229047388]
           Parent: 203599353
