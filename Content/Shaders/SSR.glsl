@@ -57,15 +57,15 @@ void main()
     return;
     */
 
-    vec2 MetallicRoughness = texture2D(u_GBufferMetallicRoughness, v_TexCoord).rg;
+    vec2 MetallicRoughness = texture(u_GBufferMetallicRoughness, v_TexCoord).rg;
     Metallic = MetallicRoughness.r;
 
     if(Metallic < 0.01)
         discard;
 
-    //vec3 viewNormal = vec3(texture2D(u_GBufferNormal, v_TexCoord));
-    vec3 viewNormal = vec3(texture2D(u_GBufferNormal, v_TexCoord) * inverse(u_View));  // (originally invView) - transforms world space normal vector to view space
-    //vec3 viewPos = vec3(texture2D(u_GBufferViewPosition, v_TexCoord));
+    //vec3 viewNormal = vec3(texture(u_GBufferNormal, v_TexCoord));
+    vec3 viewNormal = vec3(texture(u_GBufferNormal, v_TexCoord) * inverse(u_View));  // (originally invView) - transforms world space normal vector to view space
+    //vec3 viewPos = vec3(texture(u_GBufferViewPosition, v_TexCoord));
     vec3 viewPos = texture(u_GBufferViewPosition, v_TexCoord).xyz;
     vec3 albedo = texture(u_Screen, v_TexCoord).rgb;
 
@@ -118,12 +118,12 @@ void main()
       if (xx+yy<=rr)
         {
         w=w0*exp((-xx-yy)/(2.0*rr));
-        col+=texture2D(u_Screen, p)*w;
+        col+=texture(u_Screen, p)*w;
         }}}
     
 
     //f_Color = vec4(position.x, position.y, 0.0, 1.0);
-    f_Color = (texture2D(u_Screen, v_TexCoord).rg, 1.0, 1.0);
+    f_Color = (texture(u_Screen, v_TexCoord).rg, 1.0, 1.0);
     */
 }
 
