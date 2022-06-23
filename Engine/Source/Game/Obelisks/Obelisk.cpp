@@ -13,6 +13,7 @@
 #include "Game/Ghost.h"
 #include "Game/PickableSkill.h"
 #include "Game/NotificationManager.h"
+#include "Game/TutorialManager.h"
 
 Obelisk::Obelisk(Actor* owner)
 	: GameComponent(owner)
@@ -160,8 +161,11 @@ void Obelisk::GetEffect()
 		m_Player->GetGhost()->Heal();
 		break;
 	case ObeliskEffect::GiveTeleportSkill:
+	{
 		m_Player->AddSkill(SkillType::Teleport);
+		TutorialManager::GetInstance()->DisplayTutorial(TutorialType::Teleport);
 		break;
+	}	
 	}
 
 	std::string effectText = "";

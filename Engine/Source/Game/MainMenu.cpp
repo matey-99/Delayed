@@ -97,11 +97,15 @@ void MainMenu::Play()
 	{
 		auto saveManager = SaveManager::GetInstance();
 		if (m_Owner->GetScene()->GetName() == "MainMenu")
+		{
 			saveManager->SetLoadGameOnStart(false);
+			SceneManager::GetInstance()->LoadScene("Scenes/Intro.scene");
+		}
 		else if (m_Owner->GetScene()->GetName() == "MainMenu2")
+		{
 			saveManager->SetLoadGameOnStart(true);
-
-        SceneManager::GetInstance()->LoadScene("Scenes/Transition.scene");
+			SceneManager::GetInstance()->LoadScene("Scenes/Transition.scene");
+		}
     }
 }
 
