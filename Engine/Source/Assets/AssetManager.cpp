@@ -47,10 +47,10 @@ std::vector<Ref<Animation>> AssetManager::LoadAnimations(std::string assetPath, 
 	return GetInstance()->m_AnimationImporter->ImportAnimations(fullPath, rig);
 }
 
-Ref<Texture> AssetManager::LoadTexture(std::string assetPath, Texture::Type type)
+Ref<Texture> AssetManager::LoadTexture(std::string assetPath, Texture::Type type, Texture::Wrap wrap)
 {
 	std::string fullPath = ContentDirectory + assetPath;
-	return GetInstance()->m_TextureImporter->ImportTexture(fullPath, type);
+	return GetInstance()->m_TextureImporter->ImportTexture(fullPath, type, wrap);
 }
 
 Ref<Font> AssetManager::LoadFont(const std::string& assetPath)

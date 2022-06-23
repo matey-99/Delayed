@@ -32,7 +32,7 @@ public:
 	static Ref<Model> LoadModel(std::string assetPath);
 	static Ref<SkeletalModel> LoadSkeletalModel(std::string assetPath);
 	static std::vector<Ref<Animation>> LoadAnimations(std::string assetPath, Ref<Rig> rig);
-	static Ref<Texture> LoadTexture(std::string assetPath, Texture::Type type = Texture::Type::BaseColor);
+	static Ref<Texture> LoadTexture(std::string assetPath, Texture::Type type = Texture::Type::BaseColor, Texture::Wrap wrap = Texture::Wrap::Repeat);
 	static Ref<Font> LoadFont(const std::string& assetPath);
 	static Ref<Shader> LoadShader(const std::string& path);
 	static Ref<ComputeShader> LoadComputeShader(const std::string& path);

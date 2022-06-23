@@ -452,6 +452,12 @@ void Player::UpdateGhostAnimatorParams()
 	m_Ghost->UpdateAnimatorParams(m_CharacterController->IsGrounded(), m_CharacterController->IsLanding(), m_IsGhostJumping, m_IsGhostDashing, m_IsRunning);
 }
 
+void Player::EnableGhost()
+{
+	m_Trail->EnableTrailParticlesEmission(true);
+	m_Ghost->GetOwner()->SetEnabled(true);
+}
+
 void Player::AddMovementInput(glm::vec3 direction, float value)
 {
 	m_MoveDirection += (direction * value);

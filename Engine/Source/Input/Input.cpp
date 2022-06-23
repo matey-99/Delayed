@@ -150,6 +150,25 @@ void Input::Process()
 		OnPlayerInputTypeChanged.Broadcast();
 }
 
+void Input::Reset()
+{
+	for (auto actionInputBinding : m_ActionInputBindings)
+	{
+		actionInputBinding->OnActionInputPress.Clear();
+		actionInputBinding->OnActionInputRelease.Clear();
+		actionInputBinding->OnActionInputRepeat.Clear();
+	}
+
+	for (auto axisInputBinding : m_AxisInputBindings)
+	{
+		axisInputBinding->OnAxisInput.Clear();
+	}
+
+	OnPlayerInputTypeChanged.Clear();
+	OnLeftMouseButtonPressed.Clear();
+	OnLeftMouseButtonReleased.Clear();
+}
+
 std::vector<Ref<ActionInputBinding>> Input::FindActionInputBindings(std::string name)
 {
 	std::vector<Ref<ActionInputBinding>> result;

@@ -66,6 +66,8 @@ public:
 
 	void Process();
 
+	void Reset();
+
 	// Actions
 	std::vector<Ref<ActionInputBinding>> FindActionInputBindings(std::string name);
 	void ClearAction(std::string actionName);

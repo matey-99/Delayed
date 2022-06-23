@@ -66,6 +66,7 @@ public:
 	void SetMaxParticles(uint32_t count);
 	void SetEmitterShape(EmitterShape shape);
 
+	inline float GetEmissionRateOverTime() const { return m_EmissionRateOverTime; }
 	inline glm::vec4 GetStartParticleColor() const { return m_StartParticleColor; }
 	inline glm::vec4 GetEndParticleColor() const { return m_EndParticleColor; }
 

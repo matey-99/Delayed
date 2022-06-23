@@ -4,12 +4,12 @@
 
 #include "Renderer/Renderer.h"
 
-Texture::Texture(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data)
+Texture::Texture(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data, Wrap wrap)
 	: m_Path(path), m_Type(type), m_Width(width), m_Height(height), m_ComponentsCount(componentsCount)
 {
 	m_ID = 0;
 
-	Load(data, type);
+	Load(data, type, wrap);
 }
 
 Texture::Texture(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, float* data)
@@ -25,9 +25,9 @@ Texture::~Texture()
 	glDeleteTextures(1, &m_ID);
 }
 
-Ref<Texture> Texture::Create(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data)
+Ref<Texture> Texture::Create(std::string path, Type type, uint16_t width, uint16_t height, uint16_t componentsCount, uint8_t* data, Wrap wrap)
 {
-	return CreateRef<Texture>(path, type, width, height, componentsCount, data);
+	return CreateRef<Texture>(path, type, width, height, componentsCount, data, wrap);
 }
 
 Ref<Texture> Texture::CreateHDR(std::string path, uint16_t width, uint16_t height, uint16_t componentsCount, float* data)
@@ -35,7 +35,7 @@ Ref<Texture> Texture::CreateHDR(std::string path, uint16_t width, uint16_t heigh
 	return CreateRef<Texture>(path, width, height, componentsCount, data);
 }
 
-void Texture::Load(uint8_t* data, Type type)
+void Texture::Load(uint8_t* data, Type type, Wrap wrap)
 {
 	if (m_ID)
 	{
@@ -74,8 +74,8 @@ void Texture::Load(uint8_t* data, Type type)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (int)wrap);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (int)wrap);
 }
 
 void Texture::LoadHDR(float* data)

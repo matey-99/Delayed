@@ -10,8 +10,6 @@ public:
 
     virtual void Update(float deltaTime) override;
 
-    virtual void Destroy() override;
-
 protected:
     virtual bool CheckCollisions() override;
 

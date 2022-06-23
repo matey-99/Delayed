@@ -183,12 +183,6 @@ void Editor::Update(float deltaTime)
 		cloud->Update(deltaTime);
 	}
 
-	auto movings = m_Scene->GetComponents<Moving>();
-	for (auto moving : movings)
-	{
-		moving->Update(deltaTime);
-	}
-
     AudioSystem::GetInstance()->Update(deltaTime);
 
 #if UPDATE_UI

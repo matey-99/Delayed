@@ -950,6 +950,9 @@ void ActorDetailsPanel::Render()
         const char* effectName = "";
         switch (obelisk->m_Effect)
         {
+        case ObeliskEffect::Ghost:
+            effectName = "Ghost";
+            break;
         case ObeliskEffect::Corrupt:
             effectName = "Corrupt";
             break;
@@ -963,6 +966,8 @@ void ActorDetailsPanel::Render()
 
         if (ImGui::BeginCombo("Effect", effectName))
         {
+            if (ImGui::Selectable("Ghost"))
+                obelisk->m_Effect = ObeliskEffect::Ghost;
             if (ImGui::Selectable("Corrupt"))
                 obelisk->m_Effect = ObeliskEffect::Corrupt;
             if (ImGui::Selectable("Heal"))

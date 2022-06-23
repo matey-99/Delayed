@@ -21,6 +21,7 @@ Obelisk::Obelisk(Actor* owner)
 	m_Used = false;
 	m_Effect = ObeliskEffect::Corrupt;
 	m_TimeToGetEffect = 3.0f;
+	m_DefaultParticleEmissionRateOverTime = 60.0f;
 
 	m_PostFXID = 0;
 }
@@ -41,9 +42,16 @@ void Obelisk::Start()
 			m_ParticleSystem = particleSystem;
 	}
 	if (!m_ParticleSystem)
+	{
 		ENGINE_WARN("There is no particle system attached to Obelisk");
+	}
+	else
+	{
+		m_DefaultParticleEmissionRateOverTime = m_ParticleSystem->GetEmissionRateOverTime();
+	}
 
 	m_PostFX = m_Owner->GetScene()->GetComponent<ImageComponent>(m_PostFXID);
+
 }
 
 void Obelisk::Update(float deltaTime)
@@ -65,6 +73,8 @@ void Obelisk::OnTriggerEnter(ColliderComponent* other)
 		m_PlayerTransform = Cast<TransformComponent>(other->GetOwner()->GetTransform());
 
 		m_ParticleSystem->GetOwner()->SetEnabled(true);
+		m_ParticleSystem->SetEmissionRateOverTime(m_DefaultParticleEmissionRateOverTime);
+
 		m_PostFX->GetOwner()->SetEnabled(true);
 
 		m_Player = player;
@@ -110,7 +120,22 @@ void Obelisk::HandleParticles()
 void Obelisk::HandlePostFX()
 {
 	float elapsedTime = Time::GetInstance()->GetElapsedTime();
-	m_PostFX->SetColor({ glm::sin(3.0f * elapsedTime) + 3.0f, 1.0f, 1.0f, 0.3f });
+
+	switch (m_Effect)
+	{
+	case ObeliskEffect::Ghost:
+		m_PostFX->SetColor({ 1.0f, 1.0f, glm::sin(3.0f * elapsedTime) + 3.0f, 0.3f });
+		break;
+	case ObeliskEffect::Corrupt:
+		m_PostFX->SetColor({ glm::sin(3.0f * elapsedTime) + 3.0f, 1.0f, 1.0f, 0.3f });
+		break;
+	case ObeliskEffect::Heal:
+		m_PostFX->SetColor({ 1.0f, glm::sin(3.0f * elapsedTime) + 3.0f, 1.0f, 0.3f });
+		break;
+	case ObeliskEffect::GiveTeleportSkill:
+		m_PostFX->SetColor({ 1.0f, 1.0f, glm::sin(3.0f * elapsedTime) + 3.0f, 0.3f });
+		break;
+	}
 }
 
 void Obelisk::GetEffect()
@@ -125,6 +150,9 @@ void Obelisk::GetEffect()
 
 	switch (m_Effect)
 	{
+	case ObeliskEffect::Ghost:
+		m_Player->EnableGhost();
+		break;
 	case ObeliskEffect::Corrupt:
 		m_Player->GetGhost()->Corrupt();
 		break;
@@ -139,6 +167,9 @@ void Obelisk::GetEffect()
 	std::string effectText = "";
 	switch (m_Effect)
 	{
+	case ObeliskEffect::Ghost:
+		effectText = "You don't know why, but your ghost has appeared. And he repeats all of your moves.";
+		break;
 	case ObeliskEffect::Corrupt:
 		effectText = "Ghost was corrupted by the Corrupted Obelisk. Run!";
 		break;

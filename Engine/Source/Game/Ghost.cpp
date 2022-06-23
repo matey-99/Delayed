@@ -118,6 +118,11 @@ const SaveData Ghost::Save()
 void Ghost::Load(const SaveData& data)
 {
 	m_IsCorrupted = data.BoolFields.find("IsCorrupted")->second;
+
+	if (m_IsCorrupted)
+		Corrupt();
+	else
+		Heal();
 }
 
 void Ghost::Corrupt()
