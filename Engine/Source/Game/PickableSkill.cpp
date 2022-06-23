@@ -29,6 +29,9 @@ void PickableSkill::OnTriggerEnter(ColliderComponent* other)
 {
 	if (auto player = other->GetOwner()->GetComponent<Player>())
 	{
+		auto players = m_Owner->GetScene()->GetComponents<Player>();
+		for (auto p : players)
+			p->AddSkill(m_SkillType);
 		player->AddSkill(m_SkillType);
 
 		std::string skillName = "";

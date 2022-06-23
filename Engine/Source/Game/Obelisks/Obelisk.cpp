@@ -162,6 +162,9 @@ void Obelisk::GetEffect()
 		break;
 	case ObeliskEffect::GiveTeleportSkill:
 	{
+		auto players = m_Owner->GetScene()->GetComponents<Player>();
+		for (auto p : players)
+			p->AddSkill(SkillType::Teleport);
 		m_Player->AddSkill(SkillType::Teleport);
 		TutorialManager::GetInstance()->DisplayTutorial(TutorialType::Teleport);
 		break;
