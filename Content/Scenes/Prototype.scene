@@ -5141,7 +5141,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [103, 109.571999, 52.3959999]
+          LocalPosition: [0.0213279724, -0.00465154648, -0.0930328369]
           LocalRotation: [0, 0, 0]
           LocalScale: [20, 20, 20]
           Parent: 1401607988
@@ -5694,8 +5694,8 @@ Actors:
           CastShadow: true
       - BoxCollider:
           IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [0.75, 0.649999976, 0.600000024]
+          Center: [-3.54999995, -0.75, -3.5]
+          Size: [0.550000012, 0.649999976, 0.600000024]
   - Actor: 784552122
     ID: 784552122
     Name: Weapon Left
@@ -5716,7 +5716,7 @@ Actors:
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [0.850000024, 1, 0.850000024]
       - SpaceshipPart:
           Type: 0
           Material: Materials/Spaceship/Weapons.mat
@@ -5740,7 +5740,7 @@ Actors:
       - BoxCollider:
           IsTrigger: false
           Center: [0, 0, 0]
-          Size: [1, 1, 1]
+          Size: [0.899999976, 1, 0.850000024]
   - Actor: 689113077
     ID: 689113077
     Name: Panel Left
@@ -6084,7 +6084,7 @@ Actors:
   - Actor: 548115504
     ID: 548115504
     Name: chest_mdl
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - Transform:
@@ -9028,6 +9028,10 @@ Actors:
             - Material: 0
               Path: Materials/Crystals.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.649999976, 1, 0.75]
   - Actor: 864562435
     ID: 864562435
     Name: path3_mushrooms
@@ -9265,3 +9269,24 @@ Actors:
             - Material: 0
               Path: Materials/FloatingCrystals.mat
           CastShadow: true
+  - Actor: 10469643
+    ID: 10469643
+    Name: cosmotree00_mdl
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [73.7829361, 41.3672104, -22.2450256]
+          LocalRotation: [-96.0422897, -2.34787763e-06, -6.53075504]
+          LocalScale: [0.0622440092, 0.0622439869, 0.0622439831]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/cosmotree00_mdl.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Cosmotree.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
