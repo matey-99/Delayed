@@ -7032,10 +7032,6 @@ Actors:
             - Material: 0
               Path: Materials/Obelisk.mat
           CastShadow: true
-      - BoxCollider:
-          IsTrigger: false
-          Center: [0, 0, 0]
-          Size: [0.699999988, 1, 0.699999988]
   - Actor: 393623624
     ID: 393623624
     Name: stone_1
@@ -8453,10 +8449,6 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
-      - BoxCollider:
-          IsTrigger: false
-          Center: [3.6500001, -3.29999995, 2.95000005]
-          Size: [0.600000024, 10.6499996, 2.25]
       - SphereCollider:
           IsTrigger: true
           Center: [5.75, 0, 0]
@@ -8504,10 +8496,6 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
-      - BoxCollider:
-          IsTrigger: false
-          Center: [-1.10000002, -0.25, 0.600000024]
-          Size: [4.5999999, 23.9500008, 0.699999988]
       - SphereCollider:
           IsTrigger: true
           Center: [0, 0, 0]
