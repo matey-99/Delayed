@@ -1587,22 +1587,22 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-46.116394, 9.58590889, -58.8645134]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [0.5, 0.5, 0.5]
+          LocalPosition: [-46.116394, 10.0163546, -58.5363731]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.150000006, 0.150000006, 0.150000006]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/defaults/default_sphere.obj
+          Mesh: Models/chest_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/Blue.mat
+              Path: Materials/Chest.mat
           CastShadow: true
       - ParticleSystem:
           Duration: 5
           Looping: true
           Sprite: Textures/Default/Particle.png
           EmitterShape: 0
-          EmitterSphereRadius: 1.5
+          EmitterSphereRadius: 2
           MaxParticles: 1000
           EmissionRateOverTime: 100
           MinParticleSize: 0.00999999978
@@ -1611,8 +1611,8 @@ Actors:
           MinParticleVelocity: [0, 0.100000001, 0]
           MaxParticleVelocity: [0, 0.5, 0]
           EndParticleVelocity: [0, 0, 0]
-          MinParticleLifeTime: 1
-          MaxParticleLifeTime: 2
+          MinParticleLifeTime: 2
+          MaxParticleLifeTime: 3
           StartParticleColor: [0, 1, 0.986174822, 0.5]
           EndParticleColor: [0.302745879, 0.995391726, 0.909209967, 0]
       - BoxCollider:
@@ -1628,22 +1628,22 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-24.5984612, 11.1724968, -71.5912857]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [0.5, 0.5, 0.5]
+          LocalPosition: [-24.5984612, 9.7293911, -71.5912857]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.150000006, 0.150000006, 0.150000006]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/defaults/default_sphere.obj
+          Mesh: Models/chest_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/Blue.mat
+              Path: Materials/Chest.mat
           CastShadow: true
       - ParticleSystem:
           Duration: 5
           Looping: true
           Sprite: Textures/Default/Particle.png
           EmitterShape: 0
-          EmitterSphereRadius: 1.5
+          EmitterSphereRadius: 2
           MaxParticles: 1000
           EmissionRateOverTime: 100
           MinParticleSize: 0.00999999978
@@ -1652,8 +1652,8 @@ Actors:
           MinParticleVelocity: [0, 0.100000001, 0]
           MaxParticleVelocity: [0, 0.5, 0]
           EndParticleVelocity: [0, 0, 0]
-          MinParticleLifeTime: 1
-          MaxParticleLifeTime: 2
+          MinParticleLifeTime: 2
+          MaxParticleLifeTime: 3
           StartParticleColor: [0, 1, 0.986174822, 0.5]
           EndParticleColor: [0.302745879, 0.995391726, 0.909209967, 0]
       - BoxCollider:
@@ -1669,22 +1669,22 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-34.6309319, 10.6504421, -60.1398277]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [0.5, 0.5, 0.5]
+          LocalPosition: [-34.6309319, 9.55366707, -60.1398277]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.150000006, 0.150000006, 0.150000006]
           Parent: 2141099751
       - StaticMesh:
-          Mesh: Models/defaults/default_sphere.obj
+          Mesh: Models/chest_mdl.fbx
           Materials:
             - Material: 0
-              Path: Materials/Blue.mat
+              Path: Materials/Chest.mat
           CastShadow: true
       - ParticleSystem:
           Duration: 5
           Looping: true
           Sprite: Textures/Default/Particle.png
           EmitterShape: 0
-          EmitterSphereRadius: 1.5
+          EmitterSphereRadius: 2
           MaxParticles: 1000
           EmissionRateOverTime: 100
           MinParticleSize: 0.00999999978
@@ -1693,8 +1693,8 @@ Actors:
           MinParticleVelocity: [0, 0.100000001, 0]
           MaxParticleVelocity: [0, 0.5, 0]
           EndParticleVelocity: [0, 0, 0]
-          MinParticleLifeTime: 1
-          MaxParticleLifeTime: 2
+          MinParticleLifeTime: 2
+          MaxParticleLifeTime: 3
           StartParticleColor: [0, 1, 0.986174822, 0.5]
           EndParticleColor: [0.302745879, 0.995391726, 0.909209967, 0]
       - BoxCollider:
@@ -1987,8 +1987,8 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [10.6670437, -11.1499262, -26.5763931]
-          LocalRotation: [-90, 0, 0]
+          LocalPosition: [31.6377316, -11.1499262, -100.787376]
+          LocalRotation: [-90, -12.272294, 0]
           LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
           Parent: 1215650438
       - StaticMesh:
@@ -5997,9 +5997,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-42.7395935, 31.9844666, 6.10866117]
+          LocalPosition: [-165.403122, 38.4253426, -86.6036072]
           LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          LocalScale: [0.0829999968, 0.0829999372, 0.0829999372]
           Parent: 0
       - StaticMesh:
           Mesh: Models/cosmotree01_mdl.fbx
@@ -6007,6 +6007,10 @@ Actors:
             - Material: 0
               Path: Materials/Cosmotree.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.800000012, 1, 0.699999988]
   - Actor: 109837316
     ID: 109837316
     Name: cosmotree02_mdl
@@ -6014,9 +6018,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-40.2511406, 30.9952049, -3.58192706]
+          LocalPosition: [-138.56015, 25.6388969, -12.0111313]
           LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          LocalScale: [0.0756499991, 0.0756499916, 0.0756499916]
           Parent: 0
       - StaticMesh:
           Mesh: Models/cosmotree02_mdl.fbx
@@ -6024,6 +6028,10 @@ Actors:
             - Material: 0
               Path: Materials/Cosmotree.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.600000024, 1, 0.75]
   - Actor: 840326589
     ID: 840326589
     Name: Crystal_01
@@ -6031,7 +6039,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [6.04834175, 3.72268963, -40.6738434]
+          LocalPosition: [16.0031242, 3.72268963, -46.5740662]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
@@ -6041,23 +6049,10 @@ Actors:
             - Material: 0
               Path: Materials/Crystals.mat
           CastShadow: true
-  - Actor: 767384778
-    ID: 767384778
-    Name: Crystal_02
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [2.90245152, 3.7875967, -32.3359985]
-          LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/Crystal_02.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/Crystals.mat
-          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 119012194
     ID: 119012194
     Name: Crystal_03
@@ -6065,9 +6060,9 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [5.38729429, 3.61864758, -37.7781258]
+          LocalPosition: [14.8145475, 3.43007517, -45.518364]
           LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
+          LocalScale: [0.138999999, 0.138999984, 0.138999984]
           Parent: 0
       - StaticMesh:
           Mesh: Models/Crystal_03.fbx
@@ -6075,103 +6070,10 @@ Actors:
             - Material: 0
               Path: Materials/Crystals.mat
           CastShadow: true
-  - Actor: 342351905
-    ID: 342351905
-    Name: foliage00_mdl
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [12.3595486, 5.04138279, -45.9990387]
-          LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/foliage00_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/Foliage.mat
-          CastShadow: true
-  - Actor: 502831267
-    ID: 502831267
-    Name: foliage01_mdl
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [19.7341652, 5.2715435, -41.8674736]
-          LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/foliage01_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/Foliage.mat
-          CastShadow: true
-  - Actor: 619135830
-    ID: 619135830
-    Name: foliage02_mdl
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [15.6775646, 4.51122999, -40.4494286]
-          LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/foliage02_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/Flower.mat
-            - Material: 1
-              Path: Materials/Foliage.mat
-          CastShadow: true
-  - Actor: 742793741
-    ID: 742793741
-    Name: foliage03_mdl
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [19.3033714, 4.5447464, -38.038517]
-          LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/foliage03_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/Flower.mat
-            - Material: 1
-              Path: Materials/Foliage.mat
-            - Material: 2
-              Path: Materials/Foliage.mat
-            - Material: 3
-              Path: Materials/Foliage.mat
-          CastShadow: true
-  - Actor: 869870306
-    ID: 869870306
-    Name: foliage04_mdl
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [20.65732, 4.8258481, -33.9600372]
-          LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/foliage04_mdl.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/Foliage.mat
-            - Material: 1
-              Path: Materials/Foliage.mat
-            - Material: 2
-              Path: Materials/Foliage.mat
-          CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.699999988, 1, 0.75]
   - Actor: 548115504
     ID: 548115504
     Name: chest_mdl
@@ -6939,7 +6841,7 @@ Actors:
     Components:
       - Transform:
           LocalPosition: [82.5518417, 3.69312048, -89.2258301]
-          LocalRotation: [-90.0000458, -72.9988861, -5.7564248e-06]
+          LocalRotation: [-90.0001221, 0.625949383, -6.43036628e-06]
           LocalScale: [0.401030004, 0.401030034, 0.401030004]
           Parent: 0
       - StaticMesh:
@@ -6948,6 +6850,10 @@ Actors:
             - Material: 0
               Path: Materials/Crystals.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.5, 0.75, 1.60000002]
   - Actor: 66698346
     ID: 66698346
     Name: MovementTutorialTrigger
@@ -8334,7 +8240,7 @@ Actors:
   - Actor: 570213678
     ID: 570213678
     Name: grass
-    Enabled: true
+    Enabled: false
     Dynamic: false
     Components:
       - Transform:
@@ -8344,7 +8250,7 @@ Actors:
           Parent: 0
       - Foliage:
           Model: Models/tmp_Grass_Mesh.fbx
-          Material: Materials/Grass_Blue.mat
+          Material: Materials/Grass_Orange.mat
           InstancesCount: 25
           Radius: 10
           MinInstanceScale: 0.00499999989
@@ -8627,3 +8533,43 @@ Actors:
           MaxParticleLifeTime: 2
           StartParticleColor: [0, 0.897727489, 1, 1]
           EndParticleColor: [0, 0, 0, 0]
+  - Actor: 532036673
+    ID: 532036673
+    Name: checkpoint1 (1)
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [16.5130405, -11.2488623, -26.8335381]
+          LocalRotation: [-90, 0, 0]
+          LocalScale: [0.0500000007, 0.0500000007, 0.0500000007]
+          Parent: 1215650438
+      - StaticMesh:
+          Mesh: Models/checkpoint.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Checkpoint_white.mat
+          CastShadow: true
+      - BoxCollider:
+          IsTrigger: true
+          Center: [0, 0, 0]
+          Size: [18.0499992, 1, 1]
+      - Checkpoint:
+          {}
+  - Actor: 814624529
+    ID: 814624529
+    Name: Crystal_01
+    Enabled: true
+    Dynamic: false
+    Components:
+      - Transform:
+          LocalPosition: [28.6766663, 3.72268963, -58.4782753]
+          LocalRotation: [90.0015335, 52.0065651, 180]
+          LocalScale: [0.0870000049, 0.0870000049, 0.0870000049]
+          Parent: 0
+      - StaticMesh:
+          Mesh: Models/Crystal_01.fbx
+          Materials:
+            - Material: 0
+              Path: Materials/Crystals.mat
+          CastShadow: true
