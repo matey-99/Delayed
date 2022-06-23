@@ -3393,7 +3393,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 1.12828088, -1.94470978]
+          LocalPosition: [-1, 4.14395618, 1.73710823]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 346397310
@@ -3422,16 +3422,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 0.391741514, -1.96244049]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 3, 1]
+          LocalPosition: [-1.19200003, -1.17999995, 1.46319389]
+          LocalRotation: [-86.3799973, 24.1650009, -0.497879386]
+          LocalScale: [0.0350000001, 0.0350000001, 0.0350000001]
           Parent: 346397310
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/obelisk.fbx
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/red_obelisk.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.800000012, 1.14999998, 0.600000024]
   - Actor: 238169961
     ID: 238169961
     Name: Obelisk PostFX
@@ -4086,7 +4090,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [210.537827, 16.7285385, -87.761795]
+          LocalPosition: [210.121277, 12.19098, -138.481995]
           LocalRotation: [0, 0, 0]
           LocalScale: [0.159999996, 0.159999996, 0.159999996]
           Parent: 0
@@ -4101,8 +4105,8 @@ Actors:
           Center: [0, 0, 0]
           Size: [1, 1, 1]
       - Moving:
-          Direction: [0, 1, 0]
-          Distance: 5
+          Direction: [1, 0, 0]
+          Distance: 15
           Smoothness: 0.949999988
           ErrorInReachingTarget: 0.00999999978
   - Actor: 817137529
@@ -4839,7 +4843,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [226.355682, 13.8580799, -84.6247635]
+          LocalPosition: [227.181427, 13.8580799, -84.9199524]
           LocalRotation: [-180, 70.3284225, -180]
           LocalScale: [1, 1, 1]
           Parent: 0
@@ -4857,16 +4861,20 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0.0219421387, 0.391710281, 0.0124359131]
-          LocalRotation: [0, 0, 0]
-          LocalScale: [1, 3, 1]
+          LocalPosition: [3.84200001, -0.861999989, 1.51499999]
+          LocalRotation: [-90, -50, 7]
+          LocalScale: [0.0299999993, 0.0299999993, 0.0299999993]
           Parent: 448595750
       - StaticMesh:
-          Mesh: Models/defaults/default_cube.obj
+          Mesh: Models/obelisk.fbx
           Materials:
             - Material: 0
-              Path: Materials/Default.mat
+              Path: Materials/red_obelisk.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [0.449999988, 1, 1]
   - Actor: 446402549
     ID: 446402549
     Name: ObeliskParticle
@@ -4874,7 +4882,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [0, 1.12828088, -1.94470978]
+          LocalPosition: [3, 3.5, 1.5]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 448595750
@@ -4894,8 +4902,8 @@ Actors:
           EndParticleVelocity: [0, 0, 0.5]
           MinParticleLifeTime: 1
           MaxParticleLifeTime: 2
-          StartParticleColor: [20, 0, 0, 0.75]
-          EndParticleColor: [1, 0, 0, 0.25]
+          StartParticleColor: [0.487495363, 0.774038434, 0.50953716, 0.75]
+          EndParticleColor: [0.574898124, 0.860576928, 0.169632927, 0.25]
   - Actor: 528444464
     ID: 528444464
     Name: Movement Text
@@ -6057,29 +6065,12 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-3.17993832, 3.61864758, -41.7826118]
+          LocalPosition: [5.38729429, 3.61864758, -37.7781258]
           LocalRotation: [-90, 0, 0]
           LocalScale: [0.100000001, 0.100000001, 0.100000001]
           Parent: 0
       - StaticMesh:
           Mesh: Models/Crystal_03.fbx
-          Materials:
-            - Material: 0
-              Path: Materials/Crystals.mat
-          CastShadow: true
-  - Actor: 838054489
-    ID: 838054489
-    Name: Crystal_04
-    Enabled: true
-    Dynamic: false
-    Components:
-      - Transform:
-          LocalPosition: [10.2491541, 3.89664173, -35.7722778]
-          LocalRotation: [-90, 0, 0]
-          LocalScale: [0.100000001, 0.100000001, 0.100000001]
-          Parent: 0
-      - StaticMesh:
-          Mesh: Models/Crystal_04.fbx
           Materials:
             - Material: 0
               Path: Materials/Crystals.mat
@@ -6215,6 +6206,10 @@ Actors:
             - Material: 0
               Path: Materials/Obelisk.mat
           CastShadow: true
+      - BoxCollider:
+          IsTrigger: false
+          Center: [0, 0, 0]
+          Size: [1, 1, 1]
   - Actor: 337689450
     ID: 337689450
     Name: mushrooms01
@@ -8541,10 +8536,14 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
+      - BoxCollider:
+          IsTrigger: false
+          Center: [3.6500001, -3.29999995, 2.95000005]
+          Size: [0.600000024, 10.6499996, 2.25]
       - SphereCollider:
           IsTrigger: true
-          Center: [0, 0, 0]
-          Size: 13
+          Center: [5.75, 0, 0]
+          Size: 8
       - Obelisk:
           Effect: 3
           PostFX: 238169961
@@ -8588,10 +8587,14 @@ Actors:
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 0
-      - SphereCollider:
+      - BoxCollider:
           IsTrigger: false
+          Center: [-1.10000002, -0.25, 0.600000024]
+          Size: [4.5999999, 23.9500008, 0.699999988]
+      - SphereCollider:
+          IsTrigger: true
           Center: [0, 0, 0]
-          Size: 13
+          Size: 35
       - Obelisk:
           Effect: 0
           PostFX: 238169961
@@ -8602,7 +8605,7 @@ Actors:
     Dynamic: false
     Components:
       - Transform:
-          LocalPosition: [-0.996429443, 10.2082596, 1.69090271]
+          LocalPosition: [-1.15667343, 23.3155384, 0.743396759]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 237168548
