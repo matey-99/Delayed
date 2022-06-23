@@ -312,7 +312,7 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, 0, 0]
+          LocalPosition: [-18.7000008, 0, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 1
@@ -326,15 +326,15 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-80, 0, 0]
+          LocalPosition: [-10.8000002, 0, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 961523686
       - Text:
-          Font: Fonts/arial.ttf
-          FontSize: 28
-          Text: "'E' to interact"
-          NormalColor: [1, 1, 1, 1]
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 32
+          Text: to interact
+          NormalColor: [0.960784316, 0.960784316, 0.960784316, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
           DisabledColor: [0.25, 0.25, 0.25, 1]
@@ -346,13 +346,16 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-49, 17, 0]
+          LocalPosition: [-110.199997, 12.3999996, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [32, 32, 1]
+          LocalScale: [147, 128, 1]
           Parent: 961523686
       - Image:
-          Path: Textures/Default/UI.png
+          Path: Textures/HUD/E.png
           Color: [1, 1, 1, 1]
+      - ControllerBasedIcon:
+          KeyboardIcon: Textures/HUD/E.png
+          GamepadIcon: Textures/HUD/X.png
   - Actor: 942025306
     ID: 942025306
     Name: Footsteps
@@ -468,16 +471,16 @@ Actors:
     Dynamic: false
     Components:
       - RectTransform:
-          Anchor: 5
-          LocalPosition: [45, -90, 0]
+          Anchor: 7
+          LocalPosition: [180, 180, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 1
       - Text:
-          Font: Fonts/arial.ttf
+          Font: Fonts/BebasNeue-Regular.ttf
           FontSize: 32
           Text: Notification
-          NormalColor: [1, 1, 1, 1]
+          NormalColor: [0.960784316, 0.960784316, 0.960784316, 1]
           HoveredColor: [1, 1, 1, 1]
           PressedColor: [1, 1, 1, 1]
           DisabledColor: [1, 1, 1, 1]
@@ -4904,15 +4907,15 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-650, 0, 0]
+          LocalPosition: [-213.5, 60, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [1, 1, 1]
+          LocalScale: [0.899999976, 1, 1]
           Parent: 397100650
       - Text:
-          Font: Fonts/arial.ttf
-          FontSize: 32
-          Text: Press 'WSAD' to move and use 'Mouse' to rotate camera
-          NormalColor: [1, 1, 1, 1]
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 48
+          Text: To move around
+          NormalColor: [0.960784316, 0.960784316, 0.960784316, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
           DisabledColor: [0.25, 0.25, 0.25, 1]
@@ -4948,14 +4951,14 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-650, 0, 0]
+          LocalPosition: [-117, 59.4000015, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 397100651
       - Text:
-          Font: Fonts/arial.ttf
-          FontSize: 32
-          Text: Press 'Spacebar' to jump
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 48
+          Text: To jump
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -4980,14 +4983,14 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-650, 0, 0]
+          LocalPosition: [-134.600006, 59.4000015, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 397100652
       - Text:
-          Font: Fonts/arial.ttf
-          FontSize: 32
-          Text: Press 'Left Shift' to sprint
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 48
+          Text: To sprint
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -5000,14 +5003,14 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-650, 0, 0]
+          LocalPosition: [-216.100006, 59.4000015, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 397100653
       - Text:
-          Font: Fonts/arial.ttf
-          FontSize: 32
-          Text: Press 'Spacebar' while being in air to Double Jump
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 48
+          Text: To double jump
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -5056,14 +5059,14 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-123, 0, 0]
+          LocalPosition: [-115.400002, 59.4000015, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 789946083
       - Text:
-          Font: Fonts/arial.ttf
-          FontSize: 32
-          Text: Press 'V' to Dash
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 48
+          Text: To dash
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -5076,14 +5079,14 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [-517, 0, 0]
+          LocalPosition: [-308.100006, 59.4000015, 0]
           LocalRotation: [0, 0, 0]
           LocalScale: [1, 1, 1]
           Parent: 840690078
       - Text:
-          Font: Fonts/arial.ttf
-          FontSize: 32
-          Text: Press 'R' to Teleport Back to the Ghost
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 48
+          Text: To teleport to ghost
           NormalColor: [1, 1, 1, 1]
           HoveredColor: [0.75, 0.75, 0.75, 1]
           PressedColor: [0.5, 0.5, 0.5, 1]
@@ -7012,16 +7015,16 @@ Actors:
     Components:
       - RectTransform:
           Anchor: 0
-          LocalPosition: [0, -173.300003, 0]
+          LocalPosition: [0, -214.300003, 0]
           LocalRotation: [0, 0, 0]
-          LocalScale: [128, 128, 1]
+          LocalScale: [420, 265.049988, 1]
           Parent: 397100650
       - Image:
-          Path: Textures/Default/UI.png
+          Path: Textures/HUD/WSAD.png
           Color: [1, 1, 1, 1]
       - ControllerBasedIcon:
-          KeyboardIcon: Textures/Default/UI.png
-          GamepadIcon: Textures/Default/UI_Black.png
+          KeyboardIcon: Textures/HUD/WSAD.png
+          GamepadIcon: Textures/HUD/analog_sticks.png
   - Actor: 214873162
     ID: 214873162
     Name: star2rings
@@ -8589,7 +8592,7 @@ Actors:
           LocalScale: [1, 1, 1]
           Parent: 0
       - SphereCollider:
-          IsTrigger: false
+          IsTrigger: true
           Center: [0, 0, 0]
           Size: 13
       - Obelisk:
@@ -8624,3 +8627,447 @@ Actors:
           MaxParticleLifeTime: 2
           StartParticleColor: [0, 0.897727489, 1, 1]
           EndParticleColor: [0, 0, 0, 0]
+  - Actor: 35295669
+    ID: 35295669
+    Name: MouseIcon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -563.099976, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [150, 193.050003, 1]
+          Parent: 397100650
+      - Image:
+          Path: Textures/HUD/mouse.png
+          Color: [1, 1, 1, 1]
+  - Actor: 666669485
+    ID: 666669485
+    Name: JumpIcon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -161.699997, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [270, 208, 1]
+          Parent: 397100651
+      - Image:
+          Path: Textures/HUD/A.png
+          Color: [1, 1, 1, 1]
+      - ControllerBasedIcon:
+          KeyboardIcon: Textures/HUD/spacebar.png
+          GamepadIcon: Textures/HUD/A.png
+  - Actor: 666669486
+    ID: 666669486
+    Name: SprintIcon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -161.699997, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [270, 208, 1]
+          Parent: 397100652
+      - Image:
+          Path: Textures/HUD/shift.png
+          Color: [1, 1, 1, 1]
+      - ControllerBasedIcon:
+          KeyboardIcon: Textures/HUD/shift.png
+          GamepadIcon: Textures/HUD/RB.png
+  - Actor: 666669487
+    ID: 666669487
+    Name: DoubleJumpIcon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -161.699997, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [270, 208, 1]
+          Parent: 397100653
+      - Image:
+          Path: Textures/HUD/A.png
+          Color: [1, 1, 1, 1]
+      - ControllerBasedIcon:
+          KeyboardIcon: Textures/HUD/spacebar.png
+          GamepadIcon: Textures/HUD/A.png
+  - Actor: 666669488
+    ID: 666669488
+    Name: DashIcon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -161.699997, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [250, 217.600006, 1]
+          Parent: 789946083
+      - Image:
+          Path: Textures/HUD/V.png
+          Color: [1, 1, 1, 1]
+      - ControllerBasedIcon:
+          KeyboardIcon: Textures/HUD/V.png
+          GamepadIcon: Textures/HUD/Y.png
+  - Actor: 666669489
+    ID: 666669489
+    Name: TeleportIcon
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [0, -161.699997, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [250, 217.600006, 1]
+          Parent: 840690078
+      - Image:
+          Path: Textures/HUD/R.png
+          Color: [1, 1, 1, 1]
+      - ControllerBasedIcon:
+          KeyboardIcon: Textures/HUD/R.png
+          GamepadIcon: Textures/HUD/B.png
+  - Actor: 491660207
+    ID: 491660207
+    Name: Keys Panel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 8
+          LocalPosition: [0, 0, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 968295101
+  - Actor: 615515087
+    ID: 615515087
+    Name: Movement
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-340.700012, 10.5, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [231.5, 138.699997, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/WSAD.png
+          Color: [1, 1, 1, 1]
+  - Actor: 812353186
+    ID: 812353186
+    Name: Movement2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [82.7000122, -1.59997559, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [231.5, 138.699997, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/analog_sticks.png
+          Color: [1, 1, 1, 1]
+  - Actor: 407844069
+    ID: 407844069
+    Name: Movement3
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-130.099976, 6.5, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [92.5999985, 115.199997, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/mouse.png
+          Color: [1, 1, 1, 1]
+  - Actor: 802541853
+    ID: 802541853
+    Name: MovementPanel
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-543.5, 980.599976, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 491660207
+  - Actor: 625515087
+    ID: 625515087
+    Name: Jump
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-143.399994, -160.600006, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [190.399994, 129.199997, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/Spacebar.png
+          Color: [1, 1, 1, 1]
+  - Actor: 635515087
+    ID: 635515087
+    Name: Jump2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [111.699997, -174.600006, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [182.300003, 138.699997, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/A.png
+          Color: [1, 1, 1, 1]
+  - Actor: 645516087
+    ID: 645516087
+    Name: Sprint1
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-143.300003, -333.799988, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [196, 119.800003, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/shift.png
+          Color: [1, 1, 1, 1]
+  - Actor: 645515087
+    ID: 645515087
+    Name: Sprint2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [103.599998, -339.5, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [144.199997, 127.5, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/RB.png
+          Color: [1, 1, 1, 1]
+  - Actor: 655515087
+    ID: 655515087
+    Name: Dash
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-104.599998, -507.600006, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [159.5, 119.099998, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/V.png
+          Color: [1, 1, 1, 1]
+  - Actor: 665515087
+    ID: 665515087
+    Name: Dash2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [109.800003, -506.799988, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [190.600006, 147.300003, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/Y.png
+          Color: [1, 1, 1, 1]
+  - Actor: 675515087
+    ID: 675515087
+    Name: Teleport
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-102.800003, -678.900024, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [157.100006, 125, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/R.png
+          Color: [1, 1, 1, 1]
+  - Actor: 685515087
+    ID: 685515087
+    Name: Teleport2
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [106.300003, -679.5, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [189.100006, 147.399994, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/B.png
+          Color: [1, 1, 1, 1]
+  - Actor: 695515087
+    ID: 695515087
+    Name: Perspective
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [-96.5, -831.5, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [164.399994, 131.100006, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/P.png
+          Color: [1, 1, 1, 1]
+  - Actor: 696515087
+    ID: 696515087
+    Name: Perspective
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [107.800003, -821.700012, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [149.5, 138.699997, 1]
+          Parent: 802541853
+      - Image:
+          Path: Textures/HUD/back.png
+          Color: [1, 1, 1, 1]
+  - Actor: 147197006
+    ID: 147197006
+    Name: MovementText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [272.100006, -17.5999756, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 802541853
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 32
+          Text: Movement
+          NormalColor: [0.960784316, 0.960784316, 0.960784316, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 147197007
+    ID: 147197007
+    Name: JumpText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [272.100006, -177.100006, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 802541853
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 32
+          Text: Jump
+          NormalColor: [0.960784316, 0.960784316, 0.960784316, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 147197008
+    ID: 147197008
+    Name: SprintText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [272.100006, -344.899994, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 802541853
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 32
+          Text: Sprint
+          NormalColor: [0.960784316, 0.960784316, 0.960784316, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 147197009
+    ID: 147197009
+    Name: DashText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [272.100006, -511.799988, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 802541853
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 32
+          Text: Dash
+          NormalColor: [0.960784316, 0.960784316, 0.960784316, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 147197010
+    ID: 147197010
+    Name: TeleportText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [272.100006, -686.599976, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 802541853
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 32
+          Text: Teleport
+          NormalColor: [0.960784316, 0.960784316, 0.960784316, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]
+  - Actor: 147197011
+    ID: 147197011
+    Name: PerspectiveText
+    Enabled: true
+    Dynamic: false
+    Components:
+      - RectTransform:
+          Anchor: 0
+          LocalPosition: [272.100006, -846.700012, 0]
+          LocalRotation: [0, 0, 0]
+          LocalScale: [1, 1, 1]
+          Parent: 802541853
+      - Text:
+          Font: Fonts/BebasNeue-Regular.ttf
+          FontSize: 32
+          Text: Perspective
+          NormalColor: [0.960784316, 0.960784316, 0.960784316, 1]
+          HoveredColor: [0.75, 0.75, 0.75, 1]
+          PressedColor: [0.5, 0.5, 0.5, 1]
+          DisabledColor: [0.25, 0.25, 0.25, 1]

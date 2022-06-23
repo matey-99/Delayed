@@ -13,8 +13,7 @@ TutorialManager::TutorialManager(Actor* owner)
 
 void TutorialManager::Start()
 {
-	if (!s_Instance)
-		s_Instance = this;
+	s_Instance = this;
 
 	m_MovementTutorial = m_Owner->GetScene()->FindActor(m_MovementTutorialID);
 	m_JumpTutorial = m_Owner->GetScene()->FindActor(m_JumpTutorialID);
