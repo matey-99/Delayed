@@ -1,7 +1,7 @@
 Material: M_Mushroom
 ID: 770324858
 BlendMode: 0
-Shader: Transparent
+Shader: Opaque
 Bool Parameters:
   - Name: u_Material.isAOMap
     Value: true
