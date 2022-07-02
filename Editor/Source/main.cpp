@@ -244,7 +244,7 @@ int main(int, char**)
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1440, 900, "PBL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1440, 900, "Delayed_Editor", NULL, NULL);
     if (window == NULL)
         return 1;
 
