@@ -1,10 +1,12 @@
 <img align="center" src="Images/logo.png">
 
-Puzzle-platformer 3D game with first person perspective.
+Puzzle-platformer 3D game with first-person perspective.
 
-In Delayed, you will play as a astronaut followed by his ghost from the past. The ghost will repeat all of your moves with delay of a few seconds. With its help, you will traverse the planet of levitating islands and collect missing parts of your broken spaceship. 
+In Delayed, you will play as a shipwrecked astronaut who is followed by his double from the past.
+With his help, you will traverse the planet of levitating islands, discover the truth about the time anomaly occurring there and retrieve missing parts of your broken spaceship.
+Learn about the history written on the obelisks, which hold a mysterious power capable of manipulating the anomaly.
 
-1. Cooparate with your own self from the past to solve puzzles.
+1. Cooperate with your own self from the past to solve puzzles.
 2. Collect missing parts of your broken spaceship.
 3. Upgrade your space suit to get new abilities.
 4. Be aware of the mysterious obelisks, that have an impact on your ghost.
@@ -17,10 +19,16 @@ In Delayed, you will play as a astronaut followed by his ghost from the past. Th
 <img align="center" src="Images/image4.png">
 <img align="center" src="Images/image5.png">
 
+# Videos (YouTube Links)
+### Trailer
+[![Trailer video](https://img.youtube.com/vi/9jjdgp4lvSg/0.jpg)](https://www.youtube.com/watch?v=9jjdgp4lvSg)
+### Gameplay demo
+[![Gameplay demo video](https://img.youtube.com/vi/oJf-rs8EsyQ/0.jpg)](https://www.youtube.com/watch?v=oJf-rs8EsyQ)
+
 # Technological Features
 
 - [x] Physically Based Rendering
-- [x] Image Based Lighting
+- [x] Image-Based Lighting
 - [x] Cascaded Shadow Maps (with PCF)
 - [x] Screen Space Ambient Occlusion
 - [x] Screen Space Reflections
@@ -45,11 +53,11 @@ The editor is a separate project that we used to arrange the game scene, set par
 <img align="center" src="Images/editor-image1.png">
 
 ## Main Editor Windows:
-- Content Browser - displays all assets that are contained in ```Content``` directory.
-- Scene Hierarchy - displays all scene actors, allows to enable/disable actor or change its parent with simple drag and drop method.
-- Renderer Settings - displays all of most important parameters, give possibility to modify them in real time.
-- Details - displays only if actor is selected. Allows to add new components to selected actor or modify parameters of the existing ones.
-- Material Editor - displays material parameters, allows to change them in real time or recompile shader.
+- Content Browser - displays all assets that are contained in the ```Content``` directory.
+- Scene Hierarchy - displays all actors in scene, allows to enable/disable actor or change its parent with simple drag and drop method.
+- Renderer Settings - displays all the most important parameters, gives possibility to modify them in real time.
+- Details - displays only if actor is selected, allows adding new components to selected actor or modify parameters of the existing ones.
+- Material Editor - displays material parameters, allows changing them in real time and gives ability to recompile shader.
 
 # Getting started
 
@@ -67,9 +75,9 @@ git clone https://github.com/matey-99/Delayed.git
 
 # Authors
 
-- Mateusz Michalak
-- Jakub Berut
-- Mateusz Majchrzak
-- Michał Sobczak
-- Paulina Stefańska
-- Jagoda Gradek
+- Mateusz Michalak - Developer
+- Jakub Berut - Developer
+- Michał Sobczak - Developer
+- Mateusz Majchrzak - Designer
+- Paulina Stefańska - 2D/3D Artist
+- Jagoda Gradek - 3D Artist
